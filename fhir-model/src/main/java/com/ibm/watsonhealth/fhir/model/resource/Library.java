@@ -678,11 +678,8 @@ public class Library extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status, CodeableConcept type) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.type(type);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -717,6 +714,10 @@ public class Library extends DomainResource {
         private List<ParameterDefinition> parameter = new ArrayList<>();
         private List<DataRequirement> dataRequirement = new ArrayList<>();
         private List<Attachment> content = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

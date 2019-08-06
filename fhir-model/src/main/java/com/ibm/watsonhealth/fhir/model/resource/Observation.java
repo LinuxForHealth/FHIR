@@ -569,11 +569,8 @@ public class Observation extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ObservationStatus status, CodeableConcept code) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.code(code);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -601,6 +598,10 @@ public class Observation extends DomainResource {
         private List<Reference> hasMember = new ArrayList<>();
         private List<Reference> derivedFrom = new ArrayList<>();
         private List<Component> component = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1755,8 +1756,7 @@ public class Observation extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1766,6 +1766,10 @@ public class Observation extends DomainResource {
             private List<CodeableConcept> appliesTo = new ArrayList<>();
             private Range age;
             private String text;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2195,10 +2199,8 @@ public class Observation extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept code) {
-            Builder builder = new Builder();
-            builder.code(code);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2207,6 +2209,10 @@ public class Observation extends DomainResource {
             private CodeableConcept dataAbsentReason;
             private List<CodeableConcept> interpretation = new ArrayList<>();
             private List<Observation.ReferenceRange> referenceRange = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

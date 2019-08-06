@@ -605,13 +605,8 @@ public class Immunization extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ImmunizationStatus status, CodeableConcept vaccineCode, Reference patient, Element occurrence) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.vaccineCode(vaccineCode);
-        builder.patient(patient);
-        builder.occurrence(occurrence);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -643,6 +638,10 @@ public class Immunization extends DomainResource {
         private CodeableConcept fundingSource;
         private List<Reaction> reaction = new ArrayList<>();
         private List<ProtocolApplied> protocolApplied = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1707,15 +1706,17 @@ public class Immunization extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference actor) {
-            Builder builder = new Builder();
-            builder.actor(actor);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept function;
             private Reference actor;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2021,8 +2022,7 @@ public class Immunization extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2030,6 +2030,10 @@ public class Immunization extends DomainResource {
             private Uri reference;
             private DateTime publicationDate;
             private DateTime presentationDate;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2351,14 +2355,17 @@ public class Immunization extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private DateTime date;
             private Reference detail;
             private Boolean reported;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2698,10 +2705,8 @@ public class Immunization extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Element doseNumber) {
-            Builder builder = new Builder();
-            builder.doseNumber(doseNumber);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2710,6 +2715,10 @@ public class Immunization extends DomainResource {
             private List<CodeableConcept> targetDisease = new ArrayList<>();
             private Element doseNumber;
             private Element seriesDoses;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

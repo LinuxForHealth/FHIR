@@ -599,11 +599,8 @@ public class CodeSystem extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status, CodeSystemContentMode content) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.content(content);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -633,6 +630,10 @@ public class CodeSystem extends DomainResource {
         private List<Filter> filter = new ArrayList<>();
         private List<Property> property = new ArrayList<>();
         private List<Concept> concept = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1645,12 +1646,8 @@ public class CodeSystem extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Code code, Collection<FilterOperator> operator, String value) {
-            Builder builder = new Builder();
-            builder.code(code);
-            builder.operator(operator);
-            builder.value(value);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1658,6 +1655,10 @@ public class CodeSystem extends DomainResource {
             private String description;
             private List<FilterOperator> operator = new ArrayList<>();
             private String value;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2023,11 +2024,8 @@ public class CodeSystem extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Code code, PropertyType type) {
-            Builder builder = new Builder();
-            builder.code(code);
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2035,6 +2033,10 @@ public class CodeSystem extends DomainResource {
             private Uri uri;
             private String description;
             private PropertyType type;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2417,10 +2419,8 @@ public class CodeSystem extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Code code) {
-            Builder builder = new Builder();
-            builder.code(code);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2430,6 +2430,10 @@ public class CodeSystem extends DomainResource {
             private List<Designation> designation = new ArrayList<>();
             private List<Property> property = new ArrayList<>();
             private List<CodeSystem.Concept> concept = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2862,16 +2866,18 @@ public class CodeSystem extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(String value) {
-                Builder builder = new Builder();
-                builder.value(value);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Code language;
                 private Coding use;
                 private String value;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3157,16 +3163,17 @@ public class CodeSystem extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Code code, Element value) {
-                Builder builder = new Builder();
-                builder.code(code);
-                builder.value(value);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Code code;
                 private Element value;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

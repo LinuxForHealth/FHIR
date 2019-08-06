@@ -586,12 +586,8 @@ public class TerminologyCapabilities extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status, DateTime date, CapabilityStatementKind kind) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.date(date);
-        builder.kind(kind);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -619,6 +615,10 @@ public class TerminologyCapabilities extends DomainResource {
         private ValidateCode validateCode;
         private Translation translation;
         private Closure closure;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1489,15 +1489,17 @@ public class TerminologyCapabilities extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String name) {
-            Builder builder = new Builder();
-            builder.name(name);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String name;
             private String version;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1767,15 +1769,17 @@ public class TerminologyCapabilities extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String description) {
-            Builder builder = new Builder();
-            builder.description(description);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String description;
             private Url url;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2064,14 +2068,17 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Canonical uri;
             private List<Version> version = new ArrayList<>();
             private Boolean subsumption;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2453,8 +2460,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2464,6 +2470,10 @@ public class TerminologyCapabilities extends DomainResource {
                 private List<Code> language = new ArrayList<>();
                 private List<Filter> filter = new ArrayList<>();
                 private List<Code> property = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2871,16 +2881,17 @@ public class TerminologyCapabilities extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(Code code, Collection<Code> op) {
-                    Builder builder = new Builder();
-                    builder.code(code);
-                    builder.op(op);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private Code code;
                     private List<Code> op = new ArrayList<>();
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -3230,8 +3241,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3240,6 +3250,10 @@ public class TerminologyCapabilities extends DomainResource {
             private Boolean incomplete;
             private List<Parameter> parameter = new ArrayList<>();
             private Markdown textFilter;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3582,15 +3596,17 @@ public class TerminologyCapabilities extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Code name) {
-                Builder builder = new Builder();
-                builder.name(name);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Code name;
                 private String documentation;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3842,14 +3858,16 @@ public class TerminologyCapabilities extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Boolean translations) {
-            Builder builder = new Builder();
-            builder.translations(translations);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Boolean translations;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4083,14 +4101,16 @@ public class TerminologyCapabilities extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Boolean needsMap) {
-            Builder builder = new Builder();
-            builder.needsMap(needsMap);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Boolean needsMap;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4325,12 +4345,15 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Boolean translation;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

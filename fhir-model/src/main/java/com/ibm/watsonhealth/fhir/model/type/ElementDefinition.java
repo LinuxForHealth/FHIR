@@ -901,10 +901,8 @@ public class ElementDefinition extends BackboneElement {
         return new Builder().from(this);
     }
 
-    public static Builder builder(String path) {
-        Builder builder = new Builder();
-        builder.path(path);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends BackboneElement.Builder {
@@ -942,6 +940,10 @@ public class ElementDefinition extends BackboneElement {
         private Boolean isSummary;
         private Binding binding;
         private List<Mapping> mapping = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -2044,10 +2046,8 @@ public class ElementDefinition extends BackboneElement {
             return new Builder().from(this);
         }
 
-        public static Builder builder(SlicingRules rules) {
-            Builder builder = new Builder();
-            builder.rules(rules);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2055,6 +2055,10 @@ public class ElementDefinition extends BackboneElement {
             private String description;
             private Boolean ordered;
             private SlicingRules rules;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2385,16 +2389,17 @@ public class ElementDefinition extends BackboneElement {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(DiscriminatorType type, String path) {
-                Builder builder = new Builder();
-                builder.type(type);
-                builder.path(path);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private DiscriminatorType type;
                 private String path;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2685,18 +2690,18 @@ public class ElementDefinition extends BackboneElement {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String path, UnsignedInt min, String max) {
-            Builder builder = new Builder();
-            builder.path(path);
-            builder.min(min);
-            builder.max(max);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String path;
             private UnsignedInt min;
             private String max;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3045,10 +3050,8 @@ public class ElementDefinition extends BackboneElement {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Uri code) {
-            Builder builder = new Builder();
-            builder.code(code);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3057,6 +3060,10 @@ public class ElementDefinition extends BackboneElement {
             private List<Canonical> targetProfile = new ArrayList<>();
             private List<AggregationMode> aggregation = new ArrayList<>();
             private ReferenceVersionRules versioning;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3464,16 +3471,17 @@ public class ElementDefinition extends BackboneElement {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String label, Element value) {
-            Builder builder = new Builder();
-            builder.label(label);
-            builder.value(value);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String label;
             private Element value;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3830,12 +3838,8 @@ public class ElementDefinition extends BackboneElement {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Id key, ConstraintSeverity severity, String human) {
-            Builder builder = new Builder();
-            builder.key(key);
-            builder.severity(severity);
-            builder.human(human);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3846,6 +3850,10 @@ public class ElementDefinition extends BackboneElement {
             private String expression;
             private String xpath;
             private Canonical source;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4216,16 +4224,18 @@ public class ElementDefinition extends BackboneElement {
             return new Builder().from(this);
         }
 
-        public static Builder builder(BindingStrength strength) {
-            Builder builder = new Builder();
-            builder.strength(strength);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private BindingStrength strength;
             private String description;
             private Canonical valueSet;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4544,11 +4554,8 @@ public class ElementDefinition extends BackboneElement {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Id identity, String map) {
-            Builder builder = new Builder();
-            builder.identity(identity);
-            builder.map(map);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -4556,6 +4563,10 @@ public class ElementDefinition extends BackboneElement {
             private Code language;
             private String map;
             private String comment;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

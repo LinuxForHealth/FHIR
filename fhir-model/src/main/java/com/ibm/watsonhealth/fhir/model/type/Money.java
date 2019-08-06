@@ -117,13 +117,16 @@ public class Money extends Element {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
         private Decimal value;
         private Code currency;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

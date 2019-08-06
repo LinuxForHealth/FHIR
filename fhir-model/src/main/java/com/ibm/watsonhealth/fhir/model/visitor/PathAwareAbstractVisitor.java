@@ -27,7 +27,7 @@ public abstract class PathAwareAbstractVisitor extends AbstractVisitor implement
     protected abstract void doVisitStart(String elementName, int elementIndex, Resource resource);
     
     @Override
-    public String getPath() {
+    public final String getPath() {
         if (!pathStack.isEmpty()) {
             return pathStack.stream().collect(Collectors.joining("."));
         }

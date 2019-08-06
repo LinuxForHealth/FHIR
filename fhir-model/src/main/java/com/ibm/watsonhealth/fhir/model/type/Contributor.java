@@ -138,17 +138,18 @@ public class Contributor extends Element {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ContributorType type, String name) {
-        Builder builder = new Builder();
-        builder.type(type);
-        builder.name(name);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
         private ContributorType type;
         private String name;
         private List<ContactDetail> contact = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

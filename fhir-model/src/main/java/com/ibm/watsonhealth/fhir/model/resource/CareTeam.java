@@ -343,8 +343,7 @@ public class CareTeam extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -361,6 +360,10 @@ public class CareTeam extends DomainResource {
         private List<Reference> managingOrganization = new ArrayList<>();
         private List<ContactPoint> telecom = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1158,8 +1161,7 @@ public class CareTeam extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1167,6 +1169,10 @@ public class CareTeam extends DomainResource {
             private Reference member;
             private Reference onBehalfOf;
             private Period period;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

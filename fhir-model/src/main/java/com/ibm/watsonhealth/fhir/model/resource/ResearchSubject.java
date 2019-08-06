@@ -242,12 +242,8 @@ public class ResearchSubject extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ResearchSubjectStatus status, Reference study, Reference individual) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.study(study);
-        builder.individual(individual);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -259,6 +255,10 @@ public class ResearchSubject extends DomainResource {
         private String assignedArm;
         private String actualArm;
         private Reference consent;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

@@ -301,10 +301,8 @@ public class Account extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(AccountStatus status) {
-        Builder builder = new Builder();
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -319,6 +317,10 @@ public class Account extends DomainResource {
         private String description;
         private List<Guarantor> guarantor = new ArrayList<>();
         private Reference partOf;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -957,15 +959,17 @@ public class Account extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference coverage) {
-            Builder builder = new Builder();
-            builder.coverage(coverage);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Reference coverage;
             private PositiveInt priority;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1256,16 +1260,18 @@ public class Account extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference party) {
-            Builder builder = new Builder();
-            builder.party(party);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Reference party;
             private Boolean onHold;
             private Period period;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

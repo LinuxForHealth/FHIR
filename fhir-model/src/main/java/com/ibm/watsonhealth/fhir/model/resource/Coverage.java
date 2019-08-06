@@ -412,12 +412,8 @@ public class Coverage extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(CoverageStatus status, Reference beneficiary, Collection<Reference> payor) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.beneficiary(beneficiary);
-        builder.payor(payor);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -438,6 +434,10 @@ public class Coverage extends DomainResource {
         private List<CostToBeneficiary> costToBeneficiary = new ArrayList<>();
         private Boolean subrogation;
         private List<Reference> contract = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1219,17 +1219,18 @@ public class Coverage extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept type, String value) {
-            Builder builder = new Builder();
-            builder.type(type);
-            builder.value(value);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private String value;
             private String name;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1535,16 +1536,18 @@ public class Coverage extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Element value) {
-            Builder builder = new Builder();
-            builder.value(value);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private Element value;
             private List<Exception> exception = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1853,15 +1856,17 @@ public class Coverage extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CodeableConcept type) {
-                Builder builder = new Builder();
-                builder.type(type);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept type;
                 private Period period;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

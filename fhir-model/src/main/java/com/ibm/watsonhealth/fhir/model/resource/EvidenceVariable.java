@@ -614,11 +614,8 @@ public class EvidenceVariable extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status, Collection<Characteristic> characteristic) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.characteristic(characteristic);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -649,6 +646,10 @@ public class EvidenceVariable extends DomainResource {
         private List<RelatedArtifact> relatedArtifact = new ArrayList<>();
         private EvidenceVariableType type;
         private List<Characteristic> characteristic = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1859,10 +1860,8 @@ public class EvidenceVariable extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Element definition) {
-            Builder builder = new Builder();
-            builder.definition(definition);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1873,6 +1872,10 @@ public class EvidenceVariable extends DomainResource {
             private Element participantEffective;
             private Duration timeFromStart;
             private GroupMeasure groupMeasure;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

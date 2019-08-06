@@ -391,10 +391,8 @@ public class Invoice extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(InvoiceStatus status) {
-        Builder builder = new Builder();
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -414,6 +412,10 @@ public class Invoice extends DomainResource {
         private Money totalGross;
         private Markdown paymentTerms;
         private List<Annotation> note = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1155,15 +1157,17 @@ public class Invoice extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference actor) {
-            Builder builder = new Builder();
-            builder.actor(actor);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept role;
             private Reference actor;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1456,16 +1460,18 @@ public class Invoice extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Element chargeItem) {
-            Builder builder = new Builder();
-            builder.chargeItem(chargeItem);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private PositiveInt sequence;
             private Element chargeItem;
             private List<PriceComponent> priceComponent = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1821,10 +1827,8 @@ public class Invoice extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(InvoicePriceComponentType type) {
-                Builder builder = new Builder();
-                builder.type(type);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -1832,6 +1836,10 @@ public class Invoice extends DomainResource {
                 private CodeableConcept code;
                 private Decimal factor;
                 private Money amount;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

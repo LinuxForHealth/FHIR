@@ -306,8 +306,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -322,6 +321,10 @@ public class BiologicallyDerivedProduct extends DomainResource {
         private List<Processing> processing = new ArrayList<>();
         private Manipulation manipulation;
         private List<Storage> storage = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -998,14 +1001,17 @@ public class BiologicallyDerivedProduct extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Reference collector;
             private Reference source;
             private Element collected;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1330,8 +1336,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1339,6 +1344,10 @@ public class BiologicallyDerivedProduct extends DomainResource {
             private CodeableConcept procedure;
             private Reference additive;
             private Element time;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1643,13 +1652,16 @@ public class BiologicallyDerivedProduct extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String description;
             private Element time;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1955,8 +1967,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1964,6 +1975,10 @@ public class BiologicallyDerivedProduct extends DomainResource {
             private Decimal temperature;
             private BiologicallyDerivedProductStorageScale scale;
             private Period duration;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

@@ -189,8 +189,7 @@ public class SubstanceProtein extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -198,6 +197,10 @@ public class SubstanceProtein extends DomainResource {
         private Integer numberOfSubunits;
         private List<String> disulfideLinkage = new ArrayList<>();
         private List<Subunit> subunit = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -811,8 +814,7 @@ public class SubstanceProtein extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -824,6 +826,10 @@ public class SubstanceProtein extends DomainResource {
             private String nTerminalModification;
             private Identifier cTerminalModificationId;
             private String cTerminalModification;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

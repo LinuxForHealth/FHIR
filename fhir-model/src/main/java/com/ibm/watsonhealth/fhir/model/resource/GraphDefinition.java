@@ -392,12 +392,8 @@ public class GraphDefinition extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(String name, PublicationStatus status, ResourceType start) {
-        Builder builder = new Builder();
-        builder.name(name);
-        builder.status(status);
-        builder.start(start);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -416,6 +412,10 @@ public class GraphDefinition extends DomainResource {
         private ResourceType start;
         private Canonical profile;
         private List<Link> link = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1196,8 +1196,7 @@ public class GraphDefinition extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1207,6 +1206,10 @@ public class GraphDefinition extends DomainResource {
             private String max;
             private String description;
             private List<Target> target = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1620,10 +1623,8 @@ public class GraphDefinition extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(ResourceType type) {
-                Builder builder = new Builder();
-                builder.type(type);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -1632,6 +1633,10 @@ public class GraphDefinition extends DomainResource {
                 private Canonical profile;
                 private List<Compartment> compartment = new ArrayList<>();
                 private List<GraphDefinition.Link> link = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2053,12 +2058,8 @@ public class GraphDefinition extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(GraphCompartmentUse use, CompartmentCode code, GraphCompartmentRule rule) {
-                    Builder builder = new Builder();
-                    builder.use(use);
-                    builder.code(code);
-                    builder.rule(rule);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
@@ -2067,6 +2068,10 @@ public class GraphDefinition extends DomainResource {
                     private GraphCompartmentRule rule;
                     private String expression;
                     private String description;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>

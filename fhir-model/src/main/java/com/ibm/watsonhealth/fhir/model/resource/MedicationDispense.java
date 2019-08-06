@@ -540,11 +540,8 @@ public class MedicationDispense extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(MedicationDispenseStatus status, Element medication) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.medication(medication);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -572,6 +569,10 @@ public class MedicationDispense extends DomainResource {
         private Substitution substitution;
         private List<Reference> detectedIssue = new ArrayList<>();
         private List<Reference> eventHistory = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1578,15 +1579,17 @@ public class MedicationDispense extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference actor) {
-            Builder builder = new Builder();
-            builder.actor(actor);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept function;
             private Reference actor;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1894,10 +1897,8 @@ public class MedicationDispense extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Boolean wasSubstituted) {
-            Builder builder = new Builder();
-            builder.wasSubstituted(wasSubstituted);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1905,6 +1906,10 @@ public class MedicationDispense extends DomainResource {
             private CodeableConcept type;
             private List<CodeableConcept> reason = new ArrayList<>();
             private List<Reference> responsibleParty = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

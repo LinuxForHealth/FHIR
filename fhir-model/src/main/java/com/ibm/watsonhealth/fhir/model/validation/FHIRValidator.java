@@ -175,7 +175,9 @@ public class FHIRValidator {
                         // constraint validation failed
                         String level = constraint.level();
                         IssueSeverity severity = WARNING_LEVEL.equals(level) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
-                        Issue issue = Issue.builder(severity, IssueType.INVARIANT)
+                        Issue issue = Issue.builder()
+                                .severity(severity)
+                                .code(IssueType.INVARIANT)
                                 .details(CodeableConcept.builder().text(string(constraint.id() + ": " + constraint.description())).build())
                                 .expression(string(path))
                                 .build();

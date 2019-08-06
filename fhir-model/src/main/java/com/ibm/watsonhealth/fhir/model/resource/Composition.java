@@ -395,14 +395,8 @@ public class Composition extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(CompositionStatus status, CodeableConcept type, DateTime date, Collection<Reference> author, String title) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.type(type);
-        builder.date(date);
-        builder.author(author);
-        builder.title(title);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -421,6 +415,10 @@ public class Composition extends DomainResource {
         private List<RelatesTo> relatesTo = new ArrayList<>();
         private List<Event> event = new ArrayList<>();
         private List<Section> section = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1187,16 +1185,18 @@ public class Composition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CompositionAttestationMode mode) {
-            Builder builder = new Builder();
-            builder.mode(mode);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CompositionAttestationMode mode;
             private DateTime time;
             private Reference party;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1482,16 +1482,17 @@ public class Composition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(DocumentRelationshipType code, Element target) {
-            Builder builder = new Builder();
-            builder.code(code);
-            builder.target(target);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private DocumentRelationshipType code;
             private Element target;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1783,14 +1784,17 @@ public class Composition extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<CodeableConcept> code = new ArrayList<>();
             private Period period;
             private List<Reference> detail = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2285,8 +2289,7 @@ public class Composition extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2300,6 +2303,10 @@ public class Composition extends DomainResource {
             private List<Reference> entry = new ArrayList<>();
             private CodeableConcept emptyReason;
             private List<Composition.Section> section = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

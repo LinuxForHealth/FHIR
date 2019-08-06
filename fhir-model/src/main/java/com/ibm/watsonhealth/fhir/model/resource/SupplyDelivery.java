@@ -300,8 +300,7 @@ public class SupplyDelivery extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -316,6 +315,10 @@ public class SupplyDelivery extends DomainResource {
         private Reference supplier;
         private Reference destination;
         private List<Reference> receiver = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -944,13 +947,16 @@ public class SupplyDelivery extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private SimpleQuantity quantity;
             private Element item;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

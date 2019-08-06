@@ -557,12 +557,8 @@ public class MessageDefinition extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status, DateTime date, Element event) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.date(date);
-        builder.event(event);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -590,6 +586,10 @@ public class MessageDefinition extends DomainResource {
         private MessageHeaderResponseRequest responseRequired;
         private List<AllowedResponse> allowedResponse = new ArrayList<>();
         private List<Canonical> graph = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1616,11 +1616,8 @@ public class MessageDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(ResourceType code, UnsignedInt min) {
-            Builder builder = new Builder();
-            builder.code(code);
-            builder.min(min);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1628,6 +1625,10 @@ public class MessageDefinition extends DomainResource {
             private Canonical profile;
             private UnsignedInt min;
             private String max;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1933,15 +1934,17 @@ public class MessageDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Canonical message) {
-            Builder builder = new Builder();
-            builder.message(message);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Canonical message;
             private Markdown situation;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

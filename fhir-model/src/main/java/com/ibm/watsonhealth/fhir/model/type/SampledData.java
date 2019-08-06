@@ -212,12 +212,8 @@ public class SampledData extends Element {
         return new Builder().from(this);
     }
 
-    public static Builder builder(SimpleQuantity origin, Decimal period, PositiveInt dimensions) {
-        Builder builder = new Builder();
-        builder.origin(origin);
-        builder.period(period);
-        builder.dimensions(dimensions);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
@@ -228,6 +224,10 @@ public class SampledData extends Element {
         private Decimal upperLimit;
         private PositiveInt dimensions;
         private String data;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

@@ -416,10 +416,8 @@ public class AllergyIntolerance extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Reference patient) {
-        Builder builder = new Builder();
-        builder.patient(patient);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -439,6 +437,10 @@ public class AllergyIntolerance extends DomainResource {
         private DateTime lastOccurrence;
         private List<Annotation> note = new ArrayList<>();
         private List<Reaction> reaction = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1259,10 +1261,8 @@ public class AllergyIntolerance extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Collection<CodeableConcept> manifestation) {
-            Builder builder = new Builder();
-            builder.manifestation(manifestation);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1273,6 +1273,10 @@ public class AllergyIntolerance extends DomainResource {
             private AllergyIntoleranceSeverity severity;
             private CodeableConcept exposureRoute;
             private List<Annotation> note = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

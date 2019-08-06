@@ -325,8 +325,7 @@ public class Dosage extends BackboneElement {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends BackboneElement.Builder {
@@ -343,6 +342,10 @@ public class Dosage extends BackboneElement {
         private Ratio maxDosePerPeriod;
         private SimpleQuantity maxDosePerAdministration;
         private SimpleQuantity maxDosePerLifetime;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -869,14 +872,17 @@ public class Dosage extends BackboneElement {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private Element dose;
             private Element rate;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

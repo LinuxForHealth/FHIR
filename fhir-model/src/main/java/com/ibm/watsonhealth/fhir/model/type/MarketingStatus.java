@@ -184,12 +184,8 @@ public class MarketingStatus extends BackboneElement {
         return new Builder().from(this);
     }
 
-    public static Builder builder(CodeableConcept country, CodeableConcept status, Period dateRange) {
-        Builder builder = new Builder();
-        builder.country(country);
-        builder.status(status);
-        builder.dateRange(dateRange);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends BackboneElement.Builder {
@@ -198,6 +194,10 @@ public class MarketingStatus extends BackboneElement {
         private CodeableConcept status;
         private Period dateRange;
         private DateTime restoreDate;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

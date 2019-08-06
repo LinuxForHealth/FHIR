@@ -860,10 +860,8 @@ public class Measure extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status) {
-        Builder builder = new Builder();
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -908,6 +906,10 @@ public class Measure extends DomainResource {
         private Markdown guidance;
         private List<Group> group = new ArrayList<>();
         private List<SupplementalData> supplementalData = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -2382,8 +2384,7 @@ public class Measure extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2391,6 +2392,10 @@ public class Measure extends DomainResource {
             private String description;
             private List<Population> population = new ArrayList<>();
             private List<Stratifier> stratifier = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2761,16 +2766,18 @@ public class Measure extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Expression criteria) {
-                Builder builder = new Builder();
-                builder.criteria(criteria);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept code;
                 private String description;
                 private Expression criteria;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3098,8 +3105,7 @@ public class Measure extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -3107,6 +3113,10 @@ public class Measure extends DomainResource {
                 private String description;
                 private Expression criteria;
                 private List<Component> component = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3457,16 +3467,18 @@ public class Measure extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(Expression criteria) {
-                    Builder builder = new Builder();
-                    builder.criteria(criteria);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private CodeableConcept code;
                     private String description;
                     private Expression criteria;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -3799,10 +3811,8 @@ public class Measure extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Expression criteria) {
-            Builder builder = new Builder();
-            builder.criteria(criteria);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3810,6 +3820,10 @@ public class Measure extends DomainResource {
             private List<CodeableConcept> usage = new ArrayList<>();
             private String description;
             private Expression criteria;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

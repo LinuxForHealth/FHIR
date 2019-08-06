@@ -294,11 +294,8 @@ public class DeviceMetric extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(CodeableConcept type, DeviceMetricCategory category) {
-        Builder builder = new Builder();
-        builder.type(type);
-        builder.category(category);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -312,6 +309,10 @@ public class DeviceMetric extends DomainResource {
         private DeviceMetricCategory category;
         private Timing measurementPeriod;
         private List<Calibration> calibration = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -904,14 +905,17 @@ public class DeviceMetric extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private DeviceMetricCalibrationType type;
             private DeviceMetricCalibrationState state;
             private Instant time;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

@@ -394,11 +394,8 @@ public class DocumentReference extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(DocumentReferenceStatus status, Collection<Content> content) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.content(content);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -418,6 +415,10 @@ public class DocumentReference extends DomainResource {
         private List<CodeableConcept> securityLabel = new ArrayList<>();
         private List<Content> content = new ArrayList<>();
         private Context context;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1186,16 +1187,17 @@ public class DocumentReference extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(DocumentRelationshipType code, Reference target) {
-            Builder builder = new Builder();
-            builder.code(code);
-            builder.target(target);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private DocumentRelationshipType code;
             private Reference target;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1465,15 +1467,17 @@ public class DocumentReference extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Attachment attachment) {
-            Builder builder = new Builder();
-            builder.attachment(attachment);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Attachment attachment;
             private Coding format;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1838,8 +1842,7 @@ public class DocumentReference extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1850,6 +1853,10 @@ public class DocumentReference extends DomainResource {
             private CodeableConcept practiceSetting;
             private Reference sourcePatientInfo;
             private List<Reference> related = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

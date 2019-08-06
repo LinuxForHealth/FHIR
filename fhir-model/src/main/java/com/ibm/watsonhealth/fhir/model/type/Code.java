@@ -83,11 +83,14 @@ public class Code extends String {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends String.Builder {
+        protected Builder() {
+            super();
+        }
+
         /**
          * <p>
          * unique id for the element within a resource (for internal references)

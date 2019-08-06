@@ -464,11 +464,8 @@ public class ImagingStudy extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ImagingStudyStatus status, Reference subject) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.subject(subject);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -492,6 +489,10 @@ public class ImagingStudy extends DomainResource {
         private List<Annotation> note = new ArrayList<>();
         private String description;
         private List<Series> series = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1617,11 +1618,8 @@ public class ImagingStudy extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Id uid, Coding modality) {
-            Builder builder = new Builder();
-            builder.uid(uid);
-            builder.modality(modality);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1637,6 +1635,10 @@ public class ImagingStudy extends DomainResource {
             private DateTime started;
             private List<Performer> performer = new ArrayList<>();
             private List<Instance> instance = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2180,15 +2182,17 @@ public class ImagingStudy extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Reference actor) {
-                Builder builder = new Builder();
-                builder.actor(actor);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept function;
                 private Reference actor;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2493,11 +2497,8 @@ public class ImagingStudy extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Id uid, Coding sopClass) {
-                Builder builder = new Builder();
-                builder.uid(uid);
-                builder.sopClass(sopClass);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2505,6 +2506,10 @@ public class ImagingStudy extends DomainResource {
                 private Coding sopClass;
                 private UnsignedInt number;
                 private String title;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

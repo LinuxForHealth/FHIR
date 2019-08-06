@@ -347,8 +347,7 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -365,6 +364,10 @@ public class SubstanceSourceMaterial extends DomainResource {
         private List<FractionDescription> fractionDescription = new ArrayList<>();
         private Organism organism;
         private List<PartDescription> partDescription = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1119,13 +1122,16 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String fraction;
             private CodeableConcept materialType;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1510,8 +1516,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1523,6 +1528,10 @@ public class SubstanceSourceMaterial extends DomainResource {
             private List<Author> author = new ArrayList<>();
             private Hybrid hybrid;
             private OrganismGeneral organismGeneral;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1927,13 +1936,16 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept authorType;
                 private String authorDescription;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2268,8 +2280,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2278,6 +2289,10 @@ public class SubstanceSourceMaterial extends DomainResource {
                 private String paternalOrganismId;
                 private String paternalOrganismName;
                 private CodeableConcept hybridType;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2642,8 +2657,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2651,6 +2665,10 @@ public class SubstanceSourceMaterial extends DomainResource {
                 private CodeableConcept phylum;
                 private CodeableConcept clazz;
                 private CodeableConcept order;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2956,13 +2974,16 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept part;
             private CodeableConcept partLocation;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

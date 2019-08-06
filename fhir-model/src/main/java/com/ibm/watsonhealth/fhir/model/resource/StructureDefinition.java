@@ -771,15 +771,8 @@ public class StructureDefinition extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Uri url, String name, PublicationStatus status, StructureDefinitionKind kind, Boolean _abstract, Uri type) {
-        Builder builder = new Builder();
-        builder.url(url);
-        builder.name(name);
-        builder.status(status);
-        builder.kind(kind);
-        builder._abstract(_abstract);
-        builder.type(type);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -810,6 +803,10 @@ public class StructureDefinition extends DomainResource {
         private TypeDerivationRule derivation;
         private Snapshot snapshot;
         private Differential differential;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1868,10 +1865,8 @@ public class StructureDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Id identity) {
-            Builder builder = new Builder();
-            builder.identity(identity);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1879,6 +1874,10 @@ public class StructureDefinition extends DomainResource {
             private Uri uri;
             private String name;
             private String comment;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2181,16 +2180,17 @@ public class StructureDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(ExtensionContextType type, String expression) {
-            Builder builder = new Builder();
-            builder.type(type);
-            builder.expression(expression);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private ExtensionContextType type;
             private String expression;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2442,14 +2442,16 @@ public class StructureDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Collection<ElementDefinition> element) {
-            Builder builder = new Builder();
-            builder.element(element);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<ElementDefinition> element = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2707,14 +2709,16 @@ public class StructureDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Collection<ElementDefinition> element) {
-            Builder builder = new Builder();
-            builder.element(element);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<ElementDefinition> element = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

@@ -9,7 +9,6 @@ package com.ibm.watsonhealth.fhir.model.parser;
 import java.io.InputStream;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 import java.util.Stack;
@@ -37,11 +36,11 @@ import com.ibm.watsonhealth.fhir.model.util.JsonSupport;
 
 public class FHIRJsonParser implements FHIRParser {
     public static boolean DEBUG = false;
-    protected static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
+    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
-    protected final Stack<java.lang.String> stack = new Stack<>();
+    private final Stack<java.lang.String> stack = new Stack<>();
 
-    protected FHIRJsonParser() {
+    FHIRJsonParser() {
         // only visible to subclasses or classes/interfaces in the same package (e.g. FHIRParser)
     }
 
@@ -97,7 +96,7 @@ public class FHIRJsonParser implements FHIRParser {
         stack.clear();
     }
 
-    protected Resource parseResource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Resource parseResource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -401,14 +400,13 @@ public class FHIRJsonParser implements FHIRParser {
         return null;
     }
 
-    protected Account parseAccount(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Account parseAccount(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Account", jsonObject);
-        AccountStatus status = (AccountStatus) parseString(AccountStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Account.Builder builder = Account.builder(status);
+        Account.Builder builder = Account.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -418,6 +416,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((AccountStatus) parseString(AccountStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         JsonArray subjectArray = JsonSupport.getJsonArray(jsonObject, "subject");
@@ -452,43 +451,42 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Account.Coverage parseAccountCoverage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Account.Coverage parseAccountCoverage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Account.Coverage", jsonObject);
-        Reference coverage = parseReference("coverage", JsonSupport.getJsonValue(jsonObject, "coverage", JsonObject.class), -1);
-        Account.Coverage.Builder builder = Account.Coverage.builder(coverage);
+        Account.Coverage.Builder builder = Account.Coverage.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.coverage(parseReference("coverage", JsonSupport.getJsonValue(jsonObject, "coverage", JsonObject.class), -1));
         builder.priority((PositiveInt) parseInteger(PositiveInt.builder(), "priority", JsonSupport.getJsonValue(jsonObject, "priority", JsonNumber.class), jsonObject.get("_priority"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Account.Guarantor parseAccountGuarantor(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Account.Guarantor parseAccountGuarantor(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Account.Guarantor", jsonObject);
-        Reference party = parseReference("party", JsonSupport.getJsonValue(jsonObject, "party", JsonObject.class), -1);
-        Account.Guarantor.Builder builder = Account.Guarantor.builder(party);
+        Account.Guarantor.Builder builder = Account.Guarantor.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.party(parseReference("party", JsonSupport.getJsonValue(jsonObject, "party", JsonObject.class), -1));
         builder.onHold(parseBoolean("onHold", JsonSupport.getJsonValue(jsonObject, "onHold", JsonValue.class), jsonObject.get("_onHold"), -1));
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ActivityDefinition parseActivityDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ActivityDefinition parseActivityDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ActivityDefinition", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        ActivityDefinition.Builder builder = ActivityDefinition.builder(status);
+        ActivityDefinition.Builder builder = ActivityDefinition.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -503,6 +501,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.subtitle(parseString("subtitle", JsonSupport.getJsonValue(jsonObject, "subtitle", JsonString.class), jsonObject.get("_subtitle"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.subject(parseChoiceElement("subject", jsonObject, "CodeableConcept", "Reference"));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
@@ -666,35 +665,35 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ActivityDefinition.DynamicValue parseActivityDefinitionDynamicValue(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ActivityDefinition.DynamicValue parseActivityDefinitionDynamicValue(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ActivityDefinition.DynamicValue", jsonObject);
-        String path = parseString("path", JsonSupport.getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1);
-        Expression expression = parseExpression("expression", JsonSupport.getJsonValue(jsonObject, "expression", JsonObject.class), -1);
-        ActivityDefinition.DynamicValue.Builder builder = ActivityDefinition.DynamicValue.builder(path, expression);
+        ActivityDefinition.DynamicValue.Builder builder = ActivityDefinition.DynamicValue.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.path(parseString("path", JsonSupport.getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1));
+        builder.expression(parseExpression("expression", JsonSupport.getJsonValue(jsonObject, "expression", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ActivityDefinition.Participant parseActivityDefinitionParticipant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ActivityDefinition.Participant parseActivityDefinitionParticipant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ActivityDefinition.Participant", jsonObject);
-        ActivityParticipantType type = (ActivityParticipantType) parseString(ActivityParticipantType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        ActivityDefinition.Participant.Builder builder = ActivityDefinition.Participant.builder(type);
+        ActivityDefinition.Participant.Builder builder = ActivityDefinition.Participant.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type((ActivityParticipantType) parseString(ActivityParticipantType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.role(parseCodeableConcept("role", JsonSupport.getJsonValue(jsonObject, "role", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Address parseAddress(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Address parseAddress(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -724,17 +723,16 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected AdverseEvent parseAdverseEvent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private AdverseEvent parseAdverseEvent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("AdverseEvent", jsonObject);
-        AdverseEventActuality actuality = (AdverseEventActuality) parseString(AdverseEventActuality.builder(), "actuality", JsonSupport.getJsonValue(jsonObject, "actuality", JsonString.class), jsonObject.get("_actuality"), -1);
-        Reference subject = parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1);
-        AdverseEvent.Builder builder = AdverseEvent.builder(actuality, subject);
+        AdverseEvent.Builder builder = AdverseEvent.builder();
         parseDomainResource(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
+        builder.actuality((AdverseEventActuality) parseString(AdverseEventActuality.builder(), "actuality", JsonSupport.getJsonValue(jsonObject, "actuality", JsonString.class), jsonObject.get("_actuality"), -1));
         JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             int index = 0;
@@ -744,6 +742,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.event(parseCodeableConcept("event", JsonSupport.getJsonValue(jsonObject, "event", JsonObject.class), -1));
+        builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.detected(parseDateTime("detected", JsonSupport.getJsonValue(jsonObject, "detected", JsonString.class), jsonObject.get("_detected"), -1));
@@ -805,15 +804,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected AdverseEvent.SuspectEntity parseAdverseEventSuspectEntity(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private AdverseEvent.SuspectEntity parseAdverseEventSuspectEntity(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("AdverseEvent.SuspectEntity", jsonObject);
-        Reference instance = parseReference("instance", JsonSupport.getJsonValue(jsonObject, "instance", JsonObject.class), -1);
-        AdverseEvent.SuspectEntity.Builder builder = AdverseEvent.SuspectEntity.builder(instance);
+        AdverseEvent.SuspectEntity.Builder builder = AdverseEvent.SuspectEntity.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.instance(parseReference("instance", JsonSupport.getJsonValue(jsonObject, "instance", JsonObject.class), -1));
         JsonArray causalityArray = JsonSupport.getJsonArray(jsonObject, "causality");
         if (causalityArray != null) {
             int index = 0;
@@ -826,7 +825,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected AdverseEvent.SuspectEntity.Causality parseAdverseEventSuspectEntityCausality(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private AdverseEvent.SuspectEntity.Causality parseAdverseEventSuspectEntityCausality(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -842,14 +841,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected AllergyIntolerance parseAllergyIntolerance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private AllergyIntolerance parseAllergyIntolerance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("AllergyIntolerance", jsonObject);
-        Reference patient = parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1);
-        AllergyIntolerance.Builder builder = AllergyIntolerance.builder(patient);
+        AllergyIntolerance.Builder builder = AllergyIntolerance.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -873,6 +871,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.criticality((AllergyIntoleranceCriticality) parseString(AllergyIntoleranceCriticality.builder(), "criticality", JsonSupport.getJsonValue(jsonObject, "criticality", JsonString.class), jsonObject.get("_criticality"), -1));
         builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
         builder.onset(parseChoiceElement("onset", jsonObject, "DateTime", "Age", "Period", "Range", "String"));
         builder.recordedDate(parseDateTime("recordedDate", JsonSupport.getJsonValue(jsonObject, "recordedDate", JsonString.class), jsonObject.get("_recordedDate"), -1));
@@ -899,24 +898,23 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected AllergyIntolerance.Reaction parseAllergyIntoleranceReaction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private AllergyIntolerance.Reaction parseAllergyIntoleranceReaction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("AllergyIntolerance.Reaction", jsonObject);
-        java.util.List<CodeableConcept> manifestation = new ArrayList<>();
+        AllergyIntolerance.Reaction.Builder builder = AllergyIntolerance.Reaction.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.substance(parseCodeableConcept("substance", JsonSupport.getJsonValue(jsonObject, "substance", JsonObject.class), -1));
         JsonArray manifestationArray = JsonSupport.getJsonArray(jsonObject, "manifestation");
         if (manifestationArray != null) {
             int index = 0;
             for (JsonValue jsonValue : manifestationArray) {
-                manifestation.add(parseCodeableConcept("manifestation", (JsonObject) jsonValue, index));
+                builder.manifestation(parseCodeableConcept("manifestation", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        AllergyIntolerance.Reaction.Builder builder = AllergyIntolerance.Reaction.builder(manifestation);
-        parseBackboneElement(builder, jsonObject);
-        builder.substance(parseCodeableConcept("substance", JsonSupport.getJsonValue(jsonObject, "substance", JsonObject.class), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.onset(parseDateTime("onset", JsonSupport.getJsonValue(jsonObject, "onset", JsonString.class), jsonObject.get("_onset"), -1));
         builder.severity((AllergyIntoleranceSeverity) parseString(AllergyIntoleranceSeverity.builder(), "severity", JsonSupport.getJsonValue(jsonObject, "severity", JsonString.class), jsonObject.get("_severity"), -1));
@@ -933,38 +931,28 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Annotation parseAnnotation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Annotation parseAnnotation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Annotation", jsonObject);
-        Markdown text = (Markdown) parseString(Markdown.builder(), "text", JsonSupport.getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1);
-        Annotation.Builder builder = Annotation.builder(text);
+        Annotation.Builder builder = Annotation.builder();
         parseElement(builder, jsonObject);
         builder.author(parseChoiceElement("author", jsonObject, "Reference", "String"));
         builder.time(parseDateTime("time", JsonSupport.getJsonValue(jsonObject, "time", JsonString.class), jsonObject.get("_time"), -1));
+        builder.text((Markdown) parseString(Markdown.builder(), "text", JsonSupport.getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Appointment parseAppointment(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Appointment parseAppointment(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Appointment", jsonObject);
-        AppointmentStatus status = (AppointmentStatus) parseString(AppointmentStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        java.util.List<Appointment.Participant> participant = new ArrayList<>();
-        JsonArray participantArray = JsonSupport.getJsonArray(jsonObject, "participant");
-        if (participantArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : participantArray) {
-                participant.add(parseAppointmentParticipant("participant", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        Appointment.Builder builder = Appointment.builder(status, participant);
+        Appointment.Builder builder = Appointment.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -974,6 +962,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((AppointmentStatus) parseString(AppointmentStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.cancelationReason(parseCodeableConcept("cancelationReason", JsonSupport.getJsonValue(jsonObject, "cancelationReason", JsonObject.class), -1));
         JsonArray serviceCategoryArray = JsonSupport.getJsonArray(jsonObject, "serviceCategory");
         if (serviceCategoryArray != null) {
@@ -1048,6 +1037,14 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        JsonArray participantArray = JsonSupport.getJsonArray(jsonObject, "participant");
+        if (participantArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : participantArray) {
+                builder.participant(parseAppointmentParticipant("participant", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         JsonArray requestedPeriodArray = JsonSupport.getJsonArray(jsonObject, "requestedPeriod");
         if (requestedPeriodArray != null) {
             int index = 0;
@@ -1060,14 +1057,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Appointment.Participant parseAppointmentParticipant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Appointment.Participant parseAppointmentParticipant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Appointment.Participant", jsonObject);
-        ParticipationStatus status = (ParticipationStatus) parseString(ParticipationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Appointment.Participant.Builder builder = Appointment.Participant.builder(status);
+        Appointment.Participant.Builder builder = Appointment.Participant.builder();
         parseBackboneElement(builder, jsonObject);
         JsonArray typeArray = JsonSupport.getJsonArray(jsonObject, "type");
         if (typeArray != null) {
@@ -1079,20 +1075,19 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.actor(parseReference("actor", JsonSupport.getJsonValue(jsonObject, "actor", JsonObject.class), -1));
         builder.required((ParticipantRequired) parseString(ParticipantRequired.builder(), "required", JsonSupport.getJsonValue(jsonObject, "required", JsonString.class), jsonObject.get("_required"), -1));
+        builder.status((ParticipationStatus) parseString(ParticipationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected AppointmentResponse parseAppointmentResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private AppointmentResponse parseAppointmentResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("AppointmentResponse", jsonObject);
-        Reference appointment = parseReference("appointment", JsonSupport.getJsonValue(jsonObject, "appointment", JsonObject.class), -1);
-        ParticipantStatus participantStatus = (ParticipantStatus) parseString(ParticipantStatus.builder(), "participantStatus", JsonSupport.getJsonValue(jsonObject, "participantStatus", JsonString.class), jsonObject.get("_participantStatus"), -1);
-        AppointmentResponse.Builder builder = AppointmentResponse.builder(appointment, participantStatus);
+        AppointmentResponse.Builder builder = AppointmentResponse.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -1102,6 +1097,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.appointment(parseReference("appointment", JsonSupport.getJsonValue(jsonObject, "appointment", JsonObject.class), -1));
         builder.start(parseInstant("start", JsonSupport.getJsonValue(jsonObject, "start", JsonString.class), jsonObject.get("_start"), -1));
         builder.end(parseInstant("end", JsonSupport.getJsonValue(jsonObject, "end", JsonString.class), jsonObject.get("_end"), -1));
         JsonArray participantTypeArray = JsonSupport.getJsonArray(jsonObject, "participantType");
@@ -1113,12 +1109,13 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.actor(parseReference("actor", JsonSupport.getJsonValue(jsonObject, "actor", JsonObject.class), -1));
+        builder.participantStatus((ParticipantStatus) parseString(ParticipantStatus.builder(), "participantStatus", JsonSupport.getJsonValue(jsonObject, "participantStatus", JsonString.class), jsonObject.get("_participantStatus"), -1));
         builder.comment(parseString("comment", JsonSupport.getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Attachment parseAttachment(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Attachment parseAttachment(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -1138,26 +1135,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected AuditEvent parseAuditEvent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private AuditEvent parseAuditEvent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("AuditEvent", jsonObject);
-        Coding type = parseCoding("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        Instant recorded = parseInstant("recorded", JsonSupport.getJsonValue(jsonObject, "recorded", JsonString.class), jsonObject.get("_recorded"), -1);
-        java.util.List<AuditEvent.Agent> agent = new ArrayList<>();
-        JsonArray agentArray = JsonSupport.getJsonArray(jsonObject, "agent");
-        if (agentArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : agentArray) {
-                agent.add(parseAuditEventAgent("agent", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        AuditEvent.Source source = parseAuditEventSource("source", JsonSupport.getJsonValue(jsonObject, "source", JsonObject.class), -1);
-        AuditEvent.Builder builder = AuditEvent.builder(type, recorded, agent, source);
+        AuditEvent.Builder builder = AuditEvent.builder();
         parseDomainResource(builder, jsonObject);
+        builder.type(parseCoding("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray subtypeArray = JsonSupport.getJsonArray(jsonObject, "subtype");
         if (subtypeArray != null) {
             int index = 0;
@@ -1168,6 +1154,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.action((AuditEventAction) parseString(AuditEventAction.builder(), "action", JsonSupport.getJsonValue(jsonObject, "action", JsonString.class), jsonObject.get("_action"), -1));
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
+        builder.recorded(parseInstant("recorded", JsonSupport.getJsonValue(jsonObject, "recorded", JsonString.class), jsonObject.get("_recorded"), -1));
         builder.outcome((AuditEventOutcome) parseString(AuditEventOutcome.builder(), "outcome", JsonSupport.getJsonValue(jsonObject, "outcome", JsonString.class), jsonObject.get("_outcome"), -1));
         builder.outcomeDesc(parseString("outcomeDesc", JsonSupport.getJsonValue(jsonObject, "outcomeDesc", JsonString.class), jsonObject.get("_outcomeDesc"), -1));
         JsonArray purposeOfEventArray = JsonSupport.getJsonArray(jsonObject, "purposeOfEvent");
@@ -1178,6 +1165,15 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        JsonArray agentArray = JsonSupport.getJsonArray(jsonObject, "agent");
+        if (agentArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : agentArray) {
+                builder.agent(parseAuditEventAgent("agent", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
+        builder.source(parseAuditEventSource("source", JsonSupport.getJsonValue(jsonObject, "source", JsonObject.class), -1));
         JsonArray entityArray = JsonSupport.getJsonArray(jsonObject, "entity");
         if (entityArray != null) {
             int index = 0;
@@ -1190,14 +1186,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected AuditEvent.Agent parseAuditEventAgent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private AuditEvent.Agent parseAuditEventAgent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("AuditEvent.Agent", jsonObject);
-        Boolean requestor = parseBoolean("requestor", JsonSupport.getJsonValue(jsonObject, "requestor", JsonValue.class), jsonObject.get("_requestor"), -1);
-        AuditEvent.Agent.Builder builder = AuditEvent.Agent.builder(requestor);
+        AuditEvent.Agent.Builder builder = AuditEvent.Agent.builder();
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray roleArray = JsonSupport.getJsonArray(jsonObject, "role");
@@ -1211,6 +1206,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.who(parseReference("who", JsonSupport.getJsonValue(jsonObject, "who", JsonObject.class), -1));
         builder.altId(parseString("altId", JsonSupport.getJsonValue(jsonObject, "altId", JsonString.class), jsonObject.get("_altId"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.requestor(parseBoolean("requestor", JsonSupport.getJsonValue(jsonObject, "requestor", JsonValue.class), jsonObject.get("_requestor"), -1));
         builder.location(parseReference("location", JsonSupport.getJsonValue(jsonObject, "location", JsonObject.class), -1));
         JsonArray policyArray = JsonSupport.getJsonArray(jsonObject, "policy", true);
         if (policyArray != null) {
@@ -1235,7 +1231,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected AuditEvent.Agent.Network parseAuditEventAgentNetwork(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private AuditEvent.Agent.Network parseAuditEventAgentNetwork(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -1249,7 +1245,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected AuditEvent.Entity parseAuditEventEntity(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private AuditEvent.Entity parseAuditEventEntity(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -1284,30 +1280,30 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected AuditEvent.Entity.Detail parseAuditEventEntityDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private AuditEvent.Entity.Detail parseAuditEventEntityDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("AuditEvent.Entity.Detail", jsonObject);
-        String type = parseString("type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        Element value = parseChoiceElement("value", jsonObject, "String", "Base64Binary");
-        AuditEvent.Entity.Detail.Builder builder = AuditEvent.Entity.Detail.builder(type, value);
+        AuditEvent.Entity.Detail.Builder builder = AuditEvent.Entity.Detail.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseString("type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.value(parseChoiceElement("value", jsonObject, "String", "Base64Binary"));
         stackPop();
         return builder.build();
     }
 
-    protected AuditEvent.Source parseAuditEventSource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private AuditEvent.Source parseAuditEventSource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("AuditEvent.Source", jsonObject);
-        Reference observer = parseReference("observer", JsonSupport.getJsonValue(jsonObject, "observer", JsonObject.class), -1);
-        AuditEvent.Source.Builder builder = AuditEvent.Source.builder(observer);
+        AuditEvent.Source.Builder builder = AuditEvent.Source.builder();
         parseBackboneElement(builder, jsonObject);
         builder.site(parseString("site", JsonSupport.getJsonValue(jsonObject, "site", JsonString.class), jsonObject.get("_site"), -1));
+        builder.observer(parseReference("observer", JsonSupport.getJsonValue(jsonObject, "observer", JsonObject.class), -1));
         JsonArray typeArray = JsonSupport.getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             int index = 0;
@@ -1320,7 +1316,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected void parseBackboneElement(BackboneElement.Builder builder, JsonObject jsonObject) {
+    private void parseBackboneElement(BackboneElement.Builder builder, JsonObject jsonObject) {
         parseElement(builder, jsonObject);
         JsonArray modifierExtensionArray = JsonSupport.getJsonArray(jsonObject, "modifierExtension");
         if (modifierExtensionArray != null) {
@@ -1332,7 +1328,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
     }
 
-    protected Base64Binary parseBase64Binary(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
+    private Base64Binary parseBase64Binary(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
         if (jsonValue == null && _jsonValue == null) {
             return null;
         }
@@ -1351,14 +1347,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Basic parseBasic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Basic parseBasic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Basic", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        Basic.Builder builder = Basic.builder(code);
+        Basic.Builder builder = Basic.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -1368,6 +1363,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.created(parseDate("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1));
         builder.author(parseReference("author", JsonSupport.getJsonValue(jsonObject, "author", JsonObject.class), -1));
@@ -1375,22 +1371,22 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Binary parseBinary(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Binary parseBinary(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Binary", jsonObject);
-        Code contentType = (Code) parseString(Code.builder(), "contentType", JsonSupport.getJsonValue(jsonObject, "contentType", JsonString.class), jsonObject.get("_contentType"), -1);
-        Binary.Builder builder = Binary.builder(contentType);
+        Binary.Builder builder = Binary.builder();
         parseResource(builder, jsonObject);
+        builder.contentType((Code) parseString(Code.builder(), "contentType", JsonSupport.getJsonValue(jsonObject, "contentType", JsonString.class), jsonObject.get("_contentType"), -1));
         builder.securityContext(parseReference("securityContext", JsonSupport.getJsonValue(jsonObject, "securityContext", JsonObject.class), -1));
         builder.data(parseBase64Binary("data", JsonSupport.getJsonValue(jsonObject, "data", JsonString.class), jsonObject.get("_data"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected BiologicallyDerivedProduct parseBiologicallyDerivedProduct(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private BiologicallyDerivedProduct parseBiologicallyDerivedProduct(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -1448,7 +1444,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected BiologicallyDerivedProduct.Collection parseBiologicallyDerivedProductCollection(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private BiologicallyDerivedProduct.Collection parseBiologicallyDerivedProductCollection(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -1463,7 +1459,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected BiologicallyDerivedProduct.Manipulation parseBiologicallyDerivedProductManipulation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private BiologicallyDerivedProduct.Manipulation parseBiologicallyDerivedProductManipulation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -1477,7 +1473,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected BiologicallyDerivedProduct.Processing parseBiologicallyDerivedProductProcessing(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private BiologicallyDerivedProduct.Processing parseBiologicallyDerivedProductProcessing(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -1493,7 +1489,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected BiologicallyDerivedProduct.Storage parseBiologicallyDerivedProductStorage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private BiologicallyDerivedProduct.Storage parseBiologicallyDerivedProductStorage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -1509,14 +1505,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected BodyStructure parseBodyStructure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private BodyStructure parseBodyStructure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("BodyStructure", jsonObject);
-        Reference patient = parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1);
-        BodyStructure.Builder builder = BodyStructure.builder(patient);
+        BodyStructure.Builder builder = BodyStructure.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -1546,11 +1541,12 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Boolean parseBoolean(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
+    private Boolean parseBoolean(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
         if (jsonValue == null && _jsonValue == null) {
             return null;
         }
@@ -1568,16 +1564,16 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Bundle parseBundle(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Bundle parseBundle(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Bundle", jsonObject);
-        BundleType type = (BundleType) parseString(BundleType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        Bundle.Builder builder = Bundle.builder(type);
+        Bundle.Builder builder = Bundle.builder();
         parseResource(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
+        builder.type((BundleType) parseString(BundleType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.timestamp(parseInstant("timestamp", JsonSupport.getJsonValue(jsonObject, "timestamp", JsonString.class), jsonObject.get("_timestamp"), -1));
         builder.total((UnsignedInt) parseInteger(UnsignedInt.builder(), "total", JsonSupport.getJsonValue(jsonObject, "total", JsonNumber.class), jsonObject.get("_total"), -1));
         JsonArray linkArray = JsonSupport.getJsonArray(jsonObject, "link");
@@ -1601,7 +1597,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Bundle.Entry parseBundleEntry(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Bundle.Entry parseBundleEntry(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -1626,16 +1622,16 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Bundle.Entry.Request parseBundleEntryRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Bundle.Entry.Request parseBundleEntryRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Bundle.Entry.Request", jsonObject);
-        HTTPVerb method = (HTTPVerb) parseString(HTTPVerb.builder(), "method", JsonSupport.getJsonValue(jsonObject, "method", JsonString.class), jsonObject.get("_method"), -1);
-        Uri url = parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1);
-        Bundle.Entry.Request.Builder builder = Bundle.Entry.Request.builder(method, url);
+        Bundle.Entry.Request.Builder builder = Bundle.Entry.Request.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.method((HTTPVerb) parseString(HTTPVerb.builder(), "method", JsonSupport.getJsonValue(jsonObject, "method", JsonString.class), jsonObject.get("_method"), -1));
+        builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.ifNoneMatch(parseString("ifNoneMatch", JsonSupport.getJsonValue(jsonObject, "ifNoneMatch", JsonString.class), jsonObject.get("_ifNoneMatch"), -1));
         builder.ifModifiedSince(parseInstant("ifModifiedSince", JsonSupport.getJsonValue(jsonObject, "ifModifiedSince", JsonString.class), jsonObject.get("_ifModifiedSince"), -1));
         builder.ifMatch(parseString("ifMatch", JsonSupport.getJsonValue(jsonObject, "ifMatch", JsonString.class), jsonObject.get("_ifMatch"), -1));
@@ -1644,15 +1640,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Bundle.Entry.Response parseBundleEntryResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Bundle.Entry.Response parseBundleEntryResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Bundle.Entry.Response", jsonObject);
-        String status = parseString("status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Bundle.Entry.Response.Builder builder = Bundle.Entry.Response.builder(status);
+        Bundle.Entry.Response.Builder builder = Bundle.Entry.Response.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.status(parseString("status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.location(parseUri("location", JsonSupport.getJsonValue(jsonObject, "location", JsonString.class), jsonObject.get("_location"), -1));
         builder.etag(parseString("etag", JsonSupport.getJsonValue(jsonObject, "etag", JsonString.class), jsonObject.get("_etag"), -1));
         builder.lastModified(parseInstant("lastModified", JsonSupport.getJsonValue(jsonObject, "lastModified", JsonString.class), jsonObject.get("_lastModified"), -1));
@@ -1661,7 +1657,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Bundle.Entry.Search parseBundleEntrySearch(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Bundle.Entry.Search parseBundleEntrySearch(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -1675,47 +1671,35 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Bundle.Link parseBundleLink(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Bundle.Link parseBundleLink(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Bundle.Link", jsonObject);
-        String relation = parseString("relation", JsonSupport.getJsonValue(jsonObject, "relation", JsonString.class), jsonObject.get("_relation"), -1);
-        Uri url = parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1);
-        Bundle.Link.Builder builder = Bundle.Link.builder(relation, url);
+        Bundle.Link.Builder builder = Bundle.Link.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.relation(parseString("relation", JsonSupport.getJsonValue(jsonObject, "relation", JsonString.class), jsonObject.get("_relation"), -1));
+        builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected CapabilityStatement parseCapabilityStatement(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CapabilityStatement parseCapabilityStatement(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CapabilityStatement", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        DateTime date = parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1);
-        CapabilityStatementKind kind = (CapabilityStatementKind) parseString(CapabilityStatementKind.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1);
-        FHIRVersion fhirVersion = (FHIRVersion) parseString(FHIRVersion.builder(), "fhirVersion", JsonSupport.getJsonValue(jsonObject, "fhirVersion", JsonString.class), jsonObject.get("_fhirVersion"), -1);
-        java.util.List<Code> format = new ArrayList<>();
-        JsonArray formatArray = JsonSupport.getJsonArray(jsonObject, "format", true);
-        if (formatArray != null) {
-            int index = 0;
-            JsonArray _formatArray = jsonObject.getJsonArray("_format");
-            for (JsonValue jsonValue : formatArray) {
-                format.add((Code) parseString(Code.builder(), "format", jsonValue, JsonSupport.getJsonValue(_formatArray, index), index));
-                index++;
-            }
-        }
-        CapabilityStatement.Builder builder = CapabilityStatement.builder(status, date, kind, fhirVersion, format);
+        CapabilityStatement.Builder builder = CapabilityStatement.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
+        builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
         JsonArray contactArray = JsonSupport.getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
@@ -1744,6 +1728,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.purpose((Markdown) parseString(Markdown.builder(), "purpose", JsonSupport.getJsonValue(jsonObject, "purpose", JsonString.class), jsonObject.get("_purpose"), -1));
         builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", JsonSupport.getJsonValue(jsonObject, "copyright", JsonString.class), jsonObject.get("_copyright"), -1));
+        builder.kind((CapabilityStatementKind) parseString(CapabilityStatementKind.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1));
         JsonArray instantiatesArray = JsonSupport.getJsonArray(jsonObject, "instantiates", true);
         if (instantiatesArray != null) {
             int index = 0;
@@ -1764,6 +1749,16 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.software(parseCapabilityStatementSoftware("software", JsonSupport.getJsonValue(jsonObject, "software", JsonObject.class), -1));
         builder.implementation(parseCapabilityStatementImplementation("implementation", JsonSupport.getJsonValue(jsonObject, "implementation", JsonObject.class), -1));
+        builder.fhirVersion((FHIRVersion) parseString(FHIRVersion.builder(), "fhirVersion", JsonSupport.getJsonValue(jsonObject, "fhirVersion", JsonString.class), jsonObject.get("_fhirVersion"), -1));
+        JsonArray formatArray = JsonSupport.getJsonArray(jsonObject, "format", true);
+        if (formatArray != null) {
+            int index = 0;
+            JsonArray _formatArray = jsonObject.getJsonArray("_format");
+            for (JsonValue jsonValue : formatArray) {
+                builder.format((Code) parseString(Code.builder(), "format", jsonValue, JsonSupport.getJsonValue(_formatArray, index), index));
+                index++;
+            }
+        }
         JsonArray patchFormatArray = JsonSupport.getJsonArray(jsonObject, "patchFormat", true);
         if (patchFormatArray != null) {
             int index = 0;
@@ -1810,37 +1805,37 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CapabilityStatement.Document parseCapabilityStatementDocument(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CapabilityStatement.Document parseCapabilityStatementDocument(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CapabilityStatement.Document", jsonObject);
-        DocumentMode mode = (DocumentMode) parseString(DocumentMode.builder(), "mode", JsonSupport.getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1);
-        Canonical profile = (Canonical) parseUri(Canonical.builder(), "profile", JsonSupport.getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1);
-        CapabilityStatement.Document.Builder builder = CapabilityStatement.Document.builder(mode, profile);
+        CapabilityStatement.Document.Builder builder = CapabilityStatement.Document.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.mode((DocumentMode) parseString(DocumentMode.builder(), "mode", JsonSupport.getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1));
         builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", JsonSupport.getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
+        builder.profile((Canonical) parseUri(Canonical.builder(), "profile", JsonSupport.getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected CapabilityStatement.Implementation parseCapabilityStatementImplementation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CapabilityStatement.Implementation parseCapabilityStatementImplementation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CapabilityStatement.Implementation", jsonObject);
-        String description = parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1);
-        CapabilityStatement.Implementation.Builder builder = CapabilityStatement.Implementation.builder(description);
+        CapabilityStatement.Implementation.Builder builder = CapabilityStatement.Implementation.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.url((Url) parseUri(Url.builder(), "url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.custodian(parseReference("custodian", JsonSupport.getJsonValue(jsonObject, "custodian", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected CapabilityStatement.Messaging parseCapabilityStatementMessaging(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CapabilityStatement.Messaging parseCapabilityStatementMessaging(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -1870,43 +1865,43 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CapabilityStatement.Messaging.Endpoint parseCapabilityStatementMessagingEndpoint(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CapabilityStatement.Messaging.Endpoint parseCapabilityStatementMessagingEndpoint(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CapabilityStatement.Messaging.Endpoint", jsonObject);
-        Coding protocol = parseCoding("protocol", JsonSupport.getJsonValue(jsonObject, "protocol", JsonObject.class), -1);
-        Url address = (Url) parseUri(Url.builder(), "address", JsonSupport.getJsonValue(jsonObject, "address", JsonString.class), jsonObject.get("_address"), -1);
-        CapabilityStatement.Messaging.Endpoint.Builder builder = CapabilityStatement.Messaging.Endpoint.builder(protocol, address);
+        CapabilityStatement.Messaging.Endpoint.Builder builder = CapabilityStatement.Messaging.Endpoint.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.protocol(parseCoding("protocol", JsonSupport.getJsonValue(jsonObject, "protocol", JsonObject.class), -1));
+        builder.address((Url) parseUri(Url.builder(), "address", JsonSupport.getJsonValue(jsonObject, "address", JsonString.class), jsonObject.get("_address"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected CapabilityStatement.Messaging.SupportedMessage parseCapabilityStatementMessagingSupportedMessage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CapabilityStatement.Messaging.SupportedMessage parseCapabilityStatementMessagingSupportedMessage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CapabilityStatement.Messaging.SupportedMessage", jsonObject);
-        EventCapabilityMode mode = (EventCapabilityMode) parseString(EventCapabilityMode.builder(), "mode", JsonSupport.getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1);
-        Canonical definition = (Canonical) parseUri(Canonical.builder(), "definition", JsonSupport.getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1);
-        CapabilityStatement.Messaging.SupportedMessage.Builder builder = CapabilityStatement.Messaging.SupportedMessage.builder(mode, definition);
+        CapabilityStatement.Messaging.SupportedMessage.Builder builder = CapabilityStatement.Messaging.SupportedMessage.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.mode((EventCapabilityMode) parseString(EventCapabilityMode.builder(), "mode", JsonSupport.getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1));
+        builder.definition((Canonical) parseUri(Canonical.builder(), "definition", JsonSupport.getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected CapabilityStatement.Rest parseCapabilityStatementRest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CapabilityStatement.Rest parseCapabilityStatementRest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CapabilityStatement.Rest", jsonObject);
-        RestfulCapabilityMode mode = (RestfulCapabilityMode) parseString(RestfulCapabilityMode.builder(), "mode", JsonSupport.getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1);
-        CapabilityStatement.Rest.Builder builder = CapabilityStatement.Rest.builder(mode);
+        CapabilityStatement.Rest.Builder builder = CapabilityStatement.Rest.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.mode((RestfulCapabilityMode) parseString(RestfulCapabilityMode.builder(), "mode", JsonSupport.getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1));
         builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", JsonSupport.getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
         builder.security(parseCapabilityStatementRestSecurity("security", JsonSupport.getJsonValue(jsonObject, "security", JsonObject.class), -1));
         JsonArray resourceArray = JsonSupport.getJsonArray(jsonObject, "resource");
@@ -1954,29 +1949,29 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CapabilityStatement.Rest.Interaction parseCapabilityStatementRestInteraction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CapabilityStatement.Rest.Interaction parseCapabilityStatementRestInteraction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CapabilityStatement.Rest.Interaction", jsonObject);
-        SystemRestfulInteraction code = (SystemRestfulInteraction) parseString(SystemRestfulInteraction.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        CapabilityStatement.Rest.Interaction.Builder builder = CapabilityStatement.Rest.Interaction.builder(code);
+        CapabilityStatement.Rest.Interaction.Builder builder = CapabilityStatement.Rest.Interaction.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code((SystemRestfulInteraction) parseString(SystemRestfulInteraction.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", JsonSupport.getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected CapabilityStatement.Rest.Resource parseCapabilityStatementRestResource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CapabilityStatement.Rest.Resource parseCapabilityStatementRestResource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CapabilityStatement.Rest.Resource", jsonObject);
-        ResourceType type = (ResourceType) parseString(ResourceType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        CapabilityStatement.Rest.Resource.Builder builder = CapabilityStatement.Rest.Resource.builder(type);
+        CapabilityStatement.Rest.Resource.Builder builder = CapabilityStatement.Rest.Resource.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type((ResourceType) parseString(ResourceType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.profile((Canonical) parseUri(Canonical.builder(), "profile", JsonSupport.getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1));
         JsonArray supportedProfileArray = JsonSupport.getJsonArray(jsonObject, "supportedProfile", true);
         if (supportedProfileArray != null) {
@@ -2050,52 +2045,52 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CapabilityStatement.Rest.Resource.Interaction parseCapabilityStatementRestResourceInteraction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CapabilityStatement.Rest.Resource.Interaction parseCapabilityStatementRestResourceInteraction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CapabilityStatement.Rest.Resource.Interaction", jsonObject);
-        TypeRestfulInteraction code = (TypeRestfulInteraction) parseString(TypeRestfulInteraction.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        CapabilityStatement.Rest.Resource.Interaction.Builder builder = CapabilityStatement.Rest.Resource.Interaction.builder(code);
+        CapabilityStatement.Rest.Resource.Interaction.Builder builder = CapabilityStatement.Rest.Resource.Interaction.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code((TypeRestfulInteraction) parseString(TypeRestfulInteraction.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", JsonSupport.getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected CapabilityStatement.Rest.Resource.Operation parseCapabilityStatementRestResourceOperation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CapabilityStatement.Rest.Resource.Operation parseCapabilityStatementRestResourceOperation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CapabilityStatement.Rest.Resource.Operation", jsonObject);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        Canonical definition = (Canonical) parseUri(Canonical.builder(), "definition", JsonSupport.getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1);
-        CapabilityStatement.Rest.Resource.Operation.Builder builder = CapabilityStatement.Rest.Resource.Operation.builder(name, definition);
+        CapabilityStatement.Rest.Resource.Operation.Builder builder = CapabilityStatement.Rest.Resource.Operation.builder();
         parseBackboneElement(builder, jsonObject);
-        builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", JsonSupport.getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    protected CapabilityStatement.Rest.Resource.SearchParam parseCapabilityStatementRestResourceSearchParam(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        checkForUnrecognizedElements("CapabilityStatement.Rest.Resource.SearchParam", jsonObject);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        SearchParamType type = (SearchParamType) parseString(SearchParamType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        CapabilityStatement.Rest.Resource.SearchParam.Builder builder = CapabilityStatement.Rest.Resource.SearchParam.builder(name, type);
-        parseBackboneElement(builder, jsonObject);
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.definition((Canonical) parseUri(Canonical.builder(), "definition", JsonSupport.getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1));
         builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", JsonSupport.getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected CapabilityStatement.Rest.Security parseCapabilityStatementRestSecurity(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CapabilityStatement.Rest.Resource.SearchParam parseCapabilityStatementRestResourceSearchParam(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        checkForUnrecognizedElements("CapabilityStatement.Rest.Resource.SearchParam", jsonObject);
+        CapabilityStatement.Rest.Resource.SearchParam.Builder builder = CapabilityStatement.Rest.Resource.SearchParam.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.definition((Canonical) parseUri(Canonical.builder(), "definition", JsonSupport.getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1));
+        builder.type((SearchParamType) parseString(SearchParamType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", JsonSupport.getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private CapabilityStatement.Rest.Security parseCapabilityStatementRestSecurity(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -2117,31 +2112,28 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CapabilityStatement.Software parseCapabilityStatementSoftware(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CapabilityStatement.Software parseCapabilityStatementSoftware(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CapabilityStatement.Software", jsonObject);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        CapabilityStatement.Software.Builder builder = CapabilityStatement.Software.builder(name);
+        CapabilityStatement.Software.Builder builder = CapabilityStatement.Software.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         builder.releaseDate(parseDateTime("releaseDate", JsonSupport.getJsonValue(jsonObject, "releaseDate", JsonString.class), jsonObject.get("_releaseDate"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected CarePlan parseCarePlan(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CarePlan parseCarePlan(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CarePlan", jsonObject);
-        CarePlanStatus status = (CarePlanStatus) parseString(CarePlanStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        CarePlanIntent intent = (CarePlanIntent) parseString(CarePlanIntent.builder(), "intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonString.class), jsonObject.get("_intent"), -1);
-        Reference subject = parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1);
-        CarePlan.Builder builder = CarePlan.builder(status, intent, subject);
+        CarePlan.Builder builder = CarePlan.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -2193,6 +2185,8 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((CarePlanStatus) parseString(CarePlanStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.intent((CarePlanIntent) parseString(CarePlanIntent.builder(), "intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonString.class), jsonObject.get("_intent"), -1));
         JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             int index = 0;
@@ -2203,6 +2197,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
         builder.created(parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1));
@@ -2267,7 +2262,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CarePlan.Activity parseCarePlanActivity(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CarePlan.Activity parseCarePlanActivity(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -2305,14 +2300,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CarePlan.Activity.Detail parseCarePlanActivityDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CarePlan.Activity.Detail parseCarePlanActivityDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CarePlan.Activity.Detail", jsonObject);
-        CarePlanActivityStatus status = (CarePlanActivityStatus) parseString(CarePlanActivityStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        CarePlan.Activity.Detail.Builder builder = CarePlan.Activity.Detail.builder(status);
+        CarePlan.Activity.Detail.Builder builder = CarePlan.Activity.Detail.builder();
         parseBackboneElement(builder, jsonObject);
         builder.kind((CarePlanActivityKind) parseString(CarePlanActivityKind.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1));
         JsonArray instantiatesCanonicalArray = JsonSupport.getJsonArray(jsonObject, "instantiatesCanonical", true);
@@ -2358,6 +2352,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((CarePlanActivityStatus) parseString(CarePlanActivityStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.statusReason(parseCodeableConcept("statusReason", JsonSupport.getJsonValue(jsonObject, "statusReason", JsonObject.class), -1));
         builder.doNotPerform(parseBoolean("doNotPerform", JsonSupport.getJsonValue(jsonObject, "doNotPerform", JsonValue.class), jsonObject.get("_doNotPerform"), -1));
         builder.scheduled(parseChoiceElement("scheduled", jsonObject, "Timing", "Period", "String"));
@@ -2378,7 +2373,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CareTeam parseCareTeam(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CareTeam parseCareTeam(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -2459,7 +2454,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CareTeam.Participant parseCareTeamParticipant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CareTeam.Participant parseCareTeamParticipant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -2482,15 +2477,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CatalogEntry parseCatalogEntry(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CatalogEntry parseCatalogEntry(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CatalogEntry", jsonObject);
-        Boolean orderable = parseBoolean("orderable", JsonSupport.getJsonValue(jsonObject, "orderable", JsonValue.class), jsonObject.get("_orderable"), -1);
-        Reference referencedItem = parseReference("referencedItem", JsonSupport.getJsonValue(jsonObject, "referencedItem", JsonObject.class), -1);
-        CatalogEntry.Builder builder = CatalogEntry.builder(orderable, referencedItem);
+        CatalogEntry.Builder builder = CatalogEntry.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -2501,6 +2494,8 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.orderable(parseBoolean("orderable", JsonSupport.getJsonValue(jsonObject, "orderable", JsonValue.class), jsonObject.get("_orderable"), -1));
+        builder.referencedItem(parseReference("referencedItem", JsonSupport.getJsonValue(jsonObject, "referencedItem", JsonObject.class), -1));
         JsonArray additionalIdentifierArray = JsonSupport.getJsonArray(jsonObject, "additionalIdentifier");
         if (additionalIdentifierArray != null) {
             int index = 0;
@@ -2549,30 +2544,27 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CatalogEntry.RelatedEntry parseCatalogEntryRelatedEntry(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CatalogEntry.RelatedEntry parseCatalogEntryRelatedEntry(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CatalogEntry.RelatedEntry", jsonObject);
-        CatalogEntryRelationType relationtype = (CatalogEntryRelationType) parseString(CatalogEntryRelationType.builder(), "relationtype", JsonSupport.getJsonValue(jsonObject, "relationtype", JsonString.class), jsonObject.get("_relationtype"), -1);
-        Reference item = parseReference("item", JsonSupport.getJsonValue(jsonObject, "item", JsonObject.class), -1);
-        CatalogEntry.RelatedEntry.Builder builder = CatalogEntry.RelatedEntry.builder(relationtype, item);
+        CatalogEntry.RelatedEntry.Builder builder = CatalogEntry.RelatedEntry.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.relationtype((CatalogEntryRelationType) parseString(CatalogEntryRelationType.builder(), "relationtype", JsonSupport.getJsonValue(jsonObject, "relationtype", JsonString.class), jsonObject.get("_relationtype"), -1));
+        builder.item(parseReference("item", JsonSupport.getJsonValue(jsonObject, "item", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ChargeItem parseChargeItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ChargeItem parseChargeItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ChargeItem", jsonObject);
-        ChargeItemStatus status = (ChargeItemStatus) parseString(ChargeItemStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        Reference subject = parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1);
-        ChargeItem.Builder builder = ChargeItem.builder(status, code, subject);
+        ChargeItem.Builder builder = ChargeItem.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -2600,6 +2592,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((ChargeItemStatus) parseString(ChargeItemStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         JsonArray partOfArray = JsonSupport.getJsonArray(jsonObject, "partOf");
         if (partOfArray != null) {
             int index = 0;
@@ -2608,6 +2601,8 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.context(parseReference("context", JsonSupport.getJsonValue(jsonObject, "context", JsonObject.class), -1));
         builder.occurrence(parseChoiceElement("occurrence", jsonObject, "DateTime", "Period", "Timing"));
         JsonArray performerArray = JsonSupport.getJsonArray(jsonObject, "performer");
@@ -2680,30 +2675,29 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ChargeItem.Performer parseChargeItemPerformer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ChargeItem.Performer parseChargeItemPerformer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ChargeItem.Performer", jsonObject);
-        Reference actor = parseReference("actor", JsonSupport.getJsonValue(jsonObject, "actor", JsonObject.class), -1);
-        ChargeItem.Performer.Builder builder = ChargeItem.Performer.builder(actor);
+        ChargeItem.Performer.Builder builder = ChargeItem.Performer.builder();
         parseBackboneElement(builder, jsonObject);
         builder.function(parseCodeableConcept("function", JsonSupport.getJsonValue(jsonObject, "function", JsonObject.class), -1));
+        builder.actor(parseReference("actor", JsonSupport.getJsonValue(jsonObject, "actor", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ChargeItemDefinition parseChargeItemDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ChargeItemDefinition parseChargeItemDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ChargeItemDefinition", jsonObject);
-        Uri url = parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        ChargeItemDefinition.Builder builder = ChargeItemDefinition.builder(url, status);
+        ChargeItemDefinition.Builder builder = ChargeItemDefinition.builder();
         parseDomainResource(builder, jsonObject);
+        builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             int index = 0;
@@ -2741,6 +2735,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
@@ -2802,7 +2797,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ChargeItemDefinition.Applicability parseChargeItemDefinitionApplicability(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ChargeItemDefinition.Applicability parseChargeItemDefinitionApplicability(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -2817,7 +2812,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ChargeItemDefinition.PropertyGroup parseChargeItemDefinitionPropertyGroup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ChargeItemDefinition.PropertyGroup parseChargeItemDefinitionPropertyGroup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -2845,15 +2840,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ChargeItemDefinition.PropertyGroup.PriceComponent parseChargeItemDefinitionPropertyGroupPriceComponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ChargeItemDefinition.PropertyGroup.PriceComponent parseChargeItemDefinitionPropertyGroupPriceComponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ChargeItemDefinition.PropertyGroup.PriceComponent", jsonObject);
-        ChargeItemDefinitionPriceComponentType type = (ChargeItemDefinitionPriceComponentType) parseString(ChargeItemDefinitionPriceComponentType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        ChargeItemDefinition.PropertyGroup.PriceComponent.Builder builder = ChargeItemDefinition.PropertyGroup.PriceComponent.builder(type);
+        ChargeItemDefinition.PropertyGroup.PriceComponent.Builder builder = ChargeItemDefinition.PropertyGroup.PriceComponent.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type((ChargeItemDefinitionPriceComponentType) parseString(ChargeItemDefinitionPriceComponentType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.amount(parseMoney("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1));
@@ -2861,29 +2856,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Claim parseClaim(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Claim parseClaim(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Claim", jsonObject);
-        ClaimStatus status = (ClaimStatus) parseString(ClaimStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        Use use = (Use) parseString(Use.builder(), "use", JsonSupport.getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1);
-        Reference patient = parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1);
-        DateTime created = parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1);
-        Reference provider = parseReference("provider", JsonSupport.getJsonValue(jsonObject, "provider", JsonObject.class), -1);
-        CodeableConcept priority = parseCodeableConcept("priority", JsonSupport.getJsonValue(jsonObject, "priority", JsonObject.class), -1);
-        java.util.List<Claim.Insurance> insurance = new ArrayList<>();
-        JsonArray insuranceArray = JsonSupport.getJsonArray(jsonObject, "insurance");
-        if (insuranceArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : insuranceArray) {
-                insurance.add(parseClaimInsurance("insurance", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        Claim.Builder builder = Claim.builder(status, type, use, patient, created, provider, priority, insurance);
+        Claim.Builder builder = Claim.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -2893,10 +2872,17 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((ClaimStatus) parseString(ClaimStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.subType(parseCodeableConcept("subType", JsonSupport.getJsonValue(jsonObject, "subType", JsonObject.class), -1));
+        builder.use((Use) parseString(Use.builder(), "use", JsonSupport.getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1));
+        builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
         builder.billablePeriod(parsePeriod("billablePeriod", JsonSupport.getJsonValue(jsonObject, "billablePeriod", JsonObject.class), -1));
+        builder.created(parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1));
         builder.enterer(parseReference("enterer", JsonSupport.getJsonValue(jsonObject, "enterer", JsonObject.class), -1));
         builder.insurer(parseReference("insurer", JsonSupport.getJsonValue(jsonObject, "insurer", JsonObject.class), -1));
+        builder.provider(parseReference("provider", JsonSupport.getJsonValue(jsonObject, "provider", JsonObject.class), -1));
+        builder.priority(parseCodeableConcept("priority", JsonSupport.getJsonValue(jsonObject, "priority", JsonObject.class), -1));
         builder.fundsReserve(parseCodeableConcept("fundsReserve", JsonSupport.getJsonValue(jsonObject, "fundsReserve", JsonObject.class), -1));
         JsonArray relatedArray = JsonSupport.getJsonArray(jsonObject, "related");
         if (relatedArray != null) {
@@ -2943,6 +2929,14 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        JsonArray insuranceArray = JsonSupport.getJsonArray(jsonObject, "insurance");
+        if (insuranceArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : insuranceArray) {
+                builder.insurance(parseClaimInsurance("insurance", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         builder.accident(parseClaimAccident("accident", JsonSupport.getJsonValue(jsonObject, "accident", JsonObject.class), -1));
         JsonArray itemArray = JsonSupport.getJsonArray(jsonObject, "item");
         if (itemArray != null) {
@@ -2957,31 +2951,31 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Claim.Accident parseClaimAccident(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Claim.Accident parseClaimAccident(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Claim.Accident", jsonObject);
-        Date date = parseDate("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1);
-        Claim.Accident.Builder builder = Claim.Accident.builder(date);
+        Claim.Accident.Builder builder = Claim.Accident.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.date(parseDate("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.location(parseChoiceElement("location", jsonObject, "Address", "Reference"));
         stackPop();
         return builder.build();
     }
 
-    protected Claim.CareTeam parseClaimCareTeam(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Claim.CareTeam parseClaimCareTeam(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Claim.CareTeam", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        Reference provider = parseReference("provider", JsonSupport.getJsonValue(jsonObject, "provider", JsonObject.class), -1);
-        Claim.CareTeam.Builder builder = Claim.CareTeam.builder(sequence, provider);
+        Claim.CareTeam.Builder builder = Claim.CareTeam.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
+        builder.provider(parseReference("provider", JsonSupport.getJsonValue(jsonObject, "provider", JsonObject.class), -1));
         builder.responsible(parseBoolean("responsible", JsonSupport.getJsonValue(jsonObject, "responsible", JsonValue.class), jsonObject.get("_responsible"), -1));
         builder.role(parseCodeableConcept("role", JsonSupport.getJsonValue(jsonObject, "role", JsonObject.class), -1));
         builder.qualification(parseCodeableConcept("qualification", JsonSupport.getJsonValue(jsonObject, "qualification", JsonObject.class), -1));
@@ -2989,16 +2983,16 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Claim.Diagnosis parseClaimDiagnosis(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Claim.Diagnosis parseClaimDiagnosis(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Claim.Diagnosis", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        Element diagnosis = parseChoiceElement("diagnosis", jsonObject, "CodeableConcept", "Reference");
-        Claim.Diagnosis.Builder builder = Claim.Diagnosis.builder(sequence, diagnosis);
+        Claim.Diagnosis.Builder builder = Claim.Diagnosis.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
+        builder.diagnosis(parseChoiceElement("diagnosis", jsonObject, "CodeableConcept", "Reference"));
         JsonArray typeArray = JsonSupport.getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             int index = 0;
@@ -3013,18 +3007,18 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Claim.Insurance parseClaimInsurance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Claim.Insurance parseClaimInsurance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Claim.Insurance", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        Boolean focal = parseBoolean("focal", JsonSupport.getJsonValue(jsonObject, "focal", JsonValue.class), jsonObject.get("_focal"), -1);
-        Reference coverage = parseReference("coverage", JsonSupport.getJsonValue(jsonObject, "coverage", JsonObject.class), -1);
-        Claim.Insurance.Builder builder = Claim.Insurance.builder(sequence, focal, coverage);
+        Claim.Insurance.Builder builder = Claim.Insurance.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
+        builder.focal(parseBoolean("focal", JsonSupport.getJsonValue(jsonObject, "focal", JsonValue.class), jsonObject.get("_focal"), -1));
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
+        builder.coverage(parseReference("coverage", JsonSupport.getJsonValue(jsonObject, "coverage", JsonObject.class), -1));
         builder.businessArrangement(parseString("businessArrangement", JsonSupport.getJsonValue(jsonObject, "businessArrangement", JsonString.class), jsonObject.get("_businessArrangement"), -1));
         JsonArray preAuthRefArray = JsonSupport.getJsonArray(jsonObject, "preAuthRef", true);
         if (preAuthRefArray != null) {
@@ -3040,16 +3034,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Claim.Item parseClaimItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Claim.Item parseClaimItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Claim.Item", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        CodeableConcept productOrService = parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1);
-        Claim.Item.Builder builder = Claim.Item.builder(sequence, productOrService);
+        Claim.Item.Builder builder = Claim.Item.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         JsonArray careTeamSequenceArray = JsonSupport.getJsonArray(jsonObject, "careTeamSequence", true);
         if (careTeamSequenceArray != null) {
             int index = 0;
@@ -3088,6 +3081,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.revenue(parseCodeableConcept("revenue", JsonSupport.getJsonValue(jsonObject, "revenue", JsonObject.class), -1));
         builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
+        builder.productOrService(parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
         JsonArray modifierArray = JsonSupport.getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             int index = 0;
@@ -3147,18 +3141,18 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Claim.Item.Detail parseClaimItemDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Claim.Item.Detail parseClaimItemDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Claim.Item.Detail", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        CodeableConcept productOrService = parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1);
-        Claim.Item.Detail.Builder builder = Claim.Item.Detail.builder(sequence, productOrService);
+        Claim.Item.Detail.Builder builder = Claim.Item.Detail.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.revenue(parseCodeableConcept("revenue", JsonSupport.getJsonValue(jsonObject, "revenue", JsonObject.class), -1));
         builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
+        builder.productOrService(parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
         JsonArray modifierArray = JsonSupport.getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             int index = 0;
@@ -3199,18 +3193,18 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Claim.Item.Detail.SubDetail parseClaimItemDetailSubDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Claim.Item.Detail.SubDetail parseClaimItemDetailSubDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Claim.Item.Detail.SubDetail", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        CodeableConcept productOrService = parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1);
-        Claim.Item.Detail.SubDetail.Builder builder = Claim.Item.Detail.SubDetail.builder(sequence, productOrService);
+        Claim.Item.Detail.SubDetail.Builder builder = Claim.Item.Detail.SubDetail.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.revenue(parseCodeableConcept("revenue", JsonSupport.getJsonValue(jsonObject, "revenue", JsonObject.class), -1));
         builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
+        builder.productOrService(parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
         JsonArray modifierArray = JsonSupport.getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             int index = 0;
@@ -3243,30 +3237,29 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Claim.Payee parseClaimPayee(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Claim.Payee parseClaimPayee(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Claim.Payee", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        Claim.Payee.Builder builder = Claim.Payee.builder(type);
+        Claim.Payee.Builder builder = Claim.Payee.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.party(parseReference("party", JsonSupport.getJsonValue(jsonObject, "party", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Claim.Procedure parseClaimProcedure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Claim.Procedure parseClaimProcedure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Claim.Procedure", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        Element procedure = parseChoiceElement("procedure", jsonObject, "CodeableConcept", "Reference");
-        Claim.Procedure.Builder builder = Claim.Procedure.builder(sequence, procedure);
+        Claim.Procedure.Builder builder = Claim.Procedure.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         JsonArray typeArray = JsonSupport.getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             int index = 0;
@@ -3276,6 +3269,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
+        builder.procedure(parseChoiceElement("procedure", jsonObject, "CodeableConcept", "Reference"));
         JsonArray udiArray = JsonSupport.getJsonArray(jsonObject, "udi");
         if (udiArray != null) {
             int index = 0;
@@ -3288,7 +3282,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Claim.Related parseClaimRelated(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Claim.Related parseClaimRelated(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -3303,16 +3297,16 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Claim.SupportingInfo parseClaimSupportingInfo(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Claim.SupportingInfo parseClaimSupportingInfo(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Claim.SupportingInfo", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        CodeableConcept category = parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1);
-        Claim.SupportingInfo.Builder builder = Claim.SupportingInfo.builder(sequence, category);
+        Claim.SupportingInfo.Builder builder = Claim.SupportingInfo.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
+        builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
         builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.timing(parseChoiceElement("timing", jsonObject, "Date", "Period"));
         builder.value(parseChoiceElement("value", jsonObject, "Boolean", "String", "Quantity", "Attachment", "Reference"));
@@ -3321,20 +3315,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ClaimResponse parseClaimResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ClaimResponse parseClaimResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ClaimResponse", jsonObject);
-        ClaimResponseStatus status = (ClaimResponseStatus) parseString(ClaimResponseStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        Use use = (Use) parseString(Use.builder(), "use", JsonSupport.getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1);
-        Reference patient = parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1);
-        DateTime created = parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1);
-        Reference insurer = parseReference("insurer", JsonSupport.getJsonValue(jsonObject, "insurer", JsonObject.class), -1);
-        RemittanceOutcome outcome = (RemittanceOutcome) parseString(RemittanceOutcome.builder(), "outcome", JsonSupport.getJsonValue(jsonObject, "outcome", JsonString.class), jsonObject.get("_outcome"), -1);
-        ClaimResponse.Builder builder = ClaimResponse.builder(status, type, use, patient, created, insurer, outcome);
+        ClaimResponse.Builder builder = ClaimResponse.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -3344,9 +3331,16 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((ClaimResponseStatus) parseString(ClaimResponseStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.subType(parseCodeableConcept("subType", JsonSupport.getJsonValue(jsonObject, "subType", JsonObject.class), -1));
+        builder.use((Use) parseString(Use.builder(), "use", JsonSupport.getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1));
+        builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
+        builder.created(parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1));
+        builder.insurer(parseReference("insurer", JsonSupport.getJsonValue(jsonObject, "insurer", JsonObject.class), -1));
         builder.requestor(parseReference("requestor", JsonSupport.getJsonValue(jsonObject, "requestor", JsonObject.class), -1));
         builder.request(parseReference("request", JsonSupport.getJsonValue(jsonObject, "request", JsonObject.class), -1));
+        builder.outcome((RemittanceOutcome) parseString(RemittanceOutcome.builder(), "outcome", JsonSupport.getJsonValue(jsonObject, "outcome", JsonString.class), jsonObject.get("_outcome"), -1));
         builder.disposition(parseString("disposition", JsonSupport.getJsonValue(jsonObject, "disposition", JsonString.class), jsonObject.get("_disposition"), -1));
         builder.preAuthRef(parseString("preAuthRef", JsonSupport.getJsonValue(jsonObject, "preAuthRef", JsonString.class), jsonObject.get("_preAuthRef"), -1));
         builder.preAuthPeriod(parsePeriod("preAuthPeriod", JsonSupport.getJsonValue(jsonObject, "preAuthPeriod", JsonObject.class), -1));
@@ -3423,23 +3417,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ClaimResponse.AddItem parseClaimResponseAddItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ClaimResponse.AddItem parseClaimResponseAddItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ClaimResponse.AddItem", jsonObject);
-        CodeableConcept productOrService = parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1);
-        java.util.List<ClaimResponse.Item.Adjudication> adjudication = new ArrayList<>();
-        JsonArray adjudicationArray = JsonSupport.getJsonArray(jsonObject, "adjudication");
-        if (adjudicationArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : adjudicationArray) {
-                adjudication.add(parseClaimResponseItemAdjudication("adjudication", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        ClaimResponse.AddItem.Builder builder = ClaimResponse.AddItem.builder(productOrService, adjudication);
+        ClaimResponse.AddItem.Builder builder = ClaimResponse.AddItem.builder();
         parseBackboneElement(builder, jsonObject);
         JsonArray itemSequenceArray = JsonSupport.getJsonArray(jsonObject, "itemSequence", true);
         if (itemSequenceArray != null) {
@@ -3476,6 +3460,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.productOrService(parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
         JsonArray modifierArray = JsonSupport.getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             int index = 0;
@@ -3516,6 +3501,14 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        JsonArray adjudicationArray = JsonSupport.getJsonArray(jsonObject, "adjudication");
+        if (adjudicationArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : adjudicationArray) {
+                builder.adjudication(parseClaimResponseItemAdjudication("adjudication", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         JsonArray detailArray = JsonSupport.getJsonArray(jsonObject, "detail");
         if (detailArray != null) {
             int index = 0;
@@ -3528,24 +3521,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ClaimResponse.AddItem.Detail parseClaimResponseAddItemDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ClaimResponse.AddItem.Detail parseClaimResponseAddItemDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ClaimResponse.AddItem.Detail", jsonObject);
-        CodeableConcept productOrService = parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1);
-        java.util.List<ClaimResponse.Item.Adjudication> adjudication = new ArrayList<>();
-        JsonArray adjudicationArray = JsonSupport.getJsonArray(jsonObject, "adjudication");
-        if (adjudicationArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : adjudicationArray) {
-                adjudication.add(parseClaimResponseItemAdjudication("adjudication", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        ClaimResponse.AddItem.Detail.Builder builder = ClaimResponse.AddItem.Detail.builder(productOrService, adjudication);
+        ClaimResponse.AddItem.Detail.Builder builder = ClaimResponse.AddItem.Detail.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.productOrService(parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
         JsonArray modifierArray = JsonSupport.getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             int index = 0;
@@ -3564,6 +3548,14 @@ public class FHIRJsonParser implements FHIRParser {
             JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
             for (JsonValue jsonValue : noteNumberArray) {
                 builder.noteNumber((PositiveInt) parseInteger(PositiveInt.builder(), "noteNumber", jsonValue, JsonSupport.getJsonValue(_noteNumberArray, index), index));
+                index++;
+            }
+        }
+        JsonArray adjudicationArray = JsonSupport.getJsonArray(jsonObject, "adjudication");
+        if (adjudicationArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : adjudicationArray) {
+                builder.adjudication(parseClaimResponseItemAdjudication("adjudication", (JsonObject) jsonValue, index));
                 index++;
             }
         }
@@ -3579,24 +3571,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ClaimResponse.AddItem.Detail.SubDetail parseClaimResponseAddItemDetailSubDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ClaimResponse.AddItem.Detail.SubDetail parseClaimResponseAddItemDetailSubDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ClaimResponse.AddItem.Detail.SubDetail", jsonObject);
-        CodeableConcept productOrService = parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1);
-        java.util.List<ClaimResponse.Item.Adjudication> adjudication = new ArrayList<>();
-        JsonArray adjudicationArray = JsonSupport.getJsonArray(jsonObject, "adjudication");
-        if (adjudicationArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : adjudicationArray) {
-                adjudication.add(parseClaimResponseItemAdjudication("adjudication", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        ClaimResponse.AddItem.Detail.SubDetail.Builder builder = ClaimResponse.AddItem.Detail.SubDetail.builder(productOrService, adjudication);
+        ClaimResponse.AddItem.Detail.SubDetail.Builder builder = ClaimResponse.AddItem.Detail.SubDetail.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.productOrService(parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
         JsonArray modifierArray = JsonSupport.getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             int index = 0;
@@ -3609,155 +3592,6 @@ public class FHIRJsonParser implements FHIRParser {
         builder.unitPrice(parseMoney("unitPrice", JsonSupport.getJsonValue(jsonObject, "unitPrice", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.net(parseMoney("net", JsonSupport.getJsonValue(jsonObject, "net", JsonObject.class), -1));
-        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
-        if (noteNumberArray != null) {
-            int index = 0;
-            JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
-            for (JsonValue jsonValue : noteNumberArray) {
-                builder.noteNumber((PositiveInt) parseInteger(PositiveInt.builder(), "noteNumber", jsonValue, JsonSupport.getJsonValue(_noteNumberArray, index), index));
-                index++;
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    protected ClaimResponse.Error parseClaimResponseError(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        checkForUnrecognizedElements("ClaimResponse.Error", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        ClaimResponse.Error.Builder builder = ClaimResponse.Error.builder(code);
-        parseBackboneElement(builder, jsonObject);
-        builder.itemSequence((PositiveInt) parseInteger(PositiveInt.builder(), "itemSequence", JsonSupport.getJsonValue(jsonObject, "itemSequence", JsonNumber.class), jsonObject.get("_itemSequence"), -1));
-        builder.detailSequence((PositiveInt) parseInteger(PositiveInt.builder(), "detailSequence", JsonSupport.getJsonValue(jsonObject, "detailSequence", JsonNumber.class), jsonObject.get("_detailSequence"), -1));
-        builder.subDetailSequence((PositiveInt) parseInteger(PositiveInt.builder(), "subDetailSequence", JsonSupport.getJsonValue(jsonObject, "subDetailSequence", JsonNumber.class), jsonObject.get("_subDetailSequence"), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    protected ClaimResponse.Insurance parseClaimResponseInsurance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        checkForUnrecognizedElements("ClaimResponse.Insurance", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        Boolean focal = parseBoolean("focal", JsonSupport.getJsonValue(jsonObject, "focal", JsonValue.class), jsonObject.get("_focal"), -1);
-        Reference coverage = parseReference("coverage", JsonSupport.getJsonValue(jsonObject, "coverage", JsonObject.class), -1);
-        ClaimResponse.Insurance.Builder builder = ClaimResponse.Insurance.builder(sequence, focal, coverage);
-        parseBackboneElement(builder, jsonObject);
-        builder.businessArrangement(parseString("businessArrangement", JsonSupport.getJsonValue(jsonObject, "businessArrangement", JsonString.class), jsonObject.get("_businessArrangement"), -1));
-        builder.claimResponse(parseReference("claimResponse", JsonSupport.getJsonValue(jsonObject, "claimResponse", JsonObject.class), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    protected ClaimResponse.Item parseClaimResponseItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        checkForUnrecognizedElements("ClaimResponse.Item", jsonObject);
-        PositiveInt itemSequence = (PositiveInt) parseInteger(PositiveInt.builder(), "itemSequence", JsonSupport.getJsonValue(jsonObject, "itemSequence", JsonNumber.class), jsonObject.get("_itemSequence"), -1);
-        java.util.List<ClaimResponse.Item.Adjudication> adjudication = new ArrayList<>();
-        JsonArray adjudicationArray = JsonSupport.getJsonArray(jsonObject, "adjudication");
-        if (adjudicationArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : adjudicationArray) {
-                adjudication.add(parseClaimResponseItemAdjudication("adjudication", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        ClaimResponse.Item.Builder builder = ClaimResponse.Item.builder(itemSequence, adjudication);
-        parseBackboneElement(builder, jsonObject);
-        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
-        if (noteNumberArray != null) {
-            int index = 0;
-            JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
-            for (JsonValue jsonValue : noteNumberArray) {
-                builder.noteNumber((PositiveInt) parseInteger(PositiveInt.builder(), "noteNumber", jsonValue, JsonSupport.getJsonValue(_noteNumberArray, index), index));
-                index++;
-            }
-        }
-        JsonArray detailArray = JsonSupport.getJsonArray(jsonObject, "detail");
-        if (detailArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : detailArray) {
-                builder.detail(parseClaimResponseItemDetail("detail", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    protected ClaimResponse.Item.Adjudication parseClaimResponseItemAdjudication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        checkForUnrecognizedElements("ClaimResponse.Item.Adjudication", jsonObject);
-        CodeableConcept category = parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1);
-        ClaimResponse.Item.Adjudication.Builder builder = ClaimResponse.Item.Adjudication.builder(category);
-        parseBackboneElement(builder, jsonObject);
-        builder.reason(parseCodeableConcept("reason", JsonSupport.getJsonValue(jsonObject, "reason", JsonObject.class), -1));
-        builder.amount(parseMoney("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1));
-        builder.value(parseDecimal("value", JsonSupport.getJsonValue(jsonObject, "value", JsonNumber.class), jsonObject.get("_value"), -1));
-        stackPop();
-        return builder.build();
-    }
-
-    protected ClaimResponse.Item.Detail parseClaimResponseItemDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        checkForUnrecognizedElements("ClaimResponse.Item.Detail", jsonObject);
-        PositiveInt detailSequence = (PositiveInt) parseInteger(PositiveInt.builder(), "detailSequence", JsonSupport.getJsonValue(jsonObject, "detailSequence", JsonNumber.class), jsonObject.get("_detailSequence"), -1);
-        java.util.List<ClaimResponse.Item.Adjudication> adjudication = new ArrayList<>();
-        JsonArray adjudicationArray = JsonSupport.getJsonArray(jsonObject, "adjudication");
-        if (adjudicationArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : adjudicationArray) {
-                adjudication.add(parseClaimResponseItemAdjudication("adjudication", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        ClaimResponse.Item.Detail.Builder builder = ClaimResponse.Item.Detail.builder(detailSequence, adjudication);
-        parseBackboneElement(builder, jsonObject);
-        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
-        if (noteNumberArray != null) {
-            int index = 0;
-            JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
-            for (JsonValue jsonValue : noteNumberArray) {
-                builder.noteNumber((PositiveInt) parseInteger(PositiveInt.builder(), "noteNumber", jsonValue, JsonSupport.getJsonValue(_noteNumberArray, index), index));
-                index++;
-            }
-        }
-        JsonArray subDetailArray = JsonSupport.getJsonArray(jsonObject, "subDetail");
-        if (subDetailArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : subDetailArray) {
-                builder.subDetail(parseClaimResponseItemDetailSubDetail("subDetail", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        stackPop();
-        return builder.build();
-    }
-
-    protected ClaimResponse.Item.Detail.SubDetail parseClaimResponseItemDetailSubDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
-        if (jsonObject == null) {
-            return null;
-        }
-        stackPush(elementName, elementIndex);
-        checkForUnrecognizedElements("ClaimResponse.Item.Detail.SubDetail", jsonObject);
-        PositiveInt subDetailSequence = (PositiveInt) parseInteger(PositiveInt.builder(), "subDetailSequence", JsonSupport.getJsonValue(jsonObject, "subDetailSequence", JsonNumber.class), jsonObject.get("_subDetailSequence"), -1);
-        ClaimResponse.Item.Detail.SubDetail.Builder builder = ClaimResponse.Item.Detail.SubDetail.builder(subDetailSequence);
-        parseBackboneElement(builder, jsonObject);
         JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
         if (noteNumberArray != null) {
             int index = 0;
@@ -3779,63 +3613,216 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ClaimResponse.Payment parseClaimResponsePayment(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ClaimResponse.Error parseClaimResponseError(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        checkForUnrecognizedElements("ClaimResponse.Error", jsonObject);
+        ClaimResponse.Error.Builder builder = ClaimResponse.Error.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.itemSequence((PositiveInt) parseInteger(PositiveInt.builder(), "itemSequence", JsonSupport.getJsonValue(jsonObject, "itemSequence", JsonNumber.class), jsonObject.get("_itemSequence"), -1));
+        builder.detailSequence((PositiveInt) parseInteger(PositiveInt.builder(), "detailSequence", JsonSupport.getJsonValue(jsonObject, "detailSequence", JsonNumber.class), jsonObject.get("_detailSequence"), -1));
+        builder.subDetailSequence((PositiveInt) parseInteger(PositiveInt.builder(), "subDetailSequence", JsonSupport.getJsonValue(jsonObject, "subDetailSequence", JsonNumber.class), jsonObject.get("_subDetailSequence"), -1));
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private ClaimResponse.Insurance parseClaimResponseInsurance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        checkForUnrecognizedElements("ClaimResponse.Insurance", jsonObject);
+        ClaimResponse.Insurance.Builder builder = ClaimResponse.Insurance.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
+        builder.focal(parseBoolean("focal", JsonSupport.getJsonValue(jsonObject, "focal", JsonValue.class), jsonObject.get("_focal"), -1));
+        builder.coverage(parseReference("coverage", JsonSupport.getJsonValue(jsonObject, "coverage", JsonObject.class), -1));
+        builder.businessArrangement(parseString("businessArrangement", JsonSupport.getJsonValue(jsonObject, "businessArrangement", JsonString.class), jsonObject.get("_businessArrangement"), -1));
+        builder.claimResponse(parseReference("claimResponse", JsonSupport.getJsonValue(jsonObject, "claimResponse", JsonObject.class), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private ClaimResponse.Item parseClaimResponseItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        checkForUnrecognizedElements("ClaimResponse.Item", jsonObject);
+        ClaimResponse.Item.Builder builder = ClaimResponse.Item.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.itemSequence((PositiveInt) parseInteger(PositiveInt.builder(), "itemSequence", JsonSupport.getJsonValue(jsonObject, "itemSequence", JsonNumber.class), jsonObject.get("_itemSequence"), -1));
+        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
+        if (noteNumberArray != null) {
+            int index = 0;
+            JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
+            for (JsonValue jsonValue : noteNumberArray) {
+                builder.noteNumber((PositiveInt) parseInteger(PositiveInt.builder(), "noteNumber", jsonValue, JsonSupport.getJsonValue(_noteNumberArray, index), index));
+                index++;
+            }
+        }
+        JsonArray adjudicationArray = JsonSupport.getJsonArray(jsonObject, "adjudication");
+        if (adjudicationArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : adjudicationArray) {
+                builder.adjudication(parseClaimResponseItemAdjudication("adjudication", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
+        JsonArray detailArray = JsonSupport.getJsonArray(jsonObject, "detail");
+        if (detailArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : detailArray) {
+                builder.detail(parseClaimResponseItemDetail("detail", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private ClaimResponse.Item.Adjudication parseClaimResponseItemAdjudication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        checkForUnrecognizedElements("ClaimResponse.Item.Adjudication", jsonObject);
+        ClaimResponse.Item.Adjudication.Builder builder = ClaimResponse.Item.Adjudication.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
+        builder.reason(parseCodeableConcept("reason", JsonSupport.getJsonValue(jsonObject, "reason", JsonObject.class), -1));
+        builder.amount(parseMoney("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1));
+        builder.value(parseDecimal("value", JsonSupport.getJsonValue(jsonObject, "value", JsonNumber.class), jsonObject.get("_value"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private ClaimResponse.Item.Detail parseClaimResponseItemDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        checkForUnrecognizedElements("ClaimResponse.Item.Detail", jsonObject);
+        ClaimResponse.Item.Detail.Builder builder = ClaimResponse.Item.Detail.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.detailSequence((PositiveInt) parseInteger(PositiveInt.builder(), "detailSequence", JsonSupport.getJsonValue(jsonObject, "detailSequence", JsonNumber.class), jsonObject.get("_detailSequence"), -1));
+        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
+        if (noteNumberArray != null) {
+            int index = 0;
+            JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
+            for (JsonValue jsonValue : noteNumberArray) {
+                builder.noteNumber((PositiveInt) parseInteger(PositiveInt.builder(), "noteNumber", jsonValue, JsonSupport.getJsonValue(_noteNumberArray, index), index));
+                index++;
+            }
+        }
+        JsonArray adjudicationArray = JsonSupport.getJsonArray(jsonObject, "adjudication");
+        if (adjudicationArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : adjudicationArray) {
+                builder.adjudication(parseClaimResponseItemAdjudication("adjudication", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
+        JsonArray subDetailArray = JsonSupport.getJsonArray(jsonObject, "subDetail");
+        if (subDetailArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : subDetailArray) {
+                builder.subDetail(parseClaimResponseItemDetailSubDetail("subDetail", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private ClaimResponse.Item.Detail.SubDetail parseClaimResponseItemDetailSubDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+        if (jsonObject == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        checkForUnrecognizedElements("ClaimResponse.Item.Detail.SubDetail", jsonObject);
+        ClaimResponse.Item.Detail.SubDetail.Builder builder = ClaimResponse.Item.Detail.SubDetail.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.subDetailSequence((PositiveInt) parseInteger(PositiveInt.builder(), "subDetailSequence", JsonSupport.getJsonValue(jsonObject, "subDetailSequence", JsonNumber.class), jsonObject.get("_subDetailSequence"), -1));
+        JsonArray noteNumberArray = JsonSupport.getJsonArray(jsonObject, "noteNumber", true);
+        if (noteNumberArray != null) {
+            int index = 0;
+            JsonArray _noteNumberArray = jsonObject.getJsonArray("_noteNumber");
+            for (JsonValue jsonValue : noteNumberArray) {
+                builder.noteNumber((PositiveInt) parseInteger(PositiveInt.builder(), "noteNumber", jsonValue, JsonSupport.getJsonValue(_noteNumberArray, index), index));
+                index++;
+            }
+        }
+        JsonArray adjudicationArray = JsonSupport.getJsonArray(jsonObject, "adjudication");
+        if (adjudicationArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : adjudicationArray) {
+                builder.adjudication(parseClaimResponseItemAdjudication("adjudication", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
+        stackPop();
+        return builder.build();
+    }
+
+    private ClaimResponse.Payment parseClaimResponsePayment(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ClaimResponse.Payment", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        Money amount = parseMoney("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1);
-        ClaimResponse.Payment.Builder builder = ClaimResponse.Payment.builder(type, amount);
+        ClaimResponse.Payment.Builder builder = ClaimResponse.Payment.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.adjustment(parseMoney("adjustment", JsonSupport.getJsonValue(jsonObject, "adjustment", JsonObject.class), -1));
         builder.adjustmentReason(parseCodeableConcept("adjustmentReason", JsonSupport.getJsonValue(jsonObject, "adjustmentReason", JsonObject.class), -1));
         builder.date(parseDate("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
+        builder.amount(parseMoney("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1));
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ClaimResponse.ProcessNote parseClaimResponseProcessNote(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ClaimResponse.ProcessNote parseClaimResponseProcessNote(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ClaimResponse.ProcessNote", jsonObject);
-        String text = parseString("text", JsonSupport.getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1);
-        ClaimResponse.ProcessNote.Builder builder = ClaimResponse.ProcessNote.builder(text);
+        ClaimResponse.ProcessNote.Builder builder = ClaimResponse.ProcessNote.builder();
         parseBackboneElement(builder, jsonObject);
         builder.number((PositiveInt) parseInteger(PositiveInt.builder(), "number", JsonSupport.getJsonValue(jsonObject, "number", JsonNumber.class), jsonObject.get("_number"), -1));
         builder.type((NoteType) parseString(NoteType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.text(parseString("text", JsonSupport.getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
         builder.language(parseCodeableConcept("language", JsonSupport.getJsonValue(jsonObject, "language", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ClaimResponse.Total parseClaimResponseTotal(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ClaimResponse.Total parseClaimResponseTotal(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ClaimResponse.Total", jsonObject);
-        CodeableConcept category = parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1);
-        Money amount = parseMoney("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1);
-        ClaimResponse.Total.Builder builder = ClaimResponse.Total.builder(category, amount);
+        ClaimResponse.Total.Builder builder = ClaimResponse.Total.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
+        builder.amount(parseMoney("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ClinicalImpression parseClinicalImpression(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ClinicalImpression parseClinicalImpression(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ClinicalImpression", jsonObject);
-        ClinicalImpressionStatus status = (ClinicalImpressionStatus) parseString(ClinicalImpressionStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Reference subject = parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1);
-        ClinicalImpression.Builder builder = ClinicalImpression.builder(status, subject);
+        ClinicalImpression.Builder builder = ClinicalImpression.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -3845,9 +3832,11 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((ClinicalImpressionStatus) parseString(ClinicalImpressionStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.statusReason(parseCodeableConcept("statusReason", JsonSupport.getJsonValue(jsonObject, "statusReason", JsonObject.class), -1));
         builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
         builder.effective(parseChoiceElement("effective", jsonObject, "DateTime", "Period"));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
@@ -3923,7 +3912,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ClinicalImpression.Finding parseClinicalImpressionFinding(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ClinicalImpression.Finding parseClinicalImpressionFinding(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -3938,15 +3927,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ClinicalImpression.Investigation parseClinicalImpressionInvestigation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ClinicalImpression.Investigation parseClinicalImpressionInvestigation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ClinicalImpression.Investigation", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        ClinicalImpression.Investigation.Builder builder = ClinicalImpression.Investigation.builder(code);
+        ClinicalImpression.Investigation.Builder builder = ClinicalImpression.Investigation.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         JsonArray itemArray = JsonSupport.getJsonArray(jsonObject, "item");
         if (itemArray != null) {
             int index = 0;
@@ -3959,15 +3948,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CodeSystem parseCodeSystem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CodeSystem parseCodeSystem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CodeSystem", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        CodeSystemContentMode content = (CodeSystemContentMode) parseString(CodeSystemContentMode.builder(), "content", JsonSupport.getJsonValue(jsonObject, "content", JsonString.class), jsonObject.get("_content"), -1);
-        CodeSystem.Builder builder = CodeSystem.builder(status, content);
+        CodeSystem.Builder builder = CodeSystem.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -3981,6 +3968,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
@@ -4016,6 +4004,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.hierarchyMeaning((CodeSystemHierarchyMeaning) parseString(CodeSystemHierarchyMeaning.builder(), "hierarchyMeaning", JsonSupport.getJsonValue(jsonObject, "hierarchyMeaning", JsonString.class), jsonObject.get("_hierarchyMeaning"), -1));
         builder.compositional(parseBoolean("compositional", JsonSupport.getJsonValue(jsonObject, "compositional", JsonValue.class), jsonObject.get("_compositional"), -1));
         builder.versionNeeded(parseBoolean("versionNeeded", JsonSupport.getJsonValue(jsonObject, "versionNeeded", JsonValue.class), jsonObject.get("_versionNeeded"), -1));
+        builder.content((CodeSystemContentMode) parseString(CodeSystemContentMode.builder(), "content", JsonSupport.getJsonValue(jsonObject, "content", JsonString.class), jsonObject.get("_content"), -1));
         builder.supplements((Canonical) parseUri(Canonical.builder(), "supplements", JsonSupport.getJsonValue(jsonObject, "supplements", JsonString.class), jsonObject.get("_supplements"), -1));
         builder.count((UnsignedInt) parseInteger(UnsignedInt.builder(), "count", JsonSupport.getJsonValue(jsonObject, "count", JsonNumber.class), jsonObject.get("_count"), -1));
         JsonArray filterArray = JsonSupport.getJsonArray(jsonObject, "filter");
@@ -4046,15 +4035,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CodeSystem.Concept parseCodeSystemConcept(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CodeSystem.Concept parseCodeSystemConcept(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CodeSystem.Concept", jsonObject);
-        Code code = (Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        CodeSystem.Concept.Builder builder = CodeSystem.Concept.builder(code);
+        CodeSystem.Concept.Builder builder = CodeSystem.Concept.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code((Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.display(parseString("display", JsonSupport.getJsonValue(jsonObject, "display", JsonString.class), jsonObject.get("_display"), -1));
         builder.definition(parseString("definition", JsonSupport.getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1));
         JsonArray designationArray = JsonSupport.getJsonArray(jsonObject, "designation");
@@ -4085,77 +4074,76 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CodeSystem.Concept.Designation parseCodeSystemConceptDesignation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CodeSystem.Concept.Designation parseCodeSystemConceptDesignation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CodeSystem.Concept.Designation", jsonObject);
-        String value = parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1);
-        CodeSystem.Concept.Designation.Builder builder = CodeSystem.Concept.Designation.builder(value);
+        CodeSystem.Concept.Designation.Builder builder = CodeSystem.Concept.Designation.builder();
         parseBackboneElement(builder, jsonObject);
         builder.language((Code) parseString(Code.builder(), "language", JsonSupport.getJsonValue(jsonObject, "language", JsonString.class), jsonObject.get("_language"), -1));
         builder.use(parseCoding("use", JsonSupport.getJsonValue(jsonObject, "use", JsonObject.class), -1));
+        builder.value(parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected CodeSystem.Concept.Property parseCodeSystemConceptProperty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CodeSystem.Concept.Property parseCodeSystemConceptProperty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CodeSystem.Concept.Property", jsonObject);
-        Code code = (Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        Element value = parseChoiceElement("value", jsonObject, "Code", "Coding", "String", "Integer", "Boolean", "DateTime", "Decimal");
-        CodeSystem.Concept.Property.Builder builder = CodeSystem.Concept.Property.builder(code, value);
+        CodeSystem.Concept.Property.Builder builder = CodeSystem.Concept.Property.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code((Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
+        builder.value(parseChoiceElement("value", jsonObject, "Code", "Coding", "String", "Integer", "Boolean", "DateTime", "Decimal"));
         stackPop();
         return builder.build();
     }
 
-    protected CodeSystem.Filter parseCodeSystemFilter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CodeSystem.Filter parseCodeSystemFilter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CodeSystem.Filter", jsonObject);
-        Code code = (Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        java.util.List<FilterOperator> operator = new ArrayList<>();
+        CodeSystem.Filter.Builder builder = CodeSystem.Filter.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.code((Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
+        builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         JsonArray operatorArray = JsonSupport.getJsonArray(jsonObject, "operator", true);
         if (operatorArray != null) {
             int index = 0;
             JsonArray _operatorArray = jsonObject.getJsonArray("_operator");
             for (JsonValue jsonValue : operatorArray) {
-                operator.add((FilterOperator) parseString(FilterOperator.builder(), "operator", jsonValue, JsonSupport.getJsonValue(_operatorArray, index), index));
+                builder.operator((FilterOperator) parseString(FilterOperator.builder(), "operator", jsonValue, JsonSupport.getJsonValue(_operatorArray, index), index));
                 index++;
             }
         }
-        String value = parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1);
-        CodeSystem.Filter.Builder builder = CodeSystem.Filter.builder(code, operator, value);
-        parseBackboneElement(builder, jsonObject);
-        builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        builder.value(parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected CodeSystem.Property parseCodeSystemProperty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CodeSystem.Property parseCodeSystemProperty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CodeSystem.Property", jsonObject);
-        Code code = (Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        PropertyType type = (PropertyType) parseString(PropertyType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        CodeSystem.Property.Builder builder = CodeSystem.Property.builder(code, type);
+        CodeSystem.Property.Builder builder = CodeSystem.Property.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code((Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.uri(parseUri("uri", JsonSupport.getJsonValue(jsonObject, "uri", JsonString.class), jsonObject.get("_uri"), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        builder.type((PropertyType) parseString(PropertyType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected CodeableConcept parseCodeableConcept(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CodeableConcept parseCodeableConcept(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -4176,7 +4164,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Coding parseCoding(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Coding parseCoding(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -4193,14 +4181,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Communication parseCommunication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Communication parseCommunication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Communication", jsonObject);
-        CommunicationStatus status = (CommunicationStatus) parseString(CommunicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Communication.Builder builder = Communication.builder(status);
+        Communication.Builder builder = Communication.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -4252,6 +4239,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((CommunicationStatus) parseString(CommunicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.statusReason(parseCodeableConcept("statusReason", JsonSupport.getJsonValue(jsonObject, "statusReason", JsonObject.class), -1));
         JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
@@ -4328,27 +4316,26 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Communication.Payload parseCommunicationPayload(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Communication.Payload parseCommunicationPayload(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Communication.Payload", jsonObject);
-        Element content = parseChoiceElement("content", jsonObject, "String", "Attachment", "Reference");
-        Communication.Payload.Builder builder = Communication.Payload.builder(content);
+        Communication.Payload.Builder builder = Communication.Payload.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.content(parseChoiceElement("content", jsonObject, "String", "Attachment", "Reference"));
         stackPop();
         return builder.build();
     }
 
-    protected CommunicationRequest parseCommunicationRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CommunicationRequest parseCommunicationRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CommunicationRequest", jsonObject);
-        CommunicationRequestStatus status = (CommunicationRequestStatus) parseString(CommunicationRequestStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        CommunicationRequest.Builder builder = CommunicationRequest.builder(status);
+        CommunicationRequest.Builder builder = CommunicationRequest.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -4375,6 +4362,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.groupIdentifier(parseIdentifier("groupIdentifier", JsonSupport.getJsonValue(jsonObject, "groupIdentifier", JsonObject.class), -1));
+        builder.status((CommunicationRequestStatus) parseString(CommunicationRequestStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.statusReason(parseCodeableConcept("statusReason", JsonSupport.getJsonValue(jsonObject, "statusReason", JsonObject.class), -1));
         JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
@@ -4452,33 +4440,31 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CommunicationRequest.Payload parseCommunicationRequestPayload(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CommunicationRequest.Payload parseCommunicationRequestPayload(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CommunicationRequest.Payload", jsonObject);
-        Element content = parseChoiceElement("content", jsonObject, "String", "Attachment", "Reference");
-        CommunicationRequest.Payload.Builder builder = CommunicationRequest.Payload.builder(content);
+        CommunicationRequest.Payload.Builder builder = CommunicationRequest.Payload.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.content(parseChoiceElement("content", jsonObject, "String", "Attachment", "Reference"));
         stackPop();
         return builder.build();
     }
 
-    protected CompartmentDefinition parseCompartmentDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CompartmentDefinition parseCompartmentDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CompartmentDefinition", jsonObject);
-        Uri url = parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        CompartmentType code = (CompartmentType) parseString(CompartmentType.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        Boolean search = parseBoolean("search", JsonSupport.getJsonValue(jsonObject, "search", JsonValue.class), jsonObject.get("_search"), -1);
-        CompartmentDefinition.Builder builder = CompartmentDefinition.builder(url, name, status, code, search);
+        CompartmentDefinition.Builder builder = CompartmentDefinition.builder();
         parseDomainResource(builder, jsonObject);
+        builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
@@ -4500,6 +4486,8 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.purpose((Markdown) parseString(Markdown.builder(), "purpose", JsonSupport.getJsonValue(jsonObject, "purpose", JsonString.class), jsonObject.get("_purpose"), -1));
+        builder.code((CompartmentType) parseString(CompartmentType.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
+        builder.search(parseBoolean("search", JsonSupport.getJsonValue(jsonObject, "search", JsonValue.class), jsonObject.get("_search"), -1));
         JsonArray resourceArray = JsonSupport.getJsonArray(jsonObject, "resource");
         if (resourceArray != null) {
             int index = 0;
@@ -4512,15 +4500,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CompartmentDefinition.Resource parseCompartmentDefinitionResource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CompartmentDefinition.Resource parseCompartmentDefinitionResource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CompartmentDefinition.Resource", jsonObject);
-        ResourceType code = (ResourceType) parseString(ResourceType.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        CompartmentDefinition.Resource.Builder builder = CompartmentDefinition.Resource.builder(code);
+        CompartmentDefinition.Resource.Builder builder = CompartmentDefinition.Resource.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code((ResourceType) parseString(ResourceType.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         JsonArray paramArray = JsonSupport.getJsonArray(jsonObject, "param", true);
         if (paramArray != null) {
             int index = 0;
@@ -4535,28 +4523,17 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Composition parseComposition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Composition parseComposition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Composition", jsonObject);
-        CompositionStatus status = (CompositionStatus) parseString(CompositionStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        DateTime date = parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1);
-        java.util.List<Reference> author = new ArrayList<>();
-        JsonArray authorArray = JsonSupport.getJsonArray(jsonObject, "author");
-        if (authorArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : authorArray) {
-                author.add(parseReference("author", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        String title = parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1);
-        Composition.Builder builder = Composition.builder(status, type, date, author, title);
+        Composition.Builder builder = Composition.builder();
         parseDomainResource(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
+        builder.status((CompositionStatus) parseString(CompositionStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             int index = 0;
@@ -4567,6 +4544,16 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
+        builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
+        JsonArray authorArray = JsonSupport.getJsonArray(jsonObject, "author");
+        if (authorArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : authorArray) {
+                builder.author(parseReference("author", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
+        builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.confidentiality((DocumentConfidentiality) parseString(DocumentConfidentiality.builder(), "confidentiality", JsonSupport.getJsonValue(jsonObject, "confidentiality", JsonString.class), jsonObject.get("_confidentiality"), -1));
         JsonArray attesterArray = JsonSupport.getJsonArray(jsonObject, "attester");
         if (attesterArray != null) {
@@ -4605,22 +4592,22 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Composition.Attester parseCompositionAttester(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Composition.Attester parseCompositionAttester(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Composition.Attester", jsonObject);
-        CompositionAttestationMode mode = (CompositionAttestationMode) parseString(CompositionAttestationMode.builder(), "mode", JsonSupport.getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1);
-        Composition.Attester.Builder builder = Composition.Attester.builder(mode);
+        Composition.Attester.Builder builder = Composition.Attester.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.mode((CompositionAttestationMode) parseString(CompositionAttestationMode.builder(), "mode", JsonSupport.getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1));
         builder.time(parseDateTime("time", JsonSupport.getJsonValue(jsonObject, "time", JsonString.class), jsonObject.get("_time"), -1));
         builder.party(parseReference("party", JsonSupport.getJsonValue(jsonObject, "party", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Composition.Event parseCompositionEvent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Composition.Event parseCompositionEvent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -4649,21 +4636,21 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Composition.RelatesTo parseCompositionRelatesTo(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Composition.RelatesTo parseCompositionRelatesTo(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Composition.RelatesTo", jsonObject);
-        DocumentRelationshipType code = (DocumentRelationshipType) parseString(DocumentRelationshipType.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        Element target = parseChoiceElement("target", jsonObject, "Identifier", "Reference");
-        Composition.RelatesTo.Builder builder = Composition.RelatesTo.builder(code, target);
+        Composition.RelatesTo.Builder builder = Composition.RelatesTo.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code((DocumentRelationshipType) parseString(DocumentRelationshipType.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
+        builder.target(parseChoiceElement("target", jsonObject, "Identifier", "Reference"));
         stackPop();
         return builder.build();
     }
 
-    protected Composition.Section parseCompositionSection(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Composition.Section parseCompositionSection(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -4706,20 +4693,20 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ConceptMap parseConceptMap(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ConceptMap parseConceptMap(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ConceptMap", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        ConceptMap.Builder builder = ConceptMap.builder(status);
+        ConceptMap.Builder builder = ConceptMap.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
@@ -4764,33 +4751,32 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ConceptMap.Group parseConceptMapGroup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ConceptMap.Group parseConceptMapGroup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ConceptMap.Group", jsonObject);
-        java.util.List<ConceptMap.Group.Element> element = new ArrayList<>();
-        JsonArray elementArray = JsonSupport.getJsonArray(jsonObject, "element");
-        if (elementArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : elementArray) {
-                element.add(parseConceptMapGroupElement("element", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        ConceptMap.Group.Builder builder = ConceptMap.Group.builder(element);
+        ConceptMap.Group.Builder builder = ConceptMap.Group.builder();
         parseBackboneElement(builder, jsonObject);
         builder.source(parseUri("source", JsonSupport.getJsonValue(jsonObject, "source", JsonString.class), jsonObject.get("_source"), -1));
         builder.sourceVersion(parseString("sourceVersion", JsonSupport.getJsonValue(jsonObject, "sourceVersion", JsonString.class), jsonObject.get("_sourceVersion"), -1));
         builder.target(parseUri("target", JsonSupport.getJsonValue(jsonObject, "target", JsonString.class), jsonObject.get("_target"), -1));
         builder.targetVersion(parseString("targetVersion", JsonSupport.getJsonValue(jsonObject, "targetVersion", JsonString.class), jsonObject.get("_targetVersion"), -1));
+        JsonArray elementArray = JsonSupport.getJsonArray(jsonObject, "element");
+        if (elementArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : elementArray) {
+                builder.element(parseConceptMapGroupElement("element", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         builder.unmapped(parseConceptMapGroupUnmapped("unmapped", JsonSupport.getJsonValue(jsonObject, "unmapped", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ConceptMap.Group.Element parseConceptMapGroupElement(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ConceptMap.Group.Element parseConceptMapGroupElement(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -4812,17 +4798,17 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ConceptMap.Group.Element.Target parseConceptMapGroupElementTarget(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ConceptMap.Group.Element.Target parseConceptMapGroupElementTarget(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ConceptMap.Group.Element.Target", jsonObject);
-        ConceptMapEquivalence equivalence = (ConceptMapEquivalence) parseString(ConceptMapEquivalence.builder(), "equivalence", JsonSupport.getJsonValue(jsonObject, "equivalence", JsonString.class), jsonObject.get("_equivalence"), -1);
-        ConceptMap.Group.Element.Target.Builder builder = ConceptMap.Group.Element.Target.builder(equivalence);
+        ConceptMap.Group.Element.Target.Builder builder = ConceptMap.Group.Element.Target.builder();
         parseBackboneElement(builder, jsonObject);
         builder.code((Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.display(parseString("display", JsonSupport.getJsonValue(jsonObject, "display", JsonString.class), jsonObject.get("_display"), -1));
+        builder.equivalence((ConceptMapEquivalence) parseString(ConceptMapEquivalence.builder(), "equivalence", JsonSupport.getJsonValue(jsonObject, "equivalence", JsonString.class), jsonObject.get("_equivalence"), -1));
         builder.comment(parseString("comment", JsonSupport.getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
         JsonArray dependsOnArray = JsonSupport.getJsonArray(jsonObject, "dependsOn");
         if (dependsOnArray != null) {
@@ -4844,31 +4830,31 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ConceptMap.Group.Element.Target.DependsOn parseConceptMapGroupElementTargetDependsOn(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ConceptMap.Group.Element.Target.DependsOn parseConceptMapGroupElementTargetDependsOn(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ConceptMap.Group.Element.Target.DependsOn", jsonObject);
-        Uri property = parseUri("property", JsonSupport.getJsonValue(jsonObject, "property", JsonString.class), jsonObject.get("_property"), -1);
-        String value = parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1);
-        ConceptMap.Group.Element.Target.DependsOn.Builder builder = ConceptMap.Group.Element.Target.DependsOn.builder(property, value);
+        ConceptMap.Group.Element.Target.DependsOn.Builder builder = ConceptMap.Group.Element.Target.DependsOn.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.property(parseUri("property", JsonSupport.getJsonValue(jsonObject, "property", JsonString.class), jsonObject.get("_property"), -1));
         builder.system((Canonical) parseUri(Canonical.builder(), "system", JsonSupport.getJsonValue(jsonObject, "system", JsonString.class), jsonObject.get("_system"), -1));
+        builder.value(parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
         builder.display(parseString("display", JsonSupport.getJsonValue(jsonObject, "display", JsonString.class), jsonObject.get("_display"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ConceptMap.Group.Unmapped parseConceptMapGroupUnmapped(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ConceptMap.Group.Unmapped parseConceptMapGroupUnmapped(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ConceptMap.Group.Unmapped", jsonObject);
-        ConceptMapGroupUnmappedMode mode = (ConceptMapGroupUnmappedMode) parseString(ConceptMapGroupUnmappedMode.builder(), "mode", JsonSupport.getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1);
-        ConceptMap.Group.Unmapped.Builder builder = ConceptMap.Group.Unmapped.builder(mode);
+        ConceptMap.Group.Unmapped.Builder builder = ConceptMap.Group.Unmapped.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.mode((ConceptMapGroupUnmappedMode) parseString(ConceptMapGroupUnmappedMode.builder(), "mode", JsonSupport.getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1));
         builder.code((Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.display(parseString("display", JsonSupport.getJsonValue(jsonObject, "display", JsonString.class), jsonObject.get("_display"), -1));
         builder.url((Canonical) parseUri(Canonical.builder(), "url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
@@ -4876,14 +4862,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Condition parseCondition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Condition parseCondition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Condition", jsonObject);
-        Reference subject = parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1);
-        Condition.Builder builder = Condition.builder(subject);
+        Condition.Builder builder = Condition.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -4913,6 +4898,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
         builder.onset(parseChoiceElement("onset", jsonObject, "DateTime", "Age", "Period", "Range", "String"));
         builder.abatement(parseChoiceElement("abatement", jsonObject, "DateTime", "Age", "Period", "Range", "String"));
@@ -4947,7 +4933,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Condition.Evidence parseConditionEvidence(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Condition.Evidence parseConditionEvidence(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -4975,7 +4961,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Condition.Stage parseConditionStage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Condition.Stage parseConditionStage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -4997,30 +4983,29 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Consent parseConsent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Consent parseConsent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Consent", jsonObject);
-        ConsentState status = (ConsentState) parseString(ConsentState.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        CodeableConcept scope = parseCodeableConcept("scope", JsonSupport.getJsonValue(jsonObject, "scope", JsonObject.class), -1);
-        java.util.List<CodeableConcept> category = new ArrayList<>();
-        JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
-        if (categoryArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : categoryArray) {
-                category.add(parseCodeableConcept("category", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        Consent.Builder builder = Consent.builder(status, scope, category);
+        Consent.Builder builder = Consent.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             int index = 0;
             for (JsonValue jsonValue : identifierArray) {
                 builder.identifier(parseIdentifier("identifier", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
+        builder.status((ConsentState) parseString(ConsentState.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.scope(parseCodeableConcept("scope", JsonSupport.getJsonValue(jsonObject, "scope", JsonObject.class), -1));
+        JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
+        if (categoryArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : categoryArray) {
+                builder.category(parseCodeableConcept("category", (JsonObject) jsonValue, index));
                 index++;
             }
         }
@@ -5065,7 +5050,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Consent.Policy parseConsentPolicy(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Consent.Policy parseConsentPolicy(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -5079,7 +5064,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Consent.Provision parseConsentProvision(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Consent.Provision parseConsentProvision(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -5158,50 +5143,50 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Consent.Provision.Actor parseConsentProvisionActor(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Consent.Provision.Actor parseConsentProvisionActor(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Consent.Provision.Actor", jsonObject);
-        CodeableConcept role = parseCodeableConcept("role", JsonSupport.getJsonValue(jsonObject, "role", JsonObject.class), -1);
-        Reference reference = parseReference("reference", JsonSupport.getJsonValue(jsonObject, "reference", JsonObject.class), -1);
-        Consent.Provision.Actor.Builder builder = Consent.Provision.Actor.builder(role, reference);
+        Consent.Provision.Actor.Builder builder = Consent.Provision.Actor.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.role(parseCodeableConcept("role", JsonSupport.getJsonValue(jsonObject, "role", JsonObject.class), -1));
+        builder.reference(parseReference("reference", JsonSupport.getJsonValue(jsonObject, "reference", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Consent.Provision.Data parseConsentProvisionData(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Consent.Provision.Data parseConsentProvisionData(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Consent.Provision.Data", jsonObject);
-        ConsentDataMeaning meaning = (ConsentDataMeaning) parseString(ConsentDataMeaning.builder(), "meaning", JsonSupport.getJsonValue(jsonObject, "meaning", JsonString.class), jsonObject.get("_meaning"), -1);
-        Reference reference = parseReference("reference", JsonSupport.getJsonValue(jsonObject, "reference", JsonObject.class), -1);
-        Consent.Provision.Data.Builder builder = Consent.Provision.Data.builder(meaning, reference);
+        Consent.Provision.Data.Builder builder = Consent.Provision.Data.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.meaning((ConsentDataMeaning) parseString(ConsentDataMeaning.builder(), "meaning", JsonSupport.getJsonValue(jsonObject, "meaning", JsonString.class), jsonObject.get("_meaning"), -1));
+        builder.reference(parseReference("reference", JsonSupport.getJsonValue(jsonObject, "reference", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Consent.Verification parseConsentVerification(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Consent.Verification parseConsentVerification(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Consent.Verification", jsonObject);
-        Boolean verified = parseBoolean("verified", JsonSupport.getJsonValue(jsonObject, "verified", JsonValue.class), jsonObject.get("_verified"), -1);
-        Consent.Verification.Builder builder = Consent.Verification.builder(verified);
+        Consent.Verification.Builder builder = Consent.Verification.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.verified(parseBoolean("verified", JsonSupport.getJsonValue(jsonObject, "verified", JsonValue.class), jsonObject.get("_verified"), -1));
         builder.verifiedWith(parseReference("verifiedWith", JsonSupport.getJsonValue(jsonObject, "verifiedWith", JsonObject.class), -1));
         builder.verificationDate(parseDateTime("verificationDate", JsonSupport.getJsonValue(jsonObject, "verificationDate", JsonString.class), jsonObject.get("_verificationDate"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ContactDetail parseContactDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ContactDetail parseContactDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -5222,7 +5207,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ContactPoint parseContactPoint(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ContactPoint parseContactPoint(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -5239,7 +5224,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Contract parseContract(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contract parseContract(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -5383,94 +5368,92 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Contract.ContentDefinition parseContractContentDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contract.ContentDefinition parseContractContentDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Contract.ContentDefinition", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        ContractPublicationStatus publicationStatus = (ContractPublicationStatus) parseString(ContractPublicationStatus.builder(), "publicationStatus", JsonSupport.getJsonValue(jsonObject, "publicationStatus", JsonString.class), jsonObject.get("_publicationStatus"), -1);
-        Contract.ContentDefinition.Builder builder = Contract.ContentDefinition.builder(type, publicationStatus);
+        Contract.ContentDefinition.Builder builder = Contract.ContentDefinition.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.subType(parseCodeableConcept("subType", JsonSupport.getJsonValue(jsonObject, "subType", JsonObject.class), -1));
         builder.publisher(parseReference("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonObject.class), -1));
         builder.publicationDate(parseDateTime("publicationDate", JsonSupport.getJsonValue(jsonObject, "publicationDate", JsonString.class), jsonObject.get("_publicationDate"), -1));
+        builder.publicationStatus((ContractPublicationStatus) parseString(ContractPublicationStatus.builder(), "publicationStatus", JsonSupport.getJsonValue(jsonObject, "publicationStatus", JsonString.class), jsonObject.get("_publicationStatus"), -1));
         builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", JsonSupport.getJsonValue(jsonObject, "copyright", JsonString.class), jsonObject.get("_copyright"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Contract.Friendly parseContractFriendly(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contract.Friendly parseContractFriendly(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Contract.Friendly", jsonObject);
-        Element content = parseChoiceElement("content", jsonObject, "Attachment", "Reference");
-        Contract.Friendly.Builder builder = Contract.Friendly.builder(content);
+        Contract.Friendly.Builder builder = Contract.Friendly.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.content(parseChoiceElement("content", jsonObject, "Attachment", "Reference"));
         stackPop();
         return builder.build();
     }
 
-    protected Contract.Legal parseContractLegal(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contract.Legal parseContractLegal(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Contract.Legal", jsonObject);
-        Element content = parseChoiceElement("content", jsonObject, "Attachment", "Reference");
-        Contract.Legal.Builder builder = Contract.Legal.builder(content);
+        Contract.Legal.Builder builder = Contract.Legal.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.content(parseChoiceElement("content", jsonObject, "Attachment", "Reference"));
         stackPop();
         return builder.build();
     }
 
-    protected Contract.Rule parseContractRule(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contract.Rule parseContractRule(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Contract.Rule", jsonObject);
-        Element content = parseChoiceElement("content", jsonObject, "Attachment", "Reference");
-        Contract.Rule.Builder builder = Contract.Rule.builder(content);
+        Contract.Rule.Builder builder = Contract.Rule.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.content(parseChoiceElement("content", jsonObject, "Attachment", "Reference"));
         stackPop();
         return builder.build();
     }
 
-    protected Contract.Signer parseContractSigner(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contract.Signer parseContractSigner(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Contract.Signer", jsonObject);
-        Coding type = parseCoding("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        Reference party = parseReference("party", JsonSupport.getJsonValue(jsonObject, "party", JsonObject.class), -1);
-        java.util.List<Signature> signature = new ArrayList<>();
+        Contract.Signer.Builder builder = Contract.Signer.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCoding("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.party(parseReference("party", JsonSupport.getJsonValue(jsonObject, "party", JsonObject.class), -1));
         JsonArray signatureArray = JsonSupport.getJsonArray(jsonObject, "signature");
         if (signatureArray != null) {
             int index = 0;
             for (JsonValue jsonValue : signatureArray) {
-                signature.add(parseSignature("signature", (JsonObject) jsonValue, index));
+                builder.signature(parseSignature("signature", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        Contract.Signer.Builder builder = Contract.Signer.builder(type, party, signature);
-        parseBackboneElement(builder, jsonObject);
         stackPop();
         return builder.build();
     }
 
-    protected Contract.Term parseContractTerm(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contract.Term parseContractTerm(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Contract.Term", jsonObject);
-        Contract.Term.Offer offer = parseContractTermOffer("offer", JsonSupport.getJsonValue(jsonObject, "offer", JsonObject.class), -1);
-        Contract.Term.Builder builder = Contract.Term.builder(offer);
+        Contract.Term.Builder builder = Contract.Term.builder();
         parseBackboneElement(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.issued(parseDateTime("issued", JsonSupport.getJsonValue(jsonObject, "issued", JsonString.class), jsonObject.get("_issued"), -1));
@@ -5487,6 +5470,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.offer(parseContractTermOffer("offer", JsonSupport.getJsonValue(jsonObject, "offer", JsonObject.class), -1));
         JsonArray assetArray = JsonSupport.getJsonArray(jsonObject, "asset");
         if (assetArray != null) {
             int index = 0;
@@ -5515,18 +5499,16 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Contract.Term.Action parseContractTermAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contract.Term.Action parseContractTermAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Contract.Term.Action", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        CodeableConcept intent = parseCodeableConcept("intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonObject.class), -1);
-        CodeableConcept status = parseCodeableConcept("status", JsonSupport.getJsonValue(jsonObject, "status", JsonObject.class), -1);
-        Contract.Term.Action.Builder builder = Contract.Term.Action.builder(type, intent, status);
+        Contract.Term.Action.Builder builder = Contract.Term.Action.builder();
         parseBackboneElement(builder, jsonObject);
         builder.doNotPerform(parseBoolean("doNotPerform", JsonSupport.getJsonValue(jsonObject, "doNotPerform", JsonValue.class), jsonObject.get("_doNotPerform"), -1));
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray subjectArray = JsonSupport.getJsonArray(jsonObject, "subject");
         if (subjectArray != null) {
             int index = 0;
@@ -5535,6 +5517,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.intent(parseCodeableConcept("intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonObject.class), -1));
         JsonArray linkIdArray = JsonSupport.getJsonArray(jsonObject, "linkId", true);
         if (linkIdArray != null) {
             int index = 0;
@@ -5544,6 +5527,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status(parseCodeableConcept("status", JsonSupport.getJsonValue(jsonObject, "status", JsonObject.class), -1));
         builder.context(parseReference("context", JsonSupport.getJsonValue(jsonObject, "context", JsonObject.class), -1));
         JsonArray contextLinkIdArray = JsonSupport.getJsonArray(jsonObject, "contextLinkId", true);
         if (contextLinkIdArray != null) {
@@ -5646,29 +5630,28 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Contract.Term.Action.Subject parseContractTermActionSubject(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contract.Term.Action.Subject parseContractTermActionSubject(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Contract.Term.Action.Subject", jsonObject);
-        java.util.List<Reference> reference = new ArrayList<>();
+        Contract.Term.Action.Subject.Builder builder = Contract.Term.Action.Subject.builder();
+        parseBackboneElement(builder, jsonObject);
         JsonArray referenceArray = JsonSupport.getJsonArray(jsonObject, "reference");
         if (referenceArray != null) {
             int index = 0;
             for (JsonValue jsonValue : referenceArray) {
-                reference.add(parseReference("reference", (JsonObject) jsonValue, index));
+                builder.reference(parseReference("reference", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        Contract.Term.Action.Subject.Builder builder = Contract.Term.Action.Subject.builder(reference);
-        parseBackboneElement(builder, jsonObject);
         builder.role(parseCodeableConcept("role", JsonSupport.getJsonValue(jsonObject, "role", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Contract.Term.Asset parseContractTermAsset(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contract.Term.Asset parseContractTermAsset(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -5774,7 +5757,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Contract.Term.Asset.Context parseContractTermAssetContext(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contract.Term.Asset.Context parseContractTermAssetContext(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -5796,7 +5779,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Contract.Term.Asset.ValuedItem parseContractTermAssetValuedItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contract.Term.Asset.ValuedItem parseContractTermAssetValuedItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -5838,7 +5821,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Contract.Term.Offer parseContractTermOffer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contract.Term.Offer parseContractTermOffer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -5904,49 +5887,47 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Contract.Term.Offer.Answer parseContractTermOfferAnswer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contract.Term.Offer.Answer parseContractTermOfferAnswer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Contract.Term.Offer.Answer", jsonObject);
-        Element value = parseChoiceElement("value", jsonObject, "Boolean", "Decimal", "Integer", "Date", "DateTime", "Time", "String", "Uri", "Attachment", "Coding", "Quantity", "Reference");
-        Contract.Term.Offer.Answer.Builder builder = Contract.Term.Offer.Answer.builder(value);
+        Contract.Term.Offer.Answer.Builder builder = Contract.Term.Offer.Answer.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.value(parseChoiceElement("value", jsonObject, "Boolean", "Decimal", "Integer", "Date", "DateTime", "Time", "String", "Uri", "Attachment", "Coding", "Quantity", "Reference"));
         stackPop();
         return builder.build();
     }
 
-    protected Contract.Term.Offer.Party parseContractTermOfferParty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contract.Term.Offer.Party parseContractTermOfferParty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Contract.Term.Offer.Party", jsonObject);
-        java.util.List<Reference> reference = new ArrayList<>();
+        Contract.Term.Offer.Party.Builder builder = Contract.Term.Offer.Party.builder();
+        parseBackboneElement(builder, jsonObject);
         JsonArray referenceArray = JsonSupport.getJsonArray(jsonObject, "reference");
         if (referenceArray != null) {
             int index = 0;
             for (JsonValue jsonValue : referenceArray) {
-                reference.add(parseReference("reference", (JsonObject) jsonValue, index));
+                builder.reference(parseReference("reference", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        CodeableConcept role = parseCodeableConcept("role", JsonSupport.getJsonValue(jsonObject, "role", JsonObject.class), -1);
-        Contract.Term.Offer.Party.Builder builder = Contract.Term.Offer.Party.builder(reference, role);
-        parseBackboneElement(builder, jsonObject);
+        builder.role(parseCodeableConcept("role", JsonSupport.getJsonValue(jsonObject, "role", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Contract.Term.SecurityLabel parseContractTermSecurityLabel(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contract.Term.SecurityLabel parseContractTermSecurityLabel(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Contract.Term.SecurityLabel", jsonObject);
-        Coding classification = parseCoding("classification", JsonSupport.getJsonValue(jsonObject, "classification", JsonObject.class), -1);
-        Contract.Term.SecurityLabel.Builder builder = Contract.Term.SecurityLabel.builder(classification);
+        Contract.Term.SecurityLabel.Builder builder = Contract.Term.SecurityLabel.builder();
         parseBackboneElement(builder, jsonObject);
         JsonArray numberArray = JsonSupport.getJsonArray(jsonObject, "number", true);
         if (numberArray != null) {
@@ -5957,6 +5938,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.classification(parseCoding("classification", JsonSupport.getJsonValue(jsonObject, "classification", JsonObject.class), -1));
         JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             int index = 0;
@@ -5977,16 +5959,16 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Contributor parseContributor(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Contributor parseContributor(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Contributor", jsonObject);
-        ContributorType type = (ContributorType) parseString(ContributorType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        Contributor.Builder builder = Contributor.builder(type, name);
+        Contributor.Builder builder = Contributor.builder();
         parseElement(builder, jsonObject);
+        builder.type((ContributorType) parseString(ContributorType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         JsonArray contactArray = JsonSupport.getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             int index = 0;
@@ -5999,24 +5981,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Coverage parseCoverage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Coverage parseCoverage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Coverage", jsonObject);
-        CoverageStatus status = (CoverageStatus) parseString(CoverageStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Reference beneficiary = parseReference("beneficiary", JsonSupport.getJsonValue(jsonObject, "beneficiary", JsonObject.class), -1);
-        java.util.List<Reference> payor = new ArrayList<>();
-        JsonArray payorArray = JsonSupport.getJsonArray(jsonObject, "payor");
-        if (payorArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : payorArray) {
-                payor.add(parseReference("payor", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        Coverage.Builder builder = Coverage.builder(status, beneficiary, payor);
+        Coverage.Builder builder = Coverage.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -6026,13 +5997,23 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((CoverageStatus) parseString(CoverageStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.policyHolder(parseReference("policyHolder", JsonSupport.getJsonValue(jsonObject, "policyHolder", JsonObject.class), -1));
         builder.subscriber(parseReference("subscriber", JsonSupport.getJsonValue(jsonObject, "subscriber", JsonObject.class), -1));
         builder.subscriberId(parseString("subscriberId", JsonSupport.getJsonValue(jsonObject, "subscriberId", JsonString.class), jsonObject.get("_subscriberId"), -1));
+        builder.beneficiary(parseReference("beneficiary", JsonSupport.getJsonValue(jsonObject, "beneficiary", JsonObject.class), -1));
         builder.dependent(parseString("dependent", JsonSupport.getJsonValue(jsonObject, "dependent", JsonString.class), jsonObject.get("_dependent"), -1));
         builder.relationship(parseCodeableConcept("relationship", JsonSupport.getJsonValue(jsonObject, "relationship", JsonObject.class), -1));
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
+        JsonArray payorArray = JsonSupport.getJsonArray(jsonObject, "payor");
+        if (payorArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : payorArray) {
+                builder.payor(parseReference("payor", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         JsonArray classArray = JsonSupport.getJsonArray(jsonObject, "class");
         if (classArray != null) {
             int index = 0;
@@ -6064,31 +6045,31 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Coverage.Class parseCoverageClass(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Coverage.Class parseCoverageClass(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Coverage.Class", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        String value = parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1);
-        Coverage.Class.Builder builder = Coverage.Class.builder(type, value);
+        Coverage.Class.Builder builder = Coverage.Class.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.value(parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Coverage.CostToBeneficiary parseCoverageCostToBeneficiary(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Coverage.CostToBeneficiary parseCoverageCostToBeneficiary(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Coverage.CostToBeneficiary", jsonObject);
-        Element value = parseChoiceElement("value", jsonObject, "SimpleQuantity", "Money");
-        Coverage.CostToBeneficiary.Builder builder = Coverage.CostToBeneficiary.builder(value);
+        Coverage.CostToBeneficiary.Builder builder = Coverage.CostToBeneficiary.builder();
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.value(parseChoiceElement("value", jsonObject, "SimpleQuantity", "Money"));
         JsonArray exceptionArray = JsonSupport.getJsonArray(jsonObject, "exception");
         if (exceptionArray != null) {
             int index = 0;
@@ -6101,41 +6082,27 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Coverage.CostToBeneficiary.Exception parseCoverageCostToBeneficiaryException(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Coverage.CostToBeneficiary.Exception parseCoverageCostToBeneficiaryException(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Coverage.CostToBeneficiary.Exception", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        Coverage.CostToBeneficiary.Exception.Builder builder = Coverage.CostToBeneficiary.Exception.builder(type);
+        Coverage.CostToBeneficiary.Exception.Builder builder = Coverage.CostToBeneficiary.Exception.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected CoverageEligibilityRequest parseCoverageEligibilityRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CoverageEligibilityRequest parseCoverageEligibilityRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CoverageEligibilityRequest", jsonObject);
-        EligibilityRequestStatus status = (EligibilityRequestStatus) parseString(EligibilityRequestStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        java.util.List<EligibilityRequestPurpose> purpose = new ArrayList<>();
-        JsonArray purposeArray = JsonSupport.getJsonArray(jsonObject, "purpose", true);
-        if (purposeArray != null) {
-            int index = 0;
-            JsonArray _purposeArray = jsonObject.getJsonArray("_purpose");
-            for (JsonValue jsonValue : purposeArray) {
-                purpose.add((EligibilityRequestPurpose) parseString(EligibilityRequestPurpose.builder(), "purpose", jsonValue, JsonSupport.getJsonValue(_purposeArray, index), index));
-                index++;
-            }
-        }
-        Reference patient = parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1);
-        DateTime created = parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1);
-        Reference insurer = parseReference("insurer", JsonSupport.getJsonValue(jsonObject, "insurer", JsonObject.class), -1);
-        CoverageEligibilityRequest.Builder builder = CoverageEligibilityRequest.builder(status, purpose, patient, created, insurer);
+        CoverageEligibilityRequest.Builder builder = CoverageEligibilityRequest.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -6145,10 +6112,23 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((EligibilityRequestStatus) parseString(EligibilityRequestStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.priority(parseCodeableConcept("priority", JsonSupport.getJsonValue(jsonObject, "priority", JsonObject.class), -1));
+        JsonArray purposeArray = JsonSupport.getJsonArray(jsonObject, "purpose", true);
+        if (purposeArray != null) {
+            int index = 0;
+            JsonArray _purposeArray = jsonObject.getJsonArray("_purpose");
+            for (JsonValue jsonValue : purposeArray) {
+                builder.purpose((EligibilityRequestPurpose) parseString(EligibilityRequestPurpose.builder(), "purpose", jsonValue, JsonSupport.getJsonValue(_purposeArray, index), index));
+                index++;
+            }
+        }
+        builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
         builder.serviced(parseChoiceElement("serviced", jsonObject, "Date", "Period"));
+        builder.created(parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1));
         builder.enterer(parseReference("enterer", JsonSupport.getJsonValue(jsonObject, "enterer", JsonObject.class), -1));
         builder.provider(parseReference("provider", JsonSupport.getJsonValue(jsonObject, "provider", JsonObject.class), -1));
+        builder.insurer(parseReference("insurer", JsonSupport.getJsonValue(jsonObject, "insurer", JsonObject.class), -1));
         builder.facility(parseReference("facility", JsonSupport.getJsonValue(jsonObject, "facility", JsonObject.class), -1));
         JsonArray supportingInfoArray = JsonSupport.getJsonArray(jsonObject, "supportingInfo");
         if (supportingInfoArray != null) {
@@ -6178,22 +6158,22 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CoverageEligibilityRequest.Insurance parseCoverageEligibilityRequestInsurance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CoverageEligibilityRequest.Insurance parseCoverageEligibilityRequestInsurance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CoverageEligibilityRequest.Insurance", jsonObject);
-        Reference coverage = parseReference("coverage", JsonSupport.getJsonValue(jsonObject, "coverage", JsonObject.class), -1);
-        CoverageEligibilityRequest.Insurance.Builder builder = CoverageEligibilityRequest.Insurance.builder(coverage);
+        CoverageEligibilityRequest.Insurance.Builder builder = CoverageEligibilityRequest.Insurance.builder();
         parseBackboneElement(builder, jsonObject);
         builder.focal(parseBoolean("focal", JsonSupport.getJsonValue(jsonObject, "focal", JsonValue.class), jsonObject.get("_focal"), -1));
+        builder.coverage(parseReference("coverage", JsonSupport.getJsonValue(jsonObject, "coverage", JsonObject.class), -1));
         builder.businessArrangement(parseString("businessArrangement", JsonSupport.getJsonValue(jsonObject, "businessArrangement", JsonString.class), jsonObject.get("_businessArrangement"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected CoverageEligibilityRequest.Item parseCoverageEligibilityRequestItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CoverageEligibilityRequest.Item parseCoverageEligibilityRequestItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -6244,7 +6224,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CoverageEligibilityRequest.Item.Diagnosis parseCoverageEligibilityRequestItemDiagnosis(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CoverageEligibilityRequest.Item.Diagnosis parseCoverageEligibilityRequestItemDiagnosis(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -6257,44 +6237,28 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CoverageEligibilityRequest.SupportingInfo parseCoverageEligibilityRequestSupportingInfo(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CoverageEligibilityRequest.SupportingInfo parseCoverageEligibilityRequestSupportingInfo(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CoverageEligibilityRequest.SupportingInfo", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        Reference information = parseReference("information", JsonSupport.getJsonValue(jsonObject, "information", JsonObject.class), -1);
-        CoverageEligibilityRequest.SupportingInfo.Builder builder = CoverageEligibilityRequest.SupportingInfo.builder(sequence, information);
+        CoverageEligibilityRequest.SupportingInfo.Builder builder = CoverageEligibilityRequest.SupportingInfo.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
+        builder.information(parseReference("information", JsonSupport.getJsonValue(jsonObject, "information", JsonObject.class), -1));
         builder.appliesToAll(parseBoolean("appliesToAll", JsonSupport.getJsonValue(jsonObject, "appliesToAll", JsonValue.class), jsonObject.get("_appliesToAll"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected CoverageEligibilityResponse parseCoverageEligibilityResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CoverageEligibilityResponse parseCoverageEligibilityResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CoverageEligibilityResponse", jsonObject);
-        EligibilityResponseStatus status = (EligibilityResponseStatus) parseString(EligibilityResponseStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        java.util.List<EligibilityResponsePurpose> purpose = new ArrayList<>();
-        JsonArray purposeArray = JsonSupport.getJsonArray(jsonObject, "purpose", true);
-        if (purposeArray != null) {
-            int index = 0;
-            JsonArray _purposeArray = jsonObject.getJsonArray("_purpose");
-            for (JsonValue jsonValue : purposeArray) {
-                purpose.add((EligibilityResponsePurpose) parseString(EligibilityResponsePurpose.builder(), "purpose", jsonValue, JsonSupport.getJsonValue(_purposeArray, index), index));
-                index++;
-            }
-        }
-        Reference patient = parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1);
-        DateTime created = parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1);
-        Reference request = parseReference("request", JsonSupport.getJsonValue(jsonObject, "request", JsonObject.class), -1);
-        RemittanceOutcome outcome = (RemittanceOutcome) parseString(RemittanceOutcome.builder(), "outcome", JsonSupport.getJsonValue(jsonObject, "outcome", JsonString.class), jsonObject.get("_outcome"), -1);
-        Reference insurer = parseReference("insurer", JsonSupport.getJsonValue(jsonObject, "insurer", JsonObject.class), -1);
-        CoverageEligibilityResponse.Builder builder = CoverageEligibilityResponse.builder(status, purpose, patient, created, request, outcome, insurer);
+        CoverageEligibilityResponse.Builder builder = CoverageEligibilityResponse.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -6304,9 +6268,24 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((EligibilityResponseStatus) parseString(EligibilityResponseStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        JsonArray purposeArray = JsonSupport.getJsonArray(jsonObject, "purpose", true);
+        if (purposeArray != null) {
+            int index = 0;
+            JsonArray _purposeArray = jsonObject.getJsonArray("_purpose");
+            for (JsonValue jsonValue : purposeArray) {
+                builder.purpose((EligibilityResponsePurpose) parseString(EligibilityResponsePurpose.builder(), "purpose", jsonValue, JsonSupport.getJsonValue(_purposeArray, index), index));
+                index++;
+            }
+        }
+        builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
         builder.serviced(parseChoiceElement("serviced", jsonObject, "Date", "Period"));
+        builder.created(parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1));
         builder.requestor(parseReference("requestor", JsonSupport.getJsonValue(jsonObject, "requestor", JsonObject.class), -1));
+        builder.request(parseReference("request", JsonSupport.getJsonValue(jsonObject, "request", JsonObject.class), -1));
+        builder.outcome((RemittanceOutcome) parseString(RemittanceOutcome.builder(), "outcome", JsonSupport.getJsonValue(jsonObject, "outcome", JsonString.class), jsonObject.get("_outcome"), -1));
         builder.disposition(parseString("disposition", JsonSupport.getJsonValue(jsonObject, "disposition", JsonString.class), jsonObject.get("_disposition"), -1));
+        builder.insurer(parseReference("insurer", JsonSupport.getJsonValue(jsonObject, "insurer", JsonObject.class), -1));
         JsonArray insuranceArray = JsonSupport.getJsonArray(jsonObject, "insurance");
         if (insuranceArray != null) {
             int index = 0;
@@ -6329,28 +6308,28 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CoverageEligibilityResponse.Error parseCoverageEligibilityResponseError(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CoverageEligibilityResponse.Error parseCoverageEligibilityResponseError(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CoverageEligibilityResponse.Error", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        CoverageEligibilityResponse.Error.Builder builder = CoverageEligibilityResponse.Error.builder(code);
+        CoverageEligibilityResponse.Error.Builder builder = CoverageEligibilityResponse.Error.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected CoverageEligibilityResponse.Insurance parseCoverageEligibilityResponseInsurance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CoverageEligibilityResponse.Insurance parseCoverageEligibilityResponseInsurance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CoverageEligibilityResponse.Insurance", jsonObject);
-        Reference coverage = parseReference("coverage", JsonSupport.getJsonValue(jsonObject, "coverage", JsonObject.class), -1);
-        CoverageEligibilityResponse.Insurance.Builder builder = CoverageEligibilityResponse.Insurance.builder(coverage);
+        CoverageEligibilityResponse.Insurance.Builder builder = CoverageEligibilityResponse.Insurance.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.coverage(parseReference("coverage", JsonSupport.getJsonValue(jsonObject, "coverage", JsonObject.class), -1));
         builder.inforce(parseBoolean("inforce", JsonSupport.getJsonValue(jsonObject, "inforce", JsonValue.class), jsonObject.get("_inforce"), -1));
         builder.benefitPeriod(parsePeriod("benefitPeriod", JsonSupport.getJsonValue(jsonObject, "benefitPeriod", JsonObject.class), -1));
         JsonArray itemArray = JsonSupport.getJsonArray(jsonObject, "item");
@@ -6365,7 +6344,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CoverageEligibilityResponse.Insurance.Item parseCoverageEligibilityResponseInsuranceItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CoverageEligibilityResponse.Insurance.Item parseCoverageEligibilityResponseInsuranceItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -6412,30 +6391,30 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected CoverageEligibilityResponse.Insurance.Item.Benefit parseCoverageEligibilityResponseInsuranceItemBenefit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private CoverageEligibilityResponse.Insurance.Item.Benefit parseCoverageEligibilityResponseInsuranceItemBenefit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("CoverageEligibilityResponse.Insurance.Item.Benefit", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        CoverageEligibilityResponse.Insurance.Item.Benefit.Builder builder = CoverageEligibilityResponse.Insurance.Item.Benefit.builder(type);
+        CoverageEligibilityResponse.Insurance.Item.Benefit.Builder builder = CoverageEligibilityResponse.Insurance.Item.Benefit.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.allowed(parseChoiceElement("allowed", jsonObject, "UnsignedInt", "String", "Money"));
         builder.used(parseChoiceElement("used", jsonObject, "UnsignedInt", "String", "Money"));
         stackPop();
         return builder.build();
     }
 
-    protected DataRequirement parseDataRequirement(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DataRequirement parseDataRequirement(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DataRequirement", jsonObject);
-        FHIRAllTypes type = (FHIRAllTypes) parseString(FHIRAllTypes.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        DataRequirement.Builder builder = DataRequirement.builder(type);
+        DataRequirement.Builder builder = DataRequirement.builder();
         parseElement(builder, jsonObject);
+        builder.type((FHIRAllTypes) parseString(FHIRAllTypes.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         JsonArray profileArray = JsonSupport.getJsonArray(jsonObject, "profile", true);
         if (profileArray != null) {
             int index = 0;
@@ -6484,7 +6463,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DataRequirement.CodeFilter parseDataRequirementCodeFilter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DataRequirement.CodeFilter parseDataRequirementCodeFilter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -6507,7 +6486,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DataRequirement.DateFilter parseDataRequirementDateFilter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DataRequirement.DateFilter parseDataRequirementDateFilter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -6522,21 +6501,21 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DataRequirement.Sort parseDataRequirementSort(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DataRequirement.Sort parseDataRequirementSort(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DataRequirement.Sort", jsonObject);
-        String path = parseString("path", JsonSupport.getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1);
-        SortDirection direction = (SortDirection) parseString(SortDirection.builder(), "direction", JsonSupport.getJsonValue(jsonObject, "direction", JsonString.class), jsonObject.get("_direction"), -1);
-        DataRequirement.Sort.Builder builder = DataRequirement.Sort.builder(path, direction);
+        DataRequirement.Sort.Builder builder = DataRequirement.Sort.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.path(parseString("path", JsonSupport.getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1));
+        builder.direction((SortDirection) parseString(SortDirection.builder(), "direction", JsonSupport.getJsonValue(jsonObject, "direction", JsonString.class), jsonObject.get("_direction"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Date parseDate(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
+    private Date parseDate(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
         if (jsonValue == null && _jsonValue == null) {
             return null;
         }
@@ -6555,7 +6534,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DateTime parseDateTime(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
+    private DateTime parseDateTime(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
         if (jsonValue == null && _jsonValue == null) {
             return null;
         }
@@ -6574,7 +6553,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Decimal parseDecimal(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
+    private Decimal parseDecimal(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
         if (jsonValue == null && _jsonValue == null) {
             return null;
         }
@@ -6593,14 +6572,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DetectedIssue parseDetectedIssue(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DetectedIssue parseDetectedIssue(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DetectedIssue", jsonObject);
-        DetectedIssueStatus status = (DetectedIssueStatus) parseString(DetectedIssueStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        DetectedIssue.Builder builder = DetectedIssue.builder(status);
+        DetectedIssue.Builder builder = DetectedIssue.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -6610,6 +6588,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((DetectedIssueStatus) parseString(DetectedIssueStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.severity((DetectedIssueSeverity) parseString(DetectedIssueSeverity.builder(), "severity", JsonSupport.getJsonValue(jsonObject, "severity", JsonString.class), jsonObject.get("_severity"), -1));
         builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
@@ -6645,7 +6624,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DetectedIssue.Evidence parseDetectedIssueEvidence(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DetectedIssue.Evidence parseDetectedIssueEvidence(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -6673,22 +6652,22 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DetectedIssue.Mitigation parseDetectedIssueMitigation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DetectedIssue.Mitigation parseDetectedIssueMitigation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DetectedIssue.Mitigation", jsonObject);
-        CodeableConcept action = parseCodeableConcept("action", JsonSupport.getJsonValue(jsonObject, "action", JsonObject.class), -1);
-        DetectedIssue.Mitigation.Builder builder = DetectedIssue.Mitigation.builder(action);
+        DetectedIssue.Mitigation.Builder builder = DetectedIssue.Mitigation.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.action(parseCodeableConcept("action", JsonSupport.getJsonValue(jsonObject, "action", JsonObject.class), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.author(parseReference("author", JsonSupport.getJsonValue(jsonObject, "author", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Device parseDevice(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Device parseDevice(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -6796,29 +6775,29 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Device.DeviceName parseDeviceDeviceName(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Device.DeviceName parseDeviceDeviceName(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Device.DeviceName", jsonObject);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        DeviceNameType type = (DeviceNameType) parseString(DeviceNameType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        Device.DeviceName.Builder builder = Device.DeviceName.builder(name, type);
+        Device.DeviceName.Builder builder = Device.DeviceName.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.type((DeviceNameType) parseString(DeviceNameType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Device.Property parseDeviceProperty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Device.Property parseDeviceProperty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Device.Property", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        Device.Property.Builder builder = Device.Property.builder(type);
+        Device.Property.Builder builder = Device.Property.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray valueQuantityArray = JsonSupport.getJsonArray(jsonObject, "valueQuantity");
         if (valueQuantityArray != null) {
             int index = 0;
@@ -6839,21 +6818,21 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Device.Specialization parseDeviceSpecialization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Device.Specialization parseDeviceSpecialization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Device.Specialization", jsonObject);
-        CodeableConcept systemType = parseCodeableConcept("systemType", JsonSupport.getJsonValue(jsonObject, "systemType", JsonObject.class), -1);
-        Device.Specialization.Builder builder = Device.Specialization.builder(systemType);
+        Device.Specialization.Builder builder = Device.Specialization.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.systemType(parseCodeableConcept("systemType", JsonSupport.getJsonValue(jsonObject, "systemType", JsonObject.class), -1));
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Device.UdiCarrier parseDeviceUdiCarrier(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Device.UdiCarrier parseDeviceUdiCarrier(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -6871,22 +6850,22 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Device.Version parseDeviceVersion(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Device.Version parseDeviceVersion(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Device.Version", jsonObject);
-        String value = parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1);
-        Device.Version.Builder builder = Device.Version.builder(value);
+        Device.Version.Builder builder = Device.Version.builder();
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.component(parseIdentifier("component", JsonSupport.getJsonValue(jsonObject, "component", JsonObject.class), -1));
+        builder.value(parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected DeviceDefinition parseDeviceDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DeviceDefinition parseDeviceDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -7012,15 +6991,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DeviceDefinition.Capability parseDeviceDefinitionCapability(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DeviceDefinition.Capability parseDeviceDefinitionCapability(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DeviceDefinition.Capability", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        DeviceDefinition.Capability.Builder builder = DeviceDefinition.Capability.builder(type);
+        DeviceDefinition.Capability.Builder builder = DeviceDefinition.Capability.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray descriptionArray = JsonSupport.getJsonArray(jsonObject, "description");
         if (descriptionArray != null) {
             int index = 0;
@@ -7033,44 +7012,44 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DeviceDefinition.DeviceName parseDeviceDefinitionDeviceName(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DeviceDefinition.DeviceName parseDeviceDefinitionDeviceName(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DeviceDefinition.DeviceName", jsonObject);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        DeviceNameType type = (DeviceNameType) parseString(DeviceNameType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        DeviceDefinition.DeviceName.Builder builder = DeviceDefinition.DeviceName.builder(name, type);
+        DeviceDefinition.DeviceName.Builder builder = DeviceDefinition.DeviceName.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.type((DeviceNameType) parseString(DeviceNameType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected DeviceDefinition.Material parseDeviceDefinitionMaterial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DeviceDefinition.Material parseDeviceDefinitionMaterial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DeviceDefinition.Material", jsonObject);
-        CodeableConcept substance = parseCodeableConcept("substance", JsonSupport.getJsonValue(jsonObject, "substance", JsonObject.class), -1);
-        DeviceDefinition.Material.Builder builder = DeviceDefinition.Material.builder(substance);
+        DeviceDefinition.Material.Builder builder = DeviceDefinition.Material.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.substance(parseCodeableConcept("substance", JsonSupport.getJsonValue(jsonObject, "substance", JsonObject.class), -1));
         builder.alternate(parseBoolean("alternate", JsonSupport.getJsonValue(jsonObject, "alternate", JsonValue.class), jsonObject.get("_alternate"), -1));
         builder.allergenicIndicator(parseBoolean("allergenicIndicator", JsonSupport.getJsonValue(jsonObject, "allergenicIndicator", JsonValue.class), jsonObject.get("_allergenicIndicator"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected DeviceDefinition.Property parseDeviceDefinitionProperty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DeviceDefinition.Property parseDeviceDefinitionProperty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DeviceDefinition.Property", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        DeviceDefinition.Property.Builder builder = DeviceDefinition.Property.builder(type);
+        DeviceDefinition.Property.Builder builder = DeviceDefinition.Property.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray valueQuantityArray = JsonSupport.getJsonArray(jsonObject, "valueQuantity");
         if (valueQuantityArray != null) {
             int index = 0;
@@ -7091,44 +7070,42 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DeviceDefinition.Specialization parseDeviceDefinitionSpecialization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DeviceDefinition.Specialization parseDeviceDefinitionSpecialization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DeviceDefinition.Specialization", jsonObject);
-        String systemType = parseString("systemType", JsonSupport.getJsonValue(jsonObject, "systemType", JsonString.class), jsonObject.get("_systemType"), -1);
-        DeviceDefinition.Specialization.Builder builder = DeviceDefinition.Specialization.builder(systemType);
+        DeviceDefinition.Specialization.Builder builder = DeviceDefinition.Specialization.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.systemType(parseString("systemType", JsonSupport.getJsonValue(jsonObject, "systemType", JsonString.class), jsonObject.get("_systemType"), -1));
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected DeviceDefinition.UdiDeviceIdentifier parseDeviceDefinitionUdiDeviceIdentifier(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DeviceDefinition.UdiDeviceIdentifier parseDeviceDefinitionUdiDeviceIdentifier(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DeviceDefinition.UdiDeviceIdentifier", jsonObject);
-        String deviceIdentifier = parseString("deviceIdentifier", JsonSupport.getJsonValue(jsonObject, "deviceIdentifier", JsonString.class), jsonObject.get("_deviceIdentifier"), -1);
-        Uri issuer = parseUri("issuer", JsonSupport.getJsonValue(jsonObject, "issuer", JsonString.class), jsonObject.get("_issuer"), -1);
-        Uri jurisdiction = parseUri("jurisdiction", JsonSupport.getJsonValue(jsonObject, "jurisdiction", JsonString.class), jsonObject.get("_jurisdiction"), -1);
-        DeviceDefinition.UdiDeviceIdentifier.Builder builder = DeviceDefinition.UdiDeviceIdentifier.builder(deviceIdentifier, issuer, jurisdiction);
+        DeviceDefinition.UdiDeviceIdentifier.Builder builder = DeviceDefinition.UdiDeviceIdentifier.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.deviceIdentifier(parseString("deviceIdentifier", JsonSupport.getJsonValue(jsonObject, "deviceIdentifier", JsonString.class), jsonObject.get("_deviceIdentifier"), -1));
+        builder.issuer(parseUri("issuer", JsonSupport.getJsonValue(jsonObject, "issuer", JsonString.class), jsonObject.get("_issuer"), -1));
+        builder.jurisdiction(parseUri("jurisdiction", JsonSupport.getJsonValue(jsonObject, "jurisdiction", JsonString.class), jsonObject.get("_jurisdiction"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected DeviceMetric parseDeviceMetric(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DeviceMetric parseDeviceMetric(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DeviceMetric", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        DeviceMetricCategory category = (DeviceMetricCategory) parseString(DeviceMetricCategory.builder(), "category", JsonSupport.getJsonValue(jsonObject, "category", JsonString.class), jsonObject.get("_category"), -1);
-        DeviceMetric.Builder builder = DeviceMetric.builder(type, category);
+        DeviceMetric.Builder builder = DeviceMetric.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -7138,11 +7115,13 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.unit(parseCodeableConcept("unit", JsonSupport.getJsonValue(jsonObject, "unit", JsonObject.class), -1));
         builder.source(parseReference("source", JsonSupport.getJsonValue(jsonObject, "source", JsonObject.class), -1));
         builder.parent(parseReference("parent", JsonSupport.getJsonValue(jsonObject, "parent", JsonObject.class), -1));
         builder.operationalStatus((DeviceMetricOperationalStatus) parseString(DeviceMetricOperationalStatus.builder(), "operationalStatus", JsonSupport.getJsonValue(jsonObject, "operationalStatus", JsonString.class), jsonObject.get("_operationalStatus"), -1));
         builder.color((DeviceMetricColor) parseString(DeviceMetricColor.builder(), "color", JsonSupport.getJsonValue(jsonObject, "color", JsonString.class), jsonObject.get("_color"), -1));
+        builder.category((DeviceMetricCategory) parseString(DeviceMetricCategory.builder(), "category", JsonSupport.getJsonValue(jsonObject, "category", JsonString.class), jsonObject.get("_category"), -1));
         builder.measurementPeriod(parseTiming("measurementPeriod", JsonSupport.getJsonValue(jsonObject, "measurementPeriod", JsonObject.class), -1));
         JsonArray calibrationArray = JsonSupport.getJsonArray(jsonObject, "calibration");
         if (calibrationArray != null) {
@@ -7156,7 +7135,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DeviceMetric.Calibration parseDeviceMetricCalibration(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DeviceMetric.Calibration parseDeviceMetricCalibration(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -7171,16 +7150,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DeviceRequest parseDeviceRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DeviceRequest parseDeviceRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DeviceRequest", jsonObject);
-        RequestIntent intent = (RequestIntent) parseString(RequestIntent.builder(), "intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonString.class), jsonObject.get("_intent"), -1);
-        Element code = parseChoiceElement("code", jsonObject, "Reference", "CodeableConcept");
-        Reference subject = parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1);
-        DeviceRequest.Builder builder = DeviceRequest.builder(intent, code, subject);
+        DeviceRequest.Builder builder = DeviceRequest.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -7226,7 +7202,9 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.groupIdentifier(parseIdentifier("groupIdentifier", JsonSupport.getJsonValue(jsonObject, "groupIdentifier", JsonObject.class), -1));
         builder.status((DeviceRequestStatus) parseString(DeviceRequestStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.intent((RequestIntent) parseString(RequestIntent.builder(), "intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonString.class), jsonObject.get("_intent"), -1));
         builder.priority((RequestPriority) parseString(RequestPriority.builder(), "priority", JsonSupport.getJsonValue(jsonObject, "priority", JsonString.class), jsonObject.get("_priority"), -1));
+        builder.code(parseChoiceElement("code", jsonObject, "Reference", "CodeableConcept"));
         JsonArray parameterArray = JsonSupport.getJsonArray(jsonObject, "parameter");
         if (parameterArray != null) {
             int index = 0;
@@ -7235,6 +7213,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
         builder.occurrence(parseChoiceElement("occurrence", jsonObject, "DateTime", "Period", "Timing"));
         builder.authoredOn(parseDateTime("authoredOn", JsonSupport.getJsonValue(jsonObject, "authoredOn", JsonString.class), jsonObject.get("_authoredOn"), -1));
@@ -7293,7 +7272,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DeviceRequest.Parameter parseDeviceRequestParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DeviceRequest.Parameter parseDeviceRequestParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -7307,16 +7286,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DeviceUseStatement parseDeviceUseStatement(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DeviceUseStatement parseDeviceUseStatement(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DeviceUseStatement", jsonObject);
-        DeviceUseStatementStatus status = (DeviceUseStatementStatus) parseString(DeviceUseStatementStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Reference subject = parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1);
-        Reference device = parseReference("device", JsonSupport.getJsonValue(jsonObject, "device", JsonObject.class), -1);
-        DeviceUseStatement.Builder builder = DeviceUseStatement.builder(status, subject, device);
+        DeviceUseStatement.Builder builder = DeviceUseStatement.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -7334,6 +7310,8 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((DeviceUseStatementStatus) parseString(DeviceUseStatementStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         JsonArray derivedFromArray = JsonSupport.getJsonArray(jsonObject, "derivedFrom");
         if (derivedFromArray != null) {
             int index = 0;
@@ -7345,6 +7323,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.timing(parseChoiceElement("timing", jsonObject, "Timing", "Period", "DateTime"));
         builder.recordedOn(parseDateTime("recordedOn", JsonSupport.getJsonValue(jsonObject, "recordedOn", JsonString.class), jsonObject.get("_recordedOn"), -1));
         builder.source(parseReference("source", JsonSupport.getJsonValue(jsonObject, "source", JsonObject.class), -1));
+        builder.device(parseReference("device", JsonSupport.getJsonValue(jsonObject, "device", JsonObject.class), -1));
         JsonArray reasonCodeArray = JsonSupport.getJsonArray(jsonObject, "reasonCode");
         if (reasonCodeArray != null) {
             int index = 0;
@@ -7374,15 +7353,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DiagnosticReport parseDiagnosticReport(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DiagnosticReport parseDiagnosticReport(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DiagnosticReport", jsonObject);
-        DiagnosticReportStatus status = (DiagnosticReportStatus) parseString(DiagnosticReportStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        DiagnosticReport.Builder builder = DiagnosticReport.builder(status, code);
+        DiagnosticReport.Builder builder = DiagnosticReport.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -7400,6 +7377,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((DiagnosticReportStatus) parseString(DiagnosticReportStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             int index = 0;
@@ -7408,6 +7386,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
         builder.effective(parseChoiceElement("effective", jsonObject, "DateTime", "Period"));
@@ -7481,37 +7460,27 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DiagnosticReport.Media parseDiagnosticReportMedia(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DiagnosticReport.Media parseDiagnosticReportMedia(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DiagnosticReport.Media", jsonObject);
-        Reference link = parseReference("link", JsonSupport.getJsonValue(jsonObject, "link", JsonObject.class), -1);
-        DiagnosticReport.Media.Builder builder = DiagnosticReport.Media.builder(link);
+        DiagnosticReport.Media.Builder builder = DiagnosticReport.Media.builder();
         parseBackboneElement(builder, jsonObject);
         builder.comment(parseString("comment", JsonSupport.getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
+        builder.link(parseReference("link", JsonSupport.getJsonValue(jsonObject, "link", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected DocumentManifest parseDocumentManifest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DocumentManifest parseDocumentManifest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DocumentManifest", jsonObject);
-        DocumentReferenceStatus status = (DocumentReferenceStatus) parseString(DocumentReferenceStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        java.util.List<Reference> content = new ArrayList<>();
-        JsonArray contentArray = JsonSupport.getJsonArray(jsonObject, "content");
-        if (contentArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : contentArray) {
-                content.add(parseReference("content", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        DocumentManifest.Builder builder = DocumentManifest.builder(status, content);
+        DocumentManifest.Builder builder = DocumentManifest.builder();
         parseDomainResource(builder, jsonObject);
         builder.masterIdentifier(parseIdentifier("masterIdentifier", JsonSupport.getJsonValue(jsonObject, "masterIdentifier", JsonObject.class), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -7522,6 +7491,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((DocumentReferenceStatus) parseString(DocumentReferenceStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.created(parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1));
@@ -7543,6 +7513,14 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.source(parseUri("source", JsonSupport.getJsonValue(jsonObject, "source", JsonString.class), jsonObject.get("_source"), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        JsonArray contentArray = JsonSupport.getJsonArray(jsonObject, "content");
+        if (contentArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : contentArray) {
+                builder.content(parseReference("content", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         JsonArray relatedArray = JsonSupport.getJsonArray(jsonObject, "related");
         if (relatedArray != null) {
             int index = 0;
@@ -7555,7 +7533,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DocumentManifest.Related parseDocumentManifestRelated(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DocumentManifest.Related parseDocumentManifestRelated(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -7569,23 +7547,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DocumentReference parseDocumentReference(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DocumentReference parseDocumentReference(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DocumentReference", jsonObject);
-        DocumentReferenceStatus status = (DocumentReferenceStatus) parseString(DocumentReferenceStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        java.util.List<DocumentReference.Content> content = new ArrayList<>();
-        JsonArray contentArray = JsonSupport.getJsonArray(jsonObject, "content");
-        if (contentArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : contentArray) {
-                content.add(parseDocumentReferenceContent("content", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        DocumentReference.Builder builder = DocumentReference.builder(status, content);
+        DocumentReference.Builder builder = DocumentReference.builder();
         parseDomainResource(builder, jsonObject);
         builder.masterIdentifier(parseIdentifier("masterIdentifier", JsonSupport.getJsonValue(jsonObject, "masterIdentifier", JsonObject.class), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -7596,6 +7564,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((DocumentReferenceStatus) parseString(DocumentReferenceStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.docStatus((ReferredDocumentStatus) parseString(ReferredDocumentStatus.builder(), "docStatus", JsonSupport.getJsonValue(jsonObject, "docStatus", JsonString.class), jsonObject.get("_docStatus"), -1));
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
@@ -7635,26 +7604,34 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        JsonArray contentArray = JsonSupport.getJsonArray(jsonObject, "content");
+        if (contentArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : contentArray) {
+                builder.content(parseDocumentReferenceContent("content", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         builder.context(parseDocumentReferenceContext("context", JsonSupport.getJsonValue(jsonObject, "context", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected DocumentReference.Content parseDocumentReferenceContent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DocumentReference.Content parseDocumentReferenceContent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DocumentReference.Content", jsonObject);
-        Attachment attachment = parseAttachment("attachment", JsonSupport.getJsonValue(jsonObject, "attachment", JsonObject.class), -1);
-        DocumentReference.Content.Builder builder = DocumentReference.Content.builder(attachment);
+        DocumentReference.Content.Builder builder = DocumentReference.Content.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.attachment(parseAttachment("attachment", JsonSupport.getJsonValue(jsonObject, "attachment", JsonObject.class), -1));
         builder.format(parseCoding("format", JsonSupport.getJsonValue(jsonObject, "format", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected DocumentReference.Context parseDocumentReferenceContext(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DocumentReference.Context parseDocumentReferenceContext(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -7694,21 +7671,21 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected DocumentReference.RelatesTo parseDocumentReferenceRelatesTo(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private DocumentReference.RelatesTo parseDocumentReferenceRelatesTo(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("DocumentReference.RelatesTo", jsonObject);
-        DocumentRelationshipType code = (DocumentRelationshipType) parseString(DocumentRelationshipType.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        Reference target = parseReference("target", JsonSupport.getJsonValue(jsonObject, "target", JsonObject.class), -1);
-        DocumentReference.RelatesTo.Builder builder = DocumentReference.RelatesTo.builder(code, target);
+        DocumentReference.RelatesTo.Builder builder = DocumentReference.RelatesTo.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code((DocumentRelationshipType) parseString(DocumentRelationshipType.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
+        builder.target(parseReference("target", JsonSupport.getJsonValue(jsonObject, "target", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected void parseDomainResource(DomainResource.Builder builder, JsonObject jsonObject) {
+    private void parseDomainResource(DomainResource.Builder builder, JsonObject jsonObject) {
         parseResource(builder, jsonObject);
         builder.text(parseNarrative("text", JsonSupport.getJsonValue(jsonObject, "text", JsonObject.class), -1));
         JsonArray containedArray = JsonSupport.getJsonArray(jsonObject, "contained");
@@ -7737,7 +7714,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
     }
 
-    protected Dosage parseDosage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Dosage parseDosage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -7776,7 +7753,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Dosage.DoseAndRate parseDosageDoseAndRate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Dosage.DoseAndRate parseDosageDoseAndRate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -7791,18 +7768,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected EffectEvidenceSynthesis parseEffectEvidenceSynthesis(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private EffectEvidenceSynthesis parseEffectEvidenceSynthesis(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("EffectEvidenceSynthesis", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Reference population = parseReference("population", JsonSupport.getJsonValue(jsonObject, "population", JsonObject.class), -1);
-        Reference exposure = parseReference("exposure", JsonSupport.getJsonValue(jsonObject, "exposure", JsonObject.class), -1);
-        Reference exposureAlternative = parseReference("exposureAlternative", JsonSupport.getJsonValue(jsonObject, "exposureAlternative", JsonObject.class), -1);
-        Reference outcome = parseReference("outcome", JsonSupport.getJsonValue(jsonObject, "outcome", JsonObject.class), -1);
-        EffectEvidenceSynthesis.Builder builder = EffectEvidenceSynthesis.builder(status, population, exposure, exposureAlternative, outcome);
+        EffectEvidenceSynthesis.Builder builder = EffectEvidenceSynthesis.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -7816,6 +7788,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
         JsonArray contactArray = JsonSupport.getJsonArray(jsonObject, "contact");
@@ -7905,6 +7878,10 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.synthesisType(parseCodeableConcept("synthesisType", JsonSupport.getJsonValue(jsonObject, "synthesisType", JsonObject.class), -1));
         builder.studyType(parseCodeableConcept("studyType", JsonSupport.getJsonValue(jsonObject, "studyType", JsonObject.class), -1));
+        builder.population(parseReference("population", JsonSupport.getJsonValue(jsonObject, "population", JsonObject.class), -1));
+        builder.exposure(parseReference("exposure", JsonSupport.getJsonValue(jsonObject, "exposure", JsonObject.class), -1));
+        builder.exposureAlternative(parseReference("exposureAlternative", JsonSupport.getJsonValue(jsonObject, "exposureAlternative", JsonObject.class), -1));
+        builder.outcome(parseReference("outcome", JsonSupport.getJsonValue(jsonObject, "outcome", JsonObject.class), -1));
         builder.sampleSize(parseEffectEvidenceSynthesisSampleSize("sampleSize", JsonSupport.getJsonValue(jsonObject, "sampleSize", JsonObject.class), -1));
         JsonArray resultsByExposureArray = JsonSupport.getJsonArray(jsonObject, "resultsByExposure");
         if (resultsByExposureArray != null) {
@@ -7934,7 +7911,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected EffectEvidenceSynthesis.Certainty parseEffectEvidenceSynthesisCertainty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private EffectEvidenceSynthesis.Certainty parseEffectEvidenceSynthesisCertainty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -7970,7 +7947,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected EffectEvidenceSynthesis.Certainty.CertaintySubcomponent parseEffectEvidenceSynthesisCertaintyCertaintySubcomponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private EffectEvidenceSynthesis.Certainty.CertaintySubcomponent parseEffectEvidenceSynthesisCertaintyCertaintySubcomponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -7999,7 +7976,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected EffectEvidenceSynthesis.EffectEstimate parseEffectEvidenceSynthesisEffectEstimate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private EffectEvidenceSynthesis.EffectEstimate parseEffectEvidenceSynthesisEffectEstimate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -8024,7 +8001,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate parseEffectEvidenceSynthesisEffectEstimatePrecisionEstimate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate parseEffectEvidenceSynthesisEffectEstimatePrecisionEstimate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -8040,23 +8017,23 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected EffectEvidenceSynthesis.ResultsByExposure parseEffectEvidenceSynthesisResultsByExposure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private EffectEvidenceSynthesis.ResultsByExposure parseEffectEvidenceSynthesisResultsByExposure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("EffectEvidenceSynthesis.ResultsByExposure", jsonObject);
-        Reference riskEvidenceSynthesis = parseReference("riskEvidenceSynthesis", JsonSupport.getJsonValue(jsonObject, "riskEvidenceSynthesis", JsonObject.class), -1);
-        EffectEvidenceSynthesis.ResultsByExposure.Builder builder = EffectEvidenceSynthesis.ResultsByExposure.builder(riskEvidenceSynthesis);
+        EffectEvidenceSynthesis.ResultsByExposure.Builder builder = EffectEvidenceSynthesis.ResultsByExposure.builder();
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.exposureState((ExposureState) parseString(ExposureState.builder(), "exposureState", JsonSupport.getJsonValue(jsonObject, "exposureState", JsonString.class), jsonObject.get("_exposureState"), -1));
         builder.variantState(parseCodeableConcept("variantState", JsonSupport.getJsonValue(jsonObject, "variantState", JsonObject.class), -1));
+        builder.riskEvidenceSynthesis(parseReference("riskEvidenceSynthesis", JsonSupport.getJsonValue(jsonObject, "riskEvidenceSynthesis", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected EffectEvidenceSynthesis.SampleSize parseEffectEvidenceSynthesisSampleSize(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private EffectEvidenceSynthesis.SampleSize parseEffectEvidenceSynthesisSampleSize(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -8071,7 +8048,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected void parseElement(Element.Builder builder, JsonObject jsonObject) {
+    private void parseElement(Element.Builder builder, JsonObject jsonObject) {
         builder.id(parseJavaString("id", JsonSupport.getJsonValue(jsonObject, "id", JsonString.class), -1));
         JsonArray extensionArray = JsonSupport.getJsonArray(jsonObject, "extension");
         if (extensionArray != null) {
@@ -8083,15 +8060,15 @@ public class FHIRJsonParser implements FHIRParser {
         }
     }
 
-    protected ElementDefinition parseElementDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ElementDefinition parseElementDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ElementDefinition", jsonObject);
-        String path = parseString("path", JsonSupport.getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1);
-        ElementDefinition.Builder builder = ElementDefinition.builder(path);
+        ElementDefinition.Builder builder = ElementDefinition.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.path(parseString("path", JsonSupport.getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1));
         JsonArray representationArray = JsonSupport.getJsonArray(jsonObject, "representation", true);
         if (representationArray != null) {
             int index = 0;
@@ -8188,48 +8165,48 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ElementDefinition.Base parseElementDefinitionBase(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ElementDefinition.Base parseElementDefinitionBase(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ElementDefinition.Base", jsonObject);
-        String path = parseString("path", JsonSupport.getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1);
-        UnsignedInt min = (UnsignedInt) parseInteger(UnsignedInt.builder(), "min", JsonSupport.getJsonValue(jsonObject, "min", JsonNumber.class), jsonObject.get("_min"), -1);
-        String max = parseString("max", JsonSupport.getJsonValue(jsonObject, "max", JsonString.class), jsonObject.get("_max"), -1);
-        ElementDefinition.Base.Builder builder = ElementDefinition.Base.builder(path, min, max);
+        ElementDefinition.Base.Builder builder = ElementDefinition.Base.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.path(parseString("path", JsonSupport.getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1));
+        builder.min((UnsignedInt) parseInteger(UnsignedInt.builder(), "min", JsonSupport.getJsonValue(jsonObject, "min", JsonNumber.class), jsonObject.get("_min"), -1));
+        builder.max(parseString("max", JsonSupport.getJsonValue(jsonObject, "max", JsonString.class), jsonObject.get("_max"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ElementDefinition.Binding parseElementDefinitionBinding(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ElementDefinition.Binding parseElementDefinitionBinding(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ElementDefinition.Binding", jsonObject);
-        BindingStrength strength = (BindingStrength) parseString(BindingStrength.builder(), "strength", JsonSupport.getJsonValue(jsonObject, "strength", JsonString.class), jsonObject.get("_strength"), -1);
-        ElementDefinition.Binding.Builder builder = ElementDefinition.Binding.builder(strength);
+        ElementDefinition.Binding.Builder builder = ElementDefinition.Binding.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.strength((BindingStrength) parseString(BindingStrength.builder(), "strength", JsonSupport.getJsonValue(jsonObject, "strength", JsonString.class), jsonObject.get("_strength"), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.valueSet((Canonical) parseUri(Canonical.builder(), "valueSet", JsonSupport.getJsonValue(jsonObject, "valueSet", JsonString.class), jsonObject.get("_valueSet"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ElementDefinition.Constraint parseElementDefinitionConstraint(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ElementDefinition.Constraint parseElementDefinitionConstraint(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ElementDefinition.Constraint", jsonObject);
-        Id key = (Id) parseString(Id.builder(), "key", JsonSupport.getJsonValue(jsonObject, "key", JsonString.class), jsonObject.get("_key"), -1);
-        ConstraintSeverity severity = (ConstraintSeverity) parseString(ConstraintSeverity.builder(), "severity", JsonSupport.getJsonValue(jsonObject, "severity", JsonString.class), jsonObject.get("_severity"), -1);
-        String human = parseString("human", JsonSupport.getJsonValue(jsonObject, "human", JsonString.class), jsonObject.get("_human"), -1);
-        ElementDefinition.Constraint.Builder builder = ElementDefinition.Constraint.builder(key, severity, human);
+        ElementDefinition.Constraint.Builder builder = ElementDefinition.Constraint.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.key((Id) parseString(Id.builder(), "key", JsonSupport.getJsonValue(jsonObject, "key", JsonString.class), jsonObject.get("_key"), -1));
         builder.requirements(parseString("requirements", JsonSupport.getJsonValue(jsonObject, "requirements", JsonString.class), jsonObject.get("_requirements"), -1));
+        builder.severity((ConstraintSeverity) parseString(ConstraintSeverity.builder(), "severity", JsonSupport.getJsonValue(jsonObject, "severity", JsonString.class), jsonObject.get("_severity"), -1));
+        builder.human(parseString("human", JsonSupport.getJsonValue(jsonObject, "human", JsonString.class), jsonObject.get("_human"), -1));
         builder.expression(parseString("expression", JsonSupport.getJsonValue(jsonObject, "expression", JsonString.class), jsonObject.get("_expression"), -1));
         builder.xpath(parseString("xpath", JsonSupport.getJsonValue(jsonObject, "xpath", JsonString.class), jsonObject.get("_xpath"), -1));
         builder.source((Canonical) parseUri(Canonical.builder(), "source", JsonSupport.getJsonValue(jsonObject, "source", JsonString.class), jsonObject.get("_source"), -1));
@@ -8237,44 +8214,43 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ElementDefinition.Example parseElementDefinitionExample(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ElementDefinition.Example parseElementDefinitionExample(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ElementDefinition.Example", jsonObject);
-        String label = parseString("label", JsonSupport.getJsonValue(jsonObject, "label", JsonString.class), jsonObject.get("_label"), -1);
-        Element value = parseChoiceElement("value", jsonObject, "Base64Binary", "Boolean", "Canonical", "Code", "Date", "DateTime", "Decimal", "Id", "Instant", "Integer", "Markdown", "Oid", "PositiveInt", "String", "Time", "UnsignedInt", "Uri", "Url", "Uuid", "Address", "Age", "Annotation", "Attachment", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "HumanName", "Identifier", "Money", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Signature", "Timing", "ContactDetail", "Contributor", "DataRequirement", "Expression", "ParameterDefinition", "RelatedArtifact", "TriggerDefinition", "UsageContext", "Dosage");
-        ElementDefinition.Example.Builder builder = ElementDefinition.Example.builder(label, value);
+        ElementDefinition.Example.Builder builder = ElementDefinition.Example.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.label(parseString("label", JsonSupport.getJsonValue(jsonObject, "label", JsonString.class), jsonObject.get("_label"), -1));
+        builder.value(parseChoiceElement("value", jsonObject, "Base64Binary", "Boolean", "Canonical", "Code", "Date", "DateTime", "Decimal", "Id", "Instant", "Integer", "Markdown", "Oid", "PositiveInt", "String", "Time", "UnsignedInt", "Uri", "Url", "Uuid", "Address", "Age", "Annotation", "Attachment", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "HumanName", "Identifier", "Money", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Signature", "Timing", "ContactDetail", "Contributor", "DataRequirement", "Expression", "ParameterDefinition", "RelatedArtifact", "TriggerDefinition", "UsageContext", "Dosage"));
         stackPop();
         return builder.build();
     }
 
-    protected ElementDefinition.Mapping parseElementDefinitionMapping(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ElementDefinition.Mapping parseElementDefinitionMapping(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ElementDefinition.Mapping", jsonObject);
-        Id identity = (Id) parseString(Id.builder(), "identity", JsonSupport.getJsonValue(jsonObject, "identity", JsonString.class), jsonObject.get("_identity"), -1);
-        String map = parseString("map", JsonSupport.getJsonValue(jsonObject, "map", JsonString.class), jsonObject.get("_map"), -1);
-        ElementDefinition.Mapping.Builder builder = ElementDefinition.Mapping.builder(identity, map);
+        ElementDefinition.Mapping.Builder builder = ElementDefinition.Mapping.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.identity((Id) parseString(Id.builder(), "identity", JsonSupport.getJsonValue(jsonObject, "identity", JsonString.class), jsonObject.get("_identity"), -1));
         builder.language((Code) parseString(Code.builder(), "language", JsonSupport.getJsonValue(jsonObject, "language", JsonString.class), jsonObject.get("_language"), -1));
+        builder.map(parseString("map", JsonSupport.getJsonValue(jsonObject, "map", JsonString.class), jsonObject.get("_map"), -1));
         builder.comment(parseString("comment", JsonSupport.getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ElementDefinition.Slicing parseElementDefinitionSlicing(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ElementDefinition.Slicing parseElementDefinitionSlicing(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ElementDefinition.Slicing", jsonObject);
-        SlicingRules rules = (SlicingRules) parseString(SlicingRules.builder(), "rules", JsonSupport.getJsonValue(jsonObject, "rules", JsonString.class), jsonObject.get("_rules"), -1);
-        ElementDefinition.Slicing.Builder builder = ElementDefinition.Slicing.builder(rules);
+        ElementDefinition.Slicing.Builder builder = ElementDefinition.Slicing.builder();
         parseBackboneElement(builder, jsonObject);
         JsonArray discriminatorArray = JsonSupport.getJsonArray(jsonObject, "discriminator");
         if (discriminatorArray != null) {
@@ -8286,33 +8262,34 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.ordered(parseBoolean("ordered", JsonSupport.getJsonValue(jsonObject, "ordered", JsonValue.class), jsonObject.get("_ordered"), -1));
+        builder.rules((SlicingRules) parseString(SlicingRules.builder(), "rules", JsonSupport.getJsonValue(jsonObject, "rules", JsonString.class), jsonObject.get("_rules"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ElementDefinition.Slicing.Discriminator parseElementDefinitionSlicingDiscriminator(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ElementDefinition.Slicing.Discriminator parseElementDefinitionSlicingDiscriminator(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ElementDefinition.Slicing.Discriminator", jsonObject);
-        DiscriminatorType type = (DiscriminatorType) parseString(DiscriminatorType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        String path = parseString("path", JsonSupport.getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1);
-        ElementDefinition.Slicing.Discriminator.Builder builder = ElementDefinition.Slicing.Discriminator.builder(type, path);
+        ElementDefinition.Slicing.Discriminator.Builder builder = ElementDefinition.Slicing.Discriminator.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type((DiscriminatorType) parseString(DiscriminatorType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.path(parseString("path", JsonSupport.getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ElementDefinition.Type parseElementDefinitionType(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ElementDefinition.Type parseElementDefinitionType(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ElementDefinition.Type", jsonObject);
-        Uri code = parseUri("code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        ElementDefinition.Type.Builder builder = ElementDefinition.Type.builder(code);
+        ElementDefinition.Type.Builder builder = ElementDefinition.Type.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code(parseUri("code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         JsonArray profileArray = JsonSupport.getJsonArray(jsonObject, "profile", true);
         if (profileArray != null) {
             int index = 0;
@@ -8345,15 +8322,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Encounter parseEncounter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Encounter parseEncounter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Encounter", jsonObject);
-        EncounterStatus status = (EncounterStatus) parseString(EncounterStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Coding clazz = parseCoding("class", JsonSupport.getJsonValue(jsonObject, "class", JsonObject.class), -1);
-        Encounter.Builder builder = Encounter.builder(status, clazz);
+        Encounter.Builder builder = Encounter.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -8363,6 +8338,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((EncounterStatus) parseString(EncounterStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         JsonArray statusHistoryArray = JsonSupport.getJsonArray(jsonObject, "statusHistory");
         if (statusHistoryArray != null) {
             int index = 0;
@@ -8371,6 +8347,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.clazz(parseCoding("class", JsonSupport.getJsonValue(jsonObject, "class", JsonObject.class), -1));
         JsonArray classHistoryArray = JsonSupport.getJsonArray(jsonObject, "classHistory");
         if (classHistoryArray != null) {
             int index = 0;
@@ -8471,36 +8448,36 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Encounter.ClassHistory parseEncounterClassHistory(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Encounter.ClassHistory parseEncounterClassHistory(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Encounter.ClassHistory", jsonObject);
-        Coding clazz = parseCoding("class", JsonSupport.getJsonValue(jsonObject, "class", JsonObject.class), -1);
-        Period period = parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1);
-        Encounter.ClassHistory.Builder builder = Encounter.ClassHistory.builder(clazz, period);
+        Encounter.ClassHistory.Builder builder = Encounter.ClassHistory.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.clazz(parseCoding("class", JsonSupport.getJsonValue(jsonObject, "class", JsonObject.class), -1));
+        builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Encounter.Diagnosis parseEncounterDiagnosis(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Encounter.Diagnosis parseEncounterDiagnosis(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Encounter.Diagnosis", jsonObject);
-        Reference condition = parseReference("condition", JsonSupport.getJsonValue(jsonObject, "condition", JsonObject.class), -1);
-        Encounter.Diagnosis.Builder builder = Encounter.Diagnosis.builder(condition);
+        Encounter.Diagnosis.Builder builder = Encounter.Diagnosis.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.condition(parseReference("condition", JsonSupport.getJsonValue(jsonObject, "condition", JsonObject.class), -1));
         builder.use(parseCodeableConcept("use", JsonSupport.getJsonValue(jsonObject, "use", JsonObject.class), -1));
         builder.rank((PositiveInt) parseInteger(PositiveInt.builder(), "rank", JsonSupport.getJsonValue(jsonObject, "rank", JsonNumber.class), jsonObject.get("_rank"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Encounter.Hospitalization parseEncounterHospitalization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Encounter.Hospitalization parseEncounterHospitalization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -8542,15 +8519,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Encounter.Location parseEncounterLocation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Encounter.Location parseEncounterLocation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Encounter.Location", jsonObject);
-        Reference location = parseReference("location", JsonSupport.getJsonValue(jsonObject, "location", JsonObject.class), -1);
-        Encounter.Location.Builder builder = Encounter.Location.builder(location);
+        Encounter.Location.Builder builder = Encounter.Location.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.location(parseReference("location", JsonSupport.getJsonValue(jsonObject, "location", JsonObject.class), -1));
         builder.status((EncounterLocationStatus) parseString(EncounterLocationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.physicalType(parseCodeableConcept("physicalType", JsonSupport.getJsonValue(jsonObject, "physicalType", JsonObject.class), -1));
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
@@ -8558,7 +8535,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Encounter.Participant parseEncounterParticipant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Encounter.Participant parseEncounterParticipant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -8580,39 +8557,27 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Encounter.StatusHistory parseEncounterStatusHistory(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Encounter.StatusHistory parseEncounterStatusHistory(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Encounter.StatusHistory", jsonObject);
-        EncounterStatus status = (EncounterStatus) parseString(EncounterStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Period period = parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1);
-        Encounter.StatusHistory.Builder builder = Encounter.StatusHistory.builder(status, period);
+        Encounter.StatusHistory.Builder builder = Encounter.StatusHistory.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.status((EncounterStatus) parseString(EncounterStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Endpoint parseEndpoint(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Endpoint parseEndpoint(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Endpoint", jsonObject);
-        EndpointStatus status = (EndpointStatus) parseString(EndpointStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Coding connectionType = parseCoding("connectionType", JsonSupport.getJsonValue(jsonObject, "connectionType", JsonObject.class), -1);
-        java.util.List<CodeableConcept> payloadType = new ArrayList<>();
-        JsonArray payloadTypeArray = JsonSupport.getJsonArray(jsonObject, "payloadType");
-        if (payloadTypeArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : payloadTypeArray) {
-                payloadType.add(parseCodeableConcept("payloadType", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        Url address = (Url) parseUri(Url.builder(), "address", JsonSupport.getJsonValue(jsonObject, "address", JsonString.class), jsonObject.get("_address"), -1);
-        Endpoint.Builder builder = Endpoint.builder(status, connectionType, payloadType, address);
+        Endpoint.Builder builder = Endpoint.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -8622,6 +8587,8 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((EndpointStatus) parseString(EndpointStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.connectionType(parseCoding("connectionType", JsonSupport.getJsonValue(jsonObject, "connectionType", JsonObject.class), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.managingOrganization(parseReference("managingOrganization", JsonSupport.getJsonValue(jsonObject, "managingOrganization", JsonObject.class), -1));
         JsonArray contactArray = JsonSupport.getJsonArray(jsonObject, "contact");
@@ -8633,6 +8600,14 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
+        JsonArray payloadTypeArray = JsonSupport.getJsonArray(jsonObject, "payloadType");
+        if (payloadTypeArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : payloadTypeArray) {
+                builder.payloadType(parseCodeableConcept("payloadType", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         JsonArray payloadMimeTypeArray = JsonSupport.getJsonArray(jsonObject, "payloadMimeType", true);
         if (payloadMimeTypeArray != null) {
             int index = 0;
@@ -8642,6 +8617,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.address((Url) parseUri(Url.builder(), "address", JsonSupport.getJsonValue(jsonObject, "address", JsonString.class), jsonObject.get("_address"), -1));
         JsonArray headerArray = JsonSupport.getJsonArray(jsonObject, "header", true);
         if (headerArray != null) {
             int index = 0;
@@ -8655,7 +8631,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected EnrollmentRequest parseEnrollmentRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private EnrollmentRequest parseEnrollmentRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -8681,7 +8657,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected EnrollmentResponse parseEnrollmentResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private EnrollmentResponse parseEnrollmentResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -8708,15 +8684,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected EpisodeOfCare parseEpisodeOfCare(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private EpisodeOfCare parseEpisodeOfCare(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("EpisodeOfCare", jsonObject);
-        EpisodeOfCareStatus status = (EpisodeOfCareStatus) parseString(EpisodeOfCareStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Reference patient = parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1);
-        EpisodeOfCare.Builder builder = EpisodeOfCare.builder(status, patient);
+        EpisodeOfCare.Builder builder = EpisodeOfCare.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -8726,6 +8700,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((EpisodeOfCareStatus) parseString(EpisodeOfCareStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         JsonArray statusHistoryArray = JsonSupport.getJsonArray(jsonObject, "statusHistory");
         if (statusHistoryArray != null) {
             int index = 0;
@@ -8750,6 +8725,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
         builder.managingOrganization(parseReference("managingOrganization", JsonSupport.getJsonValue(jsonObject, "managingOrganization", JsonObject.class), -1));
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
         JsonArray referralRequestArray = JsonSupport.getJsonArray(jsonObject, "referralRequest");
@@ -8781,52 +8757,42 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected EpisodeOfCare.Diagnosis parseEpisodeOfCareDiagnosis(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private EpisodeOfCare.Diagnosis parseEpisodeOfCareDiagnosis(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("EpisodeOfCare.Diagnosis", jsonObject);
-        Reference condition = parseReference("condition", JsonSupport.getJsonValue(jsonObject, "condition", JsonObject.class), -1);
-        EpisodeOfCare.Diagnosis.Builder builder = EpisodeOfCare.Diagnosis.builder(condition);
+        EpisodeOfCare.Diagnosis.Builder builder = EpisodeOfCare.Diagnosis.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.condition(parseReference("condition", JsonSupport.getJsonValue(jsonObject, "condition", JsonObject.class), -1));
         builder.role(parseCodeableConcept("role", JsonSupport.getJsonValue(jsonObject, "role", JsonObject.class), -1));
         builder.rank((PositiveInt) parseInteger(PositiveInt.builder(), "rank", JsonSupport.getJsonValue(jsonObject, "rank", JsonNumber.class), jsonObject.get("_rank"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected EpisodeOfCare.StatusHistory parseEpisodeOfCareStatusHistory(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private EpisodeOfCare.StatusHistory parseEpisodeOfCareStatusHistory(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("EpisodeOfCare.StatusHistory", jsonObject);
-        EpisodeOfCareStatus status = (EpisodeOfCareStatus) parseString(EpisodeOfCareStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Period period = parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1);
-        EpisodeOfCare.StatusHistory.Builder builder = EpisodeOfCare.StatusHistory.builder(status, period);
+        EpisodeOfCare.StatusHistory.Builder builder = EpisodeOfCare.StatusHistory.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.status((EpisodeOfCareStatus) parseString(EpisodeOfCareStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected EventDefinition parseEventDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private EventDefinition parseEventDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("EventDefinition", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        java.util.List<TriggerDefinition> trigger = new ArrayList<>();
-        JsonArray triggerArray = JsonSupport.getJsonArray(jsonObject, "trigger");
-        if (triggerArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : triggerArray) {
-                trigger.add(parseTriggerDefinition("trigger", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        EventDefinition.Builder builder = EventDefinition.builder(status, trigger);
+        EventDefinition.Builder builder = EventDefinition.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -8841,6 +8807,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.subtitle(parseString("subtitle", JsonSupport.getJsonValue(jsonObject, "subtitle", JsonString.class), jsonObject.get("_subtitle"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.subject(parseChoiceElement("subject", jsonObject, "CodeableConcept", "Reference"));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
@@ -8924,19 +8891,25 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        JsonArray triggerArray = JsonSupport.getJsonArray(jsonObject, "trigger");
+        if (triggerArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : triggerArray) {
+                builder.trigger(parseTriggerDefinition("trigger", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         stackPop();
         return builder.build();
     }
 
-    protected Evidence parseEvidence(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Evidence parseEvidence(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Evidence", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Reference exposureBackground = parseReference("exposureBackground", JsonSupport.getJsonValue(jsonObject, "exposureBackground", JsonObject.class), -1);
-        Evidence.Builder builder = Evidence.builder(status, exposureBackground);
+        Evidence.Builder builder = Evidence.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -8952,6 +8925,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.shortTitle(parseString("shortTitle", JsonSupport.getJsonValue(jsonObject, "shortTitle", JsonString.class), jsonObject.get("_shortTitle"), -1));
         builder.subtitle(parseString("subtitle", JsonSupport.getJsonValue(jsonObject, "subtitle", JsonString.class), jsonObject.get("_subtitle"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
         JsonArray contactArray = JsonSupport.getJsonArray(jsonObject, "contact");
@@ -9039,6 +9013,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.exposureBackground(parseReference("exposureBackground", JsonSupport.getJsonValue(jsonObject, "exposureBackground", JsonObject.class), -1));
         JsonArray exposureVariantArray = JsonSupport.getJsonArray(jsonObject, "exposureVariant");
         if (exposureVariantArray != null) {
             int index = 0;
@@ -9059,23 +9034,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected EvidenceVariable parseEvidenceVariable(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private EvidenceVariable parseEvidenceVariable(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("EvidenceVariable", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        java.util.List<EvidenceVariable.Characteristic> characteristic = new ArrayList<>();
-        JsonArray characteristicArray = JsonSupport.getJsonArray(jsonObject, "characteristic");
-        if (characteristicArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : characteristicArray) {
-                characteristic.add(parseEvidenceVariableCharacteristic("characteristic", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        EvidenceVariable.Builder builder = EvidenceVariable.builder(status, characteristic);
+        EvidenceVariable.Builder builder = EvidenceVariable.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -9091,6 +9056,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.shortTitle(parseString("shortTitle", JsonSupport.getJsonValue(jsonObject, "shortTitle", JsonString.class), jsonObject.get("_shortTitle"), -1));
         builder.subtitle(parseString("subtitle", JsonSupport.getJsonValue(jsonObject, "subtitle", JsonString.class), jsonObject.get("_subtitle"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
         JsonArray contactArray = JsonSupport.getJsonArray(jsonObject, "contact");
@@ -9179,20 +9145,28 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.type((EvidenceVariableType) parseString(EvidenceVariableType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        JsonArray characteristicArray = JsonSupport.getJsonArray(jsonObject, "characteristic");
+        if (characteristicArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : characteristicArray) {
+                builder.characteristic(parseEvidenceVariableCharacteristic("characteristic", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         stackPop();
         return builder.build();
     }
 
-    protected EvidenceVariable.Characteristic parseEvidenceVariableCharacteristic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private EvidenceVariable.Characteristic parseEvidenceVariableCharacteristic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("EvidenceVariable.Characteristic", jsonObject);
-        Element definition = parseChoiceElement("definition", jsonObject, "Reference", "Canonical", "CodeableConcept", "Expression", "DataRequirement", "TriggerDefinition");
-        EvidenceVariable.Characteristic.Builder builder = EvidenceVariable.Characteristic.builder(definition);
+        EvidenceVariable.Characteristic.Builder builder = EvidenceVariable.Characteristic.builder();
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        builder.definition(parseChoiceElement("definition", jsonObject, "Reference", "Canonical", "CodeableConcept", "Expression", "DataRequirement", "TriggerDefinition"));
         JsonArray usageContextArray = JsonSupport.getJsonArray(jsonObject, "usageContext");
         if (usageContextArray != null) {
             int index = 0;
@@ -9209,14 +9183,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExampleScenario parseExampleScenario(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExampleScenario parseExampleScenario(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExampleScenario", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        ExampleScenario.Builder builder = ExampleScenario.builder(status);
+        ExampleScenario.Builder builder = ExampleScenario.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -9229,6 +9202,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
@@ -9295,32 +9269,32 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExampleScenario.Actor parseExampleScenarioActor(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExampleScenario.Actor parseExampleScenarioActor(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExampleScenario.Actor", jsonObject);
-        String actorId = parseString("actorId", JsonSupport.getJsonValue(jsonObject, "actorId", JsonString.class), jsonObject.get("_actorId"), -1);
-        ExampleScenarioActorType type = (ExampleScenarioActorType) parseString(ExampleScenarioActorType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        ExampleScenario.Actor.Builder builder = ExampleScenario.Actor.builder(actorId, type);
+        ExampleScenario.Actor.Builder builder = ExampleScenario.Actor.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.actorId(parseString("actorId", JsonSupport.getJsonValue(jsonObject, "actorId", JsonString.class), jsonObject.get("_actorId"), -1));
+        builder.type((ExampleScenarioActorType) parseString(ExampleScenarioActorType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.description((Markdown) parseString(Markdown.builder(), "description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ExampleScenario.Instance parseExampleScenarioInstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExampleScenario.Instance parseExampleScenarioInstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExampleScenario.Instance", jsonObject);
-        String resourceId = parseString("resourceId", JsonSupport.getJsonValue(jsonObject, "resourceId", JsonString.class), jsonObject.get("_resourceId"), -1);
-        FHIRResourceType resourceType = (FHIRResourceType) parseString(FHIRResourceType.builder(), "resourceType", JsonSupport.getJsonValue(jsonObject, "resourceType", JsonString.class), jsonObject.get("_resourceType"), -1);
-        ExampleScenario.Instance.Builder builder = ExampleScenario.Instance.builder(resourceId, resourceType);
+        ExampleScenario.Instance.Builder builder = ExampleScenario.Instance.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.resourceId(parseString("resourceId", JsonSupport.getJsonValue(jsonObject, "resourceId", JsonString.class), jsonObject.get("_resourceId"), -1));
+        builder.resourceType((FHIRResourceType) parseString(FHIRResourceType.builder(), "resourceType", JsonSupport.getJsonValue(jsonObject, "resourceType", JsonString.class), jsonObject.get("_resourceType"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.description((Markdown) parseString(Markdown.builder(), "description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         JsonArray versionArray = JsonSupport.getJsonArray(jsonObject, "version");
@@ -9343,43 +9317,43 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExampleScenario.Instance.ContainedInstance parseExampleScenarioInstanceContainedInstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExampleScenario.Instance.ContainedInstance parseExampleScenarioInstanceContainedInstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExampleScenario.Instance.ContainedInstance", jsonObject);
-        String resourceId = parseString("resourceId", JsonSupport.getJsonValue(jsonObject, "resourceId", JsonString.class), jsonObject.get("_resourceId"), -1);
-        ExampleScenario.Instance.ContainedInstance.Builder builder = ExampleScenario.Instance.ContainedInstance.builder(resourceId);
+        ExampleScenario.Instance.ContainedInstance.Builder builder = ExampleScenario.Instance.ContainedInstance.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.resourceId(parseString("resourceId", JsonSupport.getJsonValue(jsonObject, "resourceId", JsonString.class), jsonObject.get("_resourceId"), -1));
         builder.versionId(parseString("versionId", JsonSupport.getJsonValue(jsonObject, "versionId", JsonString.class), jsonObject.get("_versionId"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ExampleScenario.Instance.Version parseExampleScenarioInstanceVersion(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExampleScenario.Instance.Version parseExampleScenarioInstanceVersion(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExampleScenario.Instance.Version", jsonObject);
-        String versionId = parseString("versionId", JsonSupport.getJsonValue(jsonObject, "versionId", JsonString.class), jsonObject.get("_versionId"), -1);
-        Markdown description = (Markdown) parseString(Markdown.builder(), "description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1);
-        ExampleScenario.Instance.Version.Builder builder = ExampleScenario.Instance.Version.builder(versionId, description);
+        ExampleScenario.Instance.Version.Builder builder = ExampleScenario.Instance.Version.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.versionId(parseString("versionId", JsonSupport.getJsonValue(jsonObject, "versionId", JsonString.class), jsonObject.get("_versionId"), -1));
+        builder.description((Markdown) parseString(Markdown.builder(), "description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ExampleScenario.Process parseExampleScenarioProcess(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExampleScenario.Process parseExampleScenarioProcess(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExampleScenario.Process", jsonObject);
-        String title = parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1);
-        ExampleScenario.Process.Builder builder = ExampleScenario.Process.builder(title);
+        ExampleScenario.Process.Builder builder = ExampleScenario.Process.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.description((Markdown) parseString(Markdown.builder(), "description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.preConditions((Markdown) parseString(Markdown.builder(), "preConditions", JsonSupport.getJsonValue(jsonObject, "preConditions", JsonString.class), jsonObject.get("_preConditions"), -1));
         builder.postConditions((Markdown) parseString(Markdown.builder(), "postConditions", JsonSupport.getJsonValue(jsonObject, "postConditions", JsonString.class), jsonObject.get("_postConditions"), -1));
@@ -9395,7 +9369,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExampleScenario.Process.Step parseExampleScenarioProcessStep(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExampleScenario.Process.Step parseExampleScenarioProcessStep(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -9425,15 +9399,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExampleScenario.Process.Step.Alternative parseExampleScenarioProcessStepAlternative(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExampleScenario.Process.Step.Alternative parseExampleScenarioProcessStepAlternative(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExampleScenario.Process.Step.Alternative", jsonObject);
-        String title = parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1);
-        ExampleScenario.Process.Step.Alternative.Builder builder = ExampleScenario.Process.Step.Alternative.builder(title);
+        ExampleScenario.Process.Step.Alternative.Builder builder = ExampleScenario.Process.Step.Alternative.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.description((Markdown) parseString(Markdown.builder(), "description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         JsonArray stepArray = JsonSupport.getJsonArray(jsonObject, "step");
         if (stepArray != null) {
@@ -9447,15 +9421,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExampleScenario.Process.Step.Operation parseExampleScenarioProcessStepOperation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExampleScenario.Process.Step.Operation parseExampleScenarioProcessStepOperation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExampleScenario.Process.Step.Operation", jsonObject);
-        String number = parseString("number", JsonSupport.getJsonValue(jsonObject, "number", JsonString.class), jsonObject.get("_number"), -1);
-        ExampleScenario.Process.Step.Operation.Builder builder = ExampleScenario.Process.Step.Operation.builder(number);
+        ExampleScenario.Process.Step.Operation.Builder builder = ExampleScenario.Process.Step.Operation.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.number(parseString("number", JsonSupport.getJsonValue(jsonObject, "number", JsonString.class), jsonObject.get("_number"), -1));
         builder.type(parseString("type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.initiator(parseString("initiator", JsonSupport.getJsonValue(jsonObject, "initiator", JsonString.class), jsonObject.get("_initiator"), -1));
@@ -9469,30 +9443,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit parseExplanationOfBenefit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit parseExplanationOfBenefit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExplanationOfBenefit", jsonObject);
-        ExplanationOfBenefitStatus status = (ExplanationOfBenefitStatus) parseString(ExplanationOfBenefitStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        Use use = (Use) parseString(Use.builder(), "use", JsonSupport.getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1);
-        Reference patient = parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1);
-        DateTime created = parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1);
-        Reference insurer = parseReference("insurer", JsonSupport.getJsonValue(jsonObject, "insurer", JsonObject.class), -1);
-        Reference provider = parseReference("provider", JsonSupport.getJsonValue(jsonObject, "provider", JsonObject.class), -1);
-        RemittanceOutcome outcome = (RemittanceOutcome) parseString(RemittanceOutcome.builder(), "outcome", JsonSupport.getJsonValue(jsonObject, "outcome", JsonString.class), jsonObject.get("_outcome"), -1);
-        java.util.List<ExplanationOfBenefit.Insurance> insurance = new ArrayList<>();
-        JsonArray insuranceArray = JsonSupport.getJsonArray(jsonObject, "insurance");
-        if (insuranceArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : insuranceArray) {
-                insurance.add(parseExplanationOfBenefitInsurance("insurance", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        ExplanationOfBenefit.Builder builder = ExplanationOfBenefit.builder(status, type, use, patient, created, insurer, provider, outcome, insurance);
+        ExplanationOfBenefit.Builder builder = ExplanationOfBenefit.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -9502,9 +9459,16 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((ExplanationOfBenefitStatus) parseString(ExplanationOfBenefitStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.subType(parseCodeableConcept("subType", JsonSupport.getJsonValue(jsonObject, "subType", JsonObject.class), -1));
+        builder.use((Use) parseString(Use.builder(), "use", JsonSupport.getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1));
+        builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
         builder.billablePeriod(parsePeriod("billablePeriod", JsonSupport.getJsonValue(jsonObject, "billablePeriod", JsonObject.class), -1));
+        builder.created(parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1));
         builder.enterer(parseReference("enterer", JsonSupport.getJsonValue(jsonObject, "enterer", JsonObject.class), -1));
+        builder.insurer(parseReference("insurer", JsonSupport.getJsonValue(jsonObject, "insurer", JsonObject.class), -1));
+        builder.provider(parseReference("provider", JsonSupport.getJsonValue(jsonObject, "provider", JsonObject.class), -1));
         builder.priority(parseCodeableConcept("priority", JsonSupport.getJsonValue(jsonObject, "priority", JsonObject.class), -1));
         builder.fundsReserveRequested(parseCodeableConcept("fundsReserveRequested", JsonSupport.getJsonValue(jsonObject, "fundsReserveRequested", JsonObject.class), -1));
         builder.fundsReserve(parseCodeableConcept("fundsReserve", JsonSupport.getJsonValue(jsonObject, "fundsReserve", JsonObject.class), -1));
@@ -9523,6 +9487,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.facility(parseReference("facility", JsonSupport.getJsonValue(jsonObject, "facility", JsonObject.class), -1));
         builder.claim(parseReference("claim", JsonSupport.getJsonValue(jsonObject, "claim", JsonObject.class), -1));
         builder.claimResponse(parseReference("claimResponse", JsonSupport.getJsonValue(jsonObject, "claimResponse", JsonObject.class), -1));
+        builder.outcome((RemittanceOutcome) parseString(RemittanceOutcome.builder(), "outcome", JsonSupport.getJsonValue(jsonObject, "outcome", JsonString.class), jsonObject.get("_outcome"), -1));
         builder.disposition(parseString("disposition", JsonSupport.getJsonValue(jsonObject, "disposition", JsonString.class), jsonObject.get("_disposition"), -1));
         JsonArray preAuthRefArray = JsonSupport.getJsonArray(jsonObject, "preAuthRef", true);
         if (preAuthRefArray != null) {
@@ -9574,6 +9539,14 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.precedence((PositiveInt) parseInteger(PositiveInt.builder(), "precedence", JsonSupport.getJsonValue(jsonObject, "precedence", JsonNumber.class), jsonObject.get("_precedence"), -1));
+        JsonArray insuranceArray = JsonSupport.getJsonArray(jsonObject, "insurance");
+        if (insuranceArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : insuranceArray) {
+                builder.insurance(parseExplanationOfBenefitInsurance("insurance", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         builder.accident(parseExplanationOfBenefitAccident("accident", JsonSupport.getJsonValue(jsonObject, "accident", JsonObject.class), -1));
         JsonArray itemArray = JsonSupport.getJsonArray(jsonObject, "item");
         if (itemArray != null) {
@@ -9631,7 +9604,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.Accident parseExplanationOfBenefitAccident(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.Accident parseExplanationOfBenefitAccident(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -9646,14 +9619,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.AddItem parseExplanationOfBenefitAddItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.AddItem parseExplanationOfBenefitAddItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExplanationOfBenefit.AddItem", jsonObject);
-        CodeableConcept productOrService = parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1);
-        ExplanationOfBenefit.AddItem.Builder builder = ExplanationOfBenefit.AddItem.builder(productOrService);
+        ExplanationOfBenefit.AddItem.Builder builder = ExplanationOfBenefit.AddItem.builder();
         parseBackboneElement(builder, jsonObject);
         JsonArray itemSequenceArray = JsonSupport.getJsonArray(jsonObject, "itemSequence", true);
         if (itemSequenceArray != null) {
@@ -9690,6 +9662,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.productOrService(parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
         JsonArray modifierArray = JsonSupport.getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             int index = 0;
@@ -9750,15 +9723,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.AddItem.Detail parseExplanationOfBenefitAddItemDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.AddItem.Detail parseExplanationOfBenefitAddItemDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExplanationOfBenefit.AddItem.Detail", jsonObject);
-        CodeableConcept productOrService = parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1);
-        ExplanationOfBenefit.AddItem.Detail.Builder builder = ExplanationOfBenefit.AddItem.Detail.builder(productOrService);
+        ExplanationOfBenefit.AddItem.Detail.Builder builder = ExplanationOfBenefit.AddItem.Detail.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.productOrService(parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
         JsonArray modifierArray = JsonSupport.getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             int index = 0;
@@ -9800,15 +9773,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.AddItem.Detail.SubDetail parseExplanationOfBenefitAddItemDetailSubDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.AddItem.Detail.SubDetail parseExplanationOfBenefitAddItemDetailSubDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExplanationOfBenefit.AddItem.Detail.SubDetail", jsonObject);
-        CodeableConcept productOrService = parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1);
-        ExplanationOfBenefit.AddItem.Detail.SubDetail.Builder builder = ExplanationOfBenefit.AddItem.Detail.SubDetail.builder(productOrService);
+        ExplanationOfBenefit.AddItem.Detail.SubDetail.Builder builder = ExplanationOfBenefit.AddItem.Detail.SubDetail.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.productOrService(parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
         JsonArray modifierArray = JsonSupport.getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             int index = 0;
@@ -9842,15 +9815,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.BenefitBalance parseExplanationOfBenefitBenefitBalance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.BenefitBalance parseExplanationOfBenefitBenefitBalance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExplanationOfBenefit.BenefitBalance", jsonObject);
-        CodeableConcept category = parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1);
-        ExplanationOfBenefit.BenefitBalance.Builder builder = ExplanationOfBenefit.BenefitBalance.builder(category);
+        ExplanationOfBenefit.BenefitBalance.Builder builder = ExplanationOfBenefit.BenefitBalance.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
         builder.excluded(parseBoolean("excluded", JsonSupport.getJsonValue(jsonObject, "excluded", JsonValue.class), jsonObject.get("_excluded"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -9869,31 +9842,31 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.BenefitBalance.Financial parseExplanationOfBenefitBenefitBalanceFinancial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.BenefitBalance.Financial parseExplanationOfBenefitBenefitBalanceFinancial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExplanationOfBenefit.BenefitBalance.Financial", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        ExplanationOfBenefit.BenefitBalance.Financial.Builder builder = ExplanationOfBenefit.BenefitBalance.Financial.builder(type);
+        ExplanationOfBenefit.BenefitBalance.Financial.Builder builder = ExplanationOfBenefit.BenefitBalance.Financial.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.allowed(parseChoiceElement("allowed", jsonObject, "UnsignedInt", "String", "Money"));
         builder.used(parseChoiceElement("used", jsonObject, "UnsignedInt", "Money"));
         stackPop();
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.CareTeam parseExplanationOfBenefitCareTeam(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.CareTeam parseExplanationOfBenefitCareTeam(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExplanationOfBenefit.CareTeam", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        Reference provider = parseReference("provider", JsonSupport.getJsonValue(jsonObject, "provider", JsonObject.class), -1);
-        ExplanationOfBenefit.CareTeam.Builder builder = ExplanationOfBenefit.CareTeam.builder(sequence, provider);
+        ExplanationOfBenefit.CareTeam.Builder builder = ExplanationOfBenefit.CareTeam.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
+        builder.provider(parseReference("provider", JsonSupport.getJsonValue(jsonObject, "provider", JsonObject.class), -1));
         builder.responsible(parseBoolean("responsible", JsonSupport.getJsonValue(jsonObject, "responsible", JsonValue.class), jsonObject.get("_responsible"), -1));
         builder.role(parseCodeableConcept("role", JsonSupport.getJsonValue(jsonObject, "role", JsonObject.class), -1));
         builder.qualification(parseCodeableConcept("qualification", JsonSupport.getJsonValue(jsonObject, "qualification", JsonObject.class), -1));
@@ -9901,16 +9874,16 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.Diagnosis parseExplanationOfBenefitDiagnosis(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.Diagnosis parseExplanationOfBenefitDiagnosis(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExplanationOfBenefit.Diagnosis", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        Element diagnosis = parseChoiceElement("diagnosis", jsonObject, "CodeableConcept", "Reference");
-        ExplanationOfBenefit.Diagnosis.Builder builder = ExplanationOfBenefit.Diagnosis.builder(sequence, diagnosis);
+        ExplanationOfBenefit.Diagnosis.Builder builder = ExplanationOfBenefit.Diagnosis.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
+        builder.diagnosis(parseChoiceElement("diagnosis", jsonObject, "CodeableConcept", "Reference"));
         JsonArray typeArray = JsonSupport.getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             int index = 0;
@@ -9925,16 +9898,16 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.Insurance parseExplanationOfBenefitInsurance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.Insurance parseExplanationOfBenefitInsurance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExplanationOfBenefit.Insurance", jsonObject);
-        Boolean focal = parseBoolean("focal", JsonSupport.getJsonValue(jsonObject, "focal", JsonValue.class), jsonObject.get("_focal"), -1);
-        Reference coverage = parseReference("coverage", JsonSupport.getJsonValue(jsonObject, "coverage", JsonObject.class), -1);
-        ExplanationOfBenefit.Insurance.Builder builder = ExplanationOfBenefit.Insurance.builder(focal, coverage);
+        ExplanationOfBenefit.Insurance.Builder builder = ExplanationOfBenefit.Insurance.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.focal(parseBoolean("focal", JsonSupport.getJsonValue(jsonObject, "focal", JsonValue.class), jsonObject.get("_focal"), -1));
+        builder.coverage(parseReference("coverage", JsonSupport.getJsonValue(jsonObject, "coverage", JsonObject.class), -1));
         JsonArray preAuthRefArray = JsonSupport.getJsonArray(jsonObject, "preAuthRef", true);
         if (preAuthRefArray != null) {
             int index = 0;
@@ -9948,16 +9921,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.Item parseExplanationOfBenefitItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.Item parseExplanationOfBenefitItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExplanationOfBenefit.Item", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        CodeableConcept productOrService = parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1);
-        ExplanationOfBenefit.Item.Builder builder = ExplanationOfBenefit.Item.builder(sequence, productOrService);
+        ExplanationOfBenefit.Item.Builder builder = ExplanationOfBenefit.Item.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         JsonArray careTeamSequenceArray = JsonSupport.getJsonArray(jsonObject, "careTeamSequence", true);
         if (careTeamSequenceArray != null) {
             int index = 0;
@@ -9996,6 +9968,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.revenue(parseCodeableConcept("revenue", JsonSupport.getJsonValue(jsonObject, "revenue", JsonObject.class), -1));
         builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
+        builder.productOrService(parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
         JsonArray modifierArray = JsonSupport.getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             int index = 0;
@@ -10072,15 +10045,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.Item.Adjudication parseExplanationOfBenefitItemAdjudication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.Item.Adjudication parseExplanationOfBenefitItemAdjudication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExplanationOfBenefit.Item.Adjudication", jsonObject);
-        CodeableConcept category = parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1);
-        ExplanationOfBenefit.Item.Adjudication.Builder builder = ExplanationOfBenefit.Item.Adjudication.builder(category);
+        ExplanationOfBenefit.Item.Adjudication.Builder builder = ExplanationOfBenefit.Item.Adjudication.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
         builder.reason(parseCodeableConcept("reason", JsonSupport.getJsonValue(jsonObject, "reason", JsonObject.class), -1));
         builder.amount(parseMoney("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1));
         builder.value(parseDecimal("value", JsonSupport.getJsonValue(jsonObject, "value", JsonNumber.class), jsonObject.get("_value"), -1));
@@ -10088,18 +10061,18 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.Item.Detail parseExplanationOfBenefitItemDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.Item.Detail parseExplanationOfBenefitItemDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExplanationOfBenefit.Item.Detail", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        CodeableConcept productOrService = parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1);
-        ExplanationOfBenefit.Item.Detail.Builder builder = ExplanationOfBenefit.Item.Detail.builder(sequence, productOrService);
+        ExplanationOfBenefit.Item.Detail.Builder builder = ExplanationOfBenefit.Item.Detail.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.revenue(parseCodeableConcept("revenue", JsonSupport.getJsonValue(jsonObject, "revenue", JsonObject.class), -1));
         builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
+        builder.productOrService(parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
         JsonArray modifierArray = JsonSupport.getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             int index = 0;
@@ -10157,18 +10130,18 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.Item.Detail.SubDetail parseExplanationOfBenefitItemDetailSubDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.Item.Detail.SubDetail parseExplanationOfBenefitItemDetailSubDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExplanationOfBenefit.Item.Detail.SubDetail", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        CodeableConcept productOrService = parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1);
-        ExplanationOfBenefit.Item.Detail.SubDetail.Builder builder = ExplanationOfBenefit.Item.Detail.SubDetail.builder(sequence, productOrService);
+        ExplanationOfBenefit.Item.Detail.SubDetail.Builder builder = ExplanationOfBenefit.Item.Detail.SubDetail.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.revenue(parseCodeableConcept("revenue", JsonSupport.getJsonValue(jsonObject, "revenue", JsonObject.class), -1));
         builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
+        builder.productOrService(parseCodeableConcept("productOrService", JsonSupport.getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
         JsonArray modifierArray = JsonSupport.getJsonArray(jsonObject, "modifier");
         if (modifierArray != null) {
             int index = 0;
@@ -10218,7 +10191,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.Payee parseExplanationOfBenefitPayee(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.Payee parseExplanationOfBenefitPayee(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -10232,7 +10205,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.Payment parseExplanationOfBenefitPayment(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.Payment parseExplanationOfBenefitPayment(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -10250,16 +10223,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.Procedure parseExplanationOfBenefitProcedure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.Procedure parseExplanationOfBenefitProcedure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExplanationOfBenefit.Procedure", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        Element procedure = parseChoiceElement("procedure", jsonObject, "CodeableConcept", "Reference");
-        ExplanationOfBenefit.Procedure.Builder builder = ExplanationOfBenefit.Procedure.builder(sequence, procedure);
+        ExplanationOfBenefit.Procedure.Builder builder = ExplanationOfBenefit.Procedure.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         JsonArray typeArray = JsonSupport.getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             int index = 0;
@@ -10269,6 +10241,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
+        builder.procedure(parseChoiceElement("procedure", jsonObject, "CodeableConcept", "Reference"));
         JsonArray udiArray = JsonSupport.getJsonArray(jsonObject, "udi");
         if (udiArray != null) {
             int index = 0;
@@ -10281,7 +10254,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.ProcessNote parseExplanationOfBenefitProcessNote(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.ProcessNote parseExplanationOfBenefitProcessNote(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -10297,7 +10270,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.Related parseExplanationOfBenefitRelated(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.Related parseExplanationOfBenefitRelated(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -10312,16 +10285,16 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.SupportingInfo parseExplanationOfBenefitSupportingInfo(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.SupportingInfo parseExplanationOfBenefitSupportingInfo(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExplanationOfBenefit.SupportingInfo", jsonObject);
-        PositiveInt sequence = (PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1);
-        CodeableConcept category = parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1);
-        ExplanationOfBenefit.SupportingInfo.Builder builder = ExplanationOfBenefit.SupportingInfo.builder(sequence, category);
+        ExplanationOfBenefit.SupportingInfo.Builder builder = ExplanationOfBenefit.SupportingInfo.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
+        builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
         builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.timing(parseChoiceElement("timing", jsonObject, "Date", "Period"));
         builder.value(parseChoiceElement("value", jsonObject, "Boolean", "String", "Quantity", "Attachment", "Reference"));
@@ -10330,61 +10303,58 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ExplanationOfBenefit.Total parseExplanationOfBenefitTotal(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ExplanationOfBenefit.Total parseExplanationOfBenefitTotal(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ExplanationOfBenefit.Total", jsonObject);
-        CodeableConcept category = parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1);
-        Money amount = parseMoney("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1);
-        ExplanationOfBenefit.Total.Builder builder = ExplanationOfBenefit.Total.builder(category, amount);
+        ExplanationOfBenefit.Total.Builder builder = ExplanationOfBenefit.Total.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
+        builder.amount(parseMoney("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Expression parseExpression(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Expression parseExpression(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Expression", jsonObject);
-        Code language = (Code) parseString(Code.builder(), "language", JsonSupport.getJsonValue(jsonObject, "language", JsonString.class), jsonObject.get("_language"), -1);
-        Expression.Builder builder = Expression.builder(language);
+        Expression.Builder builder = Expression.builder();
         parseElement(builder, jsonObject);
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.name((Id) parseString(Id.builder(), "name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.language((Code) parseString(Code.builder(), "language", JsonSupport.getJsonValue(jsonObject, "language", JsonString.class), jsonObject.get("_language"), -1));
         builder.expression(parseString("expression", JsonSupport.getJsonValue(jsonObject, "expression", JsonString.class), jsonObject.get("_expression"), -1));
         builder.reference(parseUri("reference", JsonSupport.getJsonValue(jsonObject, "reference", JsonString.class), jsonObject.get("_reference"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Extension parseExtension(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Extension parseExtension(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Extension", jsonObject);
-        java.lang.String url = parseJavaString("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), -1);
-        Extension.Builder builder = Extension.builder(url);
+        Extension.Builder builder = Extension.builder();
         parseElement(builder, jsonObject);
+        builder.url(parseJavaString("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), -1));
         builder.value(parseChoiceElement("value", jsonObject, "Base64Binary", "Boolean", "Canonical", "Code", "Date", "DateTime", "Decimal", "Id", "Instant", "Integer", "Markdown", "Oid", "PositiveInt", "String", "Time", "UnsignedInt", "Uri", "Url", "Uuid", "Address", "Age", "Annotation", "Attachment", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "HumanName", "Identifier", "Money", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Signature", "Timing", "ContactDetail", "Contributor", "DataRequirement", "Expression", "ParameterDefinition", "RelatedArtifact", "TriggerDefinition", "UsageContext", "Dosage"));
         stackPop();
         return builder.build();
     }
 
-    protected FamilyMemberHistory parseFamilyMemberHistory(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private FamilyMemberHistory parseFamilyMemberHistory(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("FamilyMemberHistory", jsonObject);
-        FamilyHistoryStatus status = (FamilyHistoryStatus) parseString(FamilyHistoryStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Reference patient = parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1);
-        CodeableConcept relationship = parseCodeableConcept("relationship", JsonSupport.getJsonValue(jsonObject, "relationship", JsonObject.class), -1);
-        FamilyMemberHistory.Builder builder = FamilyMemberHistory.builder(status, patient, relationship);
+        FamilyMemberHistory.Builder builder = FamilyMemberHistory.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -10412,9 +10382,12 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((FamilyHistoryStatus) parseString(FamilyHistoryStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.dataAbsentReason(parseCodeableConcept("dataAbsentReason", JsonSupport.getJsonValue(jsonObject, "dataAbsentReason", JsonObject.class), -1));
+        builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.relationship(parseCodeableConcept("relationship", JsonSupport.getJsonValue(jsonObject, "relationship", JsonObject.class), -1));
         builder.sex(parseCodeableConcept("sex", JsonSupport.getJsonValue(jsonObject, "sex", JsonObject.class), -1));
         builder.born(parseChoiceElement("born", jsonObject, "Period", "Date", "String"));
         builder.age(parseChoiceElement("age", jsonObject, "Age", "Range", "String"));
@@ -10456,15 +10429,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected FamilyMemberHistory.Condition parseFamilyMemberHistoryCondition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private FamilyMemberHistory.Condition parseFamilyMemberHistoryCondition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("FamilyMemberHistory.Condition", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        FamilyMemberHistory.Condition.Builder builder = FamilyMemberHistory.Condition.builder(code);
+        FamilyMemberHistory.Condition.Builder builder = FamilyMemberHistory.Condition.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.outcome(parseCodeableConcept("outcome", JsonSupport.getJsonValue(jsonObject, "outcome", JsonObject.class), -1));
         builder.contributedToDeath(parseBoolean("contributedToDeath", JsonSupport.getJsonValue(jsonObject, "contributedToDeath", JsonValue.class), jsonObject.get("_contributedToDeath"), -1));
         builder.onset(parseChoiceElement("onset", jsonObject, "Age", "Range", "Period", "String"));
@@ -10480,16 +10453,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Flag parseFlag(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Flag parseFlag(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Flag", jsonObject);
-        FlagStatus status = (FlagStatus) parseString(FlagStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        Reference subject = parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1);
-        Flag.Builder builder = Flag.builder(status, code, subject);
+        Flag.Builder builder = Flag.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -10499,6 +10469,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((FlagStatus) parseString(FlagStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             int index = 0;
@@ -10507,6 +10478,8 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
         builder.author(parseReference("author", JsonSupport.getJsonValue(jsonObject, "author", JsonObject.class), -1));
@@ -10514,16 +10487,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Goal parseGoal(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Goal parseGoal(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Goal", jsonObject);
-        GoalLifecycleStatus lifecycleStatus = (GoalLifecycleStatus) parseString(GoalLifecycleStatus.builder(), "lifecycleStatus", JsonSupport.getJsonValue(jsonObject, "lifecycleStatus", JsonString.class), jsonObject.get("_lifecycleStatus"), -1);
-        CodeableConcept description = parseCodeableConcept("description", JsonSupport.getJsonValue(jsonObject, "description", JsonObject.class), -1);
-        Reference subject = parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1);
-        Goal.Builder builder = Goal.builder(lifecycleStatus, description, subject);
+        Goal.Builder builder = Goal.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -10533,6 +10503,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.lifecycleStatus((GoalLifecycleStatus) parseString(GoalLifecycleStatus.builder(), "lifecycleStatus", JsonSupport.getJsonValue(jsonObject, "lifecycleStatus", JsonString.class), jsonObject.get("_lifecycleStatus"), -1));
         builder.achievementStatus(parseCodeableConcept("achievementStatus", JsonSupport.getJsonValue(jsonObject, "achievementStatus", JsonObject.class), -1));
         JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
@@ -10543,6 +10514,8 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.priority(parseCodeableConcept("priority", JsonSupport.getJsonValue(jsonObject, "priority", JsonObject.class), -1));
+        builder.description(parseCodeableConcept("description", JsonSupport.getJsonValue(jsonObject, "description", JsonObject.class), -1));
+        builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.start(parseChoiceElement("start", jsonObject, "Date", "CodeableConcept"));
         JsonArray targetArray = JsonSupport.getJsonArray(jsonObject, "target");
         if (targetArray != null) {
@@ -10591,7 +10564,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Goal.Target parseGoalTarget(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Goal.Target parseGoalTarget(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -10606,19 +10579,18 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected GraphDefinition parseGraphDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private GraphDefinition parseGraphDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("GraphDefinition", jsonObject);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        ResourceType start = (ResourceType) parseString(ResourceType.builder(), "start", JsonSupport.getJsonValue(jsonObject, "start", JsonString.class), jsonObject.get("_start"), -1);
-        GraphDefinition.Builder builder = GraphDefinition.builder(name, status, start);
+        GraphDefinition.Builder builder = GraphDefinition.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
@@ -10648,6 +10620,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.purpose((Markdown) parseString(Markdown.builder(), "purpose", JsonSupport.getJsonValue(jsonObject, "purpose", JsonString.class), jsonObject.get("_purpose"), -1));
+        builder.start((ResourceType) parseString(ResourceType.builder(), "start", JsonSupport.getJsonValue(jsonObject, "start", JsonString.class), jsonObject.get("_start"), -1));
         builder.profile((Canonical) parseUri(Canonical.builder(), "profile", JsonSupport.getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1));
         JsonArray linkArray = JsonSupport.getJsonArray(jsonObject, "link");
         if (linkArray != null) {
@@ -10661,7 +10634,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected GraphDefinition.Link parseGraphDefinitionLink(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private GraphDefinition.Link parseGraphDefinitionLink(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -10686,15 +10659,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected GraphDefinition.Link.Target parseGraphDefinitionLinkTarget(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private GraphDefinition.Link.Target parseGraphDefinitionLinkTarget(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("GraphDefinition.Link.Target", jsonObject);
-        ResourceType type = (ResourceType) parseString(ResourceType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        GraphDefinition.Link.Target.Builder builder = GraphDefinition.Link.Target.builder(type);
+        GraphDefinition.Link.Target.Builder builder = GraphDefinition.Link.Target.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type((ResourceType) parseString(ResourceType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.params(parseString("params", JsonSupport.getJsonValue(jsonObject, "params", JsonString.class), jsonObject.get("_params"), -1));
         builder.profile((Canonical) parseUri(Canonical.builder(), "profile", JsonSupport.getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1));
         JsonArray compartmentArray = JsonSupport.getJsonArray(jsonObject, "compartment");
@@ -10717,32 +10690,30 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected GraphDefinition.Link.Target.Compartment parseGraphDefinitionLinkTargetCompartment(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private GraphDefinition.Link.Target.Compartment parseGraphDefinitionLinkTargetCompartment(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("GraphDefinition.Link.Target.Compartment", jsonObject);
-        GraphCompartmentUse use = (GraphCompartmentUse) parseString(GraphCompartmentUse.builder(), "use", JsonSupport.getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1);
-        CompartmentCode code = (CompartmentCode) parseString(CompartmentCode.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        GraphCompartmentRule rule = (GraphCompartmentRule) parseString(GraphCompartmentRule.builder(), "rule", JsonSupport.getJsonValue(jsonObject, "rule", JsonString.class), jsonObject.get("_rule"), -1);
-        GraphDefinition.Link.Target.Compartment.Builder builder = GraphDefinition.Link.Target.Compartment.builder(use, code, rule);
+        GraphDefinition.Link.Target.Compartment.Builder builder = GraphDefinition.Link.Target.Compartment.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.use((GraphCompartmentUse) parseString(GraphCompartmentUse.builder(), "use", JsonSupport.getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1));
+        builder.code((CompartmentCode) parseString(CompartmentCode.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
+        builder.rule((GraphCompartmentRule) parseString(GraphCompartmentRule.builder(), "rule", JsonSupport.getJsonValue(jsonObject, "rule", JsonString.class), jsonObject.get("_rule"), -1));
         builder.expression(parseString("expression", JsonSupport.getJsonValue(jsonObject, "expression", JsonString.class), jsonObject.get("_expression"), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Group parseGroup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Group parseGroup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Group", jsonObject);
-        GroupType type = (GroupType) parseString(GroupType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        Boolean actual = parseBoolean("actual", JsonSupport.getJsonValue(jsonObject, "actual", JsonValue.class), jsonObject.get("_actual"), -1);
-        Group.Builder builder = Group.builder(type, actual);
+        Group.Builder builder = Group.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -10753,6 +10724,8 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.active(parseBoolean("active", JsonSupport.getJsonValue(jsonObject, "active", JsonValue.class), jsonObject.get("_active"), -1));
+        builder.type((GroupType) parseString(GroupType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.actual(parseBoolean("actual", JsonSupport.getJsonValue(jsonObject, "actual", JsonValue.class), jsonObject.get("_actual"), -1));
         builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.quantity((UnsignedInt) parseInteger(UnsignedInt.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonNumber.class), jsonObject.get("_quantity"), -1));
@@ -10777,46 +10750,44 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Group.Characteristic parseGroupCharacteristic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Group.Characteristic parseGroupCharacteristic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Group.Characteristic", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        Element value = parseChoiceElement("value", jsonObject, "CodeableConcept", "Boolean", "Quantity", "Range", "Reference");
-        Boolean exclude = parseBoolean("exclude", JsonSupport.getJsonValue(jsonObject, "exclude", JsonValue.class), jsonObject.get("_exclude"), -1);
-        Group.Characteristic.Builder builder = Group.Characteristic.builder(code, value, exclude);
+        Group.Characteristic.Builder builder = Group.Characteristic.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        builder.value(parseChoiceElement("value", jsonObject, "CodeableConcept", "Boolean", "Quantity", "Range", "Reference"));
+        builder.exclude(parseBoolean("exclude", JsonSupport.getJsonValue(jsonObject, "exclude", JsonValue.class), jsonObject.get("_exclude"), -1));
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Group.Member parseGroupMember(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Group.Member parseGroupMember(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Group.Member", jsonObject);
-        Reference entity = parseReference("entity", JsonSupport.getJsonValue(jsonObject, "entity", JsonObject.class), -1);
-        Group.Member.Builder builder = Group.Member.builder(entity);
+        Group.Member.Builder builder = Group.Member.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.entity(parseReference("entity", JsonSupport.getJsonValue(jsonObject, "entity", JsonObject.class), -1));
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
         builder.inactive(parseBoolean("inactive", JsonSupport.getJsonValue(jsonObject, "inactive", JsonValue.class), jsonObject.get("_inactive"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected GuidanceResponse parseGuidanceResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private GuidanceResponse parseGuidanceResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("GuidanceResponse", jsonObject);
-        Element module = parseChoiceElement("module", jsonObject, "Uri", "Canonical", "CodeableConcept");
-        GuidanceResponseStatus status = (GuidanceResponseStatus) parseString(GuidanceResponseStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        GuidanceResponse.Builder builder = GuidanceResponse.builder(module, status);
+        GuidanceResponse.Builder builder = GuidanceResponse.builder();
         parseDomainResource(builder, jsonObject);
         builder.requestIdentifier(parseIdentifier("requestIdentifier", JsonSupport.getJsonValue(jsonObject, "requestIdentifier", JsonObject.class), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -10827,6 +10798,8 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.module(parseChoiceElement("module", jsonObject, "Uri", "Canonical", "CodeableConcept"));
+        builder.status((GuidanceResponseStatus) parseString(GuidanceResponseStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
         builder.occurrenceDateTime(parseDateTime("occurrenceDateTime", JsonSupport.getJsonValue(jsonObject, "occurrenceDateTime", JsonString.class), jsonObject.get("_occurrenceDateTime"), -1));
@@ -10877,7 +10850,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected HealthcareService parseHealthcareService(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private HealthcareService parseHealthcareService(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -11025,7 +10998,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected HealthcareService.AvailableTime parseHealthcareServiceAvailableTime(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private HealthcareService.AvailableTime parseHealthcareServiceAvailableTime(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -11049,7 +11022,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected HealthcareService.Eligibility parseHealthcareServiceEligibility(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private HealthcareService.Eligibility parseHealthcareServiceEligibility(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -11063,21 +11036,21 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected HealthcareService.NotAvailable parseHealthcareServiceNotAvailable(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private HealthcareService.NotAvailable parseHealthcareServiceNotAvailable(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("HealthcareService.NotAvailable", jsonObject);
-        String description = parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1);
-        HealthcareService.NotAvailable.Builder builder = HealthcareService.NotAvailable.builder(description);
+        HealthcareService.NotAvailable.Builder builder = HealthcareService.NotAvailable.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.during(parsePeriod("during", JsonSupport.getJsonValue(jsonObject, "during", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected HumanName parseHumanName(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private HumanName parseHumanName(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -11120,7 +11093,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Identifier parseIdentifier(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Identifier parseIdentifier(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -11138,15 +11111,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ImagingStudy parseImagingStudy(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImagingStudy parseImagingStudy(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImagingStudy", jsonObject);
-        ImagingStudyStatus status = (ImagingStudyStatus) parseString(ImagingStudyStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Reference subject = parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1);
-        ImagingStudy.Builder builder = ImagingStudy.builder(status, subject);
+        ImagingStudy.Builder builder = ImagingStudy.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -11156,6 +11127,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((ImagingStudyStatus) parseString(ImagingStudyStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         JsonArray modalityArray = JsonSupport.getJsonArray(jsonObject, "modality");
         if (modalityArray != null) {
             int index = 0;
@@ -11164,6 +11136,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
         builder.started(parseDateTime("started", JsonSupport.getJsonValue(jsonObject, "started", JsonString.class), jsonObject.get("_started"), -1));
         JsonArray basedOnArray = JsonSupport.getJsonArray(jsonObject, "basedOn");
@@ -11240,17 +11213,17 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ImagingStudy.Series parseImagingStudySeries(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImagingStudy.Series parseImagingStudySeries(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImagingStudy.Series", jsonObject);
-        Id uid = (Id) parseString(Id.builder(), "uid", JsonSupport.getJsonValue(jsonObject, "uid", JsonString.class), jsonObject.get("_uid"), -1);
-        Coding modality = parseCoding("modality", JsonSupport.getJsonValue(jsonObject, "modality", JsonObject.class), -1);
-        ImagingStudy.Series.Builder builder = ImagingStudy.Series.builder(uid, modality);
+        ImagingStudy.Series.Builder builder = ImagingStudy.Series.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.uid((Id) parseString(Id.builder(), "uid", JsonSupport.getJsonValue(jsonObject, "uid", JsonString.class), jsonObject.get("_uid"), -1));
         builder.number((UnsignedInt) parseInteger(UnsignedInt.builder(), "number", JsonSupport.getJsonValue(jsonObject, "number", JsonNumber.class), jsonObject.get("_number"), -1));
+        builder.modality(parseCoding("modality", JsonSupport.getJsonValue(jsonObject, "modality", JsonObject.class), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.numberOfInstances((UnsignedInt) parseInteger(UnsignedInt.builder(), "numberOfInstances", JsonSupport.getJsonValue(jsonObject, "numberOfInstances", JsonNumber.class), jsonObject.get("_numberOfInstances"), -1));
         JsonArray endpointArray = JsonSupport.getJsonArray(jsonObject, "endpoint");
@@ -11292,47 +11265,43 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ImagingStudy.Series.Instance parseImagingStudySeriesInstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImagingStudy.Series.Instance parseImagingStudySeriesInstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImagingStudy.Series.Instance", jsonObject);
-        Id uid = (Id) parseString(Id.builder(), "uid", JsonSupport.getJsonValue(jsonObject, "uid", JsonString.class), jsonObject.get("_uid"), -1);
-        Coding sopClass = parseCoding("sopClass", JsonSupport.getJsonValue(jsonObject, "sopClass", JsonObject.class), -1);
-        ImagingStudy.Series.Instance.Builder builder = ImagingStudy.Series.Instance.builder(uid, sopClass);
+        ImagingStudy.Series.Instance.Builder builder = ImagingStudy.Series.Instance.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.uid((Id) parseString(Id.builder(), "uid", JsonSupport.getJsonValue(jsonObject, "uid", JsonString.class), jsonObject.get("_uid"), -1));
+        builder.sopClass(parseCoding("sopClass", JsonSupport.getJsonValue(jsonObject, "sopClass", JsonObject.class), -1));
         builder.number((UnsignedInt) parseInteger(UnsignedInt.builder(), "number", JsonSupport.getJsonValue(jsonObject, "number", JsonNumber.class), jsonObject.get("_number"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ImagingStudy.Series.Performer parseImagingStudySeriesPerformer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImagingStudy.Series.Performer parseImagingStudySeriesPerformer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImagingStudy.Series.Performer", jsonObject);
-        Reference actor = parseReference("actor", JsonSupport.getJsonValue(jsonObject, "actor", JsonObject.class), -1);
-        ImagingStudy.Series.Performer.Builder builder = ImagingStudy.Series.Performer.builder(actor);
+        ImagingStudy.Series.Performer.Builder builder = ImagingStudy.Series.Performer.builder();
         parseBackboneElement(builder, jsonObject);
         builder.function(parseCodeableConcept("function", JsonSupport.getJsonValue(jsonObject, "function", JsonObject.class), -1));
+        builder.actor(parseReference("actor", JsonSupport.getJsonValue(jsonObject, "actor", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Immunization parseImmunization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Immunization parseImmunization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Immunization", jsonObject);
-        ImmunizationStatus status = (ImmunizationStatus) parseString(ImmunizationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        CodeableConcept vaccineCode = parseCodeableConcept("vaccineCode", JsonSupport.getJsonValue(jsonObject, "vaccineCode", JsonObject.class), -1);
-        Reference patient = parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1);
-        Element occurrence = parseChoiceElement("occurrence", jsonObject, "DateTime", "String");
-        Immunization.Builder builder = Immunization.builder(status, vaccineCode, patient, occurrence);
+        Immunization.Builder builder = Immunization.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -11342,8 +11311,12 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((ImmunizationStatus) parseString(ImmunizationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.statusReason(parseCodeableConcept("statusReason", JsonSupport.getJsonValue(jsonObject, "statusReason", JsonObject.class), -1));
+        builder.vaccineCode(parseCodeableConcept("vaccineCode", JsonSupport.getJsonValue(jsonObject, "vaccineCode", JsonObject.class), -1));
+        builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
+        builder.occurrence(parseChoiceElement("occurrence", jsonObject, "DateTime", "String"));
         builder.recorded(parseDateTime("recorded", JsonSupport.getJsonValue(jsonObject, "recorded", JsonString.class), jsonObject.get("_recorded"), -1));
         builder.primarySource(parseBoolean("primarySource", JsonSupport.getJsonValue(jsonObject, "primarySource", JsonValue.class), jsonObject.get("_primarySource"), -1));
         builder.reportOrigin(parseCodeableConcept("reportOrigin", JsonSupport.getJsonValue(jsonObject, "reportOrigin", JsonObject.class), -1));
@@ -11432,7 +11405,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Immunization.Education parseImmunizationEducation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Immunization.Education parseImmunizationEducation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -11448,28 +11421,27 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Immunization.Performer parseImmunizationPerformer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Immunization.Performer parseImmunizationPerformer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Immunization.Performer", jsonObject);
-        Reference actor = parseReference("actor", JsonSupport.getJsonValue(jsonObject, "actor", JsonObject.class), -1);
-        Immunization.Performer.Builder builder = Immunization.Performer.builder(actor);
+        Immunization.Performer.Builder builder = Immunization.Performer.builder();
         parseBackboneElement(builder, jsonObject);
         builder.function(parseCodeableConcept("function", JsonSupport.getJsonValue(jsonObject, "function", JsonObject.class), -1));
+        builder.actor(parseReference("actor", JsonSupport.getJsonValue(jsonObject, "actor", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Immunization.ProtocolApplied parseImmunizationProtocolApplied(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Immunization.ProtocolApplied parseImmunizationProtocolApplied(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Immunization.ProtocolApplied", jsonObject);
-        Element doseNumber = parseChoiceElement("doseNumber", jsonObject, "PositiveInt", "String");
-        Immunization.ProtocolApplied.Builder builder = Immunization.ProtocolApplied.builder(doseNumber);
+        Immunization.ProtocolApplied.Builder builder = Immunization.ProtocolApplied.builder();
         parseBackboneElement(builder, jsonObject);
         builder.series(parseString("series", JsonSupport.getJsonValue(jsonObject, "series", JsonString.class), jsonObject.get("_series"), -1));
         builder.authority(parseReference("authority", JsonSupport.getJsonValue(jsonObject, "authority", JsonObject.class), -1));
@@ -11481,12 +11453,13 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.doseNumber(parseChoiceElement("doseNumber", jsonObject, "PositiveInt", "String"));
         builder.seriesDoses(parseChoiceElement("seriesDoses", jsonObject, "PositiveInt", "String"));
         stackPop();
         return builder.build();
     }
 
-    protected Immunization.Reaction parseImmunizationReaction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Immunization.Reaction parseImmunizationReaction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -11501,18 +11474,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ImmunizationEvaluation parseImmunizationEvaluation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImmunizationEvaluation parseImmunizationEvaluation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImmunizationEvaluation", jsonObject);
-        ImmunizationEvaluationStatus status = (ImmunizationEvaluationStatus) parseString(ImmunizationEvaluationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Reference patient = parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1);
-        CodeableConcept targetDisease = parseCodeableConcept("targetDisease", JsonSupport.getJsonValue(jsonObject, "targetDisease", JsonObject.class), -1);
-        Reference immunizationEvent = parseReference("immunizationEvent", JsonSupport.getJsonValue(jsonObject, "immunizationEvent", JsonObject.class), -1);
-        CodeableConcept doseStatus = parseCodeableConcept("doseStatus", JsonSupport.getJsonValue(jsonObject, "doseStatus", JsonObject.class), -1);
-        ImmunizationEvaluation.Builder builder = ImmunizationEvaluation.builder(status, patient, targetDisease, immunizationEvent, doseStatus);
+        ImmunizationEvaluation.Builder builder = ImmunizationEvaluation.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -11522,8 +11490,13 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((ImmunizationEvaluationStatus) parseString(ImmunizationEvaluationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.authority(parseReference("authority", JsonSupport.getJsonValue(jsonObject, "authority", JsonObject.class), -1));
+        builder.targetDisease(parseCodeableConcept("targetDisease", JsonSupport.getJsonValue(jsonObject, "targetDisease", JsonObject.class), -1));
+        builder.immunizationEvent(parseReference("immunizationEvent", JsonSupport.getJsonValue(jsonObject, "immunizationEvent", JsonObject.class), -1));
+        builder.doseStatus(parseCodeableConcept("doseStatus", JsonSupport.getJsonValue(jsonObject, "doseStatus", JsonObject.class), -1));
         JsonArray doseStatusReasonArray = JsonSupport.getJsonArray(jsonObject, "doseStatusReason");
         if (doseStatusReasonArray != null) {
             int index = 0;
@@ -11540,24 +11513,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ImmunizationRecommendation parseImmunizationRecommendation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImmunizationRecommendation parseImmunizationRecommendation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImmunizationRecommendation", jsonObject);
-        Reference patient = parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1);
-        DateTime date = parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1);
-        java.util.List<ImmunizationRecommendation.Recommendation> recommendation = new ArrayList<>();
-        JsonArray recommendationArray = JsonSupport.getJsonArray(jsonObject, "recommendation");
-        if (recommendationArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : recommendationArray) {
-                recommendation.add(parseImmunizationRecommendationRecommendation("recommendation", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        ImmunizationRecommendation.Builder builder = ImmunizationRecommendation.builder(patient, date, recommendation);
+        ImmunizationRecommendation.Builder builder = ImmunizationRecommendation.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -11567,19 +11529,28 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
+        builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.authority(parseReference("authority", JsonSupport.getJsonValue(jsonObject, "authority", JsonObject.class), -1));
+        JsonArray recommendationArray = JsonSupport.getJsonArray(jsonObject, "recommendation");
+        if (recommendationArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : recommendationArray) {
+                builder.recommendation(parseImmunizationRecommendationRecommendation("recommendation", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         stackPop();
         return builder.build();
     }
 
-    protected ImmunizationRecommendation.Recommendation parseImmunizationRecommendationRecommendation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImmunizationRecommendation.Recommendation parseImmunizationRecommendationRecommendation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImmunizationRecommendation.Recommendation", jsonObject);
-        CodeableConcept forecastStatus = parseCodeableConcept("forecastStatus", JsonSupport.getJsonValue(jsonObject, "forecastStatus", JsonObject.class), -1);
-        ImmunizationRecommendation.Recommendation.Builder builder = ImmunizationRecommendation.Recommendation.builder(forecastStatus);
+        ImmunizationRecommendation.Recommendation.Builder builder = ImmunizationRecommendation.Recommendation.builder();
         parseBackboneElement(builder, jsonObject);
         JsonArray vaccineCodeArray = JsonSupport.getJsonArray(jsonObject, "vaccineCode");
         if (vaccineCodeArray != null) {
@@ -11598,6 +11569,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.forecastStatus(parseCodeableConcept("forecastStatus", JsonSupport.getJsonValue(jsonObject, "forecastStatus", JsonObject.class), -1));
         JsonArray forecastReasonArray = JsonSupport.getJsonArray(jsonObject, "forecastReason");
         if (forecastReasonArray != null) {
             int index = 0;
@@ -11638,44 +11610,33 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ImmunizationRecommendation.Recommendation.DateCriterion parseImmunizationRecommendationRecommendationDateCriterion(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImmunizationRecommendation.Recommendation.DateCriterion parseImmunizationRecommendationRecommendationDateCriterion(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImmunizationRecommendation.Recommendation.DateCriterion", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        DateTime value = parseDateTime("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1);
-        ImmunizationRecommendation.Recommendation.DateCriterion.Builder builder = ImmunizationRecommendation.Recommendation.DateCriterion.builder(code, value);
+        ImmunizationRecommendation.Recommendation.DateCriterion.Builder builder = ImmunizationRecommendation.Recommendation.DateCriterion.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        builder.value(parseDateTime("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ImplementationGuide parseImplementationGuide(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImplementationGuide parseImplementationGuide(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImplementationGuide", jsonObject);
-        Uri url = parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Id packageId = (Id) parseString(Id.builder(), "packageId", JsonSupport.getJsonValue(jsonObject, "packageId", JsonString.class), jsonObject.get("_packageId"), -1);
-        java.util.List<FHIRVersion> fhirVersion = new ArrayList<>();
-        JsonArray fhirVersionArray = JsonSupport.getJsonArray(jsonObject, "fhirVersion", true);
-        if (fhirVersionArray != null) {
-            int index = 0;
-            JsonArray _fhirVersionArray = jsonObject.getJsonArray("_fhirVersion");
-            for (JsonValue jsonValue : fhirVersionArray) {
-                fhirVersion.add((FHIRVersion) parseString(FHIRVersion.builder(), "fhirVersion", jsonValue, JsonSupport.getJsonValue(_fhirVersionArray, index), index));
-                index++;
-            }
-        }
-        ImplementationGuide.Builder builder = ImplementationGuide.builder(url, name, status, packageId, fhirVersion);
+        ImplementationGuide.Builder builder = ImplementationGuide.builder();
         parseDomainResource(builder, jsonObject);
+        builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
@@ -11705,7 +11666,17 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", JsonSupport.getJsonValue(jsonObject, "copyright", JsonString.class), jsonObject.get("_copyright"), -1));
+        builder.packageId((Id) parseString(Id.builder(), "packageId", JsonSupport.getJsonValue(jsonObject, "packageId", JsonString.class), jsonObject.get("_packageId"), -1));
         builder.license((SPDXLicense) parseString(SPDXLicense.builder(), "license", JsonSupport.getJsonValue(jsonObject, "license", JsonString.class), jsonObject.get("_license"), -1));
+        JsonArray fhirVersionArray = JsonSupport.getJsonArray(jsonObject, "fhirVersion", true);
+        if (fhirVersionArray != null) {
+            int index = 0;
+            JsonArray _fhirVersionArray = jsonObject.getJsonArray("_fhirVersion");
+            for (JsonValue jsonValue : fhirVersionArray) {
+                builder.fhirVersion((FHIRVersion) parseString(FHIRVersion.builder(), "fhirVersion", jsonValue, JsonSupport.getJsonValue(_fhirVersionArray, index), index));
+                index++;
+            }
+        }
         JsonArray dependsOnArray = JsonSupport.getJsonArray(jsonObject, "dependsOn");
         if (dependsOnArray != null) {
             int index = 0;
@@ -11728,28 +11699,27 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ImplementationGuide.Definition parseImplementationGuideDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImplementationGuide.Definition parseImplementationGuideDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImplementationGuide.Definition", jsonObject);
-        java.util.List<ImplementationGuide.Definition.Resource> resource = new ArrayList<>();
-        JsonArray resourceArray = JsonSupport.getJsonArray(jsonObject, "resource");
-        if (resourceArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : resourceArray) {
-                resource.add(parseImplementationGuideDefinitionResource("resource", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        ImplementationGuide.Definition.Builder builder = ImplementationGuide.Definition.builder(resource);
+        ImplementationGuide.Definition.Builder builder = ImplementationGuide.Definition.builder();
         parseBackboneElement(builder, jsonObject);
         JsonArray groupingArray = JsonSupport.getJsonArray(jsonObject, "grouping");
         if (groupingArray != null) {
             int index = 0;
             for (JsonValue jsonValue : groupingArray) {
                 builder.grouping(parseImplementationGuideDefinitionGrouping("grouping", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
+        JsonArray resourceArray = JsonSupport.getJsonArray(jsonObject, "resource");
+        if (resourceArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : resourceArray) {
+                builder.resource(parseImplementationGuideDefinitionResource("resource", (JsonObject) jsonValue, index));
                 index++;
             }
         }
@@ -11774,31 +11744,31 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ImplementationGuide.Definition.Grouping parseImplementationGuideDefinitionGrouping(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImplementationGuide.Definition.Grouping parseImplementationGuideDefinitionGrouping(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImplementationGuide.Definition.Grouping", jsonObject);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        ImplementationGuide.Definition.Grouping.Builder builder = ImplementationGuide.Definition.Grouping.builder(name);
+        ImplementationGuide.Definition.Grouping.Builder builder = ImplementationGuide.Definition.Grouping.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ImplementationGuide.Definition.Page parseImplementationGuideDefinitionPage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImplementationGuide.Definition.Page parseImplementationGuideDefinitionPage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImplementationGuide.Definition.Page", jsonObject);
-        Element name = parseChoiceElement("name", jsonObject, "Url", "Reference");
-        String title = parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1);
-        GuidePageGeneration generation = (GuidePageGeneration) parseString(GuidePageGeneration.builder(), "generation", JsonSupport.getJsonValue(jsonObject, "generation", JsonString.class), jsonObject.get("_generation"), -1);
-        ImplementationGuide.Definition.Page.Builder builder = ImplementationGuide.Definition.Page.builder(name, title, generation);
+        ImplementationGuide.Definition.Page.Builder builder = ImplementationGuide.Definition.Page.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.name(parseChoiceElement("name", jsonObject, "Url", "Reference"));
+        builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.generation((GuidePageGeneration) parseString(GuidePageGeneration.builder(), "generation", JsonSupport.getJsonValue(jsonObject, "generation", JsonString.class), jsonObject.get("_generation"), -1));
         JsonArray pageArray = JsonSupport.getJsonArray(jsonObject, "page");
         if (pageArray != null) {
             int index = 0;
@@ -11811,29 +11781,29 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ImplementationGuide.Definition.Parameter parseImplementationGuideDefinitionParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImplementationGuide.Definition.Parameter parseImplementationGuideDefinitionParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImplementationGuide.Definition.Parameter", jsonObject);
-        GuideParameterCode code = (GuideParameterCode) parseString(GuideParameterCode.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        String value = parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1);
-        ImplementationGuide.Definition.Parameter.Builder builder = ImplementationGuide.Definition.Parameter.builder(code, value);
+        ImplementationGuide.Definition.Parameter.Builder builder = ImplementationGuide.Definition.Parameter.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code((GuideParameterCode) parseString(GuideParameterCode.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
+        builder.value(parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ImplementationGuide.Definition.Resource parseImplementationGuideDefinitionResource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImplementationGuide.Definition.Resource parseImplementationGuideDefinitionResource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImplementationGuide.Definition.Resource", jsonObject);
-        Reference reference = parseReference("reference", JsonSupport.getJsonValue(jsonObject, "reference", JsonObject.class), -1);
-        ImplementationGuide.Definition.Resource.Builder builder = ImplementationGuide.Definition.Resource.builder(reference);
+        ImplementationGuide.Definition.Resource.Builder builder = ImplementationGuide.Definition.Resource.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.reference(parseReference("reference", JsonSupport.getJsonValue(jsonObject, "reference", JsonObject.class), -1));
         JsonArray fhirVersionArray = JsonSupport.getJsonArray(jsonObject, "fhirVersion", true);
         if (fhirVersionArray != null) {
             int index = 0;
@@ -11851,68 +11821,67 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ImplementationGuide.Definition.Template parseImplementationGuideDefinitionTemplate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImplementationGuide.Definition.Template parseImplementationGuideDefinitionTemplate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImplementationGuide.Definition.Template", jsonObject);
-        Code code = (Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        String source = parseString("source", JsonSupport.getJsonValue(jsonObject, "source", JsonString.class), jsonObject.get("_source"), -1);
-        ImplementationGuide.Definition.Template.Builder builder = ImplementationGuide.Definition.Template.builder(code, source);
+        ImplementationGuide.Definition.Template.Builder builder = ImplementationGuide.Definition.Template.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code((Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
+        builder.source(parseString("source", JsonSupport.getJsonValue(jsonObject, "source", JsonString.class), jsonObject.get("_source"), -1));
         builder.scope(parseString("scope", JsonSupport.getJsonValue(jsonObject, "scope", JsonString.class), jsonObject.get("_scope"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ImplementationGuide.DependsOn parseImplementationGuideDependsOn(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImplementationGuide.DependsOn parseImplementationGuideDependsOn(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImplementationGuide.DependsOn", jsonObject);
-        Canonical uri = (Canonical) parseUri(Canonical.builder(), "uri", JsonSupport.getJsonValue(jsonObject, "uri", JsonString.class), jsonObject.get("_uri"), -1);
-        ImplementationGuide.DependsOn.Builder builder = ImplementationGuide.DependsOn.builder(uri);
+        ImplementationGuide.DependsOn.Builder builder = ImplementationGuide.DependsOn.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.uri((Canonical) parseUri(Canonical.builder(), "uri", JsonSupport.getJsonValue(jsonObject, "uri", JsonString.class), jsonObject.get("_uri"), -1));
         builder.packageId((Id) parseString(Id.builder(), "packageId", JsonSupport.getJsonValue(jsonObject, "packageId", JsonString.class), jsonObject.get("_packageId"), -1));
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ImplementationGuide.Global parseImplementationGuideGlobal(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImplementationGuide.Global parseImplementationGuideGlobal(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImplementationGuide.Global", jsonObject);
-        ResourceType type = (ResourceType) parseString(ResourceType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        Canonical profile = (Canonical) parseUri(Canonical.builder(), "profile", JsonSupport.getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1);
-        ImplementationGuide.Global.Builder builder = ImplementationGuide.Global.builder(type, profile);
+        ImplementationGuide.Global.Builder builder = ImplementationGuide.Global.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type((ResourceType) parseString(ResourceType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.profile((Canonical) parseUri(Canonical.builder(), "profile", JsonSupport.getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ImplementationGuide.Manifest parseImplementationGuideManifest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImplementationGuide.Manifest parseImplementationGuideManifest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImplementationGuide.Manifest", jsonObject);
-        java.util.List<ImplementationGuide.Manifest.Resource> resource = new ArrayList<>();
+        ImplementationGuide.Manifest.Builder builder = ImplementationGuide.Manifest.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.rendering((Url) parseUri(Url.builder(), "rendering", JsonSupport.getJsonValue(jsonObject, "rendering", JsonString.class), jsonObject.get("_rendering"), -1));
         JsonArray resourceArray = JsonSupport.getJsonArray(jsonObject, "resource");
         if (resourceArray != null) {
             int index = 0;
             for (JsonValue jsonValue : resourceArray) {
-                resource.add(parseImplementationGuideManifestResource("resource", (JsonObject) jsonValue, index));
+                builder.resource(parseImplementationGuideManifestResource("resource", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        ImplementationGuide.Manifest.Builder builder = ImplementationGuide.Manifest.builder(resource);
-        parseBackboneElement(builder, jsonObject);
-        builder.rendering((Url) parseUri(Url.builder(), "rendering", JsonSupport.getJsonValue(jsonObject, "rendering", JsonString.class), jsonObject.get("_rendering"), -1));
         JsonArray pageArray = JsonSupport.getJsonArray(jsonObject, "page");
         if (pageArray != null) {
             int index = 0;
@@ -11943,15 +11912,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ImplementationGuide.Manifest.Page parseImplementationGuideManifestPage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImplementationGuide.Manifest.Page parseImplementationGuideManifestPage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImplementationGuide.Manifest.Page", jsonObject);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        ImplementationGuide.Manifest.Page.Builder builder = ImplementationGuide.Manifest.Page.builder(name);
+        ImplementationGuide.Manifest.Page.Builder builder = ImplementationGuide.Manifest.Page.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         JsonArray anchorArray = JsonSupport.getJsonArray(jsonObject, "anchor", true);
         if (anchorArray != null) {
@@ -11966,22 +11935,22 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ImplementationGuide.Manifest.Resource parseImplementationGuideManifestResource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ImplementationGuide.Manifest.Resource parseImplementationGuideManifestResource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ImplementationGuide.Manifest.Resource", jsonObject);
-        Reference reference = parseReference("reference", JsonSupport.getJsonValue(jsonObject, "reference", JsonObject.class), -1);
-        ImplementationGuide.Manifest.Resource.Builder builder = ImplementationGuide.Manifest.Resource.builder(reference);
+        ImplementationGuide.Manifest.Resource.Builder builder = ImplementationGuide.Manifest.Resource.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.reference(parseReference("reference", JsonSupport.getJsonValue(jsonObject, "reference", JsonObject.class), -1));
         builder.example(parseChoiceElement("example", jsonObject, "Boolean", "Canonical"));
         builder.relativePath((Url) parseUri(Url.builder(), "relativePath", JsonSupport.getJsonValue(jsonObject, "relativePath", JsonString.class), jsonObject.get("_relativePath"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Instant parseInstant(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
+    private Instant parseInstant(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
         if (jsonValue == null && _jsonValue == null) {
             return null;
         }
@@ -12000,7 +11969,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected InsurancePlan parseInsurancePlan(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private InsurancePlan parseInsurancePlan(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -12090,7 +12059,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected InsurancePlan.Contact parseInsurancePlanContact(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private InsurancePlan.Contact parseInsurancePlanContact(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -12113,24 +12082,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected InsurancePlan.Coverage parseInsurancePlanCoverage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private InsurancePlan.Coverage parseInsurancePlanCoverage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("InsurancePlan.Coverage", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        java.util.List<InsurancePlan.Coverage.Benefit> benefit = new ArrayList<>();
-        JsonArray benefitArray = JsonSupport.getJsonArray(jsonObject, "benefit");
-        if (benefitArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : benefitArray) {
-                benefit.add(parseInsurancePlanCoverageBenefit("benefit", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        InsurancePlan.Coverage.Builder builder = InsurancePlan.Coverage.builder(type, benefit);
+        InsurancePlan.Coverage.Builder builder = InsurancePlan.Coverage.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray networkArray = JsonSupport.getJsonArray(jsonObject, "network");
         if (networkArray != null) {
             int index = 0;
@@ -12139,19 +12099,27 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        JsonArray benefitArray = JsonSupport.getJsonArray(jsonObject, "benefit");
+        if (benefitArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : benefitArray) {
+                builder.benefit(parseInsurancePlanCoverageBenefit("benefit", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         stackPop();
         return builder.build();
     }
 
-    protected InsurancePlan.Coverage.Benefit parseInsurancePlanCoverageBenefit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private InsurancePlan.Coverage.Benefit parseInsurancePlanCoverageBenefit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("InsurancePlan.Coverage.Benefit", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        InsurancePlan.Coverage.Benefit.Builder builder = InsurancePlan.Coverage.Benefit.builder(type);
+        InsurancePlan.Coverage.Benefit.Builder builder = InsurancePlan.Coverage.Benefit.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.requirement(parseString("requirement", JsonSupport.getJsonValue(jsonObject, "requirement", JsonString.class), jsonObject.get("_requirement"), -1));
         JsonArray limitArray = JsonSupport.getJsonArray(jsonObject, "limit");
         if (limitArray != null) {
@@ -12165,7 +12133,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected InsurancePlan.Coverage.Benefit.Limit parseInsurancePlanCoverageBenefitLimit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private InsurancePlan.Coverage.Benefit.Limit parseInsurancePlanCoverageBenefitLimit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -12179,7 +12147,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected InsurancePlan.Plan parseInsurancePlanPlan(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private InsurancePlan.Plan parseInsurancePlanPlan(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -12232,7 +12200,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected InsurancePlan.Plan.GeneralCost parseInsurancePlanPlanGeneralCost(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private InsurancePlan.Plan.GeneralCost parseInsurancePlanPlanGeneralCost(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -12248,15 +12216,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected InsurancePlan.Plan.SpecificCost parseInsurancePlanPlanSpecificCost(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private InsurancePlan.Plan.SpecificCost parseInsurancePlanPlanSpecificCost(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("InsurancePlan.Plan.SpecificCost", jsonObject);
-        CodeableConcept category = parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1);
-        InsurancePlan.Plan.SpecificCost.Builder builder = InsurancePlan.Plan.SpecificCost.builder(category);
+        InsurancePlan.Plan.SpecificCost.Builder builder = InsurancePlan.Plan.SpecificCost.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
         JsonArray benefitArray = JsonSupport.getJsonArray(jsonObject, "benefit");
         if (benefitArray != null) {
             int index = 0;
@@ -12269,15 +12237,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected InsurancePlan.Plan.SpecificCost.Benefit parseInsurancePlanPlanSpecificCostBenefit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private InsurancePlan.Plan.SpecificCost.Benefit parseInsurancePlanPlanSpecificCostBenefit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("InsurancePlan.Plan.SpecificCost.Benefit", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        InsurancePlan.Plan.SpecificCost.Benefit.Builder builder = InsurancePlan.Plan.SpecificCost.Benefit.builder(type);
+        InsurancePlan.Plan.SpecificCost.Benefit.Builder builder = InsurancePlan.Plan.SpecificCost.Benefit.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray costArray = JsonSupport.getJsonArray(jsonObject, "cost");
         if (costArray != null) {
             int index = 0;
@@ -12290,15 +12258,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected InsurancePlan.Plan.SpecificCost.Benefit.Cost parseInsurancePlanPlanSpecificCostBenefitCost(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private InsurancePlan.Plan.SpecificCost.Benefit.Cost parseInsurancePlanPlanSpecificCostBenefitCost(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("InsurancePlan.Plan.SpecificCost.Benefit.Cost", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        InsurancePlan.Plan.SpecificCost.Benefit.Cost.Builder builder = InsurancePlan.Plan.SpecificCost.Benefit.Cost.builder(type);
+        InsurancePlan.Plan.SpecificCost.Benefit.Cost.Builder builder = InsurancePlan.Plan.SpecificCost.Benefit.Cost.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.applicability(parseCodeableConcept("applicability", JsonSupport.getJsonValue(jsonObject, "applicability", JsonObject.class), -1));
         JsonArray qualifiersArray = JsonSupport.getJsonArray(jsonObject, "qualifiers");
         if (qualifiersArray != null) {
@@ -12313,7 +12281,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Integer parseInteger(Integer.Builder builder, java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
+    private Integer parseInteger(Integer.Builder builder, java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
         if (jsonValue == null && _jsonValue == null) {
             return null;
         }
@@ -12331,18 +12299,17 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Integer parseInteger(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
+    private Integer parseInteger(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
         return parseInteger(Integer.builder(), elementName, jsonValue, _jsonValue, elementIndex);
     }
 
-    protected Invoice parseInvoice(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Invoice parseInvoice(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Invoice", jsonObject);
-        InvoiceStatus status = (InvoiceStatus) parseString(InvoiceStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Invoice.Builder builder = Invoice.builder(status);
+        Invoice.Builder builder = Invoice.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -12352,6 +12319,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((InvoiceStatus) parseString(InvoiceStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.cancelledReason(parseString("cancelledReason", JsonSupport.getJsonValue(jsonObject, "cancelledReason", JsonString.class), jsonObject.get("_cancelledReason"), -1));
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
@@ -12398,16 +12366,16 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Invoice.LineItem parseInvoiceLineItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Invoice.LineItem parseInvoiceLineItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Invoice.LineItem", jsonObject);
-        Element chargeItem = parseChoiceElement("chargeItem", jsonObject, "Reference", "CodeableConcept");
-        Invoice.LineItem.Builder builder = Invoice.LineItem.builder(chargeItem);
+        Invoice.LineItem.Builder builder = Invoice.LineItem.builder();
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", JsonSupport.getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
+        builder.chargeItem(parseChoiceElement("chargeItem", jsonObject, "Reference", "CodeableConcept"));
         JsonArray priceComponentArray = JsonSupport.getJsonArray(jsonObject, "priceComponent");
         if (priceComponentArray != null) {
             int index = 0;
@@ -12420,15 +12388,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Invoice.LineItem.PriceComponent parseInvoiceLineItemPriceComponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Invoice.LineItem.PriceComponent parseInvoiceLineItemPriceComponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Invoice.LineItem.PriceComponent", jsonObject);
-        InvoicePriceComponentType type = (InvoicePriceComponentType) parseString(InvoicePriceComponentType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        Invoice.LineItem.PriceComponent.Builder builder = Invoice.LineItem.PriceComponent.builder(type);
+        Invoice.LineItem.PriceComponent.Builder builder = Invoice.LineItem.PriceComponent.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type((InvoicePriceComponentType) parseString(InvoicePriceComponentType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.amount(parseMoney("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1));
@@ -12436,29 +12404,27 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Invoice.Participant parseInvoiceParticipant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Invoice.Participant parseInvoiceParticipant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Invoice.Participant", jsonObject);
-        Reference actor = parseReference("actor", JsonSupport.getJsonValue(jsonObject, "actor", JsonObject.class), -1);
-        Invoice.Participant.Builder builder = Invoice.Participant.builder(actor);
+        Invoice.Participant.Builder builder = Invoice.Participant.builder();
         parseBackboneElement(builder, jsonObject);
         builder.role(parseCodeableConcept("role", JsonSupport.getJsonValue(jsonObject, "role", JsonObject.class), -1));
+        builder.actor(parseReference("actor", JsonSupport.getJsonValue(jsonObject, "actor", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Library parseLibrary(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Library parseLibrary(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Library", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        Library.Builder builder = Library.builder(status, type);
+        Library.Builder builder = Library.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -12473,7 +12439,9 @@ public class FHIRJsonParser implements FHIRParser {
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.subtitle(parseString("subtitle", JsonSupport.getJsonValue(jsonObject, "subtitle", JsonString.class), jsonObject.get("_subtitle"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.subject(parseChoiceElement("subject", jsonObject, "CodeableConcept", "Reference"));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
@@ -12584,52 +12552,49 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Linkage parseLinkage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Linkage parseLinkage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Linkage", jsonObject);
-        java.util.List<Linkage.Item> item = new ArrayList<>();
+        Linkage.Builder builder = Linkage.builder();
+        parseDomainResource(builder, jsonObject);
+        builder.active(parseBoolean("active", JsonSupport.getJsonValue(jsonObject, "active", JsonValue.class), jsonObject.get("_active"), -1));
+        builder.author(parseReference("author", JsonSupport.getJsonValue(jsonObject, "author", JsonObject.class), -1));
         JsonArray itemArray = JsonSupport.getJsonArray(jsonObject, "item");
         if (itemArray != null) {
             int index = 0;
             for (JsonValue jsonValue : itemArray) {
-                item.add(parseLinkageItem("item", (JsonObject) jsonValue, index));
+                builder.item(parseLinkageItem("item", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        Linkage.Builder builder = Linkage.builder(item);
-        parseDomainResource(builder, jsonObject);
-        builder.active(parseBoolean("active", JsonSupport.getJsonValue(jsonObject, "active", JsonValue.class), jsonObject.get("_active"), -1));
-        builder.author(parseReference("author", JsonSupport.getJsonValue(jsonObject, "author", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Linkage.Item parseLinkageItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Linkage.Item parseLinkageItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Linkage.Item", jsonObject);
-        LinkageType type = (LinkageType) parseString(LinkageType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        Reference resource = parseReference("resource", JsonSupport.getJsonValue(jsonObject, "resource", JsonObject.class), -1);
-        Linkage.Item.Builder builder = Linkage.Item.builder(type, resource);
+        Linkage.Item.Builder builder = Linkage.Item.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type((LinkageType) parseString(LinkageType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.resource(parseReference("resource", JsonSupport.getJsonValue(jsonObject, "resource", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected List parseList(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private List parseList(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("List", jsonObject);
-        ListStatus status = (ListStatus) parseString(ListStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        ListMode mode = (ListMode) parseString(ListMode.builder(), "mode", JsonSupport.getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1);
-        List.Builder builder = List.builder(status, mode);
+        List.Builder builder = List.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -12639,6 +12604,8 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((ListStatus) parseString(ListStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.mode((ListMode) parseString(ListMode.builder(), "mode", JsonSupport.getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
@@ -12667,23 +12634,23 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected List.Entry parseListEntry(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private List.Entry parseListEntry(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("List.Entry", jsonObject);
-        Reference item = parseReference("item", JsonSupport.getJsonValue(jsonObject, "item", JsonObject.class), -1);
-        List.Entry.Builder builder = List.Entry.builder(item);
+        List.Entry.Builder builder = List.Entry.builder();
         parseBackboneElement(builder, jsonObject);
         builder.flag(parseCodeableConcept("flag", JsonSupport.getJsonValue(jsonObject, "flag", JsonObject.class), -1));
         builder.deleted(parseBoolean("deleted", JsonSupport.getJsonValue(jsonObject, "deleted", JsonValue.class), jsonObject.get("_deleted"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
+        builder.item(parseReference("item", JsonSupport.getJsonValue(jsonObject, "item", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Location parseLocation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Location parseLocation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -12755,7 +12722,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Location.HoursOfOperation parseLocationHoursOfOperation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Location.HoursOfOperation parseLocationHoursOfOperation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -12779,46 +12746,45 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Location.Position parseLocationPosition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Location.Position parseLocationPosition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Location.Position", jsonObject);
-        Decimal longitude = parseDecimal("longitude", JsonSupport.getJsonValue(jsonObject, "longitude", JsonNumber.class), jsonObject.get("_longitude"), -1);
-        Decimal latitude = parseDecimal("latitude", JsonSupport.getJsonValue(jsonObject, "latitude", JsonNumber.class), jsonObject.get("_latitude"), -1);
-        Location.Position.Builder builder = Location.Position.builder(longitude, latitude);
+        Location.Position.Builder builder = Location.Position.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.longitude(parseDecimal("longitude", JsonSupport.getJsonValue(jsonObject, "longitude", JsonNumber.class), jsonObject.get("_longitude"), -1));
+        builder.latitude(parseDecimal("latitude", JsonSupport.getJsonValue(jsonObject, "latitude", JsonNumber.class), jsonObject.get("_latitude"), -1));
         builder.altitude(parseDecimal("altitude", JsonSupport.getJsonValue(jsonObject, "altitude", JsonNumber.class), jsonObject.get("_altitude"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MarketingStatus parseMarketingStatus(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MarketingStatus parseMarketingStatus(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MarketingStatus", jsonObject);
-        CodeableConcept country = parseCodeableConcept("country", JsonSupport.getJsonValue(jsonObject, "country", JsonObject.class), -1);
-        CodeableConcept status = parseCodeableConcept("status", JsonSupport.getJsonValue(jsonObject, "status", JsonObject.class), -1);
-        Period dateRange = parsePeriod("dateRange", JsonSupport.getJsonValue(jsonObject, "dateRange", JsonObject.class), -1);
-        MarketingStatus.Builder builder = MarketingStatus.builder(country, status, dateRange);
+        MarketingStatus.Builder builder = MarketingStatus.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.country(parseCodeableConcept("country", JsonSupport.getJsonValue(jsonObject, "country", JsonObject.class), -1));
         builder.jurisdiction(parseCodeableConcept("jurisdiction", JsonSupport.getJsonValue(jsonObject, "jurisdiction", JsonObject.class), -1));
+        builder.status(parseCodeableConcept("status", JsonSupport.getJsonValue(jsonObject, "status", JsonObject.class), -1));
+        builder.dateRange(parsePeriod("dateRange", JsonSupport.getJsonValue(jsonObject, "dateRange", JsonObject.class), -1));
         builder.restoreDate(parseDateTime("restoreDate", JsonSupport.getJsonValue(jsonObject, "restoreDate", JsonString.class), jsonObject.get("_restoreDate"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Measure parseMeasure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Measure parseMeasure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Measure", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Measure.Builder builder = Measure.builder(status);
+        Measure.Builder builder = Measure.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -12833,6 +12799,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.subtitle(parseString("subtitle", JsonSupport.getJsonValue(jsonObject, "subtitle", JsonString.class), jsonObject.get("_subtitle"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.subject(parseChoiceElement("subject", jsonObject, "CodeableConcept", "Reference"));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
@@ -12971,7 +12938,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Measure.Group parseMeasureGroup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Measure.Group parseMeasureGroup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -13001,22 +12968,22 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Measure.Group.Population parseMeasureGroupPopulation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Measure.Group.Population parseMeasureGroupPopulation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Measure.Group.Population", jsonObject);
-        Expression criteria = parseExpression("criteria", JsonSupport.getJsonValue(jsonObject, "criteria", JsonObject.class), -1);
-        Measure.Group.Population.Builder builder = Measure.Group.Population.builder(criteria);
+        Measure.Group.Population.Builder builder = Measure.Group.Population.builder();
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        builder.criteria(parseExpression("criteria", JsonSupport.getJsonValue(jsonObject, "criteria", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Measure.Group.Stratifier parseMeasureGroupStratifier(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Measure.Group.Stratifier parseMeasureGroupStratifier(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -13039,29 +13006,28 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Measure.Group.Stratifier.Component parseMeasureGroupStratifierComponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Measure.Group.Stratifier.Component parseMeasureGroupStratifierComponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Measure.Group.Stratifier.Component", jsonObject);
-        Expression criteria = parseExpression("criteria", JsonSupport.getJsonValue(jsonObject, "criteria", JsonObject.class), -1);
-        Measure.Group.Stratifier.Component.Builder builder = Measure.Group.Stratifier.Component.builder(criteria);
+        Measure.Group.Stratifier.Component.Builder builder = Measure.Group.Stratifier.Component.builder();
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        builder.criteria(parseExpression("criteria", JsonSupport.getJsonValue(jsonObject, "criteria", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Measure.SupplementalData parseMeasureSupplementalData(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Measure.SupplementalData parseMeasureSupplementalData(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Measure.SupplementalData", jsonObject);
-        Expression criteria = parseExpression("criteria", JsonSupport.getJsonValue(jsonObject, "criteria", JsonObject.class), -1);
-        Measure.SupplementalData.Builder builder = Measure.SupplementalData.builder(criteria);
+        Measure.SupplementalData.Builder builder = Measure.SupplementalData.builder();
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         JsonArray usageArray = JsonSupport.getJsonArray(jsonObject, "usage");
@@ -13073,21 +13039,18 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
+        builder.criteria(parseExpression("criteria", JsonSupport.getJsonValue(jsonObject, "criteria", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MeasureReport parseMeasureReport(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MeasureReport parseMeasureReport(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MeasureReport", jsonObject);
-        MeasureReportStatus status = (MeasureReportStatus) parseString(MeasureReportStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        MeasureReportType type = (MeasureReportType) parseString(MeasureReportType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        Canonical measure = (Canonical) parseUri(Canonical.builder(), "measure", JsonSupport.getJsonValue(jsonObject, "measure", JsonString.class), jsonObject.get("_measure"), -1);
-        Period period = parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1);
-        MeasureReport.Builder builder = MeasureReport.builder(status, type, measure, period);
+        MeasureReport.Builder builder = MeasureReport.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -13097,9 +13060,13 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((MeasureReportStatus) parseString(MeasureReportStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.type((MeasureReportType) parseString(MeasureReportType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.measure((Canonical) parseUri(Canonical.builder(), "measure", JsonSupport.getJsonValue(jsonObject, "measure", JsonString.class), jsonObject.get("_measure"), -1));
         builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.reporter(parseReference("reporter", JsonSupport.getJsonValue(jsonObject, "reporter", JsonObject.class), -1));
+        builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
         builder.improvementNotation(parseCodeableConcept("improvementNotation", JsonSupport.getJsonValue(jsonObject, "improvementNotation", JsonObject.class), -1));
         JsonArray groupArray = JsonSupport.getJsonArray(jsonObject, "group");
         if (groupArray != null) {
@@ -13121,7 +13088,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MeasureReport.Group parseMeasureReportGroup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MeasureReport.Group parseMeasureReportGroup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -13151,7 +13118,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MeasureReport.Group.Population parseMeasureReportGroupPopulation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MeasureReport.Group.Population parseMeasureReportGroupPopulation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -13166,7 +13133,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MeasureReport.Group.Stratifier parseMeasureReportGroupStratifier(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MeasureReport.Group.Stratifier parseMeasureReportGroupStratifier(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -13194,7 +13161,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MeasureReport.Group.Stratifier.Stratum parseMeasureReportGroupStratifierStratum(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MeasureReport.Group.Stratifier.Stratum parseMeasureReportGroupStratifierStratum(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -13224,21 +13191,21 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MeasureReport.Group.Stratifier.Stratum.Component parseMeasureReportGroupStratifierStratumComponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MeasureReport.Group.Stratifier.Stratum.Component parseMeasureReportGroupStratifierStratumComponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MeasureReport.Group.Stratifier.Stratum.Component", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        CodeableConcept value = parseCodeableConcept("value", JsonSupport.getJsonValue(jsonObject, "value", JsonObject.class), -1);
-        MeasureReport.Group.Stratifier.Stratum.Component.Builder builder = MeasureReport.Group.Stratifier.Stratum.Component.builder(code, value);
+        MeasureReport.Group.Stratifier.Stratum.Component.Builder builder = MeasureReport.Group.Stratifier.Stratum.Component.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        builder.value(parseCodeableConcept("value", JsonSupport.getJsonValue(jsonObject, "value", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MeasureReport.Group.Stratifier.Stratum.Population parseMeasureReportGroupStratifierStratumPopulation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MeasureReport.Group.Stratifier.Stratum.Population parseMeasureReportGroupStratifierStratumPopulation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -13253,15 +13220,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Media parseMedia(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Media parseMedia(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Media", jsonObject);
-        MediaStatus status = (MediaStatus) parseString(MediaStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Attachment content = parseAttachment("content", JsonSupport.getJsonValue(jsonObject, "content", JsonObject.class), -1);
-        Media.Builder builder = Media.builder(status, content);
+        Media.Builder builder = Media.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -13287,6 +13252,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((MediaStatus) parseString(MediaStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.modality(parseCodeableConcept("modality", JsonSupport.getJsonValue(jsonObject, "modality", JsonObject.class), -1));
         builder.view(parseCodeableConcept("view", JsonSupport.getJsonValue(jsonObject, "view", JsonObject.class), -1));
@@ -13310,6 +13276,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.width((PositiveInt) parseInteger(PositiveInt.builder(), "width", JsonSupport.getJsonValue(jsonObject, "width", JsonNumber.class), jsonObject.get("_width"), -1));
         builder.frames((PositiveInt) parseInteger(PositiveInt.builder(), "frames", JsonSupport.getJsonValue(jsonObject, "frames", JsonNumber.class), jsonObject.get("_frames"), -1));
         builder.duration(parseDecimal("duration", JsonSupport.getJsonValue(jsonObject, "duration", JsonNumber.class), jsonObject.get("_duration"), -1));
+        builder.content(parseAttachment("content", JsonSupport.getJsonValue(jsonObject, "content", JsonObject.class), -1));
         JsonArray noteArray = JsonSupport.getJsonArray(jsonObject, "note");
         if (noteArray != null) {
             int index = 0;
@@ -13322,7 +13289,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Medication parseMedication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Medication parseMedication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -13356,7 +13323,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Medication.Batch parseMedicationBatch(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Medication.Batch parseMedicationBatch(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -13370,32 +13337,28 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Medication.Ingredient parseMedicationIngredient(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Medication.Ingredient parseMedicationIngredient(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Medication.Ingredient", jsonObject);
-        Element item = parseChoiceElement("item", jsonObject, "CodeableConcept", "Reference");
-        Medication.Ingredient.Builder builder = Medication.Ingredient.builder(item);
+        Medication.Ingredient.Builder builder = Medication.Ingredient.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.item(parseChoiceElement("item", jsonObject, "CodeableConcept", "Reference"));
         builder.isActive(parseBoolean("isActive", JsonSupport.getJsonValue(jsonObject, "isActive", JsonValue.class), jsonObject.get("_isActive"), -1));
         builder.strength(parseRatio("strength", JsonSupport.getJsonValue(jsonObject, "strength", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MedicationAdministration parseMedicationAdministration(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationAdministration parseMedicationAdministration(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationAdministration", jsonObject);
-        MedicationAdministrationStatus status = (MedicationAdministrationStatus) parseString(MedicationAdministrationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Element medication = parseChoiceElement("medication", jsonObject, "CodeableConcept", "Reference");
-        Reference subject = parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1);
-        Element effective = parseChoiceElement("effective", jsonObject, "DateTime", "Period");
-        MedicationAdministration.Builder builder = MedicationAdministration.builder(status, medication, subject, effective);
+        MedicationAdministration.Builder builder = MedicationAdministration.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -13422,6 +13385,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((MedicationAdministrationStatus) parseString(MedicationAdministrationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         JsonArray statusReasonArray = JsonSupport.getJsonArray(jsonObject, "statusReason");
         if (statusReasonArray != null) {
             int index = 0;
@@ -13431,6 +13395,8 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
+        builder.medication(parseChoiceElement("medication", jsonObject, "CodeableConcept", "Reference"));
+        builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.context(parseReference("context", JsonSupport.getJsonValue(jsonObject, "context", JsonObject.class), -1));
         JsonArray supportingInformationArray = JsonSupport.getJsonArray(jsonObject, "supportingInformation");
         if (supportingInformationArray != null) {
@@ -13440,6 +13406,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.effective(parseChoiceElement("effective", jsonObject, "DateTime", "Period"));
         JsonArray performerArray = JsonSupport.getJsonArray(jsonObject, "performer");
         if (performerArray != null) {
             int index = 0;
@@ -13494,7 +13461,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationAdministration.Dosage parseMedicationAdministrationDosage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationAdministration.Dosage parseMedicationAdministrationDosage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -13512,29 +13479,27 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationAdministration.Performer parseMedicationAdministrationPerformer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationAdministration.Performer parseMedicationAdministrationPerformer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationAdministration.Performer", jsonObject);
-        Reference actor = parseReference("actor", JsonSupport.getJsonValue(jsonObject, "actor", JsonObject.class), -1);
-        MedicationAdministration.Performer.Builder builder = MedicationAdministration.Performer.builder(actor);
+        MedicationAdministration.Performer.Builder builder = MedicationAdministration.Performer.builder();
         parseBackboneElement(builder, jsonObject);
         builder.function(parseCodeableConcept("function", JsonSupport.getJsonValue(jsonObject, "function", JsonObject.class), -1));
+        builder.actor(parseReference("actor", JsonSupport.getJsonValue(jsonObject, "actor", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MedicationDispense parseMedicationDispense(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationDispense parseMedicationDispense(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationDispense", jsonObject);
-        MedicationDispenseStatus status = (MedicationDispenseStatus) parseString(MedicationDispenseStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Element medication = parseChoiceElement("medication", jsonObject, "CodeableConcept", "Reference");
-        MedicationDispense.Builder builder = MedicationDispense.builder(status, medication);
+        MedicationDispense.Builder builder = MedicationDispense.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -13552,8 +13517,10 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((MedicationDispenseStatus) parseString(MedicationDispenseStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.statusReason(parseChoiceElement("statusReason", jsonObject, "CodeableConcept", "Reference"));
         builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
+        builder.medication(parseChoiceElement("medication", jsonObject, "CodeableConcept", "Reference"));
         builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.context(parseReference("context", JsonSupport.getJsonValue(jsonObject, "context", JsonObject.class), -1));
         JsonArray supportingInformationArray = JsonSupport.getJsonArray(jsonObject, "supportingInformation");
@@ -13632,29 +13599,29 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationDispense.Performer parseMedicationDispensePerformer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationDispense.Performer parseMedicationDispensePerformer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationDispense.Performer", jsonObject);
-        Reference actor = parseReference("actor", JsonSupport.getJsonValue(jsonObject, "actor", JsonObject.class), -1);
-        MedicationDispense.Performer.Builder builder = MedicationDispense.Performer.builder(actor);
+        MedicationDispense.Performer.Builder builder = MedicationDispense.Performer.builder();
         parseBackboneElement(builder, jsonObject);
         builder.function(parseCodeableConcept("function", JsonSupport.getJsonValue(jsonObject, "function", JsonObject.class), -1));
+        builder.actor(parseReference("actor", JsonSupport.getJsonValue(jsonObject, "actor", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MedicationDispense.Substitution parseMedicationDispenseSubstitution(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationDispense.Substitution parseMedicationDispenseSubstitution(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationDispense.Substitution", jsonObject);
-        Boolean wasSubstituted = parseBoolean("wasSubstituted", JsonSupport.getJsonValue(jsonObject, "wasSubstituted", JsonValue.class), jsonObject.get("_wasSubstituted"), -1);
-        MedicationDispense.Substitution.Builder builder = MedicationDispense.Substitution.builder(wasSubstituted);
+        MedicationDispense.Substitution.Builder builder = MedicationDispense.Substitution.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.wasSubstituted(parseBoolean("wasSubstituted", JsonSupport.getJsonValue(jsonObject, "wasSubstituted", JsonValue.class), jsonObject.get("_wasSubstituted"), -1));
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray reasonArray = JsonSupport.getJsonArray(jsonObject, "reason");
         if (reasonArray != null) {
@@ -13676,7 +13643,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationKnowledge parseMedicationKnowledge(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge parseMedicationKnowledge(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -13816,7 +13783,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationKnowledge.AdministrationGuidelines parseMedicationKnowledgeAdministrationGuidelines(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge.AdministrationGuidelines parseMedicationKnowledgeAdministrationGuidelines(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -13845,37 +13812,36 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationKnowledge.AdministrationGuidelines.Dosage parseMedicationKnowledgeAdministrationGuidelinesDosage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge.AdministrationGuidelines.Dosage parseMedicationKnowledgeAdministrationGuidelinesDosage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationKnowledge.AdministrationGuidelines.Dosage", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        java.util.List<Dosage> dosage = new ArrayList<>();
+        MedicationKnowledge.AdministrationGuidelines.Dosage.Builder builder = MedicationKnowledge.AdministrationGuidelines.Dosage.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray dosageArray = JsonSupport.getJsonArray(jsonObject, "dosage");
         if (dosageArray != null) {
             int index = 0;
             for (JsonValue jsonValue : dosageArray) {
-                dosage.add(parseDosage("dosage", (JsonObject) jsonValue, index));
+                builder.dosage(parseDosage("dosage", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        MedicationKnowledge.AdministrationGuidelines.Dosage.Builder builder = MedicationKnowledge.AdministrationGuidelines.Dosage.builder(type, dosage);
-        parseBackboneElement(builder, jsonObject);
         stackPop();
         return builder.build();
     }
 
-    protected MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics parseMedicationKnowledgeAdministrationGuidelinesPatientCharacteristics(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics parseMedicationKnowledgeAdministrationGuidelinesPatientCharacteristics(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics", jsonObject);
-        Element characteristic = parseChoiceElement("characteristic", jsonObject, "CodeableConcept", "SimpleQuantity");
-        MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.Builder builder = MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.builder(characteristic);
+        MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.Builder builder = MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.characteristic(parseChoiceElement("characteristic", jsonObject, "CodeableConcept", "SimpleQuantity"));
         JsonArray valueArray = JsonSupport.getJsonArray(jsonObject, "value", true);
         if (valueArray != null) {
             int index = 0;
@@ -13889,22 +13855,22 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationKnowledge.Cost parseMedicationKnowledgeCost(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge.Cost parseMedicationKnowledgeCost(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationKnowledge.Cost", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        Money cost = parseMoney("cost", JsonSupport.getJsonValue(jsonObject, "cost", JsonObject.class), -1);
-        MedicationKnowledge.Cost.Builder builder = MedicationKnowledge.Cost.builder(type, cost);
+        MedicationKnowledge.Cost.Builder builder = MedicationKnowledge.Cost.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.source(parseString("source", JsonSupport.getJsonValue(jsonObject, "source", JsonString.class), jsonObject.get("_source"), -1));
+        builder.cost(parseMoney("cost", JsonSupport.getJsonValue(jsonObject, "cost", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MedicationKnowledge.DrugCharacteristic parseMedicationKnowledgeDrugCharacteristic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge.DrugCharacteristic parseMedicationKnowledgeDrugCharacteristic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -13918,22 +13884,22 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationKnowledge.Ingredient parseMedicationKnowledgeIngredient(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge.Ingredient parseMedicationKnowledgeIngredient(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationKnowledge.Ingredient", jsonObject);
-        Element item = parseChoiceElement("item", jsonObject, "CodeableConcept", "Reference");
-        MedicationKnowledge.Ingredient.Builder builder = MedicationKnowledge.Ingredient.builder(item);
+        MedicationKnowledge.Ingredient.Builder builder = MedicationKnowledge.Ingredient.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.item(parseChoiceElement("item", jsonObject, "CodeableConcept", "Reference"));
         builder.isActive(parseBoolean("isActive", JsonSupport.getJsonValue(jsonObject, "isActive", JsonValue.class), jsonObject.get("_isActive"), -1));
         builder.strength(parseRatio("strength", JsonSupport.getJsonValue(jsonObject, "strength", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MedicationKnowledge.Kinetics parseMedicationKnowledgeKinetics(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge.Kinetics parseMedicationKnowledgeKinetics(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -13962,15 +13928,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationKnowledge.MedicineClassification parseMedicationKnowledgeMedicineClassification(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge.MedicineClassification parseMedicationKnowledgeMedicineClassification(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationKnowledge.MedicineClassification", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        MedicationKnowledge.MedicineClassification.Builder builder = MedicationKnowledge.MedicineClassification.builder(type);
+        MedicationKnowledge.MedicineClassification.Builder builder = MedicationKnowledge.MedicineClassification.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray classificationArray = JsonSupport.getJsonArray(jsonObject, "classification");
         if (classificationArray != null) {
             int index = 0;
@@ -13983,7 +13949,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationKnowledge.MonitoringProgram parseMedicationKnowledgeMonitoringProgram(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge.MonitoringProgram parseMedicationKnowledgeMonitoringProgram(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -13997,7 +13963,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationKnowledge.Monograph parseMedicationKnowledgeMonograph(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge.Monograph parseMedicationKnowledgeMonograph(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -14011,7 +13977,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationKnowledge.Packaging parseMedicationKnowledgePackaging(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge.Packaging parseMedicationKnowledgePackaging(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -14025,15 +13991,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationKnowledge.Regulatory parseMedicationKnowledgeRegulatory(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge.Regulatory parseMedicationKnowledgeRegulatory(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationKnowledge.Regulatory", jsonObject);
-        Reference regulatoryAuthority = parseReference("regulatoryAuthority", JsonSupport.getJsonValue(jsonObject, "regulatoryAuthority", JsonObject.class), -1);
-        MedicationKnowledge.Regulatory.Builder builder = MedicationKnowledge.Regulatory.builder(regulatoryAuthority);
+        MedicationKnowledge.Regulatory.Builder builder = MedicationKnowledge.Regulatory.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.regulatoryAuthority(parseReference("regulatoryAuthority", JsonSupport.getJsonValue(jsonObject, "regulatoryAuthority", JsonObject.class), -1));
         JsonArray substitutionArray = JsonSupport.getJsonArray(jsonObject, "substitution");
         if (substitutionArray != null) {
             int index = 0;
@@ -14055,80 +14021,75 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationKnowledge.Regulatory.MaxDispense parseMedicationKnowledgeRegulatoryMaxDispense(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge.Regulatory.MaxDispense parseMedicationKnowledgeRegulatoryMaxDispense(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationKnowledge.Regulatory.MaxDispense", jsonObject);
-        SimpleQuantity quantity = (SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1);
-        MedicationKnowledge.Regulatory.MaxDispense.Builder builder = MedicationKnowledge.Regulatory.MaxDispense.builder(quantity);
+        MedicationKnowledge.Regulatory.MaxDispense.Builder builder = MedicationKnowledge.Regulatory.MaxDispense.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.period((Duration) parseQuantity(Duration.builder(), "period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MedicationKnowledge.Regulatory.Schedule parseMedicationKnowledgeRegulatorySchedule(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge.Regulatory.Schedule parseMedicationKnowledgeRegulatorySchedule(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationKnowledge.Regulatory.Schedule", jsonObject);
-        CodeableConcept schedule = parseCodeableConcept("schedule", JsonSupport.getJsonValue(jsonObject, "schedule", JsonObject.class), -1);
-        MedicationKnowledge.Regulatory.Schedule.Builder builder = MedicationKnowledge.Regulatory.Schedule.builder(schedule);
+        MedicationKnowledge.Regulatory.Schedule.Builder builder = MedicationKnowledge.Regulatory.Schedule.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.schedule(parseCodeableConcept("schedule", JsonSupport.getJsonValue(jsonObject, "schedule", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MedicationKnowledge.Regulatory.Substitution parseMedicationKnowledgeRegulatorySubstitution(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge.Regulatory.Substitution parseMedicationKnowledgeRegulatorySubstitution(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationKnowledge.Regulatory.Substitution", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        Boolean allowed = parseBoolean("allowed", JsonSupport.getJsonValue(jsonObject, "allowed", JsonValue.class), jsonObject.get("_allowed"), -1);
-        MedicationKnowledge.Regulatory.Substitution.Builder builder = MedicationKnowledge.Regulatory.Substitution.builder(type, allowed);
+        MedicationKnowledge.Regulatory.Substitution.Builder builder = MedicationKnowledge.Regulatory.Substitution.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.allowed(parseBoolean("allowed", JsonSupport.getJsonValue(jsonObject, "allowed", JsonValue.class), jsonObject.get("_allowed"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MedicationKnowledge.RelatedMedicationKnowledge parseMedicationKnowledgeRelatedMedicationKnowledge(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationKnowledge.RelatedMedicationKnowledge parseMedicationKnowledgeRelatedMedicationKnowledge(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationKnowledge.RelatedMedicationKnowledge", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        java.util.List<Reference> reference = new ArrayList<>();
+        MedicationKnowledge.RelatedMedicationKnowledge.Builder builder = MedicationKnowledge.RelatedMedicationKnowledge.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray referenceArray = JsonSupport.getJsonArray(jsonObject, "reference");
         if (referenceArray != null) {
             int index = 0;
             for (JsonValue jsonValue : referenceArray) {
-                reference.add(parseReference("reference", (JsonObject) jsonValue, index));
+                builder.reference(parseReference("reference", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        MedicationKnowledge.RelatedMedicationKnowledge.Builder builder = MedicationKnowledge.RelatedMedicationKnowledge.builder(type, reference);
-        parseBackboneElement(builder, jsonObject);
         stackPop();
         return builder.build();
     }
 
-    protected MedicationRequest parseMedicationRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationRequest parseMedicationRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationRequest", jsonObject);
-        MedicationRequestStatus status = (MedicationRequestStatus) parseString(MedicationRequestStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        MedicationRequestIntent intent = (MedicationRequestIntent) parseString(MedicationRequestIntent.builder(), "intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonString.class), jsonObject.get("_intent"), -1);
-        Element medication = parseChoiceElement("medication", jsonObject, "CodeableConcept", "Reference");
-        Reference subject = parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1);
-        MedicationRequest.Builder builder = MedicationRequest.builder(status, intent, medication, subject);
+        MedicationRequest.Builder builder = MedicationRequest.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -14138,7 +14099,9 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((MedicationRequestStatus) parseString(MedicationRequestStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.statusReason(parseCodeableConcept("statusReason", JsonSupport.getJsonValue(jsonObject, "statusReason", JsonObject.class), -1));
+        builder.intent((MedicationRequestIntent) parseString(MedicationRequestIntent.builder(), "intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonString.class), jsonObject.get("_intent"), -1));
         JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             int index = 0;
@@ -14150,6 +14113,8 @@ public class FHIRJsonParser implements FHIRParser {
         builder.priority((MedicationRequestPriority) parseString(MedicationRequestPriority.builder(), "priority", JsonSupport.getJsonValue(jsonObject, "priority", JsonString.class), jsonObject.get("_priority"), -1));
         builder.doNotPerform(parseBoolean("doNotPerform", JsonSupport.getJsonValue(jsonObject, "doNotPerform", JsonValue.class), jsonObject.get("_doNotPerform"), -1));
         builder.reported(parseChoiceElement("reported", jsonObject, "Boolean", "Reference"));
+        builder.medication(parseChoiceElement("medication", jsonObject, "CodeableConcept", "Reference"));
+        builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
         JsonArray supportingInformationArray = JsonSupport.getJsonArray(jsonObject, "supportingInformation");
         if (supportingInformationArray != null) {
@@ -14255,7 +14220,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationRequest.DispenseRequest parseMedicationRequestDispenseRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationRequest.DispenseRequest parseMedicationRequestDispenseRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -14274,7 +14239,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationRequest.DispenseRequest.InitialFill parseMedicationRequestDispenseRequestInitialFill(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationRequest.DispenseRequest.InitialFill parseMedicationRequestDispenseRequestInitialFill(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -14288,30 +14253,27 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicationRequest.Substitution parseMedicationRequestSubstitution(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationRequest.Substitution parseMedicationRequestSubstitution(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationRequest.Substitution", jsonObject);
-        Element allowed = parseChoiceElement("allowed", jsonObject, "Boolean", "CodeableConcept");
-        MedicationRequest.Substitution.Builder builder = MedicationRequest.Substitution.builder(allowed);
+        MedicationRequest.Substitution.Builder builder = MedicationRequest.Substitution.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.allowed(parseChoiceElement("allowed", jsonObject, "Boolean", "CodeableConcept"));
         builder.reason(parseCodeableConcept("reason", JsonSupport.getJsonValue(jsonObject, "reason", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MedicationStatement parseMedicationStatement(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicationStatement parseMedicationStatement(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicationStatement", jsonObject);
-        MedicationStatementStatus status = (MedicationStatementStatus) parseString(MedicationStatementStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Element medication = parseChoiceElement("medication", jsonObject, "CodeableConcept", "Reference");
-        Reference subject = parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1);
-        MedicationStatement.Builder builder = MedicationStatement.builder(status, medication, subject);
+        MedicationStatement.Builder builder = MedicationStatement.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -14337,6 +14299,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((MedicationStatementStatus) parseString(MedicationStatementStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         JsonArray statusReasonArray = JsonSupport.getJsonArray(jsonObject, "statusReason");
         if (statusReasonArray != null) {
             int index = 0;
@@ -14346,6 +14309,8 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
+        builder.medication(parseChoiceElement("medication", jsonObject, "CodeableConcept", "Reference"));
+        builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.context(parseReference("context", JsonSupport.getJsonValue(jsonObject, "context", JsonObject.class), -1));
         builder.effective(parseChoiceElement("effective", jsonObject, "DateTime", "Period"));
         builder.dateAsserted(parseDateTime("dateAsserted", JsonSupport.getJsonValue(jsonObject, "dateAsserted", JsonString.class), jsonObject.get("_dateAsserted"), -1));
@@ -14394,22 +14359,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProduct parseMedicinalProduct(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProduct parseMedicinalProduct(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProduct", jsonObject);
-        java.util.List<MedicinalProduct.Name> name = new ArrayList<>();
-        JsonArray nameArray = JsonSupport.getJsonArray(jsonObject, "name");
-        if (nameArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : nameArray) {
-                name.add(parseMedicinalProductName("name", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        MedicinalProduct.Builder builder = MedicinalProduct.builder(name);
+        MedicinalProduct.Builder builder = MedicinalProduct.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -14498,6 +14454,14 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        JsonArray nameArray = JsonSupport.getJsonArray(jsonObject, "name");
+        if (nameArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : nameArray) {
+                builder.name(parseMedicinalProductName("name", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         JsonArray crossReferenceArray = JsonSupport.getJsonArray(jsonObject, "crossReference");
         if (crossReferenceArray != null) {
             int index = 0;
@@ -14526,7 +14490,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProduct.ManufacturingBusinessOperation parseMedicinalProductManufacturingBusinessOperation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProduct.ManufacturingBusinessOperation parseMedicinalProductManufacturingBusinessOperation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -14551,15 +14515,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProduct.Name parseMedicinalProductName(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProduct.Name parseMedicinalProductName(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProduct.Name", jsonObject);
-        String productName = parseString("productName", JsonSupport.getJsonValue(jsonObject, "productName", JsonString.class), jsonObject.get("_productName"), -1);
-        MedicinalProduct.Name.Builder builder = MedicinalProduct.Name.builder(productName);
+        MedicinalProduct.Name.Builder builder = MedicinalProduct.Name.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.productName(parseString("productName", JsonSupport.getJsonValue(jsonObject, "productName", JsonString.class), jsonObject.get("_productName"), -1));
         JsonArray namePartArray = JsonSupport.getJsonArray(jsonObject, "namePart");
         if (namePartArray != null) {
             int index = 0;
@@ -14580,36 +14544,36 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProduct.Name.CountryLanguage parseMedicinalProductNameCountryLanguage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProduct.Name.CountryLanguage parseMedicinalProductNameCountryLanguage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProduct.Name.CountryLanguage", jsonObject);
-        CodeableConcept country = parseCodeableConcept("country", JsonSupport.getJsonValue(jsonObject, "country", JsonObject.class), -1);
-        CodeableConcept language = parseCodeableConcept("language", JsonSupport.getJsonValue(jsonObject, "language", JsonObject.class), -1);
-        MedicinalProduct.Name.CountryLanguage.Builder builder = MedicinalProduct.Name.CountryLanguage.builder(country, language);
+        MedicinalProduct.Name.CountryLanguage.Builder builder = MedicinalProduct.Name.CountryLanguage.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.country(parseCodeableConcept("country", JsonSupport.getJsonValue(jsonObject, "country", JsonObject.class), -1));
         builder.jurisdiction(parseCodeableConcept("jurisdiction", JsonSupport.getJsonValue(jsonObject, "jurisdiction", JsonObject.class), -1));
+        builder.language(parseCodeableConcept("language", JsonSupport.getJsonValue(jsonObject, "language", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MedicinalProduct.Name.NamePart parseMedicinalProductNameNamePart(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProduct.Name.NamePart parseMedicinalProductNameNamePart(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProduct.Name.NamePart", jsonObject);
-        String part = parseString("part", JsonSupport.getJsonValue(jsonObject, "part", JsonString.class), jsonObject.get("_part"), -1);
-        Coding type = parseCoding("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        MedicinalProduct.Name.NamePart.Builder builder = MedicinalProduct.Name.NamePart.builder(part, type);
+        MedicinalProduct.Name.NamePart.Builder builder = MedicinalProduct.Name.NamePart.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.part(parseString("part", JsonSupport.getJsonValue(jsonObject, "part", JsonString.class), jsonObject.get("_part"), -1));
+        builder.type(parseCoding("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MedicinalProduct.SpecialDesignation parseMedicinalProductSpecialDesignation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProduct.SpecialDesignation parseMedicinalProductSpecialDesignation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -14635,7 +14599,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProductAuthorization parseMedicinalProductAuthorization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductAuthorization parseMedicinalProductAuthorization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -14691,7 +14655,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProductAuthorization.JurisdictionalAuthorization parseMedicinalProductAuthorizationJurisdictionalAuthorization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductAuthorization.JurisdictionalAuthorization parseMedicinalProductAuthorizationJurisdictionalAuthorization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -14722,16 +14686,16 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProductAuthorization.Procedure parseMedicinalProductAuthorizationProcedure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductAuthorization.Procedure parseMedicinalProductAuthorizationProcedure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductAuthorization.Procedure", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        MedicinalProductAuthorization.Procedure.Builder builder = MedicinalProductAuthorization.Procedure.builder(type);
+        MedicinalProductAuthorization.Procedure.Builder builder = MedicinalProductAuthorization.Procedure.builder();
         parseBackboneElement(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.date(parseChoiceElement("date", jsonObject, "Period", "DateTime"));
         JsonArray applicationArray = JsonSupport.getJsonArray(jsonObject, "application");
         if (applicationArray != null) {
@@ -14745,7 +14709,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProductContraindication parseMedicinalProductContraindication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductContraindication parseMedicinalProductContraindication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -14799,21 +14763,21 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProductContraindication.OtherTherapy parseMedicinalProductContraindicationOtherTherapy(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductContraindication.OtherTherapy parseMedicinalProductContraindicationOtherTherapy(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductContraindication.OtherTherapy", jsonObject);
-        CodeableConcept therapyRelationshipType = parseCodeableConcept("therapyRelationshipType", JsonSupport.getJsonValue(jsonObject, "therapyRelationshipType", JsonObject.class), -1);
-        Element medication = parseChoiceElement("medication", jsonObject, "CodeableConcept", "Reference");
-        MedicinalProductContraindication.OtherTherapy.Builder builder = MedicinalProductContraindication.OtherTherapy.builder(therapyRelationshipType, medication);
+        MedicinalProductContraindication.OtherTherapy.Builder builder = MedicinalProductContraindication.OtherTherapy.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.therapyRelationshipType(parseCodeableConcept("therapyRelationshipType", JsonSupport.getJsonValue(jsonObject, "therapyRelationshipType", JsonObject.class), -1));
+        builder.medication(parseChoiceElement("medication", jsonObject, "CodeableConcept", "Reference"));
         stackPop();
         return builder.build();
     }
 
-    protected MedicinalProductIndication parseMedicinalProductIndication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductIndication parseMedicinalProductIndication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -14869,30 +14833,30 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProductIndication.OtherTherapy parseMedicinalProductIndicationOtherTherapy(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductIndication.OtherTherapy parseMedicinalProductIndicationOtherTherapy(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductIndication.OtherTherapy", jsonObject);
-        CodeableConcept therapyRelationshipType = parseCodeableConcept("therapyRelationshipType", JsonSupport.getJsonValue(jsonObject, "therapyRelationshipType", JsonObject.class), -1);
-        Element medication = parseChoiceElement("medication", jsonObject, "CodeableConcept", "Reference");
-        MedicinalProductIndication.OtherTherapy.Builder builder = MedicinalProductIndication.OtherTherapy.builder(therapyRelationshipType, medication);
+        MedicinalProductIndication.OtherTherapy.Builder builder = MedicinalProductIndication.OtherTherapy.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.therapyRelationshipType(parseCodeableConcept("therapyRelationshipType", JsonSupport.getJsonValue(jsonObject, "therapyRelationshipType", JsonObject.class), -1));
+        builder.medication(parseChoiceElement("medication", jsonObject, "CodeableConcept", "Reference"));
         stackPop();
         return builder.build();
     }
 
-    protected MedicinalProductIngredient parseMedicinalProductIngredient(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductIngredient parseMedicinalProductIngredient(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductIngredient", jsonObject);
-        CodeableConcept role = parseCodeableConcept("role", JsonSupport.getJsonValue(jsonObject, "role", JsonObject.class), -1);
-        MedicinalProductIngredient.Builder builder = MedicinalProductIngredient.builder(role);
+        MedicinalProductIngredient.Builder builder = MedicinalProductIngredient.builder();
         parseDomainResource(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
+        builder.role(parseCodeableConcept("role", JsonSupport.getJsonValue(jsonObject, "role", JsonObject.class), -1));
         builder.allergenicIndicator(parseBoolean("allergenicIndicator", JsonSupport.getJsonValue(jsonObject, "allergenicIndicator", JsonValue.class), jsonObject.get("_allergenicIndicator"), -1));
         JsonArray manufacturerArray = JsonSupport.getJsonArray(jsonObject, "manufacturer");
         if (manufacturerArray != null) {
@@ -14915,16 +14879,16 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProductIngredient.SpecifiedSubstance parseMedicinalProductIngredientSpecifiedSubstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductIngredient.SpecifiedSubstance parseMedicinalProductIngredientSpecifiedSubstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductIngredient.SpecifiedSubstance", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        CodeableConcept group = parseCodeableConcept("group", JsonSupport.getJsonValue(jsonObject, "group", JsonObject.class), -1);
-        MedicinalProductIngredient.SpecifiedSubstance.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.builder(code, group);
+        MedicinalProductIngredient.SpecifiedSubstance.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        builder.group(parseCodeableConcept("group", JsonSupport.getJsonValue(jsonObject, "group", JsonObject.class), -1));
         builder.confidentiality(parseCodeableConcept("confidentiality", JsonSupport.getJsonValue(jsonObject, "confidentiality", JsonObject.class), -1));
         JsonArray strengthArray = JsonSupport.getJsonArray(jsonObject, "strength");
         if (strengthArray != null) {
@@ -14938,15 +14902,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProductIngredient.SpecifiedSubstance.Strength parseMedicinalProductIngredientSpecifiedSubstanceStrength(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductIngredient.SpecifiedSubstance.Strength parseMedicinalProductIngredientSpecifiedSubstanceStrength(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductIngredient.SpecifiedSubstance.Strength", jsonObject);
-        Ratio presentation = parseRatio("presentation", JsonSupport.getJsonValue(jsonObject, "presentation", JsonObject.class), -1);
-        MedicinalProductIngredient.SpecifiedSubstance.Strength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.builder(presentation);
+        MedicinalProductIngredient.SpecifiedSubstance.Strength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.presentation(parseRatio("presentation", JsonSupport.getJsonValue(jsonObject, "presentation", JsonObject.class), -1));
         builder.presentationLowLimit(parseRatio("presentationLowLimit", JsonSupport.getJsonValue(jsonObject, "presentationLowLimit", JsonObject.class), -1));
         builder.concentration(parseRatio("concentration", JsonSupport.getJsonValue(jsonObject, "concentration", JsonObject.class), -1));
         builder.concentrationLowLimit(parseRatio("concentrationLowLimit", JsonSupport.getJsonValue(jsonObject, "concentrationLowLimit", JsonObject.class), -1));
@@ -14971,16 +14935,16 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength parseMedicinalProductIngredientSpecifiedSubstanceStrengthReferenceStrength(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength parseMedicinalProductIngredientSpecifiedSubstanceStrengthReferenceStrength(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength", jsonObject);
-        Ratio strength = parseRatio("strength", JsonSupport.getJsonValue(jsonObject, "strength", JsonObject.class), -1);
-        MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.builder(strength);
+        MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.builder();
         parseBackboneElement(builder, jsonObject);
         builder.substance(parseCodeableConcept("substance", JsonSupport.getJsonValue(jsonObject, "substance", JsonObject.class), -1));
+        builder.strength(parseRatio("strength", JsonSupport.getJsonValue(jsonObject, "strength", JsonObject.class), -1));
         builder.strengthLowLimit(parseRatio("strengthLowLimit", JsonSupport.getJsonValue(jsonObject, "strengthLowLimit", JsonObject.class), -1));
         builder.measurementPoint(parseString("measurementPoint", JsonSupport.getJsonValue(jsonObject, "measurementPoint", JsonString.class), jsonObject.get("_measurementPoint"), -1));
         JsonArray countryArray = JsonSupport.getJsonArray(jsonObject, "country");
@@ -14995,15 +14959,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProductIngredient.Substance parseMedicinalProductIngredientSubstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductIngredient.Substance parseMedicinalProductIngredientSubstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductIngredient.Substance", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        MedicinalProductIngredient.Substance.Builder builder = MedicinalProductIngredient.Substance.builder(code);
+        MedicinalProductIngredient.Substance.Builder builder = MedicinalProductIngredient.Substance.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         JsonArray strengthArray = JsonSupport.getJsonArray(jsonObject, "strength");
         if (strengthArray != null) {
             int index = 0;
@@ -15016,7 +14980,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProductInteraction parseMedicinalProductInteraction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductInteraction parseMedicinalProductInteraction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -15049,30 +15013,30 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProductInteraction.Interactant parseMedicinalProductInteractionInteractant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductInteraction.Interactant parseMedicinalProductInteractionInteractant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductInteraction.Interactant", jsonObject);
-        Element item = parseChoiceElement("item", jsonObject, "Reference", "CodeableConcept");
-        MedicinalProductInteraction.Interactant.Builder builder = MedicinalProductInteraction.Interactant.builder(item);
+        MedicinalProductInteraction.Interactant.Builder builder = MedicinalProductInteraction.Interactant.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.item(parseChoiceElement("item", jsonObject, "Reference", "CodeableConcept"));
         stackPop();
         return builder.build();
     }
 
-    protected MedicinalProductManufactured parseMedicinalProductManufactured(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductManufactured parseMedicinalProductManufactured(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductManufactured", jsonObject);
-        CodeableConcept manufacturedDoseForm = parseCodeableConcept("manufacturedDoseForm", JsonSupport.getJsonValue(jsonObject, "manufacturedDoseForm", JsonObject.class), -1);
-        Quantity quantity = parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1);
-        MedicinalProductManufactured.Builder builder = MedicinalProductManufactured.builder(manufacturedDoseForm, quantity);
+        MedicinalProductManufactured.Builder builder = MedicinalProductManufactured.builder();
         parseDomainResource(builder, jsonObject);
+        builder.manufacturedDoseForm(parseCodeableConcept("manufacturedDoseForm", JsonSupport.getJsonValue(jsonObject, "manufacturedDoseForm", JsonObject.class), -1));
         builder.unitOfPresentation(parseCodeableConcept("unitOfPresentation", JsonSupport.getJsonValue(jsonObject, "unitOfPresentation", JsonObject.class), -1));
+        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         JsonArray manufacturerArray = JsonSupport.getJsonArray(jsonObject, "manufacturer");
         if (manufacturerArray != null) {
             int index = 0;
@@ -15102,22 +15066,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProductPackaged parseMedicinalProductPackaged(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductPackaged parseMedicinalProductPackaged(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductPackaged", jsonObject);
-        java.util.List<MedicinalProductPackaged.PackageItem> packageItem = new ArrayList<>();
-        JsonArray packageItemArray = JsonSupport.getJsonArray(jsonObject, "packageItem");
-        if (packageItemArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : packageItemArray) {
-                packageItem.add(parseMedicinalProductPackagedPackageItem("packageItem", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        MedicinalProductPackaged.Builder builder = MedicinalProductPackaged.builder(packageItem);
+        MedicinalProductPackaged.Builder builder = MedicinalProductPackaged.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -15162,33 +15117,39 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        JsonArray packageItemArray = JsonSupport.getJsonArray(jsonObject, "packageItem");
+        if (packageItemArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : packageItemArray) {
+                builder.packageItem(parseMedicinalProductPackagedPackageItem("packageItem", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         stackPop();
         return builder.build();
     }
 
-    protected MedicinalProductPackaged.BatchIdentifier parseMedicinalProductPackagedBatchIdentifier(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductPackaged.BatchIdentifier parseMedicinalProductPackagedBatchIdentifier(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductPackaged.BatchIdentifier", jsonObject);
-        Identifier outerPackaging = parseIdentifier("outerPackaging", JsonSupport.getJsonValue(jsonObject, "outerPackaging", JsonObject.class), -1);
-        MedicinalProductPackaged.BatchIdentifier.Builder builder = MedicinalProductPackaged.BatchIdentifier.builder(outerPackaging);
+        MedicinalProductPackaged.BatchIdentifier.Builder builder = MedicinalProductPackaged.BatchIdentifier.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.outerPackaging(parseIdentifier("outerPackaging", JsonSupport.getJsonValue(jsonObject, "outerPackaging", JsonObject.class), -1));
         builder.immediatePackaging(parseIdentifier("immediatePackaging", JsonSupport.getJsonValue(jsonObject, "immediatePackaging", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MedicinalProductPackaged.PackageItem parseMedicinalProductPackagedPackageItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductPackaged.PackageItem parseMedicinalProductPackagedPackageItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductPackaged.PackageItem", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        Quantity quantity = parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1);
-        MedicinalProductPackaged.PackageItem.Builder builder = MedicinalProductPackaged.PackageItem.builder(type, quantity);
+        MedicinalProductPackaged.PackageItem.Builder builder = MedicinalProductPackaged.PackageItem.builder();
         parseBackboneElement(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -15198,6 +15159,8 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         JsonArray materialArray = JsonSupport.getJsonArray(jsonObject, "material");
         if (materialArray != null) {
             int index = 0;
@@ -15267,23 +15230,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProductPharmaceutical parseMedicinalProductPharmaceutical(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductPharmaceutical parseMedicinalProductPharmaceutical(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductPharmaceutical", jsonObject);
-        CodeableConcept administrableDoseForm = parseCodeableConcept("administrableDoseForm", JsonSupport.getJsonValue(jsonObject, "administrableDoseForm", JsonObject.class), -1);
-        java.util.List<MedicinalProductPharmaceutical.RouteOfAdministration> routeOfAdministration = new ArrayList<>();
-        JsonArray routeOfAdministrationArray = JsonSupport.getJsonArray(jsonObject, "routeOfAdministration");
-        if (routeOfAdministrationArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : routeOfAdministrationArray) {
-                routeOfAdministration.add(parseMedicinalProductPharmaceuticalRouteOfAdministration("routeOfAdministration", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        MedicinalProductPharmaceutical.Builder builder = MedicinalProductPharmaceutical.builder(administrableDoseForm, routeOfAdministration);
+        MedicinalProductPharmaceutical.Builder builder = MedicinalProductPharmaceutical.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -15293,6 +15246,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.administrableDoseForm(parseCodeableConcept("administrableDoseForm", JsonSupport.getJsonValue(jsonObject, "administrableDoseForm", JsonObject.class), -1));
         builder.unitOfPresentation(parseCodeableConcept("unitOfPresentation", JsonSupport.getJsonValue(jsonObject, "unitOfPresentation", JsonObject.class), -1));
         JsonArray ingredientArray = JsonSupport.getJsonArray(jsonObject, "ingredient");
         if (ingredientArray != null) {
@@ -15318,33 +15272,41 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        JsonArray routeOfAdministrationArray = JsonSupport.getJsonArray(jsonObject, "routeOfAdministration");
+        if (routeOfAdministrationArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : routeOfAdministrationArray) {
+                builder.routeOfAdministration(parseMedicinalProductPharmaceuticalRouteOfAdministration("routeOfAdministration", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         stackPop();
         return builder.build();
     }
 
-    protected MedicinalProductPharmaceutical.Characteristics parseMedicinalProductPharmaceuticalCharacteristics(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductPharmaceutical.Characteristics parseMedicinalProductPharmaceuticalCharacteristics(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductPharmaceutical.Characteristics", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        MedicinalProductPharmaceutical.Characteristics.Builder builder = MedicinalProductPharmaceutical.Characteristics.builder(code);
+        MedicinalProductPharmaceutical.Characteristics.Builder builder = MedicinalProductPharmaceutical.Characteristics.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.status(parseCodeableConcept("status", JsonSupport.getJsonValue(jsonObject, "status", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MedicinalProductPharmaceutical.RouteOfAdministration parseMedicinalProductPharmaceuticalRouteOfAdministration(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductPharmaceutical.RouteOfAdministration parseMedicinalProductPharmaceuticalRouteOfAdministration(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductPharmaceutical.RouteOfAdministration", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        MedicinalProductPharmaceutical.RouteOfAdministration.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.builder(code);
+        MedicinalProductPharmaceutical.RouteOfAdministration.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.firstDose(parseQuantity("firstDose", JsonSupport.getJsonValue(jsonObject, "firstDose", JsonObject.class), -1));
         builder.maxSingleDose(parseQuantity("maxSingleDose", JsonSupport.getJsonValue(jsonObject, "maxSingleDose", JsonObject.class), -1));
         builder.maxDosePerDay(parseQuantity("maxDosePerDay", JsonSupport.getJsonValue(jsonObject, "maxDosePerDay", JsonObject.class), -1));
@@ -15362,15 +15324,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.builder(code);
+        MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         JsonArray withdrawalPeriodArray = JsonSupport.getJsonArray(jsonObject, "withdrawalPeriod");
         if (withdrawalPeriodArray != null) {
             int index = 0;
@@ -15383,22 +15345,22 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWithdrawalPeriod(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWithdrawalPeriod(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod", jsonObject);
-        CodeableConcept tissue = parseCodeableConcept("tissue", JsonSupport.getJsonValue(jsonObject, "tissue", JsonObject.class), -1);
-        Quantity value = parseQuantity("value", JsonSupport.getJsonValue(jsonObject, "value", JsonObject.class), -1);
-        MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.builder(tissue, value);
+        MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.tissue(parseCodeableConcept("tissue", JsonSupport.getJsonValue(jsonObject, "tissue", JsonObject.class), -1));
+        builder.value(parseQuantity("value", JsonSupport.getJsonValue(jsonObject, "value", JsonObject.class), -1));
         builder.supportingInformation(parseString("supportingInformation", JsonSupport.getJsonValue(jsonObject, "supportingInformation", JsonString.class), jsonObject.get("_supportingInformation"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MedicinalProductUndesirableEffect parseMedicinalProductUndesirableEffect(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MedicinalProductUndesirableEffect parseMedicinalProductUndesirableEffect(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -15429,16 +15391,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MessageDefinition parseMessageDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MessageDefinition parseMessageDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MessageDefinition", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        DateTime date = parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1);
-        Element event = parseChoiceElement("event", jsonObject, "Coding", "Uri");
-        MessageDefinition.Builder builder = MessageDefinition.builder(status, date, event);
+        MessageDefinition.Builder builder = MessageDefinition.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -15461,7 +15420,9 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
+        builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
         JsonArray contactArray = JsonSupport.getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
@@ -15500,6 +15461,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.event(parseChoiceElement("event", jsonObject, "Coding", "Uri"));
         builder.category((MessageSignificanceCategory) parseString(MessageSignificanceCategory.builder(), "category", JsonSupport.getJsonValue(jsonObject, "category", JsonString.class), jsonObject.get("_category"), -1));
         JsonArray focusArray = JsonSupport.getJsonArray(jsonObject, "focus");
         if (focusArray != null) {
@@ -15531,46 +15493,45 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MessageDefinition.AllowedResponse parseMessageDefinitionAllowedResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MessageDefinition.AllowedResponse parseMessageDefinitionAllowedResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MessageDefinition.AllowedResponse", jsonObject);
-        Canonical message = (Canonical) parseUri(Canonical.builder(), "message", JsonSupport.getJsonValue(jsonObject, "message", JsonString.class), jsonObject.get("_message"), -1);
-        MessageDefinition.AllowedResponse.Builder builder = MessageDefinition.AllowedResponse.builder(message);
+        MessageDefinition.AllowedResponse.Builder builder = MessageDefinition.AllowedResponse.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.message((Canonical) parseUri(Canonical.builder(), "message", JsonSupport.getJsonValue(jsonObject, "message", JsonString.class), jsonObject.get("_message"), -1));
         builder.situation((Markdown) parseString(Markdown.builder(), "situation", JsonSupport.getJsonValue(jsonObject, "situation", JsonString.class), jsonObject.get("_situation"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MessageDefinition.Focus parseMessageDefinitionFocus(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MessageDefinition.Focus parseMessageDefinitionFocus(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MessageDefinition.Focus", jsonObject);
-        ResourceType code = (ResourceType) parseString(ResourceType.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        UnsignedInt min = (UnsignedInt) parseInteger(UnsignedInt.builder(), "min", JsonSupport.getJsonValue(jsonObject, "min", JsonNumber.class), jsonObject.get("_min"), -1);
-        MessageDefinition.Focus.Builder builder = MessageDefinition.Focus.builder(code, min);
+        MessageDefinition.Focus.Builder builder = MessageDefinition.Focus.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code((ResourceType) parseString(ResourceType.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.profile((Canonical) parseUri(Canonical.builder(), "profile", JsonSupport.getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1));
+        builder.min((UnsignedInt) parseInteger(UnsignedInt.builder(), "min", JsonSupport.getJsonValue(jsonObject, "min", JsonNumber.class), jsonObject.get("_min"), -1));
         builder.max(parseString("max", JsonSupport.getJsonValue(jsonObject, "max", JsonString.class), jsonObject.get("_max"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MessageHeader parseMessageHeader(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MessageHeader parseMessageHeader(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MessageHeader", jsonObject);
-        Element event = parseChoiceElement("event", jsonObject, "Coding", "Uri");
-        MessageHeader.Source source = parseMessageHeaderSource("source", JsonSupport.getJsonValue(jsonObject, "source", JsonObject.class), -1);
-        MessageHeader.Builder builder = MessageHeader.builder(event, source);
+        MessageHeader.Builder builder = MessageHeader.builder();
         parseDomainResource(builder, jsonObject);
+        builder.event(parseChoiceElement("event", jsonObject, "Coding", "Uri"));
         JsonArray destinationArray = JsonSupport.getJsonArray(jsonObject, "destination");
         if (destinationArray != null) {
             int index = 0;
@@ -15582,6 +15543,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.sender(parseReference("sender", JsonSupport.getJsonValue(jsonObject, "sender", JsonObject.class), -1));
         builder.enterer(parseReference("enterer", JsonSupport.getJsonValue(jsonObject, "enterer", JsonObject.class), -1));
         builder.author(parseReference("author", JsonSupport.getJsonValue(jsonObject, "author", JsonObject.class), -1));
+        builder.source(parseMessageHeaderSource("source", JsonSupport.getJsonValue(jsonObject, "source", JsonObject.class), -1));
         builder.responsible(parseReference("responsible", JsonSupport.getJsonValue(jsonObject, "responsible", JsonObject.class), -1));
         builder.reason(parseCodeableConcept("reason", JsonSupport.getJsonValue(jsonObject, "reason", JsonObject.class), -1));
         builder.response(parseMessageHeaderResponse("response", JsonSupport.getJsonValue(jsonObject, "response", JsonObject.class), -1));
@@ -15598,55 +15560,55 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MessageHeader.Destination parseMessageHeaderDestination(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MessageHeader.Destination parseMessageHeaderDestination(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MessageHeader.Destination", jsonObject);
-        Url endpoint = (Url) parseUri(Url.builder(), "endpoint", JsonSupport.getJsonValue(jsonObject, "endpoint", JsonString.class), jsonObject.get("_endpoint"), -1);
-        MessageHeader.Destination.Builder builder = MessageHeader.Destination.builder(endpoint);
+        MessageHeader.Destination.Builder builder = MessageHeader.Destination.builder();
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.target(parseReference("target", JsonSupport.getJsonValue(jsonObject, "target", JsonObject.class), -1));
+        builder.endpoint((Url) parseUri(Url.builder(), "endpoint", JsonSupport.getJsonValue(jsonObject, "endpoint", JsonString.class), jsonObject.get("_endpoint"), -1));
         builder.receiver(parseReference("receiver", JsonSupport.getJsonValue(jsonObject, "receiver", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MessageHeader.Response parseMessageHeaderResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MessageHeader.Response parseMessageHeaderResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MessageHeader.Response", jsonObject);
-        Id identifier = (Id) parseString(Id.builder(), "identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonString.class), jsonObject.get("_identifier"), -1);
-        ResponseType code = (ResponseType) parseString(ResponseType.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        MessageHeader.Response.Builder builder = MessageHeader.Response.builder(identifier, code);
+        MessageHeader.Response.Builder builder = MessageHeader.Response.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.identifier((Id) parseString(Id.builder(), "identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonString.class), jsonObject.get("_identifier"), -1));
+        builder.code((ResponseType) parseString(ResponseType.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.details(parseReference("details", JsonSupport.getJsonValue(jsonObject, "details", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected MessageHeader.Source parseMessageHeaderSource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MessageHeader.Source parseMessageHeaderSource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MessageHeader.Source", jsonObject);
-        Url endpoint = (Url) parseUri(Url.builder(), "endpoint", JsonSupport.getJsonValue(jsonObject, "endpoint", JsonString.class), jsonObject.get("_endpoint"), -1);
-        MessageHeader.Source.Builder builder = MessageHeader.Source.builder(endpoint);
+        MessageHeader.Source.Builder builder = MessageHeader.Source.builder();
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.software(parseString("software", JsonSupport.getJsonValue(jsonObject, "software", JsonString.class), jsonObject.get("_software"), -1));
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         builder.contact(parseContactPoint("contact", JsonSupport.getJsonValue(jsonObject, "contact", JsonObject.class), -1));
+        builder.endpoint((Url) parseUri(Url.builder(), "endpoint", JsonSupport.getJsonValue(jsonObject, "endpoint", JsonString.class), jsonObject.get("_endpoint"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Meta parseMeta(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Meta parseMeta(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -15686,19 +15648,19 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MetadataResource parseMetadataResource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MetadataResource parseMetadataResource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MetadataResource", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        MetadataResource.Builder builder = MetadataResource.builder(status);
+        MetadataResource.Builder builder = MetadataResource.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
@@ -15731,14 +15693,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MolecularSequence parseMolecularSequence(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MolecularSequence parseMolecularSequence(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MolecularSequence", jsonObject);
-        Integer coordinateSystem = parseInteger("coordinateSystem", JsonSupport.getJsonValue(jsonObject, "coordinateSystem", JsonNumber.class), jsonObject.get("_coordinateSystem"), -1);
-        MolecularSequence.Builder builder = MolecularSequence.builder(coordinateSystem);
+        MolecularSequence.Builder builder = MolecularSequence.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -15749,6 +15710,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.type((SequenceType) parseString(SequenceType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.coordinateSystem(parseInteger("coordinateSystem", JsonSupport.getJsonValue(jsonObject, "coordinateSystem", JsonNumber.class), jsonObject.get("_coordinateSystem"), -1));
         builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
         builder.specimen(parseReference("specimen", JsonSupport.getJsonValue(jsonObject, "specimen", JsonObject.class), -1));
         builder.device(parseReference("device", JsonSupport.getJsonValue(jsonObject, "device", JsonObject.class), -1));
@@ -15801,15 +15763,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MolecularSequence.Quality parseMolecularSequenceQuality(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MolecularSequence.Quality parseMolecularSequenceQuality(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MolecularSequence.Quality", jsonObject);
-        QualityType type = (QualityType) parseString(QualityType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        MolecularSequence.Quality.Builder builder = MolecularSequence.Quality.builder(type);
+        MolecularSequence.Quality.Builder builder = MolecularSequence.Quality.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type((QualityType) parseString(QualityType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.standardSequence(parseCodeableConcept("standardSequence", JsonSupport.getJsonValue(jsonObject, "standardSequence", JsonObject.class), -1));
         builder.start(parseInteger("start", JsonSupport.getJsonValue(jsonObject, "start", JsonNumber.class), jsonObject.get("_start"), -1));
         builder.end(parseInteger("end", JsonSupport.getJsonValue(jsonObject, "end", JsonNumber.class), jsonObject.get("_end"), -1));
@@ -15828,7 +15790,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MolecularSequence.Quality.Roc parseMolecularSequenceQualityRoc(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MolecularSequence.Quality.Roc parseMolecularSequenceQualityRoc(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -15903,7 +15865,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MolecularSequence.ReferenceSeq parseMolecularSequenceReferenceSeq(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MolecularSequence.ReferenceSeq parseMolecularSequenceReferenceSeq(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -15924,15 +15886,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MolecularSequence.Repository parseMolecularSequenceRepository(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MolecularSequence.Repository parseMolecularSequenceRepository(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("MolecularSequence.Repository", jsonObject);
-        RepositoryType type = (RepositoryType) parseString(RepositoryType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        MolecularSequence.Repository.Builder builder = MolecularSequence.Repository.builder(type);
+        MolecularSequence.Repository.Builder builder = MolecularSequence.Repository.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type((RepositoryType) parseString(RepositoryType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.datasetId(parseString("datasetId", JsonSupport.getJsonValue(jsonObject, "datasetId", JsonString.class), jsonObject.get("_datasetId"), -1));
@@ -15942,7 +15904,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MolecularSequence.StructureVariant parseMolecularSequenceStructureVariant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MolecularSequence.StructureVariant parseMolecularSequenceStructureVariant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -15959,7 +15921,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MolecularSequence.StructureVariant.Inner parseMolecularSequenceStructureVariantInner(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MolecularSequence.StructureVariant.Inner parseMolecularSequenceStructureVariantInner(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -15973,7 +15935,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MolecularSequence.StructureVariant.Outer parseMolecularSequenceStructureVariantOuter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MolecularSequence.StructureVariant.Outer parseMolecularSequenceStructureVariantOuter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -15987,7 +15949,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected MolecularSequence.Variant parseMolecularSequenceVariant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private MolecularSequence.Variant parseMolecularSequenceVariant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -16005,7 +15967,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Money parseMoney(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Money parseMoney(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -16019,27 +15981,18 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected NamingSystem parseNamingSystem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private NamingSystem parseNamingSystem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("NamingSystem", jsonObject);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        NamingSystemType kind = (NamingSystemType) parseString(NamingSystemType.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1);
-        DateTime date = parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1);
-        java.util.List<NamingSystem.UniqueId> uniqueId = new ArrayList<>();
-        JsonArray uniqueIdArray = JsonSupport.getJsonArray(jsonObject, "uniqueId");
-        if (uniqueIdArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : uniqueIdArray) {
-                uniqueId.add(parseNamingSystemUniqueId("uniqueId", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        NamingSystem.Builder builder = NamingSystem.builder(name, status, kind, date, uniqueId);
+        NamingSystem.Builder builder = NamingSystem.builder();
         parseDomainResource(builder, jsonObject);
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.kind((NamingSystemType) parseString(NamingSystemType.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1));
+        builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
         JsonArray contactArray = JsonSupport.getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
@@ -16069,20 +16022,28 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.usage(parseString("usage", JsonSupport.getJsonValue(jsonObject, "usage", JsonString.class), jsonObject.get("_usage"), -1));
+        JsonArray uniqueIdArray = JsonSupport.getJsonArray(jsonObject, "uniqueId");
+        if (uniqueIdArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : uniqueIdArray) {
+                builder.uniqueId(parseNamingSystemUniqueId("uniqueId", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         stackPop();
         return builder.build();
     }
 
-    protected NamingSystem.UniqueId parseNamingSystemUniqueId(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private NamingSystem.UniqueId parseNamingSystemUniqueId(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("NamingSystem.UniqueId", jsonObject);
-        NamingSystemIdentifierType type = (NamingSystemIdentifierType) parseString(NamingSystemIdentifierType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        String value = parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1);
-        NamingSystem.UniqueId.Builder builder = NamingSystem.UniqueId.builder(type, value);
+        NamingSystem.UniqueId.Builder builder = NamingSystem.UniqueId.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type((NamingSystemIdentifierType) parseString(NamingSystemIdentifierType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.value(parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
         builder.preferred(parseBoolean("preferred", JsonSupport.getJsonValue(jsonObject, "preferred", JsonValue.class), jsonObject.get("_preferred"), -1));
         builder.comment(parseString("comment", JsonSupport.getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
@@ -16090,31 +16051,27 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Narrative parseNarrative(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Narrative parseNarrative(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Narrative", jsonObject);
-        NarrativeStatus status = (NarrativeStatus) parseString(NarrativeStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        java.lang.String div = parseJavaString("div", JsonSupport.getJsonValue(jsonObject, "div", JsonString.class), -1);
-        Narrative.Builder builder = Narrative.builder(status, div);
+        Narrative.Builder builder = Narrative.builder();
         parseElement(builder, jsonObject);
+        builder.status((NarrativeStatus) parseString(NarrativeStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.div(parseJavaString("div", JsonSupport.getJsonValue(jsonObject, "div", JsonString.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected NutritionOrder parseNutritionOrder(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private NutritionOrder parseNutritionOrder(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("NutritionOrder", jsonObject);
-        NutritionOrderStatus status = (NutritionOrderStatus) parseString(NutritionOrderStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        NutritionOrderIntent intent = (NutritionOrderIntent) parseString(NutritionOrderIntent.builder(), "intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonString.class), jsonObject.get("_intent"), -1);
-        Reference patient = parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1);
-        DateTime dateTime = parseDateTime("dateTime", JsonSupport.getJsonValue(jsonObject, "dateTime", JsonString.class), jsonObject.get("_dateTime"), -1);
-        NutritionOrder.Builder builder = NutritionOrder.builder(status, intent, patient, dateTime);
+        NutritionOrder.Builder builder = NutritionOrder.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -16151,7 +16108,11 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((NutritionOrderStatus) parseString(NutritionOrderStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.intent((NutritionOrderIntent) parseString(NutritionOrderIntent.builder(), "intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonString.class), jsonObject.get("_intent"), -1));
+        builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
+        builder.dateTime(parseDateTime("dateTime", JsonSupport.getJsonValue(jsonObject, "dateTime", JsonString.class), jsonObject.get("_dateTime"), -1));
         builder.orderer(parseReference("orderer", JsonSupport.getJsonValue(jsonObject, "orderer", JsonObject.class), -1));
         JsonArray allergyIntoleranceArray = JsonSupport.getJsonArray(jsonObject, "allergyIntolerance");
         if (allergyIntoleranceArray != null) {
@@ -16199,7 +16160,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected NutritionOrder.EnteralFormula parseNutritionOrderEnteralFormula(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private NutritionOrder.EnteralFormula parseNutritionOrderEnteralFormula(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -16227,7 +16188,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected NutritionOrder.EnteralFormula.Administration parseNutritionOrderEnteralFormulaAdministration(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private NutritionOrder.EnteralFormula.Administration parseNutritionOrderEnteralFormulaAdministration(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -16242,7 +16203,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected NutritionOrder.OralDiet parseNutritionOrderOralDiet(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private NutritionOrder.OralDiet parseNutritionOrderOralDiet(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -16295,7 +16256,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected NutritionOrder.OralDiet.Nutrient parseNutritionOrderOralDietNutrient(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private NutritionOrder.OralDiet.Nutrient parseNutritionOrderOralDietNutrient(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -16309,7 +16270,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected NutritionOrder.OralDiet.Texture parseNutritionOrderOralDietTexture(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private NutritionOrder.OralDiet.Texture parseNutritionOrderOralDietTexture(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -16323,7 +16284,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected NutritionOrder.Supplement parseNutritionOrderSupplement(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private NutritionOrder.Supplement parseNutritionOrderSupplement(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -16347,15 +16308,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Observation parseObservation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Observation parseObservation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Observation", jsonObject);
-        ObservationStatus status = (ObservationStatus) parseString(ObservationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        Observation.Builder builder = Observation.builder(status, code);
+        Observation.Builder builder = Observation.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -16381,6 +16340,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((ObservationStatus) parseString(ObservationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             int index = 0;
@@ -16389,6 +16349,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         JsonArray focusArray = JsonSupport.getJsonArray(jsonObject, "focus");
         if (focusArray != null) {
@@ -16467,15 +16428,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Observation.Component parseObservationComponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Observation.Component parseObservationComponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Observation.Component", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        Observation.Component.Builder builder = Observation.Component.builder(code);
+        Observation.Component.Builder builder = Observation.Component.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.value(parseChoiceElement("value", jsonObject, "Quantity", "CodeableConcept", "String", "Boolean", "Integer", "Range", "Ratio", "SampledData", "Time", "DateTime", "Period"));
         builder.dataAbsentReason(parseCodeableConcept("dataAbsentReason", JsonSupport.getJsonValue(jsonObject, "dataAbsentReason", JsonObject.class), -1));
         JsonArray interpretationArray = JsonSupport.getJsonArray(jsonObject, "interpretation");
@@ -16498,7 +16459,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Observation.ReferenceRange parseObservationReferenceRange(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Observation.ReferenceRange parseObservationReferenceRange(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -16523,14 +16484,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ObservationDefinition parseObservationDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ObservationDefinition parseObservationDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ObservationDefinition", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        ObservationDefinition.Builder builder = ObservationDefinition.builder(code);
+        ObservationDefinition.Builder builder = ObservationDefinition.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
@@ -16540,6 +16500,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             int index = 0;
@@ -16577,7 +16538,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ObservationDefinition.QualifiedInterval parseObservationDefinitionQualifiedInterval(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ObservationDefinition.QualifiedInterval parseObservationDefinitionQualifiedInterval(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -16604,7 +16565,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ObservationDefinition.QuantitativeDetails parseObservationDefinitionQuantitativeDetails(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ObservationDefinition.QuantitativeDetails parseObservationDefinitionQuantitativeDetails(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -16620,24 +16581,20 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected OperationDefinition parseOperationDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private OperationDefinition parseOperationDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("OperationDefinition", jsonObject);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        OperationKind kind = (OperationKind) parseString(OperationKind.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1);
-        Code code = (Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        Boolean system = parseBoolean("system", JsonSupport.getJsonValue(jsonObject, "system", JsonValue.class), jsonObject.get("_system"), -1);
-        Boolean type = parseBoolean("type", JsonSupport.getJsonValue(jsonObject, "type", JsonValue.class), jsonObject.get("_type"), -1);
-        Boolean instance = parseBoolean("instance", JsonSupport.getJsonValue(jsonObject, "instance", JsonValue.class), jsonObject.get("_instance"), -1);
-        OperationDefinition.Builder builder = OperationDefinition.builder(name, status, kind, code, system, type, instance);
+        OperationDefinition.Builder builder = OperationDefinition.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.kind((OperationKind) parseString(OperationKind.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
@@ -16668,6 +16625,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.purpose((Markdown) parseString(Markdown.builder(), "purpose", JsonSupport.getJsonValue(jsonObject, "purpose", JsonString.class), jsonObject.get("_purpose"), -1));
         builder.affectsState(parseBoolean("affectsState", JsonSupport.getJsonValue(jsonObject, "affectsState", JsonValue.class), jsonObject.get("_affectsState"), -1));
+        builder.code((Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.comment((Markdown) parseString(Markdown.builder(), "comment", JsonSupport.getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
         builder.base((Canonical) parseUri(Canonical.builder(), "base", JsonSupport.getJsonValue(jsonObject, "base", JsonString.class), jsonObject.get("_base"), -1));
         JsonArray resourceArray = JsonSupport.getJsonArray(jsonObject, "resource", true);
@@ -16679,6 +16637,9 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.system(parseBoolean("system", JsonSupport.getJsonValue(jsonObject, "system", JsonValue.class), jsonObject.get("_system"), -1));
+        builder.type(parseBoolean("type", JsonSupport.getJsonValue(jsonObject, "type", JsonValue.class), jsonObject.get("_type"), -1));
+        builder.instance(parseBoolean("instance", JsonSupport.getJsonValue(jsonObject, "instance", JsonValue.class), jsonObject.get("_instance"), -1));
         builder.inputProfile((Canonical) parseUri(Canonical.builder(), "inputProfile", JsonSupport.getJsonValue(jsonObject, "inputProfile", JsonString.class), jsonObject.get("_inputProfile"), -1));
         builder.outputProfile((Canonical) parseUri(Canonical.builder(), "outputProfile", JsonSupport.getJsonValue(jsonObject, "outputProfile", JsonString.class), jsonObject.get("_outputProfile"), -1));
         JsonArray parameterArray = JsonSupport.getJsonArray(jsonObject, "parameter");
@@ -16701,7 +16662,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected OperationDefinition.Overload parseOperationDefinitionOverload(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private OperationDefinition.Overload parseOperationDefinitionOverload(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -16723,18 +16684,18 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected OperationDefinition.Parameter parseOperationDefinitionParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private OperationDefinition.Parameter parseOperationDefinitionParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("OperationDefinition.Parameter", jsonObject);
-        Code name = (Code) parseString(Code.builder(), "name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        OperationParameterUse use = (OperationParameterUse) parseString(OperationParameterUse.builder(), "use", JsonSupport.getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1);
-        Integer min = parseInteger("min", JsonSupport.getJsonValue(jsonObject, "min", JsonNumber.class), jsonObject.get("_min"), -1);
-        String max = parseString("max", JsonSupport.getJsonValue(jsonObject, "max", JsonString.class), jsonObject.get("_max"), -1);
-        OperationDefinition.Parameter.Builder builder = OperationDefinition.Parameter.builder(name, use, min, max);
+        OperationDefinition.Parameter.Builder builder = OperationDefinition.Parameter.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.name((Code) parseString(Code.builder(), "name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.use((OperationParameterUse) parseString(OperationParameterUse.builder(), "use", JsonSupport.getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1));
+        builder.min(parseInteger("min", JsonSupport.getJsonValue(jsonObject, "min", JsonNumber.class), jsonObject.get("_min"), -1));
+        builder.max(parseString("max", JsonSupport.getJsonValue(jsonObject, "max", JsonString.class), jsonObject.get("_max"), -1));
         builder.documentation(parseString("documentation", JsonSupport.getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
         builder.type((FHIRAllTypes) parseString(FHIRAllTypes.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         JsonArray targetProfileArray = JsonSupport.getJsonArray(jsonObject, "targetProfile", true);
@@ -16768,65 +16729,64 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected OperationDefinition.Parameter.Binding parseOperationDefinitionParameterBinding(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private OperationDefinition.Parameter.Binding parseOperationDefinitionParameterBinding(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("OperationDefinition.Parameter.Binding", jsonObject);
-        BindingStrength strength = (BindingStrength) parseString(BindingStrength.builder(), "strength", JsonSupport.getJsonValue(jsonObject, "strength", JsonString.class), jsonObject.get("_strength"), -1);
-        Canonical valueSet = (Canonical) parseUri(Canonical.builder(), "valueSet", JsonSupport.getJsonValue(jsonObject, "valueSet", JsonString.class), jsonObject.get("_valueSet"), -1);
-        OperationDefinition.Parameter.Binding.Builder builder = OperationDefinition.Parameter.Binding.builder(strength, valueSet);
+        OperationDefinition.Parameter.Binding.Builder builder = OperationDefinition.Parameter.Binding.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.strength((BindingStrength) parseString(BindingStrength.builder(), "strength", JsonSupport.getJsonValue(jsonObject, "strength", JsonString.class), jsonObject.get("_strength"), -1));
+        builder.valueSet((Canonical) parseUri(Canonical.builder(), "valueSet", JsonSupport.getJsonValue(jsonObject, "valueSet", JsonString.class), jsonObject.get("_valueSet"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected OperationDefinition.Parameter.ReferencedFrom parseOperationDefinitionParameterReferencedFrom(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private OperationDefinition.Parameter.ReferencedFrom parseOperationDefinitionParameterReferencedFrom(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("OperationDefinition.Parameter.ReferencedFrom", jsonObject);
-        String source = parseString("source", JsonSupport.getJsonValue(jsonObject, "source", JsonString.class), jsonObject.get("_source"), -1);
-        OperationDefinition.Parameter.ReferencedFrom.Builder builder = OperationDefinition.Parameter.ReferencedFrom.builder(source);
+        OperationDefinition.Parameter.ReferencedFrom.Builder builder = OperationDefinition.Parameter.ReferencedFrom.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.source(parseString("source", JsonSupport.getJsonValue(jsonObject, "source", JsonString.class), jsonObject.get("_source"), -1));
         builder.sourceId(parseString("sourceId", JsonSupport.getJsonValue(jsonObject, "sourceId", JsonString.class), jsonObject.get("_sourceId"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected OperationOutcome parseOperationOutcome(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private OperationOutcome parseOperationOutcome(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("OperationOutcome", jsonObject);
-        java.util.List<OperationOutcome.Issue> issue = new ArrayList<>();
+        OperationOutcome.Builder builder = OperationOutcome.builder();
+        parseDomainResource(builder, jsonObject);
         JsonArray issueArray = JsonSupport.getJsonArray(jsonObject, "issue");
         if (issueArray != null) {
             int index = 0;
             for (JsonValue jsonValue : issueArray) {
-                issue.add(parseOperationOutcomeIssue("issue", (JsonObject) jsonValue, index));
+                builder.issue(parseOperationOutcomeIssue("issue", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        OperationOutcome.Builder builder = OperationOutcome.builder(issue);
-        parseDomainResource(builder, jsonObject);
         stackPop();
         return builder.build();
     }
 
-    protected OperationOutcome.Issue parseOperationOutcomeIssue(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private OperationOutcome.Issue parseOperationOutcomeIssue(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("OperationOutcome.Issue", jsonObject);
-        IssueSeverity severity = (IssueSeverity) parseString(IssueSeverity.builder(), "severity", JsonSupport.getJsonValue(jsonObject, "severity", JsonString.class), jsonObject.get("_severity"), -1);
-        IssueType code = (IssueType) parseString(IssueType.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        OperationOutcome.Issue.Builder builder = OperationOutcome.Issue.builder(severity, code);
+        OperationOutcome.Issue.Builder builder = OperationOutcome.Issue.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.severity((IssueSeverity) parseString(IssueSeverity.builder(), "severity", JsonSupport.getJsonValue(jsonObject, "severity", JsonString.class), jsonObject.get("_severity"), -1));
+        builder.code((IssueType) parseString(IssueType.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.details(parseCodeableConcept("details", JsonSupport.getJsonValue(jsonObject, "details", JsonObject.class), -1));
         builder.diagnostics(parseString("diagnostics", JsonSupport.getJsonValue(jsonObject, "diagnostics", JsonString.class), jsonObject.get("_diagnostics"), -1));
         JsonArray locationArray = JsonSupport.getJsonArray(jsonObject, "location", true);
@@ -16851,7 +16811,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Organization parseOrganization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Organization parseOrganization(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -16923,7 +16883,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Organization.Contact parseOrganizationContact(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Organization.Contact parseOrganizationContact(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -16946,7 +16906,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected OrganizationAffiliation parseOrganizationAffiliation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private OrganizationAffiliation parseOrganizationAffiliation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -17026,26 +16986,26 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ParameterDefinition parseParameterDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ParameterDefinition parseParameterDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ParameterDefinition", jsonObject);
-        ParameterUse use = (ParameterUse) parseString(ParameterUse.builder(), "use", JsonSupport.getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1);
-        FHIRAllTypes type = (FHIRAllTypes) parseString(FHIRAllTypes.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        ParameterDefinition.Builder builder = ParameterDefinition.builder(use, type);
+        ParameterDefinition.Builder builder = ParameterDefinition.builder();
         parseElement(builder, jsonObject);
         builder.name((Code) parseString(Code.builder(), "name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.use((ParameterUse) parseString(ParameterUse.builder(), "use", JsonSupport.getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1));
         builder.min(parseInteger("min", JsonSupport.getJsonValue(jsonObject, "min", JsonNumber.class), jsonObject.get("_min"), -1));
         builder.max(parseString("max", JsonSupport.getJsonValue(jsonObject, "max", JsonString.class), jsonObject.get("_max"), -1));
         builder.documentation(parseString("documentation", JsonSupport.getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
+        builder.type((FHIRAllTypes) parseString(FHIRAllTypes.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.profile((Canonical) parseUri(Canonical.builder(), "profile", JsonSupport.getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Parameters parseParameters(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Parameters parseParameters(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -17065,15 +17025,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Parameters.Parameter parseParametersParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Parameters.Parameter parseParametersParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Parameters.Parameter", jsonObject);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        Parameters.Parameter.Builder builder = Parameters.Parameter.builder(name);
+        Parameters.Parameter.Builder builder = Parameters.Parameter.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.value(parseChoiceElement("value", jsonObject, "Base64Binary", "Boolean", "Canonical", "Code", "Date", "DateTime", "Decimal", "Id", "Instant", "Integer", "Markdown", "Oid", "PositiveInt", "String", "Time", "UnsignedInt", "Uri", "Url", "Uuid", "Address", "Age", "Annotation", "Attachment", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "HumanName", "Identifier", "Money", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Signature", "Timing", "ContactDetail", "Contributor", "DataRequirement", "Expression", "ParameterDefinition", "RelatedArtifact", "TriggerDefinition", "UsageContext", "Dosage"));
         builder.resource(parseResource("resource", JsonSupport.getJsonValue(jsonObject, "resource", JsonObject.class), -1));
         JsonArray partArray = JsonSupport.getJsonArray(jsonObject, "part");
@@ -17088,7 +17048,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Patient parsePatient(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Patient parsePatient(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -17179,21 +17139,21 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Patient.Communication parsePatientCommunication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Patient.Communication parsePatientCommunication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Patient.Communication", jsonObject);
-        CodeableConcept language = parseCodeableConcept("language", JsonSupport.getJsonValue(jsonObject, "language", JsonObject.class), -1);
-        Patient.Communication.Builder builder = Patient.Communication.builder(language);
+        Patient.Communication.Builder builder = Patient.Communication.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.language(parseCodeableConcept("language", JsonSupport.getJsonValue(jsonObject, "language", JsonObject.class), -1));
         builder.preferred(parseBoolean("preferred", JsonSupport.getJsonValue(jsonObject, "preferred", JsonValue.class), jsonObject.get("_preferred"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Patient.Contact parsePatientContact(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Patient.Contact parsePatientContact(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -17226,32 +17186,27 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Patient.Link parsePatientLink(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Patient.Link parsePatientLink(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Patient.Link", jsonObject);
-        Reference other = parseReference("other", JsonSupport.getJsonValue(jsonObject, "other", JsonObject.class), -1);
-        LinkType type = (LinkType) parseString(LinkType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        Patient.Link.Builder builder = Patient.Link.builder(other, type);
+        Patient.Link.Builder builder = Patient.Link.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.other(parseReference("other", JsonSupport.getJsonValue(jsonObject, "other", JsonObject.class), -1));
+        builder.type((LinkType) parseString(LinkType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected PaymentNotice parsePaymentNotice(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private PaymentNotice parsePaymentNotice(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("PaymentNotice", jsonObject);
-        PaymentNoticeStatus status = (PaymentNoticeStatus) parseString(PaymentNoticeStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        DateTime created = parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1);
-        Reference payment = parseReference("payment", JsonSupport.getJsonValue(jsonObject, "payment", JsonObject.class), -1);
-        Reference recipient = parseReference("recipient", JsonSupport.getJsonValue(jsonObject, "recipient", JsonObject.class), -1);
-        Money amount = parseMoney("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1);
-        PaymentNotice.Builder builder = PaymentNotice.builder(status, created, payment, recipient, amount);
+        PaymentNotice.Builder builder = PaymentNotice.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -17261,27 +17216,28 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((PaymentNoticeStatus) parseString(PaymentNoticeStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.request(parseReference("request", JsonSupport.getJsonValue(jsonObject, "request", JsonObject.class), -1));
         builder.response(parseReference("response", JsonSupport.getJsonValue(jsonObject, "response", JsonObject.class), -1));
+        builder.created(parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1));
         builder.provider(parseReference("provider", JsonSupport.getJsonValue(jsonObject, "provider", JsonObject.class), -1));
+        builder.payment(parseReference("payment", JsonSupport.getJsonValue(jsonObject, "payment", JsonObject.class), -1));
         builder.paymentDate(parseDate("paymentDate", JsonSupport.getJsonValue(jsonObject, "paymentDate", JsonString.class), jsonObject.get("_paymentDate"), -1));
         builder.payee(parseReference("payee", JsonSupport.getJsonValue(jsonObject, "payee", JsonObject.class), -1));
+        builder.recipient(parseReference("recipient", JsonSupport.getJsonValue(jsonObject, "recipient", JsonObject.class), -1));
+        builder.amount(parseMoney("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonObject.class), -1));
         builder.paymentStatus(parseCodeableConcept("paymentStatus", JsonSupport.getJsonValue(jsonObject, "paymentStatus", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected PaymentReconciliation parsePaymentReconciliation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private PaymentReconciliation parsePaymentReconciliation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("PaymentReconciliation", jsonObject);
-        PaymentReconciliationStatus status = (PaymentReconciliationStatus) parseString(PaymentReconciliationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        DateTime created = parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1);
-        Date paymentDate = parseDate("paymentDate", JsonSupport.getJsonValue(jsonObject, "paymentDate", JsonString.class), jsonObject.get("_paymentDate"), -1);
-        Money paymentAmount = parseMoney("paymentAmount", JsonSupport.getJsonValue(jsonObject, "paymentAmount", JsonObject.class), -1);
-        PaymentReconciliation.Builder builder = PaymentReconciliation.builder(status, created, paymentDate, paymentAmount);
+        PaymentReconciliation.Builder builder = PaymentReconciliation.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -17291,12 +17247,16 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((PaymentReconciliationStatus) parseString(PaymentReconciliationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
+        builder.created(parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1));
         builder.paymentIssuer(parseReference("paymentIssuer", JsonSupport.getJsonValue(jsonObject, "paymentIssuer", JsonObject.class), -1));
         builder.request(parseReference("request", JsonSupport.getJsonValue(jsonObject, "request", JsonObject.class), -1));
         builder.requestor(parseReference("requestor", JsonSupport.getJsonValue(jsonObject, "requestor", JsonObject.class), -1));
         builder.outcome((RemittanceOutcome) parseString(RemittanceOutcome.builder(), "outcome", JsonSupport.getJsonValue(jsonObject, "outcome", JsonString.class), jsonObject.get("_outcome"), -1));
         builder.disposition(parseString("disposition", JsonSupport.getJsonValue(jsonObject, "disposition", JsonString.class), jsonObject.get("_disposition"), -1));
+        builder.paymentDate(parseDate("paymentDate", JsonSupport.getJsonValue(jsonObject, "paymentDate", JsonString.class), jsonObject.get("_paymentDate"), -1));
+        builder.paymentAmount(parseMoney("paymentAmount", JsonSupport.getJsonValue(jsonObject, "paymentAmount", JsonObject.class), -1));
         builder.paymentIdentifier(parseIdentifier("paymentIdentifier", JsonSupport.getJsonValue(jsonObject, "paymentIdentifier", JsonObject.class), -1));
         JsonArray detailArray = JsonSupport.getJsonArray(jsonObject, "detail");
         if (detailArray != null) {
@@ -17319,17 +17279,17 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected PaymentReconciliation.Detail parsePaymentReconciliationDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private PaymentReconciliation.Detail parsePaymentReconciliationDetail(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("PaymentReconciliation.Detail", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        PaymentReconciliation.Detail.Builder builder = PaymentReconciliation.Detail.builder(type);
+        PaymentReconciliation.Detail.Builder builder = PaymentReconciliation.Detail.builder();
         parseBackboneElement(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.predecessor(parseIdentifier("predecessor", JsonSupport.getJsonValue(jsonObject, "predecessor", JsonObject.class), -1));
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.request(parseReference("request", JsonSupport.getJsonValue(jsonObject, "request", JsonObject.class), -1));
         builder.submitter(parseReference("submitter", JsonSupport.getJsonValue(jsonObject, "submitter", JsonObject.class), -1));
         builder.response(parseReference("response", JsonSupport.getJsonValue(jsonObject, "response", JsonObject.class), -1));
@@ -17341,7 +17301,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected PaymentReconciliation.ProcessNote parsePaymentReconciliationProcessNote(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private PaymentReconciliation.ProcessNote parsePaymentReconciliationProcessNote(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -17355,7 +17315,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Period parsePeriod(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Period parsePeriod(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -17369,7 +17329,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Person parsePerson(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Person parsePerson(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -17426,28 +17386,27 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Person.Link parsePersonLink(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Person.Link parsePersonLink(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Person.Link", jsonObject);
-        Reference target = parseReference("target", JsonSupport.getJsonValue(jsonObject, "target", JsonObject.class), -1);
-        Person.Link.Builder builder = Person.Link.builder(target);
+        Person.Link.Builder builder = Person.Link.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.target(parseReference("target", JsonSupport.getJsonValue(jsonObject, "target", JsonObject.class), -1));
         builder.assurance((IdentityAssuranceLevel) parseString(IdentityAssuranceLevel.builder(), "assurance", JsonSupport.getJsonValue(jsonObject, "assurance", JsonString.class), jsonObject.get("_assurance"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected PlanDefinition parsePlanDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private PlanDefinition parsePlanDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("PlanDefinition", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        PlanDefinition.Builder builder = PlanDefinition.builder(status);
+        PlanDefinition.Builder builder = PlanDefinition.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -17463,6 +17422,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.subtitle(parseString("subtitle", JsonSupport.getJsonValue(jsonObject, "subtitle", JsonString.class), jsonObject.get("_subtitle"), -1));
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.subject(parseChoiceElement("subject", jsonObject, "CodeableConcept", "Reference"));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
@@ -17575,7 +17535,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected PlanDefinition.Action parsePlanDefinitionAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private PlanDefinition.Action parsePlanDefinitionAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -17699,21 +17659,21 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected PlanDefinition.Action.Condition parsePlanDefinitionActionCondition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private PlanDefinition.Action.Condition parsePlanDefinitionActionCondition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("PlanDefinition.Action.Condition", jsonObject);
-        ActionConditionKind kind = (ActionConditionKind) parseString(ActionConditionKind.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1);
-        PlanDefinition.Action.Condition.Builder builder = PlanDefinition.Action.Condition.builder(kind);
+        PlanDefinition.Action.Condition.Builder builder = PlanDefinition.Action.Condition.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.kind((ActionConditionKind) parseString(ActionConditionKind.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1));
         builder.expression(parseExpression("expression", JsonSupport.getJsonValue(jsonObject, "expression", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected PlanDefinition.Action.DynamicValue parsePlanDefinitionActionDynamicValue(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private PlanDefinition.Action.DynamicValue parsePlanDefinitionActionDynamicValue(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -17727,45 +17687,45 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected PlanDefinition.Action.Participant parsePlanDefinitionActionParticipant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private PlanDefinition.Action.Participant parsePlanDefinitionActionParticipant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("PlanDefinition.Action.Participant", jsonObject);
-        ActionParticipantType type = (ActionParticipantType) parseString(ActionParticipantType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        PlanDefinition.Action.Participant.Builder builder = PlanDefinition.Action.Participant.builder(type);
+        PlanDefinition.Action.Participant.Builder builder = PlanDefinition.Action.Participant.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type((ActionParticipantType) parseString(ActionParticipantType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.role(parseCodeableConcept("role", JsonSupport.getJsonValue(jsonObject, "role", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected PlanDefinition.Action.RelatedAction parsePlanDefinitionActionRelatedAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private PlanDefinition.Action.RelatedAction parsePlanDefinitionActionRelatedAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("PlanDefinition.Action.RelatedAction", jsonObject);
-        Id actionId = (Id) parseString(Id.builder(), "actionId", JsonSupport.getJsonValue(jsonObject, "actionId", JsonString.class), jsonObject.get("_actionId"), -1);
-        ActionRelationshipType relationship = (ActionRelationshipType) parseString(ActionRelationshipType.builder(), "relationship", JsonSupport.getJsonValue(jsonObject, "relationship", JsonString.class), jsonObject.get("_relationship"), -1);
-        PlanDefinition.Action.RelatedAction.Builder builder = PlanDefinition.Action.RelatedAction.builder(actionId, relationship);
+        PlanDefinition.Action.RelatedAction.Builder builder = PlanDefinition.Action.RelatedAction.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.actionId((Id) parseString(Id.builder(), "actionId", JsonSupport.getJsonValue(jsonObject, "actionId", JsonString.class), jsonObject.get("_actionId"), -1));
+        builder.relationship((ActionRelationshipType) parseString(ActionRelationshipType.builder(), "relationship", JsonSupport.getJsonValue(jsonObject, "relationship", JsonString.class), jsonObject.get("_relationship"), -1));
         builder.offset(parseChoiceElement("offset", jsonObject, "Duration", "Range"));
         stackPop();
         return builder.build();
     }
 
-    protected PlanDefinition.Goal parsePlanDefinitionGoal(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private PlanDefinition.Goal parsePlanDefinitionGoal(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("PlanDefinition.Goal", jsonObject);
-        CodeableConcept description = parseCodeableConcept("description", JsonSupport.getJsonValue(jsonObject, "description", JsonObject.class), -1);
-        PlanDefinition.Goal.Builder builder = PlanDefinition.Goal.builder(description);
+        PlanDefinition.Goal.Builder builder = PlanDefinition.Goal.builder();
         parseBackboneElement(builder, jsonObject);
         builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
+        builder.description(parseCodeableConcept("description", JsonSupport.getJsonValue(jsonObject, "description", JsonObject.class), -1));
         builder.priority(parseCodeableConcept("priority", JsonSupport.getJsonValue(jsonObject, "priority", JsonObject.class), -1));
         builder.start(parseCodeableConcept("start", JsonSupport.getJsonValue(jsonObject, "start", JsonObject.class), -1));
         JsonArray addressesArray = JsonSupport.getJsonArray(jsonObject, "addresses");
@@ -17796,7 +17756,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected PlanDefinition.Goal.Target parsePlanDefinitionGoalTarget(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private PlanDefinition.Goal.Target parsePlanDefinitionGoalTarget(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -17811,7 +17771,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Population parsePopulation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Population parsePopulation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -17827,7 +17787,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Practitioner parsePractitioner(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Practitioner parsePractitioner(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -17898,14 +17858,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Practitioner.Qualification parsePractitionerQualification(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Practitioner.Qualification parsePractitionerQualification(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Practitioner.Qualification", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        Practitioner.Qualification.Builder builder = Practitioner.Qualification.builder(code);
+        Practitioner.Qualification.Builder builder = Practitioner.Qualification.builder();
         parseBackboneElement(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -17915,13 +17874,14 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
         builder.issuer(parseReference("issuer", JsonSupport.getJsonValue(jsonObject, "issuer", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected PractitionerRole parsePractitionerRole(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private PractitionerRole parsePractitionerRole(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -18010,7 +17970,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected PractitionerRole.AvailableTime parsePractitionerRoleAvailableTime(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private PractitionerRole.AvailableTime parsePractitionerRoleAvailableTime(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -18034,29 +17994,27 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected PractitionerRole.NotAvailable parsePractitionerRoleNotAvailable(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private PractitionerRole.NotAvailable parsePractitionerRoleNotAvailable(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("PractitionerRole.NotAvailable", jsonObject);
-        String description = parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1);
-        PractitionerRole.NotAvailable.Builder builder = PractitionerRole.NotAvailable.builder(description);
+        PractitionerRole.NotAvailable.Builder builder = PractitionerRole.NotAvailable.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.during(parsePeriod("during", JsonSupport.getJsonValue(jsonObject, "during", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Procedure parseProcedure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Procedure parseProcedure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Procedure", jsonObject);
-        ProcedureStatus status = (ProcedureStatus) parseString(ProcedureStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Reference subject = parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1);
-        Procedure.Builder builder = Procedure.builder(status, subject);
+        Procedure.Builder builder = Procedure.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -18100,9 +18058,11 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((ProcedureStatus) parseString(ProcedureStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.statusReason(parseCodeableConcept("statusReason", JsonSupport.getJsonValue(jsonObject, "statusReason", JsonObject.class), -1));
         builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
         builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
         builder.performed(parseChoiceElement("performed", jsonObject, "DateTime", "Period", "String", "Age", "Range"));
         builder.recorder(parseReference("recorder", JsonSupport.getJsonValue(jsonObject, "recorder", JsonObject.class), -1));
@@ -18209,36 +18169,36 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Procedure.FocalDevice parseProcedureFocalDevice(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Procedure.FocalDevice parseProcedureFocalDevice(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Procedure.FocalDevice", jsonObject);
-        Reference manipulated = parseReference("manipulated", JsonSupport.getJsonValue(jsonObject, "manipulated", JsonObject.class), -1);
-        Procedure.FocalDevice.Builder builder = Procedure.FocalDevice.builder(manipulated);
+        Procedure.FocalDevice.Builder builder = Procedure.FocalDevice.builder();
         parseBackboneElement(builder, jsonObject);
         builder.action(parseCodeableConcept("action", JsonSupport.getJsonValue(jsonObject, "action", JsonObject.class), -1));
+        builder.manipulated(parseReference("manipulated", JsonSupport.getJsonValue(jsonObject, "manipulated", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Procedure.Performer parseProcedurePerformer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Procedure.Performer parseProcedurePerformer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Procedure.Performer", jsonObject);
-        Reference actor = parseReference("actor", JsonSupport.getJsonValue(jsonObject, "actor", JsonObject.class), -1);
-        Procedure.Performer.Builder builder = Procedure.Performer.builder(actor);
+        Procedure.Performer.Builder builder = Procedure.Performer.builder();
         parseBackboneElement(builder, jsonObject);
         builder.function(parseCodeableConcept("function", JsonSupport.getJsonValue(jsonObject, "function", JsonObject.class), -1));
+        builder.actor(parseReference("actor", JsonSupport.getJsonValue(jsonObject, "actor", JsonObject.class), -1));
         builder.onBehalfOf(parseReference("onBehalfOf", JsonSupport.getJsonValue(jsonObject, "onBehalfOf", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ProdCharacteristic parseProdCharacteristic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ProdCharacteristic parseProdCharacteristic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -18284,17 +18244,17 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ProductShelfLife parseProductShelfLife(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ProductShelfLife parseProductShelfLife(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ProductShelfLife", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        Quantity period = parseQuantity("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1);
-        ProductShelfLife.Builder builder = ProductShelfLife.builder(type, period);
+        ProductShelfLife.Builder builder = ProductShelfLife.builder();
         parseBackboneElement(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.period(parseQuantity("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
         JsonArray specialPrecautionsForStorageArray = JsonSupport.getJsonArray(jsonObject, "specialPrecautionsForStorage");
         if (specialPrecautionsForStorageArray != null) {
             int index = 0;
@@ -18307,34 +18267,24 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Provenance parseProvenance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Provenance parseProvenance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Provenance", jsonObject);
-        java.util.List<Reference> target = new ArrayList<>();
+        Provenance.Builder builder = Provenance.builder();
+        parseDomainResource(builder, jsonObject);
         JsonArray targetArray = JsonSupport.getJsonArray(jsonObject, "target");
         if (targetArray != null) {
             int index = 0;
             for (JsonValue jsonValue : targetArray) {
-                target.add(parseReference("target", (JsonObject) jsonValue, index));
+                builder.target(parseReference("target", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        Instant recorded = parseInstant("recorded", JsonSupport.getJsonValue(jsonObject, "recorded", JsonString.class), jsonObject.get("_recorded"), -1);
-        java.util.List<Provenance.Agent> agent = new ArrayList<>();
-        JsonArray agentArray = JsonSupport.getJsonArray(jsonObject, "agent");
-        if (agentArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : agentArray) {
-                agent.add(parseProvenanceAgent("agent", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        Provenance.Builder builder = Provenance.builder(target, recorded, agent);
-        parseDomainResource(builder, jsonObject);
         builder.occurred(parseChoiceElement("occurred", jsonObject, "Period", "DateTime"));
+        builder.recorded(parseInstant("recorded", JsonSupport.getJsonValue(jsonObject, "recorded", JsonString.class), jsonObject.get("_recorded"), -1));
         JsonArray policyArray = JsonSupport.getJsonArray(jsonObject, "policy", true);
         if (policyArray != null) {
             int index = 0;
@@ -18354,6 +18304,14 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.activity(parseCodeableConcept("activity", JsonSupport.getJsonValue(jsonObject, "activity", JsonObject.class), -1));
+        JsonArray agentArray = JsonSupport.getJsonArray(jsonObject, "agent");
+        if (agentArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : agentArray) {
+                builder.agent(parseProvenanceAgent("agent", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         JsonArray entityArray = JsonSupport.getJsonArray(jsonObject, "entity");
         if (entityArray != null) {
             int index = 0;
@@ -18374,14 +18332,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Provenance.Agent parseProvenanceAgent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Provenance.Agent parseProvenanceAgent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Provenance.Agent", jsonObject);
-        Reference who = parseReference("who", JsonSupport.getJsonValue(jsonObject, "who", JsonObject.class), -1);
-        Provenance.Agent.Builder builder = Provenance.Agent.builder(who);
+        Provenance.Agent.Builder builder = Provenance.Agent.builder();
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray roleArray = JsonSupport.getJsonArray(jsonObject, "role");
@@ -18392,21 +18349,22 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.who(parseReference("who", JsonSupport.getJsonValue(jsonObject, "who", JsonObject.class), -1));
         builder.onBehalfOf(parseReference("onBehalfOf", JsonSupport.getJsonValue(jsonObject, "onBehalfOf", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Provenance.Entity parseProvenanceEntity(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Provenance.Entity parseProvenanceEntity(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Provenance.Entity", jsonObject);
-        ProvenanceEntityRole role = (ProvenanceEntityRole) parseString(ProvenanceEntityRole.builder(), "role", JsonSupport.getJsonValue(jsonObject, "role", JsonString.class), jsonObject.get("_role"), -1);
-        Reference what = parseReference("what", JsonSupport.getJsonValue(jsonObject, "what", JsonObject.class), -1);
-        Provenance.Entity.Builder builder = Provenance.Entity.builder(role, what);
+        Provenance.Entity.Builder builder = Provenance.Entity.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.role((ProvenanceEntityRole) parseString(ProvenanceEntityRole.builder(), "role", JsonSupport.getJsonValue(jsonObject, "role", JsonString.class), jsonObject.get("_role"), -1));
+        builder.what(parseReference("what", JsonSupport.getJsonValue(jsonObject, "what", JsonObject.class), -1));
         JsonArray agentArray = JsonSupport.getJsonArray(jsonObject, "agent");
         if (agentArray != null) {
             int index = 0;
@@ -18419,7 +18377,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Quantity parseQuantity(Quantity.Builder builder, java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Quantity parseQuantity(Quantity.Builder builder, java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -18435,18 +18393,17 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Quantity parseQuantity(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Quantity parseQuantity(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         return parseQuantity(Quantity.builder(), elementName, jsonObject, elementIndex);
     }
 
-    protected Questionnaire parseQuestionnaire(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Questionnaire parseQuestionnaire(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Questionnaire", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Questionnaire.Builder builder = Questionnaire.builder(status);
+        Questionnaire.Builder builder = Questionnaire.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -18469,6 +18426,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         JsonArray subjectTypeArray = JsonSupport.getJsonArray(jsonObject, "subjectType", true);
         if (subjectTypeArray != null) {
@@ -18531,16 +18489,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Questionnaire.Item parseQuestionnaireItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Questionnaire.Item parseQuestionnaireItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Questionnaire.Item", jsonObject);
-        String linkId = parseString("linkId", JsonSupport.getJsonValue(jsonObject, "linkId", JsonString.class), jsonObject.get("_linkId"), -1);
-        QuestionnaireItemType type = (QuestionnaireItemType) parseString(QuestionnaireItemType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        Questionnaire.Item.Builder builder = Questionnaire.Item.builder(linkId, type);
+        Questionnaire.Item.Builder builder = Questionnaire.Item.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.linkId(parseString("linkId", JsonSupport.getJsonValue(jsonObject, "linkId", JsonString.class), jsonObject.get("_linkId"), -1));
         builder.definition(parseUri("definition", JsonSupport.getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1));
         JsonArray codeArray = JsonSupport.getJsonArray(jsonObject, "code");
         if (codeArray != null) {
@@ -18552,6 +18509,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.prefix(parseString("prefix", JsonSupport.getJsonValue(jsonObject, "prefix", JsonString.class), jsonObject.get("_prefix"), -1));
         builder.text(parseString("text", JsonSupport.getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
+        builder.type((QuestionnaireItemType) parseString(QuestionnaireItemType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         JsonArray enableWhenArray = JsonSupport.getJsonArray(jsonObject, "enableWhen");
         if (enableWhenArray != null) {
             int index = 0;
@@ -18594,56 +18552,55 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Questionnaire.Item.AnswerOption parseQuestionnaireItemAnswerOption(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Questionnaire.Item.AnswerOption parseQuestionnaireItemAnswerOption(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Questionnaire.Item.AnswerOption", jsonObject);
-        Element value = parseChoiceElement("value", jsonObject, "Integer", "Date", "Time", "String", "Coding", "Reference");
-        Questionnaire.Item.AnswerOption.Builder builder = Questionnaire.Item.AnswerOption.builder(value);
+        Questionnaire.Item.AnswerOption.Builder builder = Questionnaire.Item.AnswerOption.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.value(parseChoiceElement("value", jsonObject, "Integer", "Date", "Time", "String", "Coding", "Reference"));
         builder.initialSelected(parseBoolean("initialSelected", JsonSupport.getJsonValue(jsonObject, "initialSelected", JsonValue.class), jsonObject.get("_initialSelected"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Questionnaire.Item.EnableWhen parseQuestionnaireItemEnableWhen(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Questionnaire.Item.EnableWhen parseQuestionnaireItemEnableWhen(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Questionnaire.Item.EnableWhen", jsonObject);
-        String question = parseString("question", JsonSupport.getJsonValue(jsonObject, "question", JsonString.class), jsonObject.get("_question"), -1);
-        QuestionnaireItemOperator operator = (QuestionnaireItemOperator) parseString(QuestionnaireItemOperator.builder(), "operator", JsonSupport.getJsonValue(jsonObject, "operator", JsonString.class), jsonObject.get("_operator"), -1);
-        Element answer = parseChoiceElement("answer", jsonObject, "Boolean", "Decimal", "Integer", "Date", "DateTime", "Time", "String", "Coding", "Quantity", "Reference");
-        Questionnaire.Item.EnableWhen.Builder builder = Questionnaire.Item.EnableWhen.builder(question, operator, answer);
+        Questionnaire.Item.EnableWhen.Builder builder = Questionnaire.Item.EnableWhen.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.question(parseString("question", JsonSupport.getJsonValue(jsonObject, "question", JsonString.class), jsonObject.get("_question"), -1));
+        builder.operator((QuestionnaireItemOperator) parseString(QuestionnaireItemOperator.builder(), "operator", JsonSupport.getJsonValue(jsonObject, "operator", JsonString.class), jsonObject.get("_operator"), -1));
+        builder.answer(parseChoiceElement("answer", jsonObject, "Boolean", "Decimal", "Integer", "Date", "DateTime", "Time", "String", "Coding", "Quantity", "Reference"));
         stackPop();
         return builder.build();
     }
 
-    protected Questionnaire.Item.Initial parseQuestionnaireItemInitial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Questionnaire.Item.Initial parseQuestionnaireItemInitial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Questionnaire.Item.Initial", jsonObject);
-        Element value = parseChoiceElement("value", jsonObject, "Boolean", "Decimal", "Integer", "Date", "DateTime", "Time", "String", "Uri", "Attachment", "Coding", "Quantity", "Reference");
-        Questionnaire.Item.Initial.Builder builder = Questionnaire.Item.Initial.builder(value);
+        Questionnaire.Item.Initial.Builder builder = Questionnaire.Item.Initial.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.value(parseChoiceElement("value", jsonObject, "Boolean", "Decimal", "Integer", "Date", "DateTime", "Time", "String", "Uri", "Attachment", "Coding", "Quantity", "Reference"));
         stackPop();
         return builder.build();
     }
 
-    protected QuestionnaireResponse parseQuestionnaireResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private QuestionnaireResponse parseQuestionnaireResponse(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("QuestionnaireResponse", jsonObject);
-        QuestionnaireResponseStatus status = (QuestionnaireResponseStatus) parseString(QuestionnaireResponseStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        QuestionnaireResponse.Builder builder = QuestionnaireResponse.builder(status);
+        QuestionnaireResponse.Builder builder = QuestionnaireResponse.builder();
         parseDomainResource(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         JsonArray basedOnArray = JsonSupport.getJsonArray(jsonObject, "basedOn");
@@ -18663,6 +18620,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.questionnaire((Canonical) parseUri(Canonical.builder(), "questionnaire", JsonSupport.getJsonValue(jsonObject, "questionnaire", JsonString.class), jsonObject.get("_questionnaire"), -1));
+        builder.status((QuestionnaireResponseStatus) parseString(QuestionnaireResponseStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
         builder.authored(parseDateTime("authored", JsonSupport.getJsonValue(jsonObject, "authored", JsonString.class), jsonObject.get("_authored"), -1));
@@ -18680,15 +18638,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected QuestionnaireResponse.Item parseQuestionnaireResponseItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private QuestionnaireResponse.Item parseQuestionnaireResponseItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("QuestionnaireResponse.Item", jsonObject);
-        String linkId = parseString("linkId", JsonSupport.getJsonValue(jsonObject, "linkId", JsonString.class), jsonObject.get("_linkId"), -1);
-        QuestionnaireResponse.Item.Builder builder = QuestionnaireResponse.Item.builder(linkId);
+        QuestionnaireResponse.Item.Builder builder = QuestionnaireResponse.Item.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.linkId(parseString("linkId", JsonSupport.getJsonValue(jsonObject, "linkId", JsonString.class), jsonObject.get("_linkId"), -1));
         builder.definition(parseUri("definition", JsonSupport.getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1));
         builder.text(parseString("text", JsonSupport.getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
         JsonArray answerArray = JsonSupport.getJsonArray(jsonObject, "answer");
@@ -18711,7 +18669,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected QuestionnaireResponse.Item.Answer parseQuestionnaireResponseItemAnswer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private QuestionnaireResponse.Item.Answer parseQuestionnaireResponseItemAnswer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -18732,7 +18690,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Range parseRange(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Range parseRange(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -18746,7 +18704,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Ratio parseRatio(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Ratio parseRatio(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -18760,7 +18718,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Reference parseReference(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Reference parseReference(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -18776,15 +18734,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected RelatedArtifact parseRelatedArtifact(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private RelatedArtifact parseRelatedArtifact(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("RelatedArtifact", jsonObject);
-        RelatedArtifactType type = (RelatedArtifactType) parseString(RelatedArtifactType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        RelatedArtifact.Builder builder = RelatedArtifact.builder(type);
+        RelatedArtifact.Builder builder = RelatedArtifact.builder();
         parseElement(builder, jsonObject);
+        builder.type((RelatedArtifactType) parseString(RelatedArtifactType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.label(parseString("label", JsonSupport.getJsonValue(jsonObject, "label", JsonString.class), jsonObject.get("_label"), -1));
         builder.display(parseString("display", JsonSupport.getJsonValue(jsonObject, "display", JsonString.class), jsonObject.get("_display"), -1));
         builder.citation((Markdown) parseString(Markdown.builder(), "citation", JsonSupport.getJsonValue(jsonObject, "citation", JsonString.class), jsonObject.get("_citation"), -1));
@@ -18795,14 +18753,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected RelatedPerson parseRelatedPerson(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private RelatedPerson parseRelatedPerson(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("RelatedPerson", jsonObject);
-        Reference patient = parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1);
-        RelatedPerson.Builder builder = RelatedPerson.builder(patient);
+        RelatedPerson.Builder builder = RelatedPerson.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -18813,6 +18770,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.active(parseBoolean("active", JsonSupport.getJsonValue(jsonObject, "active", JsonValue.class), jsonObject.get("_active"), -1));
+        builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
         JsonArray relationshipArray = JsonSupport.getJsonArray(jsonObject, "relationship");
         if (relationshipArray != null) {
             int index = 0;
@@ -18868,29 +18826,27 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected RelatedPerson.Communication parseRelatedPersonCommunication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private RelatedPerson.Communication parseRelatedPersonCommunication(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("RelatedPerson.Communication", jsonObject);
-        CodeableConcept language = parseCodeableConcept("language", JsonSupport.getJsonValue(jsonObject, "language", JsonObject.class), -1);
-        RelatedPerson.Communication.Builder builder = RelatedPerson.Communication.builder(language);
+        RelatedPerson.Communication.Builder builder = RelatedPerson.Communication.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.language(parseCodeableConcept("language", JsonSupport.getJsonValue(jsonObject, "language", JsonObject.class), -1));
         builder.preferred(parseBoolean("preferred", JsonSupport.getJsonValue(jsonObject, "preferred", JsonValue.class), jsonObject.get("_preferred"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected RequestGroup parseRequestGroup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private RequestGroup parseRequestGroup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("RequestGroup", jsonObject);
-        RequestStatus status = (RequestStatus) parseString(RequestStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        RequestIntent intent = (RequestIntent) parseString(RequestIntent.builder(), "intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonString.class), jsonObject.get("_intent"), -1);
-        RequestGroup.Builder builder = RequestGroup.builder(status, intent);
+        RequestGroup.Builder builder = RequestGroup.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -18935,6 +18891,8 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.groupIdentifier(parseIdentifier("groupIdentifier", JsonSupport.getJsonValue(jsonObject, "groupIdentifier", JsonObject.class), -1));
+        builder.status((RequestStatus) parseString(RequestStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.intent((RequestIntent) parseString(RequestIntent.builder(), "intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonString.class), jsonObject.get("_intent"), -1));
         builder.priority((RequestPriority) parseString(RequestPriority.builder(), "priority", JsonSupport.getJsonValue(jsonObject, "priority", JsonString.class), jsonObject.get("_priority"), -1));
         builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
@@ -18977,7 +18935,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected RequestGroup.Action parseRequestGroupAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private RequestGroup.Action parseRequestGroupAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -19050,44 +19008,42 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected RequestGroup.Action.Condition parseRequestGroupActionCondition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private RequestGroup.Action.Condition parseRequestGroupActionCondition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("RequestGroup.Action.Condition", jsonObject);
-        ActionConditionKind kind = (ActionConditionKind) parseString(ActionConditionKind.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1);
-        RequestGroup.Action.Condition.Builder builder = RequestGroup.Action.Condition.builder(kind);
+        RequestGroup.Action.Condition.Builder builder = RequestGroup.Action.Condition.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.kind((ActionConditionKind) parseString(ActionConditionKind.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1));
         builder.expression(parseExpression("expression", JsonSupport.getJsonValue(jsonObject, "expression", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected RequestGroup.Action.RelatedAction parseRequestGroupActionRelatedAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private RequestGroup.Action.RelatedAction parseRequestGroupActionRelatedAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("RequestGroup.Action.RelatedAction", jsonObject);
-        Id actionId = (Id) parseString(Id.builder(), "actionId", JsonSupport.getJsonValue(jsonObject, "actionId", JsonString.class), jsonObject.get("_actionId"), -1);
-        ActionRelationshipType relationship = (ActionRelationshipType) parseString(ActionRelationshipType.builder(), "relationship", JsonSupport.getJsonValue(jsonObject, "relationship", JsonString.class), jsonObject.get("_relationship"), -1);
-        RequestGroup.Action.RelatedAction.Builder builder = RequestGroup.Action.RelatedAction.builder(actionId, relationship);
+        RequestGroup.Action.RelatedAction.Builder builder = RequestGroup.Action.RelatedAction.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.actionId((Id) parseString(Id.builder(), "actionId", JsonSupport.getJsonValue(jsonObject, "actionId", JsonString.class), jsonObject.get("_actionId"), -1));
+        builder.relationship((ActionRelationshipType) parseString(ActionRelationshipType.builder(), "relationship", JsonSupport.getJsonValue(jsonObject, "relationship", JsonString.class), jsonObject.get("_relationship"), -1));
         builder.offset(parseChoiceElement("offset", jsonObject, "Duration", "Range"));
         stackPop();
         return builder.build();
     }
 
-    protected ResearchDefinition parseResearchDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ResearchDefinition parseResearchDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ResearchDefinition", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Reference population = parseReference("population", JsonSupport.getJsonValue(jsonObject, "population", JsonObject.class), -1);
-        ResearchDefinition.Builder builder = ResearchDefinition.builder(status, population);
+        ResearchDefinition.Builder builder = ResearchDefinition.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -19103,6 +19059,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.shortTitle(parseString("shortTitle", JsonSupport.getJsonValue(jsonObject, "shortTitle", JsonString.class), jsonObject.get("_shortTitle"), -1));
         builder.subtitle(parseString("subtitle", JsonSupport.getJsonValue(jsonObject, "subtitle", JsonString.class), jsonObject.get("_subtitle"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.subject(parseChoiceElement("subject", jsonObject, "CodeableConcept", "Reference"));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
@@ -19204,6 +19161,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.population(parseReference("population", JsonSupport.getJsonValue(jsonObject, "population", JsonObject.class), -1));
         builder.exposure(parseReference("exposure", JsonSupport.getJsonValue(jsonObject, "exposure", JsonObject.class), -1));
         builder.exposureAlternative(parseReference("exposureAlternative", JsonSupport.getJsonValue(jsonObject, "exposureAlternative", JsonObject.class), -1));
         builder.outcome(parseReference("outcome", JsonSupport.getJsonValue(jsonObject, "outcome", JsonObject.class), -1));
@@ -19211,24 +19169,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ResearchElementDefinition parseResearchElementDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ResearchElementDefinition parseResearchElementDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ResearchElementDefinition", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        ResearchElementType type = (ResearchElementType) parseString(ResearchElementType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        java.util.List<ResearchElementDefinition.Characteristic> characteristic = new ArrayList<>();
-        JsonArray characteristicArray = JsonSupport.getJsonArray(jsonObject, "characteristic");
-        if (characteristicArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : characteristicArray) {
-                characteristic.add(parseResearchElementDefinitionCharacteristic("characteristic", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        ResearchElementDefinition.Builder builder = ResearchElementDefinition.builder(status, type, characteristic);
+        ResearchElementDefinition.Builder builder = ResearchElementDefinition.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -19244,6 +19191,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.shortTitle(parseString("shortTitle", JsonSupport.getJsonValue(jsonObject, "shortTitle", JsonString.class), jsonObject.get("_shortTitle"), -1));
         builder.subtitle(parseString("subtitle", JsonSupport.getJsonValue(jsonObject, "subtitle", JsonString.class), jsonObject.get("_subtitle"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.subject(parseChoiceElement("subject", jsonObject, "CodeableConcept", "Reference"));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
@@ -19345,20 +19293,29 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.type((ResearchElementType) parseString(ResearchElementType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.variableType((VariableType) parseString(VariableType.builder(), "variableType", JsonSupport.getJsonValue(jsonObject, "variableType", JsonString.class), jsonObject.get("_variableType"), -1));
+        JsonArray characteristicArray = JsonSupport.getJsonArray(jsonObject, "characteristic");
+        if (characteristicArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : characteristicArray) {
+                builder.characteristic(parseResearchElementDefinitionCharacteristic("characteristic", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         stackPop();
         return builder.build();
     }
 
-    protected ResearchElementDefinition.Characteristic parseResearchElementDefinitionCharacteristic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ResearchElementDefinition.Characteristic parseResearchElementDefinitionCharacteristic(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ResearchElementDefinition.Characteristic", jsonObject);
-        Element definition = parseChoiceElement("definition", jsonObject, "CodeableConcept", "Canonical", "Expression", "DataRequirement");
-        ResearchElementDefinition.Characteristic.Builder builder = ResearchElementDefinition.Characteristic.builder(definition);
+        ResearchElementDefinition.Characteristic.Builder builder = ResearchElementDefinition.Characteristic.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.definition(parseChoiceElement("definition", jsonObject, "CodeableConcept", "Canonical", "Expression", "DataRequirement"));
         JsonArray usageContextArray = JsonSupport.getJsonArray(jsonObject, "usageContext");
         if (usageContextArray != null) {
             int index = 0;
@@ -19381,14 +19338,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ResearchStudy parseResearchStudy(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ResearchStudy parseResearchStudy(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ResearchStudy", jsonObject);
-        ResearchStudyStatus status = (ResearchStudyStatus) parseString(ResearchStudyStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        ResearchStudy.Builder builder = ResearchStudy.builder(status);
+        ResearchStudy.Builder builder = ResearchStudy.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -19415,6 +19371,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((ResearchStudyStatus) parseString(ResearchStudyStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.primaryPurposeType(parseCodeableConcept("primaryPurposeType", JsonSupport.getJsonValue(jsonObject, "primaryPurposeType", JsonObject.class), -1));
         builder.phase(parseCodeableConcept("phase", JsonSupport.getJsonValue(jsonObject, "phase", JsonObject.class), -1));
         JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
@@ -19522,22 +19479,22 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ResearchStudy.Arm parseResearchStudyArm(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ResearchStudy.Arm parseResearchStudyArm(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ResearchStudy.Arm", jsonObject);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        ResearchStudy.Arm.Builder builder = ResearchStudy.Arm.builder(name);
+        ResearchStudy.Arm.Builder builder = ResearchStudy.Arm.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ResearchStudy.Objective parseResearchStudyObjective(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ResearchStudy.Objective parseResearchStudyObjective(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -19551,16 +19508,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ResearchSubject parseResearchSubject(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ResearchSubject parseResearchSubject(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ResearchSubject", jsonObject);
-        ResearchSubjectStatus status = (ResearchSubjectStatus) parseString(ResearchSubjectStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Reference study = parseReference("study", JsonSupport.getJsonValue(jsonObject, "study", JsonObject.class), -1);
-        Reference individual = parseReference("individual", JsonSupport.getJsonValue(jsonObject, "individual", JsonObject.class), -1);
-        ResearchSubject.Builder builder = ResearchSubject.builder(status, study, individual);
+        ResearchSubject.Builder builder = ResearchSubject.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -19570,7 +19524,10 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((ResearchSubjectStatus) parseString(ResearchSubjectStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.period(parsePeriod("period", JsonSupport.getJsonValue(jsonObject, "period", JsonObject.class), -1));
+        builder.study(parseReference("study", JsonSupport.getJsonValue(jsonObject, "study", JsonObject.class), -1));
+        builder.individual(parseReference("individual", JsonSupport.getJsonValue(jsonObject, "individual", JsonObject.class), -1));
         builder.assignedArm(parseString("assignedArm", JsonSupport.getJsonValue(jsonObject, "assignedArm", JsonString.class), jsonObject.get("_assignedArm"), -1));
         builder.actualArm(parseString("actualArm", JsonSupport.getJsonValue(jsonObject, "actualArm", JsonString.class), jsonObject.get("_actualArm"), -1));
         builder.consent(parseReference("consent", JsonSupport.getJsonValue(jsonObject, "consent", JsonObject.class), -1));
@@ -19578,22 +19535,20 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected void parseResource(Resource.Builder builder, JsonObject jsonObject) {
+    private void parseResource(Resource.Builder builder, JsonObject jsonObject) {
         builder.id((Id) parseString(Id.builder(), "id", JsonSupport.getJsonValue(jsonObject, "id", JsonString.class), jsonObject.get("_id"), -1));
         builder.meta(parseMeta("meta", JsonSupport.getJsonValue(jsonObject, "meta", JsonObject.class), -1));
         builder.implicitRules(parseUri("implicitRules", JsonSupport.getJsonValue(jsonObject, "implicitRules", JsonString.class), jsonObject.get("_implicitRules"), -1));
         builder.language((Code) parseString(Code.builder(), "language", JsonSupport.getJsonValue(jsonObject, "language", JsonString.class), jsonObject.get("_language"), -1));
     }
 
-    protected RiskAssessment parseRiskAssessment(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private RiskAssessment parseRiskAssessment(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("RiskAssessment", jsonObject);
-        RiskAssessmentStatus status = (RiskAssessmentStatus) parseString(RiskAssessmentStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Reference subject = parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1);
-        RiskAssessment.Builder builder = RiskAssessment.builder(status, subject);
+        RiskAssessment.Builder builder = RiskAssessment.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -19605,8 +19560,10 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.basedOn(parseReference("basedOn", JsonSupport.getJsonValue(jsonObject, "basedOn", JsonObject.class), -1));
         builder.parent(parseReference("parent", JsonSupport.getJsonValue(jsonObject, "parent", JsonObject.class), -1));
+        builder.status((RiskAssessmentStatus) parseString(RiskAssessmentStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.method(parseCodeableConcept("method", JsonSupport.getJsonValue(jsonObject, "method", JsonObject.class), -1));
         builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
         builder.occurrence(parseChoiceElement("occurrence", jsonObject, "DateTime", "Period"));
         builder.condition(parseReference("condition", JsonSupport.getJsonValue(jsonObject, "condition", JsonObject.class), -1));
@@ -19656,7 +19613,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected RiskAssessment.Prediction parseRiskAssessmentPrediction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private RiskAssessment.Prediction parseRiskAssessmentPrediction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -19674,16 +19631,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected RiskEvidenceSynthesis parseRiskEvidenceSynthesis(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private RiskEvidenceSynthesis parseRiskEvidenceSynthesis(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("RiskEvidenceSynthesis", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Reference population = parseReference("population", JsonSupport.getJsonValue(jsonObject, "population", JsonObject.class), -1);
-        Reference outcome = parseReference("outcome", JsonSupport.getJsonValue(jsonObject, "outcome", JsonObject.class), -1);
-        RiskEvidenceSynthesis.Builder builder = RiskEvidenceSynthesis.builder(status, population, outcome);
+        RiskEvidenceSynthesis.Builder builder = RiskEvidenceSynthesis.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -19697,6 +19651,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
         JsonArray contactArray = JsonSupport.getJsonArray(jsonObject, "contact");
@@ -19786,7 +19741,9 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.synthesisType(parseCodeableConcept("synthesisType", JsonSupport.getJsonValue(jsonObject, "synthesisType", JsonObject.class), -1));
         builder.studyType(parseCodeableConcept("studyType", JsonSupport.getJsonValue(jsonObject, "studyType", JsonObject.class), -1));
+        builder.population(parseReference("population", JsonSupport.getJsonValue(jsonObject, "population", JsonObject.class), -1));
         builder.exposure(parseReference("exposure", JsonSupport.getJsonValue(jsonObject, "exposure", JsonObject.class), -1));
+        builder.outcome(parseReference("outcome", JsonSupport.getJsonValue(jsonObject, "outcome", JsonObject.class), -1));
         builder.sampleSize(parseRiskEvidenceSynthesisSampleSize("sampleSize", JsonSupport.getJsonValue(jsonObject, "sampleSize", JsonObject.class), -1));
         builder.riskEstimate(parseRiskEvidenceSynthesisRiskEstimate("riskEstimate", JsonSupport.getJsonValue(jsonObject, "riskEstimate", JsonObject.class), -1));
         JsonArray certaintyArray = JsonSupport.getJsonArray(jsonObject, "certainty");
@@ -19801,7 +19758,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected RiskEvidenceSynthesis.Certainty parseRiskEvidenceSynthesisCertainty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private RiskEvidenceSynthesis.Certainty parseRiskEvidenceSynthesisCertainty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -19837,7 +19794,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected RiskEvidenceSynthesis.Certainty.CertaintySubcomponent parseRiskEvidenceSynthesisCertaintyCertaintySubcomponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private RiskEvidenceSynthesis.Certainty.CertaintySubcomponent parseRiskEvidenceSynthesisCertaintyCertaintySubcomponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -19866,7 +19823,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected RiskEvidenceSynthesis.RiskEstimate parseRiskEvidenceSynthesisRiskEstimate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private RiskEvidenceSynthesis.RiskEstimate parseRiskEvidenceSynthesisRiskEstimate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -19892,7 +19849,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate parseRiskEvidenceSynthesisRiskEstimatePrecisionEstimate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate parseRiskEvidenceSynthesisRiskEstimatePrecisionEstimate(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -19908,7 +19865,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected RiskEvidenceSynthesis.SampleSize parseRiskEvidenceSynthesisSampleSize(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private RiskEvidenceSynthesis.SampleSize parseRiskEvidenceSynthesisSampleSize(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -19923,41 +19880,32 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SampledData parseSampledData(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SampledData parseSampledData(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("SampledData", jsonObject);
-        SimpleQuantity origin = (SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "origin", JsonSupport.getJsonValue(jsonObject, "origin", JsonObject.class), -1);
-        Decimal period = parseDecimal("period", JsonSupport.getJsonValue(jsonObject, "period", JsonNumber.class), jsonObject.get("_period"), -1);
-        PositiveInt dimensions = (PositiveInt) parseInteger(PositiveInt.builder(), "dimensions", JsonSupport.getJsonValue(jsonObject, "dimensions", JsonNumber.class), jsonObject.get("_dimensions"), -1);
-        SampledData.Builder builder = SampledData.builder(origin, period, dimensions);
+        SampledData.Builder builder = SampledData.builder();
         parseElement(builder, jsonObject);
+        builder.origin((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "origin", JsonSupport.getJsonValue(jsonObject, "origin", JsonObject.class), -1));
+        builder.period(parseDecimal("period", JsonSupport.getJsonValue(jsonObject, "period", JsonNumber.class), jsonObject.get("_period"), -1));
         builder.factor(parseDecimal("factor", JsonSupport.getJsonValue(jsonObject, "factor", JsonNumber.class), jsonObject.get("_factor"), -1));
         builder.lowerLimit(parseDecimal("lowerLimit", JsonSupport.getJsonValue(jsonObject, "lowerLimit", JsonNumber.class), jsonObject.get("_lowerLimit"), -1));
         builder.upperLimit(parseDecimal("upperLimit", JsonSupport.getJsonValue(jsonObject, "upperLimit", JsonNumber.class), jsonObject.get("_upperLimit"), -1));
+        builder.dimensions((PositiveInt) parseInteger(PositiveInt.builder(), "dimensions", JsonSupport.getJsonValue(jsonObject, "dimensions", JsonNumber.class), jsonObject.get("_dimensions"), -1));
         builder.data(parseString("data", JsonSupport.getJsonValue(jsonObject, "data", JsonString.class), jsonObject.get("_data"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Schedule parseSchedule(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Schedule parseSchedule(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Schedule", jsonObject);
-        java.util.List<Reference> actor = new ArrayList<>();
-        JsonArray actorArray = JsonSupport.getJsonArray(jsonObject, "actor");
-        if (actorArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : actorArray) {
-                actor.add(parseReference("actor", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        Schedule.Builder builder = Schedule.builder(actor);
+        Schedule.Builder builder = Schedule.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -19992,38 +19940,33 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        JsonArray actorArray = JsonSupport.getJsonArray(jsonObject, "actor");
+        if (actorArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : actorArray) {
+                builder.actor(parseReference("actor", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         builder.planningHorizon(parsePeriod("planningHorizon", JsonSupport.getJsonValue(jsonObject, "planningHorizon", JsonObject.class), -1));
         builder.comment(parseString("comment", JsonSupport.getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected SearchParameter parseSearchParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SearchParameter parseSearchParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("SearchParameter", jsonObject);
-        Uri url = parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Markdown description = (Markdown) parseString(Markdown.builder(), "description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1);
-        Code code = (Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        java.util.List<ResourceType> base = new ArrayList<>();
-        JsonArray baseArray = JsonSupport.getJsonArray(jsonObject, "base", true);
-        if (baseArray != null) {
-            int index = 0;
-            JsonArray _baseArray = jsonObject.getJsonArray("_base");
-            for (JsonValue jsonValue : baseArray) {
-                base.add((ResourceType) parseString(ResourceType.builder(), "base", jsonValue, JsonSupport.getJsonValue(_baseArray, index), index));
-                index++;
-            }
-        }
-        SearchParamType type = (SearchParamType) parseString(SearchParamType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        SearchParameter.Builder builder = SearchParameter.builder(url, name, status, description, code, base, type);
+        SearchParameter.Builder builder = SearchParameter.builder();
         parseDomainResource(builder, jsonObject);
+        builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.derivedFrom((Canonical) parseUri(Canonical.builder(), "derivedFrom", JsonSupport.getJsonValue(jsonObject, "derivedFrom", JsonString.class), jsonObject.get("_derivedFrom"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
@@ -20035,6 +19978,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.description((Markdown) parseString(Markdown.builder(), "description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         JsonArray useContextArray = JsonSupport.getJsonArray(jsonObject, "useContext");
         if (useContextArray != null) {
             int index = 0;
@@ -20052,6 +19996,17 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.purpose((Markdown) parseString(Markdown.builder(), "purpose", JsonSupport.getJsonValue(jsonObject, "purpose", JsonString.class), jsonObject.get("_purpose"), -1));
+        builder.code((Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
+        JsonArray baseArray = JsonSupport.getJsonArray(jsonObject, "base", true);
+        if (baseArray != null) {
+            int index = 0;
+            JsonArray _baseArray = jsonObject.getJsonArray("_base");
+            for (JsonValue jsonValue : baseArray) {
+                builder.base((ResourceType) parseString(ResourceType.builder(), "base", jsonValue, JsonSupport.getJsonValue(_baseArray, index), index));
+                index++;
+            }
+        }
+        builder.type((SearchParamType) parseString(SearchParamType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.expression(parseString("expression", JsonSupport.getJsonValue(jsonObject, "expression", JsonString.class), jsonObject.get("_expression"), -1));
         builder.xpath(parseString("xpath", JsonSupport.getJsonValue(jsonObject, "xpath", JsonString.class), jsonObject.get("_xpath"), -1));
         builder.xpathUsage((XPathUsageType) parseString(XPathUsageType.builder(), "xpathUsage", JsonSupport.getJsonValue(jsonObject, "xpathUsage", JsonString.class), jsonObject.get("_xpathUsage"), -1));
@@ -20105,30 +20060,27 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SearchParameter.Component parseSearchParameterComponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SearchParameter.Component parseSearchParameterComponent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("SearchParameter.Component", jsonObject);
-        Canonical definition = (Canonical) parseUri(Canonical.builder(), "definition", JsonSupport.getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1);
-        String expression = parseString("expression", JsonSupport.getJsonValue(jsonObject, "expression", JsonString.class), jsonObject.get("_expression"), -1);
-        SearchParameter.Component.Builder builder = SearchParameter.Component.builder(definition, expression);
+        SearchParameter.Component.Builder builder = SearchParameter.Component.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.definition((Canonical) parseUri(Canonical.builder(), "definition", JsonSupport.getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1));
+        builder.expression(parseString("expression", JsonSupport.getJsonValue(jsonObject, "expression", JsonString.class), jsonObject.get("_expression"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ServiceRequest parseServiceRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ServiceRequest parseServiceRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ServiceRequest", jsonObject);
-        ServiceRequestStatus status = (ServiceRequestStatus) parseString(ServiceRequestStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        ServiceRequestIntent intent = (ServiceRequestIntent) parseString(ServiceRequestIntent.builder(), "intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonString.class), jsonObject.get("_intent"), -1);
-        Reference subject = parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1);
-        ServiceRequest.Builder builder = ServiceRequest.builder(status, intent, subject);
+        ServiceRequest.Builder builder = ServiceRequest.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -20173,6 +20125,8 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.requisition(parseIdentifier("requisition", JsonSupport.getJsonValue(jsonObject, "requisition", JsonObject.class), -1));
+        builder.status((ServiceRequestStatus) parseString(ServiceRequestStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.intent((ServiceRequestIntent) parseString(ServiceRequestIntent.builder(), "intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonString.class), jsonObject.get("_intent"), -1));
         JsonArray categoryArray = JsonSupport.getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
             int index = 0;
@@ -20193,6 +20147,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.quantity(parseChoiceElement("quantity", jsonObject, "Quantity", "Ratio", "Range"));
+        builder.subject(parseReference("subject", JsonSupport.getJsonValue(jsonObject, "subject", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
         builder.occurrence(parseChoiceElement("occurrence", jsonObject, "DateTime", "Period", "Timing"));
         builder.asNeeded(parseChoiceElement("asNeeded", jsonObject, "Boolean", "CodeableConcept"));
@@ -20292,25 +20247,24 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Signature parseSignature(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Signature parseSignature(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Signature", jsonObject);
-        java.util.List<Coding> type = new ArrayList<>();
+        Signature.Builder builder = Signature.builder();
+        parseElement(builder, jsonObject);
         JsonArray typeArray = JsonSupport.getJsonArray(jsonObject, "type");
         if (typeArray != null) {
             int index = 0;
             for (JsonValue jsonValue : typeArray) {
-                type.add(parseCoding("type", (JsonObject) jsonValue, index));
+                builder.type(parseCoding("type", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        Instant when = parseInstant("when", JsonSupport.getJsonValue(jsonObject, "when", JsonString.class), jsonObject.get("_when"), -1);
-        Reference who = parseReference("who", JsonSupport.getJsonValue(jsonObject, "who", JsonObject.class), -1);
-        Signature.Builder builder = Signature.builder(type, when, who);
-        parseElement(builder, jsonObject);
+        builder.when(parseInstant("when", JsonSupport.getJsonValue(jsonObject, "when", JsonString.class), jsonObject.get("_when"), -1));
+        builder.who(parseReference("who", JsonSupport.getJsonValue(jsonObject, "who", JsonObject.class), -1));
         builder.onBehalfOf(parseReference("onBehalfOf", JsonSupport.getJsonValue(jsonObject, "onBehalfOf", JsonObject.class), -1));
         builder.targetFormat((Code) parseString(Code.builder(), "targetFormat", JsonSupport.getJsonValue(jsonObject, "targetFormat", JsonString.class), jsonObject.get("_targetFormat"), -1));
         builder.sigFormat((Code) parseString(Code.builder(), "sigFormat", JsonSupport.getJsonValue(jsonObject, "sigFormat", JsonString.class), jsonObject.get("_sigFormat"), -1));
@@ -20319,17 +20273,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Slot parseSlot(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Slot parseSlot(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Slot", jsonObject);
-        Reference schedule = parseReference("schedule", JsonSupport.getJsonValue(jsonObject, "schedule", JsonObject.class), -1);
-        SlotStatus status = (SlotStatus) parseString(SlotStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Instant start = parseInstant("start", JsonSupport.getJsonValue(jsonObject, "start", JsonString.class), jsonObject.get("_start"), -1);
-        Instant end = parseInstant("end", JsonSupport.getJsonValue(jsonObject, "end", JsonString.class), jsonObject.get("_end"), -1);
-        Slot.Builder builder = Slot.builder(schedule, status, start, end);
+        Slot.Builder builder = Slot.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -20364,13 +20314,17 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.appointmentType(parseCodeableConcept("appointmentType", JsonSupport.getJsonValue(jsonObject, "appointmentType", JsonObject.class), -1));
+        builder.schedule(parseReference("schedule", JsonSupport.getJsonValue(jsonObject, "schedule", JsonObject.class), -1));
+        builder.status((SlotStatus) parseString(SlotStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.start(parseInstant("start", JsonSupport.getJsonValue(jsonObject, "start", JsonString.class), jsonObject.get("_start"), -1));
+        builder.end(parseInstant("end", JsonSupport.getJsonValue(jsonObject, "end", JsonString.class), jsonObject.get("_end"), -1));
         builder.overbooked(parseBoolean("overbooked", JsonSupport.getJsonValue(jsonObject, "overbooked", JsonValue.class), jsonObject.get("_overbooked"), -1));
         builder.comment(parseString("comment", JsonSupport.getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Specimen parseSpecimen(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Specimen parseSpecimen(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -20444,7 +20398,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Specimen.Collection parseSpecimenCollection(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Specimen.Collection parseSpecimenCollection(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -20463,7 +20417,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Specimen.Container parseSpecimenContainer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Specimen.Container parseSpecimenContainer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -20488,7 +20442,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Specimen.Processing parseSpecimenProcessing(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Specimen.Processing parseSpecimenProcessing(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -20511,7 +20465,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SpecimenDefinition parseSpecimenDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SpecimenDefinition parseSpecimenDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -20550,17 +20504,17 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SpecimenDefinition.TypeTested parseSpecimenDefinitionTypeTested(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SpecimenDefinition.TypeTested parseSpecimenDefinitionTypeTested(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("SpecimenDefinition.TypeTested", jsonObject);
-        SpecimenContainedPreference preference = (SpecimenContainedPreference) parseString(SpecimenContainedPreference.builder(), "preference", JsonSupport.getJsonValue(jsonObject, "preference", JsonString.class), jsonObject.get("_preference"), -1);
-        SpecimenDefinition.TypeTested.Builder builder = SpecimenDefinition.TypeTested.builder(preference);
+        SpecimenDefinition.TypeTested.Builder builder = SpecimenDefinition.TypeTested.builder();
         parseBackboneElement(builder, jsonObject);
         builder.isDerived(parseBoolean("isDerived", JsonSupport.getJsonValue(jsonObject, "isDerived", JsonValue.class), jsonObject.get("_isDerived"), -1));
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.preference((SpecimenContainedPreference) parseString(SpecimenContainedPreference.builder(), "preference", JsonSupport.getJsonValue(jsonObject, "preference", JsonString.class), jsonObject.get("_preference"), -1));
         builder.container(parseSpecimenDefinitionTypeTestedContainer("container", JsonSupport.getJsonValue(jsonObject, "container", JsonObject.class), -1));
         builder.requirement(parseString("requirement", JsonSupport.getJsonValue(jsonObject, "requirement", JsonString.class), jsonObject.get("_requirement"), -1));
         builder.retentionTime((Duration) parseQuantity(Duration.builder(), "retentionTime", JsonSupport.getJsonValue(jsonObject, "retentionTime", JsonObject.class), -1));
@@ -20584,7 +20538,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SpecimenDefinition.TypeTested.Container parseSpecimenDefinitionTypeTestedContainer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SpecimenDefinition.TypeTested.Container parseSpecimenDefinitionTypeTestedContainer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -20611,20 +20565,20 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SpecimenDefinition.TypeTested.Container.Additive parseSpecimenDefinitionTypeTestedContainerAdditive(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SpecimenDefinition.TypeTested.Container.Additive parseSpecimenDefinitionTypeTestedContainerAdditive(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("SpecimenDefinition.TypeTested.Container.Additive", jsonObject);
-        Element additive = parseChoiceElement("additive", jsonObject, "CodeableConcept", "Reference");
-        SpecimenDefinition.TypeTested.Container.Additive.Builder builder = SpecimenDefinition.TypeTested.Container.Additive.builder(additive);
+        SpecimenDefinition.TypeTested.Container.Additive.Builder builder = SpecimenDefinition.TypeTested.Container.Additive.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.additive(parseChoiceElement("additive", jsonObject, "CodeableConcept", "Reference"));
         stackPop();
         return builder.build();
     }
 
-    protected SpecimenDefinition.TypeTested.Handling parseSpecimenDefinitionTypeTestedHandling(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SpecimenDefinition.TypeTested.Handling parseSpecimenDefinitionTypeTestedHandling(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -20640,7 +20594,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected String parseString(String.Builder builder, java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
+    private String parseString(String.Builder builder, java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
         if (jsonValue == null && _jsonValue == null) {
             return null;
         }
@@ -20658,24 +20612,19 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected String parseString(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
+    private String parseString(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
         return parseString(String.builder(), elementName, jsonValue, _jsonValue, elementIndex);
     }
 
-    protected StructureDefinition parseStructureDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private StructureDefinition parseStructureDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("StructureDefinition", jsonObject);
-        Uri url = parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        StructureDefinitionKind kind = (StructureDefinitionKind) parseString(StructureDefinitionKind.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1);
-        Boolean _abstract = parseBoolean("abstract", JsonSupport.getJsonValue(jsonObject, "abstract", JsonValue.class), jsonObject.get("_abstract"), -1);
-        Uri type = parseUri("type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        StructureDefinition.Builder builder = StructureDefinition.builder(url, name, status, kind, _abstract, type);
+        StructureDefinition.Builder builder = StructureDefinition.builder();
         parseDomainResource(builder, jsonObject);
+        builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             int index = 0;
@@ -20685,7 +20634,9 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
@@ -20733,6 +20684,8 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.kind((StructureDefinitionKind) parseString(StructureDefinitionKind.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1));
+        builder._abstract(parseBoolean("abstract", JsonSupport.getJsonValue(jsonObject, "abstract", JsonValue.class), jsonObject.get("_abstract"), -1));
         JsonArray contextArray = JsonSupport.getJsonArray(jsonObject, "context");
         if (contextArray != null) {
             int index = 0;
@@ -20750,6 +20703,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.type(parseUri("type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.baseDefinition((Canonical) parseUri(Canonical.builder(), "baseDefinition", JsonSupport.getJsonValue(jsonObject, "baseDefinition", JsonString.class), jsonObject.get("_baseDefinition"), -1));
         builder.derivation((TypeDerivationRule) parseString(TypeDerivationRule.builder(), "derivation", JsonSupport.getJsonValue(jsonObject, "derivation", JsonString.class), jsonObject.get("_derivation"), -1));
         builder.snapshot(parseStructureDefinitionSnapshot("snapshot", JsonSupport.getJsonValue(jsonObject, "snapshot", JsonObject.class), -1));
@@ -20758,50 +20712,49 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected StructureDefinition.Context parseStructureDefinitionContext(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private StructureDefinition.Context parseStructureDefinitionContext(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("StructureDefinition.Context", jsonObject);
-        ExtensionContextType type = (ExtensionContextType) parseString(ExtensionContextType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        String expression = parseString("expression", JsonSupport.getJsonValue(jsonObject, "expression", JsonString.class), jsonObject.get("_expression"), -1);
-        StructureDefinition.Context.Builder builder = StructureDefinition.Context.builder(type, expression);
+        StructureDefinition.Context.Builder builder = StructureDefinition.Context.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type((ExtensionContextType) parseString(ExtensionContextType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.expression(parseString("expression", JsonSupport.getJsonValue(jsonObject, "expression", JsonString.class), jsonObject.get("_expression"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected StructureDefinition.Differential parseStructureDefinitionDifferential(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private StructureDefinition.Differential parseStructureDefinitionDifferential(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("StructureDefinition.Differential", jsonObject);
-        java.util.List<ElementDefinition> element = new ArrayList<>();
+        StructureDefinition.Differential.Builder builder = StructureDefinition.Differential.builder();
+        parseBackboneElement(builder, jsonObject);
         JsonArray elementArray = JsonSupport.getJsonArray(jsonObject, "element");
         if (elementArray != null) {
             int index = 0;
             for (JsonValue jsonValue : elementArray) {
-                element.add(parseElementDefinition("element", (JsonObject) jsonValue, index));
+                builder.element(parseElementDefinition("element", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        StructureDefinition.Differential.Builder builder = StructureDefinition.Differential.builder(element);
-        parseBackboneElement(builder, jsonObject);
         stackPop();
         return builder.build();
     }
 
-    protected StructureDefinition.Mapping parseStructureDefinitionMapping(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private StructureDefinition.Mapping parseStructureDefinitionMapping(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("StructureDefinition.Mapping", jsonObject);
-        Id identity = (Id) parseString(Id.builder(), "identity", JsonSupport.getJsonValue(jsonObject, "identity", JsonString.class), jsonObject.get("_identity"), -1);
-        StructureDefinition.Mapping.Builder builder = StructureDefinition.Mapping.builder(identity);
+        StructureDefinition.Mapping.Builder builder = StructureDefinition.Mapping.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.identity((Id) parseString(Id.builder(), "identity", JsonSupport.getJsonValue(jsonObject, "identity", JsonString.class), jsonObject.get("_identity"), -1));
         builder.uri(parseUri("uri", JsonSupport.getJsonValue(jsonObject, "uri", JsonString.class), jsonObject.get("_uri"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.comment(parseString("comment", JsonSupport.getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
@@ -20809,47 +20762,35 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected StructureDefinition.Snapshot parseStructureDefinitionSnapshot(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private StructureDefinition.Snapshot parseStructureDefinitionSnapshot(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("StructureDefinition.Snapshot", jsonObject);
-        java.util.List<ElementDefinition> element = new ArrayList<>();
+        StructureDefinition.Snapshot.Builder builder = StructureDefinition.Snapshot.builder();
+        parseBackboneElement(builder, jsonObject);
         JsonArray elementArray = JsonSupport.getJsonArray(jsonObject, "element");
         if (elementArray != null) {
             int index = 0;
             for (JsonValue jsonValue : elementArray) {
-                element.add(parseElementDefinition("element", (JsonObject) jsonValue, index));
+                builder.element(parseElementDefinition("element", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        StructureDefinition.Snapshot.Builder builder = StructureDefinition.Snapshot.builder(element);
-        parseBackboneElement(builder, jsonObject);
         stackPop();
         return builder.build();
     }
 
-    protected StructureMap parseStructureMap(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private StructureMap parseStructureMap(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("StructureMap", jsonObject);
-        Uri url = parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        java.util.List<StructureMap.Group> group = new ArrayList<>();
-        JsonArray groupArray = JsonSupport.getJsonArray(jsonObject, "group");
-        if (groupArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : groupArray) {
-                group.add(parseStructureMapGroup("group", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        StructureMap.Builder builder = StructureMap.builder(url, name, status, group);
+        StructureMap.Builder builder = StructureMap.builder();
         parseDomainResource(builder, jsonObject);
+        builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
             int index = 0;
@@ -20859,7 +20800,9 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
@@ -20907,78 +20850,83 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        JsonArray groupArray = JsonSupport.getJsonArray(jsonObject, "group");
+        if (groupArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : groupArray) {
+                builder.group(parseStructureMapGroup("group", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         stackPop();
         return builder.build();
     }
 
-    protected StructureMap.Group parseStructureMapGroup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private StructureMap.Group parseStructureMapGroup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("StructureMap.Group", jsonObject);
-        Id name = (Id) parseString(Id.builder(), "name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        StructureMapGroupTypeMode typeMode = (StructureMapGroupTypeMode) parseString(StructureMapGroupTypeMode.builder(), "typeMode", JsonSupport.getJsonValue(jsonObject, "typeMode", JsonString.class), jsonObject.get("_typeMode"), -1);
-        java.util.List<StructureMap.Group.Input> input = new ArrayList<>();
+        StructureMap.Group.Builder builder = StructureMap.Group.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.name((Id) parseString(Id.builder(), "name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder._extends((Id) parseString(Id.builder(), "extends", JsonSupport.getJsonValue(jsonObject, "extends", JsonString.class), jsonObject.get("_extends"), -1));
+        builder.typeMode((StructureMapGroupTypeMode) parseString(StructureMapGroupTypeMode.builder(), "typeMode", JsonSupport.getJsonValue(jsonObject, "typeMode", JsonString.class), jsonObject.get("_typeMode"), -1));
+        builder.documentation(parseString("documentation", JsonSupport.getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
         JsonArray inputArray = JsonSupport.getJsonArray(jsonObject, "input");
         if (inputArray != null) {
             int index = 0;
             for (JsonValue jsonValue : inputArray) {
-                input.add(parseStructureMapGroupInput("input", (JsonObject) jsonValue, index));
+                builder.input(parseStructureMapGroupInput("input", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        java.util.List<StructureMap.Group.Rule> rule = new ArrayList<>();
         JsonArray ruleArray = JsonSupport.getJsonArray(jsonObject, "rule");
         if (ruleArray != null) {
             int index = 0;
             for (JsonValue jsonValue : ruleArray) {
-                rule.add(parseStructureMapGroupRule("rule", (JsonObject) jsonValue, index));
+                builder.rule(parseStructureMapGroupRule("rule", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        StructureMap.Group.Builder builder = StructureMap.Group.builder(name, typeMode, input, rule);
-        parseBackboneElement(builder, jsonObject);
-        builder._extends((Id) parseString(Id.builder(), "extends", JsonSupport.getJsonValue(jsonObject, "extends", JsonString.class), jsonObject.get("_extends"), -1));
-        builder.documentation(parseString("documentation", JsonSupport.getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected StructureMap.Group.Input parseStructureMapGroupInput(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private StructureMap.Group.Input parseStructureMapGroupInput(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("StructureMap.Group.Input", jsonObject);
-        Id name = (Id) parseString(Id.builder(), "name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        StructureMapInputMode mode = (StructureMapInputMode) parseString(StructureMapInputMode.builder(), "mode", JsonSupport.getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1);
-        StructureMap.Group.Input.Builder builder = StructureMap.Group.Input.builder(name, mode);
+        StructureMap.Group.Input.Builder builder = StructureMap.Group.Input.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.name((Id) parseString(Id.builder(), "name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.type(parseString("type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.mode((StructureMapInputMode) parseString(StructureMapInputMode.builder(), "mode", JsonSupport.getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1));
         builder.documentation(parseString("documentation", JsonSupport.getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected StructureMap.Group.Rule parseStructureMapGroupRule(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private StructureMap.Group.Rule parseStructureMapGroupRule(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("StructureMap.Group.Rule", jsonObject);
-        Id name = (Id) parseString(Id.builder(), "name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        java.util.List<StructureMap.Group.Rule.Source> source = new ArrayList<>();
+        StructureMap.Group.Rule.Builder builder = StructureMap.Group.Rule.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.name((Id) parseString(Id.builder(), "name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         JsonArray sourceArray = JsonSupport.getJsonArray(jsonObject, "source");
         if (sourceArray != null) {
             int index = 0;
             for (JsonValue jsonValue : sourceArray) {
-                source.add(parseStructureMapGroupRuleSource("source", (JsonObject) jsonValue, index));
+                builder.source(parseStructureMapGroupRuleSource("source", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        StructureMap.Group.Rule.Builder builder = StructureMap.Group.Rule.builder(name, source);
-        parseBackboneElement(builder, jsonObject);
         JsonArray targetArray = JsonSupport.getJsonArray(jsonObject, "target");
         if (targetArray != null) {
             int index = 0;
@@ -21008,38 +20956,37 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected StructureMap.Group.Rule.Dependent parseStructureMapGroupRuleDependent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private StructureMap.Group.Rule.Dependent parseStructureMapGroupRuleDependent(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("StructureMap.Group.Rule.Dependent", jsonObject);
-        Id name = (Id) parseString(Id.builder(), "name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        java.util.List<String> variable = new ArrayList<>();
+        StructureMap.Group.Rule.Dependent.Builder builder = StructureMap.Group.Rule.Dependent.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.name((Id) parseString(Id.builder(), "name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         JsonArray variableArray = JsonSupport.getJsonArray(jsonObject, "variable", true);
         if (variableArray != null) {
             int index = 0;
             JsonArray _variableArray = jsonObject.getJsonArray("_variable");
             for (JsonValue jsonValue : variableArray) {
-                variable.add(parseString("variable", jsonValue, JsonSupport.getJsonValue(_variableArray, index), index));
+                builder.variable(parseString("variable", jsonValue, JsonSupport.getJsonValue(_variableArray, index), index));
                 index++;
             }
         }
-        StructureMap.Group.Rule.Dependent.Builder builder = StructureMap.Group.Rule.Dependent.builder(name, variable);
-        parseBackboneElement(builder, jsonObject);
         stackPop();
         return builder.build();
     }
 
-    protected StructureMap.Group.Rule.Source parseStructureMapGroupRuleSource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private StructureMap.Group.Rule.Source parseStructureMapGroupRuleSource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("StructureMap.Group.Rule.Source", jsonObject);
-        Id context = (Id) parseString(Id.builder(), "context", JsonSupport.getJsonValue(jsonObject, "context", JsonString.class), jsonObject.get("_context"), -1);
-        StructureMap.Group.Rule.Source.Builder builder = StructureMap.Group.Rule.Source.builder(context);
+        StructureMap.Group.Rule.Source.Builder builder = StructureMap.Group.Rule.Source.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.context((Id) parseString(Id.builder(), "context", JsonSupport.getJsonValue(jsonObject, "context", JsonString.class), jsonObject.get("_context"), -1));
         builder.min(parseInteger("min", JsonSupport.getJsonValue(jsonObject, "min", JsonNumber.class), jsonObject.get("_min"), -1));
         builder.max(parseString("max", JsonSupport.getJsonValue(jsonObject, "max", JsonString.class), jsonObject.get("_max"), -1));
         builder.type(parseString("type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
@@ -21054,7 +21001,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected StructureMap.Group.Rule.Target parseStructureMapGroupRuleTarget(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private StructureMap.Group.Rule.Target parseStructureMapGroupRuleTarget(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21089,47 +21036,44 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected StructureMap.Group.Rule.Target.Parameter parseStructureMapGroupRuleTargetParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private StructureMap.Group.Rule.Target.Parameter parseStructureMapGroupRuleTargetParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("StructureMap.Group.Rule.Target.Parameter", jsonObject);
-        Element value = parseChoiceElement("value", jsonObject, "Id", "String", "Boolean", "Integer", "Decimal");
-        StructureMap.Group.Rule.Target.Parameter.Builder builder = StructureMap.Group.Rule.Target.Parameter.builder(value);
+        StructureMap.Group.Rule.Target.Parameter.Builder builder = StructureMap.Group.Rule.Target.Parameter.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.value(parseChoiceElement("value", jsonObject, "Id", "String", "Boolean", "Integer", "Decimal"));
         stackPop();
         return builder.build();
     }
 
-    protected StructureMap.Structure parseStructureMapStructure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private StructureMap.Structure parseStructureMapStructure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("StructureMap.Structure", jsonObject);
-        Canonical url = (Canonical) parseUri(Canonical.builder(), "url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1);
-        StructureMapModelMode mode = (StructureMapModelMode) parseString(StructureMapModelMode.builder(), "mode", JsonSupport.getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1);
-        StructureMap.Structure.Builder builder = StructureMap.Structure.builder(url, mode);
+        StructureMap.Structure.Builder builder = StructureMap.Structure.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.url((Canonical) parseUri(Canonical.builder(), "url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
+        builder.mode((StructureMapModelMode) parseString(StructureMapModelMode.builder(), "mode", JsonSupport.getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1));
         builder.alias(parseString("alias", JsonSupport.getJsonValue(jsonObject, "alias", JsonString.class), jsonObject.get("_alias"), -1));
         builder.documentation(parseString("documentation", JsonSupport.getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Subscription parseSubscription(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Subscription parseSubscription(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Subscription", jsonObject);
-        SubscriptionStatus status = (SubscriptionStatus) parseString(SubscriptionStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        String reason = parseString("reason", JsonSupport.getJsonValue(jsonObject, "reason", JsonString.class), jsonObject.get("_reason"), -1);
-        String criteria = parseString("criteria", JsonSupport.getJsonValue(jsonObject, "criteria", JsonString.class), jsonObject.get("_criteria"), -1);
-        Subscription.Channel channel = parseSubscriptionChannel("channel", JsonSupport.getJsonValue(jsonObject, "channel", JsonObject.class), -1);
-        Subscription.Builder builder = Subscription.builder(status, reason, criteria, channel);
+        Subscription.Builder builder = Subscription.builder();
         parseDomainResource(builder, jsonObject);
+        builder.status((SubscriptionStatus) parseString(SubscriptionStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         JsonArray contactArray = JsonSupport.getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
             int index = 0;
@@ -21139,20 +21083,23 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.end(parseInstant("end", JsonSupport.getJsonValue(jsonObject, "end", JsonString.class), jsonObject.get("_end"), -1));
+        builder.reason(parseString("reason", JsonSupport.getJsonValue(jsonObject, "reason", JsonString.class), jsonObject.get("_reason"), -1));
+        builder.criteria(parseString("criteria", JsonSupport.getJsonValue(jsonObject, "criteria", JsonString.class), jsonObject.get("_criteria"), -1));
         builder.error(parseString("error", JsonSupport.getJsonValue(jsonObject, "error", JsonString.class), jsonObject.get("_error"), -1));
+        builder.channel(parseSubscriptionChannel("channel", JsonSupport.getJsonValue(jsonObject, "channel", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected Subscription.Channel parseSubscriptionChannel(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Subscription.Channel parseSubscriptionChannel(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Subscription.Channel", jsonObject);
-        SubscriptionChannelType type = (SubscriptionChannelType) parseString(SubscriptionChannelType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        Subscription.Channel.Builder builder = Subscription.Channel.builder(type);
+        Subscription.Channel.Builder builder = Subscription.Channel.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type((SubscriptionChannelType) parseString(SubscriptionChannelType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.endpoint((Url) parseUri(Url.builder(), "endpoint", JsonSupport.getJsonValue(jsonObject, "endpoint", JsonString.class), jsonObject.get("_endpoint"), -1));
         builder.payload((Code) parseString(Code.builder(), "payload", JsonSupport.getJsonValue(jsonObject, "payload", JsonString.class), jsonObject.get("_payload"), -1));
         JsonArray headerArray = JsonSupport.getJsonArray(jsonObject, "header", true);
@@ -21168,14 +21115,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Substance parseSubstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Substance parseSubstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Substance", jsonObject);
-        CodeableConcept code = parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        Substance.Builder builder = Substance.builder(code);
+        Substance.Builder builder = Substance.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -21194,6 +21140,7 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         JsonArray instanceArray = JsonSupport.getJsonArray(jsonObject, "instance");
         if (instanceArray != null) {
@@ -21215,21 +21162,21 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Substance.Ingredient parseSubstanceIngredient(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Substance.Ingredient parseSubstanceIngredient(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Substance.Ingredient", jsonObject);
-        Element substance = parseChoiceElement("substance", jsonObject, "CodeableConcept", "Reference");
-        Substance.Ingredient.Builder builder = Substance.Ingredient.builder(substance);
+        Substance.Ingredient.Builder builder = Substance.Ingredient.builder();
         parseBackboneElement(builder, jsonObject);
         builder.quantity(parseRatio("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
+        builder.substance(parseChoiceElement("substance", jsonObject, "CodeableConcept", "Reference"));
         stackPop();
         return builder.build();
     }
 
-    protected Substance.Instance parseSubstanceInstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Substance.Instance parseSubstanceInstance(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21244,7 +21191,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceAmount parseSubstanceAmount(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceAmount parseSubstanceAmount(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21260,7 +21207,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceAmount.ReferenceRange parseSubstanceAmountReferenceRange(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceAmount.ReferenceRange parseSubstanceAmountReferenceRange(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21274,7 +21221,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceNucleicAcid parseSubstanceNucleicAcid(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceNucleicAcid parseSubstanceNucleicAcid(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21298,7 +21245,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceNucleicAcid.Subunit parseSubstanceNucleicAcidSubunit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceNucleicAcid.Subunit parseSubstanceNucleicAcidSubunit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21332,7 +21279,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceNucleicAcid.Subunit.Linkage parseSubstanceNucleicAcidSubunitLinkage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceNucleicAcid.Subunit.Linkage parseSubstanceNucleicAcidSubunitLinkage(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21348,7 +21295,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceNucleicAcid.Subunit.Sugar parseSubstanceNucleicAcidSubunitSugar(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceNucleicAcid.Subunit.Sugar parseSubstanceNucleicAcidSubunitSugar(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21363,7 +21310,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstancePolymer parseSubstancePolymer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstancePolymer parseSubstancePolymer(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21410,7 +21357,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstancePolymer.MonomerSet parseSubstancePolymerMonomerSet(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstancePolymer.MonomerSet parseSubstancePolymerMonomerSet(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21431,7 +21378,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstancePolymer.MonomerSet.StartingMaterial parseSubstancePolymerMonomerSetStartingMaterial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstancePolymer.MonomerSet.StartingMaterial parseSubstancePolymerMonomerSetStartingMaterial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21447,7 +21394,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstancePolymer.Repeat parseSubstancePolymerRepeat(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstancePolymer.Repeat parseSubstancePolymerRepeat(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21470,7 +21417,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstancePolymer.Repeat.RepeatUnit parseSubstancePolymerRepeatRepeatUnit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstancePolymer.Repeat.RepeatUnit parseSubstancePolymerRepeatRepeatUnit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21501,7 +21448,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation parseSubstancePolymerRepeatRepeatUnitDegreeOfPolymerisation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation parseSubstancePolymerRepeatRepeatUnitDegreeOfPolymerisation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21515,7 +21462,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation parseSubstancePolymerRepeatRepeatUnitStructuralRepresentation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation parseSubstancePolymerRepeatRepeatUnitStructuralRepresentation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21530,7 +21477,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceProtein parseSubstanceProtein(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceProtein parseSubstanceProtein(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21561,7 +21508,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceProtein.Subunit parseSubstanceProteinSubunit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceProtein.Subunit parseSubstanceProteinSubunit(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21581,7 +21528,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceReferenceInformation parseSubstanceReferenceInformation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceReferenceInformation parseSubstanceReferenceInformation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21626,7 +21573,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceReferenceInformation.Classification parseSubstanceReferenceInformationClassification(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceReferenceInformation.Classification parseSubstanceReferenceInformationClassification(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21656,7 +21603,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceReferenceInformation.Gene parseSubstanceReferenceInformationGene(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceReferenceInformation.Gene parseSubstanceReferenceInformationGene(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21678,7 +21625,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceReferenceInformation.GeneElement parseSubstanceReferenceInformationGeneElement(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceReferenceInformation.GeneElement parseSubstanceReferenceInformationGeneElement(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21700,7 +21647,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceReferenceInformation.Target parseSubstanceReferenceInformationTarget(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceReferenceInformation.Target parseSubstanceReferenceInformationTarget(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21727,7 +21674,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSourceMaterial parseSubstanceSourceMaterial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSourceMaterial parseSubstanceSourceMaterial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21796,7 +21743,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSourceMaterial.FractionDescription parseSubstanceSourceMaterialFractionDescription(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSourceMaterial.FractionDescription parseSubstanceSourceMaterialFractionDescription(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21810,7 +21757,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSourceMaterial.Organism parseSubstanceSourceMaterialOrganism(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSourceMaterial.Organism parseSubstanceSourceMaterialOrganism(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21837,7 +21784,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSourceMaterial.Organism.Author parseSubstanceSourceMaterialOrganismAuthor(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSourceMaterial.Organism.Author parseSubstanceSourceMaterialOrganismAuthor(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21851,7 +21798,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSourceMaterial.Organism.Hybrid parseSubstanceSourceMaterialOrganismHybrid(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSourceMaterial.Organism.Hybrid parseSubstanceSourceMaterialOrganismHybrid(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21868,7 +21815,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSourceMaterial.Organism.OrganismGeneral parseSubstanceSourceMaterialOrganismOrganismGeneral(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSourceMaterial.Organism.OrganismGeneral parseSubstanceSourceMaterialOrganismOrganismGeneral(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21884,7 +21831,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSourceMaterial.PartDescription parseSubstanceSourceMaterialPartDescription(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSourceMaterial.PartDescription parseSubstanceSourceMaterialPartDescription(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21898,7 +21845,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSpecification parseSubstanceSpecification(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSpecification parseSubstanceSpecification(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -21978,7 +21925,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSpecification.Code parseSubstanceSpecificationCode(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSpecification.Code parseSubstanceSpecificationCode(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22002,7 +21949,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSpecification.Moiety parseSubstanceSpecificationMoiety(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSpecification.Moiety parseSubstanceSpecificationMoiety(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22021,15 +21968,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSpecification.Name parseSubstanceSpecificationName(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSpecification.Name parseSubstanceSpecificationName(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("SubstanceSpecification.Name", jsonObject);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        SubstanceSpecification.Name.Builder builder = SubstanceSpecification.Name.builder(name);
+        SubstanceSpecification.Name.Builder builder = SubstanceSpecification.Name.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.status(parseCodeableConcept("status", JsonSupport.getJsonValue(jsonObject, "status", JsonObject.class), -1));
         builder.preferred(parseBoolean("preferred", JsonSupport.getJsonValue(jsonObject, "preferred", JsonValue.class), jsonObject.get("_preferred"), -1));
@@ -22093,7 +22040,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSpecification.Name.Official parseSubstanceSpecificationNameOfficial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSpecification.Name.Official parseSubstanceSpecificationNameOfficial(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22108,7 +22055,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSpecification.Property parseSubstanceSpecificationProperty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSpecification.Property parseSubstanceSpecificationProperty(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22125,7 +22072,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSpecification.Relationship parseSubstanceSpecificationRelationship(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSpecification.Relationship parseSubstanceSpecificationRelationship(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22151,7 +22098,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSpecification.Structure parseSubstanceSpecificationStructure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSpecification.Structure parseSubstanceSpecificationStructure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22192,7 +22139,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSpecification.Structure.Isotope parseSubstanceSpecificationStructureIsotope(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSpecification.Structure.Isotope parseSubstanceSpecificationStructureIsotope(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22209,7 +22156,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSpecification.Structure.Isotope.MolecularWeight parseSubstanceSpecificationStructureIsotopeMolecularWeight(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSpecification.Structure.Isotope.MolecularWeight parseSubstanceSpecificationStructureIsotopeMolecularWeight(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22224,7 +22171,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SubstanceSpecification.Structure.Representation parseSubstanceSpecificationStructureRepresentation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SubstanceSpecification.Structure.Representation parseSubstanceSpecificationStructureRepresentation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22239,7 +22186,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SupplyDelivery parseSupplyDelivery(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SupplyDelivery parseSupplyDelivery(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22290,7 +22237,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SupplyDelivery.SuppliedItem parseSupplyDeliverySuppliedItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SupplyDelivery.SuppliedItem parseSupplyDeliverySuppliedItem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22304,15 +22251,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SupplyRequest parseSupplyRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SupplyRequest parseSupplyRequest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("SupplyRequest", jsonObject);
-        Element item = parseChoiceElement("item", jsonObject, "CodeableConcept", "Reference");
-        Quantity quantity = parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1);
-        SupplyRequest.Builder builder = SupplyRequest.builder(item, quantity);
+        SupplyRequest.Builder builder = SupplyRequest.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -22325,6 +22270,8 @@ public class FHIRJsonParser implements FHIRParser {
         builder.status((SupplyRequestStatus) parseString(SupplyRequestStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.category(parseCodeableConcept("category", JsonSupport.getJsonValue(jsonObject, "category", JsonObject.class), -1));
         builder.priority((RequestPriority) parseString(RequestPriority.builder(), "priority", JsonSupport.getJsonValue(jsonObject, "priority", JsonString.class), jsonObject.get("_priority"), -1));
+        builder.item(parseChoiceElement("item", jsonObject, "CodeableConcept", "Reference"));
+        builder.quantity(parseQuantity("quantity", JsonSupport.getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         JsonArray parameterArray = JsonSupport.getJsonArray(jsonObject, "parameter");
         if (parameterArray != null) {
             int index = 0;
@@ -22366,7 +22313,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected SupplyRequest.Parameter parseSupplyRequestParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private SupplyRequest.Parameter parseSupplyRequestParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22380,15 +22327,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Task parseTask(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Task parseTask(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Task", jsonObject);
-        TaskStatus status = (TaskStatus) parseString(TaskStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        TaskIntent intent = (TaskIntent) parseString(TaskIntent.builder(), "intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonString.class), jsonObject.get("_intent"), -1);
-        Task.Builder builder = Task.builder(status, intent);
+        Task.Builder builder = Task.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -22417,8 +22362,10 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((TaskStatus) parseString(TaskStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.statusReason(parseCodeableConcept("statusReason", JsonSupport.getJsonValue(jsonObject, "statusReason", JsonObject.class), -1));
         builder.businessStatus(parseCodeableConcept("businessStatus", JsonSupport.getJsonValue(jsonObject, "businessStatus", JsonObject.class), -1));
+        builder.intent((TaskIntent) parseString(TaskIntent.builder(), "intent", JsonSupport.getJsonValue(jsonObject, "intent", JsonString.class), jsonObject.get("_intent"), -1));
         builder.priority((TaskPriority) parseString(TaskPriority.builder(), "priority", JsonSupport.getJsonValue(jsonObject, "priority", JsonString.class), jsonObject.get("_priority"), -1));
         builder.code(parseCodeableConcept("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -22486,35 +22433,35 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Task.Input parseTaskInput(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Task.Input parseTaskInput(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Task.Input", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        Element value = parseChoiceElement("value", jsonObject, "Base64Binary", "Boolean", "Canonical", "Code", "Date", "DateTime", "Decimal", "Id", "Instant", "Integer", "Markdown", "Oid", "PositiveInt", "String", "Time", "UnsignedInt", "Uri", "Url", "Uuid", "Address", "Age", "Annotation", "Attachment", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "HumanName", "Identifier", "Money", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Signature", "Timing", "ContactDetail", "Contributor", "DataRequirement", "Expression", "ParameterDefinition", "RelatedArtifact", "TriggerDefinition", "UsageContext", "Dosage");
-        Task.Input.Builder builder = Task.Input.builder(type, value);
+        Task.Input.Builder builder = Task.Input.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.value(parseChoiceElement("value", jsonObject, "Base64Binary", "Boolean", "Canonical", "Code", "Date", "DateTime", "Decimal", "Id", "Instant", "Integer", "Markdown", "Oid", "PositiveInt", "String", "Time", "UnsignedInt", "Uri", "Url", "Uuid", "Address", "Age", "Annotation", "Attachment", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "HumanName", "Identifier", "Money", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Signature", "Timing", "ContactDetail", "Contributor", "DataRequirement", "Expression", "ParameterDefinition", "RelatedArtifact", "TriggerDefinition", "UsageContext", "Dosage"));
         stackPop();
         return builder.build();
     }
 
-    protected Task.Output parseTaskOutput(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Task.Output parseTaskOutput(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("Task.Output", jsonObject);
-        CodeableConcept type = parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1);
-        Element value = parseChoiceElement("value", jsonObject, "Base64Binary", "Boolean", "Canonical", "Code", "Date", "DateTime", "Decimal", "Id", "Instant", "Integer", "Markdown", "Oid", "PositiveInt", "String", "Time", "UnsignedInt", "Uri", "Url", "Uuid", "Address", "Age", "Annotation", "Attachment", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "HumanName", "Identifier", "Money", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Signature", "Timing", "ContactDetail", "Contributor", "DataRequirement", "Expression", "ParameterDefinition", "RelatedArtifact", "TriggerDefinition", "UsageContext", "Dosage");
-        Task.Output.Builder builder = Task.Output.builder(type, value);
+        Task.Output.Builder builder = Task.Output.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type(parseCodeableConcept("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
+        builder.value(parseChoiceElement("value", jsonObject, "Base64Binary", "Boolean", "Canonical", "Code", "Date", "DateTime", "Decimal", "Id", "Instant", "Integer", "Markdown", "Oid", "PositiveInt", "String", "Time", "UnsignedInt", "Uri", "Url", "Uuid", "Address", "Age", "Annotation", "Attachment", "CodeableConcept", "Coding", "ContactPoint", "Count", "Distance", "Duration", "HumanName", "Identifier", "Money", "Period", "Quantity", "Range", "Ratio", "Reference", "SampledData", "Signature", "Timing", "ContactDetail", "Contributor", "DataRequirement", "Expression", "ParameterDefinition", "RelatedArtifact", "TriggerDefinition", "UsageContext", "Dosage"));
         stackPop();
         return builder.build();
     }
 
-    protected Task.Restriction parseTaskRestriction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Task.Restriction parseTaskRestriction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22536,22 +22483,21 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected TerminologyCapabilities parseTerminologyCapabilities(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TerminologyCapabilities parseTerminologyCapabilities(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TerminologyCapabilities", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        DateTime date = parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1);
-        CapabilityStatementKind kind = (CapabilityStatementKind) parseString(CapabilityStatementKind.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1);
-        TerminologyCapabilities.Builder builder = TerminologyCapabilities.builder(status, date, kind);
+        TerminologyCapabilities.Builder builder = TerminologyCapabilities.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
+        builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
         JsonArray contactArray = JsonSupport.getJsonArray(jsonObject, "contact");
         if (contactArray != null) {
@@ -22580,6 +22526,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
         builder.purpose((Markdown) parseString(Markdown.builder(), "purpose", JsonSupport.getJsonValue(jsonObject, "purpose", JsonString.class), jsonObject.get("_purpose"), -1));
         builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", JsonSupport.getJsonValue(jsonObject, "copyright", JsonString.class), jsonObject.get("_copyright"), -1));
+        builder.kind((CapabilityStatementKind) parseString(CapabilityStatementKind.builder(), "kind", JsonSupport.getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1));
         builder.software(parseTerminologyCapabilitiesSoftware("software", JsonSupport.getJsonValue(jsonObject, "software", JsonObject.class), -1));
         builder.implementation(parseTerminologyCapabilitiesImplementation("implementation", JsonSupport.getJsonValue(jsonObject, "implementation", JsonObject.class), -1));
         builder.lockedDate(parseBoolean("lockedDate", JsonSupport.getJsonValue(jsonObject, "lockedDate", JsonValue.class), jsonObject.get("_lockedDate"), -1));
@@ -22600,7 +22547,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected TerminologyCapabilities.Closure parseTerminologyCapabilitiesClosure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TerminologyCapabilities.Closure parseTerminologyCapabilitiesClosure(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22613,7 +22560,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected TerminologyCapabilities.CodeSystem parseTerminologyCapabilitiesCodeSystem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TerminologyCapabilities.CodeSystem parseTerminologyCapabilitiesCodeSystem(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22635,7 +22582,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected TerminologyCapabilities.CodeSystem.Version parseTerminologyCapabilitiesCodeSystemVersion(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TerminologyCapabilities.CodeSystem.Version parseTerminologyCapabilitiesCodeSystemVersion(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22676,30 +22623,29 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected TerminologyCapabilities.CodeSystem.Version.Filter parseTerminologyCapabilitiesCodeSystemVersionFilter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TerminologyCapabilities.CodeSystem.Version.Filter parseTerminologyCapabilitiesCodeSystemVersionFilter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TerminologyCapabilities.CodeSystem.Version.Filter", jsonObject);
-        Code code = (Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        java.util.List<Code> op = new ArrayList<>();
+        TerminologyCapabilities.CodeSystem.Version.Filter.Builder builder = TerminologyCapabilities.CodeSystem.Version.Filter.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.code((Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         JsonArray opArray = JsonSupport.getJsonArray(jsonObject, "op", true);
         if (opArray != null) {
             int index = 0;
             JsonArray _opArray = jsonObject.getJsonArray("_op");
             for (JsonValue jsonValue : opArray) {
-                op.add((Code) parseString(Code.builder(), "op", jsonValue, JsonSupport.getJsonValue(_opArray, index), index));
+                builder.op((Code) parseString(Code.builder(), "op", jsonValue, JsonSupport.getJsonValue(_opArray, index), index));
                 index++;
             }
         }
-        TerminologyCapabilities.CodeSystem.Version.Filter.Builder builder = TerminologyCapabilities.CodeSystem.Version.Filter.builder(code, op);
-        parseBackboneElement(builder, jsonObject);
         stackPop();
         return builder.build();
     }
 
-    protected TerminologyCapabilities.Expansion parseTerminologyCapabilitiesExpansion(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TerminologyCapabilities.Expansion parseTerminologyCapabilitiesExpansion(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22723,87 +22669,87 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected TerminologyCapabilities.Expansion.Parameter parseTerminologyCapabilitiesExpansionParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TerminologyCapabilities.Expansion.Parameter parseTerminologyCapabilitiesExpansionParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TerminologyCapabilities.Expansion.Parameter", jsonObject);
-        Code name = (Code) parseString(Code.builder(), "name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        TerminologyCapabilities.Expansion.Parameter.Builder builder = TerminologyCapabilities.Expansion.Parameter.builder(name);
+        TerminologyCapabilities.Expansion.Parameter.Builder builder = TerminologyCapabilities.Expansion.Parameter.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.name((Code) parseString(Code.builder(), "name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.documentation(parseString("documentation", JsonSupport.getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TerminologyCapabilities.Implementation parseTerminologyCapabilitiesImplementation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TerminologyCapabilities.Implementation parseTerminologyCapabilitiesImplementation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TerminologyCapabilities.Implementation", jsonObject);
-        String description = parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1);
-        TerminologyCapabilities.Implementation.Builder builder = TerminologyCapabilities.Implementation.builder(description);
+        TerminologyCapabilities.Implementation.Builder builder = TerminologyCapabilities.Implementation.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.url((Url) parseUri(Url.builder(), "url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TerminologyCapabilities.Software parseTerminologyCapabilitiesSoftware(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TerminologyCapabilities.Software parseTerminologyCapabilitiesSoftware(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TerminologyCapabilities.Software", jsonObject);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        TerminologyCapabilities.Software.Builder builder = TerminologyCapabilities.Software.builder(name);
+        TerminologyCapabilities.Software.Builder builder = TerminologyCapabilities.Software.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TerminologyCapabilities.Translation parseTerminologyCapabilitiesTranslation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TerminologyCapabilities.Translation parseTerminologyCapabilitiesTranslation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TerminologyCapabilities.Translation", jsonObject);
-        Boolean needsMap = parseBoolean("needsMap", JsonSupport.getJsonValue(jsonObject, "needsMap", JsonValue.class), jsonObject.get("_needsMap"), -1);
-        TerminologyCapabilities.Translation.Builder builder = TerminologyCapabilities.Translation.builder(needsMap);
+        TerminologyCapabilities.Translation.Builder builder = TerminologyCapabilities.Translation.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.needsMap(parseBoolean("needsMap", JsonSupport.getJsonValue(jsonObject, "needsMap", JsonValue.class), jsonObject.get("_needsMap"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TerminologyCapabilities.ValidateCode parseTerminologyCapabilitiesValidateCode(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TerminologyCapabilities.ValidateCode parseTerminologyCapabilitiesValidateCode(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TerminologyCapabilities.ValidateCode", jsonObject);
-        Boolean translations = parseBoolean("translations", JsonSupport.getJsonValue(jsonObject, "translations", JsonValue.class), jsonObject.get("_translations"), -1);
-        TerminologyCapabilities.ValidateCode.Builder builder = TerminologyCapabilities.ValidateCode.builder(translations);
+        TerminologyCapabilities.ValidateCode.Builder builder = TerminologyCapabilities.ValidateCode.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.translations(parseBoolean("translations", JsonSupport.getJsonValue(jsonObject, "translations", JsonValue.class), jsonObject.get("_translations"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TestReport parseTestReport(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestReport parseTestReport(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestReport", jsonObject);
-        TestReportStatus status = (TestReportStatus) parseString(TestReportStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        Reference testScript = parseReference("testScript", JsonSupport.getJsonValue(jsonObject, "testScript", JsonObject.class), -1);
-        TestReportResult result = (TestReportResult) parseString(TestReportResult.builder(), "result", JsonSupport.getJsonValue(jsonObject, "result", JsonString.class), jsonObject.get("_result"), -1);
-        TestReport.Builder builder = TestReport.builder(status, testScript, result);
+        TestReport.Builder builder = TestReport.builder();
         parseDomainResource(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.status((TestReportStatus) parseString(TestReportStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.testScript(parseReference("testScript", JsonSupport.getJsonValue(jsonObject, "testScript", JsonObject.class), -1));
+        builder.result((TestReportResult) parseString(TestReportResult.builder(), "result", JsonSupport.getJsonValue(jsonObject, "result", JsonString.class), jsonObject.get("_result"), -1));
         builder.score(parseDecimal("score", JsonSupport.getJsonValue(jsonObject, "score", JsonNumber.class), jsonObject.get("_score"), -1));
         builder.tester(parseString("tester", JsonSupport.getJsonValue(jsonObject, "tester", JsonString.class), jsonObject.get("_tester"), -1));
         builder.issued(parseDateTime("issued", JsonSupport.getJsonValue(jsonObject, "issued", JsonString.class), jsonObject.get("_issued"), -1));
@@ -22829,43 +22775,42 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected TestReport.Participant parseTestReportParticipant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestReport.Participant parseTestReportParticipant(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestReport.Participant", jsonObject);
-        TestReportParticipantType type = (TestReportParticipantType) parseString(TestReportParticipantType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        Uri uri = parseUri("uri", JsonSupport.getJsonValue(jsonObject, "uri", JsonString.class), jsonObject.get("_uri"), -1);
-        TestReport.Participant.Builder builder = TestReport.Participant.builder(type, uri);
+        TestReport.Participant.Builder builder = TestReport.Participant.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.type((TestReportParticipantType) parseString(TestReportParticipantType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
+        builder.uri(parseUri("uri", JsonSupport.getJsonValue(jsonObject, "uri", JsonString.class), jsonObject.get("_uri"), -1));
         builder.display(parseString("display", JsonSupport.getJsonValue(jsonObject, "display", JsonString.class), jsonObject.get("_display"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TestReport.Setup parseTestReportSetup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestReport.Setup parseTestReportSetup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestReport.Setup", jsonObject);
-        java.util.List<TestReport.Setup.Action> action = new ArrayList<>();
+        TestReport.Setup.Builder builder = TestReport.Setup.builder();
+        parseBackboneElement(builder, jsonObject);
         JsonArray actionArray = JsonSupport.getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             int index = 0;
             for (JsonValue jsonValue : actionArray) {
-                action.add(parseTestReportSetupAction("action", (JsonObject) jsonValue, index));
+                builder.action(parseTestReportSetupAction("action", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        TestReport.Setup.Builder builder = TestReport.Setup.builder(action);
-        parseBackboneElement(builder, jsonObject);
         stackPop();
         return builder.build();
     }
 
-    protected TestReport.Setup.Action parseTestReportSetupAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestReport.Setup.Action parseTestReportSetupAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22879,94 +22824,92 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected TestReport.Setup.Action.Assert parseTestReportSetupActionAssert(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestReport.Setup.Action.Assert parseTestReportSetupActionAssert(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestReport.Setup.Action.Assert", jsonObject);
-        TestReportActionResult result = (TestReportActionResult) parseString(TestReportActionResult.builder(), "result", JsonSupport.getJsonValue(jsonObject, "result", JsonString.class), jsonObject.get("_result"), -1);
-        TestReport.Setup.Action.Assert.Builder builder = TestReport.Setup.Action.Assert.builder(result);
+        TestReport.Setup.Action.Assert.Builder builder = TestReport.Setup.Action.Assert.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.result((TestReportActionResult) parseString(TestReportActionResult.builder(), "result", JsonSupport.getJsonValue(jsonObject, "result", JsonString.class), jsonObject.get("_result"), -1));
         builder.message((Markdown) parseString(Markdown.builder(), "message", JsonSupport.getJsonValue(jsonObject, "message", JsonString.class), jsonObject.get("_message"), -1));
         builder.detail(parseString("detail", JsonSupport.getJsonValue(jsonObject, "detail", JsonString.class), jsonObject.get("_detail"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TestReport.Setup.Action.Operation parseTestReportSetupActionOperation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestReport.Setup.Action.Operation parseTestReportSetupActionOperation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestReport.Setup.Action.Operation", jsonObject);
-        TestReportActionResult result = (TestReportActionResult) parseString(TestReportActionResult.builder(), "result", JsonSupport.getJsonValue(jsonObject, "result", JsonString.class), jsonObject.get("_result"), -1);
-        TestReport.Setup.Action.Operation.Builder builder = TestReport.Setup.Action.Operation.builder(result);
+        TestReport.Setup.Action.Operation.Builder builder = TestReport.Setup.Action.Operation.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.result((TestReportActionResult) parseString(TestReportActionResult.builder(), "result", JsonSupport.getJsonValue(jsonObject, "result", JsonString.class), jsonObject.get("_result"), -1));
         builder.message((Markdown) parseString(Markdown.builder(), "message", JsonSupport.getJsonValue(jsonObject, "message", JsonString.class), jsonObject.get("_message"), -1));
         builder.detail(parseUri("detail", JsonSupport.getJsonValue(jsonObject, "detail", JsonString.class), jsonObject.get("_detail"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TestReport.Teardown parseTestReportTeardown(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestReport.Teardown parseTestReportTeardown(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestReport.Teardown", jsonObject);
-        java.util.List<TestReport.Teardown.Action> action = new ArrayList<>();
+        TestReport.Teardown.Builder builder = TestReport.Teardown.builder();
+        parseBackboneElement(builder, jsonObject);
         JsonArray actionArray = JsonSupport.getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             int index = 0;
             for (JsonValue jsonValue : actionArray) {
-                action.add(parseTestReportTeardownAction("action", (JsonObject) jsonValue, index));
+                builder.action(parseTestReportTeardownAction("action", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        TestReport.Teardown.Builder builder = TestReport.Teardown.builder(action);
-        parseBackboneElement(builder, jsonObject);
         stackPop();
         return builder.build();
     }
 
-    protected TestReport.Teardown.Action parseTestReportTeardownAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestReport.Teardown.Action parseTestReportTeardownAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestReport.Teardown.Action", jsonObject);
-        TestReport.Setup.Action.Operation operation = parseTestReportSetupActionOperation("operation", JsonSupport.getJsonValue(jsonObject, "operation", JsonObject.class), -1);
-        TestReport.Teardown.Action.Builder builder = TestReport.Teardown.Action.builder(operation);
+        TestReport.Teardown.Action.Builder builder = TestReport.Teardown.Action.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.operation(parseTestReportSetupActionOperation("operation", JsonSupport.getJsonValue(jsonObject, "operation", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TestReport.Test parseTestReportTest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestReport.Test parseTestReportTest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestReport.Test", jsonObject);
-        java.util.List<TestReport.Test.Action> action = new ArrayList<>();
+        TestReport.Test.Builder builder = TestReport.Test.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         JsonArray actionArray = JsonSupport.getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             int index = 0;
             for (JsonValue jsonValue : actionArray) {
-                action.add(parseTestReportTestAction("action", (JsonObject) jsonValue, index));
+                builder.action(parseTestReportTestAction("action", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        TestReport.Test.Builder builder = TestReport.Test.builder(action);
-        parseBackboneElement(builder, jsonObject);
-        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
-        builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TestReport.Test.Action parseTestReportTestAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestReport.Test.Action parseTestReportTestAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -22980,20 +22923,20 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected TestScript parseTestScript(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript parseTestScript(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestScript", jsonObject);
-        Uri url = parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        TestScript.Builder builder = TestScript.builder(url, name, status);
+        TestScript.Builder builder = TestScript.builder();
         parseDomainResource(builder, jsonObject);
+        builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.identifier(parseIdentifier("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
@@ -23079,51 +23022,42 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected TestScript.Destination parseTestScriptDestination(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript.Destination parseTestScriptDestination(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestScript.Destination", jsonObject);
-        Integer index = parseInteger("index", JsonSupport.getJsonValue(jsonObject, "index", JsonNumber.class), jsonObject.get("_index"), -1);
-        Coding profile = parseCoding("profile", JsonSupport.getJsonValue(jsonObject, "profile", JsonObject.class), -1);
-        TestScript.Destination.Builder builder = TestScript.Destination.builder(index, profile);
+        TestScript.Destination.Builder builder = TestScript.Destination.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.index(parseInteger("index", JsonSupport.getJsonValue(jsonObject, "index", JsonNumber.class), jsonObject.get("_index"), -1));
+        builder.profile(parseCoding("profile", JsonSupport.getJsonValue(jsonObject, "profile", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TestScript.Fixture parseTestScriptFixture(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript.Fixture parseTestScriptFixture(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestScript.Fixture", jsonObject);
-        Boolean autocreate = parseBoolean("autocreate", JsonSupport.getJsonValue(jsonObject, "autocreate", JsonValue.class), jsonObject.get("_autocreate"), -1);
-        Boolean autodelete = parseBoolean("autodelete", JsonSupport.getJsonValue(jsonObject, "autodelete", JsonValue.class), jsonObject.get("_autodelete"), -1);
-        TestScript.Fixture.Builder builder = TestScript.Fixture.builder(autocreate, autodelete);
+        TestScript.Fixture.Builder builder = TestScript.Fixture.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.autocreate(parseBoolean("autocreate", JsonSupport.getJsonValue(jsonObject, "autocreate", JsonValue.class), jsonObject.get("_autocreate"), -1));
+        builder.autodelete(parseBoolean("autodelete", JsonSupport.getJsonValue(jsonObject, "autodelete", JsonValue.class), jsonObject.get("_autodelete"), -1));
         builder.resource(parseReference("resource", JsonSupport.getJsonValue(jsonObject, "resource", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TestScript.Metadata parseTestScriptMetadata(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript.Metadata parseTestScriptMetadata(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestScript.Metadata", jsonObject);
-        java.util.List<TestScript.Metadata.Capability> capability = new ArrayList<>();
-        JsonArray capabilityArray = JsonSupport.getJsonArray(jsonObject, "capability");
-        if (capabilityArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : capabilityArray) {
-                capability.add(parseTestScriptMetadataCapability("capability", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        TestScript.Metadata.Builder builder = TestScript.Metadata.builder(capability);
+        TestScript.Metadata.Builder builder = TestScript.Metadata.builder();
         parseBackboneElement(builder, jsonObject);
         JsonArray linkArray = JsonSupport.getJsonArray(jsonObject, "link");
         if (linkArray != null) {
@@ -23133,21 +23067,28 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        JsonArray capabilityArray = JsonSupport.getJsonArray(jsonObject, "capability");
+        if (capabilityArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : capabilityArray) {
+                builder.capability(parseTestScriptMetadataCapability("capability", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         stackPop();
         return builder.build();
     }
 
-    protected TestScript.Metadata.Capability parseTestScriptMetadataCapability(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript.Metadata.Capability parseTestScriptMetadataCapability(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestScript.Metadata.Capability", jsonObject);
-        Boolean required = parseBoolean("required", JsonSupport.getJsonValue(jsonObject, "required", JsonValue.class), jsonObject.get("_required"), -1);
-        Boolean validated = parseBoolean("validated", JsonSupport.getJsonValue(jsonObject, "validated", JsonValue.class), jsonObject.get("_validated"), -1);
-        Canonical capabilities = (Canonical) parseUri(Canonical.builder(), "capabilities", JsonSupport.getJsonValue(jsonObject, "capabilities", JsonString.class), jsonObject.get("_capabilities"), -1);
-        TestScript.Metadata.Capability.Builder builder = TestScript.Metadata.Capability.builder(required, validated, capabilities);
+        TestScript.Metadata.Capability.Builder builder = TestScript.Metadata.Capability.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.required(parseBoolean("required", JsonSupport.getJsonValue(jsonObject, "required", JsonValue.class), jsonObject.get("_required"), -1));
+        builder.validated(parseBoolean("validated", JsonSupport.getJsonValue(jsonObject, "validated", JsonValue.class), jsonObject.get("_validated"), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         JsonArray originArray = JsonSupport.getJsonArray(jsonObject, "origin", true);
         if (originArray != null) {
@@ -23168,60 +23109,60 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.capabilities((Canonical) parseUri(Canonical.builder(), "capabilities", JsonSupport.getJsonValue(jsonObject, "capabilities", JsonString.class), jsonObject.get("_capabilities"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TestScript.Metadata.Link parseTestScriptMetadataLink(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript.Metadata.Link parseTestScriptMetadataLink(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestScript.Metadata.Link", jsonObject);
-        Uri url = parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1);
-        TestScript.Metadata.Link.Builder builder = TestScript.Metadata.Link.builder(url);
+        TestScript.Metadata.Link.Builder builder = TestScript.Metadata.Link.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TestScript.Origin parseTestScriptOrigin(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript.Origin parseTestScriptOrigin(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestScript.Origin", jsonObject);
-        Integer index = parseInteger("index", JsonSupport.getJsonValue(jsonObject, "index", JsonNumber.class), jsonObject.get("_index"), -1);
-        Coding profile = parseCoding("profile", JsonSupport.getJsonValue(jsonObject, "profile", JsonObject.class), -1);
-        TestScript.Origin.Builder builder = TestScript.Origin.builder(index, profile);
+        TestScript.Origin.Builder builder = TestScript.Origin.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.index(parseInteger("index", JsonSupport.getJsonValue(jsonObject, "index", JsonNumber.class), jsonObject.get("_index"), -1));
+        builder.profile(parseCoding("profile", JsonSupport.getJsonValue(jsonObject, "profile", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TestScript.Setup parseTestScriptSetup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript.Setup parseTestScriptSetup(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestScript.Setup", jsonObject);
-        java.util.List<TestScript.Setup.Action> action = new ArrayList<>();
+        TestScript.Setup.Builder builder = TestScript.Setup.builder();
+        parseBackboneElement(builder, jsonObject);
         JsonArray actionArray = JsonSupport.getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             int index = 0;
             for (JsonValue jsonValue : actionArray) {
-                action.add(parseTestScriptSetupAction("action", (JsonObject) jsonValue, index));
+                builder.action(parseTestScriptSetupAction("action", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        TestScript.Setup.Builder builder = TestScript.Setup.builder(action);
-        parseBackboneElement(builder, jsonObject);
         stackPop();
         return builder.build();
     }
 
-    protected TestScript.Setup.Action parseTestScriptSetupAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript.Setup.Action parseTestScriptSetupAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -23235,14 +23176,13 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected TestScript.Setup.Action.Assert parseTestScriptSetupActionAssert(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript.Setup.Action.Assert parseTestScriptSetupActionAssert(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestScript.Setup.Action.Assert", jsonObject);
-        Boolean warningOnly = parseBoolean("warningOnly", JsonSupport.getJsonValue(jsonObject, "warningOnly", JsonValue.class), jsonObject.get("_warningOnly"), -1);
-        TestScript.Setup.Action.Assert.Builder builder = TestScript.Setup.Action.Assert.builder(warningOnly);
+        TestScript.Setup.Action.Assert.Builder builder = TestScript.Setup.Action.Assert.builder();
         parseBackboneElement(builder, jsonObject);
         builder.label(parseString("label", JsonSupport.getJsonValue(jsonObject, "label", JsonString.class), jsonObject.get("_label"), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -23265,18 +23205,18 @@ public class FHIRJsonParser implements FHIRParser {
         builder.sourceId((Id) parseString(Id.builder(), "sourceId", JsonSupport.getJsonValue(jsonObject, "sourceId", JsonString.class), jsonObject.get("_sourceId"), -1));
         builder.validateProfileId((Id) parseString(Id.builder(), "validateProfileId", JsonSupport.getJsonValue(jsonObject, "validateProfileId", JsonString.class), jsonObject.get("_validateProfileId"), -1));
         builder.value(parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
+        builder.warningOnly(parseBoolean("warningOnly", JsonSupport.getJsonValue(jsonObject, "warningOnly", JsonValue.class), jsonObject.get("_warningOnly"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TestScript.Setup.Action.Operation parseTestScriptSetupActionOperation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript.Setup.Action.Operation parseTestScriptSetupActionOperation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestScript.Setup.Action.Operation", jsonObject);
-        Boolean encodeRequestUrl = parseBoolean("encodeRequestUrl", JsonSupport.getJsonValue(jsonObject, "encodeRequestUrl", JsonValue.class), jsonObject.get("_encodeRequestUrl"), -1);
-        TestScript.Setup.Action.Operation.Builder builder = TestScript.Setup.Action.Operation.builder(encodeRequestUrl);
+        TestScript.Setup.Action.Operation.Builder builder = TestScript.Setup.Action.Operation.builder();
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCoding("type", JsonSupport.getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.resource((FHIRDefinedType) parseString(FHIRDefinedType.builder(), "resource", JsonSupport.getJsonValue(jsonObject, "resource", JsonString.class), jsonObject.get("_resource"), -1));
@@ -23285,6 +23225,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.accept((Code) parseString(Code.builder(), "accept", JsonSupport.getJsonValue(jsonObject, "accept", JsonString.class), jsonObject.get("_accept"), -1));
         builder.contentType((Code) parseString(Code.builder(), "contentType", JsonSupport.getJsonValue(jsonObject, "contentType", JsonString.class), jsonObject.get("_contentType"), -1));
         builder.destination(parseInteger("destination", JsonSupport.getJsonValue(jsonObject, "destination", JsonNumber.class), jsonObject.get("_destination"), -1));
+        builder.encodeRequestUrl(parseBoolean("encodeRequestUrl", JsonSupport.getJsonValue(jsonObject, "encodeRequestUrl", JsonValue.class), jsonObject.get("_encodeRequestUrl"), -1));
         builder.method((TestScriptRequestMethodCode) parseString(TestScriptRequestMethodCode.builder(), "method", JsonSupport.getJsonValue(jsonObject, "method", JsonString.class), jsonObject.get("_method"), -1));
         builder.origin(parseInteger("origin", JsonSupport.getJsonValue(jsonObject, "origin", JsonNumber.class), jsonObject.get("_origin"), -1));
         builder.params(parseString("params", JsonSupport.getJsonValue(jsonObject, "params", JsonString.class), jsonObject.get("_params"), -1));
@@ -23305,78 +23246,76 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected TestScript.Setup.Action.Operation.RequestHeader parseTestScriptSetupActionOperationRequestHeader(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript.Setup.Action.Operation.RequestHeader parseTestScriptSetupActionOperationRequestHeader(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestScript.Setup.Action.Operation.RequestHeader", jsonObject);
-        String field = parseString("field", JsonSupport.getJsonValue(jsonObject, "field", JsonString.class), jsonObject.get("_field"), -1);
-        String value = parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1);
-        TestScript.Setup.Action.Operation.RequestHeader.Builder builder = TestScript.Setup.Action.Operation.RequestHeader.builder(field, value);
+        TestScript.Setup.Action.Operation.RequestHeader.Builder builder = TestScript.Setup.Action.Operation.RequestHeader.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.field(parseString("field", JsonSupport.getJsonValue(jsonObject, "field", JsonString.class), jsonObject.get("_field"), -1));
+        builder.value(parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TestScript.Teardown parseTestScriptTeardown(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript.Teardown parseTestScriptTeardown(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestScript.Teardown", jsonObject);
-        java.util.List<TestScript.Teardown.Action> action = new ArrayList<>();
+        TestScript.Teardown.Builder builder = TestScript.Teardown.builder();
+        parseBackboneElement(builder, jsonObject);
         JsonArray actionArray = JsonSupport.getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             int index = 0;
             for (JsonValue jsonValue : actionArray) {
-                action.add(parseTestScriptTeardownAction("action", (JsonObject) jsonValue, index));
+                builder.action(parseTestScriptTeardownAction("action", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        TestScript.Teardown.Builder builder = TestScript.Teardown.builder(action);
-        parseBackboneElement(builder, jsonObject);
         stackPop();
         return builder.build();
     }
 
-    protected TestScript.Teardown.Action parseTestScriptTeardownAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript.Teardown.Action parseTestScriptTeardownAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestScript.Teardown.Action", jsonObject);
-        TestScript.Setup.Action.Operation operation = parseTestScriptSetupActionOperation("operation", JsonSupport.getJsonValue(jsonObject, "operation", JsonObject.class), -1);
-        TestScript.Teardown.Action.Builder builder = TestScript.Teardown.Action.builder(operation);
+        TestScript.Teardown.Action.Builder builder = TestScript.Teardown.Action.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.operation(parseTestScriptSetupActionOperation("operation", JsonSupport.getJsonValue(jsonObject, "operation", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TestScript.Test parseTestScriptTest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript.Test parseTestScriptTest(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestScript.Test", jsonObject);
-        java.util.List<TestScript.Test.Action> action = new ArrayList<>();
+        TestScript.Test.Builder builder = TestScript.Test.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
+        builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         JsonArray actionArray = JsonSupport.getJsonArray(jsonObject, "action");
         if (actionArray != null) {
             int index = 0;
             for (JsonValue jsonValue : actionArray) {
-                action.add(parseTestScriptTestAction("action", (JsonObject) jsonValue, index));
+                builder.action(parseTestScriptTestAction("action", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        TestScript.Test.Builder builder = TestScript.Test.builder(action);
-        parseBackboneElement(builder, jsonObject);
-        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
-        builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected TestScript.Test.Action parseTestScriptTestAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript.Test.Action parseTestScriptTestAction(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -23390,15 +23329,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected TestScript.Variable parseTestScriptVariable(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TestScript.Variable parseTestScriptVariable(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TestScript.Variable", jsonObject);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        TestScript.Variable.Builder builder = TestScript.Variable.builder(name);
+        TestScript.Variable.Builder builder = TestScript.Variable.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.defaultValue(parseString("defaultValue", JsonSupport.getJsonValue(jsonObject, "defaultValue", JsonString.class), jsonObject.get("_defaultValue"), -1));
         builder.description(parseString("description", JsonSupport.getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.expression(parseString("expression", JsonSupport.getJsonValue(jsonObject, "expression", JsonString.class), jsonObject.get("_expression"), -1));
@@ -23410,7 +23349,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Time parseTime(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
+    private Time parseTime(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
         if (jsonValue == null && _jsonValue == null) {
             return null;
         }
@@ -23429,7 +23368,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Timing parseTiming(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Timing parseTiming(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -23452,7 +23391,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Timing.Repeat parseTimingRepeat(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private Timing.Repeat parseTimingRepeat(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -23503,15 +23442,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected TriggerDefinition parseTriggerDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private TriggerDefinition parseTriggerDefinition(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("TriggerDefinition", jsonObject);
-        TriggerType type = (TriggerType) parseString(TriggerType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1);
-        TriggerDefinition.Builder builder = TriggerDefinition.builder(type);
+        TriggerDefinition.Builder builder = TriggerDefinition.builder();
         parseElement(builder, jsonObject);
+        builder.type((TriggerType) parseString(TriggerType.builder(), "type", JsonSupport.getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.timing(parseChoiceElement("timing", jsonObject, "Timing", "Reference", "Date", "DateTime"));
         JsonArray dataArray = JsonSupport.getJsonArray(jsonObject, "data");
@@ -23527,7 +23466,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Uri parseUri(Uri.Builder builder, java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
+    private Uri parseUri(Uri.Builder builder, java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
         if (jsonValue == null && _jsonValue == null) {
             return null;
         }
@@ -23545,32 +23484,31 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected Uri parseUri(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
+    private Uri parseUri(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
         return parseUri(Uri.builder(), elementName, jsonValue, _jsonValue, elementIndex);
     }
 
-    protected UsageContext parseUsageContext(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private UsageContext parseUsageContext(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("UsageContext", jsonObject);
-        Coding code = parseCoding("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1);
-        Element value = parseChoiceElement("value", jsonObject, "CodeableConcept", "Quantity", "Range", "Reference");
-        UsageContext.Builder builder = UsageContext.builder(code, value);
+        UsageContext.Builder builder = UsageContext.builder();
         parseElement(builder, jsonObject);
+        builder.code(parseCoding("code", JsonSupport.getJsonValue(jsonObject, "code", JsonObject.class), -1));
+        builder.value(parseChoiceElement("value", jsonObject, "CodeableConcept", "Quantity", "Range", "Reference"));
         stackPop();
         return builder.build();
     }
 
-    protected ValueSet parseValueSet(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ValueSet parseValueSet(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ValueSet", jsonObject);
-        PublicationStatus status = (PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        ValueSet.Builder builder = ValueSet.builder(status);
+        ValueSet.Builder builder = ValueSet.builder();
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", JsonSupport.getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
@@ -23584,6 +23522,7 @@ public class FHIRJsonParser implements FHIRParser {
         builder.version(parseString("version", JsonSupport.getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
         builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", JsonSupport.getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
+        builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.experimental(parseBoolean("experimental", JsonSupport.getJsonValue(jsonObject, "experimental", JsonValue.class), jsonObject.get("_experimental"), -1));
         builder.date(parseDateTime("date", JsonSupport.getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.publisher(parseString("publisher", JsonSupport.getJsonValue(jsonObject, "publisher", JsonString.class), jsonObject.get("_publisher"), -1));
@@ -23621,25 +23560,24 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ValueSet.Compose parseValueSetCompose(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ValueSet.Compose parseValueSetCompose(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ValueSet.Compose", jsonObject);
-        java.util.List<ValueSet.Compose.Include> include = new ArrayList<>();
+        ValueSet.Compose.Builder builder = ValueSet.Compose.builder();
+        parseBackboneElement(builder, jsonObject);
+        builder.lockedDate(parseDate("lockedDate", JsonSupport.getJsonValue(jsonObject, "lockedDate", JsonString.class), jsonObject.get("_lockedDate"), -1));
+        builder.inactive(parseBoolean("inactive", JsonSupport.getJsonValue(jsonObject, "inactive", JsonValue.class), jsonObject.get("_inactive"), -1));
         JsonArray includeArray = JsonSupport.getJsonArray(jsonObject, "include");
         if (includeArray != null) {
             int index = 0;
             for (JsonValue jsonValue : includeArray) {
-                include.add(parseValueSetComposeInclude("include", (JsonObject) jsonValue, index));
+                builder.include(parseValueSetComposeInclude("include", (JsonObject) jsonValue, index));
                 index++;
             }
         }
-        ValueSet.Compose.Builder builder = ValueSet.Compose.builder(include);
-        parseBackboneElement(builder, jsonObject);
-        builder.lockedDate(parseDate("lockedDate", JsonSupport.getJsonValue(jsonObject, "lockedDate", JsonString.class), jsonObject.get("_lockedDate"), -1));
-        builder.inactive(parseBoolean("inactive", JsonSupport.getJsonValue(jsonObject, "inactive", JsonValue.class), jsonObject.get("_inactive"), -1));
         JsonArray excludeArray = JsonSupport.getJsonArray(jsonObject, "exclude");
         if (excludeArray != null) {
             int index = 0;
@@ -23652,7 +23590,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ValueSet.Compose.Include parseValueSetComposeInclude(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ValueSet.Compose.Include parseValueSetComposeInclude(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -23691,15 +23629,15 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ValueSet.Compose.Include.Concept parseValueSetComposeIncludeConcept(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ValueSet.Compose.Include.Concept parseValueSetComposeIncludeConcept(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ValueSet.Compose.Include.Concept", jsonObject);
-        Code code = (Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1);
-        ValueSet.Compose.Include.Concept.Builder builder = ValueSet.Compose.Include.Concept.builder(code);
+        ValueSet.Compose.Include.Concept.Builder builder = ValueSet.Compose.Include.Concept.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.code((Code) parseString(Code.builder(), "code", JsonSupport.getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.display(parseString("display", JsonSupport.getJsonValue(jsonObject, "display", JsonString.class), jsonObject.get("_display"), -1));
         JsonArray designationArray = JsonSupport.getJsonArray(jsonObject, "designation");
         if (designationArray != null) {
@@ -23713,46 +23651,46 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ValueSet.Compose.Include.Concept.Designation parseValueSetComposeIncludeConceptDesignation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ValueSet.Compose.Include.Concept.Designation parseValueSetComposeIncludeConceptDesignation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ValueSet.Compose.Include.Concept.Designation", jsonObject);
-        String value = parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1);
-        ValueSet.Compose.Include.Concept.Designation.Builder builder = ValueSet.Compose.Include.Concept.Designation.builder(value);
+        ValueSet.Compose.Include.Concept.Designation.Builder builder = ValueSet.Compose.Include.Concept.Designation.builder();
         parseBackboneElement(builder, jsonObject);
         builder.language((Code) parseString(Code.builder(), "language", JsonSupport.getJsonValue(jsonObject, "language", JsonString.class), jsonObject.get("_language"), -1));
         builder.use(parseCoding("use", JsonSupport.getJsonValue(jsonObject, "use", JsonObject.class), -1));
+        builder.value(parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ValueSet.Compose.Include.Filter parseValueSetComposeIncludeFilter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ValueSet.Compose.Include.Filter parseValueSetComposeIncludeFilter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ValueSet.Compose.Include.Filter", jsonObject);
-        Code property = (Code) parseString(Code.builder(), "property", JsonSupport.getJsonValue(jsonObject, "property", JsonString.class), jsonObject.get("_property"), -1);
-        FilterOperator op = (FilterOperator) parseString(FilterOperator.builder(), "op", JsonSupport.getJsonValue(jsonObject, "op", JsonString.class), jsonObject.get("_op"), -1);
-        String value = parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1);
-        ValueSet.Compose.Include.Filter.Builder builder = ValueSet.Compose.Include.Filter.builder(property, op, value);
+        ValueSet.Compose.Include.Filter.Builder builder = ValueSet.Compose.Include.Filter.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.property((Code) parseString(Code.builder(), "property", JsonSupport.getJsonValue(jsonObject, "property", JsonString.class), jsonObject.get("_property"), -1));
+        builder.op((FilterOperator) parseString(FilterOperator.builder(), "op", JsonSupport.getJsonValue(jsonObject, "op", JsonString.class), jsonObject.get("_op"), -1));
+        builder.value(parseString("value", JsonSupport.getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected ValueSet.Expansion parseValueSetExpansion(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ValueSet.Expansion parseValueSetExpansion(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ValueSet.Expansion", jsonObject);
-        DateTime timestamp = parseDateTime("timestamp", JsonSupport.getJsonValue(jsonObject, "timestamp", JsonString.class), jsonObject.get("_timestamp"), -1);
-        ValueSet.Expansion.Builder builder = ValueSet.Expansion.builder(timestamp);
+        ValueSet.Expansion.Builder builder = ValueSet.Expansion.builder();
         parseBackboneElement(builder, jsonObject);
         builder.identifier(parseUri("identifier", JsonSupport.getJsonValue(jsonObject, "identifier", JsonString.class), jsonObject.get("_identifier"), -1));
+        builder.timestamp(parseDateTime("timestamp", JsonSupport.getJsonValue(jsonObject, "timestamp", JsonString.class), jsonObject.get("_timestamp"), -1));
         builder.total(parseInteger("total", JsonSupport.getJsonValue(jsonObject, "total", JsonNumber.class), jsonObject.get("_total"), -1));
         builder.offset(parseInteger("offset", JsonSupport.getJsonValue(jsonObject, "offset", JsonNumber.class), jsonObject.get("_offset"), -1));
         JsonArray parameterArray = JsonSupport.getJsonArray(jsonObject, "parameter");
@@ -23775,7 +23713,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ValueSet.Expansion.Contains parseValueSetExpansionContains(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ValueSet.Expansion.Contains parseValueSetExpansionContains(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -23809,28 +23747,27 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected ValueSet.Expansion.Parameter parseValueSetExpansionParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private ValueSet.Expansion.Parameter parseValueSetExpansionParameter(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("ValueSet.Expansion.Parameter", jsonObject);
-        String name = parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1);
-        ValueSet.Expansion.Parameter.Builder builder = ValueSet.Expansion.Parameter.builder(name);
+        ValueSet.Expansion.Parameter.Builder builder = ValueSet.Expansion.Parameter.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.name(parseString("name", JsonSupport.getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.value(parseChoiceElement("value", jsonObject, "String", "Boolean", "Integer", "Decimal", "Uri", "Code", "DateTime"));
         stackPop();
         return builder.build();
     }
 
-    protected VerificationResult parseVerificationResult(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private VerificationResult parseVerificationResult(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("VerificationResult", jsonObject);
-        Status status = (Status) parseString(Status.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        VerificationResult.Builder builder = VerificationResult.builder(status);
+        VerificationResult.Builder builder = VerificationResult.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray targetArray = JsonSupport.getJsonArray(jsonObject, "target");
         if (targetArray != null) {
@@ -23850,6 +23787,7 @@ public class FHIRJsonParser implements FHIRParser {
             }
         }
         builder.need(parseCodeableConcept("need", JsonSupport.getJsonValue(jsonObject, "need", JsonObject.class), -1));
+        builder.status((Status) parseString(Status.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.statusDate(parseDateTime("statusDate", JsonSupport.getJsonValue(jsonObject, "statusDate", JsonString.class), jsonObject.get("_statusDate"), -1));
         builder.validationType(parseCodeableConcept("validationType", JsonSupport.getJsonValue(jsonObject, "validationType", JsonObject.class), -1));
         JsonArray validationProcessArray = JsonSupport.getJsonArray(jsonObject, "validationProcess");
@@ -23885,7 +23823,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected VerificationResult.Attestation parseVerificationResultAttestation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private VerificationResult.Attestation parseVerificationResultAttestation(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -23905,7 +23843,7 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected VerificationResult.PrimarySource parseVerificationResultPrimarySource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private VerificationResult.PrimarySource parseVerificationResultPrimarySource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
@@ -23945,42 +23883,28 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected VerificationResult.Validator parseVerificationResultValidator(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private VerificationResult.Validator parseVerificationResultValidator(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("VerificationResult.Validator", jsonObject);
-        Reference organization = parseReference("organization", JsonSupport.getJsonValue(jsonObject, "organization", JsonObject.class), -1);
-        VerificationResult.Validator.Builder builder = VerificationResult.Validator.builder(organization);
+        VerificationResult.Validator.Builder builder = VerificationResult.Validator.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.organization(parseReference("organization", JsonSupport.getJsonValue(jsonObject, "organization", JsonObject.class), -1));
         builder.identityCertificate(parseString("identityCertificate", JsonSupport.getJsonValue(jsonObject, "identityCertificate", JsonString.class), jsonObject.get("_identityCertificate"), -1));
         builder.attestationSignature(parseSignature("attestationSignature", JsonSupport.getJsonValue(jsonObject, "attestationSignature", JsonObject.class), -1));
         stackPop();
         return builder.build();
     }
 
-    protected VisionPrescription parseVisionPrescription(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private VisionPrescription parseVisionPrescription(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("VisionPrescription", jsonObject);
-        VisionStatus status = (VisionStatus) parseString(VisionStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1);
-        DateTime created = parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1);
-        Reference patient = parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1);
-        DateTime dateWritten = parseDateTime("dateWritten", JsonSupport.getJsonValue(jsonObject, "dateWritten", JsonString.class), jsonObject.get("_dateWritten"), -1);
-        Reference prescriber = parseReference("prescriber", JsonSupport.getJsonValue(jsonObject, "prescriber", JsonObject.class), -1);
-        java.util.List<VisionPrescription.LensSpecification> lensSpecification = new ArrayList<>();
-        JsonArray lensSpecificationArray = JsonSupport.getJsonArray(jsonObject, "lensSpecification");
-        if (lensSpecificationArray != null) {
-            int index = 0;
-            for (JsonValue jsonValue : lensSpecificationArray) {
-                lensSpecification.add(parseVisionPrescriptionLensSpecification("lensSpecification", (JsonObject) jsonValue, index));
-                index++;
-            }
-        }
-        VisionPrescription.Builder builder = VisionPrescription.builder(status, created, patient, dateWritten, prescriber, lensSpecification);
+        VisionPrescription.Builder builder = VisionPrescription.builder();
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = JsonSupport.getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -23990,21 +23914,34 @@ public class FHIRJsonParser implements FHIRParser {
                 index++;
             }
         }
+        builder.status((VisionStatus) parseString(VisionStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
+        builder.created(parseDateTime("created", JsonSupport.getJsonValue(jsonObject, "created", JsonString.class), jsonObject.get("_created"), -1));
+        builder.patient(parseReference("patient", JsonSupport.getJsonValue(jsonObject, "patient", JsonObject.class), -1));
         builder.encounter(parseReference("encounter", JsonSupport.getJsonValue(jsonObject, "encounter", JsonObject.class), -1));
+        builder.dateWritten(parseDateTime("dateWritten", JsonSupport.getJsonValue(jsonObject, "dateWritten", JsonString.class), jsonObject.get("_dateWritten"), -1));
+        builder.prescriber(parseReference("prescriber", JsonSupport.getJsonValue(jsonObject, "prescriber", JsonObject.class), -1));
+        JsonArray lensSpecificationArray = JsonSupport.getJsonArray(jsonObject, "lensSpecification");
+        if (lensSpecificationArray != null) {
+            int index = 0;
+            for (JsonValue jsonValue : lensSpecificationArray) {
+                builder.lensSpecification(parseVisionPrescriptionLensSpecification("lensSpecification", (JsonObject) jsonValue, index));
+                index++;
+            }
+        }
         stackPop();
         return builder.build();
     }
 
-    protected VisionPrescription.LensSpecification parseVisionPrescriptionLensSpecification(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private VisionPrescription.LensSpecification parseVisionPrescriptionLensSpecification(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("VisionPrescription.LensSpecification", jsonObject);
-        CodeableConcept product = parseCodeableConcept("product", JsonSupport.getJsonValue(jsonObject, "product", JsonObject.class), -1);
-        VisionEyes eye = (VisionEyes) parseString(VisionEyes.builder(), "eye", JsonSupport.getJsonValue(jsonObject, "eye", JsonString.class), jsonObject.get("_eye"), -1);
-        VisionPrescription.LensSpecification.Builder builder = VisionPrescription.LensSpecification.builder(product, eye);
+        VisionPrescription.LensSpecification.Builder builder = VisionPrescription.LensSpecification.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.product(parseCodeableConcept("product", JsonSupport.getJsonValue(jsonObject, "product", JsonObject.class), -1));
+        builder.eye((VisionEyes) parseString(VisionEyes.builder(), "eye", JsonSupport.getJsonValue(jsonObject, "eye", JsonString.class), jsonObject.get("_eye"), -1));
         builder.sphere(parseDecimal("sphere", JsonSupport.getJsonValue(jsonObject, "sphere", JsonNumber.class), jsonObject.get("_sphere"), -1));
         builder.cylinder(parseDecimal("cylinder", JsonSupport.getJsonValue(jsonObject, "cylinder", JsonNumber.class), jsonObject.get("_cylinder"), -1));
         builder.axis(parseInteger("axis", JsonSupport.getJsonValue(jsonObject, "axis", JsonNumber.class), jsonObject.get("_axis"), -1));
@@ -24035,21 +23972,21 @@ public class FHIRJsonParser implements FHIRParser {
         return builder.build();
     }
 
-    protected VisionPrescription.LensSpecification.Prism parseVisionPrescriptionLensSpecificationPrism(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
+    private VisionPrescription.LensSpecification.Prism parseVisionPrescriptionLensSpecificationPrism(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
         }
         stackPush(elementName, elementIndex);
         checkForUnrecognizedElements("VisionPrescription.LensSpecification.Prism", jsonObject);
-        Decimal amount = parseDecimal("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonNumber.class), jsonObject.get("_amount"), -1);
-        VisionBase base = (VisionBase) parseString(VisionBase.builder(), "base", JsonSupport.getJsonValue(jsonObject, "base", JsonString.class), jsonObject.get("_base"), -1);
-        VisionPrescription.LensSpecification.Prism.Builder builder = VisionPrescription.LensSpecification.Prism.builder(amount, base);
+        VisionPrescription.LensSpecification.Prism.Builder builder = VisionPrescription.LensSpecification.Prism.builder();
         parseBackboneElement(builder, jsonObject);
+        builder.amount(parseDecimal("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonNumber.class), jsonObject.get("_amount"), -1));
+        builder.base((VisionBase) parseString(VisionBase.builder(), "base", JsonSupport.getJsonValue(jsonObject, "base", JsonString.class), jsonObject.get("_base"), -1));
         stackPop();
         return builder.build();
     }
 
-    protected void stackPush(java.lang.String elementName, int elementIndex) {
+    private void stackPush(java.lang.String elementName, int elementIndex) {
         if (elementIndex != -1) {
             stack.push(elementName + "[" + elementIndex + "]");
         } else {
@@ -24060,11 +23997,11 @@ public class FHIRJsonParser implements FHIRParser {
         }
     }
 
-    protected void stackPop() {
+    private void stackPop() {
         stack.pop();
     }
 
-    protected Element parseChoiceElement(java.lang.String name, JsonObject jsonObject, java.lang.String... choiceTypeNames) {
+    private Element parseChoiceElement(java.lang.String name, JsonObject jsonObject, java.lang.String... choiceTypeNames) {
         if (jsonObject == null) {
             return null;
         }
@@ -24219,7 +24156,7 @@ public class FHIRJsonParser implements FHIRParser {
         return null;
     }
 
-    protected java.lang.String getPath() {
+    private java.lang.String getPath() {
         StringJoiner joiner = new StringJoiner(".");
         for (java.lang.String s : stack) {
             joiner.add(s);
@@ -24227,7 +24164,7 @@ public class FHIRJsonParser implements FHIRParser {
         return joiner.toString();
     }
 
-    protected java.lang.String parseJavaString(java.lang.String elementName, JsonString jsonString, int elementIndex) {
+    private java.lang.String parseJavaString(java.lang.String elementName, JsonString jsonString, int elementIndex) {
         if (jsonString == null) {
             return null;
         }
@@ -24237,7 +24174,7 @@ public class FHIRJsonParser implements FHIRParser {
         return javaString;
     }
 
-    protected void checkForUnrecognizedElements(java.lang.String typeName, JsonObject jsonObject) {
+    private void checkForUnrecognizedElements(java.lang.String typeName, JsonObject jsonObject) {
         Set<java.lang.String> elementNames = JsonSupport.getElementNames(typeName);
         for (java.lang.String key : jsonObject.keySet()) {
             if (!elementNames.contains(key) && !"resourceType".equals(key) && !"fhir_comments".equals(key)) {
@@ -24246,7 +24183,7 @@ public class FHIRJsonParser implements FHIRParser {
         }
     }
 
-    protected java.lang.String getResourceType(JsonObject jsonObject) {
+    private java.lang.String getResourceType(JsonObject jsonObject) {
         JsonString resourceTypeString = jsonObject.getJsonString("resourceType");
         if (resourceTypeString == null) {
             throw new IllegalArgumentException("Missing required element: 'resourceType'");

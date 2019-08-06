@@ -215,8 +215,7 @@ public class SpecimenDefinition extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -226,6 +225,10 @@ public class SpecimenDefinition extends DomainResource {
         private String timeAspect;
         private List<CodeableConcept> collection = new ArrayList<>();
         private List<TypeTested> typeTested = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -852,10 +855,8 @@ public class SpecimenDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(SpecimenContainedPreference preference) {
-            Builder builder = new Builder();
-            builder.preference(preference);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -867,6 +868,10 @@ public class SpecimenDefinition extends DomainResource {
             private Duration retentionTime;
             private List<CodeableConcept> rejectionCriterion = new ArrayList<>();
             private List<Handling> handling = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1397,8 +1402,7 @@ public class SpecimenDefinition extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -1410,6 +1414,10 @@ public class SpecimenDefinition extends DomainResource {
                 private Element minimumVolume;
                 private List<Additive> additive = new ArrayList<>();
                 private String preparation;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -1789,14 +1797,16 @@ public class SpecimenDefinition extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(Element additive) {
-                    Builder builder = new Builder();
-                    builder.additive(additive);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private Element additive;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -2090,8 +2100,7 @@ public class SpecimenDefinition extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2099,6 +2108,10 @@ public class SpecimenDefinition extends DomainResource {
                 private Range temperatureRange;
                 private Duration maxDuration;
                 private String instruction;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

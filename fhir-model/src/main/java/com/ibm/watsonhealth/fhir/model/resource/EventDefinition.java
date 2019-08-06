@@ -618,11 +618,8 @@ public class EventDefinition extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status, Collection<TriggerDefinition> trigger) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.trigger(trigger);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -654,6 +651,10 @@ public class EventDefinition extends DomainResource {
         private List<ContactDetail> endorser = new ArrayList<>();
         private List<RelatedArtifact> relatedArtifact = new ArrayList<>();
         private List<TriggerDefinition> trigger = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

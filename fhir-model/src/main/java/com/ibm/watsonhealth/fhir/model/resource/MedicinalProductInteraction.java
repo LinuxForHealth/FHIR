@@ -226,8 +226,7 @@ public class MedicinalProductInteraction extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -238,6 +237,10 @@ public class MedicinalProductInteraction extends DomainResource {
         private CodeableConcept effect;
         private CodeableConcept incidence;
         private CodeableConcept management;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -729,14 +732,16 @@ public class MedicinalProductInteraction extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Element item) {
-            Builder builder = new Builder();
-            builder.item(item);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Element item;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

@@ -317,10 +317,8 @@ public class QuestionnaireResponse extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(QuestionnaireResponseStatus status) {
-        Builder builder = new Builder();
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -335,6 +333,10 @@ public class QuestionnaireResponse extends DomainResource {
         private Reference author;
         private Reference source;
         private List<Item> item = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -996,10 +998,8 @@ public class QuestionnaireResponse extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String linkId) {
-            Builder builder = new Builder();
-            builder.linkId(linkId);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1008,6 +1008,10 @@ public class QuestionnaireResponse extends DomainResource {
             private String text;
             private List<Answer> answer = new ArrayList<>();
             private List<QuestionnaireResponse.Item> item = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1375,13 +1379,16 @@ public class QuestionnaireResponse extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Element value;
                 private List<QuestionnaireResponse.Item> item = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

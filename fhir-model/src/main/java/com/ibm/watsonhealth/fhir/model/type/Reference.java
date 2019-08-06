@@ -176,8 +176,7 @@ public class Reference extends Element {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
@@ -185,6 +184,10 @@ public class Reference extends Element {
         private Uri type;
         private Identifier identifier;
         private String display;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

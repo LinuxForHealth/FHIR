@@ -430,11 +430,8 @@ public class DiagnosticReport extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(DiagnosticReportStatus status, CodeableConcept code) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.code(code);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -456,6 +453,10 @@ public class DiagnosticReport extends DomainResource {
         private String conclusion;
         private List<CodeableConcept> conclusionCode = new ArrayList<>();
         private List<Attachment> presentedForm = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1384,15 +1385,17 @@ public class DiagnosticReport extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference link) {
-            Builder builder = new Builder();
-            builder.link(link);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String comment;
             private Reference link;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

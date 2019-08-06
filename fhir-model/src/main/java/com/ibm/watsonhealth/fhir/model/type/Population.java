@@ -156,8 +156,7 @@ public class Population extends BackboneElement {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends BackboneElement.Builder {
@@ -165,6 +164,10 @@ public class Population extends BackboneElement {
         private CodeableConcept gender;
         private CodeableConcept race;
         private CodeableConcept physiologicalCondition;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

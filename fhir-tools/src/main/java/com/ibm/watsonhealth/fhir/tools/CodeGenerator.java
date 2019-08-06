@@ -160,6 +160,24 @@ public class CodeGenerator {
                 .build();
     }
     
+    private String buildParseMethodInvocation(JsonObject elementDefinition, String elementName, String fieldType) {
+        if (isPrimitiveType(fieldType) && !isPrimitiveSubtype(fieldType)) {
+            return "parse" + fieldType + "(" + quote(elementName) + ", reader, -1)";
+        } else if (isStringSubtype(fieldType) || isCodeSubtype(fieldType)) {
+            return "(" + fieldType + ") " + "parseString(" + fieldType + ".builder(), "+ quote(elementName) + ", reader, -1)";
+        } else if (isUriSubtype(fieldType)) {
+            return "(" + fieldType + ") " + "parseUri(" + fieldType + ".builder(), "+ quote(elementName) + ", reader, -1)";
+        } else if (isIntegerSubtype(fieldType)) {
+            return "(" + fieldType + ") " + "parseInteger(" + fieldType + ".builder(), "+ quote(elementName) + ", reader, -1)";
+        } else if (isQuantitySubtype(fieldType)) {
+            return "(" + fieldType + ") parseQuantity(" + fieldType + ".builder(), " + quote(elementName) + ", reader, -1)";
+        } else if (isJavaString(fieldType)) {
+            return "parseJavaString(" + quote(elementName) + ", reader, -1)";
+        } else {
+            return "parse" + fieldType.replace(".", "") + "(" + quote(elementName) + ", reader, -1)";
+        }
+    }
+    
     private String buildParseMethodInvocation(JsonObject elementDefinition, String elementName, String fieldType, boolean repeating) {
         if (repeating) {
             if (isPrimitiveType(fieldType) && !isPrimitiveSubtype(fieldType)) {
@@ -238,6 +256,7 @@ public class CodeGenerator {
         generateVisitorInterface(basePath);
         generateAbstractVisitorClass(basePath);
         generateJsonParser(basePath);
+        generateXMLParser(basePath);
     }
 
     private void generateAbstractVisitorClass(String basePath) {
@@ -439,12 +458,10 @@ public class CodeGenerator {
             cb.newLine();
         }
         
-        if (isAbstract(structureDefinition)) {
-            cb.constructor(mods("protected"), "Builder")
-                ._super()
-            .end().newLine();
-        }
-                
+        cb.constructor(mods(visibility), "Builder")
+            ._super()
+        .end().newLine();
+                 
         for (JsonObject elementDefinition : elementDefinitions) {
             String basePath = elementDefinition.getJsonObject("base").getString("path");
             boolean declaredBy = elementDefinition.getString("path").equals(basePath) && !isProfiledType(className);
@@ -891,12 +908,8 @@ public class CodeGenerator {
                     ._return(_new("Builder") + ".from(this)")
                 .end().newLine();
                 
-                cb.method(mods("public", "static"), "Builder", "builder", params);
-                    cb.assign(var("Builder", "builder"), _new("Builder"));
-                    for (String arg : args) {
-                        cb.invoke("builder", arg, args(arg));
-                    }
-                    cb._return("builder");
+                cb.method(mods("public", "static"), "Builder", "builder");
+                    cb._return(_new("Builder"));
                 cb.end().newLine();
             }
             
@@ -1521,6 +1534,292 @@ public class CodeGenerator {
             cb.end().newLine();
         }
     }
+    
+    private void generateXMLParser(String basePath) {
+        CodeBuilder cb = new CodeBuilder();
+        
+        String packageName = "com.ibm.watsonhealth.fhir.model.parser";
+        cb.javadoc(HEADER, true, true, false).newLine();
+        cb._package(packageName).newLine();
+        
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "XML_INPUT_FACTORY");
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "createStreamReaderDelegate");
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "parseDiv");
+        
+        cb._import("java.io.InputStream");
+        cb._import("java.io.Reader");
+        cb._import("java.util.Stack");
+        cb._import("java.util.StringJoiner");
+        
+        cb.newLine();
+        
+        cb._import("javax.xml.stream.XMLStreamException");
+        cb._import("javax.xml.stream.XMLStreamReader");
+        
+        cb.newLine();
+        
+        cb._import("com.ibm.watsonhealth.fhir.model.parser.FHIRParser");
+        cb._import("com.ibm.watsonhealth.fhir.model.parser.exception.FHIRParserException");
+        cb._import("com.ibm.watsonhealth.fhir.model.resource.*");
+        cb._import("com.ibm.watsonhealth.fhir.model.type.*");
+        cb._import("com.ibm.watsonhealth.fhir.model.type.Boolean");
+        cb._import("com.ibm.watsonhealth.fhir.model.type.Integer");
+        cb._import("com.ibm.watsonhealth.fhir.model.type.String");
+        cb._import("com.ibm.watsonhealth.fhir.model.util.XMLSupport.StreamReaderDelegate");
+        
+        cb.newLine();
+        
+        cb._class(mods("public"), "FHIRXMLParser", null, implementsInterfaces("FHIRParser"));
+        cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
+        
+        cb.newLine();
+        
+        cb.field(mods("private", "final"), "Stack<java.lang.String>", "stack", _new("Stack<>"));
+        
+        cb.newLine();
+        
+        cb.constructor(mods(), "FHIRXMLParser");
+        cb.comment("only visible to subclasses or classes/interfaces in the same package (e.g. FHIRParser)");
+        cb.end();
+        
+        cb.newLine();
+
+        // public <T extends Resource> T parse(InputStream in) throws FHIRParserException
+        cb.override();
+        cb.method(mods("public"), "<T extends Resource> T", "parse", params("InputStream in"), throwsExceptions("FHIRParserException"))
+            ._return("null")
+        .end();
+        
+        cb.newLine();
+        
+        // public <T extends Resource> T parse(Reader reader) throws FHIRParserException
+        cb.override();
+        cb.method(mods("public"), "<T extends Resource> T", "parse", params("Reader reader"), throwsExceptions("FHIRParserException"))
+            ._return("null")
+        .end();
+        
+        cb.newLine();
+        
+        cb.override();
+        cb.method(mods("public"), "void", "reset")
+            .invoke("stack", "clear", args())
+        .end();
+        
+        cb.newLine();
+                
+        cb.method(mods("private"), "Resource", "parseResource", params("java.lang.String elementName", "XMLStreamReader reader", "int elementIndex"), throwsExceptions("XMLStreamException"));
+        cb.assign("java.lang.String resourceType", "getResourceType(reader)");
+        cb._switch("resourceType");
+        for (String resourceClassName : resourceClassNames) {
+            if ("Resource".equals(resourceClassName) || "DomainResource".equals(resourceClassName)) {
+                continue;
+            }
+            cb._case(quote(resourceClassName));
+            cb._return("parse" + resourceClassName + "(elementName, reader, elementIndex)");
+        }        
+        cb._end();
+        cb._return("null");
+        cb.end();
+        
+        cb.newLine();
+        
+        Collections.sort(generatedClassNames);
+        
+        for (String generatedClassName : generatedClassNames) {
+            JsonObject structureDefinition = getStructureDefinition(generatedClassName);
+            generateXMLParseMethod(generatedClassName, structureDefinition, cb);
+        }
+        
+        cb.method(mods("private"), "void", "stackPush", params("java.lang.String elementName", "int elementIndex"))
+            ._if("elementIndex != -1")
+                .invoke("stack", "push", args("elementName + \"[\" + elementIndex + \"]\""))
+            ._else()
+                .invoke("stack", "push", args("elementName"))
+            ._end()
+            ._if("DEBUG")
+                .invoke("System.out", "println", args("getPath()"))
+            ._end()
+        .end().newLine();
+        
+        cb.method(mods("private"), "void", "stackPop")
+            .invoke("stack", "pop", args())
+        .end().newLine();
+                
+        cb.method(mods("private"), "java.lang.String", "getPath")
+            .assign("StringJoiner joiner", "new StringJoiner(\".\")")
+            ._foreach("java.lang.String s", "stack")
+                .invoke("joiner", "add", args("s"))
+            ._end()
+            ._return("joiner.toString()")
+        .end().newLine();
+        
+        cb.method(mods("private"), "java.lang.String", "parseJavaString", params("java.lang.String elementName", "XMLStreamReader reader", "int elementIndex"), throwsExceptions("XMLStreamException"))
+            .invoke("stackPush", args("elementName", "elementIndex"))
+            .statement("java.lang.String javaString")
+            ._if("\"div\".equals(elementName)")
+                .assign("javaString", "parseDiv(reader)")
+            ._else()
+                .assign("javaString", "reader.getAttributeValue(null, elementName)")
+            ._end()
+            .invoke("stackPop", args())
+            ._return("javaString")
+        .end().newLine();
+
+        cb.method(mods("private"), "java.lang.String", "getResourceType", params("XMLStreamReader reader"), throwsExceptions("XMLStreamException"))
+            .assign("java.lang.String resourceType", "reader.getLocalName()")
+            ._try()
+                .invoke("ResourceType.ValueSet", "from", args("resourceType"))
+            ._catch("IllegalArgumentException e")
+                ._throw("new IllegalArgumentException(\"Invalid resource type: '\" + resourceType + \"'\")")
+            ._end()
+            ._return("resourceType")
+        .end();
+        
+        cb._end();
+        
+        File file = new File(basePath + "/" + packageName.replace(".", "/") + "/FHIRXMLParser.java");
+        try {
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                Files.createFile(file.toPath());
+            }
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+        
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write(cb.toString());
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+    }
+
+    private void generateXMLParseMethod(String generatedClassName, JsonObject structureDefinition, CodeBuilder cb) {
+        if (isAbstract(structureDefinition)) {
+            return;
+        }
+        
+        if (isQuantitySubtype(structureDefinition)) {
+            return;
+        }
+        
+        if (isStringSubtype(generatedClassName) || isUriSubtype(generatedClassName) || isCodeSubtype(generatedClassName) || isIntegerSubtype(generatedClassName)) {
+            return;
+        }
+        
+        String path = titleCase(Arrays.asList(generatedClassName.split("\\.")).stream().map(s -> camelCase(s)).collect(Collectors.joining(".")));
+        if (isPrimitiveType(structureDefinition)) {
+            path = camelCase(path);
+        }
+        
+        List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path);
+        
+        if ("Quantity".equals(generatedClassName)) {
+            cb.method(mods("private"), "Quantity", "parseQuantity", params("Quantity.Builder builder", "java.lang.String elementName", "XMLStreamReader reader", "int elementIndex"), throwsExceptions("XMLStreamException"));
+        } else if ("String".equals(generatedClassName) || "Uri".equals(generatedClassName) || "Integer".equals(generatedClassName)) {
+            cb.method(mods("private"), generatedClassName, "parse" + generatedClassName, params(generatedClassName + ".Builder builder", "java.lang.String elementName", "XMLStreamReader reader", "int elementIndex"), throwsExceptions("XMLStreamException"));
+        } else {
+            cb.method(mods("private"), generatedClassName, "parse" + generatedClassName.replace(".", ""), params("java.lang.String elementName", "XMLStreamReader reader", "int elementIndex"), throwsExceptions("XMLStreamException"));
+        }
+        cb.invoke("stackPush", args("elementName", "elementIndex"));
+        
+        if (!"Quantity".equals(generatedClassName) && !"String".equals(generatedClassName) && !"Uri".equals(generatedClassName) && !"Integer".equals(generatedClassName)) {
+            cb.assign(generatedClassName + ".Builder builder", generatedClassName + ".builder()");
+        }
+        
+        if (isPrimitiveType(structureDefinition)){
+            // primitive type
+            cb.assign("java.lang.String value", "reader.getAttributeValue(null, \"value\")")
+            ._if("value != null")
+                .invoke("builder", "value", args("value"))
+            ._end();
+        }
+        
+        cb._while("reader.hasNext()");
+
+        if (resourceClassNames.contains(generatedClassName)) {
+            cb.assign("int eventType", "reader.next()");
+            cb._switch("eventType");
+        } else {
+            cb._switch("reader.getEventType()");
+        }
+        
+        cb._case("XMLStreamReader.START_ELEMENT");
+        
+        // TODO: check namespace
+        cb.assign("java.lang.String localName", "reader.getLocalName()");
+        cb._switch("localName");
+        for (JsonObject elementDefinition : elementDefinitions) {
+            String elementName = getElementName(elementDefinition, path);
+            
+            if (isPrimitiveType(structureDefinition) && "value".equals(elementName)) {
+                continue;
+            }
+            
+            String fieldName = getFieldName(elementName);            
+            String fieldType = getFieldType(structureDefinition, elementDefinition, false)
+                    .replace("com.ibm.watsonhealth.fhir.model.type.", "")
+                    .replace("com.ibm.watsonhealth.fhir.model.resource.", "");
+            
+            if (isBackboneElement(elementDefinition)) {
+                fieldType = generatedClassName + "." + fieldType;
+            }
+            
+            if (!isChoiceElement(elementDefinition)) {
+                cb._case(quote(elementName));
+                String parseMethodInvocation = buildParseMethodInvocation(elementDefinition, elementName, fieldType);
+                cb.invoke("builder", fieldName, args(parseMethodInvocation));
+                cb._break();
+            } else {
+                // TODO: generate choice element cases
+                for (String choiceTypeName : getChoiceTypeNames(elementDefinition)) {
+                    cb._case(quote(elementName + choiceTypeName));
+                    String parseMethodInvocation = buildParseMethodInvocation(elementDefinition, elementName + choiceTypeName, choiceTypeName);
+                    cb.invoke("builder", fieldName, args(parseMethodInvocation));
+                    cb._break();
+                }
+            }
+        }
+        
+        cb._default()
+            ._throw(_new("IllegalArgumentException", args("\"Unrecognized element: '\" + localName + \"'\"")));
+
+        cb._end();
+
+        cb._break();
+        
+        cb._case("XMLStreamReader.END_ELEMENT")
+            ._if("elementName.equals(reader.getLocalName())")
+                .invoke("stackPop", args())
+                ._return("builder.build()")
+            ._end()
+            ._break();
+        
+        cb._end();
+        
+        if (!resourceClassNames.contains(generatedClassName)) {
+            cb.invoke("reader", "next", args());
+        }
+        
+        cb._end();
+
+        cb._throw(_new("XMLStreamException", args(quote("Unexpected end of stream"))));
+         
+        cb.end();
+        cb.newLine();
+        
+        if ("Quantity".equals(generatedClassName)) {
+            cb.method(mods("private"), "Quantity", "parseQuantity", params("java.lang.String elementName", "XMLStreamReader reader", "int elementIndex"), throwsExceptions("XMLStreamException"));
+            cb._return("parseQuantity(Quantity.builder(), elementName, reader, elementIndex)");
+            cb.end().newLine();
+        }
+        
+        if ("String".equals(generatedClassName) || "Uri".equals(generatedClassName) || "Integer".equals(generatedClassName)) {
+            cb.method(mods("private"), generatedClassName, "parse" + generatedClassName, params("java.lang.String elementName", "XMLStreamReader reader", "int elementIndex"), throwsExceptions("XMLStreamException"))
+                ._return("parse" + generatedClassName + "(" + generatedClassName + ".builder(), elementName, reader, elementIndex)")
+            .end().newLine();
+        }
+    }
 
     private void generateJsonParser(String basePath) {
         CodeBuilder cb = new CodeBuilder();
@@ -1531,7 +1830,6 @@ public class CodeGenerator {
         cb._import("java.io.InputStream");
         cb._import("java.io.Reader");
         cb._import("java.nio.charset.StandardCharsets");
-        cb._import("java.util.ArrayList");
         cb._import("java.util.Collection");
         cb._import("java.util.Set");
         cb._import("java.util.Stack");
@@ -1565,15 +1863,15 @@ public class CodeGenerator {
         
         cb._class(mods("public"), "FHIRJsonParser", null, implementsInterfaces("FHIRParser"));
         cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
-        cb.field(mods("protected", "static", "final"), "JsonReaderFactory", "JSON_READER_FACTORY", "Json.createReaderFactory(null)");
+        cb.field(mods("private", "static", "final"), "JsonReaderFactory", "JSON_READER_FACTORY", "Json.createReaderFactory(null)");
         
         cb.newLine();
         
-        cb.field(mods("protected", "final"), "Stack<java.lang.String>", "stack", _new("Stack<>"));
+        cb.field(mods("private", "final"), "Stack<java.lang.String>", "stack", _new("Stack<>"));
         
         cb.newLine();
         
-        cb.constructor(mods("protected"), "FHIRJsonParser");
+        cb.constructor(mods(), "FHIRJsonParser");
         cb.comment("only visible to subclasses or classes/interfaces in the same package (e.g. FHIRParser)");
         cb.end();
         
@@ -1650,7 +1948,7 @@ public class CodeGenerator {
         
         cb.newLine();
         
-        cb.method(mods("protected"), "Resource", "parseResource", params("java.lang.String elementName", "JsonObject jsonObject", "int elementIndex"));
+        cb.method(mods("private"), "Resource", "parseResource", params("java.lang.String elementName", "JsonObject jsonObject", "int elementIndex"));
         cb._if("jsonObject == null");
         cb._return("null");
         cb._end();
@@ -1680,7 +1978,7 @@ public class CodeGenerator {
             }
         }
         
-        cb.method(mods("protected"), "void", "stackPush", params("java.lang.String elementName", "int elementIndex"))
+        cb.method(mods("private"), "void", "stackPush", params("java.lang.String elementName", "int elementIndex"))
             ._if("elementIndex != -1")
                 .invoke("stack", "push", args("elementName + \"[\" + elementIndex + \"]\""))
             ._else()
@@ -1691,13 +1989,13 @@ public class CodeGenerator {
             ._end()
         .end().newLine();
         
-        cb.method(mods("protected"), "void", "stackPop")
+        cb.method(mods("private"), "void", "stackPop")
             .invoke("stack", "pop", args())
         .end().newLine();
         
         generateParseChoiceElementMethod(cb);
         
-        cb.method(mods("protected"), "java.lang.String", "getPath")
+        cb.method(mods("private"), "java.lang.String", "getPath")
             .assign("StringJoiner joiner", "new StringJoiner(\".\")")
             ._foreach("java.lang.String s", "stack")
                 .invoke("joiner", "add", args("s"))
@@ -1705,7 +2003,7 @@ public class CodeGenerator {
             ._return("joiner.toString()")
         .end().newLine();
         
-        cb.method(mods("protected"), "java.lang.String", "parseJavaString", params("java.lang.String elementName", "JsonString jsonString", "int elementIndex"))
+        cb.method(mods("private"), "java.lang.String", "parseJavaString", params("java.lang.String elementName", "JsonString jsonString", "int elementIndex"))
             ._if("jsonString == null")
                 ._return("null")
             ._end()
@@ -1715,7 +2013,7 @@ public class CodeGenerator {
             ._return("javaString")
         .end().newLine();
         
-        cb.method(mods("protected"), "void", "checkForUnrecognizedElements", args("java.lang.String typeName", "JsonObject jsonObject"))
+        cb.method(mods("private"), "void", "checkForUnrecognizedElements", args("java.lang.String typeName", "JsonObject jsonObject"))
             .assign("Set<java.lang.String> elementNames", "JsonSupport.getElementNames(typeName)")
             ._foreach("java.lang.String key", "jsonObject.keySet()")
                 ._if("!elementNames.contains(key) && !\"resourceType\".equals(key) && !\"fhir_comments\".equals(key)")
@@ -1724,7 +2022,7 @@ public class CodeGenerator {
             ._end()
         .end().newLine();
         
-        cb.method(mods("protected"), "java.lang.String", "getResourceType", params("JsonObject jsonObject"))
+        cb.method(mods("private"), "java.lang.String", "getResourceType", params("JsonObject jsonObject"))
             .assign("JsonString resourceTypeString", "jsonObject.getJsonString(\"resourceType\")")
             ._if("resourceTypeString == null")
                 ._throw("new IllegalArgumentException(\"Missing required element: 'resourceType'\")")
@@ -1771,7 +2069,7 @@ public class CodeGenerator {
     }
     
     private void generateParseChoiceElementMethod(CodeBuilder cb) {
-        cb.method(mods("protected"), "Element", "parseChoiceElement", params("java.lang.String name", "JsonObject jsonObject", "java.lang.String... choiceTypeNames"));
+        cb.method(mods("private"), "Element", "parseChoiceElement", params("java.lang.String name", "JsonObject jsonObject", "java.lang.String... choiceTypeNames"));
         cb._if("jsonObject == null")
             ._return("null")
         ._end();
@@ -1785,7 +2083,7 @@ public class CodeGenerator {
         cb.newLine();
         
         cb._foreach("java.lang.String choiceTypeName", "choiceTypeNames")
-            .assign("java.lang.String key", "name + FHIRUtil.getConcreteType(choiceTypeName)")
+            .assign("java.lang.String key", "name + FHIRUtil.getConcreteTypeName(choiceTypeName)")
             ._if("jsonObject.containsKey(key)")
                 ._if("elementName != null")
                     ._throw("new IllegalArgumentException()")
@@ -1868,12 +2166,12 @@ public class CodeGenerator {
         List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path);
         
         if (isAbstract(structureDefinition)) {
-            cb.method(mods("protected"), "void", "parse" + generatedClassName.replace(".", ""), params(generatedClassName + ".Builder builder", "JsonObject jsonObject")); 
+            cb.method(mods("private"), "void", "parse" + generatedClassName.replace(".", ""), params(generatedClassName + ".Builder builder", "JsonObject jsonObject")); 
         } else {
             if ("Quantity".equals(generatedClassName)) {
-                cb.method(mods("protected"), "Quantity", "parseQuantity", params("Quantity.Builder builder", "java.lang.String elementName", "JsonObject jsonObject", "int elementIndex"));
+                cb.method(mods("private"), "Quantity", "parseQuantity", params("Quantity.Builder builder", "java.lang.String elementName", "JsonObject jsonObject", "int elementIndex"));
             } else {
-                cb.method(mods("protected"), generatedClassName, "parse" + generatedClassName.replace(".", ""), params("java.lang.String elementName", "JsonObject jsonObject", "int elementIndex"));
+                cb.method(mods("private"), generatedClassName, "parse" + generatedClassName.replace(".", ""), params("java.lang.String elementName", "JsonObject jsonObject", "int elementIndex"));
             }
             cb._if("jsonObject == null")
                 ._return("null")
@@ -1882,48 +2180,8 @@ public class CodeGenerator {
             cb.invoke("checkForUnrecognizedElements", args(quote(generatedClassName), "jsonObject"));
         }
         
-        List<String> args = new ArrayList<>();
-        List<JsonObject> requiredElementDefinitions = elementDefinitions.stream().filter(o -> isRequired(o)).collect(Collectors.toList());
-        for (JsonObject elementDefinition : requiredElementDefinitions) {
-            String elementName = getElementName(elementDefinition, path);
-            String fieldName = getFieldName(elementName);
-            args.add(fieldName);
-            
-            String fieldType = getFieldType(structureDefinition, elementDefinition, false)
-                    .replace("com.ibm.watsonhealth.fhir.model.type.", "")
-                    .replace("com.ibm.watsonhealth.fhir.model.resource.", "");
-                        
-            if (isBackboneElement(elementDefinition)) {
-                fieldType = generatedClassName + "." + fieldType;
-            }
-            
-            String parseMethodInvocation;
-            if (isRepeating(elementDefinition)) {
-                cb.assign("java.util.List<" + fieldType + "> " + fieldName, "new ArrayList<>()");
-                if (isPrimitiveType(fieldType) || isCodeSubtype(fieldType)) {
-                    cb.assign("JsonArray " + elementName + "Array", "JsonSupport.getJsonArray(jsonObject, " + quote(elementName) + ", true)");
-                } else {
-                    cb.assign("JsonArray " + elementName + "Array", "JsonSupport.getJsonArray(jsonObject, " + quote(elementName) + ")");
-                }
-                cb._if(elementName + "Array != null");
-                cb.assign("int index", "0");
-                if (isPrimitiveType(fieldType) || isCodeSubtype(fieldType)) {
-                    cb.assign("JsonArray _" + elementName + "Array", "jsonObject.getJsonArray(" + quote("_" + elementName) + ")");
-                }
-                cb._foreach("JsonValue jsonValue", elementName + "Array");
-                parseMethodInvocation = buildParseMethodInvocation(elementDefinition, elementName, fieldType, true);
-                cb.invoke(fieldName, "add", args(parseMethodInvocation));
-                cb.statement("index++");
-                cb._end();
-                cb._end();
-            } else {
-                parseMethodInvocation = buildParseMethodInvocation(elementDefinition, elementName, fieldType, false);
-                cb.assign(fieldType + " " + fieldName, parseMethodInvocation);
-            }
-        }
-        
         if (!isAbstract(structureDefinition) && !"Quantity".equals(generatedClassName)) {
-            cb.assign(generatedClassName + ".Builder builder", generatedClassName + ".builder(" + String.join(", ", args) + ")");
+            cb.assign(generatedClassName + ".Builder builder", generatedClassName + ".builder()");
         }
         
         String superClass = superClassMap.get(generatedClassName);
@@ -1931,8 +2189,7 @@ public class CodeGenerator {
             cb.invoke("parse" + superClass, args("builder", "jsonObject"));
         }
         
-        List<JsonObject> optionalElementDefinitions = elementDefinitions.stream().filter(o -> !isRequired(o)).collect(Collectors.toList());
-        for (JsonObject elementDefinition : optionalElementDefinitions) {
+        for (JsonObject elementDefinition : elementDefinitions) {
             String basePath = elementDefinition.getJsonObject("base").getString("path");
             if (elementDefinition.getString("path").equals(basePath)) {
                 String elementName = getElementName(elementDefinition, path);
@@ -1978,7 +2235,7 @@ public class CodeGenerator {
         cb.end().newLine();
         
         if ("Quantity".equals(generatedClassName)) {
-            cb.method(mods("protected"), "Quantity", "parseQuantity", params("java.lang.String elementName", "JsonObject jsonObject", "int elementIndex"));
+            cb.method(mods("private"), "Quantity", "parseQuantity", params("java.lang.String elementName", "JsonObject jsonObject", "int elementIndex"));
             cb._return("parseQuantity(Quantity.builder(), elementName, jsonObject, elementIndex)");
             cb.end().newLine();
         }
@@ -1990,9 +2247,9 @@ public class CodeGenerator {
         }
         
         if ("String".equals(generatedClassName) || "Uri".equals(generatedClassName) || "Integer".equals(generatedClassName)) {
-            cb.method(mods("protected"), generatedClassName, "parse" + generatedClassName, params(generatedClassName + ".Builder builder", "java.lang.String elementName", "JsonValue jsonValue", "JsonValue _jsonValue", "int elementIndex"));
+            cb.method(mods("private"), generatedClassName, "parse" + generatedClassName, params(generatedClassName + ".Builder builder", "java.lang.String elementName", "JsonValue jsonValue", "JsonValue _jsonValue", "int elementIndex"));
         } else {
-            cb.method(mods("protected"), generatedClassName, "parse" + generatedClassName, params("java.lang.String elementName", "JsonValue jsonValue", "JsonValue _jsonValue", "int elementIndex"));
+            cb.method(mods("private"), generatedClassName, "parse" + generatedClassName, params("java.lang.String elementName", "JsonValue jsonValue", "JsonValue _jsonValue", "int elementIndex"));
         }
         
         cb._if("jsonValue == null && _jsonValue == null")
@@ -2049,7 +2306,7 @@ public class CodeGenerator {
         cb.end().newLine();
         
         if ("String".equals(generatedClassName) || "Uri".equals(generatedClassName) || "Integer".equals(generatedClassName)) {
-            cb.method(mods("protected"), generatedClassName, "parse" + generatedClassName, params("java.lang.String elementName", "JsonValue jsonValue", "JsonValue _jsonValue", "int elementIndex"))
+            cb.method(mods("private"), generatedClassName, "parse" + generatedClassName, params("java.lang.String elementName", "JsonValue jsonValue", "JsonValue _jsonValue", "int elementIndex"))
                 ._return("parse" + generatedClassName + "(" + generatedClassName + ".builder(), elementName, jsonValue, _jsonValue, elementIndex)")
             .end().newLine();
         }

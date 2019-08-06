@@ -365,14 +365,8 @@ public class NamingSystem extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(String name, PublicationStatus status, NamingSystemType kind, DateTime date, Collection<UniqueId> uniqueId) {
-        Builder builder = new Builder();
-        builder.name(name);
-        builder.status(status);
-        builder.kind(kind);
-        builder.date(date);
-        builder.uniqueId(uniqueId);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -389,6 +383,10 @@ public class NamingSystem extends DomainResource {
         private List<CodeableConcept> jurisdiction = new ArrayList<>();
         private String usage;
         private List<UniqueId> uniqueId = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1113,11 +1111,8 @@ public class NamingSystem extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(NamingSystemIdentifierType type, String value) {
-            Builder builder = new Builder();
-            builder.type(type);
-            builder.value(value);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1126,6 +1121,10 @@ public class NamingSystem extends DomainResource {
             private Boolean preferred;
             private String comment;
             private Period period;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

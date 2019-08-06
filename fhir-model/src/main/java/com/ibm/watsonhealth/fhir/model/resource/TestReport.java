@@ -333,12 +333,8 @@ public class TestReport extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(TestReportStatus status, Reference testScript, TestReportResult result) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.testScript(testScript);
-        builder.result(result);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -354,6 +350,10 @@ public class TestReport extends DomainResource {
         private Setup setup;
         private List<Test> test = new ArrayList<>();
         private Teardown teardown;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -968,17 +968,18 @@ public class TestReport extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(TestReportParticipantType type, Uri uri) {
-            Builder builder = new Builder();
-            builder.type(type);
-            builder.uri(uri);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private TestReportParticipantType type;
             private Uri uri;
             private String display;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1246,14 +1247,16 @@ public class TestReport extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Collection<Action> action) {
-            Builder builder = new Builder();
-            builder.action(action);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<Action> action = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1529,13 +1532,16 @@ public class TestReport extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Operation operation;
                 private Assert _assert;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -1821,16 +1827,18 @@ public class TestReport extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(TestReportActionResult result) {
-                    Builder builder = new Builder();
-                    builder.result(result);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private TestReportActionResult result;
                     private Markdown message;
                     private Uri detail;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -2134,16 +2142,18 @@ public class TestReport extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(TestReportActionResult result) {
-                    Builder builder = new Builder();
-                    builder.result(result);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private TestReportActionResult result;
                     private Markdown message;
                     private String detail;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -2449,16 +2459,18 @@ public class TestReport extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Collection<Action> action) {
-            Builder builder = new Builder();
-            builder.action(action);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String name;
             private String description;
             private List<Action> action = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2768,13 +2780,16 @@ public class TestReport extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private TestReport.Setup.Action.Operation operation;
                 private TestReport.Setup.Action.Assert _assert;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3027,14 +3042,16 @@ public class TestReport extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Collection<Action> action) {
-            Builder builder = new Builder();
-            builder.action(action);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<Action> action = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3291,14 +3308,16 @@ public class TestReport extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(TestReport.Setup.Action.Operation operation) {
-                Builder builder = new Builder();
-                builder.operation(operation);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private TestReport.Setup.Action.Operation operation;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

@@ -464,11 +464,8 @@ public class ClinicalImpression extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ClinicalImpressionStatus status, Reference subject) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.subject(subject);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -492,6 +489,10 @@ public class ClinicalImpression extends DomainResource {
         private List<Reference> prognosisReference = new ArrayList<>();
         private List<Reference> supportingInfo = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1408,15 +1409,17 @@ public class ClinicalImpression extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept code) {
-            Builder builder = new Builder();
-            builder.code(code);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept code;
             private List<Reference> item = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1730,14 +1733,17 @@ public class ClinicalImpression extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept itemCodeableConcept;
             private Reference itemReference;
             private String basis;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

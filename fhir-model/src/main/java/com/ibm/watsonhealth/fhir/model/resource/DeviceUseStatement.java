@@ -335,12 +335,8 @@ public class DeviceUseStatement extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(DeviceUseStatementStatus status, Reference subject, Reference device) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.subject(subject);
-        builder.device(device);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -357,6 +353,10 @@ public class DeviceUseStatement extends DomainResource {
         private List<Reference> reasonReference = new ArrayList<>();
         private CodeableConcept bodySite;
         private List<Annotation> note = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

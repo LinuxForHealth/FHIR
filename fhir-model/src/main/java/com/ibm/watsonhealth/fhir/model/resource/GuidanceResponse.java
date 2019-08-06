@@ -379,11 +379,8 @@ public class GuidanceResponse extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Element module, GuidanceResponseStatus status) {
-        Builder builder = new Builder();
-        builder.module(module);
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -402,6 +399,10 @@ public class GuidanceResponse extends DomainResource {
         private Reference outputParameters;
         private Reference result;
         private List<DataRequirement> dataRequirement = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

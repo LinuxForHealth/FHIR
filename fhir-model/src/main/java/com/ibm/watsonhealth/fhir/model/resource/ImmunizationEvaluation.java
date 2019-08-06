@@ -332,14 +332,8 @@ public class ImmunizationEvaluation extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ImmunizationEvaluationStatus status, Reference patient, CodeableConcept targetDisease, Reference immunizationEvent, CodeableConcept doseStatus) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.patient(patient);
-        builder.targetDisease(targetDisease);
-        builder.immunizationEvent(immunizationEvent);
-        builder.doseStatus(doseStatus);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -356,6 +350,10 @@ public class ImmunizationEvaluation extends DomainResource {
         private String series;
         private Element doseNumber;
         private Element seriesDoses;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

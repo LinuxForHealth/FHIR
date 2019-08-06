@@ -7,8 +7,6 @@
 package com.ibm.watsonhealth.fhir.model.test;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
-import static org.testng.Assert.assertNotSame;
 
 import java.io.StringWriter;
 import java.time.LocalDate;
@@ -29,14 +27,13 @@ import com.ibm.watsonhealth.fhir.model.type.Integer;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.String;
-import com.ibm.watsonhealth.fhir.model.visitor.DeepCopyingVisitor;
-import com.ibm.watsonhealth.fhir.model.visitor.ReferenceAdaptingVisitor;
 import com.ibm.watsonhealth.fhir.model.visitor.CopyingVisitor;
 
 public class CopyingVisitorTest {
     public static void main(java.lang.String[] args) throws Exception {
         Id id = Id.builder().value(UUID.randomUUID().toString())
-                .extension(Extension.builder("http://www.ibm.com/someExtension")
+                .extension(Extension.builder()
+                    .url("http://www.ibm.com/someExtension")
                     .value(String.of("Hello, World!"))
                     .build())
                 .build();
@@ -46,13 +43,15 @@ public class CopyingVisitorTest {
                 .build();
         
         String given = String.builder().value("John")
-                .extension(Extension.builder("http://www.ibm.com/someExtension")
+                .extension(Extension.builder()
+                    .url("http://www.ibm.com/someExtension")
                     .value(String.of("value and extension"))
                     .build())
                 .build();
         
         String otherGiven = String.builder()
-                .extension(Extension.builder("http://www.ibm.com/someExtension")
+                .extension(Extension.builder()
+                    .url("http://www.ibm.com/someExtension")
                     .value(String.of("extension only"))
                     .build())
                 .build();
@@ -80,7 +79,6 @@ public class CopyingVisitorTest {
                 .build();
         
         testCopy(patient);
-        testUpdateReferences(patient);
     }
 
     static void testCopy(Resource resource) throws FHIRGeneratorException {
@@ -97,22 +95,4 @@ public class CopyingVisitorTest {
         assertEquals(result, resource);
     }
     
-    static void testUpdateReferences(Patient patient) throws FHIRGeneratorException {
-        ReferenceAdaptingVisitor<Patient> visitor = new ReferenceAdaptingVisitor<Patient>();
-        patient.accept(visitor);
-        Patient result = visitor.getResult();
-        
-        assertNotSame(result, patient);
-
-        StringWriter writer1 = new StringWriter();
-        FHIRGenerator.generator(Format.JSON, true).generate(patient, writer1);
-        StringWriter writer2 = new StringWriter();
-        FHIRGenerator.generator(Format.JSON, true).generate(result, writer2);
-        assertNotEquals(writer2.toString(), writer1.toString());
-        
-        System.out.println(writer1.toString());
-        System.out.println(writer2.toString());
-        
-        assertNotEquals(result, patient);
-    }
 }

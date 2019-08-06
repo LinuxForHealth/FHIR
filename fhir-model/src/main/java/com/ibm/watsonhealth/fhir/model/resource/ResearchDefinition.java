@@ -726,11 +726,8 @@ public class ResearchDefinition extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status, Reference population) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.population(population);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -768,6 +765,10 @@ public class ResearchDefinition extends DomainResource {
         private Reference exposure;
         private Reference exposureAlternative;
         private Reference outcome;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

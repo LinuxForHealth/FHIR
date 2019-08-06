@@ -211,10 +211,8 @@ public class MedicinalProductIngredient extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(CodeableConcept role) {
-        Builder builder = new Builder();
-        builder.role(role);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -224,6 +222,10 @@ public class MedicinalProductIngredient extends DomainResource {
         private List<Reference> manufacturer = new ArrayList<>();
         private List<SpecifiedSubstance> specifiedSubstance = new ArrayList<>();
         private Substance substance;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -753,11 +755,8 @@ public class MedicinalProductIngredient extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept code, CodeableConcept group) {
-            Builder builder = new Builder();
-            builder.code(code);
-            builder.group(group);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -765,6 +764,10 @@ public class MedicinalProductIngredient extends DomainResource {
             private CodeableConcept group;
             private CodeableConcept confidentiality;
             private List<Strength> strength = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1183,10 +1186,8 @@ public class MedicinalProductIngredient extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Ratio presentation) {
-                Builder builder = new Builder();
-                builder.presentation(presentation);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -1197,6 +1198,10 @@ public class MedicinalProductIngredient extends DomainResource {
                 private String measurementPoint;
                 private List<CodeableConcept> country = new ArrayList<>();
                 private List<ReferenceStrength> referenceStrength = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -1657,10 +1662,8 @@ public class MedicinalProductIngredient extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(Ratio strength) {
-                    Builder builder = new Builder();
-                    builder.strength(strength);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
@@ -1669,6 +1672,10 @@ public class MedicinalProductIngredient extends DomainResource {
                     private Ratio strengthLowLimit;
                     private String measurementPoint;
                     private List<CodeableConcept> country = new ArrayList<>();
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -2014,15 +2021,17 @@ public class MedicinalProductIngredient extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept code) {
-            Builder builder = new Builder();
-            builder.code(code);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept code;
             private List<MedicinalProductIngredient.SpecifiedSubstance.Strength> strength = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

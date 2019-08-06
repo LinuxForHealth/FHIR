@@ -209,11 +209,8 @@ public class ParameterDefinition extends Element {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ParameterUse use, FHIRAllTypes type) {
-        Builder builder = new Builder();
-        builder.use(use);
-        builder.type(type);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
@@ -224,6 +221,10 @@ public class ParameterDefinition extends Element {
         private String documentation;
         private FHIRAllTypes type;
         private Canonical profile;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

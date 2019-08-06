@@ -457,11 +457,8 @@ public class AdverseEvent extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(AdverseEventActuality actuality, Reference subject) {
-        Builder builder = new Builder();
-        builder.actuality(actuality);
-        builder.subject(subject);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -485,6 +482,10 @@ public class AdverseEvent extends DomainResource {
         private List<Reference> subjectMedicalHistory = new ArrayList<>();
         private List<Reference> referenceDocument = new ArrayList<>();
         private List<Reference> study = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1351,15 +1352,17 @@ public class AdverseEvent extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference instance) {
-            Builder builder = new Builder();
-            builder.instance(instance);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Reference instance;
             private List<Causality> causality = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1689,8 +1692,7 @@ public class AdverseEvent extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -1698,6 +1700,10 @@ public class AdverseEvent extends DomainResource {
                 private String productRelatedness;
                 private Reference author;
                 private CodeableConcept method;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

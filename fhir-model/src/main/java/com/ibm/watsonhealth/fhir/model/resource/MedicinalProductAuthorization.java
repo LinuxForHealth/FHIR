@@ -382,8 +382,7 @@ public class MedicinalProductAuthorization extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -403,6 +402,10 @@ public class MedicinalProductAuthorization extends DomainResource {
         private Reference holder;
         private Reference regulator;
         private Procedure procedure;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1170,8 +1173,7 @@ public class MedicinalProductAuthorization extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1180,6 +1182,10 @@ public class MedicinalProductAuthorization extends DomainResource {
             private List<CodeableConcept> jurisdiction = new ArrayList<>();
             private CodeableConcept legalStatusOfSupply;
             private Period validityPeriod;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1583,10 +1589,8 @@ public class MedicinalProductAuthorization extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept type) {
-            Builder builder = new Builder();
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1594,6 +1598,10 @@ public class MedicinalProductAuthorization extends DomainResource {
             private CodeableConcept type;
             private Element date;
             private List<MedicinalProductAuthorization.Procedure> application = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

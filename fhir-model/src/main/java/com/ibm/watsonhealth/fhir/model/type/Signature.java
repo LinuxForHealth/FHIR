@@ -215,12 +215,8 @@ public class Signature extends Element {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Collection<Coding> type, Instant when, Reference who) {
-        Builder builder = new Builder();
-        builder.type(type);
-        builder.when(when);
-        builder.who(who);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
@@ -231,6 +227,10 @@ public class Signature extends Element {
         private Code targetFormat;
         private Code sigFormat;
         private Base64Binary data;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

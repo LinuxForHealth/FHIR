@@ -467,10 +467,8 @@ public class ConceptMap extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status) {
-        Builder builder = new Builder();
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -492,6 +490,10 @@ public class ConceptMap extends DomainResource {
         private Element source;
         private Element target;
         private List<Group> group = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1327,10 +1329,8 @@ public class ConceptMap extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Collection<Element> element) {
-            Builder builder = new Builder();
-            builder.element(element);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1340,6 +1340,10 @@ public class ConceptMap extends DomainResource {
             private String targetVersion;
             private List<Element> element = new ArrayList<>();
             private Unmapped unmapped;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1719,14 +1723,17 @@ public class ConceptMap extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Code code;
                 private String display;
                 private List<Target> target = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2111,10 +2118,8 @@ public class ConceptMap extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(ConceptMapEquivalence equivalence) {
-                    Builder builder = new Builder();
-                    builder.equivalence(equivalence);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
@@ -2124,6 +2129,10 @@ public class ConceptMap extends DomainResource {
                     private String comment;
                     private List<DependsOn> dependsOn = new ArrayList<>();
                     private List<ConceptMap.Group.Element.Target.DependsOn> product = new ArrayList<>();
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -2553,11 +2562,8 @@ public class ConceptMap extends DomainResource {
                         return new Builder().from(this);
                     }
 
-                    public static Builder builder(Uri property, String value) {
-                        Builder builder = new Builder();
-                        builder.property(property);
-                        builder.value(value);
-                        return builder;
+                    public static Builder builder() {
+                        return new Builder();
                     }
 
                     public static class Builder extends BackboneElement.Builder {
@@ -2565,6 +2571,10 @@ public class ConceptMap extends DomainResource {
                         private Canonical system;
                         private String value;
                         private String display;
+
+                        private Builder() {
+                            super();
+                        }
 
                         /**
                          * <p>
@@ -2912,10 +2922,8 @@ public class ConceptMap extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(ConceptMapGroupUnmappedMode mode) {
-                Builder builder = new Builder();
-                builder.mode(mode);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2923,6 +2931,10 @@ public class ConceptMap extends DomainResource {
                 private Code code;
                 private String display;
                 private Canonical url;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

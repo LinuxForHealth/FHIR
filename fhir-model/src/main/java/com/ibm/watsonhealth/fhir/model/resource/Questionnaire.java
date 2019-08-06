@@ -616,10 +616,8 @@ public class Questionnaire extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status) {
-        Builder builder = new Builder();
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -645,6 +643,10 @@ public class Questionnaire extends DomainResource {
         private Period effectivePeriod;
         private List<Coding> code = new ArrayList<>();
         private List<Item> item = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1846,11 +1848,8 @@ public class Questionnaire extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String linkId, QuestionnaireItemType type) {
-            Builder builder = new Builder();
-            builder.linkId(linkId);
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1870,6 +1869,10 @@ public class Questionnaire extends DomainResource {
             private List<AnswerOption> answerOption = new ArrayList<>();
             private List<Initial> initial = new ArrayList<>();
             private List<Questionnaire.Item> item = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2539,18 +2542,18 @@ public class Questionnaire extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(String question, QuestionnaireItemOperator operator, Element answer) {
-                Builder builder = new Builder();
-                builder.question(question);
-                builder.operator(operator);
-                builder.answer(answer);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private String question;
                 private QuestionnaireItemOperator operator;
                 private Element answer;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2836,15 +2839,17 @@ public class Questionnaire extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Element value) {
-                Builder builder = new Builder();
-                builder.value(value);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Element value;
                 private Boolean initialSelected;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3096,14 +3101,16 @@ public class Questionnaire extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Element value) {
-                Builder builder = new Builder();
-                builder.value(value);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Element value;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

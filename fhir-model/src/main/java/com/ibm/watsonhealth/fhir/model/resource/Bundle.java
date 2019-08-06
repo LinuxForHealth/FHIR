@@ -298,10 +298,8 @@ public class Bundle extends Resource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(BundleType type) {
-        Builder builder = new Builder();
-        builder.type(type);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends Resource.Builder {
@@ -312,6 +310,10 @@ public class Bundle extends Resource {
         private List<Link> link = new ArrayList<>();
         private List<Entry> entry = new ArrayList<>();
         private Signature signature;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -668,16 +670,17 @@ public class Bundle extends Resource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String relation, Uri url) {
-            Builder builder = new Builder();
-            builder.relation(relation);
-            builder.url(url);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String relation;
             private Uri url;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1029,8 +1032,7 @@ public class Bundle extends Resource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1040,6 +1042,10 @@ public class Bundle extends Resource {
             private Search search;
             private Request request;
             private Response response;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1408,13 +1414,16 @@ public class Bundle extends Resource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private SearchEntryMode mode;
                 private Decimal score;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -1763,11 +1772,8 @@ public class Bundle extends Resource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(HTTPVerb method, Uri url) {
-                Builder builder = new Builder();
-                builder.method(method);
-                builder.url(url);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -1777,6 +1783,10 @@ public class Bundle extends Resource {
                 private Instant ifModifiedSince;
                 private String ifMatch;
                 private String ifNoneExist;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2176,10 +2186,8 @@ public class Bundle extends Resource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(String status) {
-                Builder builder = new Builder();
-                builder.status(status);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2188,6 +2196,10 @@ public class Bundle extends Resource {
                 private String etag;
                 private Instant lastModified;
                 private Resource outcome;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

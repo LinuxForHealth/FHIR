@@ -125,15 +125,17 @@ public class Extension extends Element {
         return new Builder().from(this);
     }
 
-    public static Builder builder(java.lang.String url) {
-        Builder builder = new Builder();
-        builder.url(url);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
         private java.lang.String url;
         private Element value;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

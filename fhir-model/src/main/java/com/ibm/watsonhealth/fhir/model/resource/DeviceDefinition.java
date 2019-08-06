@@ -494,8 +494,7 @@ public class DeviceDefinition extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -521,6 +520,10 @@ public class DeviceDefinition extends DomainResource {
         private Quantity quantity;
         private Reference parentDevice;
         private List<Material> material = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1582,18 +1585,18 @@ public class DeviceDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String deviceIdentifier, Uri issuer, Uri jurisdiction) {
-            Builder builder = new Builder();
-            builder.deviceIdentifier(deviceIdentifier);
-            builder.issuer(issuer);
-            builder.jurisdiction(jurisdiction);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String deviceIdentifier;
             private Uri issuer;
             private Uri jurisdiction;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1882,16 +1885,17 @@ public class DeviceDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String name, DeviceNameType type) {
-            Builder builder = new Builder();
-            builder.name(name);
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String name;
             private DeviceNameType type;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2162,15 +2166,17 @@ public class DeviceDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String systemType) {
-            Builder builder = new Builder();
-            builder.systemType(systemType);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String systemType;
             private String version;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2439,15 +2445,17 @@ public class DeviceDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept type) {
-            Builder builder = new Builder();
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private List<CodeableConcept> description = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2758,16 +2766,18 @@ public class DeviceDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept type) {
-            Builder builder = new Builder();
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private List<Quantity> valueQuantity = new ArrayList<>();
             private List<CodeableConcept> valueCode = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3119,16 +3129,18 @@ public class DeviceDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept substance) {
-            Builder builder = new Builder();
-            builder.substance(substance);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept substance;
             private Boolean alternate;
             private Boolean allergenicIndicator;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

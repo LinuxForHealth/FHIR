@@ -289,8 +289,7 @@ Work addresses are not typically
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -304,6 +303,10 @@ Work addresses are not typically
         private List<Attachment> photo = new ArrayList<>();
         private List<Qualification> qualification = new ArrayList<>();
         private List<CodeableConcept> communication = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1031,10 +1034,8 @@ Work addresses are not typically
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept code) {
-            Builder builder = new Builder();
-            builder.code(code);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1042,6 +1043,10 @@ Work addresses are not typically
             private CodeableConcept code;
             private Period period;
             private Reference issuer;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

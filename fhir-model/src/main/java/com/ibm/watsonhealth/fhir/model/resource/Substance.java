@@ -230,10 +230,8 @@ public class Substance extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(CodeableConcept code) {
-        Builder builder = new Builder();
-        builder.code(code);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -244,6 +242,10 @@ public class Substance extends DomainResource {
         private String description;
         private List<Instance> instance = new ArrayList<>();
         private List<Ingredient> ingredient = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -820,14 +822,17 @@ public class Substance extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Identifier identifier;
             private DateTime expiry;
             private SimpleQuantity quantity;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1113,15 +1118,17 @@ public class Substance extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Element substance) {
-            Builder builder = new Builder();
-            builder.substance(substance);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Ratio quantity;
             private Element substance;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

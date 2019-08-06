@@ -947,10 +947,8 @@ public class ActivityDefinition extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status) {
-        Builder builder = new Builder();
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -1000,6 +998,10 @@ public class ActivityDefinition extends DomainResource {
         private List<Reference> observationResultRequirement = new ArrayList<>();
         private Canonical transform;
         private List<DynamicValue> dynamicValue = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -2590,15 +2592,17 @@ public class ActivityDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(ActivityParticipantType type) {
-            Builder builder = new Builder();
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private ActivityParticipantType type;
             private CodeableConcept role;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2873,16 +2877,17 @@ public class ActivityDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String path, Expression expression) {
-            Builder builder = new Builder();
-            builder.path(path);
-            builder.expression(expression);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String path;
             private Expression expression;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

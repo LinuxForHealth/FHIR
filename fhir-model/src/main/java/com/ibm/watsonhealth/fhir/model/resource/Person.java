@@ -283,8 +283,7 @@ public class Person extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -298,6 +297,10 @@ public class Person extends DomainResource {
         private Reference managingOrganization;
         private Boolean active;
         private List<Link> link = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -930,15 +933,17 @@ public class Person extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference target) {
-            Builder builder = new Builder();
-            builder.target(target);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Reference target;
             private IdentityAssuranceLevel assurance;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

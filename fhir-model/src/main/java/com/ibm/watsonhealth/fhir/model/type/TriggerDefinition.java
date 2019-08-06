@@ -200,10 +200,8 @@ public class TriggerDefinition extends Element {
         return new Builder().from(this);
     }
 
-    public static Builder builder(TriggerType type) {
-        Builder builder = new Builder();
-        builder.type(type);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
@@ -212,6 +210,10 @@ public class TriggerDefinition extends Element {
         private Element timing;
         private List<DataRequirement> data = new ArrayList<>();
         private Expression condition;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

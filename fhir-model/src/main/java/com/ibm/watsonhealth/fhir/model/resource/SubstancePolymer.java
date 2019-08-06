@@ -211,8 +211,7 @@ public class SubstancePolymer extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -222,6 +221,10 @@ public class SubstancePolymer extends DomainResource {
         private List<String> modification = new ArrayList<>();
         private List<MonomerSet> monomerSet = new ArrayList<>();
         private List<Repeat> repeat = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -763,13 +766,16 @@ public class SubstancePolymer extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept ratioType;
             private List<StartingMaterial> startingMaterial = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1098,8 +1104,7 @@ public class SubstancePolymer extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -1107,6 +1112,10 @@ public class SubstancePolymer extends DomainResource {
                 private CodeableConcept type;
                 private Boolean isDefining;
                 private SubstanceAmount amount;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -1447,8 +1456,7 @@ public class SubstancePolymer extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1456,6 +1464,10 @@ public class SubstancePolymer extends DomainResource {
             private String averageMolecularFormula;
             private CodeableConcept repeatUnitAmountType;
             private List<RepeatUnit> repeatUnit = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1836,8 +1848,7 @@ public class SubstancePolymer extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -1846,6 +1857,10 @@ public class SubstancePolymer extends DomainResource {
                 private SubstanceAmount amount;
                 private List<DegreeOfPolymerisation> degreeOfPolymerisation = new ArrayList<>();
                 private List<StructuralRepresentation> structuralRepresentation = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2213,13 +2228,16 @@ public class SubstancePolymer extends DomainResource {
                 }
 
                 public static Builder builder() {
-                    Builder builder = new Builder();
-                    return builder;
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private CodeableConcept degree;
                     private SubstanceAmount amount;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -2507,14 +2525,17 @@ public class SubstancePolymer extends DomainResource {
                 }
 
                 public static Builder builder() {
-                    Builder builder = new Builder();
-                    return builder;
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private CodeableConcept type;
                     private String representation;
                     private Attachment attachment;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>

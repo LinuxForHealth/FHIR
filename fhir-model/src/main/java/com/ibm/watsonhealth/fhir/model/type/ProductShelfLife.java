@@ -164,11 +164,8 @@ public class ProductShelfLife extends BackboneElement {
         return new Builder().from(this);
     }
 
-    public static Builder builder(CodeableConcept type, Quantity period) {
-        Builder builder = new Builder();
-        builder.type(type);
-        builder.period(period);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends BackboneElement.Builder {
@@ -176,6 +173,10 @@ public class ProductShelfLife extends BackboneElement {
         private CodeableConcept type;
         private Quantity period;
         private List<CodeableConcept> specialPrecautionsForStorage = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

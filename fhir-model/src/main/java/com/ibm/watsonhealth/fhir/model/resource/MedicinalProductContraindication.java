@@ -227,8 +227,7 @@ public class MedicinalProductContraindication extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -239,6 +238,10 @@ public class MedicinalProductContraindication extends DomainResource {
         private List<Reference> therapeuticIndication = new ArrayList<>();
         private List<OtherTherapy> otherTherapy = new ArrayList<>();
         private List<Population> population = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -821,16 +824,17 @@ public class MedicinalProductContraindication extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept therapyRelationshipType, Element medication) {
-            Builder builder = new Builder();
-            builder.therapyRelationshipType(therapyRelationshipType);
-            builder.medication(medication);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept therapyRelationshipType;
             private Element medication;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

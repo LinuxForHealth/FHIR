@@ -334,10 +334,8 @@ public class MetadataResource extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status) {
-        Builder builder = new Builder();
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -353,6 +351,10 @@ public class MetadataResource extends DomainResource {
         private Markdown description;
         private List<UsageContext> useContext = new ArrayList<>();
         private List<CodeableConcept> jurisdiction = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

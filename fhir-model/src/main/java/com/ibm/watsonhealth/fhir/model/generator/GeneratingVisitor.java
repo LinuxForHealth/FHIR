@@ -19,41 +19,43 @@ public abstract class GeneratingVisitor extends PathAwareAbstractVisitor {
     protected final Stack<Class<?>> typeStack = new Stack<>();
     
     protected GeneratingVisitor() {
+        // for subclasses
     }
     
-    protected java.lang.String getChoiceElementName(java.lang.String name, Class<?> type) {
+    protected final java.lang.String getChoiceElementName(java.lang.String name, Class<?> type) {
         return name + getConcreteTypeName(type.getSimpleName());
     }
 
-    protected int getDepth() {
+    protected final int getDepth() {
         return typeStack.size();
     }
     
-    protected boolean isChoiceElement(java.lang.String name) {
+    protected final boolean isChoiceElement(java.lang.String name) {
         if (getDepth() > 1) {
+            // TODO: move isChoiceElement to a utility class that is not JSON specific
             return JsonSupport.isChoiceElement(typeStack.get(getDepth() - 2), name);
         }
         return false;
     }
 
     @Override
-    public void postVisit(Element element) {
+    public final void postVisit(Element element) {
         typeStack.pop();
     }
 
     @Override
-    public void postVisit(Resource resource) {
+    public final void postVisit(Resource resource) {
         typeStack.pop();
     }
 
     @Override
-    public boolean preVisit(Element element) {
+    public final boolean preVisit(Element element) {
         typeStack.push(element.getClass());
         return true;
     }
 
     @Override
-    public boolean preVisit(Resource resource) {
+    public final boolean preVisit(Resource resource) {
         typeStack.push(resource.getClass());
         return true;
     }

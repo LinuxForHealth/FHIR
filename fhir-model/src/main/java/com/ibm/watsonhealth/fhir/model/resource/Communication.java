@@ -514,10 +514,8 @@ public class Communication extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(CommunicationStatus status) {
-        Builder builder = new Builder();
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -544,6 +542,10 @@ public class Communication extends DomainResource {
         private List<Reference> reasonReference = new ArrayList<>();
         private List<Payload> payload = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1610,14 +1612,16 @@ public class Communication extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Element content) {
-            Builder builder = new Builder();
-            builder.content(content);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Element content;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

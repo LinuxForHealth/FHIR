@@ -619,11 +619,8 @@ public class Evidence extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status, Reference exposureBackground) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.exposureBackground(exposureBackground);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -655,6 +652,10 @@ public class Evidence extends DomainResource {
         private Reference exposureBackground;
         private List<Reference> exposureVariant = new ArrayList<>();
         private List<Reference> outcome = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

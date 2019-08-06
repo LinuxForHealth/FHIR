@@ -500,13 +500,8 @@ public class StructureMap extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Uri url, String name, PublicationStatus status, Collection<Group> group) {
-        Builder builder = new Builder();
-        builder.url(url);
-        builder.name(name);
-        builder.status(status);
-        builder.group(group);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -528,6 +523,10 @@ public class StructureMap extends DomainResource {
         private List<Structure> structure = new ArrayList<>();
         private List<Canonical> _import = new ArrayList<>();
         private List<Group> group = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1400,11 +1399,8 @@ public class StructureMap extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Canonical url, StructureMapModelMode mode) {
-            Builder builder = new Builder();
-            builder.url(url);
-            builder.mode(mode);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1412,6 +1408,10 @@ public class StructureMap extends DomainResource {
             private StructureMapModelMode mode;
             private String alias;
             private String documentation;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1786,13 +1786,8 @@ public class StructureMap extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Id name, StructureMapGroupTypeMode typeMode, Collection<Input> input, Collection<Rule> rule) {
-            Builder builder = new Builder();
-            builder.name(name);
-            builder.typeMode(typeMode);
-            builder.input(input);
-            builder.rule(rule);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1802,6 +1797,10 @@ public class StructureMap extends DomainResource {
             private String documentation;
             private List<Input> input = new ArrayList<>();
             private List<Rule> rule = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2221,11 +2220,8 @@ public class StructureMap extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Id name, StructureMapInputMode mode) {
-                Builder builder = new Builder();
-                builder.name(name);
-                builder.mode(mode);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2233,6 +2229,10 @@ public class StructureMap extends DomainResource {
                 private String type;
                 private StructureMapInputMode mode;
                 private String documentation;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2607,11 +2607,8 @@ public class StructureMap extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Id name, Collection<Source> source) {
-                Builder builder = new Builder();
-                builder.name(name);
-                builder.source(source);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2621,6 +2618,10 @@ public class StructureMap extends DomainResource {
                 private List<StructureMap.Group.Rule> rule = new ArrayList<>();
                 private List<Dependent> dependent = new ArrayList<>();
                 private String documentation;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3217,10 +3218,8 @@ public class StructureMap extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(Id context) {
-                    Builder builder = new Builder();
-                    builder.context(context);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
@@ -3235,6 +3234,10 @@ public class StructureMap extends DomainResource {
                     private String condition;
                     private String check;
                     private String logMessage;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -3768,8 +3771,7 @@ public class StructureMap extends DomainResource {
                 }
 
                 public static Builder builder() {
-                    Builder builder = new Builder();
-                    return builder;
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
@@ -3781,6 +3783,10 @@ public class StructureMap extends DomainResource {
                     private Id listRuleId;
                     private StructureMapTransform transform;
                     private List<Parameter> parameter = new ArrayList<>();
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -4180,14 +4186,16 @@ public class StructureMap extends DomainResource {
                         return new Builder().from(this);
                     }
 
-                    public static Builder builder(Element value) {
-                        Builder builder = new Builder();
-                        builder.value(value);
-                        return builder;
+                    public static Builder builder() {
+                        return new Builder();
                     }
 
                     public static class Builder extends BackboneElement.Builder {
                         private Element value;
+
+                        private Builder() {
+                            super();
+                        }
 
                         /**
                          * <p>
@@ -4440,16 +4448,17 @@ public class StructureMap extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(Id name, Collection<String> variable) {
-                    Builder builder = new Builder();
-                    builder.name(name);
-                    builder.variable(variable);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private Id name;
                     private List<String> variable = new ArrayList<>();
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>

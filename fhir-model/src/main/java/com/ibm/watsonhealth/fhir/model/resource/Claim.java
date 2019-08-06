@@ -588,17 +588,8 @@ public class Claim extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ClaimStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference provider, CodeableConcept priority, Collection<Insurance> insurance) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.type(type);
-        builder.use(use);
-        builder.patient(patient);
-        builder.created(created);
-        builder.provider(provider);
-        builder.priority(priority);
-        builder.insurance(insurance);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -629,6 +620,10 @@ public class Claim extends DomainResource {
         private Accident accident;
         private List<Item> item = new ArrayList<>();
         private Money total;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1653,14 +1648,17 @@ public class Claim extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Reference claim;
             private CodeableConcept relationship;
             private Identifier reference;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1946,15 +1944,17 @@ public class Claim extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept type) {
-            Builder builder = new Builder();
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private Reference party;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2277,11 +2277,8 @@ public class Claim extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(PositiveInt sequence, Reference provider) {
-            Builder builder = new Builder();
-            builder.sequence(sequence);
-            builder.provider(provider);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2290,6 +2287,10 @@ public class Claim extends DomainResource {
             private Boolean responsible;
             private CodeableConcept role;
             private CodeableConcept qualification;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2684,11 +2685,8 @@ public class Claim extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(PositiveInt sequence, CodeableConcept category) {
-            Builder builder = new Builder();
-            builder.sequence(sequence);
-            builder.category(category);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2698,6 +2696,10 @@ public class Claim extends DomainResource {
             private Element timing;
             private Element value;
             private CodeableConcept reason;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3091,11 +3093,8 @@ public class Claim extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(PositiveInt sequence, Element diagnosis) {
-            Builder builder = new Builder();
-            builder.sequence(sequence);
-            builder.diagnosis(diagnosis);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3104,6 +3103,10 @@ public class Claim extends DomainResource {
             private List<CodeableConcept> type = new ArrayList<>();
             private CodeableConcept onAdmission;
             private CodeableConcept packageCode;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3502,11 +3505,8 @@ public class Claim extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(PositiveInt sequence, Element procedure) {
-            Builder builder = new Builder();
-            builder.sequence(sequence);
-            builder.procedure(procedure);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3515,6 +3515,10 @@ public class Claim extends DomainResource {
             private DateTime date;
             private Element procedure;
             private List<Reference> udi = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3975,12 +3979,8 @@ public class Claim extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(PositiveInt sequence, Boolean focal, Reference coverage) {
-            Builder builder = new Builder();
-            builder.sequence(sequence);
-            builder.focal(focal);
-            builder.coverage(coverage);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3991,6 +3991,10 @@ public class Claim extends DomainResource {
             private String businessArrangement;
             private List<String> preAuthRef = new ArrayList<>();
             private Reference claimResponse;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4391,16 +4395,18 @@ public class Claim extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Date date) {
-            Builder builder = new Builder();
-            builder.date(date);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Date date;
             private CodeableConcept type;
             private Element location;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -5033,11 +5039,8 @@ public class Claim extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(PositiveInt sequence, CodeableConcept productOrService) {
-            Builder builder = new Builder();
-            builder.sequence(sequence);
-            builder.productOrService(productOrService);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -5062,6 +5065,10 @@ public class Claim extends DomainResource {
             private List<CodeableConcept> subSite = new ArrayList<>();
             private List<Reference> encounter = new ArrayList<>();
             private List<Detail> detail = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -6078,11 +6085,8 @@ public class Claim extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(PositiveInt sequence, CodeableConcept productOrService) {
-                Builder builder = new Builder();
-                builder.sequence(sequence);
-                builder.productOrService(productOrService);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -6098,6 +6102,10 @@ public class Claim extends DomainResource {
                 private Money net;
                 private List<Reference> udi = new ArrayList<>();
                 private List<SubDetail> subDetail = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -6799,11 +6807,8 @@ public class Claim extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(PositiveInt sequence, CodeableConcept productOrService) {
-                    Builder builder = new Builder();
-                    builder.sequence(sequence);
-                    builder.productOrService(productOrService);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
@@ -6818,6 +6823,10 @@ public class Claim extends DomainResource {
                     private Decimal factor;
                     private Money net;
                     private List<Reference> udi = new ArrayList<>();
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>

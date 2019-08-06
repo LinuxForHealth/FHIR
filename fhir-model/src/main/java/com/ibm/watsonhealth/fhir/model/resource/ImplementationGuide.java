@@ -502,14 +502,8 @@ public class ImplementationGuide extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Uri url, String name, PublicationStatus status, Id packageId, Collection<FHIRVersion> fhirVersion) {
-        Builder builder = new Builder();
-        builder.url(url);
-        builder.name(name);
-        builder.status(status);
-        builder.packageId(packageId);
-        builder.fhirVersion(fhirVersion);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -533,6 +527,10 @@ public class ImplementationGuide extends DomainResource {
         private List<Global> global = new ArrayList<>();
         private Definition definition;
         private Manifest manifest;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1402,16 +1400,18 @@ public class ImplementationGuide extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Canonical uri) {
-            Builder builder = new Builder();
-            builder.uri(uri);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Canonical uri;
             private Id packageId;
             private String version;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1697,16 +1697,17 @@ public class ImplementationGuide extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(ResourceType type, Canonical profile) {
-            Builder builder = new Builder();
-            builder.type(type);
-            builder.profile(profile);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private ResourceType type;
             private Canonical profile;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2031,10 +2032,8 @@ public class ImplementationGuide extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Collection<Resource> resource) {
-            Builder builder = new Builder();
-            builder.resource(resource);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2043,6 +2042,10 @@ public class ImplementationGuide extends DomainResource {
             private Page page;
             private List<Parameter> parameter = new ArrayList<>();
             private List<Template> template = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2461,15 +2464,17 @@ public class ImplementationGuide extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(String name) {
-                Builder builder = new Builder();
-                builder.name(name);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private String name;
                 private String description;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2815,10 +2820,8 @@ public class ImplementationGuide extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Reference reference) {
-                Builder builder = new Builder();
-                builder.reference(reference);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2828,6 +2831,10 @@ public class ImplementationGuide extends DomainResource {
                 private String description;
                 private Element example;
                 private Id groupingId;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3228,12 +3235,8 @@ public class ImplementationGuide extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Element name, String title, GuidePageGeneration generation) {
-                Builder builder = new Builder();
-                builder.name(name);
-                builder.title(title);
-                builder.generation(generation);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -3241,6 +3244,10 @@ public class ImplementationGuide extends DomainResource {
                 private String title;
                 private GuidePageGeneration generation;
                 private List<ImplementationGuide.Definition.Page> page = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3568,16 +3575,17 @@ public class ImplementationGuide extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(GuideParameterCode code, String value) {
-                Builder builder = new Builder();
-                builder.code(code);
-                builder.value(value);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private GuideParameterCode code;
                 private String value;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3866,17 +3874,18 @@ public class ImplementationGuide extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Code code, String source) {
-                Builder builder = new Builder();
-                builder.code(code);
-                builder.source(source);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Code code;
                 private String source;
                 private String scope;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -4220,10 +4229,8 @@ public class ImplementationGuide extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Collection<Resource> resource) {
-            Builder builder = new Builder();
-            builder.resource(resource);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -4232,6 +4239,10 @@ public class ImplementationGuide extends DomainResource {
             private List<Page> page = new ArrayList<>();
             private List<String> image = new ArrayList<>();
             private List<String> other = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4673,16 +4684,18 @@ public class ImplementationGuide extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Reference reference) {
-                Builder builder = new Builder();
-                builder.reference(reference);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Reference reference;
                 private Element example;
                 private Url relativePath;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -4987,16 +5000,18 @@ public class ImplementationGuide extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(String name) {
-                Builder builder = new Builder();
-                builder.name(name);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private String name;
                 private String title;
                 private List<String> anchor = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

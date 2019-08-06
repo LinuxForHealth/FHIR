@@ -29,7 +29,8 @@ import com.ibm.watsonhealth.fhir.model.visitor.PathAwareAbstractVisitor;
 public class FHIRPathTreeTest {
     public static void main(java.lang.String[] args) throws Exception {
         Id id = Id.builder().value(UUID.randomUUID().toString())
-                .extension(Extension.builder("http://www.ibm.com/someExtension")
+                .extension(Extension.builder()
+                    .url("http://www.ibm.com/someExtension")
                     .value(String.of("Hello, World!"))
                     .build())
                 .build();
@@ -39,13 +40,15 @@ public class FHIRPathTreeTest {
                 .build();
         
         String given = String.builder().value("John")
-                .extension(Extension.builder("http://www.ibm.com/someExtension")
+                .extension(Extension.builder()
+                    .url("http://www.ibm.com/someExtension")
                     .value(String.of("value and extension"))
                     .build())
                 .build();
         
         String otherGiven = String.builder()
-                .extension(Extension.builder("http://www.ibm.com/someExtension")
+                .extension(Extension.builder()
+                    .url("http://www.ibm.com/someExtension")
                     .value(String.of("extension only"))
                     .build())
                 .build();

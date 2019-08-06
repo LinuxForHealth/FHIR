@@ -370,14 +370,8 @@ public class CompartmentDefinition extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Uri url, String name, PublicationStatus status, CompartmentType code, Boolean search) {
-        Builder builder = new Builder();
-        builder.url(url);
-        builder.name(name);
-        builder.status(status);
-        builder.code(code);
-        builder.search(search);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -395,6 +389,10 @@ public class CompartmentDefinition extends DomainResource {
         private CompartmentType code;
         private Boolean search;
         private List<Resource> resource = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1081,16 +1079,18 @@ public class CompartmentDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(ResourceType code) {
-            Builder builder = new Builder();
-            builder.code(code);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private ResourceType code;
             private List<String> param = new ArrayList<>();
             private String documentation;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

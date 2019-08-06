@@ -339,8 +339,7 @@ public class Specimen extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -357,6 +356,10 @@ public class Specimen extends DomainResource {
         private List<Container> container = new ArrayList<>();
         private List<CodeableConcept> condition = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1190,8 +1193,7 @@ public class Specimen extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1202,6 +1204,10 @@ public class Specimen extends DomainResource {
             private CodeableConcept method;
             private CodeableConcept bodySite;
             private Element fastingStatus;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1595,8 +1601,7 @@ public class Specimen extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1604,6 +1609,10 @@ public class Specimen extends DomainResource {
             private CodeableConcept procedure;
             private List<Reference> additive = new ArrayList<>();
             private Element time;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2007,8 +2016,7 @@ public class Specimen extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2018,6 +2026,10 @@ public class Specimen extends DomainResource {
             private SimpleQuantity capacity;
             private SimpleQuantity specimenQuantity;
             private Element additive;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

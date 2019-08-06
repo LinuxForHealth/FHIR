@@ -494,10 +494,8 @@ public class ValueSet extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status) {
-        Builder builder = new Builder();
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -519,6 +517,10 @@ public class ValueSet extends DomainResource {
         private Markdown copyright;
         private Compose compose;
         private Expansion expansion;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1325,10 +1327,8 @@ public class ValueSet extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Collection<Include> include) {
-            Builder builder = new Builder();
-            builder.include(include);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1336,6 +1336,10 @@ public class ValueSet extends DomainResource {
             private Boolean inactive;
             private List<Include> include = new ArrayList<>();
             private List<ValueSet.Compose.Include> exclude = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1747,8 +1751,7 @@ public class ValueSet extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -1757,6 +1760,10 @@ public class ValueSet extends DomainResource {
                 private List<Concept> concept = new ArrayList<>();
                 private List<Filter> filter = new ArrayList<>();
                 private List<Canonical> valueSet = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2173,16 +2180,18 @@ public class ValueSet extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(Code code) {
-                    Builder builder = new Builder();
-                    builder.code(code);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private Code code;
                     private String display;
                     private List<Designation> designation = new ArrayList<>();
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -2513,16 +2522,18 @@ public class ValueSet extends DomainResource {
                         return new Builder().from(this);
                     }
 
-                    public static Builder builder(String value) {
-                        Builder builder = new Builder();
-                        builder.value(value);
-                        return builder;
+                    public static Builder builder() {
+                        return new Builder();
                     }
 
                     public static class Builder extends BackboneElement.Builder {
                         private Code language;
                         private Coding use;
                         private String value;
+
+                        private Builder() {
+                            super();
+                        }
 
                         /**
                          * <p>
@@ -2831,18 +2842,18 @@ public class ValueSet extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(Code property, FilterOperator op, String value) {
-                    Builder builder = new Builder();
-                    builder.property(property);
-                    builder.op(op);
-                    builder.value(value);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private Code property;
                     private FilterOperator op;
                     private String value;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -3212,10 +3223,8 @@ public class ValueSet extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(DateTime timestamp) {
-            Builder builder = new Builder();
-            builder.timestamp(timestamp);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3225,6 +3234,10 @@ public class ValueSet extends DomainResource {
             private Integer offset;
             private List<Parameter> parameter = new ArrayList<>();
             private List<Contains> contains = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3617,15 +3630,17 @@ public class ValueSet extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(String name) {
-                Builder builder = new Builder();
-                builder.name(name);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private String name;
                 private Element value;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -4011,8 +4026,7 @@ public class ValueSet extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -4024,6 +4038,10 @@ public class ValueSet extends DomainResource {
                 private String display;
                 private List<ValueSet.Compose.Include.Concept.Designation> designation = new ArrayList<>();
                 private List<ValueSet.Expansion.Contains> contains = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

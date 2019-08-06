@@ -422,12 +422,8 @@ public class MedicationStatement extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(MedicationStatementStatus status, Element medication, Reference subject) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.medication(medication);
-        builder.subject(subject);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -448,6 +444,10 @@ public class MedicationStatement extends DomainResource {
         private List<Reference> reasonReference = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
         private List<Dosage> dosage = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

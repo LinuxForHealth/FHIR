@@ -263,10 +263,8 @@ public class MedicinalProductPackaged extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Collection<PackageItem> packageItem) {
-        Builder builder = new Builder();
-        builder.packageItem(packageItem);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -279,6 +277,10 @@ public class MedicinalProductPackaged extends DomainResource {
         private List<Reference> manufacturer = new ArrayList<>();
         private List<BatchIdentifier> batchIdentifier = new ArrayList<>();
         private List<PackageItem> packageItem = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -918,15 +920,17 @@ public class MedicinalProductPackaged extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Identifier outerPackaging) {
-            Builder builder = new Builder();
-            builder.outerPackaging(outerPackaging);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Identifier outerPackaging;
             private Identifier immediatePackaging;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1375,11 +1379,8 @@ public class MedicinalProductPackaged extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept type, Quantity quantity) {
-            Builder builder = new Builder();
-            builder.type(type);
-            builder.quantity(quantity);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1395,6 +1396,10 @@ public class MedicinalProductPackaged extends DomainResource {
             private List<CodeableConcept> otherCharacteristics = new ArrayList<>();
             private List<ProductShelfLife> shelfLifeStorage = new ArrayList<>();
             private List<Reference> manufacturer = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

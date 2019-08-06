@@ -336,10 +336,8 @@ public class ObservationDefinition extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(CodeableConcept code) {
-        Builder builder = new Builder();
-        builder.code(code);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -356,6 +354,10 @@ public class ObservationDefinition extends DomainResource {
         private Reference normalCodedValueSet;
         private Reference abnormalCodedValueSet;
         private Reference criticalCodedValueSet;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1054,8 +1056,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1063,6 +1064,10 @@ public class ObservationDefinition extends DomainResource {
             private CodeableConcept unit;
             private Decimal conversionFactor;
             private Integer decimalPrecision;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1476,8 +1481,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1489,6 +1493,10 @@ public class ObservationDefinition extends DomainResource {
             private Range age;
             private Range gestationalAge;
             private String condition;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

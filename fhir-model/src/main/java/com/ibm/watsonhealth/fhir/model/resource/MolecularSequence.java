@@ -417,10 +417,8 @@ public class MolecularSequence extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Integer coordinateSystem) {
-        Builder builder = new Builder();
-        builder.coordinateSystem(coordinateSystem);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -440,6 +438,10 @@ public class MolecularSequence extends DomainResource {
         private List<Repository> repository = new ArrayList<>();
         private List<Reference> pointer = new ArrayList<>();
         private List<StructureVariant> structureVariant = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1349,8 +1351,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1363,6 +1364,10 @@ public class MolecularSequence extends DomainResource {
             private StrandType strand;
             private Integer windowStart;
             private Integer windowEnd;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1848,8 +1853,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1859,6 +1863,10 @@ public class MolecularSequence extends DomainResource {
             private String referenceAllele;
             private String cigar;
             private Reference variantPointer;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2453,10 +2461,8 @@ public class MolecularSequence extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(QualityType type) {
-            Builder builder = new Builder();
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2475,6 +2481,10 @@ public class MolecularSequence extends DomainResource {
             private Decimal recall;
             private Decimal fScore;
             private Roc roc;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3065,8 +3075,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -3077,6 +3086,10 @@ public class MolecularSequence extends DomainResource {
                 private List<Decimal> precision = new ArrayList<>();
                 private List<Decimal> sensitivity = new ArrayList<>();
                 private List<Decimal> fMeasure = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3674,10 +3687,8 @@ public class MolecularSequence extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(RepositoryType type) {
-            Builder builder = new Builder();
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3687,6 +3698,10 @@ public class MolecularSequence extends DomainResource {
             private String datasetId;
             private String variantsetId;
             private String readsetId;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4080,8 +4095,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -4090,6 +4104,10 @@ public class MolecularSequence extends DomainResource {
             private Integer length;
             private Outer outer;
             private Inner inner;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4411,13 +4429,16 @@ public class MolecularSequence extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Integer start;
                 private Integer end;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -4691,13 +4712,16 @@ public class MolecularSequence extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Integer start;
                 private Integer end;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

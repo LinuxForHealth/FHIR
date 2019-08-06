@@ -165,8 +165,7 @@ public class SubstanceAmount extends BackboneElement {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends BackboneElement.Builder {
@@ -174,6 +173,10 @@ public class SubstanceAmount extends BackboneElement {
         private CodeableConcept amountType;
         private String amountText;
         private ReferenceRange referenceRange;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -486,13 +489,16 @@ public class SubstanceAmount extends BackboneElement {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Quantity lowLimit;
             private Quantity highLimit;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

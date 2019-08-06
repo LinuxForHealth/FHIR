@@ -364,8 +364,7 @@ public class InsurancePlan extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -383,6 +382,10 @@ public class InsurancePlan extends DomainResource {
         private List<Reference> network = new ArrayList<>();
         private List<Coverage> coverage = new ArrayList<>();
         private List<Plan> plan = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1220,8 +1223,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1229,6 +1231,10 @@ public class InsurancePlan extends DomainResource {
             private HumanName name;
             private List<ContactPoint> telecom = new ArrayList<>();
             private Address address;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1574,17 +1580,18 @@ public class InsurancePlan extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept type, Collection<Benefit> benefit) {
-            Builder builder = new Builder();
-            builder.type(type);
-            builder.benefit(benefit);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private List<Reference> network = new ArrayList<>();
             private List<Benefit> benefit = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1936,16 +1943,18 @@ public class InsurancePlan extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CodeableConcept type) {
-                Builder builder = new Builder();
-                builder.type(type);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept type;
                 private String requirement;
                 private List<Limit> limit = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2256,13 +2265,16 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 public static Builder builder() {
-                    Builder builder = new Builder();
-                    return builder;
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private Quantity value;
                     private CodeableConcept code;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -2608,8 +2620,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2619,6 +2630,10 @@ public class InsurancePlan extends DomainResource {
             private List<Reference> network = new ArrayList<>();
             private List<GeneralCost> generalCost = new ArrayList<>();
             private List<SpecificCost> specificCost = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3113,8 +3128,7 @@ public class InsurancePlan extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -3122,6 +3136,10 @@ public class InsurancePlan extends DomainResource {
                 private PositiveInt groupSize;
                 private Money cost;
                 private String comment;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3424,15 +3442,17 @@ public class InsurancePlan extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CodeableConcept category) {
-                Builder builder = new Builder();
-                builder.category(category);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept category;
                 private List<Benefit> benefit = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3725,15 +3745,17 @@ public class InsurancePlan extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(CodeableConcept type) {
-                    Builder builder = new Builder();
-                    builder.type(type);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private CodeableConcept type;
                     private List<Cost> cost = new ArrayList<>();
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -4063,10 +4085,8 @@ public class InsurancePlan extends DomainResource {
                         return new Builder().from(this);
                     }
 
-                    public static Builder builder(CodeableConcept type) {
-                        Builder builder = new Builder();
-                        builder.type(type);
-                        return builder;
+                    public static Builder builder() {
+                        return new Builder();
                     }
 
                     public static class Builder extends BackboneElement.Builder {
@@ -4074,6 +4094,10 @@ public class InsurancePlan extends DomainResource {
                         private CodeableConcept applicability;
                         private List<CodeableConcept> qualifiers = new ArrayList<>();
                         private Quantity value;
+
+                        private Builder() {
+                            super();
+                        }
 
                         /**
                          * <p>

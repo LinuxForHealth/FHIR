@@ -215,8 +215,7 @@ public class HumanName extends Element {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
@@ -227,6 +226,10 @@ public class HumanName extends Element {
         private List<String> prefix = new ArrayList<>();
         private List<String> suffix = new ArrayList<>();
         private Period period;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

@@ -313,14 +313,8 @@ public class PaymentNotice extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PaymentNoticeStatus status, DateTime created, Reference payment, Reference recipient, Money amount) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.created(created);
-        builder.payment(payment);
-        builder.recipient(recipient);
-        builder.amount(amount);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -336,6 +330,10 @@ public class PaymentNotice extends DomainResource {
         private Reference recipient;
         private Money amount;
         private CodeableConcept paymentStatus;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

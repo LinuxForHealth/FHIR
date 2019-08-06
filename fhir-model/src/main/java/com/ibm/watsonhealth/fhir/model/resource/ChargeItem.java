@@ -562,12 +562,8 @@ public class ChargeItem extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ChargeItemStatus status, CodeableConcept code, Reference subject) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.code(code);
-        builder.subject(subject);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -597,6 +593,10 @@ public class ChargeItem extends DomainResource {
         private List<Reference> account = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
         private List<Reference> supportingInformation = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1646,15 +1646,17 @@ public class ChargeItem extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference actor) {
-            Builder builder = new Builder();
-            builder.actor(actor);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept function;
             private Reference actor;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

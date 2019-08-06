@@ -408,8 +408,7 @@ public class Patient extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -429,6 +428,10 @@ public class Patient extends DomainResource {
         private List<Reference> generalPractitioner = new ArrayList<>();
         private Reference managingOrganization;
         private List<Link> link = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1360,8 +1363,7 @@ public class Patient extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1372,6 +1374,10 @@ public class Patient extends DomainResource {
             private AdministrativeGender gender;
             private Reference organization;
             private Period period;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1776,15 +1782,17 @@ public class Patient extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept language) {
-            Builder builder = new Builder();
-            builder.language(language);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept language;
             private Boolean preferred;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2055,16 +2063,17 @@ public class Patient extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference other, LinkType type) {
-            Builder builder = new Builder();
-            builder.other(other);
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Reference other;
             private LinkType type;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

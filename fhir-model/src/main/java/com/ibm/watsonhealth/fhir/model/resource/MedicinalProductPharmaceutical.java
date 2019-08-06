@@ -228,11 +228,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(CodeableConcept administrableDoseForm, Collection<RouteOfAdministration> routeOfAdministration) {
-        Builder builder = new Builder();
-        builder.administrableDoseForm(administrableDoseForm);
-        builder.routeOfAdministration(routeOfAdministration);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -243,6 +240,10 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         private List<Reference> device = new ArrayList<>();
         private List<Characteristics> characteristics = new ArrayList<>();
         private List<RouteOfAdministration> routeOfAdministration = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -824,15 +825,17 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept code) {
-            Builder builder = new Builder();
-            builder.code(code);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept code;
             private CodeableConcept status;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1196,10 +1199,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept code) {
-            Builder builder = new Builder();
-            builder.code(code);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1210,6 +1211,10 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             private Ratio maxDosePerTreatmentPeriod;
             private Duration maxTreatmentPeriod;
             private List<TargetSpecies> targetSpecies = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1596,15 +1601,17 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CodeableConcept code) {
-                Builder builder = new Builder();
-                builder.code(code);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept code;
                 private List<WithdrawalPeriod> withdrawalPeriod = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -1914,17 +1921,18 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(CodeableConcept tissue, Quantity value) {
-                    Builder builder = new Builder();
-                    builder.tissue(tissue);
-                    builder.value(value);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private CodeableConcept tissue;
                     private Quantity value;
                     private String supportingInformation;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>

@@ -291,12 +291,8 @@ public class Provenance extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Collection<Reference> target, Instant recorded, Collection<Agent> agent) {
-        Builder builder = new Builder();
-        builder.target(target);
-        builder.recorded(recorded);
-        builder.agent(agent);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -310,6 +306,10 @@ public class Provenance extends DomainResource {
         private List<Agent> agent = new ArrayList<>();
         private List<Entity> entity = new ArrayList<>();
         private List<Signature> signature = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1013,10 +1013,8 @@ public class Provenance extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference who) {
-            Builder builder = new Builder();
-            builder.who(who);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1024,6 +1022,10 @@ public class Provenance extends DomainResource {
             private List<CodeableConcept> role = new ArrayList<>();
             private Reference who;
             private Reference onBehalfOf;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1372,17 +1374,18 @@ public class Provenance extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(ProvenanceEntityRole role, Reference what) {
-            Builder builder = new Builder();
-            builder.role(role);
-            builder.what(what);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private ProvenanceEntityRole role;
             private Reference what;
             private List<Provenance.Agent> agent = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

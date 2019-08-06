@@ -530,8 +530,7 @@ public class HealthcareService extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -559,6 +558,10 @@ public class HealthcareService extends DomainResource {
         private List<NotAvailable> notAvailable = new ArrayList<>();
         private String availabilityExceptions;
         private List<Reference> endpoint = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1705,13 +1708,16 @@ public class HealthcareService extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept code;
             private Markdown comment;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2017,8 +2023,7 @@ public class HealthcareService extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2026,6 +2031,10 @@ public class HealthcareService extends DomainResource {
             private Boolean allDay;
             private Time availableStartTime;
             private Time availableEndTime;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2352,15 +2361,17 @@ public class HealthcareService extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String description) {
-            Builder builder = new Builder();
-            builder.description(description);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String description;
             private Period during;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

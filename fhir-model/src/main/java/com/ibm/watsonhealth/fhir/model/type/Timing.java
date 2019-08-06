@@ -216,14 +216,17 @@ public class Timing extends BackboneElement {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends BackboneElement.Builder {
         private List<DateTime> event = new ArrayList<>();
         private Repeat repeat;
         private CodeableConcept code;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -782,8 +785,7 @@ public class Timing extends BackboneElement {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -802,6 +804,10 @@ public class Timing extends BackboneElement {
             private List<Time> timeOfDay = new ArrayList<>();
             private List<EventTiming> when = new ArrayList<>();
             private UnsignedInt offset;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

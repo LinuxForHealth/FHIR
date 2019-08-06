@@ -318,11 +318,8 @@ public class DocumentManifest extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(DocumentReferenceStatus status, Collection<Reference> content) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.content(content);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -338,6 +335,10 @@ public class DocumentManifest extends DomainResource {
         private String description;
         private List<Reference> content = new ArrayList<>();
         private List<Related> related = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1011,13 +1012,16 @@ public class DocumentManifest extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Identifier identifier;
             private Reference ref;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

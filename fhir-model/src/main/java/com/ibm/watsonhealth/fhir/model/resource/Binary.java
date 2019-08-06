@@ -142,16 +142,18 @@ public class Binary extends Resource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Code contentType) {
-        Builder builder = new Builder();
-        builder.contentType(contentType);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends Resource.Builder {
         private Code contentType;
         private Reference securityContext;
         private Base64Binary data;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

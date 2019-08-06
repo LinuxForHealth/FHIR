@@ -315,8 +315,7 @@ public class OrganizationAffiliation extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -332,6 +331,10 @@ public class OrganizationAffiliation extends DomainResource {
         private List<Reference> healthcareService = new ArrayList<>();
         private List<ContactPoint> telecom = new ArrayList<>();
         private List<Reference> endpoint = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

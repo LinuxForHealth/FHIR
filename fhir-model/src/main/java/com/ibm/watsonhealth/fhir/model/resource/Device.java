@@ -564,8 +564,7 @@ public class Device extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -595,6 +594,10 @@ public class Device extends DomainResource {
         private List<Annotation> note = new ArrayList<>();
         private List<CodeableConcept> safety = new ArrayList<>();
         private Reference parent;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1721,8 +1724,7 @@ public class Device extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1732,6 +1734,10 @@ public class Device extends DomainResource {
             private Base64Binary carrierAIDC;
             private String carrierHRF;
             private UDIEntryType entryType;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2085,16 +2091,17 @@ public class Device extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String name, DeviceNameType type) {
-            Builder builder = new Builder();
-            builder.name(name);
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String name;
             private DeviceNameType type;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2365,15 +2372,17 @@ public class Device extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept systemType) {
-            Builder builder = new Builder();
-            builder.systemType(systemType);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept systemType;
             private String version;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2660,16 +2669,18 @@ public class Device extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String value) {
-            Builder builder = new Builder();
-            builder.value(value);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private Identifier component;
             private String value;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2973,16 +2984,18 @@ public class Device extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept type) {
-            Builder builder = new Builder();
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private List<Quantity> valueQuantity = new ArrayList<>();
             private List<CodeableConcept> valueCode = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

@@ -541,11 +541,8 @@ public class ChargeItemDefinition extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Uri url, PublicationStatus status) {
-        Builder builder = new Builder();
-        builder.url(url);
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -572,6 +569,10 @@ public class ChargeItemDefinition extends DomainResource {
         private List<Reference> instance = new ArrayList<>();
         private List<Applicability> applicability = new ArrayList<>();
         private List<PropertyGroup> propertyGroup = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1595,14 +1596,17 @@ public class ChargeItemDefinition extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String description;
             private String language;
             private String expression;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1896,13 +1900,16 @@ public class ChargeItemDefinition extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<ChargeItemDefinition.Applicability> applicability = new ArrayList<>();
             private List<PriceComponent> priceComponent = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2264,10 +2271,8 @@ public class ChargeItemDefinition extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(ChargeItemDefinitionPriceComponentType type) {
-                Builder builder = new Builder();
-                builder.type(type);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2275,6 +2280,10 @@ public class ChargeItemDefinition extends DomainResource {
                 private CodeableConcept code;
                 private Decimal factor;
                 private Money amount;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

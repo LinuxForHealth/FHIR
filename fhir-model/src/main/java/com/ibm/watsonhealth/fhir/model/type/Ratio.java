@@ -125,13 +125,16 @@ public class Ratio extends Element {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
         private Quantity numerator;
         private Quantity denominator;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

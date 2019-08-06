@@ -697,11 +697,8 @@ public class Task extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(TaskStatus status, TaskIntent intent) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.intent(intent);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -736,6 +733,10 @@ public class Task extends DomainResource {
         private Restriction restriction;
         private List<Input> input = new ArrayList<>();
         private List<Output> output = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1856,14 +1857,17 @@ public class Task extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private PositiveInt repetitions;
             private Period period;
             private List<Reference> recipient = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2173,16 +2177,17 @@ public class Task extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept type, Element value) {
-            Builder builder = new Builder();
-            builder.type(type);
-            builder.value(value);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private Element value;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2451,16 +2456,17 @@ public class Task extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept type, Element value) {
-            Builder builder = new Builder();
-            builder.type(type);
-            builder.value(value);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private Element value;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

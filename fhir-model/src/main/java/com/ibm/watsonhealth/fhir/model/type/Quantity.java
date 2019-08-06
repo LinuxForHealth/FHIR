@@ -182,8 +182,7 @@ public class Quantity extends Element {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
@@ -192,6 +191,10 @@ public class Quantity extends Element {
         protected String unit;
         protected Uri system;
         protected Code code;
+
+        protected Builder() {
+            super();
+        }
 
         /**
          * <p>

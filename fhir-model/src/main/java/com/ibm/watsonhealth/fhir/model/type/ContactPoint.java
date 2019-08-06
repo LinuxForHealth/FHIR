@@ -184,8 +184,7 @@ public class ContactPoint extends Element {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
@@ -194,6 +193,10 @@ public class ContactPoint extends Element {
         private ContactPointUse use;
         private PositiveInt rank;
         private Period period;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

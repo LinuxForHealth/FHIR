@@ -399,12 +399,8 @@ public class Goal extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(GoalLifecycleStatus lifecycleStatus, CodeableConcept description, Reference subject) {
-        Builder builder = new Builder();
-        builder.lifecycleStatus(lifecycleStatus);
-        builder.description(description);
-        builder.subject(subject);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -424,6 +420,10 @@ public class Goal extends DomainResource {
         private List<Annotation> note = new ArrayList<>();
         private List<CodeableConcept> outcomeCode = new ArrayList<>();
         private List<Reference> outcomeReference = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1231,14 +1231,17 @@ public class Goal extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept measure;
             private Element detail;
             private Element due;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

@@ -231,13 +231,8 @@ public class Subscription extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(SubscriptionStatus status, String reason, String criteria, Channel channel) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.reason(reason);
-        builder.criteria(criteria);
-        builder.channel(channel);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -248,6 +243,10 @@ public class Subscription extends DomainResource {
         private String criteria;
         private String error;
         private Channel channel;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -773,10 +772,8 @@ public class Subscription extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(SubscriptionChannelType type) {
-            Builder builder = new Builder();
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -784,6 +781,10 @@ public class Subscription extends DomainResource {
             private Url endpoint;
             private Code payload;
             private List<String> header = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

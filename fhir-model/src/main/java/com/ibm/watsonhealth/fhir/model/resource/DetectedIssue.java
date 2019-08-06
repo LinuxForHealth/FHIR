@@ -320,10 +320,8 @@ public class DetectedIssue extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(DetectedIssueStatus status) {
-        Builder builder = new Builder();
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -339,6 +337,10 @@ public class DetectedIssue extends DomainResource {
         private String detail;
         private Uri reference;
         private List<Mitigation> mitigation = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -990,13 +992,16 @@ public class DetectedIssue extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<CodeableConcept> code = new ArrayList<>();
             private List<Reference> detail = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1334,16 +1339,18 @@ public class DetectedIssue extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept action) {
-            Builder builder = new Builder();
-            builder.action(action);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept action;
             private DateTime date;
             private Reference author;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

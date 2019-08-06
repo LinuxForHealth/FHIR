@@ -297,13 +297,8 @@ public class Slot extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Reference schedule, SlotStatus status, Instant start, Instant end) {
-        Builder builder = new Builder();
-        builder.schedule(schedule);
-        builder.status(status);
-        builder.start(start);
-        builder.end(end);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -318,6 +313,10 @@ public class Slot extends DomainResource {
         private Instant end;
         private Boolean overbooked;
         private String comment;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

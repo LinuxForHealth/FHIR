@@ -418,11 +418,8 @@ public class RiskAssessment extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(RiskAssessmentStatus status, Reference subject) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.subject(subject);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -443,6 +440,10 @@ public class RiskAssessment extends DomainResource {
         private List<Prediction> prediction = new ArrayList<>();
         private String mitigation;
         private List<Annotation> note = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1295,8 +1296,7 @@ public class RiskAssessment extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1306,6 +1306,10 @@ public class RiskAssessment extends DomainResource {
             private Decimal relativeRisk;
             private Element when;
             private String rationale;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

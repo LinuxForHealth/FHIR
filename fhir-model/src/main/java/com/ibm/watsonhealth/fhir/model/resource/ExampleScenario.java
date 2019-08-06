@@ -426,10 +426,8 @@ public class ExampleScenario extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status) {
-        Builder builder = new Builder();
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -450,6 +448,10 @@ public class ExampleScenario extends DomainResource {
         private List<Instance> instance = new ArrayList<>();
         private List<Process> process = new ArrayList<>();
         private List<Canonical> workflow = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1327,11 +1329,8 @@ public class ExampleScenario extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String actorId, ExampleScenarioActorType type) {
-            Builder builder = new Builder();
-            builder.actorId(actorId);
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1339,6 +1338,10 @@ public class ExampleScenario extends DomainResource {
             private ExampleScenarioActorType type;
             private String name;
             private Markdown description;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1713,11 +1716,8 @@ public class ExampleScenario extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String resourceId, FHIRResourceType resourceType) {
-            Builder builder = new Builder();
-            builder.resourceId(resourceId);
-            builder.resourceType(resourceType);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1727,6 +1727,10 @@ public class ExampleScenario extends DomainResource {
             private Markdown description;
             private List<Version> version = new ArrayList<>();
             private List<ContainedInstance> containedInstance = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2110,16 +2114,17 @@ public class ExampleScenario extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(String versionId, Markdown description) {
-                Builder builder = new Builder();
-                builder.versionId(versionId);
-                builder.description(description);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private String versionId;
                 private Markdown description;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2388,15 +2393,17 @@ public class ExampleScenario extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(String resourceId) {
-                Builder builder = new Builder();
-                builder.resourceId(resourceId);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private String resourceId;
                 private String versionId;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2720,10 +2727,8 @@ public class ExampleScenario extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String title) {
-            Builder builder = new Builder();
-            builder.title(title);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2732,6 +2737,10 @@ public class ExampleScenario extends DomainResource {
             private Markdown preConditions;
             private Markdown postConditions;
             private List<Step> step = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3112,8 +3121,7 @@ public class ExampleScenario extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -3121,6 +3129,10 @@ public class ExampleScenario extends DomainResource {
                 private Boolean pause;
                 private Operation operation;
                 private List<Alternative> alternative = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3616,10 +3628,8 @@ public class ExampleScenario extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(String number) {
-                    Builder builder = new Builder();
-                    builder.number(number);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
@@ -3633,6 +3643,10 @@ public class ExampleScenario extends DomainResource {
                     private Boolean receiverActive;
                     private ExampleScenario.Instance.ContainedInstance request;
                     private ExampleScenario.Instance.ContainedInstance response;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -4057,16 +4071,18 @@ public class ExampleScenario extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(String title) {
-                    Builder builder = new Builder();
-                    builder.title(title);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private String title;
                     private Markdown description;
                     private List<ExampleScenario.Process.Step> step = new ArrayList<>();
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>

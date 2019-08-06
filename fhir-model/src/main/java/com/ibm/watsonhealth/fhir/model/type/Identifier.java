@@ -190,8 +190,7 @@ public class Identifier extends Element {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
@@ -201,6 +200,10 @@ public class Identifier extends Element {
         private String value;
         private Period period;
         private Reference assigner;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

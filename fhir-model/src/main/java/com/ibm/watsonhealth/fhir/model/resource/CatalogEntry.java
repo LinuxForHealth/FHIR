@@ -333,11 +333,8 @@ public class CatalogEntry extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Boolean orderable, Reference referencedItem) {
-        Builder builder = new Builder();
-        builder.orderable(orderable);
-        builder.referencedItem(referencedItem);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -354,6 +351,10 @@ public class CatalogEntry extends DomainResource {
         private List<CodeableConcept> additionalCharacteristic = new ArrayList<>();
         private List<CodeableConcept> additionalClassification = new ArrayList<>();
         private List<RelatedEntry> relatedEntry = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1063,16 +1064,17 @@ public class CatalogEntry extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CatalogEntryRelationType relationtype, Reference item) {
-            Builder builder = new Builder();
-            builder.relationtype(relationtype);
-            builder.item(item);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CatalogEntryRelationType relationtype;
             private Reference item;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

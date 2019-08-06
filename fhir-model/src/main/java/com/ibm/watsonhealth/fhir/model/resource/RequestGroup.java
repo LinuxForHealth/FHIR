@@ -446,11 +446,8 @@ public class RequestGroup extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(RequestStatus status, RequestIntent intent) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.intent(intent);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -472,6 +469,10 @@ public class RequestGroup extends DomainResource {
         private List<Reference> reasonReference = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
         private List<Action> action = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1652,8 +1653,7 @@ public class RequestGroup extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1676,6 +1676,10 @@ public class RequestGroup extends DomainResource {
             private ActionCardinalityBehavior cardinalityBehavior;
             private Reference resource;
             private List<RequestGroup.Action> action = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2381,15 +2385,17 @@ public class RequestGroup extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(ActionConditionKind kind) {
-                Builder builder = new Builder();
-                builder.kind(kind);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private ActionConditionKind kind;
                 private Expression expression;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2676,17 +2682,18 @@ public class RequestGroup extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Id actionId, ActionRelationshipType relationship) {
-                Builder builder = new Builder();
-                builder.actionId(actionId);
-                builder.relationship(relationship);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Id actionId;
                 private ActionRelationshipType relationship;
                 private Element offset;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

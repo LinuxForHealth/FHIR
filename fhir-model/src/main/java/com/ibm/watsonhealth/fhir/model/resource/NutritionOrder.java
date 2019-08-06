@@ -425,13 +425,8 @@ public class NutritionOrder extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(NutritionOrderStatus status, NutritionOrderIntent intent, Reference patient, DateTime dateTime) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.intent(intent);
-        builder.patient(patient);
-        builder.dateTime(dateTime);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -452,6 +447,10 @@ public class NutritionOrder extends DomainResource {
         private List<Supplement> supplement = new ArrayList<>();
         private EnteralFormula enteralFormula;
         private List<Annotation> note = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1397,8 +1396,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1408,6 +1406,10 @@ public class NutritionOrder extends DomainResource {
             private List<Texture> texture = new ArrayList<>();
             private List<CodeableConcept> fluidConsistencyType = new ArrayList<>();
             private String instruction;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1869,13 +1871,16 @@ public class NutritionOrder extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept modifier;
                 private SimpleQuantity amount;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2145,13 +2150,16 @@ public class NutritionOrder extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept modifier;
                 private CodeableConcept foodType;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2477,8 +2485,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2487,6 +2494,10 @@ public class NutritionOrder extends DomainResource {
             private List<Timing> schedule = new ArrayList<>();
             private SimpleQuantity quantity;
             private String instruction;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2967,8 +2978,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2981,6 +2991,10 @@ public class NutritionOrder extends DomainResource {
             private List<Administration> administration = new ArrayList<>();
             private SimpleQuantity maxVolumeToDeliver;
             private String administrationInstruction;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3421,14 +3435,17 @@ public class NutritionOrder extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Timing schedule;
                 private SimpleQuantity quantity;
                 private Element rate;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

@@ -99,11 +99,14 @@ public class Age extends Quantity {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends Quantity.Builder {
+        private Builder() {
+            super();
+        }
+
         /**
          * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 

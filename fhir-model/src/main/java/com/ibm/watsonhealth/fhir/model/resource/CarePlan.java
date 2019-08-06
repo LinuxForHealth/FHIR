@@ -525,12 +525,8 @@ public class CarePlan extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(CarePlanStatus status, CarePlanIntent intent, Reference subject) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.intent(intent);
-        builder.subject(subject);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -557,6 +553,10 @@ public class CarePlan extends DomainResource {
         private List<Reference> goal = new ArrayList<>();
         private List<Activity> activity = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1699,8 +1699,7 @@ public class CarePlan extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1709,6 +1708,10 @@ public class CarePlan extends DomainResource {
             private List<Annotation> progress = new ArrayList<>();
             private Reference reference;
             private Detail detail;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2386,10 +2389,8 @@ public class CarePlan extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CarePlanActivityStatus status) {
-                Builder builder = new Builder();
-                builder.status(status);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2410,6 +2411,10 @@ public class CarePlan extends DomainResource {
                 private SimpleQuantity dailyAmount;
                 private SimpleQuantity quantity;
                 private String description;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

@@ -246,10 +246,8 @@ public class Schedule extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Collection<Reference> actor) {
-        Builder builder = new Builder();
-        builder.actor(actor);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -261,6 +259,10 @@ public class Schedule extends DomainResource {
         private List<Reference> actor = new ArrayList<>();
         private Period planningHorizon;
         private String comment;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

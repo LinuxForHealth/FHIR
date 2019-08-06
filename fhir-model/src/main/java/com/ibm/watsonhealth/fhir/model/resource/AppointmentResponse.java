@@ -255,11 +255,8 @@ public class AppointmentResponse extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Reference appointment, ParticipantStatus participantStatus) {
-        Builder builder = new Builder();
-        builder.appointment(appointment);
-        builder.participantStatus(participantStatus);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -271,6 +268,10 @@ public class AppointmentResponse extends DomainResource {
         private Reference actor;
         private ParticipantStatus participantStatus;
         private String comment;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

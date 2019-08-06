@@ -254,8 +254,7 @@ public class Medication extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -267,6 +266,10 @@ public class Medication extends DomainResource {
         private Ratio amount;
         private List<Ingredient> ingredient = new ArrayList<>();
         private Batch batch;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -817,16 +820,18 @@ public class Medication extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Element item) {
-            Builder builder = new Builder();
-            builder.item(item);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Element item;
             private Boolean isActive;
             private Ratio strength;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1114,13 +1119,16 @@ public class Medication extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String lotNumber;
             private DateTime expirationDate;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

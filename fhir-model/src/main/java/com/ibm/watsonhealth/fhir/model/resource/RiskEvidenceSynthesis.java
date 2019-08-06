@@ -670,12 +670,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status, Reference population, Reference outcome) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.population(population);
-        builder.outcome(outcome);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -710,6 +706,10 @@ public class RiskEvidenceSynthesis extends DomainResource {
         private SampleSize sampleSize;
         private RiskEstimate riskEstimate;
         private List<Certainty> certainty = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1907,14 +1907,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String description;
             private Integer numberOfStudies;
             private Integer numberOfParticipants;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2291,8 +2294,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2303,6 +2305,10 @@ public class RiskEvidenceSynthesis extends DomainResource {
             private Integer denominatorCount;
             private Integer numeratorCount;
             private List<PrecisionEstimate> precisionEstimate = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2716,8 +2722,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2725,6 +2730,10 @@ public class RiskEvidenceSynthesis extends DomainResource {
                 private Decimal level;
                 private Decimal from;
                 private Decimal to;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3047,14 +3056,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<CodeableConcept> rating = new ArrayList<>();
             private List<Annotation> note = new ArrayList<>();
             private List<CertaintySubcomponent> certaintySubcomponent = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3430,14 +3442,17 @@ public class RiskEvidenceSynthesis extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept type;
                 private List<CodeableConcept> rating = new ArrayList<>();
                 private List<Annotation> note = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

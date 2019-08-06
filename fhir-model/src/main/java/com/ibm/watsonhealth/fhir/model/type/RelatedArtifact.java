@@ -209,10 +209,8 @@ public class RelatedArtifact extends Element {
         return new Builder().from(this);
     }
 
-    public static Builder builder(RelatedArtifactType type) {
-        Builder builder = new Builder();
-        builder.type(type);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
@@ -223,6 +221,10 @@ public class RelatedArtifact extends Element {
         private Url url;
         private Attachment document;
         private Canonical resource;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

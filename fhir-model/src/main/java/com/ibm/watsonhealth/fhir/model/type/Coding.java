@@ -174,8 +174,7 @@ public class Coding extends Element {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
@@ -184,6 +183,10 @@ public class Coding extends Element {
         private Code code;
         private String display;
         private Boolean userSelected;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

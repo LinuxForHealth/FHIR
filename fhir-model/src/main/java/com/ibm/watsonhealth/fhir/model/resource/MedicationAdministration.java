@@ -455,13 +455,8 @@ public class MedicationAdministration extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(MedicationAdministrationStatus status, Element medication, Reference subject, Element effective) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.medication(medication);
-        builder.subject(subject);
-        builder.effective(effective);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -484,6 +479,10 @@ public class MedicationAdministration extends DomainResource {
         private List<Annotation> note = new ArrayList<>();
         private Dosage dosage;
         private List<Reference> eventHistory = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1425,15 +1424,17 @@ public class MedicationAdministration extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference actor) {
-            Builder builder = new Builder();
-            builder.actor(actor);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept function;
             private Reference actor;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1785,8 +1786,7 @@ The dosage instructions should reflect the
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1796,6 +1796,10 @@ The dosage instructions should reflect the
             private CodeableConcept method;
             private SimpleQuantity dose;
             private Element rate;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

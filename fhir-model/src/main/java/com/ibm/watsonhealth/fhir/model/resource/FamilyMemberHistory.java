@@ -445,12 +445,8 @@ public class FamilyMemberHistory extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(FamilyHistoryStatus status, Reference patient, CodeableConcept relationship) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.patient(patient);
-        builder.relationship(relationship);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -472,6 +468,10 @@ public class FamilyMemberHistory extends DomainResource {
         private List<Reference> reasonReference = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
         private List<Condition> condition = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1363,10 +1363,8 @@ public class FamilyMemberHistory extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept code) {
-            Builder builder = new Builder();
-            builder.code(code);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1375,6 +1373,10 @@ public class FamilyMemberHistory extends DomainResource {
             private Boolean contributedToDeath;
             private Element onset;
             private List<Annotation> note = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

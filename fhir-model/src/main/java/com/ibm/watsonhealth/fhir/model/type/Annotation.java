@@ -134,16 +134,18 @@ public class Annotation extends Element {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Markdown text) {
-        Builder builder = new Builder();
-        builder.text(text);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
         private Element author;
         private DateTime time;
         private Markdown text;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

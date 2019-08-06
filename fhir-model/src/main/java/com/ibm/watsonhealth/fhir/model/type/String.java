@@ -117,12 +117,15 @@ public class String extends Element {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
         protected java.lang.String value;
+
+        protected Builder() {
+            super();
+        }
 
         /**
          * <p>

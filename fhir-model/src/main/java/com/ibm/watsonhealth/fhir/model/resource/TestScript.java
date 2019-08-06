@@ -642,12 +642,8 @@ public class TestScript extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Uri url, String name, PublicationStatus status) {
-        Builder builder = new Builder();
-        builder.url(url);
-        builder.name(name);
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -675,6 +671,10 @@ public class TestScript extends DomainResource {
         private Setup setup;
         private List<Test> test = new ArrayList<>();
         private Teardown teardown;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1657,16 +1657,17 @@ public class TestScript extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Integer index, Coding profile) {
-            Builder builder = new Builder();
-            builder.index(index);
-            builder.profile(profile);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Integer index;
             private Coding profile;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1935,16 +1936,17 @@ public class TestScript extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Integer index, Coding profile) {
-            Builder builder = new Builder();
-            builder.index(index);
-            builder.profile(profile);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Integer index;
             private Coding profile;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2213,15 +2215,17 @@ public class TestScript extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Collection<Capability> capability) {
-            Builder builder = new Builder();
-            builder.capability(capability);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<Link> link = new ArrayList<>();
             private List<Capability> capability = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2537,15 +2541,17 @@ public class TestScript extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Uri url) {
-                Builder builder = new Builder();
-                builder.url(url);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Uri url;
                 private String description;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2907,12 +2913,8 @@ public class TestScript extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Boolean required, Boolean validated, Canonical capabilities) {
-                Builder builder = new Builder();
-                builder.required(required);
-                builder.validated(validated);
-                builder.capabilities(capabilities);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2923,6 +2925,10 @@ public class TestScript extends DomainResource {
                 private Integer destination;
                 private List<Uri> link = new ArrayList<>();
                 private Canonical capabilities;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3350,17 +3356,18 @@ public class TestScript extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Boolean autocreate, Boolean autodelete) {
-            Builder builder = new Builder();
-            builder.autocreate(autocreate);
-            builder.autodelete(autodelete);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Boolean autocreate;
             private Boolean autodelete;
             private Reference resource;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3760,10 +3767,8 @@ public class TestScript extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String name) {
-            Builder builder = new Builder();
-            builder.name(name);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3775,6 +3780,10 @@ public class TestScript extends DomainResource {
             private String hint;
             private String path;
             private Id sourceId;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4129,14 +4138,16 @@ public class TestScript extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Collection<Action> action) {
-            Builder builder = new Builder();
-            builder.action(action);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<Action> action = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4412,13 +4423,16 @@ public class TestScript extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Operation operation;
                 private Assert _assert;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -4959,10 +4973,8 @@ public class TestScript extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(Boolean encodeRequestUrl) {
-                    Builder builder = new Builder();
-                    builder.encodeRequestUrl(encodeRequestUrl);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
@@ -4983,6 +4995,10 @@ public class TestScript extends DomainResource {
                     private Id sourceId;
                     private Id targetId;
                     private String url;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -5532,16 +5548,17 @@ public class TestScript extends DomainResource {
                         return new Builder().from(this);
                     }
 
-                    public static Builder builder(String field, String value) {
-                        Builder builder = new Builder();
-                        builder.field(field);
-                        builder.value(value);
-                        return builder;
+                    public static Builder builder() {
+                        return new Builder();
                     }
 
                     public static class Builder extends BackboneElement.Builder {
                         private String field;
                         private String value;
+
+                        private Builder() {
+                            super();
+                        }
 
                         /**
                          * <p>
@@ -6175,10 +6192,8 @@ public class TestScript extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(Boolean warningOnly) {
-                    Builder builder = new Builder();
-                    builder.warningOnly(warningOnly);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
@@ -6204,6 +6219,10 @@ public class TestScript extends DomainResource {
                     private Id validateProfileId;
                     private String value;
                     private Boolean warningOnly;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -6837,16 +6856,18 @@ public class TestScript extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Collection<Action> action) {
-            Builder builder = new Builder();
-            builder.action(action);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String name;
             private String description;
             private List<Action> action = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -7156,13 +7177,16 @@ public class TestScript extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private TestScript.Setup.Action.Operation operation;
                 private TestScript.Setup.Action.Assert _assert;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -7414,14 +7438,16 @@ public class TestScript extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Collection<Action> action) {
-            Builder builder = new Builder();
-            builder.action(action);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<Action> action = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -7678,14 +7704,16 @@ public class TestScript extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(TestScript.Setup.Action.Operation operation) {
-                Builder builder = new Builder();
-                builder.operation(operation);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private TestScript.Setup.Action.Operation operation;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

@@ -302,8 +302,7 @@ public class ProdCharacteristic extends BackboneElement {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends BackboneElement.Builder {
@@ -318,6 +317,10 @@ public class ProdCharacteristic extends BackboneElement {
         private List<String> imprint = new ArrayList<>();
         private List<Attachment> image = new ArrayList<>();
         private CodeableConcept scoring;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

@@ -245,12 +245,8 @@ public class Flag extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(FlagStatus status, CodeableConcept code, Reference subject) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.code(code);
-        builder.subject(subject);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -262,6 +258,10 @@ public class Flag extends DomainResource {
         private Period period;
         private Reference encounter;
         private Reference author;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

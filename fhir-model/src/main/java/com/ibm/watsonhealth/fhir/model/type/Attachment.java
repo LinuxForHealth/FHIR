@@ -234,8 +234,7 @@ public class Attachment extends Element {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
@@ -247,6 +246,10 @@ public class Attachment extends Element {
         private Base64Binary hash;
         private String title;
         private DateTime creation;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

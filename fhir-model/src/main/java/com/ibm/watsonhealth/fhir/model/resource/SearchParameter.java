@@ -599,16 +599,8 @@ public class SearchParameter extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Uri url, String name, PublicationStatus status, Markdown description, Code code, Collection<ResourceType> base, SearchParamType type) {
-        Builder builder = new Builder();
-        builder.url(url);
-        builder.name(name);
-        builder.status(status);
-        builder.description(description);
-        builder.code(code);
-        builder.base(base);
-        builder.type(type);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -638,6 +630,10 @@ public class SearchParameter extends DomainResource {
         private List<SearchModifierCode> modifier = new ArrayList<>();
         private List<String> chain = new ArrayList<>();
         private List<Component> component = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1663,16 +1659,17 @@ public class SearchParameter extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Canonical definition, String expression) {
-            Builder builder = new Builder();
-            builder.definition(definition);
-            builder.expression(expression);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Canonical definition;
             private String expression;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

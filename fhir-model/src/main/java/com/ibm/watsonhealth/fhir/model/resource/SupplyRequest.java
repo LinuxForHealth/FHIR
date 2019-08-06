@@ -372,11 +372,8 @@ public class SupplyRequest extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Element item, Quantity quantity) {
-        Builder builder = new Builder();
-        builder.item(item);
-        builder.quantity(quantity);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -395,6 +392,10 @@ public class SupplyRequest extends DomainResource {
         private List<Reference> reasonReference = new ArrayList<>();
         private Reference deliverFrom;
         private Reference deliverTo;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1117,13 +1118,16 @@ public class SupplyRequest extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept code;
             private Element value;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

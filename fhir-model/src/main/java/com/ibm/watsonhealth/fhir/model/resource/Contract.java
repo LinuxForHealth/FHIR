@@ -712,8 +712,7 @@ public class Contract extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -750,6 +749,10 @@ public class Contract extends DomainResource {
         private List<Legal> legal = new ArrayList<>();
         private List<Rule> rule = new ArrayList<>();
         private Element legallyBinding;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -2104,11 +2107,8 @@ public class Contract extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept type, ContractPublicationStatus publicationStatus) {
-            Builder builder = new Builder();
-            builder.type(type);
-            builder.publicationStatus(publicationStatus);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2118,6 +2118,10 @@ public class Contract extends DomainResource {
             private DateTime publicationDate;
             private ContractPublicationStatus publicationStatus;
             private Markdown copyright;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2642,10 +2646,8 @@ public class Contract extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Offer offer) {
-            Builder builder = new Builder();
-            builder.offer(offer);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2661,6 +2663,10 @@ public class Contract extends DomainResource {
             private List<Asset> asset = new ArrayList<>();
             private List<Action> action = new ArrayList<>();
             private List<Contract.Term> group = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3239,10 +3245,8 @@ public class Contract extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Coding classification) {
-                Builder builder = new Builder();
-                builder.classification(classification);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -3250,6 +3254,10 @@ public class Contract extends DomainResource {
                 private Coding classification;
                 private List<Coding> category = new ArrayList<>();
                 private List<Coding> control = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3774,8 +3782,7 @@ public class Contract extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -3789,6 +3796,10 @@ public class Contract extends DomainResource {
                 private String text;
                 private List<String> linkId = new ArrayList<>();
                 private List<UnsignedInt> securityLabelNumber = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -4338,16 +4349,17 @@ public class Contract extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(Collection<Reference> reference, CodeableConcept role) {
-                    Builder builder = new Builder();
-                    builder.reference(reference);
-                    builder.role(role);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private List<Reference> reference = new ArrayList<>();
                     private CodeableConcept role;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -4624,14 +4636,16 @@ public class Contract extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(Element value) {
-                    Builder builder = new Builder();
-                    builder.value(value);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private Element value;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -5123,8 +5137,7 @@ public class Contract extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -5143,6 +5156,10 @@ public class Contract extends DomainResource {
                 private List<Contract.Term.Offer.Answer> answer = new ArrayList<>();
                 private List<UnsignedInt> securityLabelNumber = new ArrayList<>();
                 private List<ValuedItem> valuedItem = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -5917,14 +5934,17 @@ public class Contract extends DomainResource {
                 }
 
                 public static Builder builder() {
-                    Builder builder = new Builder();
-                    return builder;
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private Reference reference;
                     private List<CodeableConcept> code = new ArrayList<>();
                     private String text;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -6459,8 +6479,7 @@ public class Contract extends DomainResource {
                 }
 
                 public static Builder builder() {
-                    Builder builder = new Builder();
-                    return builder;
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
@@ -6478,6 +6497,10 @@ public class Contract extends DomainResource {
                     private Reference recipient;
                     private List<String> linkId = new ArrayList<>();
                     private List<UnsignedInt> securityLabelNumber = new ArrayList<>();
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -7356,12 +7379,8 @@ public class Contract extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CodeableConcept type, CodeableConcept intent, CodeableConcept status) {
-                Builder builder = new Builder();
-                builder.type(type);
-                builder.intent(intent);
-                builder.status(status);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -7386,6 +7405,10 @@ public class Contract extends DomainResource {
                 private List<String> reasonLinkId = new ArrayList<>();
                 private List<Annotation> note = new ArrayList<>();
                 private List<UnsignedInt> securityLabelNumber = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -8299,15 +8322,17 @@ public class Contract extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(Collection<Reference> reference) {
-                    Builder builder = new Builder();
-                    builder.reference(reference);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private List<Reference> reference = new ArrayList<>();
                     private CodeableConcept role;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -8622,18 +8647,18 @@ public class Contract extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Coding type, Reference party, Collection<Signature> signature) {
-            Builder builder = new Builder();
-            builder.type(type);
-            builder.party(party);
-            builder.signature(signature);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Coding type;
             private Reference party;
             private List<Signature> signature = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -8929,14 +8954,16 @@ public class Contract extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Element content) {
-            Builder builder = new Builder();
-            builder.content(content);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Element content;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -9171,14 +9198,16 @@ public class Contract extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Element content) {
-            Builder builder = new Builder();
-            builder.content(content);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Element content;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -9412,14 +9441,16 @@ public class Contract extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Element content) {
-            Builder builder = new Builder();
-            builder.content(content);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Element content;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

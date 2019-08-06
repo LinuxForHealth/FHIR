@@ -199,8 +199,7 @@ public class SubstanceNucleicAcid extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -209,6 +208,10 @@ public class SubstanceNucleicAcid extends DomainResource {
         private String areaOfHybridisation;
         private CodeableConcept oligoNucleotideType;
         private List<Subunit> subunit = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -788,8 +791,7 @@ public class SubstanceNucleicAcid extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -801,6 +803,10 @@ public class SubstanceNucleicAcid extends DomainResource {
             private CodeableConcept threePrime;
             private List<Linkage> linkage = new ArrayList<>();
             private List<Sugar> sugar = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1270,8 +1276,7 @@ public class SubstanceNucleicAcid extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -1279,6 +1284,10 @@ public class SubstanceNucleicAcid extends DomainResource {
                 private Identifier identifier;
                 private String name;
                 private String residueSite;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -1607,14 +1616,17 @@ public class SubstanceNucleicAcid extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Identifier identifier;
                 private String name;
                 private String residueSite;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

@@ -315,11 +315,8 @@ public class EpisodeOfCare extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(EpisodeOfCareStatus status, Reference patient) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.patient(patient);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -335,6 +332,10 @@ public class EpisodeOfCare extends DomainResource {
         private Reference careManager;
         private List<Reference> team = new ArrayList<>();
         private List<Reference> account = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1054,16 +1055,17 @@ public class EpisodeOfCare extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(EpisodeOfCareStatus status, Period period) {
-            Builder builder = new Builder();
-            builder.status(status);
-            builder.period(period);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private EpisodeOfCareStatus status;
             private Period period;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1350,16 +1352,18 @@ public class EpisodeOfCare extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference condition) {
-            Builder builder = new Builder();
-            builder.condition(condition);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Reference condition;
             private CodeableConcept role;
             private PositiveInt rank;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

@@ -412,8 +412,7 @@ public class Location extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -434,6 +433,10 @@ public class Location extends DomainResource {
         private List<HoursOfOperation> hoursOfOperation = new ArrayList<>();
         private String availabilityExceptions;
         private List<Reference> endpoint = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1239,17 +1242,18 @@ public class Location extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Decimal longitude, Decimal latitude) {
-            Builder builder = new Builder();
-            builder.longitude(longitude);
-            builder.latitude(latitude);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Decimal longitude;
             private Decimal latitude;
             private Decimal altitude;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1575,8 +1579,7 @@ public class Location extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1584,6 +1587,10 @@ public class Location extends DomainResource {
             private Boolean allDay;
             private Time openingTime;
             private Time closingTime;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

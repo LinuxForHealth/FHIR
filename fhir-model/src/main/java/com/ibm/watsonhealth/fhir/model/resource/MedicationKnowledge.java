@@ -500,8 +500,7 @@ public class MedicationKnowledge extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -527,6 +526,10 @@ public class MedicationKnowledge extends DomainResource {
         private List<Reference> contraindication = new ArrayList<>();
         private List<Regulatory> regulatory = new ArrayList<>();
         private List<Kinetics> kinetics = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1619,16 +1622,17 @@ public class MedicationKnowledge extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept type, Collection<Reference> reference) {
-            Builder builder = new Builder();
-            builder.type(type);
-            builder.reference(reference);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private List<Reference> reference = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1922,13 +1926,16 @@ public class MedicationKnowledge extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private Reference source;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2216,16 +2223,18 @@ public class MedicationKnowledge extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Element item) {
-            Builder builder = new Builder();
-            builder.item(item);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Element item;
             private Boolean isActive;
             private Ratio strength;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2531,17 +2540,18 @@ public class MedicationKnowledge extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept type, Money cost) {
-            Builder builder = new Builder();
-            builder.type(type);
-            builder.cost(cost);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private String source;
             private Money cost;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2829,13 +2839,16 @@ public class MedicationKnowledge extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private String name;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3124,14 +3137,17 @@ public class MedicationKnowledge extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<Dosage> dosage = new ArrayList<>();
             private Element indication;
             private List<PatientCharacteristics> patientCharacteristics = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3466,16 +3482,17 @@ public class MedicationKnowledge extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CodeableConcept type, Collection<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage) {
-                Builder builder = new Builder();
-                builder.type(type);
-                builder.dosage(dosage);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept type;
                 private List<com.ibm.watsonhealth.fhir.model.type.Dosage> dosage = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3769,15 +3786,17 @@ public class MedicationKnowledge extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Element characteristic) {
-                Builder builder = new Builder();
-                builder.characteristic(characteristic);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Element characteristic;
                 private List<String> value = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -4071,15 +4090,17 @@ public class MedicationKnowledge extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept type) {
-            Builder builder = new Builder();
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private List<CodeableConcept> classification = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4374,13 +4395,16 @@ public class MedicationKnowledge extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private SimpleQuantity quantity;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4651,13 +4675,16 @@ public class MedicationKnowledge extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private Element value;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4962,10 +4989,8 @@ public class MedicationKnowledge extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference regulatoryAuthority) {
-            Builder builder = new Builder();
-            builder.regulatoryAuthority(regulatoryAuthority);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -4973,6 +4998,10 @@ public class MedicationKnowledge extends DomainResource {
             private List<Substitution> substitution = new ArrayList<>();
             private List<Schedule> schedule = new ArrayList<>();
             private MaxDispense maxDispense;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -5322,16 +5351,17 @@ public class MedicationKnowledge extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CodeableConcept type, Boolean allowed) {
-                Builder builder = new Builder();
-                builder.type(type);
-                builder.allowed(allowed);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept type;
                 private Boolean allowed;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -5582,14 +5612,16 @@ public class MedicationKnowledge extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CodeableConcept schedule) {
-                Builder builder = new Builder();
-                builder.schedule(schedule);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept schedule;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -5841,15 +5873,17 @@ public class MedicationKnowledge extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(SimpleQuantity quantity) {
-                Builder builder = new Builder();
-                builder.quantity(quantity);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private SimpleQuantity quantity;
                 private Duration period;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -6138,14 +6172,17 @@ public class MedicationKnowledge extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<SimpleQuantity> areaUnderCurve = new ArrayList<>();
             private List<SimpleQuantity> lethalDose50 = new ArrayList<>();
             private Duration halfLifePeriod;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

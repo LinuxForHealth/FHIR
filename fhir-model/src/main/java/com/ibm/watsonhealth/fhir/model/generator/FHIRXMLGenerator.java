@@ -7,6 +7,9 @@
 package com.ibm.watsonhealth.fhir.model.generator;
 
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.isPrimitiveType;
+import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.FHIR_NS;
+import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.XML_OUTPUT_FACTORY;
+import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.createStreamWriterDelegate;
 
 import java.io.OutputStream;
 import java.io.StringReader;
@@ -17,8 +20,6 @@ import java.util.Base64;
 import java.util.UUID;
 
 import javax.xml.XMLConstants;
-import javax.xml.namespace.NamespaceContext;
-import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.Transformer;
@@ -48,11 +49,10 @@ import com.ibm.watsonhealth.fhir.model.type.NarrativeStatus;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Time;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
+import com.ibm.watsonhealth.fhir.model.util.XMLSupport.StreamWriterDelegate;
+
 
 public class FHIRXMLGenerator implements FHIRGenerator {
-    private static final java.lang.String NS = "http://hl7.org/fhir";
-    
-    private static final XMLOutputFactory XML_OUTPUT_FACTORY = XMLOutputFactory.newInstance();
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
     private final boolean prettyPrinting;
     
@@ -69,7 +69,7 @@ public class FHIRXMLGenerator implements FHIRGenerator {
         GeneratingVisitor visitor = null;
         try (StreamWriterDelegate delegate = createStreamWriterDelegate(XML_OUTPUT_FACTORY.createXMLStreamWriter(out, "UTF-8"))) {
             visitor = new XMLGeneratingVisitor(delegate, prettyPrinting);
-            delegate.setDefaultNamespace(NS);
+            delegate.setDefaultNamespace(FHIR_NS);
             resource.accept(visitor);
             delegate.flush();
         } catch (Exception e) {
@@ -82,7 +82,7 @@ public class FHIRXMLGenerator implements FHIRGenerator {
         GeneratingVisitor visitor = null;
         try (StreamWriterDelegate delegate = createStreamWriterDelegate(XML_OUTPUT_FACTORY.createXMLStreamWriter(writer))) {
             visitor = new XMLGeneratingVisitor(delegate, prettyPrinting);
-            delegate.setDefaultNamespace(NS);
+            delegate.setDefaultNamespace(FHIR_NS);
             resource.accept(visitor);
             delegate.flush();
         } catch (Exception e) {
@@ -90,30 +90,6 @@ public class FHIRXMLGenerator implements FHIRGenerator {
         }
     }
     
-    private StreamWriterDelegate createStreamWriterDelegate(XMLStreamWriter writer) {
-        return new StreamWriterDelegate(writer) {
-            @Override
-            public void writeStartDocument() throws XMLStreamException {
-                // do nothing
-            }
-
-            @Override
-            public void writeStartDocument(java.lang.String version) throws XMLStreamException {
-                // do nothing
-            }
-
-            @Override
-            public void writeStartDocument(java.lang.String encoding, java.lang.String version) throws XMLStreamException {
-                // do nothing
-            }
-            
-            @Override
-            public void writeEndDocument() {
-                // do nothing
-            }
-        };
-    }
-
     @Override
     public boolean isPrettyPrinting() {
         return prettyPrinting;
@@ -186,12 +162,12 @@ public class FHIRXMLGenerator implements FHIRGenerator {
             try {
                 Class<?> elementType = element.getClass();
                 if (element.getId() != null) {
-                    writer.writeAttribute(NS, "id", element.getId());
+                    writer.writeAttribute(FHIR_NS, "id", element.getId());
                 }
                 if (element instanceof Extension) {
                     Extension extension = (Extension) element;
                     if (extension.getUrl() != null) {
-                        writer.writeAttribute(NS, "url", extension.getUrl());
+                        writer.writeAttribute(FHIR_NS, "url", extension.getUrl());
                     }
                 } else if (isPrimitiveType(elementType)) {
                     writeValue(element);
@@ -254,7 +230,7 @@ public class FHIRXMLGenerator implements FHIRGenerator {
                 }
             }
             if (value != null) {
-                writer.writeAttribute(NS, "value", value);
+                writer.writeAttribute(FHIR_NS, "value", value);
             }
         }
         
@@ -303,7 +279,9 @@ public class FHIRXMLGenerator implements FHIRGenerator {
                 indentLevel--;
                 indent();
                 writer.writeEndElement();
-                newLine();
+                if (getDepth() > 1) {
+                    newLine();
+                }
             } catch (XMLStreamException e) {
                 throw new RuntimeException(e);
             }
@@ -318,9 +296,9 @@ public class FHIRXMLGenerator implements FHIRGenerator {
                     elementName = getChoiceElementName(elementName, element.getClass());
                 }
                 if (!isPrimitiveType(elementType) || !element.getExtension().isEmpty()) {
-                    writer.writeStartElement(NS, elementName);
+                    writer.writeStartElement(FHIR_NS, elementName);
                 } else {
-                    writer.writeEmptyElement(NS, elementName);
+                    writer.writeEmptyElement(FHIR_NS, elementName);
                 }
                 writeAttributes(element);
                 newLine();
@@ -343,9 +321,9 @@ public class FHIRXMLGenerator implements FHIRGenerator {
                 indent();
                 Class<?> resourceType = resource.getClass();
                 java.lang.String resourceTypeName = resourceType.getSimpleName();
-                writer.writeStartElement(NS, resourceTypeName);
+                writer.writeStartElement(FHIR_NS, resourceTypeName);
                 if (depth == 1) {
-                    writer.writeDefaultNamespace(NS);
+                    writer.writeDefaultNamespace(FHIR_NS);
                 }
                 newLine();
                 indentLevel++;
@@ -355,179 +333,12 @@ public class FHIRXMLGenerator implements FHIRGenerator {
         }
     }
     
-    public static class StreamWriterDelegate implements XMLStreamWriter, AutoCloseable {
-        protected final XMLStreamWriter writer;
-                
-        public StreamWriterDelegate(XMLStreamWriter writer) {
-            this.writer = writer;
-        }
-        
-        @Override
-        public void writeStartElement(java.lang.String localName) throws XMLStreamException {
-            writer.writeStartElement(localName);
-        }
-
-        @Override
-        public void writeStartElement(java.lang.String namespaceURI, java.lang.String localName) throws XMLStreamException {
-            writer.writeStartElement(namespaceURI, localName);
-        }
-
-        @Override
-        public void writeStartElement(java.lang.String prefix, java.lang.String localName, java.lang.String namespaceURI) throws XMLStreamException {
-            writer.writeStartElement(prefix, localName, namespaceURI);
-        }
-
-        @Override
-        public void writeEmptyElement(java.lang.String namespaceURI, java.lang.String localName) throws XMLStreamException {
-            writer.writeEmptyElement(namespaceURI, localName);
-        }
-
-        @Override
-        public void writeEmptyElement(java.lang.String prefix, java.lang.String localName, java.lang.String namespaceURI) throws XMLStreamException {
-            writer.writeEmptyElement(prefix, localName, namespaceURI);
-        }
-
-        @Override
-        public void writeEmptyElement(java.lang.String localName) throws XMLStreamException {
-            writer.writeEmptyElement(localName);
-        }
-
-        @Override
-        public void writeEndElement() throws XMLStreamException {
-            writer.writeEndElement();
-        }
-
-        @Override
-        public void writeEndDocument() throws XMLStreamException {
-            writer.writeEndDocument();
-        }
-
-        @Override
-        public void close() throws XMLStreamException {
-            writer.close();
-        }
-
-        @Override
-        public void flush() throws XMLStreamException {
-            writer.flush();
-        }
-
-        @Override
-        public void writeAttribute(java.lang.String localName, java.lang.String value) throws XMLStreamException {
-            writer.writeAttribute(localName, value);
-        }
-
-        @Override
-        public void writeAttribute(java.lang.String prefix, java.lang.String namespaceURI, java.lang.String localName, java.lang.String value) throws XMLStreamException {
-            writer.writeAttribute(prefix, namespaceURI, localName, value);
-        }
-
-        @Override
-        public void writeAttribute(java.lang.String namespaceURI, java.lang.String localName, java.lang.String value) throws XMLStreamException {
-            writer.writeAttribute(namespaceURI, localName, value);
-        }
-
-        @Override
-        public void writeNamespace(java.lang.String prefix, java.lang.String namespaceURI) throws XMLStreamException {
-            writer.writeNamespace(prefix, namespaceURI);
-        }
-
-        @Override
-        public void writeDefaultNamespace(java.lang.String namespaceURI) throws XMLStreamException {
-            writer.writeDefaultNamespace(namespaceURI);
-        }
-
-        @Override
-        public void writeComment(java.lang.String data) throws XMLStreamException {
-            writer.writeComment(data);
-        }
-
-        @Override
-        public void writeProcessingInstruction(java.lang.String target) throws XMLStreamException {
-            writer.writeProcessingInstruction(target);
-        }
-
-        @Override
-        public void writeProcessingInstruction(java.lang.String target, java.lang.String data) throws XMLStreamException {
-            writer.writeProcessingInstruction(target, data);
-        }
-
-        @Override
-        public void writeCData(java.lang.String data) throws XMLStreamException {
-            writer.writeCData(data);
-        }
-
-        @Override
-        public void writeDTD(java.lang.String dtd) throws XMLStreamException {
-            writer.writeDTD(dtd);
-        }
-
-        @Override
-        public void writeEntityRef(java.lang.String name) throws XMLStreamException {
-            writer.writeEntityRef(name);
-        }
-
-        @Override
-        public void writeStartDocument() throws XMLStreamException {
-            writer.writeStartDocument();
-        }
-
-        @Override
-        public void writeStartDocument(java.lang.String version) throws XMLStreamException {
-            writer.writeStartDocument(version);
-        }
-
-        @Override
-        public void writeStartDocument(java.lang.String encoding, java.lang.String version) throws XMLStreamException {
-            writer.writeStartDocument(encoding, version);
-        }
-
-        @Override
-        public void writeCharacters(java.lang.String text) throws XMLStreamException {
-            writer.writeCharacters(text);
-        }
-
-        @Override
-        public void writeCharacters(char[] text, int start, int len) throws XMLStreamException {
-            writer.writeCharacters(text, start, len);
-        }
-
-        @Override
-        public java.lang.String getPrefix(java.lang.String uri) throws XMLStreamException {
-            return writer.getPrefix(uri);
-        }
-
-        @Override
-        public void setPrefix(java.lang.String prefix, java.lang.String uri) throws XMLStreamException {
-            writer.setPrefix(prefix, uri);
-        }
-
-        @Override
-        public void setDefaultNamespace(java.lang.String uri) throws XMLStreamException {
-            writer.setDefaultNamespace(uri);
-        }
-
-        @Override
-        public void setNamespaceContext(NamespaceContext context) throws XMLStreamException {
-            writer.setNamespaceContext(context);
-        }
-
-        @Override
-        public NamespaceContext getNamespaceContext() {
-            return writer.getNamespaceContext();
-        }
-
-        @Override
-        public Object getProperty(java.lang.String name) throws IllegalArgumentException {
-            return writer.getProperty(name);
-        }
-    }
-    
     public static void main(java.lang.String[] args) throws Exception {
         java.lang.String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
                 
         Id id = Id.builder().value(UUID.randomUUID().toString())
-                .extension(Extension.builder("http://www.ibm.com/someExtension")
+                .extension(Extension.builder()
+                    .url("http://www.ibm.com/someExtension")
                     .value(String.of("Hello, World!"))
                     .build())
                 .build();
@@ -537,13 +348,15 @@ public class FHIRXMLGenerator implements FHIRGenerator {
                 .build();
         
         String given = String.builder().value("John")
-                .extension(Extension.builder("http://www.ibm.com/someExtension")
+                .extension(Extension.builder()
+                    .url("http://www.ibm.com/someExtension")
                     .value(String.of("value and extension"))
                     .build())
                 .build();
         
         String otherGiven = String.builder()
-                .extension(Extension.builder("http://www.ibm.com/someExtension")
+                .extension(Extension.builder()
+                    .url("http://www.ibm.com/someExtension")
                     .value(String.of("extension only"))
                     .build())
                 .build();
@@ -556,7 +369,7 @@ public class FHIRXMLGenerator implements FHIRGenerator {
                 .family(String.of("Doe"))
                 .build();
         
-        Narrative text = Narrative.builder(NarrativeStatus.GENERATED, div).build();
+        Narrative text = Narrative.builder().status(NarrativeStatus.GENERATED).div(div).build();
         
         Patient patient = Patient.builder()
                 .id(id)

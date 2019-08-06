@@ -166,16 +166,18 @@ public class Linkage extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Collection<Item> item) {
-        Builder builder = new Builder();
-        builder.item(item);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
         private Boolean active;
         private Reference author;
         private List<Item> item = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -598,16 +600,17 @@ public class Linkage extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(LinkageType type, Reference resource) {
-            Builder builder = new Builder();
-            builder.type(type);
-            builder.resource(resource);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private LinkageType type;
             private Reference resource;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

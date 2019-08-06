@@ -350,10 +350,8 @@ public class VerificationResult extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Status status) {
-        Builder builder = new Builder();
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -371,6 +369,10 @@ public class VerificationResult extends DomainResource {
         private List<PrimarySource> primarySource = new ArrayList<>();
         private Attestation attestation;
         private List<Validator> validator = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1168,8 +1170,7 @@ public class VerificationResult extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1180,6 +1181,10 @@ public class VerificationResult extends DomainResource {
             private DateTime validationDate;
             private CodeableConcept canPushUpdates;
             private List<CodeableConcept> pushTypeAvailable = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1720,8 +1725,7 @@ public class VerificationResult extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1733,6 +1737,10 @@ public class VerificationResult extends DomainResource {
             private String proxyIdentityCertificate;
             private Signature proxySignature;
             private Signature sourceSignature;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2124,16 +2132,18 @@ public class VerificationResult extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference organization) {
-            Builder builder = new Builder();
-            builder.organization(organization);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Reference organization;
             private String identityCertificate;
             private Signature attestationSignature;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

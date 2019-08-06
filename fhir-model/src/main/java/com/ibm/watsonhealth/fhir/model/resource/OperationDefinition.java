@@ -609,16 +609,8 @@ public class OperationDefinition extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(String name, PublicationStatus status, OperationKind kind, Code code, Boolean system, Boolean type, Boolean instance) {
-        Builder builder = new Builder();
-        builder.name(name);
-        builder.status(status);
-        builder.kind(kind);
-        builder.code(code);
-        builder.system(system);
-        builder.type(type);
-        builder.instance(instance);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -648,6 +640,10 @@ public class OperationDefinition extends DomainResource {
         private Canonical outputProfile;
         private List<Parameter> parameter = new ArrayList<>();
         private List<Overload> overload = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1764,13 +1760,8 @@ public class OperationDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Code name, OperationParameterUse use, Integer min, String max) {
-            Builder builder = new Builder();
-            builder.name(name);
-            builder.use(use);
-            builder.min(min);
-            builder.max(max);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1785,6 +1776,10 @@ public class OperationDefinition extends DomainResource {
             private Binding binding;
             private List<ReferencedFrom> referencedFrom = new ArrayList<>();
             private List<OperationDefinition.Parameter> part = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2286,16 +2281,17 @@ public class OperationDefinition extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(BindingStrength strength, Canonical valueSet) {
-                Builder builder = new Builder();
-                builder.strength(strength);
-                builder.valueSet(valueSet);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private BindingStrength strength;
                 private Canonical valueSet;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2566,15 +2562,17 @@ public class OperationDefinition extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(String source) {
-                Builder builder = new Builder();
-                builder.source(source);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private String source;
                 private String sourceId;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2847,13 +2845,16 @@ public class OperationDefinition extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<String> parameterName = new ArrayList<>();
             private String comment;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

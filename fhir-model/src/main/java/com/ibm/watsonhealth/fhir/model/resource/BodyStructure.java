@@ -246,10 +246,8 @@ public class BodyStructure extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Reference patient) {
-        Builder builder = new Builder();
-        builder.patient(patient);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -261,6 +259,10 @@ public class BodyStructure extends DomainResource {
         private String description;
         private List<Attachment> image = new ArrayList<>();
         private Reference patient;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

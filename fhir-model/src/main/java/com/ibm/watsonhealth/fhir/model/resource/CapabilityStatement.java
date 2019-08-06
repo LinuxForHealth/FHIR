@@ -667,14 +667,8 @@ public class CapabilityStatement extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status, DateTime date, CapabilityStatementKind kind, FHIRVersion fhirVersion, Collection<Code> format) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.date(date);
-        builder.kind(kind);
-        builder.fhirVersion(fhirVersion);
-        builder.format(format);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -704,6 +698,10 @@ public class CapabilityStatement extends DomainResource {
         private List<Rest> rest = new ArrayList<>();
         private List<Messaging> messaging = new ArrayList<>();
         private List<Document> document = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1801,16 +1799,18 @@ public class CapabilityStatement extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String name) {
-            Builder builder = new Builder();
-            builder.name(name);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String name;
             private String version;
             private DateTime releaseDate;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2117,16 +2117,18 @@ public class CapabilityStatement extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String description) {
-            Builder builder = new Builder();
-            builder.description(description);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String description;
             private Url url;
             private Reference custodian;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2524,10 +2526,8 @@ public class CapabilityStatement extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(RestfulCapabilityMode mode) {
-            Builder builder = new Builder();
-            builder.mode(mode);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2539,6 +2539,10 @@ public class CapabilityStatement extends DomainResource {
             private List<CapabilityStatement.Rest.Resource.SearchParam> searchParam = new ArrayList<>();
             private List<CapabilityStatement.Rest.Resource.Operation> operation = new ArrayList<>();
             private List<Canonical> compartment = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3051,14 +3055,17 @@ public class CapabilityStatement extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Boolean cors;
                 private List<CodeableConcept> service = new ArrayList<>();
                 private Markdown description;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3651,10 +3658,8 @@ public class CapabilityStatement extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(ResourceType type) {
-                Builder builder = new Builder();
-                builder.type(type);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -3675,6 +3680,10 @@ public class CapabilityStatement extends DomainResource {
                 private List<String> searchRevInclude = new ArrayList<>();
                 private List<SearchParam> searchParam = new ArrayList<>();
                 private List<Operation> operation = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -4385,15 +4394,17 @@ public class CapabilityStatement extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(TypeRestfulInteraction code) {
-                    Builder builder = new Builder();
-                    builder.code(code);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private TypeRestfulInteraction code;
                     private Markdown documentation;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -4704,11 +4715,8 @@ public class CapabilityStatement extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(String name, SearchParamType type) {
-                    Builder builder = new Builder();
-                    builder.name(name);
-                    builder.type(type);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
@@ -4716,6 +4724,10 @@ public class CapabilityStatement extends DomainResource {
                     private Canonical definition;
                     private SearchParamType type;
                     private Markdown documentation;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -5047,17 +5059,18 @@ public class CapabilityStatement extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(String name, Canonical definition) {
-                    Builder builder = new Builder();
-                    builder.name(name);
-                    builder.definition(definition);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private String name;
                     private Canonical definition;
                     private Markdown documentation;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -5351,15 +5364,17 @@ public class CapabilityStatement extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(SystemRestfulInteraction code) {
-                Builder builder = new Builder();
-                builder.code(code);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private SystemRestfulInteraction code;
                 private Markdown documentation;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -5669,8 +5684,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -5678,6 +5692,10 @@ public class CapabilityStatement extends DomainResource {
             private UnsignedInt reliableCache;
             private Markdown documentation;
             private List<SupportedMessage> supportedMessage = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -6030,16 +6048,17 @@ public class CapabilityStatement extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Coding protocol, Url address) {
-                Builder builder = new Builder();
-                builder.protocol(protocol);
-                builder.address(address);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Coding protocol;
                 private Url address;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -6309,16 +6328,17 @@ public class CapabilityStatement extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(EventCapabilityMode mode, Canonical definition) {
-                Builder builder = new Builder();
-                builder.mode(mode);
-                builder.definition(definition);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private EventCapabilityMode mode;
                 private Canonical definition;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -6607,17 +6627,18 @@ public class CapabilityStatement extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(DocumentMode mode, Canonical profile) {
-            Builder builder = new Builder();
-            builder.mode(mode);
-            builder.profile(profile);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private DocumentMode mode;
             private Markdown documentation;
             private Canonical profile;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

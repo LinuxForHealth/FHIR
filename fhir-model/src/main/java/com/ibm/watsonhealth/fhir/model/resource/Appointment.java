@@ -537,11 +537,8 @@ public class Appointment extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(AppointmentStatus status, Collection<Participant> participant) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.participant(participant);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -567,6 +564,10 @@ public class Appointment extends DomainResource {
         private List<Reference> basedOn = new ArrayList<>();
         private List<Participant> participant = new ArrayList<>();
         private List<Period> requestedPeriod = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1630,10 +1631,8 @@ public class Appointment extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(ParticipationStatus status) {
-            Builder builder = new Builder();
-            builder.status(status);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1642,6 +1641,10 @@ public class Appointment extends DomainResource {
             private ParticipantRequired required;
             private ParticipationStatus status;
             private Period period;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

@@ -306,11 +306,8 @@ public class MessageHeader extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Element event, Source source) {
-        Builder builder = new Builder();
-        builder.event(event);
-        builder.source(source);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -325,6 +322,10 @@ public class MessageHeader extends DomainResource {
         private Response response;
         private List<Reference> focus = new ArrayList<>();
         private Canonical definition;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -945,10 +946,8 @@ public class MessageHeader extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Url endpoint) {
-            Builder builder = new Builder();
-            builder.endpoint(endpoint);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -956,6 +955,10 @@ public class MessageHeader extends DomainResource {
             private Reference target;
             private Url endpoint;
             private Reference receiver;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1313,10 +1316,8 @@ public class MessageHeader extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Url endpoint) {
-            Builder builder = new Builder();
-            builder.endpoint(endpoint);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1325,6 +1326,10 @@ public class MessageHeader extends DomainResource {
             private String version;
             private ContactPoint contact;
             private Url endpoint;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1663,17 +1668,18 @@ public class MessageHeader extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Id identifier, ResponseType code) {
-            Builder builder = new Builder();
-            builder.identifier(identifier);
-            builder.code(code);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Id identifier;
             private ResponseType code;
             private Reference details;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

@@ -127,12 +127,15 @@ public class Instant extends Element {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
         private ZonedDateTime value;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

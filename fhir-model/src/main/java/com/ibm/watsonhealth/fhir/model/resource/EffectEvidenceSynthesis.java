@@ -705,14 +705,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status, Reference population, Reference exposure, Reference exposureAlternative, Reference outcome) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.population(population);
-        builder.exposure(exposure);
-        builder.exposureAlternative(exposureAlternative);
-        builder.outcome(outcome);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -749,6 +743,10 @@ public class EffectEvidenceSynthesis extends DomainResource {
         private List<ResultsByExposure> resultsByExposure = new ArrayList<>();
         private List<EffectEstimate> effectEstimate = new ArrayList<>();
         private List<Certainty> certainty = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -2028,14 +2026,17 @@ public class EffectEvidenceSynthesis extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String description;
             private Integer numberOfStudies;
             private Integer numberOfParticipants;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2357,10 +2358,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference riskEvidenceSynthesis) {
-            Builder builder = new Builder();
-            builder.riskEvidenceSynthesis(riskEvidenceSynthesis);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2368,6 +2367,10 @@ public class EffectEvidenceSynthesis extends DomainResource {
             private ExposureState exposureState;
             private CodeableConcept variantState;
             private Reference riskEvidenceSynthesis;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2743,8 +2746,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2754,6 +2756,10 @@ public class EffectEvidenceSynthesis extends DomainResource {
             private Decimal value;
             private CodeableConcept unitOfMeasure;
             private List<PrecisionEstimate> precisionEstimate = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3150,8 +3156,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -3159,6 +3164,10 @@ public class EffectEvidenceSynthesis extends DomainResource {
                 private Decimal level;
                 private Decimal from;
                 private Decimal to;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3481,14 +3490,17 @@ public class EffectEvidenceSynthesis extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<CodeableConcept> rating = new ArrayList<>();
             private List<Annotation> note = new ArrayList<>();
             private List<CertaintySubcomponent> certaintySubcomponent = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3864,14 +3876,17 @@ public class EffectEvidenceSynthesis extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept type;
                 private List<CodeableConcept> rating = new ArrayList<>();
                 private List<Annotation> note = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

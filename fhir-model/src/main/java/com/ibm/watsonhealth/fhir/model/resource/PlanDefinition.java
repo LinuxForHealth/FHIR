@@ -693,10 +693,8 @@ public class PlanDefinition extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status) {
-        Builder builder = new Builder();
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -731,6 +729,10 @@ public class PlanDefinition extends DomainResource {
         private List<Canonical> library = new ArrayList<>();
         private List<Goal> goal = new ArrayList<>();
         private List<Action> action = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -2032,10 +2034,8 @@ public class PlanDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept description) {
-            Builder builder = new Builder();
-            builder.description(description);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2046,6 +2046,10 @@ public class PlanDefinition extends DomainResource {
             private List<CodeableConcept> addresses = new ArrayList<>();
             private List<RelatedArtifact> documentation = new ArrayList<>();
             private List<Target> target = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2495,14 +2499,17 @@ public class PlanDefinition extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept measure;
                 private Element detail;
                 private Duration due;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3253,8 +3260,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3285,6 +3291,10 @@ public class PlanDefinition extends DomainResource {
             private Canonical transform;
             private List<DynamicValue> dynamicValue = new ArrayList<>();
             private List<PlanDefinition.Action> action = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4282,15 +4292,17 @@ public class PlanDefinition extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(ActionConditionKind kind) {
-                Builder builder = new Builder();
-                builder.kind(kind);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private ActionConditionKind kind;
                 private Expression expression;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -4577,17 +4589,18 @@ public class PlanDefinition extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Id actionId, ActionRelationshipType relationship) {
-                Builder builder = new Builder();
-                builder.actionId(actionId);
-                builder.relationship(relationship);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Id actionId;
                 private ActionRelationshipType relationship;
                 private Element offset;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -4874,15 +4887,17 @@ public class PlanDefinition extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(ActionParticipantType type) {
-                Builder builder = new Builder();
-                builder.type(type);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private ActionParticipantType type;
                 private CodeableConcept role;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -5158,13 +5173,16 @@ public class PlanDefinition extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private String path;
                 private Expression expression;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

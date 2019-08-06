@@ -203,12 +203,8 @@ public class ImmunizationRecommendation extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Reference patient, DateTime date, Collection<Recommendation> recommendation) {
-        Builder builder = new Builder();
-        builder.patient(patient);
-        builder.date(date);
-        builder.recommendation(recommendation);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -217,6 +213,10 @@ public class ImmunizationRecommendation extends DomainResource {
         private DateTime date;
         private Reference authority;
         private List<Recommendation> recommendation = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -873,10 +873,8 @@ public class ImmunizationRecommendation extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept forecastStatus) {
-            Builder builder = new Builder();
-            builder.forecastStatus(forecastStatus);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -892,6 +890,10 @@ public class ImmunizationRecommendation extends DomainResource {
             private Element seriesDoses;
             private List<Reference> supportingImmunization = new ArrayList<>();
             private List<Reference> supportingPatientInformation = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1475,16 +1477,17 @@ public class ImmunizationRecommendation extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CodeableConcept code, DateTime value) {
-                Builder builder = new Builder();
-                builder.code(code);
-                builder.value(value);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept code;
                 private DateTime value;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

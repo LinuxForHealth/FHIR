@@ -119,16 +119,17 @@ public class UsageContext extends Element {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Coding code, Element value) {
-        Builder builder = new Builder();
-        builder.code(code);
-        builder.value(value);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
         private Coding code;
         private Element value;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

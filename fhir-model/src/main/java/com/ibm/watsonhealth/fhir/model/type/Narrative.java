@@ -134,16 +134,17 @@ public class Narrative extends Element {
         return new Builder().from(this);
     }
 
-    public static Builder builder(NarrativeStatus status, java.lang.String div) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.div(div);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
         private NarrativeStatus status;
         private java.lang.String div;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

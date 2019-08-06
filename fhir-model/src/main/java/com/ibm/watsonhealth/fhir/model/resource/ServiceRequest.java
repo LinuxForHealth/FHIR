@@ -705,12 +705,8 @@ public class ServiceRequest extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ServiceRequestStatus status, ServiceRequestIntent intent, Reference subject) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.intent(intent);
-        builder.subject(subject);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -747,6 +743,10 @@ public class ServiceRequest extends DomainResource {
         private List<Annotation> note = new ArrayList<>();
         private String patientInstruction;
         private List<Reference> relevantHistory = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

@@ -532,10 +532,8 @@ public class ResearchStudy extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ResearchStudyStatus status) {
-        Builder builder = new Builder();
-        builder.status(status);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -563,6 +561,10 @@ public class ResearchStudy extends DomainResource {
         private List<Annotation> note = new ArrayList<>();
         private List<Arm> arm = new ArrayList<>();
         private List<Objective> objective = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1709,16 +1711,18 @@ public class ResearchStudy extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String name) {
-            Builder builder = new Builder();
-            builder.name(name);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String name;
             private CodeableConcept type;
             private String description;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2006,13 +2010,16 @@ public class ResearchStudy extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String name;
             private CodeableConcept type;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

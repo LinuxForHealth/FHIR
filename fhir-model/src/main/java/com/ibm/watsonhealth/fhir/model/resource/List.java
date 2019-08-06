@@ -356,11 +356,8 @@ public class List extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ListStatus status, ListMode mode) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.mode(mode);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -377,6 +374,10 @@ public class List extends DomainResource {
         private java.util.List<Annotation> note = new ArrayList<>();
         private java.util.List<Entry> entry = new ArrayList<>();
         private CodeableConcept emptyReason;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1051,10 +1052,8 @@ public class List extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference item) {
-            Builder builder = new Builder();
-            builder.item(item);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1062,6 +1061,10 @@ public class List extends DomainResource {
             private Boolean deleted;
             private DateTime date;
             private Reference item;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

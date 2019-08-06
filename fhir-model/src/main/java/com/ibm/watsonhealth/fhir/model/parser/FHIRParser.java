@@ -25,6 +25,7 @@ public interface FHIRParser {
         case JSON:
             return new FHIRJsonParser();
         case XML:
+            return new FHIRXMLParser();
         case RDF:
         default:
             throw new UnsupportedOperationException(String.format("Unsupported format: %s", format));

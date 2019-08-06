@@ -718,12 +718,8 @@ public class ResearchElementDefinition extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PublicationStatus status, ResearchElementType type, Collection<Characteristic> characteristic) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.type(type);
-        builder.characteristic(characteristic);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -760,6 +756,10 @@ public class ResearchElementDefinition extends DomainResource {
         private ResearchElementType type;
         private VariableType variableType;
         private List<Characteristic> characteristic = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -2187,10 +2187,8 @@ public class ResearchElementDefinition extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Element definition) {
-            Builder builder = new Builder();
-            builder.definition(definition);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2206,6 +2204,10 @@ public class ResearchElementDefinition extends DomainResource {
             private Element participantEffective;
             private Duration participantEffectiveTimeFromStart;
             private GroupMeasure participantEffectiveGroupMeasure;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

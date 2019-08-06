@@ -305,8 +305,7 @@ public class Organization extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -320,6 +319,10 @@ public class Organization extends DomainResource {
         private Reference partOf;
         private List<Contact> contact = new ArrayList<>();
         private List<Reference> endpoint = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1037,8 +1040,7 @@ public class Organization extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1046,6 +1048,10 @@ public class Organization extends DomainResource {
             private HumanName name;
             private List<ContactPoint> telecom = new ArrayList<>();
             private Address address;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

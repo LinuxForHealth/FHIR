@@ -180,10 +180,8 @@ public class Expression extends Element {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Code language) {
-        Builder builder = new Builder();
-        builder.language(language);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
@@ -192,6 +190,10 @@ public class Expression extends Element {
         private Code language;
         private String expression;
         private Uri reference;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

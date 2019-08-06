@@ -368,13 +368,8 @@ public class PaymentReconciliation extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(PaymentReconciliationStatus status, DateTime created, Date paymentDate, Money paymentAmount) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.created(created);
-        builder.paymentDate(paymentDate);
-        builder.paymentAmount(paymentAmount);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -393,6 +388,10 @@ public class PaymentReconciliation extends DomainResource {
         private List<Detail> detail = new ArrayList<>();
         private CodeableConcept formCode;
         private List<ProcessNote> processNote = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1206,10 +1205,8 @@ public class PaymentReconciliation extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept type) {
-            Builder builder = new Builder();
-            builder.type(type);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1223,6 +1220,10 @@ public class PaymentReconciliation extends DomainResource {
             private Reference responsible;
             private Reference payee;
             private Money amount;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1628,13 +1629,16 @@ public class PaymentReconciliation extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private NoteType type;
             private String text;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

@@ -320,10 +320,8 @@ public class RelatedPerson extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Reference patient) {
-        Builder builder = new Builder();
-        builder.patient(patient);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -339,6 +337,10 @@ public class RelatedPerson extends DomainResource {
         private List<Attachment> photo = new ArrayList<>();
         private Period period;
         private List<Communication> communication = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1057,15 +1059,17 @@ public class RelatedPerson extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept language) {
-            Builder builder = new Builder();
-            builder.language(language);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept language;
             private Boolean preferred;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

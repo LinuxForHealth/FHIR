@@ -379,12 +379,8 @@ public class Consent extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ConsentState status, CodeableConcept scope, Collection<CodeableConcept> category) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.scope(scope);
-        builder.category(category);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -401,6 +397,10 @@ public class Consent extends DomainResource {
         private CodeableConcept policyRule;
         private List<Verification> verification = new ArrayList<>();
         private Provision provision;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1124,13 +1124,16 @@ public class Consent extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Uri authority;
             private Uri uri;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1420,16 +1423,18 @@ public class Consent extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Boolean verified) {
-            Builder builder = new Builder();
-            builder.verified(verified);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Boolean verified;
             private Reference verifiedWith;
             private DateTime verificationDate;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1882,8 +1887,7 @@ public class Consent extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1898,6 +1902,10 @@ public class Consent extends DomainResource {
             private Period dataPeriod;
             private List<Data> data = new ArrayList<>();
             private List<Consent.Provision> provision = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2519,16 +2527,17 @@ public class Consent extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CodeableConcept role, Reference reference) {
-                Builder builder = new Builder();
-                builder.role(role);
-                builder.reference(reference);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept role;
                 private Reference reference;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2798,16 +2807,17 @@ public class Consent extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(ConsentDataMeaning meaning, Reference reference) {
-                Builder builder = new Builder();
-                builder.meaning(meaning);
-                builder.reference(reference);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private ConsentDataMeaning meaning;
                 private Reference reference;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

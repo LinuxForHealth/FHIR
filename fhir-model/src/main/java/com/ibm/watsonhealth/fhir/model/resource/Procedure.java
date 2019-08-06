@@ -603,11 +603,8 @@ public class Procedure extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ProcedureStatus status, Reference subject) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.subject(subject);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -639,6 +636,10 @@ public class Procedure extends DomainResource {
         private List<FocalDevice> focalDevice = new ArrayList<>();
         private List<Reference> usedReference = new ArrayList<>();
         private List<CodeableConcept> usedCode = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1905,16 +1906,18 @@ public class Procedure extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference actor) {
-            Builder builder = new Builder();
-            builder.actor(actor);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept function;
             private Reference actor;
             private Reference onBehalfOf;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2202,15 +2205,17 @@ public class Procedure extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference manipulated) {
-            Builder builder = new Builder();
-            builder.manipulated(manipulated);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept action;
             private Reference manipulated;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

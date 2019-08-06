@@ -256,10 +256,8 @@ public class DataRequirement extends Element {
         return new Builder().from(this);
     }
 
-    public static Builder builder(FHIRAllTypes type) {
-        Builder builder = new Builder();
-        builder.type(type);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
@@ -271,6 +269,10 @@ public class DataRequirement extends Element {
         private List<DateFilter> dateFilter = new ArrayList<>();
         private PositiveInt limit;
         private List<Sort> sort = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -770,8 +772,7 @@ public class DataRequirement extends Element {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -779,6 +780,10 @@ public class DataRequirement extends Element {
             private String searchParam;
             private Canonical valueSet;
             private List<Coding> code = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1140,14 +1145,17 @@ public class DataRequirement extends Element {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String path;
             private String searchParam;
             private Element value;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1439,16 +1447,17 @@ public class DataRequirement extends Element {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String path, SortDirection direction) {
-            Builder builder = new Builder();
-            builder.path(path);
-            builder.direction(direction);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String path;
             private SortDirection direction;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

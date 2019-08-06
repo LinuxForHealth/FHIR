@@ -587,16 +587,8 @@ public class ClaimResponse extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ClaimResponseStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference insurer, RemittanceOutcome outcome) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.type(type);
-        builder.use(use);
-        builder.patient(patient);
-        builder.created(created);
-        builder.insurer(insurer);
-        builder.outcome(outcome);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -627,6 +619,10 @@ public class ClaimResponse extends DomainResource {
         private List<Reference> communicationRequest = new ArrayList<>();
         private List<Insurance> insurance = new ArrayList<>();
         private List<Error> error = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1690,11 +1686,8 @@ public class ClaimResponse extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(PositiveInt itemSequence, Collection<Adjudication> adjudication) {
-            Builder builder = new Builder();
-            builder.itemSequence(itemSequence);
-            builder.adjudication(adjudication);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1702,6 +1695,10 @@ public class ClaimResponse extends DomainResource {
             private List<PositiveInt> noteNumber = new ArrayList<>();
             private List<Adjudication> adjudication = new ArrayList<>();
             private List<Detail> detail = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2116,10 +2113,8 @@ public class ClaimResponse extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CodeableConcept category) {
-                Builder builder = new Builder();
-                builder.category(category);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2127,6 +2122,10 @@ public class ClaimResponse extends DomainResource {
                 private CodeableConcept reason;
                 private Money amount;
                 private Decimal value;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2467,11 +2466,8 @@ public class ClaimResponse extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(PositiveInt detailSequence, Collection<ClaimResponse.Item.Adjudication> adjudication) {
-                Builder builder = new Builder();
-                builder.detailSequence(detailSequence);
-                builder.adjudication(adjudication);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2479,6 +2475,10 @@ public class ClaimResponse extends DomainResource {
                 private List<PositiveInt> noteNumber = new ArrayList<>();
                 private List<ClaimResponse.Item.Adjudication> adjudication = new ArrayList<>();
                 private List<SubDetail> subDetail = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2870,16 +2870,18 @@ public class ClaimResponse extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(PositiveInt subDetailSequence) {
-                    Builder builder = new Builder();
-                    builder.subDetailSequence(subDetailSequence);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private PositiveInt subDetailSequence;
                     private List<PositiveInt> noteNumber = new ArrayList<>();
                     private List<ClaimResponse.Item.Adjudication> adjudication = new ArrayList<>();
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -3506,11 +3508,8 @@ public class ClaimResponse extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
-            Builder builder = new Builder();
-            builder.productOrService(productOrService);
-            builder.adjudication(adjudication);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3532,6 +3531,10 @@ public class ClaimResponse extends DomainResource {
             private List<PositiveInt> noteNumber = new ArrayList<>();
             private List<ClaimResponse.Item.Adjudication> adjudication = new ArrayList<>();
             private List<Detail> detail = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4443,11 +4446,8 @@ public class ClaimResponse extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
-                Builder builder = new Builder();
-                builder.productOrService(productOrService);
-                builder.adjudication(adjudication);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -4460,6 +4460,10 @@ public class ClaimResponse extends DomainResource {
                 private List<PositiveInt> noteNumber = new ArrayList<>();
                 private List<ClaimResponse.Item.Adjudication> adjudication = new ArrayList<>();
                 private List<SubDetail> subDetail = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -5056,11 +5060,8 @@ public class ClaimResponse extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(CodeableConcept productOrService, Collection<ClaimResponse.Item.Adjudication> adjudication) {
-                    Builder builder = new Builder();
-                    builder.productOrService(productOrService);
-                    builder.adjudication(adjudication);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
@@ -5072,6 +5073,10 @@ public class ClaimResponse extends DomainResource {
                     private Money net;
                     private List<PositiveInt> noteNumber = new ArrayList<>();
                     private List<ClaimResponse.Item.Adjudication> adjudication = new ArrayList<>();
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -5521,16 +5526,17 @@ public class ClaimResponse extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept category, Money amount) {
-            Builder builder = new Builder();
-            builder.category(category);
-            builder.amount(amount);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept category;
             private Money amount;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -5874,11 +5880,8 @@ public class ClaimResponse extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept type, Money amount) {
-            Builder builder = new Builder();
-            builder.type(type);
-            builder.amount(amount);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -5888,6 +5891,10 @@ public class ClaimResponse extends DomainResource {
             private Date date;
             private Money amount;
             private Identifier identifier;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -6261,10 +6268,8 @@ public class ClaimResponse extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String text) {
-            Builder builder = new Builder();
-            builder.text(text);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -6272,6 +6277,10 @@ public class ClaimResponse extends DomainResource {
             private NoteType type;
             private String text;
             private CodeableConcept language;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -6630,12 +6639,8 @@ public class ClaimResponse extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(PositiveInt sequence, Boolean focal, Reference coverage) {
-            Builder builder = new Builder();
-            builder.sequence(sequence);
-            builder.focal(focal);
-            builder.coverage(coverage);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -6644,6 +6649,10 @@ public class ClaimResponse extends DomainResource {
             private Reference coverage;
             private String businessArrangement;
             private Reference claimResponse;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -7004,10 +7013,8 @@ public class ClaimResponse extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept code) {
-            Builder builder = new Builder();
-            builder.code(code);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -7015,6 +7022,10 @@ public class ClaimResponse extends DomainResource {
             private PositiveInt detailSequence;
             private PositiveInt subDetailSequence;
             private CodeableConcept code;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

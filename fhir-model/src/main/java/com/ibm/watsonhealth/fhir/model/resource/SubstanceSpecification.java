@@ -436,8 +436,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -460,6 +459,10 @@ public class SubstanceSpecification extends DomainResource {
         private Reference polymer;
         private Reference protein;
         private Reference sourceMaterial;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1384,8 +1387,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1396,6 +1398,10 @@ public class SubstanceSpecification extends DomainResource {
             private CodeableConcept opticalActivity;
             private String molecularFormula;
             private Element amount;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1804,8 +1810,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1814,6 +1819,10 @@ public class SubstanceSpecification extends DomainResource {
             private String parameters;
             private Element definingSubstance;
             private Element amount;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2243,8 +2252,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2256,6 +2264,10 @@ public class SubstanceSpecification extends DomainResource {
             private SubstanceSpecification.Structure.Isotope.MolecularWeight molecularWeight;
             private List<Reference> source = new ArrayList<>();
             private List<Representation> representation = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2754,8 +2766,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -2764,6 +2775,10 @@ public class SubstanceSpecification extends DomainResource {
                 private CodeableConcept substitution;
                 private Quantity halfLife;
                 private MolecularWeight molecularWeight;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3102,14 +3117,17 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 public static Builder builder() {
-                    Builder builder = new Builder();
-                    return builder;
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private CodeableConcept method;
                     private CodeableConcept type;
                     private Quantity amount;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -3417,14 +3435,17 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept type;
                 private String representation;
                 private Attachment attachment;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -3766,8 +3787,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3776,6 +3796,10 @@ public class SubstanceSpecification extends DomainResource {
             private DateTime statusDate;
             private String comment;
             private List<Reference> source = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4282,10 +4306,8 @@ public class SubstanceSpecification extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String name) {
-            Builder builder = new Builder();
-            builder.name(name);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -4300,6 +4322,10 @@ public class SubstanceSpecification extends DomainResource {
             private List<SubstanceSpecification.Name> translation = new ArrayList<>();
             private List<Official> official = new ArrayList<>();
             private List<Reference> source = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4911,14 +4937,17 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept authority;
                 private CodeableConcept status;
                 private DateTime date;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -5298,8 +5327,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -5310,6 +5338,10 @@ public class SubstanceSpecification extends DomainResource {
             private Ratio amountRatioLowLimit;
             private CodeableConcept amountType;
             private List<Reference> source = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

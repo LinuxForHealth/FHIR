@@ -533,12 +533,8 @@ public class DeviceRequest extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(RequestIntent intent, Element code, Reference subject) {
-        Builder builder = new Builder();
-        builder.intent(intent);
-        builder.code(code);
-        builder.subject(subject);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -566,6 +562,10 @@ public class DeviceRequest extends DomainResource {
         private List<Reference> supportingInfo = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
         private List<Reference> relevantHistory = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1617,13 +1617,16 @@ public class DeviceRequest extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept code;
             private Element value;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

@@ -163,12 +163,15 @@ public class Parameters extends Resource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends Resource.Builder {
         private List<Parameter> parameter = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -429,10 +432,8 @@ public class Parameters extends Resource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String name) {
-            Builder builder = new Builder();
-            builder.name(name);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -440,6 +441,10 @@ public class Parameters extends Resource {
             private Element value;
             private Resource resource;
             private List<Parameters.Parameter> part = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

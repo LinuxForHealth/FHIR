@@ -444,10 +444,8 @@ public class Condition extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Reference subject) {
-        Builder builder = new Builder();
-        builder.subject(subject);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -468,6 +466,10 @@ public class Condition extends DomainResource {
         private List<Stage> stage = new ArrayList<>();
         private List<Evidence> evidence = new ArrayList<>();
         private List<Annotation> note = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1271,14 +1273,17 @@ public class Condition extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept summary;
             private List<Reference> assessment = new ArrayList<>();
             private CodeableConcept type;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1590,13 +1595,16 @@ public class Condition extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<CodeableConcept> code = new ArrayList<>();
             private List<Reference> detail = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

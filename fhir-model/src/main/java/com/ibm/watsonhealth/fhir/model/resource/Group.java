@@ -294,11 +294,8 @@ public class Group extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(GroupType type, Boolean actual) {
-        Builder builder = new Builder();
-        builder.type(type);
-        builder.actual(actual);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -312,6 +309,10 @@ public class Group extends DomainResource {
         private Reference managingEntity;
         private List<Characteristic> characteristic = new ArrayList<>();
         private List<Member> member = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -933,12 +934,8 @@ public class Group extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept code, Element value, Boolean exclude) {
-            Builder builder = new Builder();
-            builder.code(code);
-            builder.value(value);
-            builder.exclude(exclude);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -946,6 +943,10 @@ public class Group extends DomainResource {
             private Element value;
             private Boolean exclude;
             private Period period;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1267,16 +1268,18 @@ public class Group extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference entity) {
-            Builder builder = new Builder();
-            builder.entity(entity);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Reference entity;
             private Period period;
             private Boolean inactive;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

@@ -320,13 +320,8 @@ public class MeasureReport extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(MeasureReportStatus status, MeasureReportType type, Canonical measure, Period period) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.type(type);
-        builder.measure(measure);
-        builder.period(period);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -341,6 +336,10 @@ public class MeasureReport extends DomainResource {
         private CodeableConcept improvementNotation;
         private List<Group> group = new ArrayList<>();
         private List<Reference> evaluatedResource = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -987,8 +986,7 @@ public class MeasureReport extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -996,6 +994,10 @@ public class MeasureReport extends DomainResource {
             private List<Population> population = new ArrayList<>();
             private Quantity measureScore;
             private List<Stratifier> stratifier = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1367,14 +1369,17 @@ public class MeasureReport extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept code;
                 private Integer count;
                 private Reference subjectResults;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -1664,13 +1669,16 @@ public class MeasureReport extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private List<CodeableConcept> code = new ArrayList<>();
                 private List<Stratum> stratum = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2028,8 +2036,7 @@ public class MeasureReport extends DomainResource {
                 }
 
                 public static Builder builder() {
-                    Builder builder = new Builder();
-                    return builder;
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
@@ -2037,6 +2044,10 @@ public class MeasureReport extends DomainResource {
                     private List<Component> component = new ArrayList<>();
                     private List<Population> population = new ArrayList<>();
                     private Quantity measureScore;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -2388,16 +2399,17 @@ public class MeasureReport extends DomainResource {
                         return new Builder().from(this);
                     }
 
-                    public static Builder builder(CodeableConcept code, CodeableConcept value) {
-                        Builder builder = new Builder();
-                        builder.code(code);
-                        builder.value(value);
-                        return builder;
+                    public static Builder builder() {
+                        return new Builder();
                     }
 
                     public static class Builder extends BackboneElement.Builder {
                         private CodeableConcept code;
                         private CodeableConcept value;
+
+                        private Builder() {
+                            super();
+                        }
 
                         /**
                          * <p>
@@ -2686,14 +2698,17 @@ public class MeasureReport extends DomainResource {
                     }
 
                     public static Builder builder() {
-                        Builder builder = new Builder();
-                        return builder;
+                        return new Builder();
                     }
 
                     public static class Builder extends BackboneElement.Builder {
                         private CodeableConcept code;
                         private Integer count;
                         private Reference subjectResults;
+
+                        private Builder() {
+                            super();
+                        }
 
                         /**
                          * <p>

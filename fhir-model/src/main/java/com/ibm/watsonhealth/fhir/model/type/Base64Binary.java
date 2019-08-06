@@ -105,12 +105,15 @@ public class Base64Binary extends Element {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
         private byte[] value;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

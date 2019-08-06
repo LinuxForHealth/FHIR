@@ -123,14 +123,16 @@ public class OperationOutcome extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Collection<Issue> issue) {
-        Builder builder = new Builder();
-        builder.issue(issue);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
         private List<Issue> issue = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -595,11 +597,8 @@ public class OperationOutcome extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(IssueSeverity severity, IssueType code) {
-            Builder builder = new Builder();
-            builder.severity(severity);
-            builder.code(code);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -609,6 +608,10 @@ public class OperationOutcome extends DomainResource {
             private String diagnostics;
             private List<String> location = new ArrayList<>();
             private List<String> expression = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

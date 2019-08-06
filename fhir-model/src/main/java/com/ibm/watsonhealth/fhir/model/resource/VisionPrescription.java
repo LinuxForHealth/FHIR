@@ -252,15 +252,8 @@ public class VisionPrescription extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(VisionStatus status, DateTime created, Reference patient, DateTime dateWritten, Reference prescriber, Collection<LensSpecification> lensSpecification) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.created(created);
-        builder.patient(patient);
-        builder.dateWritten(dateWritten);
-        builder.prescriber(prescriber);
-        builder.lensSpecification(lensSpecification);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -272,6 +265,10 @@ public class VisionPrescription extends DomainResource {
         private DateTime dateWritten;
         private Reference prescriber;
         private List<LensSpecification> lensSpecification = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1018,11 +1015,8 @@ public class VisionPrescription extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept product, VisionEyes eye) {
-            Builder builder = new Builder();
-            builder.product(product);
-            builder.eye(eye);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1040,6 +1034,10 @@ public class VisionPrescription extends DomainResource {
             private String color;
             private String brand;
             private List<Annotation> note = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1559,16 +1557,17 @@ public class VisionPrescription extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(Decimal amount, VisionBase base) {
-                Builder builder = new Builder();
-                builder.amount(amount);
-                builder.base(base);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Decimal amount;
                 private VisionBase base;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

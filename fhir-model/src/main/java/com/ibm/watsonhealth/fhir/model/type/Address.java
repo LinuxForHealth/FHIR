@@ -272,8 +272,7 @@ public class Address extends Element {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends Element.Builder {
@@ -287,6 +286,10 @@ public class Address extends Element {
         private String postalCode;
         private String country;
         private Period period;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

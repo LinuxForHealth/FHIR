@@ -224,11 +224,8 @@ public class MedicinalProductManufactured extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(CodeableConcept manufacturedDoseForm, Quantity quantity) {
-        Builder builder = new Builder();
-        builder.manufacturedDoseForm(manufacturedDoseForm);
-        builder.quantity(quantity);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -239,6 +236,10 @@ public class MedicinalProductManufactured extends DomainResource {
         private List<Reference> ingredient = new ArrayList<>();
         private ProdCharacteristic physicalCharacteristics;
         private List<CodeableConcept> otherCharacteristics = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

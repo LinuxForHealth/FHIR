@@ -382,16 +382,8 @@ public class CoverageEligibilityResponse extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(EligibilityResponseStatus status, Collection<EligibilityResponsePurpose> purpose, Reference patient, DateTime created, Reference request, RemittanceOutcome outcome, Reference insurer) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.purpose(purpose);
-        builder.patient(patient);
-        builder.created(created);
-        builder.request(request);
-        builder.outcome(outcome);
-        builder.insurer(insurer);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -410,6 +402,10 @@ public class CoverageEligibilityResponse extends DomainResource {
         private String preAuthRef;
         private CodeableConcept form;
         private List<Error> error = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1146,10 +1142,8 @@ public class CoverageEligibilityResponse extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference coverage) {
-            Builder builder = new Builder();
-            builder.coverage(coverage);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1157,6 +1151,10 @@ public class CoverageEligibilityResponse extends DomainResource {
             private Boolean inforce;
             private Period benefitPeriod;
             private List<Item> item = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1702,8 +1700,7 @@ public class CoverageEligibilityResponse extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -1721,6 +1718,10 @@ public class CoverageEligibilityResponse extends DomainResource {
                 private Boolean authorizationRequired;
                 private List<CodeableConcept> authorizationSupporting = new ArrayList<>();
                 private Uri authorizationUrl;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2283,16 +2284,18 @@ public class CoverageEligibilityResponse extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(CodeableConcept type) {
-                    Builder builder = new Builder();
-                    builder.type(type);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
                     private CodeableConcept type;
                     private Element allowed;
                     private Element used;
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -2562,14 +2565,16 @@ public class CoverageEligibilityResponse extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept code) {
-            Builder builder = new Builder();
-            builder.code(code);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept code;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

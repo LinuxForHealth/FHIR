@@ -518,11 +518,8 @@ public class Encounter extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(EncounterStatus status, Coding clazz) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.clazz(clazz);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -549,6 +546,10 @@ public class Encounter extends DomainResource {
         private List<Location> location = new ArrayList<>();
         private Reference serviceProvider;
         private Reference partOf;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1621,16 +1622,17 @@ public class Encounter extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(EncounterStatus status, Period period) {
-            Builder builder = new Builder();
-            builder.status(status);
-            builder.period(period);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private EncounterStatus status;
             private Period period;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1903,16 +1905,17 @@ public class Encounter extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Coding clazz, Period period) {
-            Builder builder = new Builder();
-            builder.clazz(clazz);
-            builder.period(period);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Coding clazz;
             private Period period;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2201,14 +2204,17 @@ public class Encounter extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private List<CodeableConcept> type = new ArrayList<>();
             private Period period;
             private Reference individual;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2539,16 +2545,18 @@ public class Encounter extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference condition) {
-            Builder builder = new Builder();
-            builder.condition(condition);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Reference condition;
             private CodeableConcept use;
             private PositiveInt rank;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2964,8 +2972,7 @@ public class Encounter extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2978,6 +2985,10 @@ public class Encounter extends DomainResource {
             private List<CodeableConcept> specialArrangement = new ArrayList<>();
             private Reference destination;
             private CodeableConcept dischargeDisposition;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3478,10 +3489,8 @@ public class Encounter extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference location) {
-            Builder builder = new Builder();
-            builder.location(location);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3489,6 +3498,10 @@ public class Encounter extends DomainResource {
             private EncounterLocationStatus status;
             private CodeableConcept physicalType;
             private Period period;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

@@ -311,13 +311,8 @@ public class AuditEvent extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Coding type, Instant recorded, Collection<Agent> agent, Source source) {
-        Builder builder = new Builder();
-        builder.type(type);
-        builder.recorded(recorded);
-        builder.agent(agent);
-        builder.source(source);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -332,6 +327,10 @@ public class AuditEvent extends DomainResource {
         private List<Agent> agent = new ArrayList<>();
         private Source source;
         private List<Entity> entity = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1124,10 +1123,8 @@ public class AuditEvent extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Boolean requestor) {
-            Builder builder = new Builder();
-            builder.requestor(requestor);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1142,6 +1139,10 @@ public class AuditEvent extends DomainResource {
             private Coding media;
             private Network network;
             private List<CodeableConcept> purposeOfUse = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1642,13 +1643,16 @@ public class AuditEvent extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private String address;
                 private AuditEventAgentNetworkType type;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -1937,16 +1941,18 @@ public class AuditEvent extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference observer) {
-            Builder builder = new Builder();
-            builder.observer(observer);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String site;
             private Reference observer;
             private List<Coding> type = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2384,8 +2390,7 @@ public class AuditEvent extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2398,6 +2403,10 @@ public class AuditEvent extends DomainResource {
             private String description;
             private Base64Binary query;
             private List<Detail> detail = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2832,16 +2841,17 @@ public class AuditEvent extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(String type, Element value) {
-                Builder builder = new Builder();
-                builder.type(type);
-                builder.value(value);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private String type;
                 private Element value;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

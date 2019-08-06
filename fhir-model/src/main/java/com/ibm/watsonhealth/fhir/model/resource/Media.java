@@ -493,11 +493,8 @@ public class Media extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(MediaStatus status, Attachment content) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.content(content);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -523,6 +520,10 @@ public class Media extends DomainResource {
         private Decimal duration;
         private Attachment content;
         private List<Annotation> note = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

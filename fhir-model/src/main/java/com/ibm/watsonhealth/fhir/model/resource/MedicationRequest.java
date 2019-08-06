@@ -685,13 +685,8 @@ public class MedicationRequest extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(MedicationRequestStatus status, MedicationRequestIntent intent, Element medication, Reference subject) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.intent(intent);
-        builder.medication(medication);
-        builder.subject(subject);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -727,6 +722,10 @@ public class MedicationRequest extends DomainResource {
         private Reference priorPrescription;
         private List<Reference> detectedIssue = new ArrayList<>();
         private List<Reference> eventHistory = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -2054,8 +2053,7 @@ public class MedicationRequest extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2066,6 +2064,10 @@ public class MedicationRequest extends DomainResource {
             private SimpleQuantity quantity;
             private Duration expectedSupplyDuration;
             private Reference performer;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2424,13 +2426,16 @@ public class MedicationRequest extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private SimpleQuantity quantity;
                 private Duration duration;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2702,15 +2707,17 @@ public class MedicationRequest extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Element allowed) {
-            Builder builder = new Builder();
-            builder.allowed(allowed);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Element allowed;
             private CodeableConcept reason;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

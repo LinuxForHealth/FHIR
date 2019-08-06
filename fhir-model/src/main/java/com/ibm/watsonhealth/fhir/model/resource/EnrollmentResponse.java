@@ -244,8 +244,7 @@ public class EnrollmentResponse extends DomainResource {
     }
 
     public static Builder builder() {
-        Builder builder = new Builder();
-        return builder;
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -257,6 +256,10 @@ public class EnrollmentResponse extends DomainResource {
         private DateTime created;
         private Reference organization;
         private Reference requestProvider;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

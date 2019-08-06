@@ -867,18 +867,8 @@ public class ExplanationOfBenefit extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(ExplanationOfBenefitStatus status, CodeableConcept type, Use use, Reference patient, DateTime created, Reference insurer, Reference provider, RemittanceOutcome outcome, Collection<Insurance> insurance) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.type(type);
-        builder.use(use);
-        builder.patient(patient);
-        builder.created(created);
-        builder.insurer(insurer);
-        builder.provider(provider);
-        builder.outcome(outcome);
-        builder.insurance(insurance);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -925,6 +915,10 @@ public class ExplanationOfBenefit extends DomainResource {
         private List<ProcessNote> processNote = new ArrayList<>();
         private Period benefitPeriod;
         private List<BenefitBalance> benefitBalance = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -2393,14 +2387,17 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Reference claim;
             private CodeableConcept relationship;
             private Identifier reference;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2687,13 +2684,16 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept type;
             private Reference party;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3016,11 +3016,8 @@ public class ExplanationOfBenefit extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(PositiveInt sequence, Reference provider) {
-            Builder builder = new Builder();
-            builder.sequence(sequence);
-            builder.provider(provider);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3029,6 +3026,10 @@ public class ExplanationOfBenefit extends DomainResource {
             private Boolean responsible;
             private CodeableConcept role;
             private CodeableConcept qualification;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3423,11 +3424,8 @@ public class ExplanationOfBenefit extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(PositiveInt sequence, CodeableConcept category) {
-            Builder builder = new Builder();
-            builder.sequence(sequence);
-            builder.category(category);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3437,6 +3435,10 @@ public class ExplanationOfBenefit extends DomainResource {
             private Element timing;
             private Element value;
             private Coding reason;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -3830,11 +3832,8 @@ public class ExplanationOfBenefit extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(PositiveInt sequence, Element diagnosis) {
-            Builder builder = new Builder();
-            builder.sequence(sequence);
-            builder.diagnosis(diagnosis);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -3843,6 +3842,10 @@ public class ExplanationOfBenefit extends DomainResource {
             private List<CodeableConcept> type = new ArrayList<>();
             private CodeableConcept onAdmission;
             private CodeableConcept packageCode;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4241,11 +4244,8 @@ public class ExplanationOfBenefit extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(PositiveInt sequence, Element procedure) {
-            Builder builder = new Builder();
-            builder.sequence(sequence);
-            builder.procedure(procedure);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -4254,6 +4254,10 @@ public class ExplanationOfBenefit extends DomainResource {
             private DateTime date;
             private Element procedure;
             private List<Reference> udi = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4641,17 +4645,18 @@ public class ExplanationOfBenefit extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Boolean focal, Reference coverage) {
-            Builder builder = new Builder();
-            builder.focal(focal);
-            builder.coverage(coverage);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Boolean focal;
             private Reference coverage;
             private List<String> preAuthRef = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -4984,14 +4989,17 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Date date;
             private CodeableConcept type;
             private Element location;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -5661,11 +5669,8 @@ public class ExplanationOfBenefit extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(PositiveInt sequence, CodeableConcept productOrService) {
-            Builder builder = new Builder();
-            builder.sequence(sequence);
-            builder.productOrService(productOrService);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -5692,6 +5697,10 @@ public class ExplanationOfBenefit extends DomainResource {
             private List<PositiveInt> noteNumber = new ArrayList<>();
             private List<Adjudication> adjudication = new ArrayList<>();
             private List<Detail> detail = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -6648,10 +6657,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CodeableConcept category) {
-                Builder builder = new Builder();
-                builder.category(category);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -6659,6 +6666,10 @@ public class ExplanationOfBenefit extends DomainResource {
                 private CodeableConcept reason;
                 private Money amount;
                 private Decimal value;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -7182,11 +7193,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(PositiveInt sequence, CodeableConcept productOrService) {
-                Builder builder = new Builder();
-                builder.sequence(sequence);
-                builder.productOrService(productOrService);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -7204,6 +7212,10 @@ public class ExplanationOfBenefit extends DomainResource {
                 private List<PositiveInt> noteNumber = new ArrayList<>();
                 private List<ExplanationOfBenefit.Item.Adjudication> adjudication = new ArrayList<>();
                 private List<SubDetail> subDetail = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -8023,11 +8035,8 @@ public class ExplanationOfBenefit extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(PositiveInt sequence, CodeableConcept productOrService) {
-                    Builder builder = new Builder();
-                    builder.sequence(sequence);
-                    builder.productOrService(productOrService);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
@@ -8044,6 +8053,10 @@ public class ExplanationOfBenefit extends DomainResource {
                     private List<Reference> udi = new ArrayList<>();
                     private List<PositiveInt> noteNumber = new ArrayList<>();
                     private List<ExplanationOfBenefit.Item.Adjudication> adjudication = new ArrayList<>();
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -8916,10 +8929,8 @@ public class ExplanationOfBenefit extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept productOrService) {
-            Builder builder = new Builder();
-            builder.productOrService(productOrService);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -8941,6 +8952,10 @@ public class ExplanationOfBenefit extends DomainResource {
             private List<PositiveInt> noteNumber = new ArrayList<>();
             private List<ExplanationOfBenefit.Item.Adjudication> adjudication = new ArrayList<>();
             private List<Detail> detail = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -9854,10 +9869,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CodeableConcept productOrService) {
-                Builder builder = new Builder();
-                builder.productOrService(productOrService);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
@@ -9870,6 +9883,10 @@ public class ExplanationOfBenefit extends DomainResource {
                 private List<PositiveInt> noteNumber = new ArrayList<>();
                 private List<ExplanationOfBenefit.Item.Adjudication> adjudication = new ArrayList<>();
                 private List<SubDetail> subDetail = new ArrayList<>();
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -10466,10 +10483,8 @@ public class ExplanationOfBenefit extends DomainResource {
                     return new Builder().from(this);
                 }
 
-                public static Builder builder(CodeableConcept productOrService) {
-                    Builder builder = new Builder();
-                    builder.productOrService(productOrService);
-                    return builder;
+                public static Builder builder() {
+                    return new Builder();
                 }
 
                 public static class Builder extends BackboneElement.Builder {
@@ -10481,6 +10496,10 @@ public class ExplanationOfBenefit extends DomainResource {
                     private Money net;
                     private List<PositiveInt> noteNumber = new ArrayList<>();
                     private List<ExplanationOfBenefit.Item.Adjudication> adjudication = new ArrayList<>();
+
+                    private Builder() {
+                        super();
+                    }
 
                     /**
                      * <p>
@@ -10930,16 +10949,17 @@ public class ExplanationOfBenefit extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept category, Money amount) {
-            Builder builder = new Builder();
-            builder.category(category);
-            builder.amount(amount);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private CodeableConcept category;
             private Money amount;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -11284,8 +11304,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -11295,6 +11314,10 @@ public class ExplanationOfBenefit extends DomainResource {
             private Date date;
             private Money amount;
             private Identifier identifier;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -11669,8 +11692,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -11678,6 +11700,10 @@ public class ExplanationOfBenefit extends DomainResource {
             private NoteType type;
             private String text;
             private CodeableConcept language;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -12089,10 +12115,8 @@ public class ExplanationOfBenefit extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(CodeableConcept category) {
-            Builder builder = new Builder();
-            builder.category(category);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -12104,6 +12128,10 @@ public class ExplanationOfBenefit extends DomainResource {
             private CodeableConcept unit;
             private CodeableConcept term;
             private List<Financial> financial = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -12516,16 +12544,18 @@ public class ExplanationOfBenefit extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CodeableConcept type) {
-                Builder builder = new Builder();
-                builder.type(type);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept type;
                 private Element allowed;
                 private Element used;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>

@@ -450,10 +450,8 @@ public class MedicinalProduct extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(Collection<Name> name) {
-        Builder builder = new Builder();
-        builder.name(name);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -477,6 +475,10 @@ public class MedicinalProduct extends DomainResource {
         private List<Identifier> crossReference = new ArrayList<>();
         private List<ManufacturingBusinessOperation> manufacturingBusinessOperation = new ArrayList<>();
         private List<SpecialDesignation> specialDesignation = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1513,16 +1515,18 @@ public class MedicinalProduct extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(String productName) {
-            Builder builder = new Builder();
-            builder.productName(productName);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private String productName;
             private List<NamePart> namePart = new ArrayList<>();
             private List<CountryLanguage> countryLanguage = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1855,16 +1859,17 @@ public class MedicinalProduct extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(String part, Coding type) {
-                Builder builder = new Builder();
-                builder.part(part);
-                builder.type(type);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private String part;
                 private Coding type;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2151,17 +2156,18 @@ public class MedicinalProduct extends DomainResource {
                 return new Builder().from(this);
             }
 
-            public static Builder builder(CodeableConcept country, CodeableConcept language) {
-                Builder builder = new Builder();
-                builder.country(country);
-                builder.language(language);
-                return builder;
+            public static Builder builder() {
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private CodeableConcept country;
                 private CodeableConcept jurisdiction;
                 private CodeableConcept language;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
@@ -2521,8 +2527,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2532,6 +2537,10 @@ public class MedicinalProduct extends DomainResource {
             private CodeableConcept confidentialityIndicator;
             private List<Reference> manufacturer = new ArrayList<>();
             private Reference regulator;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2983,8 +2992,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -2995,6 +3003,10 @@ public class MedicinalProduct extends DomainResource {
             private CodeableConcept status;
             private DateTime date;
             private CodeableConcept species;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>

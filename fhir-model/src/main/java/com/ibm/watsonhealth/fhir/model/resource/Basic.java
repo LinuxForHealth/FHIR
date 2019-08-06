@@ -191,10 +191,8 @@ public class Basic extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(CodeableConcept code) {
-        Builder builder = new Builder();
-        builder.code(code);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -203,6 +201,10 @@ public class Basic extends DomainResource {
         private Reference subject;
         private Date created;
         private Reference author;
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>

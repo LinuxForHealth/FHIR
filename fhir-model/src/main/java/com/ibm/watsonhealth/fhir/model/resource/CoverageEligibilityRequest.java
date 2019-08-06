@@ -360,14 +360,8 @@ public class CoverageEligibilityRequest extends DomainResource {
         return new Builder().from(this);
     }
 
-    public static Builder builder(EligibilityRequestStatus status, Collection<EligibilityRequestPurpose> purpose, Reference patient, DateTime created, Reference insurer) {
-        Builder builder = new Builder();
-        builder.status(status);
-        builder.purpose(purpose);
-        builder.patient(patient);
-        builder.created(created);
-        builder.insurer(insurer);
-        return builder;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder extends DomainResource.Builder {
@@ -385,6 +379,10 @@ public class CoverageEligibilityRequest extends DomainResource {
         private List<SupportingInfo> supportingInfo = new ArrayList<>();
         private List<Insurance> insurance = new ArrayList<>();
         private List<Item> item = new ArrayList<>();
+
+        private Builder() {
+            super();
+        }
 
         /**
          * <p>
@@ -1113,17 +1111,18 @@ public class CoverageEligibilityRequest extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(PositiveInt sequence, Reference information) {
-            Builder builder = new Builder();
-            builder.sequence(sequence);
-            builder.information(information);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private PositiveInt sequence;
             private Reference information;
             private Boolean appliesToAll;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1429,16 +1428,18 @@ public class CoverageEligibilityRequest extends DomainResource {
             return new Builder().from(this);
         }
 
-        public static Builder builder(Reference coverage) {
-            Builder builder = new Builder();
-            builder.coverage(coverage);
-            return builder;
+        public static Builder builder() {
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
             private Boolean focal;
             private Reference coverage;
             private String businessArrangement;
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -1871,8 +1872,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         public static Builder builder() {
-            Builder builder = new Builder();
-            return builder;
+            return new Builder();
         }
 
         public static class Builder extends BackboneElement.Builder {
@@ -1886,6 +1886,10 @@ public class CoverageEligibilityRequest extends DomainResource {
             private Reference facility;
             private List<Diagnosis> diagnosis = new ArrayList<>();
             private List<Reference> detail = new ArrayList<>();
+
+            private Builder() {
+                super();
+            }
 
             /**
              * <p>
@@ -2368,12 +2372,15 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             public static Builder builder() {
-                Builder builder = new Builder();
-                return builder;
+                return new Builder();
             }
 
             public static class Builder extends BackboneElement.Builder {
                 private Element diagnosis;
+
+                private Builder() {
+                    super();
+                }
 
                 /**
                  * <p>
