@@ -94,7 +94,9 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
             out += (" -> " + p.getName());
             p = p.getNextParameter();
         }
-        System.out.println(out);
+        if (DEBUG) {
+            System.out.println(out);
+        }
         assertNotNull(parm1.getNextParameter());
         assertEquals(" -> patient -> asserter", out);
 
@@ -284,18 +286,5 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
             throw new IllegalStateException("We should never get here", e);
         }
     }
-
-    /**
-     * This method is not meant to be run as part of the normal execution of this test class. It's special purpose is to
-     * print the contents of SearchUtil.compartmentMap. To execute this method, un-comment it and make method
-     * buildCompartmentMap() public.
-     */
-    /*
-     * @Test public void testLoadCompartmentMap() { Map<String, Map<String, List<String>>> compartmentMap =
-     * SearchUtil.buildCompartmentMap(); for (String compartment : compartmentMap.keySet()) {
-     * System.out.println("Compartment: " + compartment); Map<String, List<String>> map =
-     * compartmentMap.get(compartment); for (String key : map.keySet()) { List<String> inclusionCriteria = map.get(key);
-     * System.out.println("    key: " + key + ", inclusionCriteria: " + inclusionCriteria); } } }
-     */
 
 }

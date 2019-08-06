@@ -86,8 +86,10 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         printSearchParameters("testGetSearchParameters3/Observation", result);
 
         // Simple conversion and output.
-        System.out.println("As Follows: ");
-        System.out.println(result.stream().map(in -> in.getName().getValue()).collect(Collectors.toList()));
+        if (DEBUG) {
+            System.out.println("As Follows: ");
+            System.out.println(result.stream().map(in -> in.getName().getValue()).collect(Collectors.toList()));
+        }
         assertEquals(2, result.size());
         SearchParameter sp = result.get(0);
         assertNotNull(sp);

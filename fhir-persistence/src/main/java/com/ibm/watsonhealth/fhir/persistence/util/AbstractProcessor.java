@@ -19,6 +19,7 @@ import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceProcessorException;
 
 public abstract class AbstractProcessor<T> implements Processor<T> {
+    
     @SuppressWarnings("unchecked")
     public T process(SearchParameter parameter, Object value) throws  FHIRPersistenceProcessorException {
         try {
@@ -43,7 +44,8 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
         {
             StringBuilder sb = new StringBuilder("Unexpected error while processing parameter");
             if (parameter != null) {
-                sb.append(" " + parameter.getName());
+                sb.append(' '); 
+                sb.append(parameter.getName().getValue());
             }
             throw new FHIRPersistenceProcessorException(sb.toString(), e);
         }
@@ -56,7 +58,8 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
             else {
                 StringBuilder sb = new StringBuilder("Unexpected error while processing parameter");
                 if (parameter != null) {
-                    sb.append(" " + parameter.getName());
+                    sb.append(' ');
+                    sb.append(parameter.getName().getValue());
                 }
                 throw new FHIRPersistenceProcessorException(sb.toString(), e);
             }

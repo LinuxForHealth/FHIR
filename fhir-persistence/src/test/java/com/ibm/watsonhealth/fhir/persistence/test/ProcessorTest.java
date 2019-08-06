@@ -8,6 +8,24 @@ package com.ibm.watsonhealth.fhir.persistence.test;
 
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.YearMonth;
+import java.time.ZonedDateTime;
+
+import org.testng.annotations.Test;
+
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathAbstractNode;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathBooleanValue;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathDateTimeValue;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathDecimalValue;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathElementNode;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathIntegerValue;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathQuantityNode;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathStringValue;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathTimeValue;
 import com.ibm.watsonhealth.fhir.model.resource.Location;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.AccountStatus;
@@ -46,7 +64,6 @@ import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.RelatedArtifact;
 import com.ibm.watsonhealth.fhir.model.type.SampledData;
 import com.ibm.watsonhealth.fhir.model.type.Signature;
-import com.ibm.watsonhealth.fhir.model.type.SimpleQuantity;
 import com.ibm.watsonhealth.fhir.model.type.Time;
 import com.ibm.watsonhealth.fhir.model.type.Timing;
 import com.ibm.watsonhealth.fhir.model.type.TriggerDefinition;
@@ -57,8 +74,6 @@ import com.ibm.watsonhealth.fhir.model.type.Uuid;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceProcessorException;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractProcessor;
 import com.ibm.watsonhealth.fhir.persistence.util.Processor;
-
-import org.testng.annotations.Test;
 
 /**
  * TODO update tests
@@ -109,7 +124,7 @@ public class ProcessorTest {
         }
 
     	@Override
-        public String process(SearchParameter parameter, com.ibm.watsonhealth.fhir.model.type.Boolean value) {
+        public String process(SearchParameter parameter, Boolean value) {
             return "process(SearchParameter, Boolean)";
         }
 
@@ -169,7 +184,7 @@ public class ProcessorTest {
         }
 
     	@Override
-        public String process(SearchParameter parameter, com.ibm.watsonhealth.fhir.model.type.Integer value) {
+        public String process(SearchParameter parameter, java.lang.Integer value) {
             return "process(SearchParameter, Integer)";
         }
 
@@ -327,5 +342,80 @@ public class ProcessorTest {
 		public String process(SearchParameter parameter, UsageContext value) throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, UsageContext)";
 		}
+
+        @Override
+        public String process(SearchParameter parameter, FHIRPathAbstractNode value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, FHIRPathAbstractNode)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, FHIRPathElementNode value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, FHIRPathElementNode)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, FHIRPathDateTimeValue value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, FHIRPathDateTimeValue)";
+        }
+        
+        @Override
+        public String process(SearchParameter parameter, FHIRPathStringValue value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, FHIRPathStringValue)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, ZonedDateTime value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, ZonedDateTime)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, FHIRPathTimeValue value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, FHIRPathTimeValue)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, FHIRPathResourceNode value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, FHIRPathResourceNode)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, FHIRPathIntegerValue value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, FHIRPathIntegerValue)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, FHIRPathDecimalValue value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, FHIRPathDecimalValue)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, FHIRPathBooleanValue value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, FHIRPathBooleanValue)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, LocalDate value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, LocalDate)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, YearMonth value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, YearMonth)";
+        }
+        
+        @Override
+        public String process(SearchParameter parameter, FHIRPathQuantityNode value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, FHIRPathQuantityNode)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, Year value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, Year)";
+        }
+
+        @Override
+        public String process(SearchParameter parameter, BigDecimal value) throws FHIRPersistenceProcessorException {
+            return "process(SearchParameter, BigDecimal)";
+        }
     }
 }

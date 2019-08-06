@@ -45,12 +45,16 @@ public abstract class BaseSearchTest {
 
     @BeforeMethod
     public void startMethod(Method method) {
-        System.out.println("Starting Test -> " + method.getName());
+        if (DEBUG) {
+            System.out.println("Starting Test -> " + method.getName());
+        }
     }
 
     @AfterMethod
     public void afterMethod(Method method) {
-        System.out.println("End of Test -> " + method.getName());
+        if (DEBUG) {
+            System.out.println("End of Test -> " + method.getName());
+        }
     }
 
     @BeforeClass
@@ -86,13 +90,15 @@ public abstract class BaseSearchTest {
      */
     protected void printSearchParameters(String label, List<SearchParameter> spList) {
 
-        System.out.println("\nTest: " + label + "\nSearch Parameters:");
-        for (SearchParameter sp : spList) {
-            List<ResourceType> resources = sp.getBase();
-            for (ResourceType resource : resources) {
-                System.out.println("\t" + resource.getValue() + ":" + sp.getName().getValue());
-            }
+        if (DEBUG) {
+            System.out.println("\nTest: " + label + "\nSearch Parameters:");
+            for (SearchParameter sp : spList) {
+                List<ResourceType> resources = sp.getBase();
+                for (ResourceType resource : resources) {
+                    System.out.println("\t" + resource.getValue() + ":" + sp.getName().getValue());
+                }
 
+            }
         }
     }
 

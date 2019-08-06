@@ -486,7 +486,7 @@ public class SearchUtil {
             if (expression != null && !SearchParamType.COMPOSITE.equals(type)) {
 
                 try {
-                    Collection<FHIRPathNode> tmpResults = evaluator.evaluate(expression.getValue());
+                    Collection<FHIRPathNode> tmpResults = evaluator.evaluate(expression.getValue(), tree.getRoot());
 
                     // Adds only if !skipEmpty || collect is not empty
                     if (!tmpResults.isEmpty() || !skipEmpty) {

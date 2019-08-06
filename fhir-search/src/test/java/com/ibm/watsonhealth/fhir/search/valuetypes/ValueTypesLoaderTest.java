@@ -47,7 +47,7 @@ public class ValueTypesLoaderTest {
             JsonArray arr = jsonObject.getJsonArray("targetClasses");
             ValueTypesR4Impl impl = new ValueTypesR4Impl();
             Set<Class<?>> clzs = impl.convertToClasses(arr);
-            System.out.println(clzs);
+
             assertEquals(clzs.size(), 2);
             assertTrue(clzs.contains(Observation.class));
             assertTrue(clzs.contains(Basic.class));
@@ -62,7 +62,7 @@ public class ValueTypesLoaderTest {
             JsonArray arr = jsonObject.getJsonArray("targetClasses");
             ValueTypesR4Impl impl = new ValueTypesR4Impl();
             Set<Class<?>> clzs = impl.convertToClasses(arr);
-            System.out.println(clzs);
+
             assertEquals(clzs.size(), 0);
         }
     }
@@ -75,7 +75,6 @@ public class ValueTypesLoaderTest {
             JsonArray arr = jsonObject.getJsonArray("targetClasses");
             ValueTypesR4Impl impl = new ValueTypesR4Impl();
             Set<Class<?>> clzs = impl.convertToClasses(arr);
-            System.out.println(clzs);
             assertEquals(clzs.size(), 3);
         }
     }
@@ -107,9 +106,9 @@ public class ValueTypesLoaderTest {
             Map<String, Set<Class<?>>> tmp = impl.load(stream);
             assertTrue(!tmp.isEmpty());
             assertTrue(tmp.entrySet().iterator().next().getValue().isEmpty());
-        } 
+        }
     }
-    
+
     @Test
     public void testValidTargetClasses() throws IOException {
         String file = "valid-with-target.json";
@@ -117,8 +116,7 @@ public class ValueTypesLoaderTest {
             ValueTypesR4Impl impl = new ValueTypesR4Impl();
             Map<String, Set<Class<?>>> tmp = impl.load(stream);
             assertTrue(!tmp.isEmpty());
-            System.out.println(tmp.entrySet());
-            //tmp.entrySet().stream().count()
+
             assertTrue(!tmp.entrySet().iterator().next().getValue().isEmpty());
         }
     }
@@ -128,38 +126,38 @@ public class ValueTypesLoaderTest {
         assertEquals(ValueTypesR4Impl.hash(Observation.class, "test"), "Observation.test");
         assertEquals(ValueTypesR4Impl.hash("Observation", "test"), "Observation.test");
     }
-    
+
     @Test
     public void testInitWithValidName() throws FHIRSearchException {
         ValueTypesR4Impl impl = new ValueTypesR4Impl();
         impl.init();
-        
+
         Set<Class<?>> vals = impl.getValueTypes(Observation.class, "combo-code");
         assertNotNull(vals);
         assertFalse(vals.isEmpty());
-        
+
     }
-    
+
     @Test
     public void testInitWithInvalidName() throws FHIRSearchException {
         ValueTypesR4Impl impl = new ValueTypesR4Impl();
         impl.init();
-        
+
         Set<Class<?>> vals = impl.getValueTypes(Observation.class, "combo-code-no-way-this-exists");
         assertNotNull(vals);
         assertTrue(vals.isEmpty());
-        
+
     }
-    
+
     @Test
     public void testNullConditionsForGetValueTypes() throws FHIRSearchException {
         ValueTypesR4Impl impl = new ValueTypesR4Impl();
-                
+
         Set<Class<?>> vals = impl.getValueTypes(null, "combo-code-no-way-this-exists");
         assertNotNull(vals);
         assertTrue(vals.isEmpty());
-        
-        vals = impl.getValueTypes(Observation.class,null);
+
+        vals = impl.getValueTypes(Observation.class, null);
         assertNotNull(vals);
         assertTrue(vals.isEmpty());
     }
