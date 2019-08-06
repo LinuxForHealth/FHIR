@@ -39,22 +39,18 @@ public abstract class BaseSearchTest {
      * used in test to make the compiled code accessible.
      */
     static {
-        // If issues, you should uncomment the following :
+        // If issues, you should uncomment the following : 
         // System.setProperty("javax.xml.accessExternalSchema","file");
     }
 
     @BeforeMethod
     public void startMethod(Method method) {
-        if (DEBUG) {
-            System.out.println("Starting Test -> " + method.getName());
-        }
+        System.out.println("Starting Test -> " + method.getName());
     }
 
     @AfterMethod
     public void afterMethod(Method method) {
-        if (DEBUG) {
-            System.out.println("End of Test -> " + method.getName());
-        }
+        System.out.println("End of Test -> " + method.getName());
     }
 
     @BeforeClass
@@ -90,15 +86,13 @@ public abstract class BaseSearchTest {
      */
     protected void printSearchParameters(String label, List<SearchParameter> spList) {
 
-        if (DEBUG) {
-            System.out.println("\nTest: " + label + "\nSearch Parameters:");
-            for (SearchParameter sp : spList) {
-                List<ResourceType> resources = sp.getBase();
-                for (ResourceType resource : resources) {
-                    System.out.println("\t" + resource.getValue() + ":" + sp.getName().getValue());
-                }
-
+        System.out.println("\nTest: " + label + "\nSearch Parameters:");
+        for (SearchParameter sp : spList) {
+            List<ResourceType> resources = sp.getBase();
+            for (ResourceType resource : resources) {
+                System.out.println("\t" + resource.getValue() + ":" + sp.getName().getValue());
             }
+
         }
     }
 
@@ -127,11 +121,11 @@ public abstract class BaseSearchTest {
      * 
      * @param valueTypes
      */
-    @SuppressWarnings("rawtypes")
     protected void printValueTypes(Set<Class<?>> valueTypes) {
         // Must be not null to loop.
         assertNotNull(valueTypes);
-        for (Class vl : valueTypes) {
+        for (@SuppressWarnings("rawtypes")
+        Class vl : valueTypes) {
             System.out.println(vl.getSimpleName());
         }
 

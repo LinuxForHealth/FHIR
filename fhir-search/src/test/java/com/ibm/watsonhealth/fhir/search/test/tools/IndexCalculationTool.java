@@ -6,9 +6,12 @@
 
 package com.ibm.watsonhealth.fhir.search.test.tools;
 
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.eval;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -23,7 +26,6 @@ import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorExceptio
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathElementNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.BundleType;
@@ -61,7 +63,9 @@ public class IndexCalculationTool {
             process(sets);
         }
 
-        
+        // Output to Standard Out
+        java.io.PrintStream out = System.out;
+
     }
 
     /**
@@ -71,7 +75,7 @@ public class IndexCalculationTool {
      * @param out
      * @throws FHIRGeneratorException
      */
-    public static void output(List<SearchParameter> params, java.io.PrintStream out) throws FHIRGeneratorException {
+    private static void output(List<SearchParameter> params, java.io.PrintStream out) throws FHIRGeneratorException {
         Bundle.Builder build = Bundle.builder(BundleType.COLLECTION);
         for (SearchParameter param : params) {
             build.entry(Bundle.Entry.builder().resource(param).fullUrl(param.getUrl()).build());
@@ -94,8 +98,7 @@ public class IndexCalculationTool {
             Bundle bundle = FHIRUtil.read(Bundle.class, Format.JSON, new InputStreamReader(stream));
 
             FHIRPathTree tree = FHIRPathTree.tree(bundle);
-            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
-            Collection<FHIRPathNode> result = evaluator.evaluate(FHIR_PATH, tree.getRoot());
+            Collection<FHIRPathNode> result = eval(FHIR_PATH, tree.getRoot());
 
             int count = 0;
             for (FHIRPathElementNode node : result.stream().map(a -> a.as(FHIRPathElementNode.class)).collect(Collectors.toList())) {

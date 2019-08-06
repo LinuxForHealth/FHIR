@@ -8,36 +8,28 @@ package com.ibm.watsonhealth.fhir.search.valuetypes;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
+import java.lang.reflect.Field;
+import java.time.ZonedDateTime;
 import java.util.Set;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
-import com.ibm.watsonhealth.fhir.model.resource.Account;
-import com.ibm.watsonhealth.fhir.model.resource.ActivityDefinition;
-import com.ibm.watsonhealth.fhir.model.resource.AdverseEvent;
-import com.ibm.watsonhealth.fhir.model.resource.Appointment;
-import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement;
-import com.ibm.watsonhealth.fhir.model.resource.ClaimResponse;
-import com.ibm.watsonhealth.fhir.model.resource.MolecularSequence;
+import com.ibm.watsonhealth.fhir.model.resource.MedicationAdministration;
 import com.ibm.watsonhealth.fhir.model.resource.Observation;
 import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.resource.ValueSet;
 import com.ibm.watsonhealth.fhir.model.type.Code;
-import com.ibm.watsonhealth.fhir.model.type.DateTime;
 import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.type.HumanName;
 import com.ibm.watsonhealth.fhir.model.type.Instant;
-import com.ibm.watsonhealth.fhir.model.type.Period;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
-import com.ibm.watsonhealth.fhir.model.type.Range;
-import com.ibm.watsonhealth.fhir.model.type.Reference;
-import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
-import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
 import com.ibm.watsonhealth.fhir.search.test.BaseSearchTest;
+import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
+import com.ibm.watsonhealth.fhir.search.valuetypes.ValueTypesUtil;
 
 /**
  * Tests ValueType Gets
@@ -47,11 +39,6 @@ import com.ibm.watsonhealth.fhir.search.test.BaseSearchTest;
  */
 public class ValueTypesTest extends BaseSearchTest {
 
-    @BeforeClass
-    public static void runOnce() {
-        ValueTypesFactory.init();
-    }
-
     // --- Test Get Value Types with Simple Cases
 
     @Test
@@ -59,7 +46,7 @@ public class ValueTypesTest extends BaseSearchTest {
         /*
          * Checks the Value Types PatientName should
          */
-        Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(Patient.class, "name");
+        Set<Class<?>> valueTypes = ValueTypesUtil.getValueTypes(Patient.class, "name");
         assertFalse(valueTypes.isEmpty());
         assertEquals(1, valueTypes.size());
         assertTrue(valueTypes.contains(HumanName.class));
@@ -70,7 +57,7 @@ public class ValueTypesTest extends BaseSearchTest {
         /*
          * Checks an invalid search that should be empty.
          */
-        Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(Patient.class, "namex");
+        Set<Class<?>> valueTypes = ValueTypesUtil.getValueTypes(Patient.class, "namex");
         assertTrue(valueTypes.isEmpty());
     }
 
@@ -79,7 +66,7 @@ public class ValueTypesTest extends BaseSearchTest {
         /*
          * checks a null class should be empty.
          */
-        Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(null, "namex");
+        Set<Class<?>> valueTypes = ValueTypesUtil.getValueTypes(null, "namex");
         assertTrue(valueTypes.isEmpty());
     }
 
@@ -88,26 +75,51 @@ public class ValueTypesTest extends BaseSearchTest {
         /*
          * checks an invalid class should be empty.
          */
-        Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(Observation.class, "namex");
+        Set<Class<?>> valueTypes = ValueTypesUtil.getValueTypes(SearchUtil.class, "namex");
         assertTrue(valueTypes.isEmpty());
     }
 
     // --- Test more Complicated.
 
     @Test
-    public void testGetValueTypesAdverseEventResultingCondition() throws Exception {
+    public void testGetValueTypesObservationDate() throws Exception {
         /*
-         * "expression" : "AdverseEvent.resultingCondition",
+         * "expression" : Observation.effective
          */
-        Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(AdverseEvent.class, "resultingcondition");
+        Set<Class<?>> valueTypes = ValueTypesUtil.getValueTypes(Observation.class, "date");
         assertFalse(valueTypes.isEmpty());
         assertEquals(valueTypes.size(), 1);
-        assertTrue(valueTypes.contains(Reference.class));
+        assertTrue(valueTypes.contains(Element.class));
+    }
+
+    @Test
+    public void testGetValueTypeObservationInvalidPath() throws Exception {
+        // Expression: Library.relatedArtifact.where(type='predecessor').resource
+        // This path is invalid.
+        Class<?> clz = ValueTypesUtil.getValueType(Observation.class, "Library.relatedArtifact.where(type='predecessor').resource");
+        assertNull(clz);
+    }
+
+    @Test
+    public void testGetValueTypeObservationValidPath() throws Exception {
+        // Expression: Observation.effective
+        // This path is valid.
+        Class<?> clz = ValueTypesUtil.getValueType(Observation.class, "Observation.effective");
+        assertNotNull(clz);
+        System.out.println(clz.getSimpleName());
+    }
+
+    @Test
+    public void testGetValueTypeMedicationAdministrationValid() throws Exception {
+        String path = "MedicationAdministration.effective";
+        Class<?> clz = ValueTypesUtil.getValueType(MedicationAdministration.class, path);
+        assertNotNull(clz);
+        System.out.println(clz.getSimpleName());
     }
 
     @Test
     public void testGetValueTypesValueSet() throws Exception {
-        Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(ValueSet.class, "code");
+        Set<Class<?>> valueTypes = ValueTypesUtil.getValueTypes(ValueSet.class, "code");
         assertFalse(valueTypes.isEmpty());
         printValueTypes(valueTypes);
         assertEquals(valueTypes.size(), 1);
@@ -116,37 +128,45 @@ public class ValueTypesTest extends BaseSearchTest {
 
     @Test
     public void testGetValueTypesPatientInvalidParameterName() throws Exception {
-        Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(Patient.class, "invalid-parameter-name");
+        Set<Class<?>> valueTypes = ValueTypesUtil.getValueTypes(Patient.class, "invalid-parameter-name");
         assertTrue(valueTypes.isEmpty());
         assertEquals(valueTypes.size(), 0);
     }
 
     @Test
     public void testGetValueTypes1() throws Exception {
-        Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(Observation.class, "_lastUpdated");
+        Set<Class<?>> valueTypes = ValueTypesUtil.getValueTypes(Observation.class, "_lastUpdated");
         assertEquals(valueTypes.size(), 1);
         assertTrue(valueTypes.contains(Instant.class));
     }
 
     @Test
     public void testGetValueTypes2() throws Exception {
-        Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(Patient.class, "_id");
+        Set<Class<?>> valueTypes = ValueTypesUtil.getValueTypes(Patient.class, "_id");
         assertEquals(valueTypes.size(), 1);
         assertTrue(valueTypes.contains(com.ibm.watsonhealth.fhir.model.type.Id.class));
     }
 
     @Test
     public void testGetValueTypeObservationDate() throws Exception {
-        Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(Observation.class, "date");
+
+        /*
+         * R4 expression" : "AllergyIntolerance.recordedDate | CarePlan.period | CareTeam.period |
+         * ClinicalImpression.date | Composition.date | Consent.dateTime | DiagnosticReport.effective | Encounter.period
+         * | EpisodeOfCare.period | FamilyMemberHistory.date | Flag.period | Immunization.occurrence | List.date |
+         * Observation.effective | Procedure.performed | (RiskAssessment.occurrence as dateTime) |
+         * SupplyRequest.authoredOn",
+         */
+        Set<Class<?>> valueTypes = ValueTypesUtil.getValueTypes(Observation.class, "date");
         printValueTypes(valueTypes);
-        assertEquals(valueTypes.size(), 3);
+        assertEquals(valueTypes.size(), 1);
         assertTrue(valueTypes.contains(Element.class));
     }
 
     @Test
     public void testGetValueTypeObservationCustom() throws Exception {
         /*
-         * In prior, the original query is: <code> "code": "date", "base": "Observation", "type": "date", "xpath":
+         * In DSTU2, the original query is: <code> "code": "date", "base": "Observation", "type": "date", "xpath":
          * "f:Observation/f:effectiveDateTime | f:Observation/f:effectivePeriod" </code>
          */
 
@@ -158,102 +178,29 @@ public class ValueTypesTest extends BaseSearchTest {
          * SupplyRequest.authoredOn",
          */
         FHIRRequestContext.set(new FHIRRequestContext("tenant4"));
-
-        Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(Observation.class, "date");
-        printValueTypes(valueTypes);
-        assertEquals(valueTypes.size(), 3);
-        assertTrue(valueTypes.contains(Element.class));
-        assertTrue(valueTypes.contains(DateTime.class));
-        assertTrue(valueTypes.contains(Period.class));
-    }
-
-    @Test
-    public void testGetValueTypeActivityDefinition() throws Exception {
-        Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(ActivityDefinition.class, "context-quantity");
+        Set<Class<?>> valueTypes = ValueTypesUtil.getValueTypes(Observation.class, "value-range");
         printValueTypes(valueTypes);
         assertEquals(valueTypes.size(), 2);
-        assertTrue(valueTypes.contains(Quantity.class));
-        assertTrue(valueTypes.contains(Range.class));
+        assertTrue(valueTypes.contains(ZonedDateTime.class));
+        assertTrue(valueTypes.contains(Element.class));
     }
 
     @Test
     public void testGetValueTypes4() throws Exception {
         FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
-        Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(Observation.class, "date");
-        assertEquals(valueTypes.size(), 3);
+        Set<Class<?>> valueTypes = ValueTypesUtil.getValueTypes(Observation.class, "date");
+        assertEquals(valueTypes.size(), 1);
     }
 
     @Test
-    public void testDateRangeSearch() throws FHIRSearchException {
-        Class<?> resourceType = Account.class;
+    public void testFieldObservation() {
+        Field f = ValueTypesUtil.getField(Observation.class, "referenceRange");
+        System.out.println(f);
+        assertNotNull(f);
 
-        String name = "period";
-        Parameter queryParm = new Parameter(null, name, null, name);
-        assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateRangeSearch(resourceType, queryParm));
-
-        name = "subject";
-        queryParm = new Parameter(null, name, null, name);
-        assertFalse(ValueTypesFactory.getValueTypesProcessor().isDateRangeSearch(resourceType, queryParm));
-
-    }
-
-    @Test
-    public void testDateSearch() throws FHIRSearchException {
-        Class<?> resourceType = ActivityDefinition.class;
-
-        String name = "date";
-        Parameter queryParm = new Parameter(null, name, null, name);
-        assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
-
-        name = "depends-on";
-        queryParm = new Parameter(null, name, null, name);
-        assertFalse(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
-
-        resourceType = Account.class;
-        name = "subject";
-        queryParm = new Parameter(null, name, null, name);
-        assertFalse(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
-
-        resourceType = Appointment.class;
-        name = "date";
-        queryParm = new Parameter(null, name, null, name);
-        assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
-
-        resourceType = CapabilityStatement.class;
-        name = "date";
-        queryParm = new Parameter(null, name, null, name);
-        assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
-
-        resourceType = ClaimResponse.class;
-        name = "payment-date";
-        queryParm = new Parameter(null, name, null, name);
-        assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
-
-    }
-
-    @Test
-    public void testRangeSearch() throws FHIRSearchException {
-
-        Class<?> resourceType = ActivityDefinition.class;
-
-        String name = "context-quantity";
-        Parameter queryParm = new Parameter(null, name, null, name);
-        assertTrue(ValueTypesFactory.getValueTypesProcessor().isRangeSearch(resourceType, queryParm));
-        
-        name = "derived-from";
-        queryParm = new Parameter(null, name, null, name);
-        assertFalse(ValueTypesFactory.getValueTypesProcessor().isRangeSearch(resourceType, queryParm));
-
-    }
-    
-    @Test
-    public void testIntegerSearch() throws FHIRSearchException { 
-        Class<?> resourceType = MolecularSequence.class;
-
-        String name = "variant-end";
-        Parameter queryParm = new Parameter(null, name, null, name);
-        assertTrue(ValueTypesFactory.getValueTypesProcessor().isIntegerSearch(resourceType, queryParm));
-        
+        f = ValueTypesUtil.getField(Observation.class, "modifierExtension");
+        System.out.println(f);
+        assertNotNull(f);
     }
 
 }

@@ -18,11 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.StringJoiner;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathBooleanValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathDateTimeValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathElementNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
@@ -73,9 +71,7 @@ public class ExtractorValidator {
             if (expectedValues != null) {
                 for (FHIRPathNode node : entry.getValue()) {
                     String tmp = processOutput(node);
-                    if (BaseSearchTest.DEBUG) {
-                        System.out.println("NODE: " + name + " " + tmp);
-                    }
+                    System.out.println("NODE: " + name + " " + tmp);
                     if (expectedValues.contains(tmp)) {
                         expectedValues = expectedValues.stream().filter(new Predicate<String>() {
 
@@ -94,16 +90,14 @@ public class ExtractorValidator {
                     }
                 }
 
-                if (BaseSearchTest.DEBUG) {
-                    System.out.println("Expected Values -> " + expectedValues);
-                }
+                System.out.println("Expected Values -> " + expectedValues);
                 assertEquals(expectedValues.size(), 0);
             }
 
         }
 
         // Dummy Assertion in case of empty expected
-        if (expected.size() > 0) {
+        if(expected.size() > 0) {
             System.out.println(expected);
         }
         assertEquals(expected.size(), 0);
@@ -111,21 +105,16 @@ public class ExtractorValidator {
     }
 
     private void printOutput(Map<SearchParameter, List<FHIRPathNode>> output) {
-        if (BaseSearchTest.DEBUG) {
-            int i = 0;
-            for (Entry<SearchParameter, List<FHIRPathNode>> entry : output.entrySet()) {
-                String name = entry.getKey().getName().getValue();
+        int i = 0;
+        for (Entry<SearchParameter, List<FHIRPathNode>> entry : output.entrySet()) {
+            String name = entry.getKey().getName().getValue();
 
-                String outputStr = i++ + "|" + name + "|=[";
-                StringJoiner joiner = new StringJoiner(",");
-                
-                for (FHIRPathNode node : entry.getValue()) {
-                    joiner.add(processOutput(node));
-                }
-                outputStr += joiner.toString() + "]";
-                System.out.println(outputStr);
-
+            System.out.print(i++ + "|" + name + "|=[");
+            for (FHIRPathNode node : entry.getValue()) {
+                System.out.print(processOutput(node) + ",");
             }
+            System.out.println("]");
+
         }
 
     }
@@ -136,17 +125,9 @@ public class ExtractorValidator {
      * @return
      */
     public static String processOutput(FHIRPathNode node) {
-        
+        // System.out.println("Node is of type " + node);
         String val = "";
-        if (node.getClass().getSimpleName().contains("FHIRPathBooleanValue")) {
-            FHIRPathBooleanValue booleanValue = (FHIRPathBooleanValue) node;
-            if (booleanValue._boolean()) {
-                val = "true";
-            } else {
-                val = "false";
-            }
-
-        } else if (node.isPrimitiveValue()) {
+        if (node.isPrimitiveValue()) {
             FHIRPathPrimitiveValue nodeConverted = node.asPrimitiveValue();
             if (nodeConverted.isDateTimeValue()) {
                 // FHIRPathDateTimeValue v = (FHIRPathDateTimeValue) node;
@@ -174,12 +155,14 @@ public class ExtractorValidator {
                     System.out.println("Value DateTime: [" + val + "]");
                 }
             } else {
+                //System.out.println("OTHER -> " + tNode.getClass() + " " + tNode.children().size());
                 Collection<FHIRPathNode> children = tNode.children();
                 for (FHIRPathNode child : children) {
+                    //System.out.println("--- " + child);
                     if (child.isElementNode()) {
                         FHIRPathElementNode nx = child.asElementNode();
                         val = "" + nx.getValue();
-
+                        
                     } else if (child.isPrimitiveValue()) {
                         FHIRPathPrimitiveValue v1 = child.asPrimitiveValue();
                         if (v1.isStringValue()) {

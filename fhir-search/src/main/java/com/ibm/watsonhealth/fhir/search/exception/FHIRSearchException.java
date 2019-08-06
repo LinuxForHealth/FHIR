@@ -11,11 +11,6 @@ import java.util.Collection;
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 
-/**
- * 
- * @author pbastide 
- *
- */
 public class FHIRSearchException extends FHIROperationException {
     private static final long serialVersionUID = 1L;
 

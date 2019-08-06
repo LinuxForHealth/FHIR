@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.search.compartment;
 
+import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.eval;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -26,7 +28,6 @@ import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorExceptio
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.CompartmentDefinition;
 import com.ibm.watsonhealth.fhir.model.resource.CompartmentDefinition.Resource;
@@ -46,9 +47,12 @@ import com.ibm.watsonhealth.fhir.search.exception.SearchExceptionUtil;
  * <li>Practioner - https://www.hl7.org/fhir/compartmentdefinition-practitioner.json</li>
  * <li>Device - https://www.hl7.org/fhir/compartmentdefinition-device.json</li> <br/>
  * 
- * This class extracts the Compartment Logic from SearchUtil, converted the Custom Compartment logic and format into the
- * ComponentDefintion, adds support for the the default definition, and refactors the code to create constants and limit
- * extraneous strings and duplicate definitions<br/>
+ * History:<br/>
+ * 1 - Extracted the Compartment Logic from SearchUtil <br/>
+ * 2 - Converted the Custom Compartment logic and format into the ComponentDefintion.<br/>
+ * 3 - Added support for the the default definition.<br/>
+ * 4 - Refactored the code to create constants and limit extraneous strings and duplicate definitions<br/>
+ * 
  * 
  * @author pbastide
  *
@@ -75,10 +79,10 @@ public class CompartmentUtil {
             add("/compartments/compartmentdefinition-relatedperson.json");
         }
     };
-
+    
     // Used to load the Compartments
     public static void init() {
-        // No Operation
+        // No Operation 
     }
 
     // Exceptions:
@@ -113,8 +117,8 @@ public class CompartmentUtil {
                 Bundle bundle = FHIRUtil.read(Bundle.class, Format.JSON, reader);
 
                 FHIRPathTree tree = FHIRPathTree.tree(bundle);
-                FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
-                Collection<FHIRPathNode> result = evaluator.evaluate(FHIR_PATH_BUNDLE_ENTRY, tree.getRoot());
+
+                Collection<FHIRPathNode> result = eval(FHIR_PATH_BUNDLE_ENTRY, tree.getRoot());
 
                 Iterator<FHIRPathNode> iter = result.iterator();
                 while (iter.hasNext()) {

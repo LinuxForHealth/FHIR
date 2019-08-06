@@ -95,21 +95,7 @@ public class SearchConstants {
     public static final String COLON_DELIMITER_STR = ":";
     
     public static final String WILDCARD = "*";
-    
-    public static final char AND_CHAR = '&';    
-    
-    public static final char EQUALS_CHAR = '=';
-    
-    public static final String JOIN_STR = ",";
-    
-    // Filter
-    public static final String WILDCARD_FILTER = "*";
-    
-    // Resource Constants to reflect a hierarchy: 
-    // RESOURCE -> DOMAIN_RESOURCE -> Instance (e.g. Claim);
-    public static final String RESOURCE_RESOURCE = "Resource";
-    public static final String DOMAIN_RESOURCE_RESOURCE = "DomainResource";
-    
+
     // The resourceTypeModifierMap is set one time on startup and is a final value.
     // Set as unmodifiable.
     public static final Map<Type, List<Modifier>> RESOURCE_TYPE_MODIFIER_MAP =

@@ -6,27 +6,30 @@
 
 package com.ibm.watsonhealth.fhir.search.test.tools;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.File;
+import java.io.FileReader;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.ibm.watsonhealth.fhir.exception.FHIRException;
-import com.ibm.watsonhealth.fhir.model.format.Format;
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
-import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
-import com.ibm.watsonhealth.fhir.model.resource.Bundle;
-import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
-import com.ibm.watsonhealth.fhir.model.type.ResourceType;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.search.parameters.ParametersUtil;
-import com.ibm.watsonhealth.fhir.search.valuetypes.impl.ValueTypesR4Impl;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonValue;
 
 /**
  * Builds the output properties file for the ValueTypesUtil's cache.
@@ -36,305 +39,185 @@ import com.ibm.watsonhealth.fhir.search.valuetypes.impl.ValueTypesR4Impl;
  */
 public class ValueTypesTool {
 
+    static {
+        // used in test to make the compiled code accessible.
+        System.setProperty("javax.xml.accessExternalSchema", "file");
+    }
+
     /**
      * @param args
-     * @throws IOException
      */
-    public static void main(String[] args) throws IOException {
-        
-        // The code block is isolating the effects of exceptions by capturing the exceptions here
-        // and returning an empty searchParameterMap, and continuing operation.
-        // The failure is logged out.
-        try (InputStream stream = ParametersUtil.class.getClassLoader().getResourceAsStream(ParametersUtil.FHIR_DEFAULT_SEARCH_PARAMETERS_FILE)) {
-            // The code is agnostic to format.
-            Bundle bundle = FHIRUtil.read(Bundle.class, Format.JSON, new InputStreamReader(stream));
+    public static void main(String[] args) {
+        // In Two Packages
+        // com.ibm.watsonhealth.fhir.model.resource
+        // com.ibm.watsonhealth.fhir.model.type
 
-            FHIRPathTree tree = FHIRPathTree.tree(bundle);
-            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
-            Collection<FHIRPathNode> result = evaluator.evaluate(ParametersUtil.FHIR_PATH_BUNDLE_ENTRY, tree.getRoot());
-
-            outputJsonHeader();
-            for (SearchParameter parameter : result.stream().map(node -> node.asResourceNode().resource().as(SearchParameter.class)).collect(Collectors.toList())) {
-
-                // Only add the ones that have expressions.
-                if (parameter.getType().getValue().compareTo("composite") != 0 && parameter.getExpression() != null
-                        && parameter.getExpression().getValue().compareTo("Patient.deceased.exists() and Patient.deceased != false") != 0) {
-
-                    List<ResourceType> types = parameter.getBase();
-                    for (ResourceType type : types) {
-                        String base = type.getValue();
-
-                        // Need - name|base
-                        String hash = ValueTypesR4Impl.hash(base, parameter.getName().getValue());
-                        outputJson(hash, getFieldTypesForExpression(parameter.getExpression().getValue()));
-
-                    }
-                }
-
-            }
-            outputJsonFooter();
-        } catch (FHIRException fe) {
-
-            fe.printStackTrace();
-        }
-
-    }
-
-    public static void outputJsonHeader() {
-        // Header:
-        System.out.println("{");
-        System.out.println("\"value-types\": \"default\", ");
-        System.out.println("\"mappings\": [");
-    }
-
-    public static void outputJsonFooter() {
-        // Header:
-        System.out.println("]}");
-    }
-
-    public static void outputJson(String hash, String value) {
-
-        // {
-        // "resourceType": "Observation",
-        // "name": "combo-code",
-        // "targetClasses": ["CodeableConcept"]
-        // }
-        System.out.println("{\"resourceType\": \""+ hash.split("\\.")[0]+"\",");
-        System.out.println("\"name\": \""+hash.split("\\.")[1] + "\",");
-        System.out.println("\"targetClasses\": [" + value.replace(",","\",\"").replace("[", "\"").replace("]", "\"") + "]");
-        System.out.println("},");
-
-    }
-
-    public static String getFieldTypesForExpression(String expressions) {
-        String[] exprs = expressions.split("\\|");
-        // System.out.println("#Uncleansed->" + expressions);
-        return "" + Arrays.asList(exprs).stream().map(e -> cleanse(e)).map(e -> discoverType(e)).collect(Collectors.toSet());
-    }
-
-    /**
-     * 
-     * @param path
-     * @return
-     */
-    public static String discoverType(String expression) {
-        // Specific to InsurancePlan.
-        if ("name".compareTo(expression.trim()) == 0 || "alias".compareTo(expression.trim()) == 0) {
-            expression = "InsurancePlan." + expression;
-        }
-
-        // System.out.println("#Cleansed->" + expression);
-        String[] components = expression.split("\\.");
-
-        Class<?> newClass = processClass("com.ibm.watsonhealth.fhir.model.resource", components[0]);
-        if (newClass == null) {
-            newClass = processClass("com.ibm.watsonhealth.fhir.model.type", components[0]);
-        }
-
-        try {
-            // System.out.println(expression);
-            return generateFields(newClass, components);
-        } catch (ClassNotFoundException e) {
-            return "";
+        List<Class<?>> output = classNames();
+        System.out.println("# Number of Resources : " + output.size());
+        // outputClasses(output);
+        for (Class<?> out : output) {
+            generateFields(out, out, out.getSimpleName());
         }
     }
 
-    /**
-     * navigates down the path from one class down to through to the end results.
-     * 
-     * @param c
-     * @param paths
-     * @return
-     * @throws ClassNotFoundException
-     */
-    public static String generateFields(Class<?> c, String... paths) throws ClassNotFoundException {
-        // Where in the path we're at in the processing:
-        Class<?> outputClass = c;
+    public static void generateFields(Class<?> root, Class<?> c, String... paths) {
 
-        if (paths.length == 1) {
-            String[] tmpPath = new String[2];
-            tmpPath[0] = c.getSimpleName();
-            tmpPath[1] = paths[0];
-            paths = tmpPath;
-        }
+        for (Field f : c.getDeclaredFields()) {
 
-        for (int current = 1; current < paths.length; current++) {
-            // System.out.println(outputClass);
-            // Specific to InsurancePlan.
+            if (f.getName().compareTo("hashCode") != 0) {
 
-            outputClass = getNextClass(outputClass, paths[current]);
-        }
-
-        if (outputClass == null) {
-            return paths[0];
-        }
-
-        return outputClass.getSimpleName();
-    }
-
-    /**
-     * get Next Class in the path based on the field.
-     * 
-     * @param inputClass
-     * @param field
-     * @return
-     * @throws ClassNotFoundException
-     */
-    public static Class<?> getNextClass(Class<?> inputClass, String field) throws ClassNotFoundException {
-
-        for (Field f : inputClass.getDeclaredFields()) {
-            String fStr = f.getName();
-            if (field.compareTo("class") == 0) {
-                field = field.replace("class", "clazz");
-            }
-            // System.out.println("f-> " + fStr + " " + field);
-            if (fStr.compareTo(field) == 0) {
-
-                Class<?> tmpClass = inputClass;
-                // System.out.println("-->" + inputClass.getSimpleName() + "-->" + f.getName());
+                Class<?> fieldType = f.getType();
                 java.lang.reflect.Type genericType = f.getGenericType();
 
+                // Checks the java internal parameterized type.
+                // and pulls out the Encapsulated FieldName
                 if (genericType instanceof ParameterizedType) {
                     ParameterizedType parameterizedType = (ParameterizedType) genericType;
-                    tmpClass = (Class<?>) parameterizedType.getActualTypeArguments()[0];
-
-                } else {
-                    tmpClass = Class.forName(genericType.getTypeName());
+                    fieldType = (Class<?>) parameterizedType.getActualTypeArguments()[0];
                 }
+                
+                
 
-                return tmpClass;
-            }
+                System.out.println(generatePath(paths, f.getName()) + "=" + fieldType.getSimpleName());
 
-        }
-        return null;
-    }
-
-    /**
-     * cleanses the input expression
-     * 
-     * @param path
-     * @return
-     */
-    public static String cleanse(String path) {
-
-        // Trim left and right
-        path = path.trim();
-
-        // Specific to InsurancePlan.
-        if ("name".compareTo(path.trim()) == 0 || "alias".compareTo(path.trim()) == 0) {
-            path = "InsurancePlan." + path;
-        }
-
-        if (path.startsWith("(")) {
-            int start = path.indexOf('(');
-            int end = path.lastIndexOf(')');
-            path = path.substring(start + 1, end);
-        }
-
-        if (path.contains(" as ")) {
-            // System.out.println("as is FOUND");
-            // This value may be the target class (keep this in mind)
-            int start = path.indexOf(" as ");
-            int end = path.indexOf(start + " as ".length(), ' ');
-
-            if (end == -1) {
-                end = path.length();
-            } else {
-                end++;
-            }
-
-            // Retrieves the target.
-            String target = path.substring(start + " as ".length());
-            System.out.println("#### " + path + " Target -> " + path.split("\\.")[0] + " " + target);
-
-            path = removeAsType(path);
-        }
-
-        path = path.replace(".where(", "(");
-        path = path.replace(".as(", "(");
-
-        path = processBalanced(path, '(', ')');
-        path = processBalanced(path, '[', ']');
-
-        // Find where
-        while (path.contains(".where(")) {
-            // May have a problem in a nested where
-            int start = path.indexOf(".where(");
-            int end = path.indexOf(')', start) + 1;
-
-            String tmpPath = path.substring(0, start) + path.substring(end, path.length());
-            path = tmpPath;
-
-        }
-
-        return path;
-    }
-
-    public static String removeAsType(String path) {
-
-        while (path.indexOf(" as ") > 0) {
-            int startIdx = path.indexOf(" as ");
-            int startScanIdx = path.indexOf(" as ") + 4;
-            int endIdx = startScanIdx;
-
-            // System.out.println(path);
-
-            boolean found = false;
-            while (!found && endIdx != path.length() - 1) {
-                char charAt = path.charAt(endIdx);
-
-                if (charAt == ')') {
-                    found = true;
-                } else if (charAt == ' ') {
-                    found = true;
-
+                String[] arr = new String[paths.length + 1];
+                for (int i = 0; i < paths.length; i++) {
+                    arr[i] = paths[i];
                 }
+                arr[paths.length] = f.getName();
 
-                endIdx++;
-            }
-
-            path = path.substring(0, startIdx) + path.substring(endIdx + 1, path.length());
-
-        }
-        return path;
-    }
-
-    public static String processBalanced(String path, char left, char right) {
-        StringBuilder buildWithoutNesting = new StringBuilder();
-        if (path.indexOf(left) > 0) {
-            int leftBracket = 0;
-            int rightBracket = 0;
-            String tmpPath = path;
-
-            for (int idx = 0; idx < tmpPath.length(); idx++) {
-                char charAt = tmpPath.charAt(idx);
-                if (charAt == left) {
-                    leftBracket++;
-                } else if (charAt == right) {
-                    rightBracket++;
-                } else {
-                    if ((leftBracket - rightBracket) % 2 == 0 || leftBracket == 0) {
-                        buildWithoutNesting.append(charAt);
+                if (!fieldType.getPackage().getName().contains("com.ibm.watsonhealth.fhir.model.type")) {
+                    int mod = fieldType.getModifiers();
+                    if (!Modifier.isStatic(mod) && !Modifier.isFinal(mod)) {
+                    generateFields(root, fieldType, arr);
                     }
                 }
             }
-            path = buildWithoutNesting.toString();
         }
-        return path;
+
+        if (c.getSuperclass() != null) {
+            generateFields(root, c.getSuperclass(), paths);
+        }
+
     }
 
-    /*
-     * helper function processes for the given package name and class name.
-     * @param pkg
-     * @param clzVal
+    /**
+     * generates a path
+     * 
+     * Example: <code>Observation.x.y</code>
+     * 
+     * @param pastFields
+     * @param currentField
      * @return
      */
-    public static Class<?> processClass(String pkg, String clzVal) {
-        try {
-            return Class.forName(pkg + "." + clzVal);
-        } catch (java.lang.IllegalArgumentException | ClassNotFoundException iae) {
-            // no op
-            return null;
+    public static String generatePath(String[] pastFields, String currentField) {
+        StringBuilder b = new StringBuilder();
+
+        for (int i = 0; i < pastFields.length; i++) {
+            b.append(pastFields[i]);
+            b.append(".");
+        }
+        b.append(currentField);
+        return b.toString();
+    }
+
+    // Outputs the Canonical Name
+    public static void outputClasses(List<Class<?>> output) {
+        System.out.println("----------------------------------------------------------------------------------");
+        System.out.println("Classes to be analayzed and loaded");
+        Comparator<String> byName = (String first, String second) -> first.compareTo(second);
+        output.stream().map(e -> e.getCanonicalName()).collect(Collectors.toSet()).stream().sorted(byName).forEach(System.out::println);
+        System.out.println("----------------------------------------------------------------------------------");
+
+    }
+
+    /**
+     * The resource class lists.
+     * 
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    public static List<Class<?>> classNames() {
+
+        Set<Class<?>> classNamesWithPackages = new HashSet<>();
+
+        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
+
+        Map<String, JsonObject> structureDefinitionMap = buildResourceMap("./src/test/resources/definitions/r4/profiles-resources.json", "StructureDefinition");
+        structureDefinitionMap.putAll(buildResourceMap("./src/test/resources/definitions/r4/profiles-types.json", "StructureDefinition"));
+
+        structureDefinitionMap.entrySet().stream().map(new Function<Map.Entry, Map.Entry>() {
+
+            @Override
+            public Entry apply(Entry e) {
+                String x = (String) e.getKey();
+                String key = Character.toUpperCase(x.charAt(0)) + x.substring(1, x.length());
+                SimpleEntry<String, JsonObject> obj = new SimpleEntry<String, JsonObject>(key, (JsonObject) e.getValue());
+                return obj;
+            }
+        }).map(e -> e.getKey()).forEach(new Consumer<Object>() {
+            @Override
+            public void accept(Object t) {
+                // System.out.println(t);
+                try {
+                    Class<?> tx = Class.forName("com.ibm.watsonhealth.fhir.model.resource." + t, true, loader);
+                    classNamesWithPackages.add(tx);
+                } catch (ClassNotFoundException e) {
+                    // Don't do anything
+
+                    // try {
+                    // Class<?> tx = Class.forName("com.ibm.watsonhealth.fhir.model.type." + t, true, loader);
+                    // classNamesWithPackages.add(tx);
+                    // } catch (ClassNotFoundException e1) {
+                    // // Don't do anything
+                    // }
+
+                }
+
+            }
+
+        });
+
+        // Returns sorted
+        Comparator<Class<?>> byName = (Class<?> first, Class<?> second) -> first.getCanonicalName().compareTo(second.getCanonicalName());
+        return classNamesWithPackages.stream().sorted(byName).collect(Collectors.toList());
+    }
+
+    /**
+     * Builds the map of Resources
+     * 
+     * @param path
+     * @param resourceType
+     * @return
+     */
+    public static Map<String, JsonObject> buildResourceMap(String path, String resourceType) {
+
+        try (JsonReader reader = Json.createReader(new FileReader(new File(path)))) {
+            List<JsonObject> resources = new ArrayList<>();
+            JsonObject bundle = reader.readObject();
+            for (JsonValue entry : bundle.getJsonArray("entry")) {
+                JsonObject resource = entry.asJsonObject().getJsonObject("resource");
+                if (resourceType.equals(resource.getString("resourceType"))) {
+                    resources.add(resource);
+                }
+            }
+            Collections.sort(resources, new Comparator<JsonObject>() {
+                @Override
+                public int compare(JsonObject first, JsonObject second) {
+                    return first.getString("name").compareTo(second.getString("name"));
+                }
+            });
+            Map<String, JsonObject> resourceMap = new LinkedHashMap<>();
+            for (JsonObject resource : resources) {
+                if ("CodeSystem".equals(resourceType) || "ValueSet".equals(resourceType)) {
+                    resourceMap.put(resource.getString("url"), resource);
+                } else {
+                    resourceMap.put(resource.getString("name"), resource);
+                }
+            }
+            return resourceMap;
+        } catch (Exception e) {
+            throw new Error(e);
         }
     }
 

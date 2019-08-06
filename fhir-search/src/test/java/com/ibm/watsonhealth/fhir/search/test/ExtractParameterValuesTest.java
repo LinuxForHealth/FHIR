@@ -19,9 +19,7 @@ import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
-import com.ibm.watsonhealth.fhir.model.resource.InsurancePlan;
 import com.ibm.watsonhealth.fhir.model.resource.Observation;
-import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
@@ -36,7 +34,7 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
  *
  */
 public class ExtractParameterValuesTest extends BaseSearchTest {
-
+    
     @BeforeClass
     public void setup() {
         FHIRConfiguration.setConfigHome("target/test-classes");
@@ -58,13 +56,13 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
         PathAwareAbstractVisitor.DEBUG = debug;
 
         try (InputStream stream = ExtractParameterValuesTest.class.getResourceAsStream("/testdata/" + file)) {
-            Resource res = FHIRUtil.read(cls, Format.JSON, new InputStreamReader(stream));
+            Resource observation = FHIRUtil.read(cls, Format.JSON, new InputStreamReader(stream));
 
             Map<SearchParameter, List<FHIRPathNode>> output;
             if (skip) {
-                output = SearchUtil.extractParameterValues(res, false);
+                output = SearchUtil.extractParameterValues(observation, false);
             } else {
-                output = SearchUtil.extractParameterValues(res);
+                output = SearchUtil.extractParameterValues(observation);
             }
             validator.validate(output);
         } catch (Exception e) {
@@ -78,7 +76,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
 
     @Test
     public void testMinimumObservationWithAllSearchParameters() throws Exception {
-        String testFile = "extract/observation-empty.json";
+        String testFile = "observation-empty.json";
 
         Builder builder = ExtractorValidator.Builder.builder();
         builder.add("code", "Diplotype Call");
@@ -92,7 +90,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
 
     @Test
     public void testMinimumObservationWithAllSearchParametersNoSkip() throws Exception {
-        String testFile = "extract/observation-empty.json";
+        String testFile = "observation-empty.json";
 
         Builder builder = ExtractorValidator.Builder.builder();
         builder.add("code", "Diplotype Call");
@@ -106,7 +104,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
 
     @Test
     public void testSomeObservationWithAllSearchParameters() throws Exception {
-        String testFile = "extract/observation-some.json";
+        String testFile = "observation-some.json";
 
         Builder builder = ExtractorValidator.Builder.builder();
         builder.add("_id", "example-diplotype1").strict(false);
@@ -118,7 +116,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
 
     @Test
     public void testFullObservationWithAllSearchParameters() throws Exception {
-        String testFile = "extract/observation-full.json";
+        String testFile = "observation-full.json";
 
         Builder builder = ExtractorValidator.Builder.builder();
         builder.add("_id", "example-diplotype1").strict(false);
@@ -127,7 +125,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
         runTest(testFile, Observation.class, false, builder.build());
 
     }
-
+    
     @Test
     public void testWithEmptyExpressionAndTenant() throws Exception {
         // Looking only for built-in search parameters for "Patient".
@@ -135,73 +133,12 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
         // Use tenant1 since it doesn't have any tenant-specific search parameters for resourceType Medication.
         FHIRRequestContext.set(new FHIRRequestContext("tenant5"));
 
-        String testFile = "extract/observation-some.json";
+        String testFile = "observation-some.json";
 
         Builder builder = ExtractorValidator.Builder.builder();
         builder.strict(false);
-
+        
         runTest(testFile, Observation.class, false, builder.build());
-    }
-
-    @Test
-    public void testInsurancePlanName() throws Exception {
-        // Insurance Plan: name
-        // Without any context, the default insuranceplan is:
-        // <code> "expression" : "name | alias",</code>
-        // Normally the expression is as such.
-        // <code>"expression" : "InsurancePlan.name | InsurancePlan.alias",</code>
-
-        String testFile = "extract/insuranceplan-name.json";
-
-        Builder builder = ExtractorValidator.Builder.builder();
-        builder.add("name", "test");
-        builder.add("phonetic", "test");
-        builder.strict(true);
-
-        runTest(testFile, InsurancePlan.class, false, builder.build());
-    }
-    
-    @Test
-    public void testInsurancePlanAlias() throws Exception {
-        // Insurance Plan: name
-        // Without any context, the default insuranceplan is:
-        // <code> "expression" : "name | alias",</code>
-        // Normally the expression is as such.
-        // <code>"expression" : "InsurancePlan.name | InsurancePlan.alias",</code>
-
-        String testFile = "extract/insuranceplan-alias.json";
-
-        Builder builder = ExtractorValidator.Builder.builder();
-        builder.add("name", "test");
-        builder.strict(true);
-
-        runTest(testFile, InsurancePlan.class, false, builder.build(), false);
-    }
-    
-    @Test
-    public void testPatientDeceasedBoolean() throws Exception {
-        // search-parameters.json -> Patient: deceased
-
-        String testFile = "extract/patient-deceased-boolean.json";
-
-        Builder builder = ExtractorValidator.Builder.builder();
-        builder.add("deceased", "true");
-        builder.strict(false);
-
-        runTest(testFile, Patient.class, false, builder.build(), false);
-    }
-    
-    @Test
-    public void testPatientDeceasedTime() throws Exception {
-        // search-parameters.json -> Patient: deceased
-
-        String testFile = "extract/patient-deceased-time.json";
-
-        Builder builder = ExtractorValidator.Builder.builder();
-        builder.add("deceased", "true");
-        builder.strict(false);
-
-        runTest(testFile, Patient.class, false, builder.build(), false);
     }
 
 }

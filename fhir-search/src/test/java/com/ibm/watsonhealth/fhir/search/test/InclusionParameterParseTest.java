@@ -157,6 +157,8 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertNotNull(searchContext);
         assertTrue(searchContext.hasIncludeParameters());
 
+        System.out.println(searchContext.getIncludeParameters());
+
         assertEquals(expectedIncludeParms.size(), searchContext.getIncludeParameters().size());
         for (InclusionParameter includeParm : expectedIncludeParms) {
             assertTrue(expectedIncludeParms.contains(includeParm));
@@ -326,6 +328,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         }
 
         assertTrue(searchContext.hasRevIncludeParameters());
+        System.out.println(searchContext.getRevIncludeParameters());
 
         for (InclusionParameter revIncludeParm : expectedRevIncludeParms) {
             assertTrue(expectedRevIncludeParms.contains(revIncludeParm));
@@ -334,7 +337,7 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(include1));
         assertTrue(selfUri.contains(include2));
-        
+        System.out.println(selfUri + " " + include3);
         assertTrue(selfUri.contains(include3));
         assertTrue(selfUri.contains(include4));
     }
