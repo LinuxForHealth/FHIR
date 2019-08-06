@@ -73,7 +73,10 @@ public class ParametersUtil {
     private static final String LOG_OUTPUT = "%s|%s|%s";
 
     // Unsupported Operations in FHIR Path
-    public static final List<String> UNSUPPORTED_OPERATIONS = Collections.unmodifiableList(Arrays.asList("resolve()"));
+    public static final String OPERATION_RESOLVE = "resolve()";
+    public static final List<String> UNSUPPORTED_OPERATIONS = Collections.unmodifiableList(Arrays.asList(OPERATION_RESOLVE));
+
+    private static final String REPLACE_RESOLVE = "(\\.where\\([\\s]{0,}resolve\\(\\)[\\s]{0,}[is]{0,2}[\\s]{0,}[\\w]{0,}\\))";
 
     private static Map<String, Map<String, SearchParameter>> builtInSearchParameters = new HashMap<>();
 
@@ -242,9 +245,11 @@ public class ParametersUtil {
             List<String> resultingExpressions = new ArrayList<>();
             for (String operation : UNSUPPORTED_OPERATIONS) {
                 for (String expression : expressions) {
-                     
+
                     if (expression.contains(operation)) {
                         expressionChanged = true;
+                        processResolve(resultingExpressions, expression);
+
                     } else {
                         resultingExpressions.add(expression);
                     }
@@ -273,6 +278,26 @@ public class ParametersUtil {
         }
 
         return revisedParameter;
+    }
+
+    /**
+     * processes, and conditionally updates the resultingExpressions as a side effect. This side effect approach is
+     * designed to limit the cognitive complexity, and was not the first choice of inline comparisions.
+     * 
+     * @param resultingExpressions
+     * @param expression
+     */
+    public static void processResolve(List<String> resultingExpressions, String expression) {
+        if (UNSUPPORTED_OPERATIONS.contains(OPERATION_RESOLVE) && expression.contains(OPERATION_RESOLVE)) {
+
+            expression = expression.replaceAll(REPLACE_RESOLVE, SearchConstants.EMPTY_QUERY_STRING);
+            
+            // Only add if not empty expression.
+            if (!expression.trim().isEmpty()) {
+                resultingExpressions.add(expression);
+            }
+
+        }
     }
 
     /*
