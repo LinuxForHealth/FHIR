@@ -10,7 +10,6 @@ import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import java.io.File;
@@ -57,7 +56,9 @@ public class ParametersUtilTest extends BaseSearchTest {
         try (InputStream stream = ParametersUtil.class.getClassLoader().getResourceAsStream("search-parameters.xml")) {
             Map<String, Map<String, SearchParameter>> params = ParametersUtil.populateSearchParameterMapFromStreamXML(stream);
             assertNotNull(params);
-            ParametersUtil.print(System.out);
+            if (DEBUG) {
+                ParametersUtil.print(System.out);
+            }
             assertEquals(134, params.size());
         }
 
@@ -66,9 +67,13 @@ public class ParametersUtilTest extends BaseSearchTest {
     @Test(expectedExceptions = {})
     public void testPopulateSearchParameterMapFromFile() throws IOException {
         File customSearchParams = new File("src/test/resources/config/tenant1/extension-search-parameters.json");
-        System.out.println(customSearchParams.getAbsolutePath());
+        if (DEBUG) {
+            System.out.println(customSearchParams.getAbsolutePath());
+        }
         Map<String, Map<String, SearchParameter>> params = ParametersUtil.populateSearchParameterMapFromFile(customSearchParams);
-        System.out.println(params.keySet());
+        if (DEBUG) {
+            System.out.println(params.keySet());
+        }
 
         // validates checks
         assertNotNull(params);
@@ -119,13 +124,15 @@ public class ParametersUtilTest extends BaseSearchTest {
 
             @Override
             public void accept(String resourceParam) {
-                System.out.println("Checking Resource Param -> " + resourceParam);
+                if (DEBUG) {
+                    System.out.println("Checking Resource Param -> " + resourceParam);
+                }
                 assertTrue(params1.containsKey(resourceParam));
             }
 
         });
     }
-    
+
     /*
      * Generate Search parameter
      */
@@ -141,55 +148,63 @@ public class ParametersUtilTest extends BaseSearchTest {
         builder.expression(string(expressions));
         return builder.build();
     }
-    
-    @Test 
+
+    @Test
     public void testRemoveUnsupportedExpressionsParameterResolves() {
-        
+
         String expressions = "resolve() ";
         assertNotNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
-        
+
         expressions = "resolve() | resolve() | resolve()";
         assertNotNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
-        
+
         expressions = "resolve() | resolve() | resolve ()";
         assertNotNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
-        
+
+        // issue 206: Resolve is no longer removed
+        // The checks are flipped and left for posterity as they should be true.
         expressions = ".where(resolve())";
-        assertNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
-       
+        assertNotNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
+
         expressions = "CarePlan.subject.where(resolve() is Patient) ";
-        assertEquals(ParametersUtil.processResolve(expressions),"CarePlan.subject");
-        
-        expressions = "AllergyIntolerance.patient | CarePlan.subject.where(resolve() is Patient) | CareTeam.subject.where(resolve() is Patient) | ClinicalImpression.subject.where(resolve() is Patient) | Composition.subject.where(resolve() is Patient) | Condition.subject.where(resolve() is Patient) | Consent.patient | DetectedIssue.patient | DeviceRequest.subject.where(resolve() is Patient) | DeviceUseStatement.subject | DiagnosticReport.subject.where(resolve() is Patient) | DocumentManifest.subject.where(resolve() is Patient) | DocumentReference.subject.where(resolve() is Patient) | Encounter.subject.where(resolve() is Patient) | EpisodeOfCare.patient | FamilyMemberHistory.patient | Flag.subject.where(resolve() is Patient) | Goal.subject.where(resolve() is Patient) | ImagingStudy.subject.where(resolve() is Patient) | Immunization.patient | List.subject.where(resolve() is Patient) | MedicationAdministration.subject.where(resolve() is Patient) | MedicationDispense.subject.where(resolve() is Patient) | MedicationRequest.subject.where(resolve() is Patient) | MedicationStatement.subject.where(resolve() is Patient) | NutritionOrder.patient | Observation.subject.where(resolve() is Patient) | Procedure.subject.where(resolve() is Patient) | RiskAssessment.subject.where(resolve() is Patient) | ServiceRequest.subject.where(resolve() is Patient) | SupplyDelivery.patient | VisionPrescription.patient";
-        assertEquals(ParametersUtil.processResolve(expressions),"AllergyIntolerance.patient | CarePlan.subject | CareTeam.subject | ClinicalImpression.subject | Composition.subject | Condition.subject | Consent.patient | DetectedIssue.patient | DeviceRequest.subject | DeviceUseStatement.subject | DiagnosticReport.subject | DocumentManifest.subject | DocumentReference.subject | Encounter.subject | EpisodeOfCare.patient | FamilyMemberHistory.patient | Flag.subject | Goal.subject | ImagingStudy.subject | Immunization.patient | List.subject | MedicationAdministration.subject | MedicationDispense.subject | MedicationRequest.subject | MedicationStatement.subject | NutritionOrder.patient | Observation.subject | Procedure.subject | RiskAssessment.subject | ServiceRequest.subject | SupplyDelivery.patient | VisionPrescription.patient");
-        
-        expressions = "AllergyIntolerance.patient | CarePlan.subject.where(resolve() is Patient) | CareTeam.subject.where(resolve() is Patient) | ClinicalImpression.subject.where(resolve() is Patient) | Composition.subject.where(resolve() is Patient) | Condition.subject.where(resolve() is Patient) | Consent.patient | DetectedIssue.patient | DeviceRequest.subject.where(resolve() is Patient) | DeviceUseStatement.subject | DiagnosticReport.subject.where(resolve() is Patient) | DocumentManifest.subject.where(resolve() is Patient) | DocumentReference.subject.where(resolve() is Patient) | Encounter.subject.where(resolve() is Patient) | EpisodeOfCare.patient | FamilyMemberHistory.patient | Flag.subject.where(resolve() is Patient) | Goal.subject.where(resolve() is Patient) | ImagingStudy.subject.where(resolve() is Patient) | Immunization.patient | List.subject.where(resolve() is Patient) | MedicationAdministration.subject.where(resolve() is Patient) | MedicationDispense.subject.where(resolve() is Patient) | MedicationRequest.subject.where(resolve() is Patient) | MedicationStatement.subject.where(resolve() is Patient) | NutritionOrder.patient | Observation.subject.where(resolve() is Patient) | Procedure.subject.where(resolve() is Patient) | RiskAssessment.subject.where(resolve() is Patient) | ServiceRequest.subject.where(resolve() is Patient) | SupplyDelivery.patient | VisionPrescription.patient";
+        assertEquals(ParametersUtil.processResolve(expressions), expressions);
+
+        expressions =
+                "AllergyIntolerance.patient | CarePlan.subject.where(resolve() is Patient) | CareTeam.subject.where(resolve() is Patient) | ClinicalImpression.subject.where(resolve() is Patient) | Composition.subject.where(resolve() is Patient) | Condition.subject.where(resolve() is Patient) | Consent.patient | DetectedIssue.patient | DeviceRequest.subject.where(resolve() is Patient) | DeviceUseStatement.subject | DiagnosticReport.subject.where(resolve() is Patient) | DocumentManifest.subject.where(resolve() is Patient) | DocumentReference.subject.where(resolve() is Patient) | Encounter.subject.where(resolve() is Patient) | EpisodeOfCare.patient | FamilyMemberHistory.patient | Flag.subject.where(resolve() is Patient) | Goal.subject.where(resolve() is Patient) | ImagingStudy.subject.where(resolve() is Patient) | Immunization.patient | List.subject.where(resolve() is Patient) | MedicationAdministration.subject.where(resolve() is Patient) | MedicationDispense.subject.where(resolve() is Patient) | MedicationRequest.subject.where(resolve() is Patient) | MedicationStatement.subject.where(resolve() is Patient) | NutritionOrder.patient | Observation.subject.where(resolve() is Patient) | Procedure.subject.where(resolve() is Patient) | RiskAssessment.subject.where(resolve() is Patient) | ServiceRequest.subject.where(resolve() is Patient) | SupplyDelivery.patient | VisionPrescription.patient";
+        assertEquals(ParametersUtil.processResolve(expressions), expressions);
+
+        expressions =
+                "AllergyIntolerance.patient | CarePlan.subject.where(resolve() is Patient) | CareTeam.subject.where(resolve() is Patient) | ClinicalImpression.subject.where(resolve() is Patient) | Composition.subject.where(resolve() is Patient) | Condition.subject.where(resolve() is Patient) | Consent.patient | DetectedIssue.patient | DeviceRequest.subject.where(resolve() is Patient) | DeviceUseStatement.subject | DiagnosticReport.subject.where(resolve() is Patient) | DocumentManifest.subject.where(resolve() is Patient) | DocumentReference.subject.where(resolve() is Patient) | Encounter.subject.where(resolve() is Patient) | EpisodeOfCare.patient | FamilyMemberHistory.patient | Flag.subject.where(resolve() is Patient) | Goal.subject.where(resolve() is Patient) | ImagingStudy.subject.where(resolve() is Patient) | Immunization.patient | List.subject.where(resolve() is Patient) | MedicationAdministration.subject.where(resolve() is Patient) | MedicationDispense.subject.where(resolve() is Patient) | MedicationRequest.subject.where(resolve() is Patient) | MedicationStatement.subject.where(resolve() is Patient) | NutritionOrder.patient | Observation.subject.where(resolve() is Patient) | Procedure.subject.where(resolve() is Patient) | RiskAssessment.subject.where(resolve() is Patient) | ServiceRequest.subject.where(resolve() is Patient) | SupplyDelivery.patient | VisionPrescription.patient";
         String output = ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)).getExpression().getValue();
         assertNotNull(output);
-        System.out.println(output);
-        assertFalse(output.contains("resolve()"));
-        
+        if (DEBUG) {
+            System.out.println(output);
+        }
+        assertTrue(output.contains("resolve()"));
+
     }
-    
-    @Test 
+
+    @Test
     public void testProcessResolve() {
+        // issue 206: Resolve is no longer removed
         String expressions = "Procedure.subject.where(resolve() is Patient)";
-        assertEquals(ParametersUtil.processResolve(expressions),"Procedure.subject");
-        
+        assertEquals(ParametersUtil.processResolve(expressions), expressions);
+
     }
-    
+
     @Test
     public void testPrintSearchParameter() {
-        SearchParameter.Builder builder = SearchParameter.builder(Uri.of("test"), string("test"),PublicationStatus.DRAFT, Markdown.of("test"), Code.of("test"), Arrays.asList(ResourceType.ACCOUNT), SearchParamType.NUMBER);
-        builder.expression(string("test"));        
+        SearchParameter.Builder builder =
+                SearchParameter.builder(Uri.of("test"), string("test"), PublicationStatus.DRAFT, Markdown.of("test"), Code.of("test"), Arrays.asList(ResourceType.ACCOUNT), SearchParamType.NUMBER);
+        builder.expression(string("test"));
         ParametersUtil.printSearchParameter(builder.build(), System.out);
         assertTrue(true);
     }
-    
+
     @Test
     public void testInit() {
         ParametersUtil.init();
         assertTrue(true);
     }
-    
+
 }

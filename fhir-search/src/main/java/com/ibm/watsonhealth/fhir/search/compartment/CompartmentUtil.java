@@ -114,7 +114,7 @@ public class CompartmentUtil {
 
                 FHIRPathTree tree = FHIRPathTree.tree(bundle);
                 FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
-                Collection<FHIRPathNode> result = evaluator.evaluate(FHIR_PATH_BUNDLE_ENTRY);
+                Collection<FHIRPathNode> result = evaluator.evaluate(FHIR_PATH_BUNDLE_ENTRY, tree.getRoot());
 
                 Iterator<FHIRPathNode> iter = result.iterator();
                 while (iter.hasNext()) {

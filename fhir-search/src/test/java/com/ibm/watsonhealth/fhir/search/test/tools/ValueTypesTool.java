@@ -6,8 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.search.test.tools;
 
-import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.eval;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,6 +20,7 @@ import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
+import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.ResourceType;
@@ -51,7 +50,8 @@ public class ValueTypesTool {
             Bundle bundle = FHIRUtil.read(Bundle.class, Format.JSON, new InputStreamReader(stream));
 
             FHIRPathTree tree = FHIRPathTree.tree(bundle);
-            Collection<FHIRPathNode> result = eval(ParametersUtil.FHIR_PATH_BUNDLE_ENTRY, tree.getRoot());
+            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
+            Collection<FHIRPathNode> result = evaluator.evaluate(ParametersUtil.FHIR_PATH_BUNDLE_ENTRY, tree.getRoot());
 
             outputJsonHeader();
             for (SearchParameter parameter : result.stream().map(node -> node.asResourceNode().resource().as(SearchParameter.class)).collect(Collectors.toList())) {

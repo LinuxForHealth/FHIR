@@ -16,7 +16,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -90,7 +89,7 @@ public final class ParametersUtil {
 
     // Unsupported Operations in FHIR Path
     public static final String OPERATION_RESOLVE = "resolve()";
-    public static final List<String> UNSUPPORTED_OPERATIONS = Collections.unmodifiableList(Arrays.asList(OPERATION_RESOLVE));
+    public static final List<String> UNSUPPORTED_OPERATIONS = Collections.emptyList();
 
     private static final String REPLACE_RESOLVE = "(\\.where\\([\\s]{0,}resolve\\(\\)[\\s]{0,}[is]{0,2}[\\s]{0,}[\\w]{0,}\\))";
 
@@ -207,7 +206,7 @@ public final class ParametersUtil {
 
             FHIRPathTree tree = FHIRPathTree.tree(bundle);
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
-            Collection<FHIRPathNode> result = evaluator.evaluate(FHIR_PATH_BUNDLE_ENTRY);
+            Collection<FHIRPathNode> result = evaluator.evaluate(FHIR_PATH_BUNDLE_ENTRY, tree.getRoot());
 
             for (SearchParameter parameter : result.stream().map(node -> node.asResourceNode().resource().as(SearchParameter.class)).collect(Collectors.toList())) {
 

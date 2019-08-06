@@ -42,8 +42,9 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 import com.ibm.watsonhealth.fhir.search.valuetypes.ValueTypesFactory;
 
 /**
- * This is the JDBC implementation of a query builder for the 'normalized' schema of the JDBC persistence layer.
- * Queries are built in SQL.
+ * This is the JDBC implementation of a query builder for the 'normalized' schema of the JDBC persistence layer. Queries
+ * are built in SQL.
+ * 
  * @author markd
  *
  */
@@ -502,8 +503,9 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
                 chainedParmVar = CP + refParmIndex;
 
                 // The * is a wildcard for any resource type. This occurs only in the case where a reference parameter
-                // chain
-                // was built to represent a compartment search with chained inclusion criteria that includes a wildcard.
+                // chain was built to represent a compartment search with chained inclusion criteria that includes a
+                // wildcard.
+                //
                 // For this situation, a separate method is called, and further processing of the chain by this method
                 // is halted.
                 if (currentParm.getModifierResourceTypeName().equals("*")) {
@@ -545,11 +547,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
                 this.parameterDao.addParameterNamesCacheCandidate(currentParm.getName(), parameterNameId);
             }
         }
-(??)        whereClauseSegment.append(chainedParmVar).append(".").append("PARAMETER_NAME_ID")
-(??)                          .append(JDBCOperator.EQ.value())
-(??)                          .append(parameterNameId)
-(??)                          .append(JDBCOperator.AND.value())
-(??)                          .append(chainedParmVar).append(".").append(STR_VALUE).append(JDBCOperator.IN.value());
+        whereClauseSegment.append(chainedParmVar).append(".").append("PARAMETER_NAME_ID").append(JDBCOperator.EQ.value()).append(parameterNameId).append(JDBCOperator.AND.value()).append(chainedParmVar).append(".").append(STR_VALUE).append(JDBCOperator.IN.value());
     }
 
     private void appendInnerSelect(StringBuilder whereClauseSegment, Parameter currentParm, Type nextParmaterType, String resourceTypeName,
@@ -906,18 +904,18 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             break;
         case NE:
             // the range of the search value does not fully contain the range of the target value
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.LT.value()).append(BIND_VAR);
+            whereClauseSegment.append(tableAlias).append(DOT).append(DATE_START).append(JDBCOperator.LT.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.OR.value());
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
+            whereClauseSegment.append(tableAlias).append(DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
             bindVariables.add(FHIRUtilities.formatTimestamp(start));
             bindVariables.add(FHIRUtilities.formatTimestamp(end));
             break;
         case EQ:
         default:
             // the range of the search value fully contains the range of the target value
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.GTE.value()).append(BIND_VAR);
+            whereClauseSegment.append(tableAlias).append(DOT).append(DATE_START).append(JDBCOperator.GTE.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.AND.value());
-            whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.LT.value()).append(BIND_VAR);
+            whereClauseSegment.append(tableAlias).append(DOT).append(DATE_END).append(JDBCOperator.LT.value()).append(BIND_VAR);
             bindVariables.add(FHIRUtilities.formatTimestamp(start));
             bindVariables.add(FHIRUtilities.formatTimestamp(end));
             break;
@@ -1250,7 +1248,7 @@ CODE_REMOVED
         if (parameterNameId == null) {
             // only try to read, not create
             parameterNameId = this.parameterDao.readParameterNameId(queryParmName);
-            
+
             if (parameterNameId != null) {
                 this.parameterDao.addParameterNamesCacheCandidate(queryParmName, parameterNameId);
             }
@@ -1263,6 +1261,7 @@ CODE_REMOVED
 
     /**
      * Use -1 in place of a null literal, otherwise return the literal value
+     * 
      * @param n
      * @return
      */
@@ -1272,6 +1271,7 @@ CODE_REMOVED
 
     /**
      * Use -1 in place of a null literal, otherwise return the literal value
+     * 
      * @param n
      * @return
      */
