@@ -10,14 +10,14 @@ import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -29,6 +29,7 @@ import com.ibm.watsonhealth.fhir.model.type.Markdown;
 import com.ibm.watsonhealth.fhir.model.type.PublicationStatus;
 import com.ibm.watsonhealth.fhir.model.type.ResourceType;
 import com.ibm.watsonhealth.fhir.model.type.SearchParamType;
+import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.search.test.BaseSearchTest;
 
 /**
@@ -46,7 +47,8 @@ public class ParametersUtilTest extends BaseSearchTest {
         Map<String, Map<String, SearchParameter>> params = ParametersUtil.getBuiltInSearchParameterMap();
         assertNotNull(params);
         ParametersUtil.print(System.out);
-        assertEquals(134, params.size());
+        // 134 + DomainResource
+        assertEquals(params.size(), 135);
     }
 
     @Test(expectedExceptions = { UnsupportedOperationException.class })
@@ -112,7 +114,7 @@ public class ParametersUtilTest extends BaseSearchTest {
         // Check that each returned "Resource" is included in the first set returned.
         assertNotNull(params1);
         assertNotNull(params2);
-        assertEquals(params2.size(), 6);
+        assertEquals(params2.size(), 7);
         params2.keySet().stream().forEach(new Consumer<String>() {
 
             @Override
@@ -152,23 +154,42 @@ public class ParametersUtilTest extends BaseSearchTest {
         expressions = "resolve() | resolve() | resolve ()";
         assertNotNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
         
+        expressions = ".where(resolve())";
+        assertNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
+       
+        expressions = "CarePlan.subject.where(resolve() is Patient) ";
+        assertEquals(ParametersUtil.processResolve(expressions),"CarePlan.subject");
+        
+        expressions = "AllergyIntolerance.patient | CarePlan.subject.where(resolve() is Patient) | CareTeam.subject.where(resolve() is Patient) | ClinicalImpression.subject.where(resolve() is Patient) | Composition.subject.where(resolve() is Patient) | Condition.subject.where(resolve() is Patient) | Consent.patient | DetectedIssue.patient | DeviceRequest.subject.where(resolve() is Patient) | DeviceUseStatement.subject | DiagnosticReport.subject.where(resolve() is Patient) | DocumentManifest.subject.where(resolve() is Patient) | DocumentReference.subject.where(resolve() is Patient) | Encounter.subject.where(resolve() is Patient) | EpisodeOfCare.patient | FamilyMemberHistory.patient | Flag.subject.where(resolve() is Patient) | Goal.subject.where(resolve() is Patient) | ImagingStudy.subject.where(resolve() is Patient) | Immunization.patient | List.subject.where(resolve() is Patient) | MedicationAdministration.subject.where(resolve() is Patient) | MedicationDispense.subject.where(resolve() is Patient) | MedicationRequest.subject.where(resolve() is Patient) | MedicationStatement.subject.where(resolve() is Patient) | NutritionOrder.patient | Observation.subject.where(resolve() is Patient) | Procedure.subject.where(resolve() is Patient) | RiskAssessment.subject.where(resolve() is Patient) | ServiceRequest.subject.where(resolve() is Patient) | SupplyDelivery.patient | VisionPrescription.patient";
+        assertEquals(ParametersUtil.processResolve(expressions),"AllergyIntolerance.patient | CarePlan.subject | CareTeam.subject | ClinicalImpression.subject | Composition.subject | Condition.subject | Consent.patient | DetectedIssue.patient | DeviceRequest.subject | DeviceUseStatement.subject | DiagnosticReport.subject | DocumentManifest.subject | DocumentReference.subject | Encounter.subject | EpisodeOfCare.patient | FamilyMemberHistory.patient | Flag.subject | Goal.subject | ImagingStudy.subject | Immunization.patient | List.subject | MedicationAdministration.subject | MedicationDispense.subject | MedicationRequest.subject | MedicationStatement.subject | NutritionOrder.patient | Observation.subject | Procedure.subject | RiskAssessment.subject | ServiceRequest.subject | SupplyDelivery.patient | VisionPrescription.patient");
         
         expressions = "AllergyIntolerance.patient | CarePlan.subject.where(resolve() is Patient) | CareTeam.subject.where(resolve() is Patient) | ClinicalImpression.subject.where(resolve() is Patient) | Composition.subject.where(resolve() is Patient) | Condition.subject.where(resolve() is Patient) | Consent.patient | DetectedIssue.patient | DeviceRequest.subject.where(resolve() is Patient) | DeviceUseStatement.subject | DiagnosticReport.subject.where(resolve() is Patient) | DocumentManifest.subject.where(resolve() is Patient) | DocumentReference.subject.where(resolve() is Patient) | Encounter.subject.where(resolve() is Patient) | EpisodeOfCare.patient | FamilyMemberHistory.patient | Flag.subject.where(resolve() is Patient) | Goal.subject.where(resolve() is Patient) | ImagingStudy.subject.where(resolve() is Patient) | Immunization.patient | List.subject.where(resolve() is Patient) | MedicationAdministration.subject.where(resolve() is Patient) | MedicationDispense.subject.where(resolve() is Patient) | MedicationRequest.subject.where(resolve() is Patient) | MedicationStatement.subject.where(resolve() is Patient) | NutritionOrder.patient | Observation.subject.where(resolve() is Patient) | Procedure.subject.where(resolve() is Patient) | RiskAssessment.subject.where(resolve() is Patient) | ServiceRequest.subject.where(resolve() is Patient) | SupplyDelivery.patient | VisionPrescription.patient";
         String output = ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)).getExpression().getValue();
         assertNotNull(output);
+        System.out.println(output);
         assertFalse(output.contains("resolve()"));
         
     }
     
     @Test 
     public void testProcessResolve() {
-        String expression = "Procedure.subject.where(resolve() is Patient)";
-        List<String> resultingExpressions = new ArrayList<>();
-        ParametersUtil.processResolve(resultingExpressions, expression);
+        String expressions = "Procedure.subject.where(resolve() is Patient)";
+        assertEquals(ParametersUtil.processResolve(expressions),"Procedure.subject");
         
-        assertNotNull(resultingExpressions);
-        assertFalse(resultingExpressions.isEmpty());
-        assertTrue(resultingExpressions.contains("Procedure.subject"));
     }
-
+    
+    @Test
+    public void testPrintSearchParameter() {
+        SearchParameter.Builder builder = SearchParameter.builder(Uri.of("test"), string("test"),PublicationStatus.DRAFT, Markdown.of("test"), Code.of("test"), Arrays.asList(ResourceType.ACCOUNT), SearchParamType.NUMBER);
+        builder.expression(string("test"));        
+        ParametersUtil.printSearchParameter(builder.build(), System.out);
+        assertTrue(true);
+    }
+    
+    @Test
+    public void testInit() {
+        ParametersUtil.init();
+        assertTrue(true);
+    }
+    
 }

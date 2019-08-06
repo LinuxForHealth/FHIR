@@ -17,9 +17,6 @@ import com.ibm.watsonhealth.fhir.search.parameters.SortParameter;
 
 /**
  * 
- * History: <br/>
- * 1 - add toString to enable easier debugging <br/>
- * 
  * @author markd
  * @author pbastide
  *
@@ -105,6 +102,9 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
         return this.getElementsParameters() != null;
     }
 
+    /*
+     * issue 49: Added toString to enable easier debugging. 
+     */
     @Override
     public String toString() {
         return "FHIRSearchContextImpl [searchParameters=" + searchParameters + ", sortParameters=" + sortParameters + ", includeParameters=" + includeParameters

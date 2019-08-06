@@ -47,12 +47,9 @@ import com.ibm.watsonhealth.fhir.search.exception.SearchExceptionUtil;
  * <li>Practioner - https://www.hl7.org/fhir/compartmentdefinition-practitioner.json</li>
  * <li>Device - https://www.hl7.org/fhir/compartmentdefinition-device.json</li> <br/>
  * 
- * History:<br/>
- * 1 - Extracted the Compartment Logic from SearchUtil <br/>
- * 2 - Converted the Custom Compartment logic and format into the ComponentDefintion.<br/>
- * 3 - Added support for the the default definition.<br/>
- * 4 - Refactored the code to create constants and limit extraneous strings and duplicate definitions<br/>
- * 
+ * This class extracts the Compartment Logic from SearchUtil, converted the Custom Compartment logic and format into the
+ * ComponentDefintion, adds support for the the default definition, and refactors the code to create constants and limit
+ * extraneous strings and duplicate definitions<br/>
  * 
  * @author pbastide
  *
@@ -79,10 +76,10 @@ public class CompartmentUtil {
             add("/compartments/compartmentdefinition-relatedperson.json");
         }
     };
-    
+
     // Used to load the Compartments
     public static void init() {
-        // No Operation 
+        // No Operation
     }
 
     // Exceptions:

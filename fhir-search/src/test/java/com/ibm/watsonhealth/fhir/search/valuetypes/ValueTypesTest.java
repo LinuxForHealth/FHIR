@@ -16,8 +16,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
+import com.ibm.watsonhealth.fhir.model.resource.Account;
 import com.ibm.watsonhealth.fhir.model.resource.ActivityDefinition;
 import com.ibm.watsonhealth.fhir.model.resource.AdverseEvent;
+import com.ibm.watsonhealth.fhir.model.resource.Appointment;
+import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement;
+import com.ibm.watsonhealth.fhir.model.resource.ClaimResponse;
+import com.ibm.watsonhealth.fhir.model.resource.MolecularSequence;
 import com.ibm.watsonhealth.fhir.model.resource.Observation;
 import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.resource.ValueSet;
@@ -30,6 +35,8 @@ import com.ibm.watsonhealth.fhir.model.type.Period;
 import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Range;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
+import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
+import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
 import com.ibm.watsonhealth.fhir.search.test.BaseSearchTest;
 
 /**
@@ -39,7 +46,7 @@ import com.ibm.watsonhealth.fhir.search.test.BaseSearchTest;
  *
  */
 public class ValueTypesTest extends BaseSearchTest {
-    
+
     @BeforeClass
     public static void runOnce() {
         ValueTypesFactory.init();
@@ -71,7 +78,7 @@ public class ValueTypesTest extends BaseSearchTest {
     public void testGetValueTypesNullClass() throws Exception {
         /*
          * checks a null class should be empty.
-         */ 
+         */
         Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(null, "namex");
         assertTrue(valueTypes.isEmpty());
     }
@@ -80,7 +87,7 @@ public class ValueTypesTest extends BaseSearchTest {
     public void testGetValueTypesInvalidClass() throws Exception {
         /*
          * checks an invalid class should be empty.
-         */ 
+         */
         Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(Observation.class, "namex");
         assertTrue(valueTypes.isEmpty());
     }
@@ -91,7 +98,7 @@ public class ValueTypesTest extends BaseSearchTest {
     public void testGetValueTypesAdverseEventResultingCondition() throws Exception {
         /*
          * "expression" : "AdverseEvent.resultingCondition",
-         */ 
+         */
         Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(AdverseEvent.class, "resultingcondition");
         assertFalse(valueTypes.isEmpty());
         assertEquals(valueTypes.size(), 1);
@@ -151,7 +158,7 @@ public class ValueTypesTest extends BaseSearchTest {
          * SupplyRequest.authoredOn",
          */
         FHIRRequestContext.set(new FHIRRequestContext("tenant4"));
-        
+
         Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(Observation.class, "date");
         printValueTypes(valueTypes);
         assertEquals(valueTypes.size(), 3);
@@ -159,7 +166,7 @@ public class ValueTypesTest extends BaseSearchTest {
         assertTrue(valueTypes.contains(DateTime.class));
         assertTrue(valueTypes.contains(Period.class));
     }
-    
+
     @Test
     public void testGetValueTypeActivityDefinition() throws Exception {
         Set<Class<?>> valueTypes = ValueTypesFactory.getValueTypesProcessor().getValueTypes(ActivityDefinition.class, "context-quantity");
@@ -176,5 +183,77 @@ public class ValueTypesTest extends BaseSearchTest {
         assertEquals(valueTypes.size(), 3);
     }
 
+    @Test
+    public void testDateRangeSearch() throws FHIRSearchException {
+        Class<?> resourceType = Account.class;
+
+        String name = "period";
+        Parameter queryParm = new Parameter(null, name, null, name);
+        assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateRangeSearch(resourceType, queryParm));
+
+        name = "subject";
+        queryParm = new Parameter(null, name, null, name);
+        assertFalse(ValueTypesFactory.getValueTypesProcessor().isDateRangeSearch(resourceType, queryParm));
+
+    }
+
+    @Test
+    public void testDateSearch() throws FHIRSearchException {
+        Class<?> resourceType = ActivityDefinition.class;
+
+        String name = "date";
+        Parameter queryParm = new Parameter(null, name, null, name);
+        assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
+
+        name = "depends-on";
+        queryParm = new Parameter(null, name, null, name);
+        assertFalse(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
+
+        resourceType = Account.class;
+        name = "subject";
+        queryParm = new Parameter(null, name, null, name);
+        assertFalse(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
+
+        resourceType = Appointment.class;
+        name = "date";
+        queryParm = new Parameter(null, name, null, name);
+        assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
+
+        resourceType = CapabilityStatement.class;
+        name = "date";
+        queryParm = new Parameter(null, name, null, name);
+        assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
+
+        resourceType = ClaimResponse.class;
+        name = "payment-date";
+        queryParm = new Parameter(null, name, null, name);
+        assertTrue(ValueTypesFactory.getValueTypesProcessor().isDateSearch(resourceType, queryParm));
+
+    }
+
+    @Test
+    public void testRangeSearch() throws FHIRSearchException {
+
+        Class<?> resourceType = ActivityDefinition.class;
+
+        String name = "context-quantity";
+        Parameter queryParm = new Parameter(null, name, null, name);
+        assertTrue(ValueTypesFactory.getValueTypesProcessor().isRangeSearch(resourceType, queryParm));
+        
+        name = "derived-from";
+        queryParm = new Parameter(null, name, null, name);
+        assertFalse(ValueTypesFactory.getValueTypesProcessor().isRangeSearch(resourceType, queryParm));
+
+    }
+    
+    @Test
+    public void testIntegerSearch() throws FHIRSearchException { 
+        Class<?> resourceType = MolecularSequence.class;
+
+        String name = "variant-end";
+        Parameter queryParm = new Parameter(null, name, null, name);
+        assertTrue(ValueTypesFactory.getValueTypesProcessor().isIntegerSearch(resourceType, queryParm));
+        
+    }
 
 }

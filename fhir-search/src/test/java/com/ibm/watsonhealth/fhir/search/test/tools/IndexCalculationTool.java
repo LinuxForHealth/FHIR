@@ -11,7 +11,6 @@ import static com.ibm.watsonhealth.fhir.model.path.util.FHIRPathUtil.eval;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
