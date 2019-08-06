@@ -79,7 +79,7 @@ public class FHIRClientSample {
         // Check status code, retrieve OperationOutcome response resource, etc.
         
         // 7) Invoke a batch request.
-        Bundle bundle = Bundle.builder(BundleType.BATCH).build();
+        Bundle bundle = Bundle.builder().type(BundleType.BATCH).build();
         // Initialize bundle by adding individual operations (read, vread, create, update, etc.)
         
         response = client.batch(bundle);

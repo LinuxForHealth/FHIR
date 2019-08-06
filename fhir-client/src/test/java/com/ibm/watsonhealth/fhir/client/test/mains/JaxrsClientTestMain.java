@@ -112,13 +112,13 @@ public class JaxrsClientTestMain {
                 .birthDate(com.ibm.watsonhealth.fhir.model.type.Date.of("1950-08-15"))
                 .telecom(ContactPoint.builder().system(ContactPointSystem.PHONE)
                         .use(ContactPointUse.HOME).value(string("555-1234")).build())
-                .extension(Extension.builder("http://ibm.com/watsonhealth/fhir/extension/Patient/favorite-color")
+                .extension(Extension.builder().url("http://ibm.com/watsonhealth/fhir/extension/Patient/favorite-color")
                         .value(string("blue")).build()).build();        
         return patient;
     }
     
     public static Observation buildObservation(String patientId) {
-        Observation observation = Observation.builder(ObservationStatus.FINAL, 
+        Observation observation = Observation.builder().status(ObservationStatus.FINAL).bodySite( 
                 CodeableConcept.builder().coding(Coding.builder().code(Code.of("55284-4"))
                         .system(Uri.of("http://loinc.org")).build())
                         .text(string("Blood pressure systolic & diastolic")).build())
@@ -126,11 +126,11 @@ public class JaxrsClientTestMain {
                         .system(Uri.of("http://hl7.org/fhir/observation-category")).build())
                         .text(string("Vital Signs")).build())
                 .subject(Reference.builder().reference(string("Patient/" + patientId)).build())
-                .component(Component.builder(CodeableConcept.builder().coding(Coding.builder().code(Code.of("8459-0"))
+                .component(Component.builder().code(CodeableConcept.builder().coding(Coding.builder().code(Code.of("8459-0"))
                         .system(Uri.of("http://loinc.org")).build())
                         .text(string("Systolic")).build())
                         .value(Quantity.builder().value(Decimal.of(124.9)).unit(string("mmHg")).build()).build())
-                .component(Component.builder(CodeableConcept.builder().coding(Coding.builder().code(Code.of("8453-3"))
+                .component(Component.builder().code(CodeableConcept.builder().coding(Coding.builder().code(Code.of("8453-3"))
                         .system(Uri.of("http://loinc.org")).build())
                         .text(string("Diastolic")).build())
                         .value(Quantity.builder().value(Decimal.of(93.7)).unit(string("mmHg")).build()).build())
