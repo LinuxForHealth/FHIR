@@ -159,20 +159,24 @@ public class CodeGenerator {
     }
     
     private String buildParseMethodInvocation(JsonObject elementDefinition, String elementName, String fieldType) {
+        String elementIndex = "-1";
+        if (isRepeating(elementDefinition)) {
+            elementIndex = elementName + "ElementIndex++";
+        }
         if (isPrimitiveType(fieldType) && !isPrimitiveSubtype(fieldType)) {
-            return "parse" + fieldType + "(" + quote(elementName) + ", reader, -1)";
+            return "parse" + fieldType + "(" + quote(elementName) + ", reader, " + elementIndex +")";
         } else if (isStringSubtype(fieldType) || isCodeSubtype(fieldType)) {
-            return "(" + fieldType + ") " + "parseString(" + fieldType + ".builder(), "+ quote(elementName) + ", reader, -1)";
+            return "(" + fieldType + ") " + "parseString(" + fieldType + ".builder(), "+ quote(elementName) + ", reader, " + elementIndex + ")";
         } else if (isUriSubtype(fieldType)) {
-            return "(" + fieldType + ") " + "parseUri(" + fieldType + ".builder(), "+ quote(elementName) + ", reader, -1)";
+            return "(" + fieldType + ") " + "parseUri(" + fieldType + ".builder(), "+ quote(elementName) + ", reader, " + elementIndex + ")";
         } else if (isIntegerSubtype(fieldType)) {
-            return "(" + fieldType + ") " + "parseInteger(" + fieldType + ".builder(), "+ quote(elementName) + ", reader, -1)";
+            return "(" + fieldType + ") " + "parseInteger(" + fieldType + ".builder(), "+ quote(elementName) + ", reader, " + elementIndex + ")";
         } else if (isQuantitySubtype(fieldType)) {
-            return "(" + fieldType + ") parseQuantity(" + fieldType + ".builder(), " + quote(elementName) + ", reader, -1)";
+            return "(" + fieldType + ") parseQuantity(" + fieldType + ".builder(), " + quote(elementName) + ", reader, " + elementIndex + ")";
         } else if (isJavaString(fieldType)) {
-            return "parseJavaString(" + quote(elementName) + ", reader, -1)";
+            return "parseJavaString(" + quote(elementName) + ", reader, " + elementIndex + ")";
         } else {
-            return "parse" + fieldType.replace(".", "") + "(" + quote(elementName) + ", reader, -1)";
+            return "parse" + fieldType.replace(".", "") + "(" + quote(elementName) + ", reader, " + elementIndex + ")";
         }
     }
     
@@ -1778,6 +1782,8 @@ public class CodeGenerator {
             ._end();
         }
         
+        generateElementIndexDeclarations(elementDefinitions, path, cb);
+        
         cb._while("reader.hasNext()");
 
         cb.assign("int eventType", "reader.next()");
@@ -1871,6 +1877,19 @@ public class CodeGenerator {
             cb.method(mods("private"), generatedClassName, "parse" + generatedClassName, params("java.lang.String elementName", "XMLStreamReader reader", "int elementIndex"), throwsExceptions("XMLStreamException"))
                 ._return("parse" + generatedClassName + "(" + generatedClassName + ".builder(), elementName, reader, elementIndex)")
             .end().newLine();
+        }
+    }
+
+    private void generateElementIndexDeclarations(List<JsonObject> elementDefinitions, String path, CodeBuilder cb) {
+        StringJoiner joiner = new StringJoiner(" = 0, ");
+        for (JsonObject elementDefinition : elementDefinitions) {
+            if (isRepeating(elementDefinition)) {
+                String elementName = getElementName(elementDefinition, path);
+                joiner.add(elementName + "ElementIndex");
+            }
+        }
+        if (!joiner.toString().isEmpty()) {
+            cb.statement("int %s = 0", joiner.toString());
         }
     }
 
