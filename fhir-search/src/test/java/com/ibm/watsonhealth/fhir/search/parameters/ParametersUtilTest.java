@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.search.parameters;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import java.io.File;
@@ -21,7 +22,14 @@ import java.util.function.Consumer;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
+import com.ibm.watsonhealth.fhir.model.type.Code;
+import com.ibm.watsonhealth.fhir.model.type.Markdown;
+import com.ibm.watsonhealth.fhir.model.type.PublicationStatus;
+import com.ibm.watsonhealth.fhir.model.type.ResourceType;
+import com.ibm.watsonhealth.fhir.model.type.SearchParamType;
 import com.ibm.watsonhealth.fhir.search.test.BaseSearchTest;
+
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 /**
  * 
@@ -114,6 +122,42 @@ public class ParametersUtilTest extends BaseSearchTest {
             }
 
         });
+    }
+    
+    /*
+     * Generate Search parameter
+     */
+    private SearchParameter generateSearchParameter(String expressions) {
+        SearchParameter.Builder builder = new SearchParameter.Builder();
+        builder.url(com.ibm.watsonhealth.fhir.model.type.Uri.uri("test"));
+        builder.name(string("test"));
+        builder.status(PublicationStatus.ACTIVE);
+        builder.description(Markdown.builder().id("test").value("test").build());
+        builder.code(Code.builder().id("test").value("test").build());
+        builder.base(ResourceType.ACCOUNT);
+        builder.type(SearchParamType.COMPOSITE);
+        builder.expression(string(expressions));
+        return builder.build();
+    }
+    
+    @Test 
+    public void testRemoveUnsupportedExpressionsParameterResolves() {
+        
+        String expressions = "resolve() ";
+        assertNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
+        
+        expressions = "resolve() | resolve() | resolve()";
+        assertNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
+        
+        expressions = "resolve() | resolve() | resolve ()";
+        assertNotNull(ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)));
+        
+        
+        expressions = "AllergyIntolerance.patient | CarePlan.subject.where(resolve() is Patient) | CareTeam.subject.where(resolve() is Patient) | ClinicalImpression.subject.where(resolve() is Patient) | Composition.subject.where(resolve() is Patient) | Condition.subject.where(resolve() is Patient) | Consent.patient | DetectedIssue.patient | DeviceRequest.subject.where(resolve() is Patient) | DeviceUseStatement.subject | DiagnosticReport.subject.where(resolve() is Patient) | DocumentManifest.subject.where(resolve() is Patient) | DocumentReference.subject.where(resolve() is Patient) | Encounter.subject.where(resolve() is Patient) | EpisodeOfCare.patient | FamilyMemberHistory.patient | Flag.subject.where(resolve() is Patient) | Goal.subject.where(resolve() is Patient) | ImagingStudy.subject.where(resolve() is Patient) | Immunization.patient | List.subject.where(resolve() is Patient) | MedicationAdministration.subject.where(resolve() is Patient) | MedicationDispense.subject.where(resolve() is Patient) | MedicationRequest.subject.where(resolve() is Patient) | MedicationStatement.subject.where(resolve() is Patient) | NutritionOrder.patient | Observation.subject.where(resolve() is Patient) | Procedure.subject.where(resolve() is Patient) | RiskAssessment.subject.where(resolve() is Patient) | ServiceRequest.subject.where(resolve() is Patient) | SupplyDelivery.patient | VisionPrescription.patient";
+        String output = ParametersUtil.removeUnsupportedExpressions(generateSearchParameter(expressions)).getExpression().getValue();
+        assertNotNull(output);
+        assertFalse(output.contains("resolve()"));
+        
     }
 
 }
