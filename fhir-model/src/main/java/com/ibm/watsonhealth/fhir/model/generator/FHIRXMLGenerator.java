@@ -7,7 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.generator;
 
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.isPrimitiveType;
-import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.FHIR_NS;
+import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.FHIR_NS_URI;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.XML_OUTPUT_FACTORY;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.createStreamWriterDelegate;
 
@@ -37,6 +37,7 @@ import com.ibm.watsonhealth.fhir.model.type.Base64Binary;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Date;
 import com.ibm.watsonhealth.fhir.model.type.DateTime;
+import com.ibm.watsonhealth.fhir.model.type.Decimal;
 import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.type.Extension;
 import com.ibm.watsonhealth.fhir.model.type.HumanName;
@@ -69,7 +70,7 @@ public class FHIRXMLGenerator implements FHIRGenerator {
         GeneratingVisitor visitor = null;
         try (StreamWriterDelegate delegate = createStreamWriterDelegate(XML_OUTPUT_FACTORY.createXMLStreamWriter(out, "UTF-8"))) {
             visitor = new XMLGeneratingVisitor(delegate, prettyPrinting);
-            delegate.setDefaultNamespace(FHIR_NS);
+            delegate.setDefaultNamespace(FHIR_NS_URI);
             resource.accept(visitor);
             delegate.flush();
         } catch (Exception e) {
@@ -82,7 +83,7 @@ public class FHIRXMLGenerator implements FHIRGenerator {
         GeneratingVisitor visitor = null;
         try (StreamWriterDelegate delegate = createStreamWriterDelegate(XML_OUTPUT_FACTORY.createXMLStreamWriter(writer))) {
             visitor = new XMLGeneratingVisitor(delegate, prettyPrinting);
-            delegate.setDefaultNamespace(FHIR_NS);
+            delegate.setDefaultNamespace(FHIR_NS_URI);
             resource.accept(visitor);
             delegate.flush();
         } catch (Exception e) {
@@ -162,12 +163,12 @@ public class FHIRXMLGenerator implements FHIRGenerator {
             try {
                 Class<?> elementType = element.getClass();
                 if (element.getId() != null) {
-                    writer.writeAttribute(FHIR_NS, "id", element.getId());
+                    writer.writeAttribute(FHIR_NS_URI, "id", element.getId());
                 }
                 if (element instanceof Extension) {
                     Extension extension = (Extension) element;
                     if (extension.getUrl() != null) {
-                        writer.writeAttribute(FHIR_NS, "url", extension.getUrl());
+                        writer.writeAttribute(FHIR_NS_URI, "url", extension.getUrl());
                     }
                 } else if (isPrimitiveType(elementType)) {
                     writeValue(element);
@@ -203,6 +204,11 @@ public class FHIRXMLGenerator implements FHIRGenerator {
                         value = dateTime.getValue().toString();
                     }
                 }
+            } else if (element instanceof Decimal) {
+                Decimal decimal = (Decimal) element;
+                if (decimal.getValue() != null) {
+                    value = decimal.getValue().toString();
+                }
             } else if (element instanceof Instant) {
                 Instant instant = (Instant) element;
                 if (instant.getValue() != null) {
@@ -230,7 +236,7 @@ public class FHIRXMLGenerator implements FHIRGenerator {
                 }
             }
             if (value != null) {
-                writer.writeAttribute(FHIR_NS, "value", value);
+                writer.writeAttribute(FHIR_NS_URI, "value", value);
             }
         }
         
@@ -296,9 +302,9 @@ public class FHIRXMLGenerator implements FHIRGenerator {
                     elementName = getChoiceElementName(elementName, element.getClass());
                 }
                 if (!isPrimitiveType(elementType) || !element.getExtension().isEmpty()) {
-                    writer.writeStartElement(FHIR_NS, elementName);
+                    writer.writeStartElement(FHIR_NS_URI, elementName);
                 } else {
-                    writer.writeEmptyElement(FHIR_NS, elementName);
+                    writer.writeEmptyElement(FHIR_NS_URI, elementName);
                 }
                 writeAttributes(element);
                 newLine();
@@ -321,9 +327,9 @@ public class FHIRXMLGenerator implements FHIRGenerator {
                 indent();
                 Class<?> resourceType = resource.getClass();
                 java.lang.String resourceTypeName = resourceType.getSimpleName();
-                writer.writeStartElement(FHIR_NS, resourceTypeName);
+                writer.writeStartElement(FHIR_NS_URI, resourceTypeName);
                 if (depth == 1) {
-                    writer.writeDefaultNamespace(FHIR_NS);
+                    writer.writeDefaultNamespace(FHIR_NS_URI);
                 }
                 newLine();
                 indentLevel++;

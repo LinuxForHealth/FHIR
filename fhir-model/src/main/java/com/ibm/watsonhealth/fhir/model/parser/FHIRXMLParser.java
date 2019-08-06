@@ -6,9 +6,13 @@
 
 package com.ibm.watsonhealth.fhir.model.parser;
 
-import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.XML_INPUT_FACTORY;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.createStreamReaderDelegate;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.parseDiv;
+import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.requireNamespace;
+import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.FHIR_NS_URI;
+import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.XHTML_NS_URI;
+import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.XML_INPUT_FACTORY;
+
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.Stack;
@@ -35,14 +39,40 @@ public class FHIRXMLParser implements FHIRParser {
         // only visible to subclasses or classes/interfaces in the same package (e.g. FHIRParser)
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> T parse(InputStream in) throws FHIRParserException {
-        return null;
+        try (StreamReaderDelegate delegate = createStreamReaderDelegate(XML_INPUT_FACTORY.createXMLStreamReader(in, "UTF-8"))) {
+            while (delegate.hasNext()) {
+                int eventType = delegate.next();
+                switch (eventType) {
+                case XMLStreamReader.START_ELEMENT:
+                    requireNamespace(delegate, FHIR_NS_URI);
+                    return (T) parseResource(getResourceType(delegate), delegate, -1);
+                }
+            }
+            throw new XMLStreamException("Unexpected end of stream");
+        } catch (Exception e) {
+            throw new FHIRParserException(e.getMessage(), getPath(), e);
+        }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> T parse(Reader reader) throws FHIRParserException {
-        return null;
+        try (StreamReaderDelegate delegate = createStreamReaderDelegate(XML_INPUT_FACTORY.createXMLStreamReader(reader))) {
+            while (delegate.hasNext()) {
+                int eventType = delegate.next();
+                switch (eventType) {
+                case XMLStreamReader.START_ELEMENT:
+                    requireNamespace(delegate, FHIR_NS_URI);
+                    return (T) parseResource(getResourceType(delegate), delegate, -1);
+                }
+            }
+            throw new XMLStreamException("Unexpected end of stream");
+        } catch (Exception e) {
+            throw new FHIRParserException(e.getMessage(), getPath(), e);
+        }
     }
 
     @Override
@@ -359,6 +389,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -422,7 +453,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -436,9 +467,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Account.Coverage.Builder builder = Account.Coverage.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -460,13 +493,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -475,9 +507,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Account.Guarantor.Builder builder = Account.Guarantor.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -502,13 +536,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -521,6 +554,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -710,7 +744,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -724,9 +758,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ActivityDefinition.DynamicValue.Builder builder = ActivityDefinition.DynamicValue.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -748,13 +784,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -763,9 +798,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ActivityDefinition.Participant.Builder builder = ActivityDefinition.Participant.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -787,13 +824,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -801,14 +837,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Address parseAddress(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Address.Builder builder = Address.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -847,13 +886,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -866,6 +904,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -956,7 +995,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -970,9 +1009,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         AdverseEvent.SuspectEntity.Builder builder = AdverseEvent.SuspectEntity.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -994,13 +1035,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -1009,9 +1049,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         AdverseEvent.SuspectEntity.Causality.Builder builder = AdverseEvent.SuspectEntity.Causality.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -1039,13 +1081,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -1058,6 +1099,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -1148,7 +1190,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -1162,9 +1204,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         AllergyIntolerance.Reaction.Builder builder = AllergyIntolerance.Reaction.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -1201,13 +1245,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -1215,14 +1258,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Annotation parseAnnotation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Annotation.Builder builder = Annotation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -1243,13 +1289,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -1262,6 +1307,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -1358,7 +1404,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -1372,9 +1418,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Appointment.Participant.Builder builder = Appointment.Participant.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -1405,13 +1453,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -1424,6 +1471,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -1478,7 +1526,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -1491,14 +1539,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Attachment parseAttachment(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Attachment.Builder builder = Attachment.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -1531,13 +1582,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -1550,6 +1600,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -1613,7 +1664,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -1627,9 +1678,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         AuditEvent.Agent.Builder builder = AuditEvent.Agent.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -1678,13 +1731,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -1693,9 +1745,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         AuditEvent.Agent.Network.Builder builder = AuditEvent.Agent.Network.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -1717,13 +1771,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -1732,9 +1785,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         AuditEvent.Entity.Builder builder = AuditEvent.Entity.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -1777,13 +1832,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -1792,9 +1846,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         AuditEvent.Entity.Detail.Builder builder = AuditEvent.Entity.Detail.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -1819,13 +1875,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -1834,9 +1889,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         AuditEvent.Source.Builder builder = AuditEvent.Source.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -1861,13 +1918,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -1875,18 +1931,21 @@ public class FHIRXMLParser implements FHIRParser {
     private Base64Binary parseBase64Binary(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Base64Binary.Builder builder = Base64Binary.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         java.lang.String value = reader.getAttributeValue(null, "value");
         if (value != null) {
             builder.value(value);
         }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -1895,13 +1954,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -1914,6 +1972,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -1959,7 +2018,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -1977,6 +2036,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -2004,7 +2064,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -2022,6 +2082,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -2085,7 +2146,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -2099,9 +2160,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         BiologicallyDerivedProduct.Collection.Builder builder = BiologicallyDerivedProduct.Collection.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -2129,13 +2192,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -2144,9 +2206,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         BiologicallyDerivedProduct.Manipulation.Builder builder = BiologicallyDerivedProduct.Manipulation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -2171,13 +2235,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -2186,9 +2249,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         BiologicallyDerivedProduct.Processing.Builder builder = BiologicallyDerivedProduct.Processing.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -2219,13 +2284,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -2234,9 +2298,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         BiologicallyDerivedProduct.Storage.Builder builder = BiologicallyDerivedProduct.Storage.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -2264,13 +2330,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -2283,6 +2348,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -2337,7 +2403,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -2350,18 +2416,21 @@ public class FHIRXMLParser implements FHIRParser {
     private Boolean parseBoolean(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Boolean.Builder builder = Boolean.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         java.lang.String value = reader.getAttributeValue(null, "value");
         if (value != null) {
             builder.value(value);
         }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -2370,13 +2439,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -2389,6 +2457,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -2428,7 +2497,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -2442,9 +2511,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Bundle.Entry.Builder builder = Bundle.Entry.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -2478,13 +2549,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -2493,9 +2563,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Bundle.Entry.Request.Builder builder = Bundle.Entry.Request.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -2529,13 +2601,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -2544,9 +2615,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Bundle.Entry.Response.Builder builder = Bundle.Entry.Response.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -2577,13 +2650,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -2592,9 +2664,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Bundle.Entry.Search.Builder builder = Bundle.Entry.Search.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -2616,13 +2690,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -2631,9 +2704,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Bundle.Link.Builder builder = Bundle.Link.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -2655,13 +2730,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -2674,6 +2748,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -2782,7 +2857,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -2796,9 +2871,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Document.Builder builder = CapabilityStatement.Document.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -2823,13 +2900,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -2838,9 +2914,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Implementation.Builder builder = CapabilityStatement.Implementation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -2865,13 +2943,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -2880,9 +2957,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Messaging.Builder builder = CapabilityStatement.Messaging.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -2910,13 +2989,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -2925,9 +3003,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Messaging.Endpoint.Builder builder = CapabilityStatement.Messaging.Endpoint.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -2949,13 +3029,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -2964,9 +3043,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Messaging.SupportedMessage.Builder builder = CapabilityStatement.Messaging.SupportedMessage.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -2988,13 +3069,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -3003,9 +3083,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Builder builder = CapabilityStatement.Rest.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -3045,13 +3127,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -3060,9 +3141,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Interaction.Builder builder = CapabilityStatement.Rest.Interaction.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -3084,13 +3167,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -3099,9 +3181,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Resource.Builder builder = CapabilityStatement.Rest.Resource.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -3168,13 +3252,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -3183,9 +3266,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Resource.Interaction.Builder builder = CapabilityStatement.Rest.Resource.Interaction.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -3207,13 +3292,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -3222,9 +3306,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Resource.Operation.Builder builder = CapabilityStatement.Rest.Resource.Operation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -3249,13 +3335,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -3264,9 +3349,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Resource.SearchParam.Builder builder = CapabilityStatement.Rest.Resource.SearchParam.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -3294,13 +3381,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -3309,9 +3395,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Security.Builder builder = CapabilityStatement.Rest.Security.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -3336,13 +3424,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -3351,9 +3438,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Software.Builder builder = CapabilityStatement.Software.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -3378,13 +3467,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -3397,6 +3485,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -3496,7 +3585,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -3510,9 +3599,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CarePlan.Activity.Builder builder = CarePlan.Activity.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -3543,13 +3634,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -3558,9 +3648,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CarePlan.Activity.Detail.Builder builder = CarePlan.Activity.Detail.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -3636,13 +3728,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -3655,6 +3746,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -3724,7 +3816,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -3738,9 +3830,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CareTeam.Participant.Builder builder = CareTeam.Participant.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -3768,13 +3862,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -3787,6 +3880,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -3856,7 +3950,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -3870,9 +3964,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CatalogEntry.RelatedEntry.Builder builder = CatalogEntry.RelatedEntry.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -3894,13 +3990,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -3913,6 +4008,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -4030,7 +4126,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -4044,9 +4140,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ChargeItem.Performer.Builder builder = ChargeItem.Performer.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -4068,13 +4166,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -4087,6 +4184,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -4186,7 +4284,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -4200,9 +4298,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ChargeItemDefinition.Applicability.Builder builder = ChargeItemDefinition.Applicability.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -4227,13 +4327,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -4242,9 +4341,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ChargeItemDefinition.PropertyGroup.Builder builder = ChargeItemDefinition.PropertyGroup.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -4266,13 +4367,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -4281,9 +4381,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ChargeItemDefinition.PropertyGroup.PriceComponent.Builder builder = ChargeItemDefinition.PropertyGroup.PriceComponent.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -4311,13 +4413,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -4330,6 +4431,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -4441,7 +4543,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -4455,9 +4557,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Claim.Accident.Builder builder = Claim.Accident.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -4485,13 +4589,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -4500,9 +4603,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Claim.CareTeam.Builder builder = Claim.CareTeam.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -4533,13 +4638,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -4548,9 +4652,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Claim.Diagnosis.Builder builder = Claim.Diagnosis.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -4584,13 +4690,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -4599,9 +4704,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Claim.Insurance.Builder builder = Claim.Insurance.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -4638,13 +4745,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -4653,9 +4759,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Claim.Item.Builder builder = Claim.Item.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -4743,13 +4851,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -4758,9 +4865,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Claim.Item.Detail.Builder builder = Claim.Item.Detail.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -4812,13 +4921,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -4827,9 +4935,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Claim.Item.Detail.SubDetail.Builder builder = Claim.Item.Detail.SubDetail.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -4878,13 +4988,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -4893,9 +5002,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Claim.Payee.Builder builder = Claim.Payee.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -4917,13 +5028,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -4932,9 +5042,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Claim.Procedure.Builder builder = Claim.Procedure.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -4968,13 +5080,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -4983,9 +5094,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Claim.Related.Builder builder = Claim.Related.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -5010,13 +5123,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -5025,9 +5137,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Claim.SupportingInfo.Builder builder = Claim.SupportingInfo.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -5076,13 +5190,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -5095,6 +5208,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -5206,7 +5320,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -5220,9 +5334,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ClaimResponse.AddItem.Builder builder = ClaimResponse.AddItem.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -5301,13 +5417,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -5316,9 +5431,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ClaimResponse.AddItem.Detail.Builder builder = ClaimResponse.AddItem.Detail.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -5361,13 +5478,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -5376,9 +5492,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ClaimResponse.AddItem.Detail.SubDetail.Builder builder = ClaimResponse.AddItem.Detail.SubDetail.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -5418,13 +5536,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -5433,9 +5550,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ClaimResponse.Error.Builder builder = ClaimResponse.Error.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -5463,13 +5582,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -5478,9 +5596,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ClaimResponse.Insurance.Builder builder = ClaimResponse.Insurance.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -5511,13 +5631,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -5526,9 +5645,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ClaimResponse.Item.Builder builder = ClaimResponse.Item.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -5556,13 +5677,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -5571,9 +5691,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ClaimResponse.Item.Adjudication.Builder builder = ClaimResponse.Item.Adjudication.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -5601,13 +5723,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -5616,9 +5737,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ClaimResponse.Item.Detail.Builder builder = ClaimResponse.Item.Detail.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -5646,13 +5769,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -5661,9 +5783,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ClaimResponse.Item.Detail.SubDetail.Builder builder = ClaimResponse.Item.Detail.SubDetail.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -5688,13 +5812,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -5703,9 +5826,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ClaimResponse.Payment.Builder builder = ClaimResponse.Payment.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -5739,13 +5864,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -5754,9 +5878,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ClaimResponse.ProcessNote.Builder builder = ClaimResponse.ProcessNote.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -5784,13 +5910,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -5799,9 +5924,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ClaimResponse.Total.Builder builder = ClaimResponse.Total.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -5823,13 +5950,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -5842,6 +5968,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -5935,7 +6062,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -5949,9 +6076,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ClinicalImpression.Finding.Builder builder = ClinicalImpression.Finding.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -5976,13 +6105,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -5991,9 +6119,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ClinicalImpression.Investigation.Builder builder = ClinicalImpression.Investigation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -6015,13 +6145,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -6034,6 +6163,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -6142,7 +6272,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -6156,9 +6286,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CodeSystem.Concept.Builder builder = CodeSystem.Concept.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -6192,13 +6324,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -6207,9 +6338,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CodeSystem.Concept.Designation.Builder builder = CodeSystem.Concept.Designation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -6234,13 +6367,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -6249,9 +6381,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CodeSystem.Concept.Property.Builder builder = CodeSystem.Concept.Property.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -6291,13 +6425,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -6306,9 +6439,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CodeSystem.Filter.Builder builder = CodeSystem.Filter.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -6336,13 +6471,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -6351,9 +6485,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CodeSystem.Property.Builder builder = CodeSystem.Property.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -6381,13 +6517,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -6395,14 +6530,17 @@ public class FHIRXMLParser implements FHIRParser {
     private CodeableConcept parseCodeableConcept(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CodeableConcept.Builder builder = CodeableConcept.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -6417,13 +6555,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -6431,14 +6568,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Coding parseCoding(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Coding.Builder builder = Coding.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -6462,13 +6602,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -6481,6 +6620,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -6580,7 +6720,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -6594,9 +6734,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Communication.Payload.Builder builder = Communication.Payload.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -6621,13 +6763,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -6640,6 +6781,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -6739,7 +6881,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -6753,9 +6895,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CommunicationRequest.Payload.Builder builder = CommunicationRequest.Payload.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -6780,13 +6924,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -6799,6 +6942,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -6871,7 +7015,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -6885,9 +7029,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CompartmentDefinition.Resource.Builder builder = CompartmentDefinition.Resource.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -6912,13 +7058,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -6931,6 +7076,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -7006,7 +7152,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -7020,9 +7166,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Composition.Attester.Builder builder = Composition.Attester.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -7047,13 +7195,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -7062,9 +7209,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Composition.Event.Builder builder = Composition.Event.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -7089,13 +7238,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -7104,9 +7252,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Composition.RelatesTo.Builder builder = Composition.RelatesTo.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -7131,13 +7281,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -7146,9 +7295,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Composition.Section.Builder builder = Composition.Section.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -7194,13 +7345,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -7213,6 +7363,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -7303,7 +7454,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -7317,9 +7468,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ConceptMap.Group.Builder builder = ConceptMap.Group.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -7353,13 +7506,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -7368,9 +7520,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ConceptMap.Group.Element.Builder builder = ConceptMap.Group.Element.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -7395,13 +7549,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -7410,9 +7563,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ConceptMap.Group.Element.Target.Builder builder = ConceptMap.Group.Element.Target.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -7446,13 +7601,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -7461,9 +7615,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ConceptMap.Group.Element.Target.DependsOn.Builder builder = ConceptMap.Group.Element.Target.DependsOn.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -7491,13 +7647,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -7506,9 +7661,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ConceptMap.Group.Unmapped.Builder builder = ConceptMap.Group.Unmapped.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -7536,13 +7693,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -7555,6 +7711,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -7660,7 +7817,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -7674,9 +7831,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Condition.Evidence.Builder builder = Condition.Evidence.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -7698,13 +7857,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -7713,9 +7871,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Condition.Stage.Builder builder = Condition.Stage.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -7740,13 +7900,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -7759,6 +7918,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -7831,7 +7991,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -7845,9 +8005,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Consent.Policy.Builder builder = Consent.Policy.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -7869,13 +8031,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -7884,9 +8045,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Consent.Provision.Builder builder = Consent.Provision.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -7935,13 +8098,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -7950,9 +8112,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Consent.Provision.Actor.Builder builder = Consent.Provision.Actor.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -7974,13 +8138,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -7989,9 +8152,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Consent.Provision.Data.Builder builder = Consent.Provision.Data.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -8013,13 +8178,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -8028,9 +8192,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Consent.Verification.Builder builder = Consent.Verification.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -8055,13 +8221,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -8069,14 +8234,17 @@ public class FHIRXMLParser implements FHIRParser {
     private ContactDetail parseContactDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ContactDetail.Builder builder = ContactDetail.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8091,13 +8259,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -8105,14 +8272,17 @@ public class FHIRXMLParser implements FHIRParser {
     private ContactPoint parseContactPoint(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ContactPoint.Builder builder = ContactPoint.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8136,13 +8306,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -8155,6 +8324,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -8290,7 +8460,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -8304,9 +8474,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Contract.ContentDefinition.Builder builder = Contract.ContentDefinition.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -8340,13 +8512,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -8355,9 +8526,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Contract.Friendly.Builder builder = Contract.Friendly.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -8379,13 +8552,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -8394,9 +8566,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Contract.Legal.Builder builder = Contract.Legal.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -8418,13 +8592,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -8433,9 +8606,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Contract.Rule.Builder builder = Contract.Rule.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -8457,13 +8632,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -8472,9 +8646,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Contract.Signer.Builder builder = Contract.Signer.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -8499,13 +8675,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -8514,9 +8689,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Contract.Term.Builder builder = Contract.Term.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -8571,13 +8748,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -8586,9 +8762,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Contract.Term.Action.Builder builder = Contract.Term.Action.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -8673,13 +8851,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -8688,9 +8865,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Contract.Term.Action.Subject.Builder builder = Contract.Term.Action.Subject.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -8712,13 +8891,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -8727,9 +8905,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Contract.Term.Asset.Builder builder = Contract.Term.Asset.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -8790,13 +8970,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -8805,9 +8984,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Contract.Term.Asset.Context.Builder builder = Contract.Term.Asset.Context.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -8832,13 +9013,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -8847,9 +9027,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Contract.Term.Asset.ValuedItem.Builder builder = Contract.Term.Asset.ValuedItem.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -8910,13 +9092,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -8925,9 +9106,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Contract.Term.Offer.Builder builder = Contract.Term.Offer.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -8973,13 +9156,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -8988,9 +9170,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Contract.Term.Offer.Answer.Builder builder = Contract.Term.Offer.Answer.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -9042,13 +9226,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -9057,9 +9240,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Contract.Term.Offer.Party.Builder builder = Contract.Term.Offer.Party.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -9081,13 +9266,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -9096,9 +9280,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Contract.Term.SecurityLabel.Builder builder = Contract.Term.SecurityLabel.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -9126,13 +9312,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -9140,14 +9325,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Contributor parseContributor(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contributor.Builder builder = Contributor.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -9165,13 +9353,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -9184,6 +9371,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -9265,7 +9453,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -9279,9 +9467,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Coverage.Class.Builder builder = Coverage.Class.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -9306,13 +9496,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -9321,9 +9510,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Coverage.CostToBeneficiary.Builder builder = Coverage.CostToBeneficiary.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -9351,13 +9542,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -9366,9 +9556,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Coverage.CostToBeneficiary.Exception.Builder builder = Coverage.CostToBeneficiary.Exception.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -9390,13 +9582,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -9409,6 +9600,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -9484,7 +9676,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -9498,9 +9690,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CoverageEligibilityRequest.Insurance.Builder builder = CoverageEligibilityRequest.Insurance.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -9525,13 +9719,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -9540,9 +9733,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CoverageEligibilityRequest.Item.Builder builder = CoverageEligibilityRequest.Item.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -9588,13 +9783,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -9603,9 +9797,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CoverageEligibilityRequest.Item.Diagnosis.Builder builder = CoverageEligibilityRequest.Item.Diagnosis.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -9627,13 +9823,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -9642,9 +9837,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CoverageEligibilityRequest.SupportingInfo.Builder builder = CoverageEligibilityRequest.SupportingInfo.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -9669,13 +9866,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -9688,6 +9884,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -9766,7 +9963,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -9780,9 +9977,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CoverageEligibilityResponse.Error.Builder builder = CoverageEligibilityResponse.Error.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -9801,13 +10000,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -9816,9 +10014,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CoverageEligibilityResponse.Insurance.Builder builder = CoverageEligibilityResponse.Insurance.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -9846,13 +10046,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -9861,9 +10060,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CoverageEligibilityResponse.Insurance.Item.Builder builder = CoverageEligibilityResponse.Insurance.Item.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -9921,13 +10122,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -9936,9 +10136,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         CoverageEligibilityResponse.Insurance.Item.Benefit.Builder builder = CoverageEligibilityResponse.Insurance.Item.Benefit.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -9975,13 +10177,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -9989,14 +10190,17 @@ public class FHIRXMLParser implements FHIRParser {
     private DataRequirement parseDataRequirement(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DataRequirement.Builder builder = DataRequirement.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10032,13 +10236,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -10047,9 +10250,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DataRequirement.CodeFilter.Builder builder = DataRequirement.CodeFilter.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -10077,13 +10282,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -10092,9 +10296,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DataRequirement.DateFilter.Builder builder = DataRequirement.DateFilter.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -10125,13 +10331,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -10140,9 +10345,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DataRequirement.Sort.Builder builder = DataRequirement.Sort.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -10164,13 +10371,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -10178,18 +10384,21 @@ public class FHIRXMLParser implements FHIRParser {
     private Date parseDate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Date.Builder builder = Date.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         java.lang.String value = reader.getAttributeValue(null, "value");
         if (value != null) {
             builder.value(value);
         }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10198,13 +10407,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -10212,18 +10420,21 @@ public class FHIRXMLParser implements FHIRParser {
     private DateTime parseDateTime(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DateTime.Builder builder = DateTime.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         java.lang.String value = reader.getAttributeValue(null, "value");
         if (value != null) {
             builder.value(value);
         }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10232,13 +10443,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -10246,18 +10456,21 @@ public class FHIRXMLParser implements FHIRParser {
     private Decimal parseDecimal(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Decimal.Builder builder = Decimal.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         java.lang.String value = reader.getAttributeValue(null, "value");
         if (value != null) {
             builder.value(value);
         }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10266,13 +10479,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -10285,6 +10497,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -10354,7 +10567,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -10368,9 +10581,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DetectedIssue.Evidence.Builder builder = DetectedIssue.Evidence.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -10392,13 +10607,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -10407,9 +10621,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DetectedIssue.Mitigation.Builder builder = DetectedIssue.Mitigation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -10434,13 +10650,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -10453,6 +10668,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -10561,7 +10777,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -10575,9 +10791,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Device.DeviceName.Builder builder = Device.DeviceName.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -10599,13 +10817,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -10614,9 +10831,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Device.Property.Builder builder = Device.Property.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -10641,13 +10860,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -10656,9 +10874,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Device.Specialization.Builder builder = Device.Specialization.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -10680,13 +10900,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -10695,9 +10914,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Device.UdiCarrier.Builder builder = Device.UdiCarrier.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -10731,13 +10952,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -10746,9 +10966,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Device.Version.Builder builder = Device.Version.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -10773,13 +10995,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -10792,6 +11013,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -10891,7 +11113,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -10905,9 +11127,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DeviceDefinition.Capability.Builder builder = DeviceDefinition.Capability.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -10929,13 +11153,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -10944,9 +11167,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DeviceDefinition.DeviceName.Builder builder = DeviceDefinition.DeviceName.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -10968,13 +11193,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -10983,9 +11207,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DeviceDefinition.Material.Builder builder = DeviceDefinition.Material.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -11010,13 +11236,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -11025,9 +11250,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DeviceDefinition.Property.Builder builder = DeviceDefinition.Property.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -11052,13 +11279,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -11067,9 +11293,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DeviceDefinition.Specialization.Builder builder = DeviceDefinition.Specialization.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -11091,13 +11319,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -11106,9 +11333,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DeviceDefinition.UdiDeviceIdentifier.Builder builder = DeviceDefinition.UdiDeviceIdentifier.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -11133,13 +11362,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -11152,6 +11380,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -11212,7 +11441,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -11226,9 +11455,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DeviceMetric.Calibration.Builder builder = DeviceMetric.Calibration.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -11253,13 +11484,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -11272,6 +11502,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -11383,7 +11614,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -11397,9 +11628,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DeviceRequest.Parameter.Builder builder = DeviceRequest.Parameter.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -11430,13 +11663,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -11449,6 +11681,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -11524,7 +11757,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -11542,6 +11775,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -11629,7 +11863,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -11643,9 +11877,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DiagnosticReport.Media.Builder builder = DiagnosticReport.Media.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -11667,13 +11903,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -11686,6 +11921,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -11752,7 +11988,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -11766,9 +12002,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DocumentManifest.Related.Builder builder = DocumentManifest.Related.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -11790,13 +12028,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -11809,6 +12046,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -11887,7 +12125,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -11901,9 +12139,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DocumentReference.Content.Builder builder = DocumentReference.Content.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -11925,13 +12165,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -11940,9 +12179,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DocumentReference.Context.Builder builder = DocumentReference.Context.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -11979,13 +12220,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -11994,9 +12234,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         DocumentReference.RelatesTo.Builder builder = DocumentReference.RelatesTo.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -12018,13 +12260,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -12032,14 +12273,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Dosage parseDosage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Dosage.Builder builder = Dosage.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -12093,13 +12337,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -12108,9 +12351,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Dosage.DoseAndRate.Builder builder = Dosage.DoseAndRate.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -12144,13 +12389,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -12163,6 +12407,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -12292,7 +12537,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -12306,9 +12551,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.Certainty.Builder builder = EffectEvidenceSynthesis.Certainty.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -12333,13 +12580,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -12348,9 +12594,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.Builder builder = EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -12375,13 +12623,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -12390,9 +12637,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.EffectEstimate.Builder builder = EffectEvidenceSynthesis.EffectEstimate.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -12426,13 +12675,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -12441,9 +12689,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.Builder builder = EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -12471,13 +12721,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -12486,9 +12735,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.ResultsByExposure.Builder builder = EffectEvidenceSynthesis.ResultsByExposure.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -12516,13 +12767,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -12531,9 +12781,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.SampleSize.Builder builder = EffectEvidenceSynthesis.SampleSize.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -12558,13 +12810,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -12572,14 +12823,17 @@ public class FHIRXMLParser implements FHIRParser {
     private ElementDefinition parseElementDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Builder builder = ElementDefinition.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -13173,13 +13427,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -13188,9 +13441,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ElementDefinition.Base.Builder builder = ElementDefinition.Base.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -13215,13 +13470,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -13230,9 +13484,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ElementDefinition.Binding.Builder builder = ElementDefinition.Binding.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -13257,13 +13513,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -13272,9 +13527,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ElementDefinition.Constraint.Builder builder = ElementDefinition.Constraint.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -13311,13 +13568,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -13326,9 +13582,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ElementDefinition.Example.Builder builder = ElementDefinition.Example.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -13494,13 +13752,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -13509,9 +13766,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ElementDefinition.Mapping.Builder builder = ElementDefinition.Mapping.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -13539,13 +13798,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -13554,9 +13812,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ElementDefinition.Slicing.Builder builder = ElementDefinition.Slicing.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -13584,13 +13844,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -13599,9 +13858,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ElementDefinition.Slicing.Discriminator.Builder builder = ElementDefinition.Slicing.Discriminator.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -13623,13 +13884,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -13638,9 +13898,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ElementDefinition.Type.Builder builder = ElementDefinition.Type.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -13671,13 +13933,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -13690,6 +13951,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -13789,7 +14051,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -13803,9 +14065,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Encounter.ClassHistory.Builder builder = Encounter.ClassHistory.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -13827,13 +14091,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -13842,9 +14105,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Encounter.Diagnosis.Builder builder = Encounter.Diagnosis.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -13869,13 +14134,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -13884,9 +14148,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Encounter.Hospitalization.Builder builder = Encounter.Hospitalization.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -13929,13 +14195,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -13944,9 +14209,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Encounter.Location.Builder builder = Encounter.Location.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -13974,13 +14241,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -13989,9 +14255,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Encounter.Participant.Builder builder = Encounter.Participant.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -14016,13 +14284,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -14031,9 +14298,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Encounter.StatusHistory.Builder builder = Encounter.StatusHistory.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -14055,13 +14324,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -14074,6 +14342,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -14137,7 +14406,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -14155,6 +14424,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -14206,7 +14476,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -14224,6 +14494,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -14278,7 +14549,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -14296,6 +14567,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -14362,7 +14634,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -14376,9 +14648,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         EpisodeOfCare.Diagnosis.Builder builder = EpisodeOfCare.Diagnosis.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -14403,13 +14677,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -14418,9 +14691,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         EpisodeOfCare.StatusHistory.Builder builder = EpisodeOfCare.StatusHistory.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -14442,13 +14717,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -14461,6 +14735,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -14578,7 +14853,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -14596,6 +14871,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -14710,7 +14986,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -14728,6 +15004,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -14839,7 +15116,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -14853,9 +15130,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         EvidenceVariable.Characteristic.Builder builder = EvidenceVariable.Characteristic.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -14916,13 +15195,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -14935,6 +15213,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -15016,7 +15295,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -15030,9 +15309,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExampleScenario.Actor.Builder builder = ExampleScenario.Actor.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -15060,13 +15341,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -15075,9 +15355,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExampleScenario.Instance.Builder builder = ExampleScenario.Instance.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -15111,13 +15393,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -15126,9 +15407,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExampleScenario.Instance.ContainedInstance.Builder builder = ExampleScenario.Instance.ContainedInstance.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -15150,13 +15433,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -15165,9 +15447,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExampleScenario.Instance.Version.Builder builder = ExampleScenario.Instance.Version.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -15189,13 +15473,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -15204,9 +15487,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExampleScenario.Process.Builder builder = ExampleScenario.Process.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -15237,13 +15522,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -15252,9 +15536,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExampleScenario.Process.Step.Builder builder = ExampleScenario.Process.Step.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -15282,13 +15568,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -15297,9 +15582,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExampleScenario.Process.Step.Alternative.Builder builder = ExampleScenario.Process.Step.Alternative.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -15324,13 +15611,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -15339,9 +15625,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExampleScenario.Process.Step.Operation.Builder builder = ExampleScenario.Process.Step.Operation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -15387,13 +15675,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -15406,6 +15693,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -15565,7 +15853,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -15579,9 +15867,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Accident.Builder builder = ExplanationOfBenefit.Accident.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -15609,13 +15899,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -15624,9 +15913,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.AddItem.Builder builder = ExplanationOfBenefit.AddItem.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -15705,13 +15996,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -15720,9 +16010,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.AddItem.Detail.Builder builder = ExplanationOfBenefit.AddItem.Detail.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -15765,13 +16057,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -15780,9 +16071,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.AddItem.Detail.SubDetail.Builder builder = ExplanationOfBenefit.AddItem.Detail.SubDetail.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -15822,13 +16115,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -15837,9 +16129,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.BenefitBalance.Builder builder = ExplanationOfBenefit.BenefitBalance.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -15879,13 +16173,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -15894,9 +16187,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.BenefitBalance.Financial.Builder builder = ExplanationOfBenefit.BenefitBalance.Financial.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -15930,13 +16225,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -15945,9 +16239,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.CareTeam.Builder builder = ExplanationOfBenefit.CareTeam.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -15978,13 +16274,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -15993,9 +16288,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Diagnosis.Builder builder = ExplanationOfBenefit.Diagnosis.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -16029,13 +16326,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -16044,9 +16340,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Insurance.Builder builder = ExplanationOfBenefit.Insurance.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -16071,13 +16369,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -16086,9 +16383,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Item.Builder builder = ExplanationOfBenefit.Item.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -16182,13 +16481,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -16197,9 +16495,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Item.Adjudication.Builder builder = ExplanationOfBenefit.Item.Adjudication.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -16227,13 +16527,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -16242,9 +16541,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Item.Detail.Builder builder = ExplanationOfBenefit.Item.Detail.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -16302,13 +16603,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -16317,9 +16617,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Item.Detail.SubDetail.Builder builder = ExplanationOfBenefit.Item.Detail.SubDetail.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -16374,13 +16676,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -16389,9 +16690,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Payee.Builder builder = ExplanationOfBenefit.Payee.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -16413,13 +16716,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -16428,9 +16730,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Payment.Builder builder = ExplanationOfBenefit.Payment.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -16464,13 +16768,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -16479,9 +16782,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Procedure.Builder builder = ExplanationOfBenefit.Procedure.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -16515,13 +16820,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -16530,9 +16834,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.ProcessNote.Builder builder = ExplanationOfBenefit.ProcessNote.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -16560,13 +16866,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -16575,9 +16880,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Related.Builder builder = ExplanationOfBenefit.Related.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -16602,13 +16909,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -16617,9 +16923,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.SupportingInfo.Builder builder = ExplanationOfBenefit.SupportingInfo.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -16668,13 +16976,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -16683,9 +16990,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Total.Builder builder = ExplanationOfBenefit.Total.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -16707,13 +17016,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -16721,14 +17029,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Expression parseExpression(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Expression.Builder builder = Expression.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16752,13 +17063,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -16766,19 +17076,23 @@ public class FHIRXMLParser implements FHIRParser {
     private Extension parseExtension(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Extension.Builder builder = Extension.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        java.lang.String url = reader.getAttributeValue(null, "url");
+        if (url != null) {
+            builder.url(url);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
-                    break;
-                case "url":
-                    builder.url(parseJavaString("url", reader, -1));
                     break;
                 case "valueBase64Binary":
                     builder.value(parseBase64Binary("valueBase64Binary", reader, -1));
@@ -16932,13 +17246,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -16951,6 +17264,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -17059,7 +17373,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -17073,9 +17387,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         FamilyMemberHistory.Condition.Builder builder = FamilyMemberHistory.Condition.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -17115,13 +17431,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -17134,6 +17449,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -17188,7 +17504,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -17206,6 +17522,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -17287,7 +17604,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -17301,9 +17618,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Goal.Target.Builder builder = Goal.Target.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -17349,13 +17668,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -17368,6 +17686,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -17443,7 +17762,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -17457,9 +17776,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         GraphDefinition.Link.Builder builder = GraphDefinition.Link.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -17493,13 +17814,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -17508,9 +17828,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         GraphDefinition.Link.Target.Builder builder = GraphDefinition.Link.Target.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -17541,13 +17863,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -17556,9 +17877,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         GraphDefinition.Link.Target.Compartment.Builder builder = GraphDefinition.Link.Target.Compartment.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -17589,13 +17912,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -17608,6 +17930,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -17668,7 +17991,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -17682,9 +18005,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Group.Characteristic.Builder builder = Group.Characteristic.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -17724,13 +18049,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -17739,9 +18063,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Group.Member.Builder builder = Group.Member.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -17766,13 +18092,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -17785,6 +18110,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -17866,7 +18192,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -17884,6 +18210,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -17986,7 +18313,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -18000,9 +18327,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         HealthcareService.AvailableTime.Builder builder = HealthcareService.AvailableTime.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -18030,13 +18359,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -18045,9 +18373,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         HealthcareService.Eligibility.Builder builder = HealthcareService.Eligibility.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -18069,13 +18399,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -18084,9 +18413,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         HealthcareService.NotAvailable.Builder builder = HealthcareService.NotAvailable.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -18108,13 +18439,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -18122,14 +18452,17 @@ public class FHIRXMLParser implements FHIRParser {
     private HumanName parseHumanName(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         HumanName.Builder builder = HumanName.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -18159,13 +18492,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -18173,14 +18505,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Identifier parseIdentifier(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Identifier.Builder builder = Identifier.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -18207,13 +18542,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -18226,6 +18560,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -18316,7 +18651,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -18330,9 +18665,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ImagingStudy.Series.Builder builder = ImagingStudy.Series.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -18384,13 +18721,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -18399,9 +18735,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ImagingStudy.Series.Instance.Builder builder = ImagingStudy.Series.Instance.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -18429,13 +18767,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -18444,9 +18781,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ImagingStudy.Series.Performer.Builder builder = ImagingStudy.Series.Performer.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -18468,13 +18807,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -18487,6 +18825,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -18604,7 +18943,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -18618,9 +18957,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Immunization.Education.Builder builder = Immunization.Education.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -18648,13 +18989,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -18663,9 +19003,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Immunization.Performer.Builder builder = Immunization.Performer.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -18687,13 +19029,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -18702,9 +19043,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Immunization.ProtocolApplied.Builder builder = Immunization.ProtocolApplied.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -18741,13 +19084,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -18756,9 +19098,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Immunization.Reaction.Builder builder = Immunization.Reaction.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -18783,13 +19127,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -18802,6 +19145,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -18877,7 +19221,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -18895,6 +19239,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -18940,7 +19285,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -18954,9 +19299,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ImmunizationRecommendation.Recommendation.Builder builder = ImmunizationRecommendation.Recommendation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19014,13 +19361,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19029,9 +19375,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ImmunizationRecommendation.Recommendation.DateCriterion.Builder builder = ImmunizationRecommendation.Recommendation.DateCriterion.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19053,13 +19401,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19072,6 +19419,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -19162,7 +19510,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -19176,9 +19524,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Builder builder = ImplementationGuide.Definition.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19209,13 +19559,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19224,9 +19573,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Grouping.Builder builder = ImplementationGuide.Definition.Grouping.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19248,13 +19599,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19263,9 +19613,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Page.Builder builder = ImplementationGuide.Definition.Page.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19296,13 +19648,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19311,9 +19662,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Parameter.Builder builder = ImplementationGuide.Definition.Parameter.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19335,13 +19688,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19350,9 +19702,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Resource.Builder builder = ImplementationGuide.Definition.Resource.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19389,13 +19743,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19404,9 +19757,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Template.Builder builder = ImplementationGuide.Definition.Template.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19431,13 +19786,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19446,9 +19800,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ImplementationGuide.DependsOn.Builder builder = ImplementationGuide.DependsOn.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19473,13 +19829,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19488,9 +19843,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Global.Builder builder = ImplementationGuide.Global.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19512,13 +19869,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19527,9 +19883,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Manifest.Builder builder = ImplementationGuide.Manifest.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19560,13 +19918,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19575,9 +19932,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Manifest.Page.Builder builder = ImplementationGuide.Manifest.Page.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19602,13 +19961,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19617,9 +19975,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Manifest.Resource.Builder builder = ImplementationGuide.Manifest.Resource.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19647,13 +20007,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19661,18 +20020,21 @@ public class FHIRXMLParser implements FHIRParser {
     private Instant parseInstant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Instant.Builder builder = Instant.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         java.lang.String value = reader.getAttributeValue(null, "value");
         if (value != null) {
             builder.value(value);
         }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19681,13 +20043,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19700,6 +20061,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -19772,7 +20134,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -19786,9 +20148,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         InsurancePlan.Contact.Builder builder = InsurancePlan.Contact.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19816,13 +20180,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19831,9 +20194,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         InsurancePlan.Coverage.Builder builder = InsurancePlan.Coverage.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19858,13 +20223,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19873,9 +20237,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         InsurancePlan.Coverage.Benefit.Builder builder = InsurancePlan.Coverage.Benefit.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19900,13 +20266,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19915,9 +20280,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         InsurancePlan.Coverage.Benefit.Limit.Builder builder = InsurancePlan.Coverage.Benefit.Limit.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19939,13 +20306,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -19954,9 +20320,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         InsurancePlan.Plan.Builder builder = InsurancePlan.Plan.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -19990,13 +20358,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -20005,9 +20372,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         InsurancePlan.Plan.GeneralCost.Builder builder = InsurancePlan.Plan.GeneralCost.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -20035,13 +20404,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -20050,9 +20418,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         InsurancePlan.Plan.SpecificCost.Builder builder = InsurancePlan.Plan.SpecificCost.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -20074,13 +20444,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -20089,9 +20458,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         InsurancePlan.Plan.SpecificCost.Benefit.Builder builder = InsurancePlan.Plan.SpecificCost.Benefit.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -20113,13 +20484,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -20128,9 +20498,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         InsurancePlan.Plan.SpecificCost.Benefit.Cost.Builder builder = InsurancePlan.Plan.SpecificCost.Benefit.Cost.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -20158,31 +20530,33 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
 
     private Integer parseInteger(Integer.Builder builder, java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         java.lang.String value = reader.getAttributeValue(null, "value");
         if (value != null) {
             builder.value(value);
         }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -20191,13 +20565,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -20214,6 +20587,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -20292,7 +20666,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -20306,9 +20680,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Invoice.LineItem.Builder builder = Invoice.LineItem.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -20336,13 +20712,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -20351,9 +20726,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Invoice.LineItem.PriceComponent.Builder builder = Invoice.LineItem.PriceComponent.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -20381,13 +20758,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -20396,9 +20772,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Invoice.Participant.Builder builder = Invoice.Participant.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -20420,13 +20798,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -20439,6 +20816,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -20565,7 +20943,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -20583,6 +20961,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -20622,7 +21001,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -20636,9 +21015,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Linkage.Item.Builder builder = Linkage.Item.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -20660,13 +21041,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -20679,6 +21059,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -20748,7 +21129,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -20762,9 +21143,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         List.Entry.Builder builder = List.Entry.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -20792,13 +21175,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -20811,6 +21193,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -20892,7 +21275,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -20906,9 +21289,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Location.HoursOfOperation.Builder builder = Location.HoursOfOperation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -20936,13 +21321,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -20951,9 +21335,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Location.Position.Builder builder = Location.Position.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -20978,13 +21364,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -20992,14 +21377,17 @@ public class FHIRXMLParser implements FHIRParser {
     private MarketingStatus parseMarketingStatus(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MarketingStatus.Builder builder = MarketingStatus.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -21026,13 +21414,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -21045,6 +21432,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -21201,7 +21589,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -21215,9 +21603,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Measure.Group.Builder builder = Measure.Group.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -21245,13 +21635,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -21260,9 +21649,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Measure.Group.Population.Builder builder = Measure.Group.Population.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -21287,13 +21678,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -21302,9 +21692,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Measure.Group.Stratifier.Builder builder = Measure.Group.Stratifier.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -21332,13 +21724,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -21347,9 +21738,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Measure.Group.Stratifier.Component.Builder builder = Measure.Group.Stratifier.Component.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -21374,13 +21767,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -21389,9 +21781,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Measure.SupplementalData.Builder builder = Measure.SupplementalData.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -21419,13 +21813,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -21438,6 +21831,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -21501,7 +21895,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -21515,9 +21909,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Builder builder = MeasureReport.Group.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -21545,13 +21941,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -21560,9 +21955,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Population.Builder builder = MeasureReport.Group.Population.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -21587,13 +21984,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -21602,9 +21998,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Stratifier.Builder builder = MeasureReport.Group.Stratifier.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -21626,13 +22024,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -21641,9 +22038,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Stratifier.Stratum.Builder builder = MeasureReport.Group.Stratifier.Stratum.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -21671,13 +22070,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -21686,9 +22084,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Stratifier.Stratum.Component.Builder builder = MeasureReport.Group.Stratifier.Stratum.Component.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -21710,13 +22110,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -21725,9 +22124,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Stratifier.Stratum.Population.Builder builder = MeasureReport.Group.Stratifier.Stratum.Population.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -21752,13 +22153,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -21771,6 +22171,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -21870,7 +22271,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -21888,6 +22289,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -21942,7 +22344,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -21956,9 +22358,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Medication.Batch.Builder builder = Medication.Batch.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -21980,13 +22384,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -21995,9 +22398,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Medication.Ingredient.Builder builder = Medication.Ingredient.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -22025,13 +22430,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -22044,6 +22448,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -22137,7 +22542,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -22151,9 +22556,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationAdministration.Dosage.Builder builder = MedicationAdministration.Dosage.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -22190,13 +22597,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -22205,9 +22611,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationAdministration.Performer.Builder builder = MedicationAdministration.Performer.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -22229,13 +22637,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -22248,6 +22655,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -22356,7 +22764,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -22370,9 +22778,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationDispense.Performer.Builder builder = MedicationDispense.Performer.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -22394,13 +22804,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -22409,9 +22818,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationDispense.Substitution.Builder builder = MedicationDispense.Substitution.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -22439,13 +22850,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -22458,6 +22868,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -22554,7 +22965,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -22568,9 +22979,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.AdministrationGuidelines.Builder builder = MedicationKnowledge.AdministrationGuidelines.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -22598,13 +23011,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -22613,9 +23025,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.AdministrationGuidelines.Dosage.Builder builder = MedicationKnowledge.AdministrationGuidelines.Dosage.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -22637,13 +23051,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -22652,9 +23065,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.Builder builder = MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -22679,13 +23094,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -22694,9 +23108,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Cost.Builder builder = MedicationKnowledge.Cost.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -22721,13 +23137,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -22736,9 +23151,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.DrugCharacteristic.Builder builder = MedicationKnowledge.DrugCharacteristic.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -22769,13 +23186,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -22784,9 +23200,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Ingredient.Builder builder = MedicationKnowledge.Ingredient.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -22814,13 +23232,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -22829,9 +23246,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Kinetics.Builder builder = MedicationKnowledge.Kinetics.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -22856,13 +23275,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -22871,9 +23289,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.MedicineClassification.Builder builder = MedicationKnowledge.MedicineClassification.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -22895,13 +23315,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -22910,9 +23329,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.MonitoringProgram.Builder builder = MedicationKnowledge.MonitoringProgram.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -22934,13 +23355,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -22949,9 +23369,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Monograph.Builder builder = MedicationKnowledge.Monograph.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -22973,13 +23395,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -22988,9 +23409,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Packaging.Builder builder = MedicationKnowledge.Packaging.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -23012,13 +23435,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -23027,9 +23449,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Regulatory.Builder builder = MedicationKnowledge.Regulatory.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -23057,13 +23481,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -23072,9 +23495,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Regulatory.MaxDispense.Builder builder = MedicationKnowledge.Regulatory.MaxDispense.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -23096,13 +23521,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -23111,9 +23535,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Regulatory.Schedule.Builder builder = MedicationKnowledge.Regulatory.Schedule.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -23132,13 +23558,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -23147,9 +23572,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Regulatory.Substitution.Builder builder = MedicationKnowledge.Regulatory.Substitution.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -23171,13 +23598,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -23186,9 +23612,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.RelatedMedicationKnowledge.Builder builder = MedicationKnowledge.RelatedMedicationKnowledge.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -23210,13 +23638,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -23229,6 +23656,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -23361,7 +23789,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -23375,9 +23803,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationRequest.DispenseRequest.Builder builder = MedicationRequest.DispenseRequest.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -23414,13 +23844,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -23429,9 +23858,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationRequest.DispenseRequest.InitialFill.Builder builder = MedicationRequest.DispenseRequest.InitialFill.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -23453,13 +23884,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -23468,9 +23898,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicationRequest.Substitution.Builder builder = MedicationRequest.Substitution.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -23495,13 +23927,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -23514,6 +23945,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -23601,7 +24033,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -23619,6 +24051,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -23709,7 +24142,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -23723,9 +24156,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProduct.ManufacturingBusinessOperation.Builder builder = MedicinalProduct.ManufacturingBusinessOperation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -23759,13 +24194,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -23774,9 +24208,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProduct.Name.Builder builder = MedicinalProduct.Name.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -23801,13 +24237,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -23816,9 +24251,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProduct.Name.CountryLanguage.Builder builder = MedicinalProduct.Name.CountryLanguage.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -23843,13 +24280,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -23858,9 +24294,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProduct.Name.NamePart.Builder builder = MedicinalProduct.Name.NamePart.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -23882,13 +24320,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -23897,9 +24334,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProduct.SpecialDesignation.Builder builder = MedicinalProduct.SpecialDesignation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -23939,13 +24378,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -23958,6 +24396,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -24036,7 +24475,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -24050,9 +24489,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProductAuthorization.JurisdictionalAuthorization.Builder builder = MedicinalProductAuthorization.JurisdictionalAuthorization.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -24083,13 +24524,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -24098,9 +24538,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProductAuthorization.Procedure.Builder builder = MedicinalProductAuthorization.Procedure.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -24131,13 +24573,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -24150,6 +24591,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -24201,7 +24643,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -24215,9 +24657,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProductContraindication.OtherTherapy.Builder builder = MedicinalProductContraindication.OtherTherapy.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -24242,13 +24686,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -24261,6 +24704,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -24318,7 +24762,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -24332,9 +24776,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProductIndication.OtherTherapy.Builder builder = MedicinalProductIndication.OtherTherapy.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -24359,13 +24805,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -24378,6 +24823,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -24426,7 +24872,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -24440,9 +24886,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProductIngredient.SpecifiedSubstance.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -24470,13 +24918,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -24485,9 +24932,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProductIngredient.SpecifiedSubstance.Strength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -24524,13 +24973,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -24539,9 +24987,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -24572,13 +25022,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -24587,9 +25036,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProductIngredient.Substance.Builder builder = MedicinalProductIngredient.Substance.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -24611,13 +25062,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -24630,6 +25080,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -24681,7 +25132,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -24695,9 +25146,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProductInteraction.Interactant.Builder builder = MedicinalProductInteraction.Interactant.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -24719,13 +25172,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -24738,6 +25190,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -24789,7 +25242,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -24807,6 +25260,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -24864,7 +25318,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -24878,9 +25332,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProductPackaged.BatchIdentifier.Builder builder = MedicinalProductPackaged.BatchIdentifier.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -24902,13 +25358,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -24917,9 +25372,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProductPackaged.PackageItem.Builder builder = MedicinalProductPackaged.PackageItem.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -24971,13 +25428,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -24990,6 +25446,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -25041,7 +25498,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -25055,9 +25512,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProductPharmaceutical.Characteristics.Builder builder = MedicinalProductPharmaceutical.Characteristics.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -25079,13 +25538,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -25094,9 +25552,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProductPharmaceutical.RouteOfAdministration.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -25133,13 +25593,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -25148,9 +25607,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -25172,13 +25633,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -25187,9 +25647,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -25214,13 +25676,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -25233,6 +25694,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -25278,7 +25740,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -25296,6 +25758,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -25401,7 +25864,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -25415,9 +25878,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MessageDefinition.AllowedResponse.Builder builder = MessageDefinition.AllowedResponse.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -25439,13 +25904,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -25454,9 +25918,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MessageDefinition.Focus.Builder builder = MessageDefinition.Focus.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -25484,13 +25950,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -25503,6 +25968,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -25569,7 +26035,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -25583,9 +26049,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MessageHeader.Destination.Builder builder = MessageHeader.Destination.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -25613,13 +26081,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -25628,9 +26095,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MessageHeader.Response.Builder builder = MessageHeader.Response.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -25655,13 +26124,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -25670,9 +26138,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MessageHeader.Source.Builder builder = MessageHeader.Source.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -25703,13 +26173,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -25717,14 +26186,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Meta parseMeta(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Meta.Builder builder = Meta.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -25751,13 +26223,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -25770,6 +26241,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -25836,7 +26308,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -25854,6 +26326,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -25932,7 +26405,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -25946,9 +26419,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MolecularSequence.Quality.Builder builder = MolecularSequence.Quality.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -26009,13 +26484,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26024,9 +26498,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MolecularSequence.Quality.Roc.Builder builder = MolecularSequence.Quality.Roc.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -26063,13 +26539,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26078,9 +26553,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MolecularSequence.ReferenceSeq.Builder builder = MolecularSequence.ReferenceSeq.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -26123,13 +26600,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26138,9 +26614,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MolecularSequence.Repository.Builder builder = MolecularSequence.Repository.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -26174,13 +26652,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26189,9 +26666,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MolecularSequence.StructureVariant.Builder builder = MolecularSequence.StructureVariant.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -26222,13 +26701,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26237,9 +26715,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MolecularSequence.StructureVariant.Inner.Builder builder = MolecularSequence.StructureVariant.Inner.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -26261,13 +26741,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26276,9 +26755,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MolecularSequence.StructureVariant.Outer.Builder builder = MolecularSequence.StructureVariant.Outer.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -26300,13 +26781,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26315,9 +26795,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         MolecularSequence.Variant.Builder builder = MolecularSequence.Variant.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -26351,13 +26833,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26365,14 +26846,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Money parseMoney(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Money.Builder builder = Money.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -26387,13 +26871,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26406,6 +26889,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -26475,7 +26959,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -26489,9 +26973,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         NamingSystem.UniqueId.Builder builder = NamingSystem.UniqueId.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -26522,13 +27008,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26536,14 +27021,21 @@ public class FHIRXMLParser implements FHIRParser {
     private Narrative parseNarrative(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Narrative.Builder builder = Narrative.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                if ("div".equals(localName)) {
+                    requireNamespace(reader, XHTML_NS_URI);
+                } else {
+                    requireNamespace(reader, FHIR_NS_URI);
+                }
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -26558,13 +27050,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26577,6 +27068,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -26658,7 +27150,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -26672,9 +27164,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         NutritionOrder.EnteralFormula.Builder builder = NutritionOrder.EnteralFormula.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -26717,13 +27211,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26732,9 +27225,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         NutritionOrder.EnteralFormula.Administration.Builder builder = NutritionOrder.EnteralFormula.Administration.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -26762,13 +27257,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26777,9 +27271,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         NutritionOrder.OralDiet.Builder builder = NutritionOrder.OralDiet.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -26813,13 +27309,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26828,9 +27323,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         NutritionOrder.OralDiet.Nutrient.Builder builder = NutritionOrder.OralDiet.Nutrient.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -26852,13 +27349,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26867,9 +27363,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         NutritionOrder.OralDiet.Texture.Builder builder = NutritionOrder.OralDiet.Texture.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -26891,13 +27389,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26906,9 +27403,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         NutritionOrder.Supplement.Builder builder = NutritionOrder.Supplement.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -26939,13 +27438,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -26958,6 +27456,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -27099,7 +27598,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -27113,9 +27612,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Observation.Component.Builder builder = Observation.Component.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -27176,13 +27677,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -27191,9 +27691,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Observation.ReferenceRange.Builder builder = Observation.ReferenceRange.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -27227,13 +27729,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -27246,6 +27747,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -27315,7 +27817,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -27329,9 +27831,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ObservationDefinition.QualifiedInterval.Builder builder = ObservationDefinition.QualifiedInterval.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -27371,13 +27875,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -27386,9 +27889,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ObservationDefinition.QuantitativeDetails.Builder builder = ObservationDefinition.QuantitativeDetails.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -27416,13 +27921,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -27435,6 +27939,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -27543,7 +28048,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -27557,9 +28062,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         OperationDefinition.Overload.Builder builder = OperationDefinition.Overload.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -27581,13 +28088,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -27596,9 +28102,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         OperationDefinition.Parameter.Builder builder = OperationDefinition.Parameter.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -27647,13 +28155,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -27662,9 +28169,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         OperationDefinition.Parameter.Binding.Builder builder = OperationDefinition.Parameter.Binding.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -27686,13 +28195,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -27701,9 +28209,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         OperationDefinition.Parameter.ReferencedFrom.Builder builder = OperationDefinition.Parameter.ReferencedFrom.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -27725,13 +28235,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -27744,6 +28253,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -27777,7 +28287,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -27791,9 +28301,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         OperationOutcome.Issue.Builder builder = OperationOutcome.Issue.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -27827,13 +28339,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -27846,6 +28357,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -27906,7 +28418,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -27920,9 +28432,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Organization.Contact.Builder builder = Organization.Contact.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -27950,13 +28464,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -27969,6 +28482,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -28035,7 +28549,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -28048,14 +28562,17 @@ public class FHIRXMLParser implements FHIRParser {
     private ParameterDefinition parseParameterDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ParameterDefinition.Builder builder = ParameterDefinition.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -28085,13 +28602,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -28104,6 +28620,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -28125,7 +28642,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -28139,9 +28656,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Parameters.Parameter.Builder builder = Parameters.Parameter.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -28313,13 +28832,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -28332,6 +28850,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -28416,7 +28935,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -28430,9 +28949,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Patient.Communication.Builder builder = Patient.Communication.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -28454,13 +28975,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -28469,9 +28989,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Patient.Contact.Builder builder = Patient.Contact.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -28508,13 +29030,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -28523,9 +29044,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Patient.Link.Builder builder = Patient.Link.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -28547,13 +29070,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -28566,6 +29088,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -28632,7 +29155,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -28650,6 +29173,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -28725,7 +29249,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -28739,9 +29263,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         PaymentReconciliation.Detail.Builder builder = PaymentReconciliation.Detail.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -28787,13 +29313,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -28802,9 +29327,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         PaymentReconciliation.ProcessNote.Builder builder = PaymentReconciliation.ProcessNote.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -28826,13 +29353,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -28840,14 +29366,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Period parsePeriod(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Period.Builder builder = Period.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -28862,13 +29391,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -28881,6 +29409,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -28941,7 +29470,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -28955,9 +29484,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Person.Link.Builder builder = Person.Link.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -28979,13 +29510,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -28998,6 +29528,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -29124,7 +29655,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -29138,9 +29669,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         PlanDefinition.Action.Builder builder = PlanDefinition.Action.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -29258,13 +29791,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -29273,9 +29805,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         PlanDefinition.Action.Condition.Builder builder = PlanDefinition.Action.Condition.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -29297,13 +29831,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -29312,9 +29845,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         PlanDefinition.Action.DynamicValue.Builder builder = PlanDefinition.Action.DynamicValue.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -29336,13 +29871,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -29351,9 +29885,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         PlanDefinition.Action.Participant.Builder builder = PlanDefinition.Action.Participant.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -29375,13 +29911,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -29390,9 +29925,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         PlanDefinition.Action.RelatedAction.Builder builder = PlanDefinition.Action.RelatedAction.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -29420,13 +29957,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -29435,9 +29971,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         PlanDefinition.Goal.Builder builder = PlanDefinition.Goal.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -29474,13 +30012,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -29489,9 +30026,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         PlanDefinition.Goal.Target.Builder builder = PlanDefinition.Goal.Target.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -29522,13 +30061,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -29536,14 +30074,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Population parsePopulation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Population.Builder builder = Population.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -29570,13 +30111,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -29589,6 +30129,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -29649,7 +30190,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -29663,9 +30204,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Practitioner.Qualification.Builder builder = Practitioner.Qualification.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -29693,13 +30236,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -29712,6 +30254,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -29784,7 +30327,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -29798,9 +30341,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         PractitionerRole.AvailableTime.Builder builder = PractitionerRole.AvailableTime.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -29828,13 +30373,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -29843,9 +30387,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         PractitionerRole.NotAvailable.Builder builder = PractitionerRole.NotAvailable.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -29867,13 +30413,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -29886,6 +30431,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -30012,7 +30558,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -30026,9 +30572,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Procedure.FocalDevice.Builder builder = Procedure.FocalDevice.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -30050,13 +30598,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -30065,9 +30612,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Procedure.Performer.Builder builder = Procedure.Performer.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -30092,13 +30641,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -30106,14 +30654,17 @@ public class FHIRXMLParser implements FHIRParser {
     private ProdCharacteristic parseProdCharacteristic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ProdCharacteristic.Builder builder = ProdCharacteristic.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -30158,13 +30709,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -30172,14 +30722,17 @@ public class FHIRXMLParser implements FHIRParser {
     private ProductShelfLife parseProductShelfLife(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ProductShelfLife.Builder builder = ProductShelfLife.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -30203,13 +30756,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -30222,6 +30774,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -30285,7 +30838,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -30299,9 +30852,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Provenance.Agent.Builder builder = Provenance.Agent.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -30329,13 +30884,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -30344,9 +30898,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Provenance.Entity.Builder builder = Provenance.Entity.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -30371,27 +30927,29 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
 
     private Quantity parseQuantity(Quantity.Builder builder, java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -30415,13 +30973,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -30438,6 +30995,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -30534,7 +31092,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -30548,9 +31106,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Questionnaire.Item.Builder builder = Questionnaire.Item.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -30614,13 +31174,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -30629,9 +31188,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Questionnaire.Item.AnswerOption.Builder builder = Questionnaire.Item.AnswerOption.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -30668,13 +31229,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -30683,9 +31243,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Questionnaire.Item.EnableWhen.Builder builder = Questionnaire.Item.EnableWhen.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -30737,13 +31299,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -30752,9 +31313,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Questionnaire.Item.Initial.Builder builder = Questionnaire.Item.Initial.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -30806,13 +31369,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -30825,6 +31387,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -30888,7 +31451,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -30902,9 +31465,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         QuestionnaireResponse.Item.Builder builder = QuestionnaireResponse.Item.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -30935,13 +31500,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -30950,9 +31514,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         QuestionnaireResponse.Item.Answer.Builder builder = QuestionnaireResponse.Item.Answer.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -31007,13 +31573,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -31021,14 +31586,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Range parseRange(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Range.Builder builder = Range.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -31043,13 +31611,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -31057,14 +31624,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Ratio parseRatio(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Ratio.Builder builder = Ratio.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -31079,13 +31649,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -31093,14 +31662,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Reference parseReference(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Reference.Builder builder = Reference.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -31121,13 +31693,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -31135,14 +31706,17 @@ public class FHIRXMLParser implements FHIRParser {
     private RelatedArtifact parseRelatedArtifact(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RelatedArtifact.Builder builder = RelatedArtifact.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -31172,13 +31746,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -31191,6 +31764,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -31257,7 +31831,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -31271,9 +31845,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         RelatedPerson.Communication.Builder builder = RelatedPerson.Communication.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -31295,13 +31871,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -31314,6 +31889,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -31398,7 +31974,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -31412,9 +31988,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         RequestGroup.Action.Builder builder = RequestGroup.Action.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -31502,13 +32080,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -31517,9 +32094,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         RequestGroup.Action.Condition.Builder builder = RequestGroup.Action.Condition.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -31541,13 +32120,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -31556,9 +32134,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         RequestGroup.Action.RelatedAction.Builder builder = RequestGroup.Action.RelatedAction.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -31586,13 +32166,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -31605,6 +32184,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -31740,7 +32320,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -31758,6 +32338,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -31890,7 +32471,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -31904,9 +32485,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ResearchElementDefinition.Characteristic.Builder builder = ResearchElementDefinition.Characteristic.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -31985,13 +32568,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -32004,6 +32586,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -32106,7 +32689,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -32120,9 +32703,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ResearchStudy.Arm.Builder builder = ResearchStudy.Arm.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -32147,13 +32732,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -32162,9 +32746,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ResearchStudy.Objective.Builder builder = ResearchStudy.Objective.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -32186,13 +32772,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -32205,6 +32790,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -32259,7 +32845,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -32277,6 +32863,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -32361,7 +32948,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -32375,9 +32962,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         RiskAssessment.Prediction.Builder builder = RiskAssessment.Prediction.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -32417,13 +33006,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -32436,6 +33024,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -32559,7 +33148,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -32573,9 +33162,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         RiskEvidenceSynthesis.Certainty.Builder builder = RiskEvidenceSynthesis.Certainty.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -32600,13 +33191,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -32615,9 +33205,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.Builder builder = RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -32642,13 +33234,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -32657,9 +33248,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         RiskEvidenceSynthesis.RiskEstimate.Builder builder = RiskEvidenceSynthesis.RiskEstimate.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -32696,13 +33289,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -32711,9 +33303,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.Builder builder = RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -32741,13 +33335,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -32756,9 +33349,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         RiskEvidenceSynthesis.SampleSize.Builder builder = RiskEvidenceSynthesis.SampleSize.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -32783,13 +33378,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -32797,14 +33391,17 @@ public class FHIRXMLParser implements FHIRParser {
     private SampledData parseSampledData(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SampledData.Builder builder = SampledData.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -32834,13 +33431,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -32853,6 +33449,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -32907,7 +33504,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -32925,6 +33522,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -33033,7 +33631,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -33047,9 +33645,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SearchParameter.Component.Builder builder = SearchParameter.Component.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -33071,13 +33671,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -33090,6 +33689,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -33234,7 +33834,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -33247,14 +33847,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Signature parseSignature(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Signature.Builder builder = Signature.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -33284,13 +33887,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -33303,6 +33905,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -33366,7 +33969,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -33384,6 +33987,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -33453,7 +34057,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -33467,9 +34071,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Specimen.Collection.Builder builder = Specimen.Collection.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -33512,13 +34118,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -33527,9 +34132,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Specimen.Container.Builder builder = Specimen.Container.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -33566,13 +34173,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -33581,9 +34187,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Specimen.Processing.Builder builder = Specimen.Processing.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -33614,13 +34222,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -33633,6 +34240,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -33681,7 +34289,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -33695,9 +34303,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SpecimenDefinition.TypeTested.Builder builder = SpecimenDefinition.TypeTested.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -33737,13 +34347,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -33752,9 +34361,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SpecimenDefinition.TypeTested.Container.Builder builder = SpecimenDefinition.TypeTested.Container.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -33797,13 +34408,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -33812,9 +34422,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SpecimenDefinition.TypeTested.Container.Additive.Builder builder = SpecimenDefinition.TypeTested.Container.Additive.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -33836,13 +34448,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -33851,9 +34462,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SpecimenDefinition.TypeTested.Handling.Builder builder = SpecimenDefinition.TypeTested.Handling.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -33881,31 +34494,33 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
 
     private String parseString(String.Builder builder, java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         java.lang.String value = reader.getAttributeValue(null, "value");
         if (value != null) {
             builder.value(value);
         }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -33914,13 +34529,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -33937,6 +34551,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -34048,7 +34663,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -34062,9 +34677,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         StructureDefinition.Context.Builder builder = StructureDefinition.Context.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -34086,13 +34703,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -34101,9 +34717,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         StructureDefinition.Differential.Builder builder = StructureDefinition.Differential.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -34122,13 +34740,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -34137,9 +34754,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         StructureDefinition.Mapping.Builder builder = StructureDefinition.Mapping.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -34167,13 +34786,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -34182,9 +34800,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         StructureDefinition.Snapshot.Builder builder = StructureDefinition.Snapshot.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -34203,13 +34823,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -34222,6 +34841,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -34306,7 +34926,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -34320,9 +34940,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Builder builder = StructureMap.Group.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -34356,13 +34978,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -34371,9 +34992,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Input.Builder builder = StructureMap.Group.Input.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -34401,13 +35024,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -34416,9 +35038,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Rule.Builder builder = StructureMap.Group.Rule.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -34452,13 +35076,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -34467,9 +35090,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Rule.Dependent.Builder builder = StructureMap.Group.Rule.Dependent.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -34491,13 +35116,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -34506,9 +35130,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Rule.Source.Builder builder = StructureMap.Group.Rule.Source.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -34701,13 +35327,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -34716,9 +35341,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Rule.Target.Builder builder = StructureMap.Group.Rule.Target.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -34758,13 +35385,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -34773,9 +35399,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Rule.Target.Parameter.Builder builder = StructureMap.Group.Rule.Target.Parameter.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -34806,13 +35434,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -34821,9 +35448,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         StructureMap.Structure.Builder builder = StructureMap.Structure.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -34851,13 +35480,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -34870,6 +35498,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -34921,7 +35550,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -34935,9 +35564,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Subscription.Channel.Builder builder = Subscription.Channel.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -34965,13 +35596,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -34984,6 +35614,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -35035,7 +35666,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -35049,9 +35680,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Substance.Ingredient.Builder builder = Substance.Ingredient.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -35076,13 +35709,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -35091,9 +35723,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Substance.Instance.Builder builder = Substance.Instance.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -35118,13 +35752,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -35132,14 +35765,17 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceAmount parseSubstanceAmount(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceAmount.Builder builder = SubstanceAmount.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -35169,13 +35805,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -35184,9 +35819,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceAmount.ReferenceRange.Builder builder = SubstanceAmount.ReferenceRange.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -35208,13 +35845,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -35227,6 +35863,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -35272,7 +35909,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -35286,9 +35923,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceNucleicAcid.Subunit.Builder builder = SubstanceNucleicAcid.Subunit.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -35328,13 +35967,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -35343,9 +35981,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceNucleicAcid.Subunit.Linkage.Builder builder = SubstanceNucleicAcid.Subunit.Linkage.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -35373,13 +36013,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -35388,9 +36027,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceNucleicAcid.Subunit.Sugar.Builder builder = SubstanceNucleicAcid.Subunit.Sugar.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -35415,13 +36056,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -35434,6 +36074,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -35482,7 +36123,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -35496,9 +36137,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstancePolymer.MonomerSet.Builder builder = SubstancePolymer.MonomerSet.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -35520,13 +36163,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -35535,9 +36177,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstancePolymer.MonomerSet.StartingMaterial.Builder builder = SubstancePolymer.MonomerSet.StartingMaterial.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -35565,13 +36209,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -35580,9 +36223,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstancePolymer.Repeat.Builder builder = SubstancePolymer.Repeat.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -35610,13 +36255,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -35625,9 +36269,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstancePolymer.Repeat.RepeatUnit.Builder builder = SubstancePolymer.Repeat.RepeatUnit.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -35658,13 +36304,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -35673,9 +36318,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.Builder builder = SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -35697,13 +36344,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -35712,9 +36358,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.Builder builder = SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -35739,13 +36387,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -35758,6 +36405,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -35800,7 +36448,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -35814,9 +36462,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceProtein.Subunit.Builder builder = SubstanceProtein.Subunit.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -35856,13 +36506,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -35875,6 +36524,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -35920,7 +36570,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -35934,9 +36584,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceReferenceInformation.Classification.Builder builder = SubstanceReferenceInformation.Classification.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -35964,13 +36616,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -35979,9 +36630,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceReferenceInformation.Gene.Builder builder = SubstanceReferenceInformation.Gene.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -36006,13 +36659,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -36021,9 +36673,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceReferenceInformation.GeneElement.Builder builder = SubstanceReferenceInformation.GeneElement.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -36048,13 +36702,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -36063,9 +36716,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceReferenceInformation.Target.Builder builder = SubstanceReferenceInformation.Target.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -36111,13 +36766,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -36130,6 +36784,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -36199,7 +36854,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -36213,9 +36868,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.FractionDescription.Builder builder = SubstanceSourceMaterial.FractionDescription.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -36237,13 +36894,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -36252,9 +36908,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.Organism.Builder builder = SubstanceSourceMaterial.Organism.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -36294,13 +36952,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -36309,9 +36966,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.Organism.Author.Builder builder = SubstanceSourceMaterial.Organism.Author.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -36333,13 +36992,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -36348,9 +37006,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.Organism.Hybrid.Builder builder = SubstanceSourceMaterial.Organism.Hybrid.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -36381,13 +37041,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -36396,9 +37055,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.Organism.OrganismGeneral.Builder builder = SubstanceSourceMaterial.Organism.OrganismGeneral.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -36426,13 +37087,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -36441,9 +37101,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.PartDescription.Builder builder = SubstanceSourceMaterial.PartDescription.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -36465,13 +37127,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -36484,6 +37145,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -36571,7 +37233,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -36585,9 +37247,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Code.Builder builder = SubstanceSpecification.Code.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -36618,13 +37282,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -36633,9 +37296,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Moiety.Builder builder = SubstanceSpecification.Moiety.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -36675,13 +37340,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -36690,9 +37354,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Name.Builder builder = SubstanceSpecification.Name.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -36741,13 +37407,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -36756,9 +37421,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Name.Official.Builder builder = SubstanceSpecification.Name.Official.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -36783,13 +37450,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -36798,9 +37464,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Property.Builder builder = SubstanceSpecification.Property.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -36837,13 +37505,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -36852,9 +37519,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Relationship.Builder builder = SubstanceSpecification.Relationship.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -36903,13 +37572,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -36918,9 +37586,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Structure.Builder builder = SubstanceSpecification.Structure.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -36960,13 +37630,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -36975,9 +37644,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Structure.Isotope.Builder builder = SubstanceSpecification.Structure.Isotope.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -37008,13 +37679,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -37023,9 +37693,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Structure.Isotope.MolecularWeight.Builder builder = SubstanceSpecification.Structure.Isotope.MolecularWeight.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -37050,13 +37722,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -37065,9 +37736,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Structure.Representation.Builder builder = SubstanceSpecification.Structure.Representation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -37092,13 +37765,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -37111,6 +37783,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -37180,7 +37853,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -37194,9 +37867,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SupplyDelivery.SuppliedItem.Builder builder = SupplyDelivery.SuppliedItem.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -37221,13 +37896,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -37240,6 +37914,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -37324,7 +37999,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -37338,9 +38013,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         SupplyRequest.Parameter.Builder builder = SupplyRequest.Parameter.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -37371,13 +38048,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -37390,6 +38066,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -37513,7 +38190,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -37527,9 +38204,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Task.Input.Builder builder = Task.Input.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -37695,13 +38374,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -37710,9 +38388,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Task.Output.Builder builder = Task.Output.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -37878,13 +38558,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -37893,9 +38572,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Task.Restriction.Builder builder = Task.Restriction.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -37920,13 +38601,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -37939,6 +38619,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -38041,7 +38722,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -38055,9 +38736,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Closure.Builder builder = TerminologyCapabilities.Closure.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38076,13 +38759,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38091,9 +38773,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.CodeSystem.Builder builder = TerminologyCapabilities.CodeSystem.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38118,13 +38802,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38133,9 +38816,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.CodeSystem.Version.Builder builder = TerminologyCapabilities.CodeSystem.Version.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38169,13 +38854,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38184,9 +38868,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.CodeSystem.Version.Filter.Builder builder = TerminologyCapabilities.CodeSystem.Version.Filter.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38208,13 +38894,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38223,9 +38908,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Expansion.Builder builder = TerminologyCapabilities.Expansion.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38256,13 +38943,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38271,9 +38957,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Expansion.Parameter.Builder builder = TerminologyCapabilities.Expansion.Parameter.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38295,13 +38983,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38310,9 +38997,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Implementation.Builder builder = TerminologyCapabilities.Implementation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38334,13 +39023,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38349,9 +39037,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Software.Builder builder = TerminologyCapabilities.Software.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38373,13 +39063,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38388,9 +39077,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Translation.Builder builder = TerminologyCapabilities.Translation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38409,13 +39100,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38424,9 +39114,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.ValidateCode.Builder builder = TerminologyCapabilities.ValidateCode.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38445,13 +39137,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38464,6 +39155,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -38530,7 +39222,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -38544,9 +39236,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestReport.Participant.Builder builder = TestReport.Participant.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38571,13 +39265,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38586,9 +39279,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestReport.Setup.Builder builder = TestReport.Setup.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38607,13 +39302,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38622,9 +39316,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestReport.Setup.Action.Builder builder = TestReport.Setup.Action.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38646,13 +39342,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38661,9 +39356,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestReport.Setup.Action.Assert.Builder builder = TestReport.Setup.Action.Assert.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38688,13 +39385,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38703,9 +39399,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestReport.Setup.Action.Operation.Builder builder = TestReport.Setup.Action.Operation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38730,13 +39428,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38745,9 +39442,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestReport.Teardown.Builder builder = TestReport.Teardown.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38766,13 +39465,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38781,9 +39479,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestReport.Teardown.Action.Builder builder = TestReport.Teardown.Action.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38802,13 +39502,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38817,9 +39516,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestReport.Test.Builder builder = TestReport.Test.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38844,13 +39545,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38859,9 +39559,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestReport.Test.Action.Builder builder = TestReport.Test.Action.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -38883,13 +39585,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -38902,6 +39603,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -39004,7 +39706,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -39018,9 +39720,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestScript.Destination.Builder builder = TestScript.Destination.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39042,13 +39746,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39057,9 +39760,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestScript.Fixture.Builder builder = TestScript.Fixture.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39084,13 +39789,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39099,9 +39803,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestScript.Metadata.Builder builder = TestScript.Metadata.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39123,13 +39829,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39138,9 +39843,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestScript.Metadata.Capability.Builder builder = TestScript.Metadata.Capability.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39177,13 +39884,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39192,9 +39898,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestScript.Metadata.Link.Builder builder = TestScript.Metadata.Link.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39216,13 +39924,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39231,9 +39938,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestScript.Origin.Builder builder = TestScript.Origin.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39255,13 +39964,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39270,9 +39978,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestScript.Setup.Builder builder = TestScript.Setup.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39291,13 +40001,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39306,9 +40015,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestScript.Setup.Action.Builder builder = TestScript.Setup.Action.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39330,13 +40041,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39345,9 +40055,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestScript.Setup.Action.Assert.Builder builder = TestScript.Setup.Action.Assert.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39429,13 +40141,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39444,9 +40155,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestScript.Setup.Action.Operation.Builder builder = TestScript.Setup.Action.Operation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39513,13 +40226,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39528,9 +40240,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestScript.Setup.Action.Operation.RequestHeader.Builder builder = TestScript.Setup.Action.Operation.RequestHeader.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39552,13 +40266,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39567,9 +40280,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestScript.Teardown.Builder builder = TestScript.Teardown.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39588,13 +40303,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39603,9 +40317,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestScript.Teardown.Action.Builder builder = TestScript.Teardown.Action.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39624,13 +40340,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39639,9 +40354,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestScript.Test.Builder builder = TestScript.Test.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39666,13 +40383,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39681,9 +40397,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestScript.Test.Action.Builder builder = TestScript.Test.Action.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39705,13 +40423,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39720,9 +40437,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         TestScript.Variable.Builder builder = TestScript.Variable.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39762,13 +40481,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39776,18 +40494,21 @@ public class FHIRXMLParser implements FHIRParser {
     private Time parseTime(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Time.Builder builder = Time.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         java.lang.String value = reader.getAttributeValue(null, "value");
         if (value != null) {
             builder.value(value);
         }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39796,13 +40517,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39810,14 +40530,17 @@ public class FHIRXMLParser implements FHIRParser {
     private Timing parseTiming(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Timing.Builder builder = Timing.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39838,13 +40561,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39853,9 +40575,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         Timing.Repeat.Builder builder = Timing.Repeat.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -39922,13 +40646,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -39936,14 +40659,17 @@ public class FHIRXMLParser implements FHIRParser {
     private TriggerDefinition parseTriggerDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TriggerDefinition.Builder builder = TriggerDefinition.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39976,31 +40702,33 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
 
     private Uri parseUri(Uri.Builder builder, java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         java.lang.String value = reader.getAttributeValue(null, "value");
         if (value != null) {
             builder.value(value);
         }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -40009,13 +40737,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -40027,14 +40754,17 @@ public class FHIRXMLParser implements FHIRParser {
     private UsageContext parseUsageContext(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         UsageContext.Builder builder = UsageContext.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -40058,13 +40788,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -40077,6 +40806,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -40161,7 +40891,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -40175,9 +40905,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ValueSet.Compose.Builder builder = ValueSet.Compose.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -40205,13 +40937,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -40220,9 +40951,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ValueSet.Compose.Include.Builder builder = ValueSet.Compose.Include.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -40253,13 +40986,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -40268,9 +41000,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ValueSet.Compose.Include.Concept.Builder builder = ValueSet.Compose.Include.Concept.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -40295,13 +41029,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -40310,9 +41043,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ValueSet.Compose.Include.Concept.Designation.Builder builder = ValueSet.Compose.Include.Concept.Designation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -40337,13 +41072,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -40352,9 +41086,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ValueSet.Compose.Include.Filter.Builder builder = ValueSet.Compose.Include.Filter.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -40379,13 +41115,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -40394,9 +41129,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ValueSet.Expansion.Builder builder = ValueSet.Expansion.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -40430,13 +41167,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -40445,9 +41181,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ValueSet.Expansion.Contains.Builder builder = ValueSet.Expansion.Contains.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -40487,13 +41225,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -40502,9 +41239,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         ValueSet.Expansion.Parameter.Builder builder = ValueSet.Expansion.Parameter.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -40544,13 +41283,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -40563,6 +41301,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -40635,7 +41374,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -40649,9 +41388,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         VerificationResult.Attestation.Builder builder = VerificationResult.Attestation.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -40691,13 +41432,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -40706,9 +41446,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         VerificationResult.PrimarySource.Builder builder = VerificationResult.PrimarySource.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -40745,13 +41487,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -40760,9 +41501,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         VerificationResult.Validator.Builder builder = VerificationResult.Validator.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -40787,13 +41530,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -40806,6 +41548,7 @@ public class FHIRXMLParser implements FHIRParser {
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id((Id) parseString(Id.builder(), "id", reader, -1));
@@ -40860,7 +41603,7 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
@@ -40874,9 +41617,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         VisionPrescription.LensSpecification.Builder builder = VisionPrescription.LensSpecification.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -40934,13 +41679,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }
@@ -40949,9 +41693,11 @@ public class FHIRXMLParser implements FHIRParser {
         stackPush(elementName, elementIndex);
         VisionPrescription.LensSpecification.Prism.Builder builder = VisionPrescription.LensSpecification.Prism.builder();
         while (reader.hasNext()) {
-            switch (reader.getEventType()) {
+            int eventType = reader.next();
+            switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
                 case "id":
                     builder.id(parseJavaString("id", reader, -1));
@@ -40973,13 +41719,12 @@ public class FHIRXMLParser implements FHIRParser {
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
-                if (elementName.equals(reader.getLocalName())) {
+                if (reader.getLocalName().equals(elementName)) {
                     stackPop();
                     return builder.build();
                 }
                 break;
             }
-            reader.next();
         }
         throw new XMLStreamException("Unexpected end of stream");
     }

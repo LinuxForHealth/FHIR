@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.model.test;
 
+import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.parser.FHIRXMLParser;
+import com.ibm.watsonhealth.fhir.model.resource.ActivityDefinition;
 import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Date;
@@ -87,5 +89,10 @@ public class FHIRXMLParserGeneratorTest {
         patient = FHIRParser.parser(Format.XML).parse(reader);
         
         FHIRGenerator.generator(Format.XML, true).generate(patient, System.out);
+        
+        InputStream in = FHIRXMLParserGeneratorTest.class.getClassLoader().getResourceAsStream("JSON/activitydefinition.json");
+        ActivityDefinition activityDefinition = FHIRParser.parser(Format.JSON).parse(in);
+        FHIRGenerator.generator(Format.XML, true).generate(activityDefinition, System.out);
+        FHIRGenerator.generator(Format.JSON, true).generate(activityDefinition, System.out);
     }
 }

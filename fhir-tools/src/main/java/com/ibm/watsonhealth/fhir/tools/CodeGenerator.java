@@ -7,8 +7,6 @@
 package com.ibm.watsonhealth.fhir.tools;
 
 import static com.ibm.watsonhealth.fhir.tools.CodeBuilder._new;
-import static com.ibm.watsonhealth.fhir.tools.CodeBuilder.var;
-
 import static com.ibm.watsonhealth.fhir.tools.CodeBuilder._this;
 import static com.ibm.watsonhealth.fhir.tools.CodeBuilder.args;
 import static com.ibm.watsonhealth.fhir.tools.CodeBuilder.implementsInterfaces;
@@ -1542,9 +1540,14 @@ public class CodeGenerator {
         cb.javadoc(HEADER, true, true, false).newLine();
         cb._package(packageName).newLine();
         
-        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "XML_INPUT_FACTORY");
         cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "createStreamReaderDelegate");
         cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "parseDiv");
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "requireNamespace");
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "FHIR_NS_URI");
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "XHTML_NS_URI");
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "XML_INPUT_FACTORY");
+
+        cb.newLine();
         
         cb._import("java.io.InputStream");
         cb._import("java.io.Reader");
@@ -1585,17 +1588,43 @@ public class CodeGenerator {
         cb.newLine();
 
         // public <T extends Resource> T parse(InputStream in) throws FHIRParserException
+        cb.annotation("SuppressWarnings", quote("unchecked"));
         cb.override();
         cb.method(mods("public"), "<T extends Resource> T", "parse", params("InputStream in"), throwsExceptions("FHIRParserException"))
-            ._return("null")
+            ._try("StreamReaderDelegate delegate = createStreamReaderDelegate(XML_INPUT_FACTORY.createXMLStreamReader(in, \"UTF-8\"))")
+                ._while("delegate.hasNext()")
+                    .assign("int eventType", "delegate.next()")
+                    ._switch("eventType")
+                    ._case("XMLStreamReader.START_ELEMENT")
+                        .invoke("requireNamespace", args("delegate", "FHIR_NS_URI"))
+                        ._return("(T) parseResource(getResourceType(delegate), delegate, -1)")
+                    ._end()
+                ._end()
+                ._throw(_new("XMLStreamException", args(quote("Unexpected end of stream"))))
+            ._catch("Exception e")
+                ._throw(_new("FHIRParserException", args("e.getMessage()", "getPath()", "e")))
+            ._end()
         .end();
         
         cb.newLine();
         
         // public <T extends Resource> T parse(Reader reader) throws FHIRParserException
+        cb.annotation("SuppressWarnings", quote("unchecked"));
         cb.override();
         cb.method(mods("public"), "<T extends Resource> T", "parse", params("Reader reader"), throwsExceptions("FHIRParserException"))
-            ._return("null")
+            ._try("StreamReaderDelegate delegate = createStreamReaderDelegate(XML_INPUT_FACTORY.createXMLStreamReader(reader))")
+                ._while("delegate.hasNext()")
+                    .assign("int eventType", "delegate.next()")
+                    ._switch("eventType")
+                    ._case("XMLStreamReader.START_ELEMENT")
+                        .invoke("requireNamespace", args("delegate", "FHIR_NS_URI"))
+                        ._return("(T) parseResource(getResourceType(delegate), delegate, -1)")
+                    ._end()
+                ._end()
+                ._throw(_new("XMLStreamException", args(quote("Unexpected end of stream"))))
+            ._catch("Exception e")
+                ._throw(_new("FHIRParserException", args("e.getMessage()", "getPath()", "e")))
+            ._end()
         .end();
         
         cb.newLine();
@@ -1727,6 +1756,20 @@ public class CodeGenerator {
             cb.assign(generatedClassName + ".Builder builder", generatedClassName + ".builder()");
         }
         
+        if (typeClassNames.contains(generatedClassName)) {
+            cb.assign("java.lang.String id", "reader.getAttributeValue(null, \"id\")")
+            ._if("id != null")
+                .invoke("builder", "id", args("id"))
+            ._end();
+        }
+        
+        if ("Extension".equals(generatedClassName)) {
+            cb.assign("java.lang.String url", "reader.getAttributeValue(null, \"url\")")
+            ._if("url != null")
+                .invoke("builder", "url", args("url"))
+            ._end();
+        }
+        
         if (isPrimitiveType(structureDefinition)){
             // primitive type
             cb.assign("java.lang.String value", "reader.getAttributeValue(null, \"value\")")
@@ -1737,20 +1780,34 @@ public class CodeGenerator {
         
         cb._while("reader.hasNext()");
 
-        if (resourceClassNames.contains(generatedClassName)) {
-            cb.assign("int eventType", "reader.next()");
-            cb._switch("eventType");
-        } else {
-            cb._switch("reader.getEventType()");
-        }
+        cb.assign("int eventType", "reader.next()");
+        cb._switch("eventType");
         
         cb._case("XMLStreamReader.START_ELEMENT");
-        
-        // TODO: check namespace
         cb.assign("java.lang.String localName", "reader.getLocalName()");
+        
+        // check namespace
+        if ("Narrative".equals(generatedClassName)) {
+            cb._if("\"div\".equals(localName)")
+                .invoke("requireNamespace", args("reader", "XHTML_NS_URI"))
+            ._else()
+                .invoke("requireNamespace", args("reader", "FHIR_NS_URI"))
+            ._end();
+        } else {
+            cb.invoke("requireNamespace", args("reader", "FHIR_NS_URI"));
+        }
+        
         cb._switch("localName");
         for (JsonObject elementDefinition : elementDefinitions) {
             String elementName = getElementName(elementDefinition, path);
+            
+            if (typeClassNames.contains(generatedClassName) && "id".equals(elementName)) {
+                continue;
+            }
+            
+            if ("Extension".equals(generatedClassName) && "url".equals(elementName)) {
+                continue;
+            }
             
             if (isPrimitiveType(structureDefinition) && "value".equals(elementName)) {
                 continue;
@@ -1771,7 +1828,7 @@ public class CodeGenerator {
                 cb.invoke("builder", fieldName, args(parseMethodInvocation));
                 cb._break();
             } else {
-                // TODO: generate choice element cases
+                // generate choice element cases
                 for (String choiceTypeName : getChoiceTypeNames(elementDefinition)) {
                     cb._case(quote(elementName + choiceTypeName));
                     String parseMethodInvocation = buildParseMethodInvocation(elementDefinition, elementName + choiceTypeName, choiceTypeName);
@@ -1789,17 +1846,13 @@ public class CodeGenerator {
         cb._break();
         
         cb._case("XMLStreamReader.END_ELEMENT")
-            ._if("elementName.equals(reader.getLocalName())")
+            ._if("reader.getLocalName().equals(elementName)")
                 .invoke("stackPop", args())
                 ._return("builder.build()")
             ._end()
             ._break();
         
         cb._end();
-        
-        if (!resourceClassNames.contains(generatedClassName)) {
-            cb.invoke("reader", "next", args());
-        }
         
         cb._end();
 

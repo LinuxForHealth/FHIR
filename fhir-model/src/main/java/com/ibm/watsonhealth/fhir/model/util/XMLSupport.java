@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.model.util;
 
+import java.io.StringReader;
 import java.io.StringWriter;
 
 import javax.xml.namespace.NamespaceContext;
@@ -18,29 +19,37 @@ import javax.xml.stream.XMLStreamWriter;
 public final class XMLSupport {
     public static final XMLInputFactory XML_INPUT_FACTORY = createXMLInputFactory();
     public static final XMLOutputFactory XML_OUTPUT_FACTORY = XMLOutputFactory.newInstance();
-    public static final java.lang.String FHIR_NS = "http://hl7.org/fhir";
-    
+    public static final java.lang.String FHIR_NS_URI = "http://hl7.org/fhir";
+    public static final String XHTML_NS_URI = "http://www.w3.org/1999/xhtml";
+
     private XMLSupport() { }
     
     private static XMLInputFactory createXMLInputFactory() {
         XMLInputFactory factory = XMLInputFactory.newInstance();
         return factory;
     }
+    
+    public static void requireNamespace(XMLStreamReader reader, String namespaceURI) throws XMLStreamException {
+        if (reader instanceof StreamReaderDelegate) {
+            StreamReaderDelegate delegate = (StreamReaderDelegate) reader;
+            delegate.require(XMLStreamReader.START_ELEMENT, namespaceURI, null);
+        }
+    }
 
     public static String parseDiv(XMLStreamReader reader) throws XMLStreamException {
         StringWriter sw = new StringWriter();
-
         XMLStreamWriter writer = createStreamWriterDelegate(XML_OUTPUT_FACTORY.createXMLStreamWriter(sw));
-        
         writeStartElement(reader, writer);
-        
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
                 writeStartElement(reader, writer);
                 break;
-                
+            case XMLStreamReader.SPACE:
+            case XMLStreamReader.CHARACTERS:
+                writer.writeCharacters(reader.getTextCharacters(), reader.getTextStart(), reader.getTextLength());
+                break;             
             case XMLStreamReader.END_ELEMENT:
                 writer.writeEndElement();
                 if ("div".equals(reader.getLocalName())) {
@@ -51,7 +60,6 @@ public final class XMLSupport {
                 break;
             }
         }
-        
         throw new XMLStreamException("Unexpected end of stream");
     }
 
@@ -61,8 +69,9 @@ public final class XMLSupport {
         String localName = reader.getLocalName();
         if (namespaceURI != null) {
             if (prefix != null) {
-                writer.writeStartElement(prefix, namespaceURI, localName);
+                writer.writeStartElement(prefix, localName, namespaceURI);
             } else {
+                writer.setDefaultNamespace(namespaceURI);
                 writer.writeStartElement(namespaceURI, localName);
             }
         } else {
@@ -80,18 +89,18 @@ public final class XMLSupport {
 
     private static void writeAttributes(XMLStreamReader reader, XMLStreamWriter writer) throws XMLStreamException {
         for (int i = 0; i < reader.getAttributeCount(); i++) {
-            String attributePrefix = reader.getAttributePrefix(i);
-            String attributeNamespace = reader.getAttributeNamespace(i);
-            String attributeLocalName = reader.getAttributeLocalName(i);
-            String attributeValue = reader.getAttributeValue(i);
-            if (attributeNamespace != null) {
-                if (attributePrefix != null) {
-                    writer.writeAttribute(attributePrefix, attributeNamespace, attributeLocalName, attributeValue);
+            String prefix = reader.getAttributePrefix(i);
+            String namespaceURI = reader.getAttributeNamespace(i);
+            String localName = reader.getAttributeLocalName(i);
+            String value = reader.getAttributeValue(i);
+            if (namespaceURI != null) {
+                if (prefix != null) {
+                    writer.writeAttribute(prefix, namespaceURI, localName, value);
                 } else {
-                    writer.writeAttribute(attributeNamespace, attributeLocalName, attributeValue);
+                    writer.writeAttribute(namespaceURI, localName, value);
                 }
             } else {
-                writer.writeAttribute(attributeLocalName, attributeValue);
+                writer.writeAttribute(localName, value);
             }
         }
     }
@@ -296,5 +305,17 @@ public final class XMLSupport {
         public Object getProperty(java.lang.String name) throws IllegalArgumentException {
             return writer.getProperty(name);
         }
+    }
+    
+    public static void main(String[] args) throws Exception {
+        String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
+        XMLStreamReader reader = XML_INPUT_FACTORY.createXMLStreamReader(new StringReader(div));
+        reader.next();
+        System.out.println(parseDiv(reader));
+        
+        div = "<h:div xmlns:h=\"http://www.w3.org/1999/xhtml\"><h:p><h:b>Generated Narrative</h:b></h:p></h:div>";
+        reader = XML_INPUT_FACTORY.createXMLStreamReader(new StringReader(div));
+        reader.next();
+        System.out.println(parseDiv(reader));
     }
 }
