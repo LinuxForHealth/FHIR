@@ -466,6 +466,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Account.Coverage parseAccountCoverage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Account.Coverage.Builder builder = Account.Coverage.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -473,9 +477,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -506,6 +507,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Account.Guarantor parseAccountGuarantor(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Account.Guarantor.Builder builder = Account.Guarantor.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -513,9 +518,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -757,6 +759,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ActivityDefinition.DynamicValue parseActivityDefinitionDynamicValue(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ActivityDefinition.DynamicValue.Builder builder = ActivityDefinition.DynamicValue.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -764,9 +770,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -797,6 +800,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ActivityDefinition.Participant parseActivityDefinitionParticipant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ActivityDefinition.Participant.Builder builder = ActivityDefinition.Participant.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -804,9 +811,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -1008,6 +1012,10 @@ public class FHIRXMLParser implements FHIRParser {
     private AdverseEvent.SuspectEntity parseAdverseEventSuspectEntity(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AdverseEvent.SuspectEntity.Builder builder = AdverseEvent.SuspectEntity.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -1015,9 +1023,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -1048,6 +1053,10 @@ public class FHIRXMLParser implements FHIRParser {
     private AdverseEvent.SuspectEntity.Causality parseAdverseEventSuspectEntityCausality(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AdverseEvent.SuspectEntity.Causality.Builder builder = AdverseEvent.SuspectEntity.Causality.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -1055,9 +1064,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -1203,6 +1209,10 @@ public class FHIRXMLParser implements FHIRParser {
     private AllergyIntolerance.Reaction parseAllergyIntoleranceReaction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AllergyIntolerance.Reaction.Builder builder = AllergyIntolerance.Reaction.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -1210,9 +1220,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -1417,6 +1424,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Appointment.Participant parseAppointmentParticipant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Appointment.Participant.Builder builder = Appointment.Participant.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -1424,9 +1435,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -1677,6 +1685,10 @@ public class FHIRXMLParser implements FHIRParser {
     private AuditEvent.Agent parseAuditEventAgent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AuditEvent.Agent.Builder builder = AuditEvent.Agent.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -1684,9 +1696,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -1744,6 +1753,10 @@ public class FHIRXMLParser implements FHIRParser {
     private AuditEvent.Agent.Network parseAuditEventAgentNetwork(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AuditEvent.Agent.Network.Builder builder = AuditEvent.Agent.Network.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -1751,9 +1764,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -1784,6 +1794,10 @@ public class FHIRXMLParser implements FHIRParser {
     private AuditEvent.Entity parseAuditEventEntity(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AuditEvent.Entity.Builder builder = AuditEvent.Entity.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -1791,9 +1805,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -1845,6 +1856,10 @@ public class FHIRXMLParser implements FHIRParser {
     private AuditEvent.Entity.Detail parseAuditEventEntityDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AuditEvent.Entity.Detail.Builder builder = AuditEvent.Entity.Detail.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -1852,9 +1867,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -1888,6 +1900,10 @@ public class FHIRXMLParser implements FHIRParser {
     private AuditEvent.Source parseAuditEventSource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AuditEvent.Source.Builder builder = AuditEvent.Source.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -1895,9 +1911,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -2159,6 +2172,10 @@ public class FHIRXMLParser implements FHIRParser {
     private BiologicallyDerivedProduct.Collection parseBiologicallyDerivedProductCollection(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         BiologicallyDerivedProduct.Collection.Builder builder = BiologicallyDerivedProduct.Collection.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -2166,9 +2183,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -2205,6 +2219,10 @@ public class FHIRXMLParser implements FHIRParser {
     private BiologicallyDerivedProduct.Manipulation parseBiologicallyDerivedProductManipulation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         BiologicallyDerivedProduct.Manipulation.Builder builder = BiologicallyDerivedProduct.Manipulation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -2212,9 +2230,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -2248,6 +2263,10 @@ public class FHIRXMLParser implements FHIRParser {
     private BiologicallyDerivedProduct.Processing parseBiologicallyDerivedProductProcessing(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         BiologicallyDerivedProduct.Processing.Builder builder = BiologicallyDerivedProduct.Processing.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -2255,9 +2274,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -2297,6 +2313,10 @@ public class FHIRXMLParser implements FHIRParser {
     private BiologicallyDerivedProduct.Storage parseBiologicallyDerivedProductStorage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         BiologicallyDerivedProduct.Storage.Builder builder = BiologicallyDerivedProduct.Storage.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -2304,9 +2324,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -2510,6 +2527,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Bundle.Entry parseBundleEntry(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Bundle.Entry.Builder builder = Bundle.Entry.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -2517,9 +2538,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -2562,6 +2580,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Bundle.Entry.Request parseBundleEntryRequest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Bundle.Entry.Request.Builder builder = Bundle.Entry.Request.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -2569,9 +2591,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -2614,6 +2633,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Bundle.Entry.Response parseBundleEntryResponse(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Bundle.Entry.Response.Builder builder = Bundle.Entry.Response.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -2621,9 +2644,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -2663,6 +2683,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Bundle.Entry.Search parseBundleEntrySearch(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Bundle.Entry.Search.Builder builder = Bundle.Entry.Search.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -2670,9 +2694,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -2703,6 +2724,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Bundle.Link parseBundleLink(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Bundle.Link.Builder builder = Bundle.Link.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -2710,9 +2735,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -2870,6 +2892,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CapabilityStatement.Document parseCapabilityStatementDocument(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Document.Builder builder = CapabilityStatement.Document.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -2877,9 +2903,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -2913,6 +2936,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CapabilityStatement.Implementation parseCapabilityStatementImplementation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Implementation.Builder builder = CapabilityStatement.Implementation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -2920,9 +2947,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -2956,6 +2980,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CapabilityStatement.Messaging parseCapabilityStatementMessaging(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Messaging.Builder builder = CapabilityStatement.Messaging.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -2963,9 +2991,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -3002,6 +3027,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CapabilityStatement.Messaging.Endpoint parseCapabilityStatementMessagingEndpoint(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Messaging.Endpoint.Builder builder = CapabilityStatement.Messaging.Endpoint.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -3009,9 +3038,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -3042,6 +3068,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CapabilityStatement.Messaging.SupportedMessage parseCapabilityStatementMessagingSupportedMessage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Messaging.SupportedMessage.Builder builder = CapabilityStatement.Messaging.SupportedMessage.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -3049,9 +3079,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -3082,6 +3109,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CapabilityStatement.Rest parseCapabilityStatementRest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Builder builder = CapabilityStatement.Rest.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -3089,9 +3120,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -3140,6 +3168,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CapabilityStatement.Rest.Interaction parseCapabilityStatementRestInteraction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Interaction.Builder builder = CapabilityStatement.Rest.Interaction.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -3147,9 +3179,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -3180,6 +3209,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CapabilityStatement.Rest.Resource parseCapabilityStatementRestResource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Resource.Builder builder = CapabilityStatement.Rest.Resource.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -3187,9 +3220,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -3265,6 +3295,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CapabilityStatement.Rest.Resource.Interaction parseCapabilityStatementRestResourceInteraction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Resource.Interaction.Builder builder = CapabilityStatement.Rest.Resource.Interaction.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -3272,9 +3306,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -3305,6 +3336,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CapabilityStatement.Rest.Resource.Operation parseCapabilityStatementRestResourceOperation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Resource.Operation.Builder builder = CapabilityStatement.Rest.Resource.Operation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -3312,9 +3347,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -3348,6 +3380,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CapabilityStatement.Rest.Resource.SearchParam parseCapabilityStatementRestResourceSearchParam(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Resource.SearchParam.Builder builder = CapabilityStatement.Rest.Resource.SearchParam.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -3355,9 +3391,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -3394,6 +3427,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CapabilityStatement.Rest.Security parseCapabilityStatementRestSecurity(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Security.Builder builder = CapabilityStatement.Rest.Security.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -3401,9 +3438,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -3437,6 +3471,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CapabilityStatement.Software parseCapabilityStatementSoftware(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Software.Builder builder = CapabilityStatement.Software.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -3444,9 +3482,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -3598,6 +3633,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CarePlan.Activity parseCarePlanActivity(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CarePlan.Activity.Builder builder = CarePlan.Activity.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -3605,9 +3644,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -3647,6 +3683,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CarePlan.Activity.Detail parseCarePlanActivityDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CarePlan.Activity.Detail.Builder builder = CarePlan.Activity.Detail.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -3654,9 +3694,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -3829,6 +3866,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CareTeam.Participant parseCareTeamParticipant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CareTeam.Participant.Builder builder = CareTeam.Participant.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -3836,9 +3877,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -3963,6 +4001,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CatalogEntry.RelatedEntry parseCatalogEntryRelatedEntry(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CatalogEntry.RelatedEntry.Builder builder = CatalogEntry.RelatedEntry.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -3970,9 +4012,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -4139,6 +4178,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ChargeItem.Performer parseChargeItemPerformer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ChargeItem.Performer.Builder builder = ChargeItem.Performer.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -4146,9 +4189,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -4297,6 +4337,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ChargeItemDefinition.Applicability parseChargeItemDefinitionApplicability(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ChargeItemDefinition.Applicability.Builder builder = ChargeItemDefinition.Applicability.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -4304,9 +4348,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -4340,6 +4381,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ChargeItemDefinition.PropertyGroup parseChargeItemDefinitionPropertyGroup(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ChargeItemDefinition.PropertyGroup.Builder builder = ChargeItemDefinition.PropertyGroup.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -4347,9 +4392,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -4380,6 +4422,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ChargeItemDefinition.PropertyGroup.PriceComponent parseChargeItemDefinitionPropertyGroupPriceComponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ChargeItemDefinition.PropertyGroup.PriceComponent.Builder builder = ChargeItemDefinition.PropertyGroup.PriceComponent.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -4387,9 +4433,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -4556,6 +4599,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Claim.Accident parseClaimAccident(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Accident.Builder builder = Claim.Accident.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -4563,9 +4610,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -4602,6 +4646,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Claim.CareTeam parseClaimCareTeam(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.CareTeam.Builder builder = Claim.CareTeam.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -4609,9 +4657,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -4651,6 +4696,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Claim.Diagnosis parseClaimDiagnosis(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Diagnosis.Builder builder = Claim.Diagnosis.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -4658,9 +4707,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -4703,6 +4749,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Claim.Insurance parseClaimInsurance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Insurance.Builder builder = Claim.Insurance.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -4710,9 +4760,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -4758,6 +4805,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Claim.Item parseClaimItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Item.Builder builder = Claim.Item.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -4765,9 +4816,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -4864,6 +4912,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Claim.Item.Detail parseClaimItemDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Item.Detail.Builder builder = Claim.Item.Detail.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -4871,9 +4923,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -4934,6 +4983,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Claim.Item.Detail.SubDetail parseClaimItemDetailSubDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Item.Detail.SubDetail.Builder builder = Claim.Item.Detail.SubDetail.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -4941,9 +4994,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -5001,6 +5051,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Claim.Payee parseClaimPayee(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Payee.Builder builder = Claim.Payee.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -5008,9 +5062,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -5041,6 +5092,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Claim.Procedure parseClaimProcedure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Procedure.Builder builder = Claim.Procedure.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -5048,9 +5103,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -5093,6 +5145,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Claim.Related parseClaimRelated(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Related.Builder builder = Claim.Related.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -5100,9 +5156,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -5136,6 +5189,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Claim.SupportingInfo parseClaimSupportingInfo(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.SupportingInfo.Builder builder = Claim.SupportingInfo.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -5143,9 +5200,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -5333,6 +5387,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ClaimResponse.AddItem parseClaimResponseAddItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.AddItem.Builder builder = ClaimResponse.AddItem.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -5340,9 +5398,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -5430,6 +5485,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ClaimResponse.AddItem.Detail parseClaimResponseAddItemDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.AddItem.Detail.Builder builder = ClaimResponse.AddItem.Detail.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -5437,9 +5496,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -5491,6 +5547,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ClaimResponse.AddItem.Detail.SubDetail parseClaimResponseAddItemDetailSubDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.AddItem.Detail.SubDetail.Builder builder = ClaimResponse.AddItem.Detail.SubDetail.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -5498,9 +5558,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -5549,6 +5606,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ClaimResponse.Error parseClaimResponseError(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Error.Builder builder = ClaimResponse.Error.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -5556,9 +5617,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -5595,6 +5653,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ClaimResponse.Insurance parseClaimResponseInsurance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Insurance.Builder builder = ClaimResponse.Insurance.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -5602,9 +5664,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -5644,6 +5703,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ClaimResponse.Item parseClaimResponseItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Item.Builder builder = ClaimResponse.Item.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -5651,9 +5714,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -5690,6 +5750,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ClaimResponse.Item.Adjudication parseClaimResponseItemAdjudication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Item.Adjudication.Builder builder = ClaimResponse.Item.Adjudication.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -5697,9 +5761,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -5736,6 +5797,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ClaimResponse.Item.Detail parseClaimResponseItemDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Item.Detail.Builder builder = ClaimResponse.Item.Detail.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -5743,9 +5808,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -5782,6 +5844,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ClaimResponse.Item.Detail.SubDetail parseClaimResponseItemDetailSubDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Item.Detail.SubDetail.Builder builder = ClaimResponse.Item.Detail.SubDetail.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -5789,9 +5855,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -5825,6 +5888,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ClaimResponse.Payment parseClaimResponsePayment(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Payment.Builder builder = ClaimResponse.Payment.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -5832,9 +5899,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -5877,6 +5941,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ClaimResponse.ProcessNote parseClaimResponseProcessNote(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.ProcessNote.Builder builder = ClaimResponse.ProcessNote.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -5884,9 +5952,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -5923,6 +5988,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ClaimResponse.Total parseClaimResponseTotal(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Total.Builder builder = ClaimResponse.Total.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -5930,9 +5999,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -6075,6 +6141,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ClinicalImpression.Finding parseClinicalImpressionFinding(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClinicalImpression.Finding.Builder builder = ClinicalImpression.Finding.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -6082,9 +6152,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -6118,6 +6185,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ClinicalImpression.Investigation parseClinicalImpressionInvestigation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClinicalImpression.Investigation.Builder builder = ClinicalImpression.Investigation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -6125,9 +6196,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -6285,6 +6353,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CodeSystem.Concept parseCodeSystemConcept(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CodeSystem.Concept.Builder builder = CodeSystem.Concept.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -6292,9 +6364,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -6337,6 +6406,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CodeSystem.Concept.Designation parseCodeSystemConceptDesignation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CodeSystem.Concept.Designation.Builder builder = CodeSystem.Concept.Designation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -6344,9 +6417,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -6380,6 +6450,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CodeSystem.Concept.Property parseCodeSystemConceptProperty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CodeSystem.Concept.Property.Builder builder = CodeSystem.Concept.Property.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -6387,9 +6461,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -6438,6 +6509,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CodeSystem.Filter parseCodeSystemFilter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CodeSystem.Filter.Builder builder = CodeSystem.Filter.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -6445,9 +6520,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -6484,6 +6556,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CodeSystem.Property parseCodeSystemProperty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CodeSystem.Property.Builder builder = CodeSystem.Property.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -6491,9 +6567,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -6733,6 +6806,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Communication.Payload parseCommunicationPayload(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Communication.Payload.Builder builder = Communication.Payload.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -6740,9 +6817,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -6894,6 +6968,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CommunicationRequest.Payload parseCommunicationRequestPayload(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CommunicationRequest.Payload.Builder builder = CommunicationRequest.Payload.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -6901,9 +6979,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -7028,6 +7103,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CompartmentDefinition.Resource parseCompartmentDefinitionResource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CompartmentDefinition.Resource.Builder builder = CompartmentDefinition.Resource.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -7035,9 +7114,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -7165,6 +7241,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Composition.Attester parseCompositionAttester(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Composition.Attester.Builder builder = Composition.Attester.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -7172,9 +7252,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -7208,6 +7285,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Composition.Event parseCompositionEvent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Composition.Event.Builder builder = Composition.Event.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -7215,9 +7296,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -7251,6 +7329,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Composition.RelatesTo parseCompositionRelatesTo(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Composition.RelatesTo.Builder builder = Composition.RelatesTo.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -7258,9 +7340,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -7294,6 +7373,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Composition.Section parseCompositionSection(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Composition.Section.Builder builder = Composition.Section.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -7301,9 +7384,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -7467,6 +7547,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ConceptMap.Group parseConceptMapGroup(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ConceptMap.Group.Builder builder = ConceptMap.Group.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -7474,9 +7558,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -7519,6 +7600,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ConceptMap.Group.Element parseConceptMapGroupElement(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ConceptMap.Group.Element.Builder builder = ConceptMap.Group.Element.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -7526,9 +7611,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -7562,6 +7644,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ConceptMap.Group.Element.Target parseConceptMapGroupElementTarget(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ConceptMap.Group.Element.Target.Builder builder = ConceptMap.Group.Element.Target.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -7569,9 +7655,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -7614,6 +7697,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ConceptMap.Group.Element.Target.DependsOn parseConceptMapGroupElementTargetDependsOn(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ConceptMap.Group.Element.Target.DependsOn.Builder builder = ConceptMap.Group.Element.Target.DependsOn.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -7621,9 +7708,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -7660,6 +7744,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ConceptMap.Group.Unmapped parseConceptMapGroupUnmapped(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ConceptMap.Group.Unmapped.Builder builder = ConceptMap.Group.Unmapped.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -7667,9 +7755,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -7830,6 +7915,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Condition.Evidence parseConditionEvidence(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Condition.Evidence.Builder builder = Condition.Evidence.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -7837,9 +7926,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -7870,6 +7956,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Condition.Stage parseConditionStage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Condition.Stage.Builder builder = Condition.Stage.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -7877,9 +7967,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8004,6 +8091,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Consent.Policy parseConsentPolicy(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Consent.Policy.Builder builder = Consent.Policy.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -8011,9 +8102,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8044,6 +8132,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Consent.Provision parseConsentProvision(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Consent.Provision.Builder builder = Consent.Provision.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -8051,9 +8143,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8111,6 +8200,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Consent.Provision.Actor parseConsentProvisionActor(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Consent.Provision.Actor.Builder builder = Consent.Provision.Actor.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -8118,9 +8211,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8151,6 +8241,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Consent.Provision.Data parseConsentProvisionData(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Consent.Provision.Data.Builder builder = Consent.Provision.Data.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -8158,9 +8252,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8191,6 +8282,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Consent.Verification parseConsentVerification(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Consent.Verification.Builder builder = Consent.Verification.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -8198,9 +8293,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8473,6 +8565,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Contract.ContentDefinition parseContractContentDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.ContentDefinition.Builder builder = Contract.ContentDefinition.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -8480,9 +8576,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8525,6 +8618,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Contract.Friendly parseContractFriendly(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Friendly.Builder builder = Contract.Friendly.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -8532,9 +8629,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8565,6 +8659,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Contract.Legal parseContractLegal(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Legal.Builder builder = Contract.Legal.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -8572,9 +8670,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8605,6 +8700,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Contract.Rule parseContractRule(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Rule.Builder builder = Contract.Rule.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -8612,9 +8711,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8645,6 +8741,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Contract.Signer parseContractSigner(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Signer.Builder builder = Contract.Signer.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -8652,9 +8752,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8688,6 +8785,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Contract.Term parseContractTerm(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Builder builder = Contract.Term.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -8695,9 +8796,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8761,6 +8859,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Contract.Term.Action parseContractTermAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Action.Builder builder = Contract.Term.Action.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -8768,9 +8870,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8864,6 +8963,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Contract.Term.Action.Subject parseContractTermActionSubject(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Action.Subject.Builder builder = Contract.Term.Action.Subject.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -8871,9 +8974,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8904,6 +9004,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Contract.Term.Asset parseContractTermAsset(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Asset.Builder builder = Contract.Term.Asset.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -8911,9 +9015,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -8983,6 +9084,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Contract.Term.Asset.Context parseContractTermAssetContext(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Asset.Context.Builder builder = Contract.Term.Asset.Context.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -8990,9 +9095,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -9026,6 +9128,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Contract.Term.Asset.ValuedItem parseContractTermAssetValuedItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Asset.ValuedItem.Builder builder = Contract.Term.Asset.ValuedItem.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -9033,9 +9139,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -9105,6 +9208,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Contract.Term.Offer parseContractTermOffer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Offer.Builder builder = Contract.Term.Offer.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -9112,9 +9219,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -9169,6 +9273,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Contract.Term.Offer.Answer parseContractTermOfferAnswer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Offer.Answer.Builder builder = Contract.Term.Offer.Answer.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -9176,9 +9284,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -9239,6 +9344,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Contract.Term.Offer.Party parseContractTermOfferParty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Offer.Party.Builder builder = Contract.Term.Offer.Party.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -9246,9 +9355,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -9279,6 +9385,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Contract.Term.SecurityLabel parseContractTermSecurityLabel(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.SecurityLabel.Builder builder = Contract.Term.SecurityLabel.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -9286,9 +9396,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -9466,6 +9573,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Coverage.Class parseCoverageClass(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Coverage.Class.Builder builder = Coverage.Class.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -9473,9 +9584,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -9509,6 +9617,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Coverage.CostToBeneficiary parseCoverageCostToBeneficiary(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Coverage.CostToBeneficiary.Builder builder = Coverage.CostToBeneficiary.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -9516,9 +9628,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -9555,6 +9664,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Coverage.CostToBeneficiary.Exception parseCoverageCostToBeneficiaryException(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Coverage.CostToBeneficiary.Exception.Builder builder = Coverage.CostToBeneficiary.Exception.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -9562,9 +9675,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -9689,6 +9799,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CoverageEligibilityRequest.Insurance parseCoverageEligibilityRequestInsurance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityRequest.Insurance.Builder builder = CoverageEligibilityRequest.Insurance.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -9696,9 +9810,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -9732,6 +9843,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CoverageEligibilityRequest.Item parseCoverageEligibilityRequestItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityRequest.Item.Builder builder = CoverageEligibilityRequest.Item.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -9739,9 +9854,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -9796,6 +9908,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CoverageEligibilityRequest.Item.Diagnosis parseCoverageEligibilityRequestItemDiagnosis(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityRequest.Item.Diagnosis.Builder builder = CoverageEligibilityRequest.Item.Diagnosis.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -9803,9 +9919,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -9836,6 +9949,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CoverageEligibilityRequest.SupportingInfo parseCoverageEligibilityRequestSupportingInfo(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityRequest.SupportingInfo.Builder builder = CoverageEligibilityRequest.SupportingInfo.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -9843,9 +9960,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -9976,6 +10090,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CoverageEligibilityResponse.Error parseCoverageEligibilityResponseError(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityResponse.Error.Builder builder = CoverageEligibilityResponse.Error.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -9983,9 +10101,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10013,6 +10128,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CoverageEligibilityResponse.Insurance parseCoverageEligibilityResponseInsurance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityResponse.Insurance.Builder builder = CoverageEligibilityResponse.Insurance.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -10020,9 +10139,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10059,6 +10175,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CoverageEligibilityResponse.Insurance.Item parseCoverageEligibilityResponseInsuranceItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityResponse.Insurance.Item.Builder builder = CoverageEligibilityResponse.Insurance.Item.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -10066,9 +10186,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10135,6 +10252,10 @@ public class FHIRXMLParser implements FHIRParser {
     private CoverageEligibilityResponse.Insurance.Item.Benefit parseCoverageEligibilityResponseInsuranceItemBenefit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityResponse.Insurance.Item.Benefit.Builder builder = CoverageEligibilityResponse.Insurance.Item.Benefit.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -10142,9 +10263,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10249,6 +10367,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DataRequirement.CodeFilter parseDataRequirementCodeFilter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DataRequirement.CodeFilter.Builder builder = DataRequirement.CodeFilter.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -10256,9 +10378,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10295,6 +10414,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DataRequirement.DateFilter parseDataRequirementDateFilter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DataRequirement.DateFilter.Builder builder = DataRequirement.DateFilter.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -10302,9 +10425,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10344,6 +10464,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DataRequirement.Sort parseDataRequirementSort(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DataRequirement.Sort.Builder builder = DataRequirement.Sort.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -10351,9 +10475,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10580,6 +10701,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DetectedIssue.Evidence parseDetectedIssueEvidence(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DetectedIssue.Evidence.Builder builder = DetectedIssue.Evidence.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -10587,9 +10712,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10620,6 +10742,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DetectedIssue.Mitigation parseDetectedIssueMitigation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DetectedIssue.Mitigation.Builder builder = DetectedIssue.Mitigation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -10627,9 +10753,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10790,6 +10913,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Device.DeviceName parseDeviceDeviceName(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Device.DeviceName.Builder builder = Device.DeviceName.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -10797,9 +10924,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10830,6 +10954,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Device.Property parseDeviceProperty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Device.Property.Builder builder = Device.Property.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -10837,9 +10965,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10873,6 +10998,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Device.Specialization parseDeviceSpecialization(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Device.Specialization.Builder builder = Device.Specialization.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -10880,9 +11009,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10913,6 +11039,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Device.UdiCarrier parseDeviceUdiCarrier(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Device.UdiCarrier.Builder builder = Device.UdiCarrier.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -10920,9 +11050,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -10965,6 +11092,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Device.Version parseDeviceVersion(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Device.Version.Builder builder = Device.Version.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -10972,9 +11103,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -11126,6 +11254,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DeviceDefinition.Capability parseDeviceDefinitionCapability(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceDefinition.Capability.Builder builder = DeviceDefinition.Capability.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -11133,9 +11265,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -11166,6 +11295,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DeviceDefinition.DeviceName parseDeviceDefinitionDeviceName(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceDefinition.DeviceName.Builder builder = DeviceDefinition.DeviceName.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -11173,9 +11306,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -11206,6 +11336,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DeviceDefinition.Material parseDeviceDefinitionMaterial(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceDefinition.Material.Builder builder = DeviceDefinition.Material.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -11213,9 +11347,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -11249,6 +11380,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DeviceDefinition.Property parseDeviceDefinitionProperty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceDefinition.Property.Builder builder = DeviceDefinition.Property.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -11256,9 +11391,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -11292,6 +11424,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DeviceDefinition.Specialization parseDeviceDefinitionSpecialization(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceDefinition.Specialization.Builder builder = DeviceDefinition.Specialization.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -11299,9 +11435,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -11332,6 +11465,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DeviceDefinition.UdiDeviceIdentifier parseDeviceDefinitionUdiDeviceIdentifier(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceDefinition.UdiDeviceIdentifier.Builder builder = DeviceDefinition.UdiDeviceIdentifier.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -11339,9 +11476,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -11454,6 +11588,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DeviceMetric.Calibration parseDeviceMetricCalibration(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceMetric.Calibration.Builder builder = DeviceMetric.Calibration.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -11461,9 +11599,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -11627,6 +11762,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DeviceRequest.Parameter parseDeviceRequestParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceRequest.Parameter.Builder builder = DeviceRequest.Parameter.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -11634,9 +11773,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -11876,6 +12012,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DiagnosticReport.Media parseDiagnosticReportMedia(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DiagnosticReport.Media.Builder builder = DiagnosticReport.Media.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -11883,9 +12023,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -12001,6 +12138,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DocumentManifest.Related parseDocumentManifestRelated(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DocumentManifest.Related.Builder builder = DocumentManifest.Related.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -12008,9 +12149,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -12138,6 +12276,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DocumentReference.Content parseDocumentReferenceContent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DocumentReference.Content.Builder builder = DocumentReference.Content.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -12145,9 +12287,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -12178,6 +12317,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DocumentReference.Context parseDocumentReferenceContext(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DocumentReference.Context.Builder builder = DocumentReference.Context.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -12185,9 +12328,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -12233,6 +12373,10 @@ public class FHIRXMLParser implements FHIRParser {
     private DocumentReference.RelatesTo parseDocumentReferenceRelatesTo(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DocumentReference.RelatesTo.Builder builder = DocumentReference.RelatesTo.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -12240,9 +12384,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -12350,6 +12491,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Dosage.DoseAndRate parseDosageDoseAndRate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Dosage.DoseAndRate.Builder builder = Dosage.DoseAndRate.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -12357,9 +12502,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -12550,6 +12692,10 @@ public class FHIRXMLParser implements FHIRParser {
     private EffectEvidenceSynthesis.Certainty parseEffectEvidenceSynthesisCertainty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.Certainty.Builder builder = EffectEvidenceSynthesis.Certainty.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -12557,9 +12703,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -12593,6 +12736,10 @@ public class FHIRXMLParser implements FHIRParser {
     private EffectEvidenceSynthesis.Certainty.CertaintySubcomponent parseEffectEvidenceSynthesisCertaintyCertaintySubcomponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.Builder builder = EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -12600,9 +12747,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -12636,6 +12780,10 @@ public class FHIRXMLParser implements FHIRParser {
     private EffectEvidenceSynthesis.EffectEstimate parseEffectEvidenceSynthesisEffectEstimate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.EffectEstimate.Builder builder = EffectEvidenceSynthesis.EffectEstimate.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -12643,9 +12791,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -12688,6 +12833,10 @@ public class FHIRXMLParser implements FHIRParser {
     private EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate parseEffectEvidenceSynthesisEffectEstimatePrecisionEstimate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.Builder builder = EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -12695,9 +12844,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -12734,6 +12880,10 @@ public class FHIRXMLParser implements FHIRParser {
     private EffectEvidenceSynthesis.ResultsByExposure parseEffectEvidenceSynthesisResultsByExposure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.ResultsByExposure.Builder builder = EffectEvidenceSynthesis.ResultsByExposure.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -12741,9 +12891,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -12780,6 +12927,10 @@ public class FHIRXMLParser implements FHIRParser {
     private EffectEvidenceSynthesis.SampleSize parseEffectEvidenceSynthesisSampleSize(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.SampleSize.Builder builder = EffectEvidenceSynthesis.SampleSize.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -12787,9 +12938,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -13440,6 +13588,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ElementDefinition.Base parseElementDefinitionBase(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Base.Builder builder = ElementDefinition.Base.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -13447,9 +13599,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -13483,6 +13632,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ElementDefinition.Binding parseElementDefinitionBinding(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Binding.Builder builder = ElementDefinition.Binding.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -13490,9 +13643,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -13526,6 +13676,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ElementDefinition.Constraint parseElementDefinitionConstraint(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Constraint.Builder builder = ElementDefinition.Constraint.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -13533,9 +13687,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -13581,6 +13732,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ElementDefinition.Example parseElementDefinitionExample(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Example.Builder builder = ElementDefinition.Example.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -13588,9 +13743,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -13765,6 +13917,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ElementDefinition.Mapping parseElementDefinitionMapping(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Mapping.Builder builder = ElementDefinition.Mapping.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -13772,9 +13928,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -13811,6 +13964,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ElementDefinition.Slicing parseElementDefinitionSlicing(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Slicing.Builder builder = ElementDefinition.Slicing.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -13818,9 +13975,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -13857,6 +14011,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ElementDefinition.Slicing.Discriminator parseElementDefinitionSlicingDiscriminator(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Slicing.Discriminator.Builder builder = ElementDefinition.Slicing.Discriminator.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -13864,9 +14022,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -13897,6 +14052,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ElementDefinition.Type parseElementDefinitionType(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Type.Builder builder = ElementDefinition.Type.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -13904,9 +14063,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -14064,6 +14220,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Encounter.ClassHistory parseEncounterClassHistory(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Encounter.ClassHistory.Builder builder = Encounter.ClassHistory.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -14071,9 +14231,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -14104,6 +14261,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Encounter.Diagnosis parseEncounterDiagnosis(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Encounter.Diagnosis.Builder builder = Encounter.Diagnosis.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -14111,9 +14272,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -14147,6 +14305,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Encounter.Hospitalization parseEncounterHospitalization(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Encounter.Hospitalization.Builder builder = Encounter.Hospitalization.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -14154,9 +14316,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -14208,6 +14367,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Encounter.Location parseEncounterLocation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Encounter.Location.Builder builder = Encounter.Location.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -14215,9 +14378,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -14254,6 +14414,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Encounter.Participant parseEncounterParticipant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Encounter.Participant.Builder builder = Encounter.Participant.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -14261,9 +14425,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -14297,6 +14458,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Encounter.StatusHistory parseEncounterStatusHistory(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Encounter.StatusHistory.Builder builder = Encounter.StatusHistory.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -14304,9 +14469,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -14647,6 +14809,10 @@ public class FHIRXMLParser implements FHIRParser {
     private EpisodeOfCare.Diagnosis parseEpisodeOfCareDiagnosis(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EpisodeOfCare.Diagnosis.Builder builder = EpisodeOfCare.Diagnosis.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -14654,9 +14820,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -14690,6 +14853,10 @@ public class FHIRXMLParser implements FHIRParser {
     private EpisodeOfCare.StatusHistory parseEpisodeOfCareStatusHistory(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EpisodeOfCare.StatusHistory.Builder builder = EpisodeOfCare.StatusHistory.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -14697,9 +14864,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -15129,6 +15293,10 @@ public class FHIRXMLParser implements FHIRParser {
     private EvidenceVariable.Characteristic parseEvidenceVariableCharacteristic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EvidenceVariable.Characteristic.Builder builder = EvidenceVariable.Characteristic.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -15136,9 +15304,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -15308,6 +15473,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExampleScenario.Actor parseExampleScenarioActor(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Actor.Builder builder = ExampleScenario.Actor.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -15315,9 +15484,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -15354,6 +15520,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExampleScenario.Instance parseExampleScenarioInstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Instance.Builder builder = ExampleScenario.Instance.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -15361,9 +15531,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -15406,6 +15573,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExampleScenario.Instance.ContainedInstance parseExampleScenarioInstanceContainedInstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Instance.ContainedInstance.Builder builder = ExampleScenario.Instance.ContainedInstance.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -15413,9 +15584,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -15446,6 +15614,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExampleScenario.Instance.Version parseExampleScenarioInstanceVersion(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Instance.Version.Builder builder = ExampleScenario.Instance.Version.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -15453,9 +15625,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -15486,6 +15655,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExampleScenario.Process parseExampleScenarioProcess(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Process.Builder builder = ExampleScenario.Process.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -15493,9 +15666,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -15535,6 +15705,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExampleScenario.Process.Step parseExampleScenarioProcessStep(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Process.Step.Builder builder = ExampleScenario.Process.Step.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -15542,9 +15716,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -15581,6 +15752,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExampleScenario.Process.Step.Alternative parseExampleScenarioProcessStepAlternative(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Process.Step.Alternative.Builder builder = ExampleScenario.Process.Step.Alternative.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -15588,9 +15763,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -15624,6 +15796,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExampleScenario.Process.Step.Operation parseExampleScenarioProcessStepOperation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Process.Step.Operation.Builder builder = ExampleScenario.Process.Step.Operation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -15631,9 +15807,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -15866,6 +16039,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.Accident parseExplanationOfBenefitAccident(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Accident.Builder builder = ExplanationOfBenefit.Accident.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -15873,9 +16050,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -15912,6 +16086,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.AddItem parseExplanationOfBenefitAddItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.AddItem.Builder builder = ExplanationOfBenefit.AddItem.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -15919,9 +16097,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16009,6 +16184,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.AddItem.Detail parseExplanationOfBenefitAddItemDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.AddItem.Detail.Builder builder = ExplanationOfBenefit.AddItem.Detail.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16016,9 +16195,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16070,6 +16246,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.AddItem.Detail.SubDetail parseExplanationOfBenefitAddItemDetailSubDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.AddItem.Detail.SubDetail.Builder builder = ExplanationOfBenefit.AddItem.Detail.SubDetail.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16077,9 +16257,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16128,6 +16305,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.BenefitBalance parseExplanationOfBenefitBenefitBalance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.BenefitBalance.Builder builder = ExplanationOfBenefit.BenefitBalance.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16135,9 +16316,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16186,6 +16364,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.BenefitBalance.Financial parseExplanationOfBenefitBenefitBalanceFinancial(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.BenefitBalance.Financial.Builder builder = ExplanationOfBenefit.BenefitBalance.Financial.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16193,9 +16375,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16238,6 +16417,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.CareTeam parseExplanationOfBenefitCareTeam(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.CareTeam.Builder builder = ExplanationOfBenefit.CareTeam.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16245,9 +16428,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16287,6 +16467,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.Diagnosis parseExplanationOfBenefitDiagnosis(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Diagnosis.Builder builder = ExplanationOfBenefit.Diagnosis.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16294,9 +16478,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16339,6 +16520,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.Insurance parseExplanationOfBenefitInsurance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Insurance.Builder builder = ExplanationOfBenefit.Insurance.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16346,9 +16531,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16382,6 +16564,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.Item parseExplanationOfBenefitItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Item.Builder builder = ExplanationOfBenefit.Item.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16389,9 +16575,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16494,6 +16677,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.Item.Adjudication parseExplanationOfBenefitItemAdjudication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Item.Adjudication.Builder builder = ExplanationOfBenefit.Item.Adjudication.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16501,9 +16688,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16540,6 +16724,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.Item.Detail parseExplanationOfBenefitItemDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Item.Detail.Builder builder = ExplanationOfBenefit.Item.Detail.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16547,9 +16735,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16616,6 +16801,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.Item.Detail.SubDetail parseExplanationOfBenefitItemDetailSubDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Item.Detail.SubDetail.Builder builder = ExplanationOfBenefit.Item.Detail.SubDetail.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16623,9 +16812,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16689,6 +16875,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.Payee parseExplanationOfBenefitPayee(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Payee.Builder builder = ExplanationOfBenefit.Payee.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16696,9 +16886,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16729,6 +16916,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.Payment parseExplanationOfBenefitPayment(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Payment.Builder builder = ExplanationOfBenefit.Payment.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16736,9 +16927,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16781,6 +16969,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.Procedure parseExplanationOfBenefitProcedure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Procedure.Builder builder = ExplanationOfBenefit.Procedure.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16788,9 +16980,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16833,6 +17022,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.ProcessNote parseExplanationOfBenefitProcessNote(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.ProcessNote.Builder builder = ExplanationOfBenefit.ProcessNote.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16840,9 +17033,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16879,6 +17069,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.Related parseExplanationOfBenefitRelated(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Related.Builder builder = ExplanationOfBenefit.Related.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16886,9 +17080,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16922,6 +17113,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.SupportingInfo parseExplanationOfBenefitSupportingInfo(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.SupportingInfo.Builder builder = ExplanationOfBenefit.SupportingInfo.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16929,9 +17124,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -16989,6 +17181,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ExplanationOfBenefit.Total parseExplanationOfBenefitTotal(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Total.Builder builder = ExplanationOfBenefit.Total.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -16996,9 +17192,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -17386,6 +17579,10 @@ public class FHIRXMLParser implements FHIRParser {
     private FamilyMemberHistory.Condition parseFamilyMemberHistoryCondition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         FamilyMemberHistory.Condition.Builder builder = FamilyMemberHistory.Condition.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -17393,9 +17590,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -17617,6 +17811,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Goal.Target parseGoalTarget(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Goal.Target.Builder builder = Goal.Target.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -17624,9 +17822,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -17775,6 +17970,10 @@ public class FHIRXMLParser implements FHIRParser {
     private GraphDefinition.Link parseGraphDefinitionLink(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         GraphDefinition.Link.Builder builder = GraphDefinition.Link.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -17782,9 +17981,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -17827,6 +18023,10 @@ public class FHIRXMLParser implements FHIRParser {
     private GraphDefinition.Link.Target parseGraphDefinitionLinkTarget(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         GraphDefinition.Link.Target.Builder builder = GraphDefinition.Link.Target.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -17834,9 +18034,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -17876,6 +18073,10 @@ public class FHIRXMLParser implements FHIRParser {
     private GraphDefinition.Link.Target.Compartment parseGraphDefinitionLinkTargetCompartment(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         GraphDefinition.Link.Target.Compartment.Builder builder = GraphDefinition.Link.Target.Compartment.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -17883,9 +18084,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -18004,6 +18202,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Group.Characteristic parseGroupCharacteristic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Group.Characteristic.Builder builder = Group.Characteristic.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -18011,9 +18213,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -18062,6 +18261,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Group.Member parseGroupMember(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Group.Member.Builder builder = Group.Member.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -18069,9 +18272,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -18326,6 +18526,10 @@ public class FHIRXMLParser implements FHIRParser {
     private HealthcareService.AvailableTime parseHealthcareServiceAvailableTime(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         HealthcareService.AvailableTime.Builder builder = HealthcareService.AvailableTime.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -18333,9 +18537,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -18372,6 +18573,10 @@ public class FHIRXMLParser implements FHIRParser {
     private HealthcareService.Eligibility parseHealthcareServiceEligibility(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         HealthcareService.Eligibility.Builder builder = HealthcareService.Eligibility.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -18379,9 +18584,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -18412,6 +18614,10 @@ public class FHIRXMLParser implements FHIRParser {
     private HealthcareService.NotAvailable parseHealthcareServiceNotAvailable(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         HealthcareService.NotAvailable.Builder builder = HealthcareService.NotAvailable.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -18419,9 +18625,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -18664,6 +18867,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ImagingStudy.Series parseImagingStudySeries(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImagingStudy.Series.Builder builder = ImagingStudy.Series.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -18671,9 +18878,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -18734,6 +18938,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ImagingStudy.Series.Instance parseImagingStudySeriesInstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImagingStudy.Series.Instance.Builder builder = ImagingStudy.Series.Instance.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -18741,9 +18949,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -18780,6 +18985,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ImagingStudy.Series.Performer parseImagingStudySeriesPerformer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImagingStudy.Series.Performer.Builder builder = ImagingStudy.Series.Performer.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -18787,9 +18996,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -18956,6 +19162,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Immunization.Education parseImmunizationEducation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Immunization.Education.Builder builder = Immunization.Education.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -18963,9 +19173,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19002,6 +19209,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Immunization.Performer parseImmunizationPerformer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Immunization.Performer.Builder builder = Immunization.Performer.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19009,9 +19220,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19042,6 +19250,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Immunization.ProtocolApplied parseImmunizationProtocolApplied(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Immunization.ProtocolApplied.Builder builder = Immunization.ProtocolApplied.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19049,9 +19261,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19097,6 +19306,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Immunization.Reaction parseImmunizationReaction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Immunization.Reaction.Builder builder = Immunization.Reaction.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19104,9 +19317,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19298,6 +19508,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ImmunizationRecommendation.Recommendation parseImmunizationRecommendationRecommendation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImmunizationRecommendation.Recommendation.Builder builder = ImmunizationRecommendation.Recommendation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19305,9 +19519,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19374,6 +19585,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ImmunizationRecommendation.Recommendation.DateCriterion parseImmunizationRecommendationRecommendationDateCriterion(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImmunizationRecommendation.Recommendation.DateCriterion.Builder builder = ImmunizationRecommendation.Recommendation.DateCriterion.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19381,9 +19596,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19523,6 +19735,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ImplementationGuide.Definition parseImplementationGuideDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Builder builder = ImplementationGuide.Definition.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19530,9 +19746,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19572,6 +19785,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ImplementationGuide.Definition.Grouping parseImplementationGuideDefinitionGrouping(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Grouping.Builder builder = ImplementationGuide.Definition.Grouping.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19579,9 +19796,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19612,6 +19826,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ImplementationGuide.Definition.Page parseImplementationGuideDefinitionPage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Page.Builder builder = ImplementationGuide.Definition.Page.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19619,9 +19837,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19661,6 +19876,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ImplementationGuide.Definition.Parameter parseImplementationGuideDefinitionParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Parameter.Builder builder = ImplementationGuide.Definition.Parameter.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19668,9 +19887,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19701,6 +19917,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ImplementationGuide.Definition.Resource parseImplementationGuideDefinitionResource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Resource.Builder builder = ImplementationGuide.Definition.Resource.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19708,9 +19928,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19756,6 +19973,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ImplementationGuide.Definition.Template parseImplementationGuideDefinitionTemplate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Template.Builder builder = ImplementationGuide.Definition.Template.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19763,9 +19984,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19799,6 +20017,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ImplementationGuide.DependsOn parseImplementationGuideDependsOn(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.DependsOn.Builder builder = ImplementationGuide.DependsOn.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19806,9 +20028,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19842,6 +20061,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ImplementationGuide.Global parseImplementationGuideGlobal(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Global.Builder builder = ImplementationGuide.Global.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19849,9 +20072,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19882,6 +20102,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ImplementationGuide.Manifest parseImplementationGuideManifest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Manifest.Builder builder = ImplementationGuide.Manifest.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19889,9 +20113,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19931,6 +20152,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ImplementationGuide.Manifest.Page parseImplementationGuideManifestPage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Manifest.Page.Builder builder = ImplementationGuide.Manifest.Page.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19938,9 +20163,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -19974,6 +20196,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ImplementationGuide.Manifest.Resource parseImplementationGuideManifestResource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Manifest.Resource.Builder builder = ImplementationGuide.Manifest.Resource.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19981,9 +20207,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -20147,6 +20370,10 @@ public class FHIRXMLParser implements FHIRParser {
     private InsurancePlan.Contact parseInsurancePlanContact(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Contact.Builder builder = InsurancePlan.Contact.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -20154,9 +20381,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -20193,6 +20417,10 @@ public class FHIRXMLParser implements FHIRParser {
     private InsurancePlan.Coverage parseInsurancePlanCoverage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Coverage.Builder builder = InsurancePlan.Coverage.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -20200,9 +20428,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -20236,6 +20461,10 @@ public class FHIRXMLParser implements FHIRParser {
     private InsurancePlan.Coverage.Benefit parseInsurancePlanCoverageBenefit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Coverage.Benefit.Builder builder = InsurancePlan.Coverage.Benefit.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -20243,9 +20472,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -20279,6 +20505,10 @@ public class FHIRXMLParser implements FHIRParser {
     private InsurancePlan.Coverage.Benefit.Limit parseInsurancePlanCoverageBenefitLimit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Coverage.Benefit.Limit.Builder builder = InsurancePlan.Coverage.Benefit.Limit.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -20286,9 +20516,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -20319,6 +20546,10 @@ public class FHIRXMLParser implements FHIRParser {
     private InsurancePlan.Plan parseInsurancePlanPlan(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Plan.Builder builder = InsurancePlan.Plan.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -20326,9 +20557,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -20371,6 +20599,10 @@ public class FHIRXMLParser implements FHIRParser {
     private InsurancePlan.Plan.GeneralCost parseInsurancePlanPlanGeneralCost(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Plan.GeneralCost.Builder builder = InsurancePlan.Plan.GeneralCost.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -20378,9 +20610,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -20417,6 +20646,10 @@ public class FHIRXMLParser implements FHIRParser {
     private InsurancePlan.Plan.SpecificCost parseInsurancePlanPlanSpecificCost(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Plan.SpecificCost.Builder builder = InsurancePlan.Plan.SpecificCost.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -20424,9 +20657,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -20457,6 +20687,10 @@ public class FHIRXMLParser implements FHIRParser {
     private InsurancePlan.Plan.SpecificCost.Benefit parseInsurancePlanPlanSpecificCostBenefit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Plan.SpecificCost.Benefit.Builder builder = InsurancePlan.Plan.SpecificCost.Benefit.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -20464,9 +20698,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -20497,6 +20728,10 @@ public class FHIRXMLParser implements FHIRParser {
     private InsurancePlan.Plan.SpecificCost.Benefit.Cost parseInsurancePlanPlanSpecificCostBenefitCost(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Plan.SpecificCost.Benefit.Cost.Builder builder = InsurancePlan.Plan.SpecificCost.Benefit.Cost.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -20504,9 +20739,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -20679,6 +20911,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Invoice.LineItem parseInvoiceLineItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Invoice.LineItem.Builder builder = Invoice.LineItem.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -20686,9 +20922,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -20725,6 +20958,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Invoice.LineItem.PriceComponent parseInvoiceLineItemPriceComponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Invoice.LineItem.PriceComponent.Builder builder = Invoice.LineItem.PriceComponent.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -20732,9 +20969,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -20771,6 +21005,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Invoice.Participant parseInvoiceParticipant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Invoice.Participant.Builder builder = Invoice.Participant.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -20778,9 +21016,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -21014,6 +21249,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Linkage.Item parseLinkageItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Linkage.Item.Builder builder = Linkage.Item.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -21021,9 +21260,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -21142,6 +21378,10 @@ public class FHIRXMLParser implements FHIRParser {
     private List.Entry parseListEntry(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         List.Entry.Builder builder = List.Entry.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -21149,9 +21389,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -21288,6 +21525,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Location.HoursOfOperation parseLocationHoursOfOperation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Location.HoursOfOperation.Builder builder = Location.HoursOfOperation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -21295,9 +21536,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -21334,6 +21572,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Location.Position parseLocationPosition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Location.Position.Builder builder = Location.Position.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -21341,9 +21583,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -21602,6 +21841,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Measure.Group parseMeasureGroup(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Measure.Group.Builder builder = Measure.Group.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -21609,9 +21852,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -21648,6 +21888,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Measure.Group.Population parseMeasureGroupPopulation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Measure.Group.Population.Builder builder = Measure.Group.Population.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -21655,9 +21899,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -21691,6 +21932,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Measure.Group.Stratifier parseMeasureGroupStratifier(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Measure.Group.Stratifier.Builder builder = Measure.Group.Stratifier.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -21698,9 +21943,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -21737,6 +21979,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Measure.Group.Stratifier.Component parseMeasureGroupStratifierComponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Measure.Group.Stratifier.Component.Builder builder = Measure.Group.Stratifier.Component.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -21744,9 +21990,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -21780,6 +22023,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Measure.SupplementalData parseMeasureSupplementalData(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Measure.SupplementalData.Builder builder = Measure.SupplementalData.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -21787,9 +22034,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -21908,6 +22152,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MeasureReport.Group parseMeasureReportGroup(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Builder builder = MeasureReport.Group.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -21915,9 +22163,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -21954,6 +22199,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MeasureReport.Group.Population parseMeasureReportGroupPopulation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Population.Builder builder = MeasureReport.Group.Population.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -21961,9 +22210,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -21997,6 +22243,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MeasureReport.Group.Stratifier parseMeasureReportGroupStratifier(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Stratifier.Builder builder = MeasureReport.Group.Stratifier.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -22004,9 +22254,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -22037,6 +22284,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MeasureReport.Group.Stratifier.Stratum parseMeasureReportGroupStratifierStratum(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Stratifier.Stratum.Builder builder = MeasureReport.Group.Stratifier.Stratum.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -22044,9 +22295,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -22083,6 +22331,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MeasureReport.Group.Stratifier.Stratum.Component parseMeasureReportGroupStratifierStratumComponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Stratifier.Stratum.Component.Builder builder = MeasureReport.Group.Stratifier.Stratum.Component.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -22090,9 +22342,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -22123,6 +22372,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MeasureReport.Group.Stratifier.Stratum.Population parseMeasureReportGroupStratifierStratumPopulation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Stratifier.Stratum.Population.Builder builder = MeasureReport.Group.Stratifier.Stratum.Population.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -22130,9 +22383,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -22357,6 +22607,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Medication.Batch parseMedicationBatch(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Medication.Batch.Builder builder = Medication.Batch.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -22364,9 +22618,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -22397,6 +22648,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Medication.Ingredient parseMedicationIngredient(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Medication.Ingredient.Builder builder = Medication.Ingredient.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -22404,9 +22659,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -22555,6 +22807,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationAdministration.Dosage parseMedicationAdministrationDosage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationAdministration.Dosage.Builder builder = MedicationAdministration.Dosage.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -22562,9 +22818,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -22610,6 +22863,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationAdministration.Performer parseMedicationAdministrationPerformer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationAdministration.Performer.Builder builder = MedicationAdministration.Performer.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -22617,9 +22874,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -22777,6 +23031,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationDispense.Performer parseMedicationDispensePerformer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationDispense.Performer.Builder builder = MedicationDispense.Performer.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -22784,9 +23042,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -22817,6 +23072,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationDispense.Substitution parseMedicationDispenseSubstitution(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationDispense.Substitution.Builder builder = MedicationDispense.Substitution.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -22824,9 +23083,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -22978,6 +23234,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationKnowledge.AdministrationGuidelines parseMedicationKnowledgeAdministrationGuidelines(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.AdministrationGuidelines.Builder builder = MedicationKnowledge.AdministrationGuidelines.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -22985,9 +23245,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23024,6 +23281,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationKnowledge.AdministrationGuidelines.Dosage parseMedicationKnowledgeAdministrationGuidelinesDosage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.AdministrationGuidelines.Dosage.Builder builder = MedicationKnowledge.AdministrationGuidelines.Dosage.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23031,9 +23292,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23064,6 +23322,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics parseMedicationKnowledgeAdministrationGuidelinesPatientCharacteristics(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.Builder builder = MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23071,9 +23333,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23107,6 +23366,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationKnowledge.Cost parseMedicationKnowledgeCost(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Cost.Builder builder = MedicationKnowledge.Cost.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23114,9 +23377,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23150,6 +23410,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationKnowledge.DrugCharacteristic parseMedicationKnowledgeDrugCharacteristic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.DrugCharacteristic.Builder builder = MedicationKnowledge.DrugCharacteristic.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23157,9 +23421,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23199,6 +23460,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationKnowledge.Ingredient parseMedicationKnowledgeIngredient(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Ingredient.Builder builder = MedicationKnowledge.Ingredient.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23206,9 +23471,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23245,6 +23507,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationKnowledge.Kinetics parseMedicationKnowledgeKinetics(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Kinetics.Builder builder = MedicationKnowledge.Kinetics.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23252,9 +23518,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23288,6 +23551,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationKnowledge.MedicineClassification parseMedicationKnowledgeMedicineClassification(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.MedicineClassification.Builder builder = MedicationKnowledge.MedicineClassification.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23295,9 +23562,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23328,6 +23592,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationKnowledge.MonitoringProgram parseMedicationKnowledgeMonitoringProgram(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.MonitoringProgram.Builder builder = MedicationKnowledge.MonitoringProgram.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23335,9 +23603,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23368,6 +23633,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationKnowledge.Monograph parseMedicationKnowledgeMonograph(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Monograph.Builder builder = MedicationKnowledge.Monograph.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23375,9 +23644,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23408,6 +23674,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationKnowledge.Packaging parseMedicationKnowledgePackaging(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Packaging.Builder builder = MedicationKnowledge.Packaging.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23415,9 +23685,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23448,6 +23715,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationKnowledge.Regulatory parseMedicationKnowledgeRegulatory(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Regulatory.Builder builder = MedicationKnowledge.Regulatory.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23455,9 +23726,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23494,6 +23762,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationKnowledge.Regulatory.MaxDispense parseMedicationKnowledgeRegulatoryMaxDispense(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Regulatory.MaxDispense.Builder builder = MedicationKnowledge.Regulatory.MaxDispense.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23501,9 +23773,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23534,6 +23803,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationKnowledge.Regulatory.Schedule parseMedicationKnowledgeRegulatorySchedule(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Regulatory.Schedule.Builder builder = MedicationKnowledge.Regulatory.Schedule.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23541,9 +23814,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23571,6 +23841,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationKnowledge.Regulatory.Substitution parseMedicationKnowledgeRegulatorySubstitution(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Regulatory.Substitution.Builder builder = MedicationKnowledge.Regulatory.Substitution.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23578,9 +23852,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23611,6 +23882,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationKnowledge.RelatedMedicationKnowledge parseMedicationKnowledgeRelatedMedicationKnowledge(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.RelatedMedicationKnowledge.Builder builder = MedicationKnowledge.RelatedMedicationKnowledge.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23618,9 +23893,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23802,6 +24074,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationRequest.DispenseRequest parseMedicationRequestDispenseRequest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationRequest.DispenseRequest.Builder builder = MedicationRequest.DispenseRequest.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23809,9 +24085,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23857,6 +24130,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationRequest.DispenseRequest.InitialFill parseMedicationRequestDispenseRequestInitialFill(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationRequest.DispenseRequest.InitialFill.Builder builder = MedicationRequest.DispenseRequest.InitialFill.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23864,9 +24141,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -23897,6 +24171,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicationRequest.Substitution parseMedicationRequestSubstitution(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationRequest.Substitution.Builder builder = MedicationRequest.Substitution.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -23904,9 +24182,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -24155,6 +24430,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProduct.ManufacturingBusinessOperation parseMedicinalProductManufacturingBusinessOperation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProduct.ManufacturingBusinessOperation.Builder builder = MedicinalProduct.ManufacturingBusinessOperation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -24162,9 +24441,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -24207,6 +24483,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProduct.Name parseMedicinalProductName(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProduct.Name.Builder builder = MedicinalProduct.Name.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -24214,9 +24494,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -24250,6 +24527,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProduct.Name.CountryLanguage parseMedicinalProductNameCountryLanguage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProduct.Name.CountryLanguage.Builder builder = MedicinalProduct.Name.CountryLanguage.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -24257,9 +24538,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -24293,6 +24571,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProduct.Name.NamePart parseMedicinalProductNameNamePart(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProduct.Name.NamePart.Builder builder = MedicinalProduct.Name.NamePart.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -24300,9 +24582,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -24333,6 +24612,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProduct.SpecialDesignation parseMedicinalProductSpecialDesignation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProduct.SpecialDesignation.Builder builder = MedicinalProduct.SpecialDesignation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -24340,9 +24623,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -24488,6 +24768,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProductAuthorization.JurisdictionalAuthorization parseMedicinalProductAuthorizationJurisdictionalAuthorization(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductAuthorization.JurisdictionalAuthorization.Builder builder = MedicinalProductAuthorization.JurisdictionalAuthorization.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -24495,9 +24779,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -24537,6 +24818,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProductAuthorization.Procedure parseMedicinalProductAuthorizationProcedure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductAuthorization.Procedure.Builder builder = MedicinalProductAuthorization.Procedure.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -24544,9 +24829,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -24656,6 +24938,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProductContraindication.OtherTherapy parseMedicinalProductContraindicationOtherTherapy(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductContraindication.OtherTherapy.Builder builder = MedicinalProductContraindication.OtherTherapy.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -24663,9 +24949,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -24775,6 +25058,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProductIndication.OtherTherapy parseMedicinalProductIndicationOtherTherapy(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductIndication.OtherTherapy.Builder builder = MedicinalProductIndication.OtherTherapy.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -24782,9 +25069,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -24885,6 +25169,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProductIngredient.SpecifiedSubstance parseMedicinalProductIngredientSpecifiedSubstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductIngredient.SpecifiedSubstance.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -24892,9 +25180,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -24931,6 +25216,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProductIngredient.SpecifiedSubstance.Strength parseMedicinalProductIngredientSpecifiedSubstanceStrength(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductIngredient.SpecifiedSubstance.Strength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -24938,9 +25227,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -24986,6 +25272,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength parseMedicinalProductIngredientSpecifiedSubstanceStrengthReferenceStrength(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -24993,9 +25283,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -25035,6 +25322,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProductIngredient.Substance parseMedicinalProductIngredientSubstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductIngredient.Substance.Builder builder = MedicinalProductIngredient.Substance.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -25042,9 +25333,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -25145,6 +25433,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProductInteraction.Interactant parseMedicinalProductInteractionInteractant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductInteraction.Interactant.Builder builder = MedicinalProductInteraction.Interactant.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -25152,9 +25444,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -25331,6 +25620,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProductPackaged.BatchIdentifier parseMedicinalProductPackagedBatchIdentifier(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductPackaged.BatchIdentifier.Builder builder = MedicinalProductPackaged.BatchIdentifier.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -25338,9 +25631,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -25371,6 +25661,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProductPackaged.PackageItem parseMedicinalProductPackagedPackageItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductPackaged.PackageItem.Builder builder = MedicinalProductPackaged.PackageItem.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -25378,9 +25672,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -25511,6 +25802,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProductPharmaceutical.Characteristics parseMedicinalProductPharmaceuticalCharacteristics(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductPharmaceutical.Characteristics.Builder builder = MedicinalProductPharmaceutical.Characteristics.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -25518,9 +25813,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -25551,6 +25843,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProductPharmaceutical.RouteOfAdministration parseMedicinalProductPharmaceuticalRouteOfAdministration(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductPharmaceutical.RouteOfAdministration.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -25558,9 +25854,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -25606,6 +25899,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -25613,9 +25910,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -25646,6 +25940,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWithdrawalPeriod(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -25653,9 +25951,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -25877,6 +26172,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MessageDefinition.AllowedResponse parseMessageDefinitionAllowedResponse(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MessageDefinition.AllowedResponse.Builder builder = MessageDefinition.AllowedResponse.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -25884,9 +26183,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -25917,6 +26213,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MessageDefinition.Focus parseMessageDefinitionFocus(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MessageDefinition.Focus.Builder builder = MessageDefinition.Focus.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -25924,9 +26224,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -26048,6 +26345,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MessageHeader.Destination parseMessageHeaderDestination(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MessageHeader.Destination.Builder builder = MessageHeader.Destination.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -26055,9 +26356,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -26094,6 +26392,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MessageHeader.Response parseMessageHeaderResponse(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MessageHeader.Response.Builder builder = MessageHeader.Response.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -26101,9 +26403,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -26137,6 +26436,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MessageHeader.Source parseMessageHeaderSource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MessageHeader.Source.Builder builder = MessageHeader.Source.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -26144,9 +26447,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -26418,6 +26718,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MolecularSequence.Quality parseMolecularSequenceQuality(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.Quality.Builder builder = MolecularSequence.Quality.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -26425,9 +26729,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -26497,6 +26798,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MolecularSequence.Quality.Roc parseMolecularSequenceQualityRoc(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.Quality.Roc.Builder builder = MolecularSequence.Quality.Roc.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -26504,9 +26809,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -26552,6 +26854,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MolecularSequence.ReferenceSeq parseMolecularSequenceReferenceSeq(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.ReferenceSeq.Builder builder = MolecularSequence.ReferenceSeq.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -26559,9 +26865,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -26613,6 +26916,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MolecularSequence.Repository parseMolecularSequenceRepository(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.Repository.Builder builder = MolecularSequence.Repository.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -26620,9 +26927,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -26665,6 +26969,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MolecularSequence.StructureVariant parseMolecularSequenceStructureVariant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.StructureVariant.Builder builder = MolecularSequence.StructureVariant.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -26672,9 +26980,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -26714,6 +27019,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MolecularSequence.StructureVariant.Inner parseMolecularSequenceStructureVariantInner(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.StructureVariant.Inner.Builder builder = MolecularSequence.StructureVariant.Inner.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -26721,9 +27030,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -26754,6 +27060,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MolecularSequence.StructureVariant.Outer parseMolecularSequenceStructureVariantOuter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.StructureVariant.Outer.Builder builder = MolecularSequence.StructureVariant.Outer.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -26761,9 +27071,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -26794,6 +27101,10 @@ public class FHIRXMLParser implements FHIRParser {
     private MolecularSequence.Variant parseMolecularSequenceVariant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.Variant.Builder builder = MolecularSequence.Variant.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -26801,9 +27112,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -26972,6 +27280,10 @@ public class FHIRXMLParser implements FHIRParser {
     private NamingSystem.UniqueId parseNamingSystemUniqueId(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         NamingSystem.UniqueId.Builder builder = NamingSystem.UniqueId.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -26979,9 +27291,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -27163,6 +27472,10 @@ public class FHIRXMLParser implements FHIRParser {
     private NutritionOrder.EnteralFormula parseNutritionOrderEnteralFormula(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         NutritionOrder.EnteralFormula.Builder builder = NutritionOrder.EnteralFormula.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -27170,9 +27483,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -27224,6 +27534,10 @@ public class FHIRXMLParser implements FHIRParser {
     private NutritionOrder.EnteralFormula.Administration parseNutritionOrderEnteralFormulaAdministration(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         NutritionOrder.EnteralFormula.Administration.Builder builder = NutritionOrder.EnteralFormula.Administration.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -27231,9 +27545,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -27270,6 +27581,10 @@ public class FHIRXMLParser implements FHIRParser {
     private NutritionOrder.OralDiet parseNutritionOrderOralDiet(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         NutritionOrder.OralDiet.Builder builder = NutritionOrder.OralDiet.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -27277,9 +27592,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -27322,6 +27634,10 @@ public class FHIRXMLParser implements FHIRParser {
     private NutritionOrder.OralDiet.Nutrient parseNutritionOrderOralDietNutrient(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         NutritionOrder.OralDiet.Nutrient.Builder builder = NutritionOrder.OralDiet.Nutrient.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -27329,9 +27645,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -27362,6 +27675,10 @@ public class FHIRXMLParser implements FHIRParser {
     private NutritionOrder.OralDiet.Texture parseNutritionOrderOralDietTexture(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         NutritionOrder.OralDiet.Texture.Builder builder = NutritionOrder.OralDiet.Texture.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -27369,9 +27686,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -27402,6 +27716,10 @@ public class FHIRXMLParser implements FHIRParser {
     private NutritionOrder.Supplement parseNutritionOrderSupplement(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         NutritionOrder.Supplement.Builder builder = NutritionOrder.Supplement.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -27409,9 +27727,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -27611,6 +27926,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Observation.Component parseObservationComponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Observation.Component.Builder builder = Observation.Component.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -27618,9 +27937,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -27690,6 +28006,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Observation.ReferenceRange parseObservationReferenceRange(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Observation.ReferenceRange.Builder builder = Observation.ReferenceRange.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -27697,9 +28017,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -27830,6 +28147,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ObservationDefinition.QualifiedInterval parseObservationDefinitionQualifiedInterval(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ObservationDefinition.QualifiedInterval.Builder builder = ObservationDefinition.QualifiedInterval.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -27837,9 +28158,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -27888,6 +28206,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ObservationDefinition.QuantitativeDetails parseObservationDefinitionQuantitativeDetails(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ObservationDefinition.QuantitativeDetails.Builder builder = ObservationDefinition.QuantitativeDetails.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -27895,9 +28217,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -28061,6 +28380,10 @@ public class FHIRXMLParser implements FHIRParser {
     private OperationDefinition.Overload parseOperationDefinitionOverload(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         OperationDefinition.Overload.Builder builder = OperationDefinition.Overload.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -28068,9 +28391,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -28101,6 +28421,10 @@ public class FHIRXMLParser implements FHIRParser {
     private OperationDefinition.Parameter parseOperationDefinitionParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         OperationDefinition.Parameter.Builder builder = OperationDefinition.Parameter.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -28108,9 +28432,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -28168,6 +28489,10 @@ public class FHIRXMLParser implements FHIRParser {
     private OperationDefinition.Parameter.Binding parseOperationDefinitionParameterBinding(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         OperationDefinition.Parameter.Binding.Builder builder = OperationDefinition.Parameter.Binding.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -28175,9 +28500,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -28208,6 +28530,10 @@ public class FHIRXMLParser implements FHIRParser {
     private OperationDefinition.Parameter.ReferencedFrom parseOperationDefinitionParameterReferencedFrom(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         OperationDefinition.Parameter.ReferencedFrom.Builder builder = OperationDefinition.Parameter.ReferencedFrom.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -28215,9 +28541,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -28300,6 +28623,10 @@ public class FHIRXMLParser implements FHIRParser {
     private OperationOutcome.Issue parseOperationOutcomeIssue(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         OperationOutcome.Issue.Builder builder = OperationOutcome.Issue.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -28307,9 +28634,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -28431,6 +28755,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Organization.Contact parseOrganizationContact(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Organization.Contact.Builder builder = Organization.Contact.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -28438,9 +28766,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -28655,6 +28980,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Parameters.Parameter parseParametersParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Parameters.Parameter.Builder builder = Parameters.Parameter.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -28662,9 +28991,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -28948,6 +29274,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Patient.Communication parsePatientCommunication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Patient.Communication.Builder builder = Patient.Communication.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -28955,9 +29285,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -28988,6 +29315,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Patient.Contact parsePatientContact(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Patient.Contact.Builder builder = Patient.Contact.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -28995,9 +29326,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -29043,6 +29371,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Patient.Link parsePatientLink(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Patient.Link.Builder builder = Patient.Link.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -29050,9 +29382,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -29262,6 +29591,10 @@ public class FHIRXMLParser implements FHIRParser {
     private PaymentReconciliation.Detail parsePaymentReconciliationDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PaymentReconciliation.Detail.Builder builder = PaymentReconciliation.Detail.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -29269,9 +29602,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -29326,6 +29656,10 @@ public class FHIRXMLParser implements FHIRParser {
     private PaymentReconciliation.ProcessNote parsePaymentReconciliationProcessNote(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PaymentReconciliation.ProcessNote.Builder builder = PaymentReconciliation.ProcessNote.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -29333,9 +29667,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -29483,6 +29814,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Person.Link parsePersonLink(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Person.Link.Builder builder = Person.Link.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -29490,9 +29825,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -29668,6 +30000,10 @@ public class FHIRXMLParser implements FHIRParser {
     private PlanDefinition.Action parsePlanDefinitionAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PlanDefinition.Action.Builder builder = PlanDefinition.Action.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -29675,9 +30011,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -29804,6 +30137,10 @@ public class FHIRXMLParser implements FHIRParser {
     private PlanDefinition.Action.Condition parsePlanDefinitionActionCondition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PlanDefinition.Action.Condition.Builder builder = PlanDefinition.Action.Condition.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -29811,9 +30148,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -29844,6 +30178,10 @@ public class FHIRXMLParser implements FHIRParser {
     private PlanDefinition.Action.DynamicValue parsePlanDefinitionActionDynamicValue(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PlanDefinition.Action.DynamicValue.Builder builder = PlanDefinition.Action.DynamicValue.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -29851,9 +30189,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -29884,6 +30219,10 @@ public class FHIRXMLParser implements FHIRParser {
     private PlanDefinition.Action.Participant parsePlanDefinitionActionParticipant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PlanDefinition.Action.Participant.Builder builder = PlanDefinition.Action.Participant.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -29891,9 +30230,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -29924,6 +30260,10 @@ public class FHIRXMLParser implements FHIRParser {
     private PlanDefinition.Action.RelatedAction parsePlanDefinitionActionRelatedAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PlanDefinition.Action.RelatedAction.Builder builder = PlanDefinition.Action.RelatedAction.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -29931,9 +30271,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -29970,6 +30307,10 @@ public class FHIRXMLParser implements FHIRParser {
     private PlanDefinition.Goal parsePlanDefinitionGoal(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PlanDefinition.Goal.Builder builder = PlanDefinition.Goal.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -29977,9 +30318,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -30025,6 +30363,10 @@ public class FHIRXMLParser implements FHIRParser {
     private PlanDefinition.Goal.Target parsePlanDefinitionGoalTarget(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PlanDefinition.Goal.Target.Builder builder = PlanDefinition.Goal.Target.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -30032,9 +30374,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -30203,6 +30542,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Practitioner.Qualification parsePractitionerQualification(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Practitioner.Qualification.Builder builder = Practitioner.Qualification.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -30210,9 +30553,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -30340,6 +30680,10 @@ public class FHIRXMLParser implements FHIRParser {
     private PractitionerRole.AvailableTime parsePractitionerRoleAvailableTime(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PractitionerRole.AvailableTime.Builder builder = PractitionerRole.AvailableTime.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -30347,9 +30691,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -30386,6 +30727,10 @@ public class FHIRXMLParser implements FHIRParser {
     private PractitionerRole.NotAvailable parsePractitionerRoleNotAvailable(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PractitionerRole.NotAvailable.Builder builder = PractitionerRole.NotAvailable.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -30393,9 +30738,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -30571,6 +30913,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Procedure.FocalDevice parseProcedureFocalDevice(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Procedure.FocalDevice.Builder builder = Procedure.FocalDevice.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -30578,9 +30924,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -30611,6 +30954,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Procedure.Performer parseProcedurePerformer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Procedure.Performer.Builder builder = Procedure.Performer.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -30618,9 +30965,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -30851,6 +31195,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Provenance.Agent parseProvenanceAgent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Provenance.Agent.Builder builder = Provenance.Agent.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -30858,9 +31206,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -30897,6 +31242,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Provenance.Entity parseProvenanceEntity(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Provenance.Entity.Builder builder = Provenance.Entity.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -30904,9 +31253,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -31105,6 +31451,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Questionnaire.Item parseQuestionnaireItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Questionnaire.Item.Builder builder = Questionnaire.Item.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -31112,9 +31462,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -31187,6 +31534,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Questionnaire.Item.AnswerOption parseQuestionnaireItemAnswerOption(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Questionnaire.Item.AnswerOption.Builder builder = Questionnaire.Item.AnswerOption.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -31194,9 +31545,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -31242,6 +31590,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Questionnaire.Item.EnableWhen parseQuestionnaireItemEnableWhen(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Questionnaire.Item.EnableWhen.Builder builder = Questionnaire.Item.EnableWhen.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -31249,9 +31601,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -31312,6 +31661,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Questionnaire.Item.Initial parseQuestionnaireItemInitial(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Questionnaire.Item.Initial.Builder builder = Questionnaire.Item.Initial.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -31319,9 +31672,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -31464,6 +31814,10 @@ public class FHIRXMLParser implements FHIRParser {
     private QuestionnaireResponse.Item parseQuestionnaireResponseItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         QuestionnaireResponse.Item.Builder builder = QuestionnaireResponse.Item.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -31471,9 +31825,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -31513,6 +31864,10 @@ public class FHIRXMLParser implements FHIRParser {
     private QuestionnaireResponse.Item.Answer parseQuestionnaireResponseItemAnswer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         QuestionnaireResponse.Item.Answer.Builder builder = QuestionnaireResponse.Item.Answer.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -31520,9 +31875,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -31844,6 +32196,10 @@ public class FHIRXMLParser implements FHIRParser {
     private RelatedPerson.Communication parseRelatedPersonCommunication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RelatedPerson.Communication.Builder builder = RelatedPerson.Communication.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -31851,9 +32207,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -31987,6 +32340,10 @@ public class FHIRXMLParser implements FHIRParser {
     private RequestGroup.Action parseRequestGroupAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RequestGroup.Action.Builder builder = RequestGroup.Action.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -31994,9 +32351,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -32093,6 +32447,10 @@ public class FHIRXMLParser implements FHIRParser {
     private RequestGroup.Action.Condition parseRequestGroupActionCondition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RequestGroup.Action.Condition.Builder builder = RequestGroup.Action.Condition.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -32100,9 +32458,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -32133,6 +32488,10 @@ public class FHIRXMLParser implements FHIRParser {
     private RequestGroup.Action.RelatedAction parseRequestGroupActionRelatedAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RequestGroup.Action.RelatedAction.Builder builder = RequestGroup.Action.RelatedAction.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -32140,9 +32499,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -32484,6 +32840,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ResearchElementDefinition.Characteristic parseResearchElementDefinitionCharacteristic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ResearchElementDefinition.Characteristic.Builder builder = ResearchElementDefinition.Characteristic.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -32491,9 +32851,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -32702,6 +33059,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ResearchStudy.Arm parseResearchStudyArm(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ResearchStudy.Arm.Builder builder = ResearchStudy.Arm.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -32709,9 +33070,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -32745,6 +33103,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ResearchStudy.Objective parseResearchStudyObjective(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ResearchStudy.Objective.Builder builder = ResearchStudy.Objective.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -32752,9 +33114,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -32961,6 +33320,10 @@ public class FHIRXMLParser implements FHIRParser {
     private RiskAssessment.Prediction parseRiskAssessmentPrediction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RiskAssessment.Prediction.Builder builder = RiskAssessment.Prediction.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -32968,9 +33331,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -33161,6 +33521,10 @@ public class FHIRXMLParser implements FHIRParser {
     private RiskEvidenceSynthesis.Certainty parseRiskEvidenceSynthesisCertainty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RiskEvidenceSynthesis.Certainty.Builder builder = RiskEvidenceSynthesis.Certainty.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -33168,9 +33532,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -33204,6 +33565,10 @@ public class FHIRXMLParser implements FHIRParser {
     private RiskEvidenceSynthesis.Certainty.CertaintySubcomponent parseRiskEvidenceSynthesisCertaintyCertaintySubcomponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.Builder builder = RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -33211,9 +33576,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -33247,6 +33609,10 @@ public class FHIRXMLParser implements FHIRParser {
     private RiskEvidenceSynthesis.RiskEstimate parseRiskEvidenceSynthesisRiskEstimate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RiskEvidenceSynthesis.RiskEstimate.Builder builder = RiskEvidenceSynthesis.RiskEstimate.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -33254,9 +33620,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -33302,6 +33665,10 @@ public class FHIRXMLParser implements FHIRParser {
     private RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate parseRiskEvidenceSynthesisRiskEstimatePrecisionEstimate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.Builder builder = RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -33309,9 +33676,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -33348,6 +33712,10 @@ public class FHIRXMLParser implements FHIRParser {
     private RiskEvidenceSynthesis.SampleSize parseRiskEvidenceSynthesisSampleSize(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RiskEvidenceSynthesis.SampleSize.Builder builder = RiskEvidenceSynthesis.SampleSize.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -33355,9 +33723,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -33644,6 +34009,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SearchParameter.Component parseSearchParameterComponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SearchParameter.Component.Builder builder = SearchParameter.Component.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -33651,9 +34020,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -34070,6 +34436,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Specimen.Collection parseSpecimenCollection(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Specimen.Collection.Builder builder = Specimen.Collection.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -34077,9 +34447,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -34131,6 +34498,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Specimen.Container parseSpecimenContainer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Specimen.Container.Builder builder = Specimen.Container.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -34138,9 +34509,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -34186,6 +34554,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Specimen.Processing parseSpecimenProcessing(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Specimen.Processing.Builder builder = Specimen.Processing.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -34193,9 +34565,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -34302,6 +34671,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SpecimenDefinition.TypeTested parseSpecimenDefinitionTypeTested(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SpecimenDefinition.TypeTested.Builder builder = SpecimenDefinition.TypeTested.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -34309,9 +34682,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -34360,6 +34730,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SpecimenDefinition.TypeTested.Container parseSpecimenDefinitionTypeTestedContainer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SpecimenDefinition.TypeTested.Container.Builder builder = SpecimenDefinition.TypeTested.Container.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -34367,9 +34741,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -34421,6 +34792,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SpecimenDefinition.TypeTested.Container.Additive parseSpecimenDefinitionTypeTestedContainerAdditive(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SpecimenDefinition.TypeTested.Container.Additive.Builder builder = SpecimenDefinition.TypeTested.Container.Additive.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -34428,9 +34803,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -34461,6 +34833,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SpecimenDefinition.TypeTested.Handling parseSpecimenDefinitionTypeTestedHandling(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SpecimenDefinition.TypeTested.Handling.Builder builder = SpecimenDefinition.TypeTested.Handling.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -34468,9 +34844,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -34676,6 +35049,10 @@ public class FHIRXMLParser implements FHIRParser {
     private StructureDefinition.Context parseStructureDefinitionContext(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureDefinition.Context.Builder builder = StructureDefinition.Context.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -34683,9 +35060,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -34716,6 +35090,10 @@ public class FHIRXMLParser implements FHIRParser {
     private StructureDefinition.Differential parseStructureDefinitionDifferential(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureDefinition.Differential.Builder builder = StructureDefinition.Differential.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -34723,9 +35101,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -34753,6 +35128,10 @@ public class FHIRXMLParser implements FHIRParser {
     private StructureDefinition.Mapping parseStructureDefinitionMapping(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureDefinition.Mapping.Builder builder = StructureDefinition.Mapping.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -34760,9 +35139,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -34799,6 +35175,10 @@ public class FHIRXMLParser implements FHIRParser {
     private StructureDefinition.Snapshot parseStructureDefinitionSnapshot(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureDefinition.Snapshot.Builder builder = StructureDefinition.Snapshot.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -34806,9 +35186,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -34939,6 +35316,10 @@ public class FHIRXMLParser implements FHIRParser {
     private StructureMap.Group parseStructureMapGroup(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Builder builder = StructureMap.Group.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -34946,9 +35327,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -34991,6 +35369,10 @@ public class FHIRXMLParser implements FHIRParser {
     private StructureMap.Group.Input parseStructureMapGroupInput(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Input.Builder builder = StructureMap.Group.Input.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -34998,9 +35380,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -35037,6 +35416,10 @@ public class FHIRXMLParser implements FHIRParser {
     private StructureMap.Group.Rule parseStructureMapGroupRule(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Rule.Builder builder = StructureMap.Group.Rule.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -35044,9 +35427,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -35089,6 +35469,10 @@ public class FHIRXMLParser implements FHIRParser {
     private StructureMap.Group.Rule.Dependent parseStructureMapGroupRuleDependent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Rule.Dependent.Builder builder = StructureMap.Group.Rule.Dependent.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -35096,9 +35480,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -35129,6 +35510,10 @@ public class FHIRXMLParser implements FHIRParser {
     private StructureMap.Group.Rule.Source parseStructureMapGroupRuleSource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Rule.Source.Builder builder = StructureMap.Group.Rule.Source.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -35136,9 +35521,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -35340,6 +35722,10 @@ public class FHIRXMLParser implements FHIRParser {
     private StructureMap.Group.Rule.Target parseStructureMapGroupRuleTarget(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Rule.Target.Builder builder = StructureMap.Group.Rule.Target.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -35347,9 +35733,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -35398,6 +35781,10 @@ public class FHIRXMLParser implements FHIRParser {
     private StructureMap.Group.Rule.Target.Parameter parseStructureMapGroupRuleTargetParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Rule.Target.Parameter.Builder builder = StructureMap.Group.Rule.Target.Parameter.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -35405,9 +35792,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -35447,6 +35831,10 @@ public class FHIRXMLParser implements FHIRParser {
     private StructureMap.Structure parseStructureMapStructure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Structure.Builder builder = StructureMap.Structure.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -35454,9 +35842,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -35563,6 +35948,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Subscription.Channel parseSubscriptionChannel(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Subscription.Channel.Builder builder = Subscription.Channel.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -35570,9 +35959,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -35679,6 +36065,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Substance.Ingredient parseSubstanceIngredient(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Substance.Ingredient.Builder builder = Substance.Ingredient.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -35686,9 +36076,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -35722,6 +36109,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Substance.Instance parseSubstanceInstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Substance.Instance.Builder builder = Substance.Instance.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -35729,9 +36120,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -35818,6 +36206,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceAmount.ReferenceRange parseSubstanceAmountReferenceRange(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceAmount.ReferenceRange.Builder builder = SubstanceAmount.ReferenceRange.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -35825,9 +36217,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -35922,6 +36311,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceNucleicAcid.Subunit parseSubstanceNucleicAcidSubunit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceNucleicAcid.Subunit.Builder builder = SubstanceNucleicAcid.Subunit.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -35929,9 +36322,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -35980,6 +36370,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceNucleicAcid.Subunit.Linkage parseSubstanceNucleicAcidSubunitLinkage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceNucleicAcid.Subunit.Linkage.Builder builder = SubstanceNucleicAcid.Subunit.Linkage.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -35987,9 +36381,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -36026,6 +36417,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceNucleicAcid.Subunit.Sugar parseSubstanceNucleicAcidSubunitSugar(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceNucleicAcid.Subunit.Sugar.Builder builder = SubstanceNucleicAcid.Subunit.Sugar.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -36033,9 +36428,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -36136,6 +36528,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstancePolymer.MonomerSet parseSubstancePolymerMonomerSet(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstancePolymer.MonomerSet.Builder builder = SubstancePolymer.MonomerSet.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -36143,9 +36539,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -36176,6 +36569,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstancePolymer.MonomerSet.StartingMaterial parseSubstancePolymerMonomerSetStartingMaterial(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstancePolymer.MonomerSet.StartingMaterial.Builder builder = SubstancePolymer.MonomerSet.StartingMaterial.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -36183,9 +36580,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -36222,6 +36616,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstancePolymer.Repeat parseSubstancePolymerRepeat(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstancePolymer.Repeat.Builder builder = SubstancePolymer.Repeat.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -36229,9 +36627,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -36268,6 +36663,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstancePolymer.Repeat.RepeatUnit parseSubstancePolymerRepeatRepeatUnit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstancePolymer.Repeat.RepeatUnit.Builder builder = SubstancePolymer.Repeat.RepeatUnit.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -36275,9 +36674,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -36317,6 +36713,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation parseSubstancePolymerRepeatRepeatUnitDegreeOfPolymerisation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.Builder builder = SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -36324,9 +36724,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -36357,6 +36754,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation parseSubstancePolymerRepeatRepeatUnitStructuralRepresentation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.Builder builder = SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -36364,9 +36765,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -36461,6 +36859,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceProtein.Subunit parseSubstanceProteinSubunit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceProtein.Subunit.Builder builder = SubstanceProtein.Subunit.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -36468,9 +36870,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -36583,6 +36982,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceReferenceInformation.Classification parseSubstanceReferenceInformationClassification(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceReferenceInformation.Classification.Builder builder = SubstanceReferenceInformation.Classification.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -36590,9 +36993,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -36629,6 +37029,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceReferenceInformation.Gene parseSubstanceReferenceInformationGene(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceReferenceInformation.Gene.Builder builder = SubstanceReferenceInformation.Gene.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -36636,9 +37040,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -36672,6 +37073,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceReferenceInformation.GeneElement parseSubstanceReferenceInformationGeneElement(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceReferenceInformation.GeneElement.Builder builder = SubstanceReferenceInformation.GeneElement.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -36679,9 +37084,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -36715,6 +37117,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceReferenceInformation.Target parseSubstanceReferenceInformationTarget(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceReferenceInformation.Target.Builder builder = SubstanceReferenceInformation.Target.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -36722,9 +37128,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -36867,6 +37270,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceSourceMaterial.FractionDescription parseSubstanceSourceMaterialFractionDescription(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.FractionDescription.Builder builder = SubstanceSourceMaterial.FractionDescription.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -36874,9 +37281,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -36907,6 +37311,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceSourceMaterial.Organism parseSubstanceSourceMaterialOrganism(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.Organism.Builder builder = SubstanceSourceMaterial.Organism.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -36914,9 +37322,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -36965,6 +37370,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceSourceMaterial.Organism.Author parseSubstanceSourceMaterialOrganismAuthor(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.Organism.Author.Builder builder = SubstanceSourceMaterial.Organism.Author.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -36972,9 +37381,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -37005,6 +37411,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceSourceMaterial.Organism.Hybrid parseSubstanceSourceMaterialOrganismHybrid(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.Organism.Hybrid.Builder builder = SubstanceSourceMaterial.Organism.Hybrid.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -37012,9 +37422,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -37054,6 +37461,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceSourceMaterial.Organism.OrganismGeneral parseSubstanceSourceMaterialOrganismOrganismGeneral(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.Organism.OrganismGeneral.Builder builder = SubstanceSourceMaterial.Organism.OrganismGeneral.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -37061,9 +37472,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -37100,6 +37508,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceSourceMaterial.PartDescription parseSubstanceSourceMaterialPartDescription(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.PartDescription.Builder builder = SubstanceSourceMaterial.PartDescription.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -37107,9 +37519,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -37246,6 +37655,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceSpecification.Code parseSubstanceSpecificationCode(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Code.Builder builder = SubstanceSpecification.Code.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -37253,9 +37666,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -37295,6 +37705,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceSpecification.Moiety parseSubstanceSpecificationMoiety(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Moiety.Builder builder = SubstanceSpecification.Moiety.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -37302,9 +37716,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -37353,6 +37764,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceSpecification.Name parseSubstanceSpecificationName(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Name.Builder builder = SubstanceSpecification.Name.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -37360,9 +37775,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -37420,6 +37832,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceSpecification.Name.Official parseSubstanceSpecificationNameOfficial(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Name.Official.Builder builder = SubstanceSpecification.Name.Official.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -37427,9 +37843,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -37463,6 +37876,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceSpecification.Property parseSubstanceSpecificationProperty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Property.Builder builder = SubstanceSpecification.Property.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -37470,9 +37887,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -37518,6 +37932,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceSpecification.Relationship parseSubstanceSpecificationRelationship(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Relationship.Builder builder = SubstanceSpecification.Relationship.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -37525,9 +37943,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -37585,6 +38000,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceSpecification.Structure parseSubstanceSpecificationStructure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Structure.Builder builder = SubstanceSpecification.Structure.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -37592,9 +38011,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -37643,6 +38059,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceSpecification.Structure.Isotope parseSubstanceSpecificationStructureIsotope(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Structure.Isotope.Builder builder = SubstanceSpecification.Structure.Isotope.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -37650,9 +38070,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -37692,6 +38109,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceSpecification.Structure.Isotope.MolecularWeight parseSubstanceSpecificationStructureIsotopeMolecularWeight(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Structure.Isotope.MolecularWeight.Builder builder = SubstanceSpecification.Structure.Isotope.MolecularWeight.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -37699,9 +38120,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -37735,6 +38153,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SubstanceSpecification.Structure.Representation parseSubstanceSpecificationStructureRepresentation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Structure.Representation.Builder builder = SubstanceSpecification.Structure.Representation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -37742,9 +38164,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -37866,6 +38285,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SupplyDelivery.SuppliedItem parseSupplyDeliverySuppliedItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SupplyDelivery.SuppliedItem.Builder builder = SupplyDelivery.SuppliedItem.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -37873,9 +38296,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -38012,6 +38432,10 @@ public class FHIRXMLParser implements FHIRParser {
     private SupplyRequest.Parameter parseSupplyRequestParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SupplyRequest.Parameter.Builder builder = SupplyRequest.Parameter.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -38019,9 +38443,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -38203,6 +38624,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Task.Input parseTaskInput(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Task.Input.Builder builder = Task.Input.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -38210,9 +38635,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -38387,6 +38809,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Task.Output parseTaskOutput(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Task.Output.Builder builder = Task.Output.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -38394,9 +38820,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -38571,6 +38994,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Task.Restriction parseTaskRestriction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Task.Restriction.Builder builder = Task.Restriction.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -38578,9 +39005,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -38735,6 +39159,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TerminologyCapabilities.Closure parseTerminologyCapabilitiesClosure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Closure.Builder builder = TerminologyCapabilities.Closure.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -38742,9 +39170,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -38772,6 +39197,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TerminologyCapabilities.CodeSystem parseTerminologyCapabilitiesCodeSystem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.CodeSystem.Builder builder = TerminologyCapabilities.CodeSystem.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -38779,9 +39208,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -38815,6 +39241,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TerminologyCapabilities.CodeSystem.Version parseTerminologyCapabilitiesCodeSystemVersion(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.CodeSystem.Version.Builder builder = TerminologyCapabilities.CodeSystem.Version.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -38822,9 +39252,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -38867,6 +39294,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TerminologyCapabilities.CodeSystem.Version.Filter parseTerminologyCapabilitiesCodeSystemVersionFilter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.CodeSystem.Version.Filter.Builder builder = TerminologyCapabilities.CodeSystem.Version.Filter.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -38874,9 +39305,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -38907,6 +39335,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TerminologyCapabilities.Expansion parseTerminologyCapabilitiesExpansion(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Expansion.Builder builder = TerminologyCapabilities.Expansion.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -38914,9 +39346,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -38956,6 +39385,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TerminologyCapabilities.Expansion.Parameter parseTerminologyCapabilitiesExpansionParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Expansion.Parameter.Builder builder = TerminologyCapabilities.Expansion.Parameter.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -38963,9 +39396,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -38996,6 +39426,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TerminologyCapabilities.Implementation parseTerminologyCapabilitiesImplementation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Implementation.Builder builder = TerminologyCapabilities.Implementation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39003,9 +39437,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39036,6 +39467,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TerminologyCapabilities.Software parseTerminologyCapabilitiesSoftware(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Software.Builder builder = TerminologyCapabilities.Software.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39043,9 +39478,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39076,6 +39508,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TerminologyCapabilities.Translation parseTerminologyCapabilitiesTranslation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Translation.Builder builder = TerminologyCapabilities.Translation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39083,9 +39519,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39113,6 +39546,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TerminologyCapabilities.ValidateCode parseTerminologyCapabilitiesValidateCode(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.ValidateCode.Builder builder = TerminologyCapabilities.ValidateCode.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39120,9 +39557,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39235,6 +39669,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestReport.Participant parseTestReportParticipant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Participant.Builder builder = TestReport.Participant.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39242,9 +39680,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39278,6 +39713,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestReport.Setup parseTestReportSetup(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Setup.Builder builder = TestReport.Setup.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39285,9 +39724,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39315,6 +39751,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestReport.Setup.Action parseTestReportSetupAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Setup.Action.Builder builder = TestReport.Setup.Action.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39322,9 +39762,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39355,6 +39792,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestReport.Setup.Action.Assert parseTestReportSetupActionAssert(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Setup.Action.Assert.Builder builder = TestReport.Setup.Action.Assert.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39362,9 +39803,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39398,6 +39836,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestReport.Setup.Action.Operation parseTestReportSetupActionOperation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Setup.Action.Operation.Builder builder = TestReport.Setup.Action.Operation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39405,9 +39847,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39441,6 +39880,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestReport.Teardown parseTestReportTeardown(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Teardown.Builder builder = TestReport.Teardown.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39448,9 +39891,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39478,6 +39918,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestReport.Teardown.Action parseTestReportTeardownAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Teardown.Action.Builder builder = TestReport.Teardown.Action.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39485,9 +39929,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39515,6 +39956,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestReport.Test parseTestReportTest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Test.Builder builder = TestReport.Test.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39522,9 +39967,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39558,6 +40000,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestReport.Test.Action parseTestReportTestAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Test.Action.Builder builder = TestReport.Test.Action.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39565,9 +40011,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39719,6 +40162,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestScript.Destination parseTestScriptDestination(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Destination.Builder builder = TestScript.Destination.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39726,9 +40173,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39759,6 +40203,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestScript.Fixture parseTestScriptFixture(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Fixture.Builder builder = TestScript.Fixture.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39766,9 +40214,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39802,6 +40247,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestScript.Metadata parseTestScriptMetadata(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Metadata.Builder builder = TestScript.Metadata.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39809,9 +40258,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39842,6 +40288,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestScript.Metadata.Capability parseTestScriptMetadataCapability(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Metadata.Capability.Builder builder = TestScript.Metadata.Capability.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39849,9 +40299,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39897,6 +40344,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestScript.Metadata.Link parseTestScriptMetadataLink(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Metadata.Link.Builder builder = TestScript.Metadata.Link.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39904,9 +40355,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39937,6 +40385,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestScript.Origin parseTestScriptOrigin(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Origin.Builder builder = TestScript.Origin.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39944,9 +40396,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -39977,6 +40426,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestScript.Setup parseTestScriptSetup(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Setup.Builder builder = TestScript.Setup.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -39984,9 +40437,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -40014,6 +40464,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestScript.Setup.Action parseTestScriptSetupAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Setup.Action.Builder builder = TestScript.Setup.Action.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -40021,9 +40475,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -40054,6 +40505,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestScript.Setup.Action.Assert parseTestScriptSetupActionAssert(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Setup.Action.Assert.Builder builder = TestScript.Setup.Action.Assert.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -40061,9 +40516,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -40154,6 +40606,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestScript.Setup.Action.Operation parseTestScriptSetupActionOperation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Setup.Action.Operation.Builder builder = TestScript.Setup.Action.Operation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -40161,9 +40617,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -40239,6 +40692,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestScript.Setup.Action.Operation.RequestHeader parseTestScriptSetupActionOperationRequestHeader(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Setup.Action.Operation.RequestHeader.Builder builder = TestScript.Setup.Action.Operation.RequestHeader.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -40246,9 +40703,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -40279,6 +40733,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestScript.Teardown parseTestScriptTeardown(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Teardown.Builder builder = TestScript.Teardown.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -40286,9 +40744,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -40316,6 +40771,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestScript.Teardown.Action parseTestScriptTeardownAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Teardown.Action.Builder builder = TestScript.Teardown.Action.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -40323,9 +40782,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -40353,6 +40809,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestScript.Test parseTestScriptTest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Test.Builder builder = TestScript.Test.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -40360,9 +40820,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -40396,6 +40853,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestScript.Test.Action parseTestScriptTestAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Test.Action.Builder builder = TestScript.Test.Action.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -40403,9 +40864,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -40436,6 +40894,10 @@ public class FHIRXMLParser implements FHIRParser {
     private TestScript.Variable parseTestScriptVariable(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Variable.Builder builder = TestScript.Variable.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -40443,9 +40905,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -40574,6 +41033,10 @@ public class FHIRXMLParser implements FHIRParser {
     private Timing.Repeat parseTimingRepeat(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Timing.Repeat.Builder builder = Timing.Repeat.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -40581,9 +41044,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -40904,6 +41364,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ValueSet.Compose parseValueSetCompose(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Compose.Builder builder = ValueSet.Compose.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -40911,9 +41375,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -40950,6 +41411,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ValueSet.Compose.Include parseValueSetComposeInclude(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Compose.Include.Builder builder = ValueSet.Compose.Include.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -40957,9 +41422,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -40999,6 +41461,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ValueSet.Compose.Include.Concept parseValueSetComposeIncludeConcept(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Compose.Include.Concept.Builder builder = ValueSet.Compose.Include.Concept.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -41006,9 +41472,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -41042,6 +41505,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ValueSet.Compose.Include.Concept.Designation parseValueSetComposeIncludeConceptDesignation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Compose.Include.Concept.Designation.Builder builder = ValueSet.Compose.Include.Concept.Designation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -41049,9 +41516,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -41085,6 +41549,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ValueSet.Compose.Include.Filter parseValueSetComposeIncludeFilter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Compose.Include.Filter.Builder builder = ValueSet.Compose.Include.Filter.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -41092,9 +41560,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -41128,6 +41593,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ValueSet.Expansion parseValueSetExpansion(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Expansion.Builder builder = ValueSet.Expansion.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -41135,9 +41604,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -41180,6 +41646,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ValueSet.Expansion.Contains parseValueSetExpansionContains(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Expansion.Contains.Builder builder = ValueSet.Expansion.Contains.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -41187,9 +41657,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -41238,6 +41705,10 @@ public class FHIRXMLParser implements FHIRParser {
     private ValueSet.Expansion.Parameter parseValueSetExpansionParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Expansion.Parameter.Builder builder = ValueSet.Expansion.Parameter.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -41245,9 +41716,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -41387,6 +41855,10 @@ public class FHIRXMLParser implements FHIRParser {
     private VerificationResult.Attestation parseVerificationResultAttestation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         VerificationResult.Attestation.Builder builder = VerificationResult.Attestation.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -41394,9 +41866,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -41445,6 +41914,10 @@ public class FHIRXMLParser implements FHIRParser {
     private VerificationResult.PrimarySource parseVerificationResultPrimarySource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         VerificationResult.PrimarySource.Builder builder = VerificationResult.PrimarySource.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -41452,9 +41925,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -41500,6 +41970,10 @@ public class FHIRXMLParser implements FHIRParser {
     private VerificationResult.Validator parseVerificationResultValidator(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         VerificationResult.Validator.Builder builder = VerificationResult.Validator.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -41507,9 +41981,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -41616,6 +42087,10 @@ public class FHIRXMLParser implements FHIRParser {
     private VisionPrescription.LensSpecification parseVisionPrescriptionLensSpecification(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         VisionPrescription.LensSpecification.Builder builder = VisionPrescription.LensSpecification.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -41623,9 +42098,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;
@@ -41692,6 +42164,10 @@ public class FHIRXMLParser implements FHIRParser {
     private VisionPrescription.LensSpecification.Prism parseVisionPrescriptionLensSpecificationPrism(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         VisionPrescription.LensSpecification.Prism.Builder builder = VisionPrescription.LensSpecification.Prism.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -41699,9 +42175,6 @@ public class FHIRXMLParser implements FHIRParser {
                 java.lang.String localName = reader.getLocalName();
                 requireNamespace(reader, FHIR_NS_URI);
                 switch (localName) {
-                case "id":
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
                 case "extension":
                     builder.extension(parseExtension("extension", reader, -1));
                     break;

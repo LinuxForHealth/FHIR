@@ -1756,7 +1756,7 @@ public class CodeGenerator {
             cb.assign(generatedClassName + ".Builder builder", generatedClassName + ".builder()");
         }
         
-        if (typeClassNames.contains(generatedClassName)) {
+        if (typeClassNames.contains(generatedClassName) || generatedClassName.contains(".")) {
             cb.assign("java.lang.String id", "reader.getAttributeValue(null, \"id\")")
             ._if("id != null")
                 .invoke("builder", "id", args("id"))
@@ -1801,7 +1801,7 @@ public class CodeGenerator {
         for (JsonObject elementDefinition : elementDefinitions) {
             String elementName = getElementName(elementDefinition, path);
             
-            if (typeClassNames.contains(generatedClassName) && "id".equals(elementName)) {
+            if ((typeClassNames.contains(generatedClassName) || generatedClassName.contains(".")) && "id".equals(elementName)) {
                 continue;
             }
             
