@@ -7,7 +7,6 @@
 package com.ibm.watsonhealth.fhir.persistence.jdbc.dto;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;

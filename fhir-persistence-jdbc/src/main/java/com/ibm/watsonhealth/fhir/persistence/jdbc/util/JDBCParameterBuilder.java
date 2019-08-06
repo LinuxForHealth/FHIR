@@ -8,6 +8,10 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -84,7 +88,7 @@ import com.ibm.watsonhealth.fhir.persistence.util.AbstractProcessor;
  */
 public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     private static final Logger log = Logger.getLogger(JDBCParameterBuilder.class.getName());
-    private static final String className = JDBCParameterBuilder.class.getName();
+    private static final String CLASSNAME = JDBCParameterBuilder.class.getName();
 
     public static final String EXCEPTION_MSG = "Unexpected error while processing parameter [%s] with value [%s]";
     public static final String EXCEPTION_MSG_NAME_ONLY = "Unexpected error while processing parameter [%s]";
@@ -96,7 +100,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     private static final Timestamp LARGEST_TIMESTAMP = Timestamp.valueOf("9999-12-31 23:59:59.999999");
 
     private FHIRPersistenceProcessorException buildNameOnlyNewException(SearchParameter parameter, Exception e) {
-        return new FHIRPersistenceProcessorException(String.format(EXCEPTION_MSG_NAME_ONLY, parameter.getName()), e);
+        return new FHIRPersistenceProcessorException(String.format(EXCEPTION_MSG_NAME_ONLY, parameter.getName().getValue()), e);
     }
 
     private List<Parameter> buildUnsupportedTypeResponse(Class<?> cls) {
@@ -108,7 +112,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
     private List<Parameter> processChildren(SearchParameter parameter, Collection<FHIRPathNode> children, String path)
         throws FHIRPersistenceProcessorException {
-        if (children == null || children.size() == 0) {
+        if (children == null || children.isEmpty()) {
             throw new FHIRPersistenceProcessorException(String.format("unknown value in fhir path element node %s", path));
         }
 
@@ -123,7 +127,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     @Override
     public List<Parameter> process(SearchParameter parameter, FHIRPathAbstractNode value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter, FHIRPathAbstractNode)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
 
         List<Parameter> parameters = new ArrayList<>();
 
@@ -168,7 +172,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             throw new FHIRPersistenceProcessorException("Unable to process value into fhir path subtype");
         }
 
-        log.exiting(className, methodName);
+        log.exiting(CLASSNAME, methodName);
 
         return parameters;
     }
@@ -221,34 +225,133 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
     @Override
     public List<Parameter> process(SearchParameter parameter, java.time.ZonedDateTime value) throws FHIRPersistenceProcessorException {
-        // TODO: Implement
-        return Collections.emptyList();
+        final String methodName = "process(SearchParameter,ZonedDateTime)";
+        log.entering(CLASSNAME, methodName);
+        List<Parameter> parameters = new ArrayList<>();
+        try {
+            String dateStr = value.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+
+            // Exact match as it came in to store into string representation of YYYY/MM
+            Parameter pString = new Parameter();
+            pString.setName(parameter.getName().getValue());
+            pString.setValueString(dateStr);
+            parameters.add(pString);
+
+            // Range match as it came in to store into TIMESTAMP
+            Parameter pDate = new Parameter();
+            pDate.setName(parameter.getName().getValue());
+
+            // Forces to the first day of the month.
+            // Honors the zone
+            pDate.setValueDate(java.sql.Timestamp.from(java.time.Instant.from(value.toInstant())));
+            parameters.add(pDate);
+
+            return parameters;
+        } catch (Exception e) {
+            throw buildNameOnlyNewException(parameter, e);
+        } finally {
+            log.exiting(CLASSNAME, methodName);
+        }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, java.time.LocalDate value) throws FHIRPersistenceProcessorException {
-        // TODO: Implement
-        return Collections.emptyList();
+        final String methodName = "process(SearchParameter,LocalDate)";
+        log.entering(CLASSNAME, methodName);
+        List<Parameter> parameters = new ArrayList<>();
+        try {
+            String dateStr = value.format(DateTimeFormatter.ISO_LOCAL_DATE);
+
+            // Exact match as it came in to store into string representation of YYYY/MM
+            Parameter pString = new Parameter();
+            pString.setName(parameter.getName().getValue());
+            pString.setValueString(dateStr);
+            parameters.add(pString);
+
+            // Range match as it came in to store into TIMESTAMP
+            Parameter pDate = new Parameter();
+            pDate.setName(parameter.getName().getValue());
+
+            // Forces to the first day of the month.
+            // Default to UTC as this is not Zoned. 
+            pDate.setValueDate(java.sql.Timestamp.from(java.time.Instant.from(value.atStartOfDay().toInstant(ZoneOffset.UTC))));
+            parameters.add(pDate);
+
+            return parameters;
+        } catch (Exception e) {
+            throw buildNameOnlyNewException(parameter, e);
+        } finally {
+            log.exiting(CLASSNAME, methodName);
+        }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, java.time.YearMonth value) throws FHIRPersistenceProcessorException {
-        // TODO: Implement
-        return Collections.emptyList();
+        final String methodName = "process(SearchParameter,YearMonth)";
+        log.entering(CLASSNAME, methodName);
+        List<Parameter> parameters = new ArrayList<>();
+        try {
+            String dateStr = value.getYear() + "-" + value.getMonthValue();
+
+            // Exact match as it came in to store into string representation of YYYY/MM
+            Parameter pString = new Parameter();
+            pString.setName(parameter.getName().getValue());
+            pString.setValueString(dateStr);
+            parameters.add(pString);
+
+            // Range match as it came in to store into TIMESTAMP
+            Parameter pDate = new Parameter();
+            pDate.setName(parameter.getName().getValue());
+
+            // Forces to the first day of the month.
+            pDate.setValueDate(new java.sql.Timestamp(java.sql.Date.valueOf(value.atDay(1)).getTime()));
+            parameters.add(pDate);
+
+            return parameters;
+        } catch (Exception e) {
+            throw buildNameOnlyNewException(parameter, e);
+        } finally {
+            log.exiting(CLASSNAME, methodName);
+        }
 
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, java.time.Year value) throws FHIRPersistenceProcessorException {
-        // TODO: Implement
-        return Collections.emptyList();
+        final String methodName = "process(SearchParameter,Year)";
+
+        log.entering(CLASSNAME, methodName);
+        List<Parameter> parameters = new ArrayList<>();
+        try {
+            String dateStr = Integer.toString(value.getValue());
+
+            // Exact match as it came in to store into string representation of YYYY/MM
+            Parameter pString = new Parameter();
+            pString.setName(parameter.getName().getValue());
+            pString.setValueString(dateStr);
+            parameters.add(pString);
+
+            // Range match as it came in to store into TIMESTAMP
+            Parameter pDate = new Parameter();
+            pDate.setName(parameter.getName().getValue());
+
+            // Forces to the first day of the month.
+            pDate.setValueDate(new java.sql.Timestamp(java.sql.Date.valueOf(value.atDay(1)).getTime()));
+            parameters.add(pDate);
+
+            return parameters;
+        } catch (Exception e) {
+            throw buildNameOnlyNewException(parameter, e);
+        } finally {
+            log.exiting(CLASSNAME, methodName);
+        }
 
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, String value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter, String)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
@@ -263,14 +366,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw new FHIRPersistenceProcessorException(String.format(EXCEPTION_MSG, parameter.getName(), value), e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, com.ibm.watsonhealth.fhir.model.type.String value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,String)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
 
@@ -282,14 +385,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, Address value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,Address)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
@@ -365,7 +468,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
@@ -387,7 +490,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     @Override
     public List<Parameter> process(SearchParameter parameter, java.lang.Boolean value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,Boolean)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
@@ -402,14 +505,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, Code value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,Code)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
@@ -420,14 +523,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, CodeableConcept value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,CodeableConcept)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             for (Coding c : value.getCoding()) {
@@ -435,14 +538,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             }
             return parameters;
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, Coding value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,Coding)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             if (value.getCode() != null || value.getSystem() != null) {
@@ -460,14 +563,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, ContactPoint value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,ContactPoint)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             if (value.getValue() != null) {
@@ -496,14 +599,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, Date value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,Date)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             // handles all the variants of partial dates
@@ -515,7 +618,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
@@ -586,7 +689,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     @Override
     public List<Parameter> process(SearchParameter parameter, DateTime value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,DateTime)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
@@ -597,14 +700,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, Decimal value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,Decimal)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
@@ -615,14 +718,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, HumanName value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,HumanName)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             String paramname = parameter.getName().getValue();
@@ -668,14 +771,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, Id value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,Id)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
@@ -687,14 +790,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, Identifier value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,Identifier)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             if (Objects.nonNull(value) && Objects.nonNull(value.getValue())) {
@@ -710,14 +813,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, Instant value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,Instant)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
@@ -728,14 +831,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, java.lang.Integer value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,Integer)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
@@ -747,7 +850,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
@@ -761,7 +864,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     public List<Parameter> process(SearchParameter parameter, Location.Position value) throws FHIRPersistenceProcessorException {
 
         String methodName = "process(SearchParameter,Location.Position)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
@@ -777,14 +880,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, Markdown value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,Markdown)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
@@ -795,7 +898,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
@@ -807,7 +910,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     @Override
     public List<Parameter> process(SearchParameter parameter, Oid value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,Oid)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
@@ -818,14 +921,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, Period value) throws FHIRPersistenceProcessorException {
         final String methodName = "process(SearchParameter,Period)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             if (value.getStart() == null && value.getEnd() == null) {
@@ -850,14 +953,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, PositiveInt value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,PositiveInt)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
@@ -869,14 +972,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, java.math.BigDecimal value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,PositiveInt)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
@@ -888,14 +991,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, Quantity value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,Quantity)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             if (Objects.nonNull(value) && Objects.nonNull(value.getValue()) && Objects.nonNull(value.getValue().getValue())
@@ -918,14 +1021,14 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
     @Override
     public List<Parameter> process(SearchParameter parameter, Range value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,Range)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
@@ -965,7 +1068,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
@@ -977,7 +1080,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     @Override
     public List<Parameter> process(SearchParameter parameter, Reference value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,Reference)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             if (value.getReference() != null) {
@@ -990,7 +1093,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 
@@ -1037,7 +1140,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     @Override
     public List<Parameter> process(SearchParameter parameter, Uri value) throws FHIRPersistenceProcessorException {
         String methodName = "process(SearchParameter,Uri)";
-        log.entering(className, methodName);
+        log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
@@ -1048,7 +1151,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         } catch (Exception e) {
             throw buildNameOnlyNewException(parameter, e);
         } finally {
-            log.exiting(className, methodName);
+            log.exiting(CLASSNAME, methodName);
         }
     }
 

@@ -11,15 +11,20 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
@@ -41,11 +46,15 @@ import com.ibm.watsonhealth.fhir.search.test.BaseSearchTest;
 public class ParametersUtilTest extends BaseSearchTest {
 
     @Test
-    public void testGetBuildInSearchParameterMap() {
+    public void testGetBuildInSearchParameterMap() throws IOException {
         // Tests JSON
         Map<String, Map<String, SearchParameter>> params = ParametersUtil.getBuiltInSearchParameterMap();
         assertNotNull(params);
-        ParametersUtil.print(System.out);
+        // Intentionally the data is caputred in the bytearray output stream.
+        try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true);) {
+            ParametersUtil.print(out);
+            Assert.assertNotNull(outBA);
+        }
         // 134 + DomainResource
         assertEquals(params.size(), 135);
     }
@@ -85,8 +94,14 @@ public class ParametersUtilTest extends BaseSearchTest {
     @Test
     public void testPrint() {
         // Test the output, OK, if it gets through.
-        ParametersUtil.print(System.out);
-        assertTrue(true);
+        try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true);) {
+            ParametersUtil.print(out);
+            assertNotNull(outBA);
+            assertNotNull(outBA.toByteArray());
+        }catch(Exception e) {
+            fail();
+        }
+        
     }
 
     @Test(expectedExceptions = {})
@@ -193,12 +208,20 @@ public class ParametersUtilTest extends BaseSearchTest {
     }
 
     @Test
-    public void testPrintSearchParameter() {
-        SearchParameter.Builder builder =
-                SearchParameter.builder(Uri.of("test"), string("test"), PublicationStatus.DRAFT, Markdown.of("test"), Code.of("test"), Arrays.asList(ResourceType.ACCOUNT), SearchParamType.NUMBER);
-        builder.expression(string("test"));
-        ParametersUtil.printSearchParameter(builder.build(), System.out);
-        assertTrue(true);
+    public void testPrintSearchParameter() throws IOException {
+        // Intentionally the data is caputred in the bytearray output stream.
+        try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true);) {
+
+            SearchParameter.Builder builder =
+                    SearchParameter.builder(Uri.of("test"), string("test"), PublicationStatus.DRAFT, Markdown.of("test"), Code.of("test"), Arrays.asList(ResourceType.ACCOUNT), SearchParamType.NUMBER);
+            builder.expression(string("test"));
+            ParametersUtil.printSearchParameter(builder.build(), out);
+            assertNotNull(outBA.toByteArray());
+            if (DEBUG) {
+                System.out.println(outBA.toString("UTF-8"));
+            }
+        }
+
     }
 
     @Test
