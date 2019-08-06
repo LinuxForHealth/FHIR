@@ -88,7 +88,7 @@ public class DocumentOperation extends AbstractOperation {
         //Bundle document = factory.createBundle();
         //document.setType(factory.createBundleType().withValue(BundleTypeList.DOCUMENT));
         
-        Bundle.Builder documentBuilder = Bundle.builder(BundleType.DOCUMENT);
+        Bundle.Builder documentBuilder = Bundle.builder().type(BundleType.DOCUMENT);
         
         // the composition is the first bundle entry in the document
         Bundle.Entry.Builder entryBuilder = Entry.builder(); //createBundleEntry();
