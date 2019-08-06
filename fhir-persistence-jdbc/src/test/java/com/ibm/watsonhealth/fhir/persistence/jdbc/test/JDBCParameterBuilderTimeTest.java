@@ -42,7 +42,7 @@ public class JDBCParameterBuilderTimeTest {
     public void testYearMonthProcess() throws FHIRPersistenceProcessorException {
         JDBCParameterBuilder builder = new JDBCParameterBuilder();
         SearchParameter.Builder builderSP =
-                SearchParameter.builder(Uri.of("test"), string("test"), PublicationStatus.DRAFT, Markdown.of("test"), Code.of("test"), Arrays.asList(ResourceType.ACCOUNT), SearchParamType.NUMBER);
+                SearchParameter.builder().url(Uri.of("test")).name(string("test")).status(PublicationStatus.DRAFT).description(Markdown.of("test")).code(Code.of("test")).base(Arrays.asList(ResourceType.ACCOUNT)).type(SearchParamType.NUMBER);
         builderSP.expression(string("test"));
         
         YearMonth value = YearMonth.now();
@@ -58,7 +58,7 @@ public class JDBCParameterBuilderTimeTest {
     public void testYearProcess() throws FHIRPersistenceProcessorException {
         JDBCParameterBuilder builder = new JDBCParameterBuilder();
         SearchParameter.Builder builderSP =
-                SearchParameter.builder(Uri.of("test"), string("test"), PublicationStatus.DRAFT, Markdown.of("test"), Code.of("test"), Arrays.asList(ResourceType.ACCOUNT), SearchParamType.NUMBER);
+                SearchParameter.builder().url(Uri.of("test")).name(string("test")).status(PublicationStatus.DRAFT).description(Markdown.of("test")).code(Code.of("test")).base(Arrays.asList(ResourceType.ACCOUNT)).type(SearchParamType.NUMBER);
         builderSP.expression(string("test"));
         
         Year value = Year.now();
@@ -74,7 +74,7 @@ public class JDBCParameterBuilderTimeTest {
     public void testLocalDateProcess() throws FHIRPersistenceProcessorException {
         JDBCParameterBuilder builder = new JDBCParameterBuilder();
         SearchParameter.Builder builderSP =
-                SearchParameter.builder(Uri.of("test"), string("test"), PublicationStatus.DRAFT, Markdown.of("test"), Code.of("test"), Arrays.asList(ResourceType.ACCOUNT), SearchParamType.NUMBER);
+                SearchParameter.builder().url(Uri.of("test")).name(string("test")).status(PublicationStatus.DRAFT).description(Markdown.of("test")).code(Code.of("test")).base(Arrays.asList(ResourceType.ACCOUNT)).type(SearchParamType.NUMBER);
         builderSP.expression(string("test"));
         
         LocalDate value = LocalDate.now();
@@ -90,7 +90,7 @@ public class JDBCParameterBuilderTimeTest {
     public void testZonedDateTimeProcess() throws FHIRPersistenceProcessorException {
         JDBCParameterBuilder builder = new JDBCParameterBuilder();
         SearchParameter.Builder builderSP =
-                SearchParameter.builder(Uri.of("test"), string("test"), PublicationStatus.DRAFT, Markdown.of("test"), Code.of("test"), Arrays.asList(ResourceType.ACCOUNT), SearchParamType.NUMBER);
+                SearchParameter.builder().url(Uri.of("test")).name(string("test")).status(PublicationStatus.DRAFT).description(Markdown.of("test")).code(Code.of("test")).base(Arrays.asList(ResourceType.ACCOUNT)).type(SearchParamType.NUMBER);
         builderSP.expression(string("test"));
         
         ZonedDateTime value = ZonedDateTime.now();

@@ -35,6 +35,16 @@ public class Parameter {
     private Double valueLatitude;
     private String valueSystem;
     private String valueCode;
+    private TimeType timeType;
+    
+    public enum TimeType{
+        YEAR,
+        YEAR_MONTH,
+        LOCAL_DATE,
+        ZONE_DATE,
+        UNKNOWN,
+        DEFAULT
+    }
 
     public Parameter() {
         super();
@@ -196,5 +206,13 @@ public class Parameter {
         case URI:
             throw new IllegalArgumentException("uri not supported here: " + name);
         }
+    }
+
+    public TimeType getTimeType() {
+        return timeType;
+    }
+
+    public void setTimeType(TimeType timeType) {
+        this.timeType = timeType;
     }
 }

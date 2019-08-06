@@ -155,11 +155,11 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest{
     			.reference(com.ibm.watsonhealth.fhir.model.type.String.of("Basic/" + savedResource.getId().getValue()))
     			.build();
     	
-    	composition = Composition.builder(
-    			CompositionStatus.builder().value(CompositionStatus.ValueSet.PRELIMINARY).build(), 
-    			CodeableConcept.builder().text(com.ibm.watsonhealth.fhir.model.type.String.of("test")).build(), 
-    			DateTime.of("2019"), 
-    			Arrays.asList(ref), com.ibm.watsonhealth.fhir.model.type.String.of("TEST")).build();
+    	composition = Composition.builder()
+    	        .status(CompositionStatus.builder().value(CompositionStatus.ValueSet.PRELIMINARY).build())
+    	        .category(CodeableConcept.builder().text(com.ibm.watsonhealth.fhir.model.type.String.of("test")).build())
+    	        .date(DateTime.of("2019"))
+    	        .author(Arrays.asList(ref)).title(com.ibm.watsonhealth.fhir.model.type.String.of("TEST")).build();
     	
         persistence.create(getDefaultPersistenceContext(), composition);
         assertNotNull(composition);

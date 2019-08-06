@@ -6,7 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;

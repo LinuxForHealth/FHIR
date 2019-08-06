@@ -19,7 +19,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -152,7 +151,7 @@ public class ParametersUtilTest extends BaseSearchTest {
      * Generate Search parameter
      */
     private SearchParameter generateSearchParameter(String expressions) {
-        SearchParameter.Builder builder = new SearchParameter.Builder();
+        SearchParameter.Builder builder = SearchParameter.builder();
         builder.url(com.ibm.watsonhealth.fhir.model.type.Uri.uri("test"));
         builder.name(string("test"));
         builder.status(PublicationStatus.ACTIVE);
@@ -213,7 +212,7 @@ public class ParametersUtilTest extends BaseSearchTest {
         try (ByteArrayOutputStream outBA = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outBA, true);) {
 
             SearchParameter.Builder builder =
-                    SearchParameter.builder(Uri.of("test"), string("test"), PublicationStatus.DRAFT, Markdown.of("test"), Code.of("test"), Arrays.asList(ResourceType.ACCOUNT), SearchParamType.NUMBER);
+                    SearchParameter.builder().url(Uri.of("test")).name(string("test")).status(PublicationStatus.DRAFT).description(Markdown.of("test")).code(Code.of("test")).base(Arrays.asList(ResourceType.ACCOUNT)).type(SearchParamType.NUMBER);
             builder.expression(string("test"));
             ParametersUtil.printSearchParameter(builder.build(), out);
             assertNotNull(outBA.toByteArray());

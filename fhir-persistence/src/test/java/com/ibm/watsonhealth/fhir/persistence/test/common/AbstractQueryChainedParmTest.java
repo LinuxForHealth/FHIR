@@ -110,7 +110,7 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
     	CodeableConcept forecastStatus = CodeableConcept.builder().text(str2model("cloudy")).build();
     	CodeableConcept vaccineCode = CodeableConcept.builder().text(str2model("a vaccine")).build();
     	PositiveInt doseNumber = PositiveInt.of(10);
-    	ImmunizationRecommendation.Recommendation recommendation = ImmunizationRecommendation.Recommendation.builder(forecastStatus)
+    	ImmunizationRecommendation.Recommendation recommendation = ImmunizationRecommendation.Recommendation.builder().forecastStatus(forecastStatus)
     			.vaccineCode(vaccineCode)
     			.doseNumber(doseNumber)
     	.build();
@@ -119,7 +119,7 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
     	Reference patientRef = Reference.builder().display(str2model("Pat Ient")).build();
     	DateTime date = DateTime.of("2017-09-04");
 
-    	ImmunizationRecommendation imm_rec = ImmunizationRecommendation.builder(patientRef, date, recommendations)
+    	ImmunizationRecommendation imm_rec = ImmunizationRecommendation.builder().patient(patientRef).date(date).recommendation(recommendations)
     			.build();
     	
     	// Check the resource was saved correctly
@@ -137,7 +137,7 @@ public abstract class AbstractQueryChainedParmTest extends AbstractPersistenceTe
     	DateTime year = DateTime.of("2018");
     	CompositionStatus status = CompositionStatus.ENTERED_IN_ERROR;
     	CodeableConcept type = CodeableConcept.builder().text(str2model("test")).build();
-    	Composition composition = Composition.builder(status, type, year, Arrays.asList(immunizationRef), str2model("TEST")).build();
+    	Composition composition = Composition.builder().status(status).type(type).date(year).author(Arrays.asList(immunizationRef)).title(str2model("TEST")).build();
     	
     	Resource c2 = persistence.create(getDefaultPersistenceContext(), composition);
         assertNotNull(c2);

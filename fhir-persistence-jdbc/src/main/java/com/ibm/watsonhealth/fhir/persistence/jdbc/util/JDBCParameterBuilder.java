@@ -8,10 +8,6 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.Year;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -77,6 +73,7 @@ import com.ibm.watsonhealth.fhir.model.type.UsageContext;
 import com.ibm.watsonhealth.fhir.model.type.Uuid;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceProcessorException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter.TimeType;
 import com.ibm.watsonhealth.fhir.persistence.util.AbstractProcessor;
 
 /**
@@ -229,13 +226,9 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
-            String dateStr = value.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-
-            // Exact match as it came in to store into string representation of YYYY/MM
-            Parameter pString = new Parameter();
-            pString.setName(parameter.getName().getValue());
-            pString.setValueString(dateStr);
-            parameters.add(pString);
+            // We've decided not to exact match the string
+            // as it came in to store into string representation of LocalDate
+            // instead all we do is use the valueDate
 
             // Range match as it came in to store into TIMESTAMP
             Parameter pDate = new Parameter();
@@ -243,7 +236,8 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
             // Forces to the first day of the month.
             // Honors the zone
-            pDate.setValueDate(java.sql.Timestamp.from(java.time.Instant.from(value.toInstant())));
+            pDate.setValueDate(java.sql.Timestamp.from(value.toInstant()));
+            pDate.setTimeType(Parameter.TimeType.ZONE_DATE);
             parameters.add(pDate);
 
             return parameters;
@@ -260,21 +254,18 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
-            String dateStr = value.format(DateTimeFormatter.ISO_LOCAL_DATE);
-
-            // Exact match as it came in to store into string representation of YYYY/MM
-            Parameter pString = new Parameter();
-            pString.setName(parameter.getName().getValue());
-            pString.setValueString(dateStr);
-            parameters.add(pString);
+            // We've decided not to exact match the string
+            // as it came in to store into string representation of LocalDate
+            // instead all we do is use the valueDate
 
             // Range match as it came in to store into TIMESTAMP
             Parameter pDate = new Parameter();
             pDate.setName(parameter.getName().getValue());
 
             // Forces to the first day of the month.
-            // Default to UTC as this is not Zoned. 
-            pDate.setValueDate(java.sql.Timestamp.from(java.time.Instant.from(value.atStartOfDay().toInstant(ZoneOffset.UTC))));
+            // Default to UTC as this is not Zoned.
+            pDate.setValueDate(java.sql.Timestamp.from(QueryBuilderUtil.getInstantFromPartial(value)));
+            pDate.setTimeType(Parameter.TimeType.LOCAL_DATE);
             parameters.add(pDate);
 
             return parameters;
@@ -291,20 +282,18 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
-            String dateStr = value.getYear() + "-" + value.getMonthValue();
 
-            // Exact match as it came in to store into string representation of YYYY/MM
-            Parameter pString = new Parameter();
-            pString.setName(parameter.getName().getValue());
-            pString.setValueString(dateStr);
-            parameters.add(pString);
+            // We've decided not to exact match the string
+            // as it came in to store into string representation of YYYY/MM
+            // instead all we do is use the valueYYYYMM
 
             // Range match as it came in to store into TIMESTAMP
             Parameter pDate = new Parameter();
             pDate.setName(parameter.getName().getValue());
+            pDate.setTimeType(Parameter.TimeType.YEAR_MONTH);
 
             // Forces to the first day of the month.
-            pDate.setValueDate(new java.sql.Timestamp(java.sql.Date.valueOf(value.atDay(1)).getTime()));
+            pDate.setValueDate(java.sql.Timestamp.from(QueryBuilderUtil.getInstantFromPartial(value)));
             parameters.add(pDate);
 
             return parameters;
@@ -323,20 +312,18 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
-            String dateStr = Integer.toString(value.getValue());
 
-            // Exact match as it came in to store into string representation of YYYY/MM
-            Parameter pString = new Parameter();
-            pString.setName(parameter.getName().getValue());
-            pString.setValueString(dateStr);
-            parameters.add(pString);
+            // We've decided not to exact match the string
+            // as it came in to store into string representation of YYYY
+            // instead all we do is use the valueYYYY
 
             // Range match as it came in to store into TIMESTAMP
             Parameter pDate = new Parameter();
             pDate.setName(parameter.getName().getValue());
 
             // Forces to the first day of the month.
-            pDate.setValueDate(new java.sql.Timestamp(java.sql.Date.valueOf(value.atDay(1)).getTime()));
+            pDate.setValueDate(java.sql.Timestamp.from(QueryBuilderUtil.getInstantFromPartial(value)));
+            pDate.setTimeType(Parameter.TimeType.YEAR);
             parameters.add(pDate);
 
             return parameters;
@@ -653,7 +640,8 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         Timestamp startTime = Timestamp.from(start);
         p.setValueDateStart(startTime);
         p.setValueDate(startTime);
-
+        p.setTimeType(TimeType.UNKNOWN);
+        
         Timestamp implicitEndExclusive = Timestamp.from(end);
         Timestamp implicitEndInclusive = convertToExlusiveEnd(implicitEndExclusive);
         p.setValueDateEnd(implicitEndInclusive);

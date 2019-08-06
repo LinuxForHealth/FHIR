@@ -92,7 +92,7 @@ public class CompartmentUtil {
         // No Operation
     }
 
-    private static Map<String, CompartmentCache> compartmentMap = buildCompartmentMap();
+    private static final Map<String, CompartmentCache> compartmentMap = buildCompartmentMap();
 
     /**
      * Builds an in-memory model of the Compartment map defined in compartments.json, for supporting compartment based
@@ -212,7 +212,7 @@ public class CompartmentUtil {
      */
     public static void buildCompositeBundle(PrintStream out) throws FHIRGeneratorException {
 
-        Bundle.Builder build = Bundle.builder(BundleType.COLLECTION);
+        Bundle.Builder build = Bundle.builder().type(BundleType.COLLECTION);
         for (String compartmentDefintion : compartmentDefinitions) {
 
             try (InputStreamReader reader = new InputStreamReader(CompartmentUtil.class.getResourceAsStream(compartmentDefintion))) {

@@ -72,7 +72,7 @@ public class IndexCalculationTool {
      * @throws FHIRGeneratorException
      */
     public static void output(List<SearchParameter> params, java.io.PrintStream out) throws FHIRGeneratorException {
-        Bundle.Builder build = Bundle.builder(BundleType.COLLECTION);
+        Bundle.Builder build = Bundle.builder().type(BundleType.COLLECTION);
         for (SearchParameter param : params) {
             build.entry(Bundle.Entry.builder().resource(param).fullUrl(param.getUrl()).build());
 

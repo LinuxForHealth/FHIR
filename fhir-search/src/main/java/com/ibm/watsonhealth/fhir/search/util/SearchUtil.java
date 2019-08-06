@@ -83,6 +83,7 @@ public class SearchUtil {
     private static final String SEARCH_PARAMETER_MODIFIER_NAME = "Search parameter: '%s' must have resource type name modifier";
     private static final String INCLUSION_PARAMETERS_NULL_STRING_EXCEPTION = "Inclusion parameters cannot be processed with null queryString.";
     private static final String INVALID_TARGET_TYPE_EXCEPTION = "Invalid target type for the Inclusion Parameter.";
+    private static final String UNSUPPOTED_EXPR_NULL = "An empty expression is found or the parameter type is unsupported [%s][%s]";;
 
     /*
      * This is our in-memory cache of SearchParameter objects. The cache is organized at the top level by tenant-id,
@@ -222,8 +223,7 @@ public class SearchUtil {
             result.addAll(filterSearchParameters(filterRules, resourceType, spMap.values()));
         }
 
-        // TODO: Retrieve the SPs associated with the "Resource" resource type and filter per the filter rules.
-        // I'm not sure this is needed.
+        // Retrieve the SPs associated with the "Resource" resource type and filter per the filter rules.
         spMap = spBuiltin.get(SearchConstants.RESOURCE_RESOURCE);
         if (spMap != null && !spMap.isEmpty()) {
             result.addAll(filterSearchParameters(filterRules, resourceType, spMap.values()));
@@ -437,27 +437,25 @@ public class SearchUtil {
 
     /**
      * skips the empty extracted search parameters
-     * 
-     * @param <T>
+     *  
      * @param resource
      * @return
      * @throws Exception
      */
-    public static <T> Map<SearchParameter, List<FHIRPathNode>> extractParameterValues(T resource) throws Exception {
+    public static Map<SearchParameter, List<FHIRPathNode>> extractParameterValues(Resource resource) throws Exception {
         // Skip Empty is automatically true in this call.
         return extractParameterValues(resource, true);
     }
 
     /**
      * extract parameter values.
-     * 
-     * @param <T>
+     *  
      * @param resource
      * @param skipEmpty
      * @return
      * @throws Exception
-     */
-    public static <T> Map<SearchParameter, List<FHIRPathNode>> extractParameterValues(T resource, boolean skipEmpty) throws Exception {
+     */ 
+    public static Map<SearchParameter, List<FHIRPathNode>> extractParameterValues(Resource resource, boolean skipEmpty) throws Exception {
 
         Map<SearchParameter, List<FHIRPathNode>> result = new LinkedHashMap<>();
 
@@ -465,7 +463,7 @@ public class SearchUtil {
         Class<?> resourceType = resource.getClass();
 
         // Create one time.
-        FHIRPathTree tree = FHIRPathTree.tree((Resource) resource);
+        FHIRPathTree tree = FHIRPathTree.tree(resource);
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
 
         List<SearchParameter> parameters = getApplicableSearchParameters(resourceType.getSimpleName());
@@ -495,6 +493,10 @@ public class SearchUtil {
 
                 } catch (java.lang.UnsupportedOperationException | FHIRPathException uoe) {
                     log.warning(String.format(UNSUPPORTED_EXCEPTION, parameter.getName().getValue(), expression.getValue(), uoe.getMessage()));
+                }
+            } else { 
+                if (log.isLoggable(Level.FINER)) {
+                    log.fine(String.format(UNSUPPOTED_EXPR_NULL, parameter.getType(), parameter.getName()));
                 }
             }
 

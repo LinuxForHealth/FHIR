@@ -80,7 +80,7 @@ public class ExtensionSearchTool {
         java.io.PrintStream out = System.out;
         output(params, out);
     }
-    
+
     /*
      * used in fhir-persistence-jdbc
      */
@@ -91,7 +91,7 @@ public class ExtensionSearchTool {
         String code = typeLowerCase;
         SearchParamType type = SearchParamType.DATE;
         String desc = "test param";
-        String expression = "Basic.extension.where(url='http://example.org/"+ typeLowerCase + "').value" + typeCamelCase;
+        String expression = "Basic.extension.where(url='http://example.org/" + typeLowerCase + "').value" + typeCamelCase;
         String xpath = "f:Basic/f:extension[@url='http://example.org/" + typeLowerCase + "']/f:value" + typeCamelCase;
         return commonWithBase(id, url, name, code, type, desc, expression, xpath);
     }
@@ -112,7 +112,7 @@ public class ExtensionSearchTool {
         Collection<ResourceType> base = baseStrings;
 
         SearchParameter param =
-                SearchParameter.builder(url, string(name), status, description, code, base, type).id(Id.of(id)).expression(string(expression)).xpath(string(xpath)).xpathUsage(XPathUsageType.NORMAL).build();
+                SearchParameter.builder().url(url).name(string(name)).status(status).description(description).code(code).base(base).type(type).id(Id.of(id)).expression(string(expression)).xpath(string(xpath)).xpathUsage(XPathUsageType.NORMAL).build();
         return param;
     }
 
@@ -124,7 +124,7 @@ public class ExtensionSearchTool {
      * @throws FHIRGeneratorException
      */
     private static void output(List<SearchParameter> params, java.io.PrintStream out) throws FHIRGeneratorException {
-        Bundle.Builder build = Bundle.builder(BundleType.COLLECTION);
+        Bundle.Builder build = Bundle.builder().type(BundleType.COLLECTION);
         for (SearchParameter param : params) {
             build.entry(Bundle.Entry.builder().resource(param).fullUrl(param.getUrl()).build());
 

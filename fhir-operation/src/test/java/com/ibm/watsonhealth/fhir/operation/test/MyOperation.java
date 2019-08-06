@@ -27,16 +27,16 @@ import com.ibm.watsonhealth.fhir.model.type.Integer;
 public class MyOperation extends AbstractOperation {
     @Override
     protected OperationDefinition buildOperationDefinition() {
-        OperationDefinition.Builder OperationDefinitionBuilder =  OperationDefinition.builder(String.of("My Operation"), 
-        		PublicationStatus.of(PublicationStatus.ValueSet.DRAFT), OperationKind.of(OperationKind.ValueSet.OPERATION), Code.of("hello"), Boolean.of(true), Boolean.of(true), Boolean.of(false));
+        OperationDefinition.Builder OperationDefinitionBuilder =  OperationDefinition.builder().name(String.of("My Operation")).status( 
+        		PublicationStatus.of(PublicationStatus.ValueSet.DRAFT)).kind(OperationKind.of(OperationKind.ValueSet.OPERATION)).code(Code.of("hello")).affectsState(Boolean.of(true)).experimental( Boolean.of(true)).instance(Boolean.of(false));
         
-        OperationDefinition.Parameter.Builder inputParameterBuilder = OperationDefinition.Parameter.builder(Code.of("input"), 
-        		OperationParameterUse.IN, Integer.of(1), String.of("1"));
+        OperationDefinition.Parameter.Builder inputParameterBuilder = OperationDefinition.Parameter.builder().name(Code.of("input")).use( 
+            OperationParameterUse.OUT).min(Integer.of(1)).id("1");
         
         OperationDefinitionBuilder.parameter(inputParameterBuilder.type(FHIRAllTypes.STRING).build());
                
-        OperationDefinition.Parameter.Builder outputParameterBuilder = OperationDefinition.Parameter.builder(Code.of("output"), 
-        		OperationParameterUse.OUT, Integer.of(1), String.of("1"));
+        OperationDefinition.Parameter.Builder outputParameterBuilder = OperationDefinition.Parameter.builder().name(Code.of("output")).use( 
+        		OperationParameterUse.OUT).min(Integer.of(1)).id("1");
         
         OperationDefinitionBuilder.parameter(outputParameterBuilder.type(FHIRAllTypes.STRING).build());
 
@@ -50,7 +50,7 @@ public class MyOperation extends AbstractOperation {
         try {
             Parameter inputParameter = parameters.getParameter().get(0);
 
-            return Parameters.builder().parameter(Parameter.builder(String.of("output")).value(inputParameter.getValue()).build()).build();
+            return Parameters.builder().parameter(Parameter.builder().name(String.of("output")).value(inputParameter.getValue()).build()).build();
         } catch (Exception e) {
             throw new FHIROperationException("An error occured invoking operation: " + getName(), e);
         }
