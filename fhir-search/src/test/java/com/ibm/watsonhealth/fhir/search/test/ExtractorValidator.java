@@ -21,6 +21,7 @@ import java.util.Map.Entry;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathBooleanValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathDateTimeValue;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathElementNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
@@ -97,7 +98,7 @@ public class ExtractorValidator {
         }
 
         // Dummy Assertion in case of empty expected
-        if(expected.size() > 0) {
+        if (expected.size() > 0) {
             System.out.println(expected);
         }
         assertEquals(expected.size(), 0);
@@ -125,9 +126,19 @@ public class ExtractorValidator {
      * @return
      */
     public static String processOutput(FHIRPathNode node) {
-        // System.out.println("Node is of type " + node);
+        //System.out.println("Node is of type " + node.getClass().getSimpleName());
+        
         String val = "";
-        if (node.isPrimitiveValue()) {
+        if(node.getClass().getSimpleName().contains("FHIRPathBooleanValue")) {
+            FHIRPathBooleanValue booleanValue = (FHIRPathBooleanValue) node;
+            if(booleanValue._boolean()) {
+                val = "true";
+            }else {
+                val = "false";
+            }
+            
+        }
+        else if (node.isPrimitiveValue()) {
             FHIRPathPrimitiveValue nodeConverted = node.asPrimitiveValue();
             if (nodeConverted.isDateTimeValue()) {
                 // FHIRPathDateTimeValue v = (FHIRPathDateTimeValue) node;
@@ -137,7 +148,7 @@ public class ExtractorValidator {
                 val = "" + v.string();
             }
 
-        } else if (node.is(FHIRPathElementNode.class)) {
+        }  else if (node.is(FHIRPathElementNode.class)) {
             //
             FHIRPathElementNode tNode = node.asElementNode();
 

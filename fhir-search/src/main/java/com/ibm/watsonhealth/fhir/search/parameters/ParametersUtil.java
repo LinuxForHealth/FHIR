@@ -75,12 +75,12 @@ public class ParametersUtil {
     private ParametersUtil() {
         // No Operation
     }
-    
+
     /**
-     * loads the static version of the class to populate the map. 
+     * loads the static version of the class to populate the map.
      */
     public static void init() {
-        // No Operation 
+        // No Operation
     }
 
     /**
@@ -124,7 +124,7 @@ public class ParametersUtil {
      * @param file
      *            a File object which represents the file from which the SearchParameters are to be loaded
      * @return the Map containing the SearchParameters
-     *  
+     * 
      * @throws IOException
      */
     public static Map<String, Map<String, SearchParameter>> populateSearchParameterMapFromFile(File file) throws IOException {
@@ -211,7 +211,27 @@ public class ParametersUtil {
         }
 
         // Must be unmodifiable, lest there be side effects.
-        return Collections.unmodifiableMap(searchParameterMap);
+        return Collections.unmodifiableMap(assignInheritedToAll(searchParameterMap));
+    }
+
+    /*
+     * One of the inherited resource is `Resource`, there may be others, so encapsulating the assignment to the cache.
+     * @param searchParameterMap
+     * @return
+     */
+    private static Map<String, Map<String, SearchParameter>> assignInheritedToAll(Map<String, Map<String, SearchParameter>> searchParameterMap) {
+
+        Map<String, SearchParameter> resourceMap = searchParameterMap.get("Resource");
+        if(resourceMap != null) {
+            for (Entry<String, Map<String, SearchParameter>> entry : searchParameterMap.entrySet()) {
+                if(entry.getKey().compareTo("Resource")!=0) {
+                    // Great, now we want to take the resourceMap and add to this tree. 
+                    entry.getValue().putAll(resourceMap);
+                }
+            }
+        }
+        
+        return searchParameterMap;
     }
 
     /**

@@ -12,7 +12,7 @@ import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
 
 /**
- * Encapsulates the definitions of the is Search type.
+ * Encapsulates the definitions fo the is Search type.
  * 
  * @author pbastide
  *

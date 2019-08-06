@@ -27,6 +27,8 @@ public class SearchExceptionUtil {
     private static final String PARSE_PARAMETER_EXCEPTION = "An error occurred while parsing search parameter '%s'.";
 
     private static final String CHAINED_PARAMETER_EXCEPTION = "Unable to parse chained parameter: '%s'";
+    
+    private static final String GET_SEARCH_FAILED = "Unable to process getSearch ";
 
     private SearchExceptionUtil() {
         // No Op
@@ -93,6 +95,16 @@ public class SearchExceptionUtil {
      */
     public static IllegalArgumentException buildNewIllegalArumentException(final String val) {
         return new IllegalArgumentException(String.format(ILLEGAL_ARGUMENT_EXCEPTION, val));
+    }
+    
+    /**
+     * builds a fhir search exception. 
+     * 
+     * @param e
+     * @return
+     */
+    public static FHIRSearchException buildNewFHIRSearchExecption(Exception e) {
+        return new FHIRSearchException(GET_SEARCH_FAILED, e);
     }
 
 }
