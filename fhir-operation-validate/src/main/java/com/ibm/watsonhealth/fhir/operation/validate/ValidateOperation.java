@@ -78,15 +78,15 @@ public class ValidateOperation extends AbstractOperation {
     private OperationOutcome buildResourceValidOperationOutcome() {
         
         List <Issue> issueList = new ArrayList <Issue> ();
-        Issue newIssue = Issue.builder(IssueSeverity.INFORMATION, IssueType.INFORMATIONAL)
+        Issue newIssue = Issue.builder().severity(IssueSeverity.INFORMATION).code(IssueType.INFORMATIONAL)
                 .details(CodeableConcept.builder().text(string("All OK")).build())
                 .build();
         
         issueList.add(newIssue);
                 
-        OperationOutcome operationOutcome = OperationOutcome.builder(issueList)
+        OperationOutcome operationOutcome = OperationOutcome.builder().issue(issueList)
                 .id(Id.of("allok"))
-                .text(Narrative.builder(NarrativeStatus.ADDITIONAL, "<div><p>All OK</p></div>").build())
+                .text(Narrative.builder().status(NarrativeStatus.ADDITIONAL).div("<div><p>All OK</p></div>").build())
                 .build();
                 
         return operationOutcome;
