@@ -207,6 +207,7 @@ public final class XMLSupport {
             super(reader);
         }
     }
+    
     public static class StreamWriterDelegate implements XMLStreamWriter, AutoCloseable {
         protected final XMLStreamWriter writer;
                 
