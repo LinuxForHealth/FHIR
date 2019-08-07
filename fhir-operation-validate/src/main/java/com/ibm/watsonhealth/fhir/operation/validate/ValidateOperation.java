@@ -11,9 +11,6 @@ import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
@@ -30,7 +27,6 @@ import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.NarrativeStatus;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
 import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
@@ -38,7 +34,7 @@ import com.ibm.watsonhealth.fhir.operation.util.FHIROperationUtil;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 
 public class ValidateOperation extends AbstractOperation {
-    private static final Logger log = java.util.logging.Logger.getLogger(ValidateOperation.class.getName());
+    
     public ValidateOperation() {
         super();
     }
@@ -63,26 +59,8 @@ public class ValidateOperation extends AbstractOperation {
             Resource resource = parameter.getResource() ;
             List<Issue> issues = FHIRValidator.validator(resource).validate();
             if (!issues.isEmpty()) {
-                boolean includesFailure = false;
-                for (OperationOutcome.Issue issue: issues) {
-                    if (FHIRUtil.isFailure(issue.getSeverity())) {
-                        includesFailure = true;
-                    }
-                }
-
-                if (includesFailure) {
-                    throw new FHIROperationException("Input resource failed validation.").withIssue(issues);
-                }
-                else {
-                    String info = issues.stream()
-                        .flatMap(issue -> Stream.of(issue.getDetails()))
-                        .flatMap(details -> Stream.of(details.getText()))
-                        .flatMap(text -> Stream.of(text.getValue()))
-                        .collect(Collectors.joining(", "));
-                    //TODO
-                    log.warning("TODO: Validation warnings should be added to response: " + info);
-                }
-            } 
+                throw new FHIROperationException("Input resource failed validation.").withIssue(issues);
+            }
             return FHIROperationUtil.getOutputParameters(buildResourceValidOperationOutcome());
         } catch (FHIROperationException e) {
             throw e;
@@ -102,7 +80,7 @@ public class ValidateOperation extends AbstractOperation {
                 
         OperationOutcome operationOutcome = OperationOutcome.builder().issue(issueList)
                 .id(Id.of("allok"))
-                .text(Narrative.builder().status(NarrativeStatus.ADDITIONAL).div("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>All OK</p></div>").build())
+                .text(Narrative.builder().status(NarrativeStatus.ADDITIONAL).div("<div><p>All OK</p></div>").build())
                 .build();
                 
         return operationOutcome;

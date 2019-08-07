@@ -211,7 +211,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             
             // Serialize and compress the Resource
             GZIPOutputStream zipStream = new GZIPOutputStream(stream);
-            FHIRGenerator.generator(Format.JSON).generate(resource, zipStream);
+            FHIRGenerator.generator( Format.JSON, false).generate(resource, zipStream);
             zipStream.finish();
             resourceDTO.setData(stream.toByteArray());
             zipStream.close();
@@ -327,7 +327,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                         
             // Serialize and compress the Resource
             GZIPOutputStream zipStream = new GZIPOutputStream(stream);
-            FHIRGenerator.generator(Format.JSON).generate(resource, zipStream);
+            FHIRGenerator.generator( Format.JSON, false).generate(resource, zipStream);
             zipStream.finish();
             resourceDTO.setData(stream.toByteArray());
             zipStream.close();
@@ -495,7 +495,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                     
                     // Serialize and compress the Resource
                     GZIPOutputStream zipStream = new GZIPOutputStream(stream);
-                    FHIRGenerator.generator(Format.JSON).generate(existingResource, zipStream);
+                    FHIRGenerator.generator( Format.JSON, false).generate(existingResource, zipStream);
                     zipStream.finish();
                     resourceDTO.setData(stream.toByteArray());
                     zipStream.close();
