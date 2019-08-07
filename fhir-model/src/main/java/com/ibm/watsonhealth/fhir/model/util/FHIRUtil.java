@@ -314,15 +314,11 @@ public class FHIRUtil {
 
     @Deprecated
     public static <T extends Resource> T toResource(Class<T> resourceType, JsonObject jsonObject) throws FHIRParserException {
-        FHIRJsonParser parser = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class);
-        parser.reset();
-        return parser.parse(jsonObject);
+        return FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parse(jsonObject);
     }
     
     public static <T extends Resource> T toResource(JsonObject jsonObject) throws FHIRParserException {
-        FHIRJsonParser parser = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class);
-        parser.reset();
-        return parser.parse(jsonObject);
+        return FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parse(jsonObject);
     }
 
     /**
