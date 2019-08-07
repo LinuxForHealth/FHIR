@@ -6,7 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.model.parser.exception;
 
-public class FHIRParserException extends Exception {
+import com.ibm.watsonhealth.fhir.exception.FHIRException;
+
+public class FHIRParserException extends FHIRException {
     private static final long serialVersionUID = 1L;
     protected final String path;
 

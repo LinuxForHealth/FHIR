@@ -264,37 +264,24 @@ public class FHIRUtil {
      * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in the JSON)
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, InputStream stream, List<String> elementsToInclude) throws FHIRException {
-        try {
-            FHIRJsonParser parser = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class);
-            parser.reset();
-            Resource resource = parser.parseAndFilter(stream, elementsToInclude);
-            return (T) resource;
-        } catch (FHIRParserException e) {
-            throw new FHIRException(e.getMessage() + ", location: '" + e.getPath() + "'", e);
-        }
+    public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, InputStream stream, List<String> elementsToInclude) throws FHIRParserException {
+        FHIRJsonParser parser = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class);
+        Resource resource = parser.parseAndFilter(stream, elementsToInclude);
+        return (T) resource;
     }
 
     /**
      * Read a FHIR resource from {@code reader} in the requested {@code format}.
      */
-    public static <T extends Resource> T read(Class<T> resourceType, Format format, Reader reader) throws FHIRException {
-        try {
-            return FHIRParser.parser(format).parse(reader);
-        } catch (FHIRParserException e) {
-            throw new FHIRException(e.getMessage() + ", location: '" + e.getPath() + "'", e);
-        }
+    public static <T extends Resource> T read(Class<T> resourceType, Format format, Reader reader) throws FHIRParserException {
+        return FHIRParser.parser(format).parse(reader);
     }
     
     /**
      * Read a FHIR resource from {@code in} in the requested {@code format}.
      */
-    public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream in) throws FHIRException {
-        try {
-            return FHIRParser.parser(format).parse(in);
-        } catch (FHIRParserException e) {
-            throw new FHIRException(e.getMessage() + ", location: '" + e.getPath() + "'", e);
-        }
+    public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream in) throws FHIRParserException {
+        return FHIRParser.parser(format).parse(in);
     }
 
     /**
@@ -305,18 +292,13 @@ public class FHIRUtil {
      * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in the JSON)
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, Reader reader, List<String> elementsToInclude) throws FHIRException {
-        try {
-            FHIRJsonParser parser = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class);
-            parser.reset();
-            Resource resource = parser.parseAndFilter(reader, elementsToInclude);
-            return (T) resource;
-        } catch (FHIRParserException e) {
-            throw new FHIRException(e.getMessage() + ", location: '" + e.getPath() + "'", e);
-        }
+    public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, Reader reader, List<String> elementsToInclude) throws FHIRParserException {
+        FHIRJsonParser parser = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class);
+        Resource resource = parser.parseAndFilter(reader, elementsToInclude);
+        return (T) resource;
     }
 
-    public static <T extends Resource> T toResource(Class<T> resourceType, JsonObject jsonObject) throws FHIRParserException{
+    public static <T extends Resource> T toResource(Class<T> resourceType, JsonObject jsonObject) throws FHIRParserException {
         FHIRJsonParser parser = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class);
         parser.reset();
         return parser.parse(jsonObject);
@@ -326,7 +308,7 @@ public class FHIRUtil {
      * Write a resource in XML or JSON to a given output stream, without pretty-printing.
      * This method will close the output stream after writing to it, so passing System.out / System.err is discouraged.
      */
-    public static <T extends Resource> void write(T resource, Format format, OutputStream stream) throws FHIRException {
+    public static <T extends Resource> void write(T resource, Format format, OutputStream stream) throws FHIRGeneratorException {
         write(resource, format, stream, false);
     }
 
@@ -334,19 +316,15 @@ public class FHIRUtil {
      * Write a resource in XML or JSON to a given output stream, with an option to pretty-print the output.
      * This method will close the output stream after writing to it, so passing System.out / System.err is discouraged.
      */
-    public static <T extends Resource> void write(T resource, Format format, OutputStream stream, boolean formatted) throws FHIRException {
-        try {
-            FHIRGenerator.generator(format, formatted).generate(resource, stream);
-        } catch (FHIRGeneratorException e) {
-            throw new FHIRException(e.getMessage(), e);
-        }
+    public static <T extends Resource> void write(T resource, Format format, OutputStream stream, boolean formatted) throws FHIRGeneratorException {
+        FHIRGenerator.generator(format, formatted).generate(resource, stream);
     }
 
     /**
      * Write a resource in XML or JSON using the passed writer, without pretty-printing.
      * This method will close the writer after writing to it.
      */
-    public static <T extends Resource> void write(T resource, Format format, Writer writer) throws FHIRException {
+    public static <T extends Resource> void write(T resource, Format format, Writer writer) throws FHIRGeneratorException {
         write(resource, format, writer, false);
     }
 
@@ -354,15 +332,11 @@ public class FHIRUtil {
      * Write a resource in XML or JSON using the passed writer, with an option to pretty-print the output.
      * This method will close the writer after writing to it.
      */
-    public static <T extends Resource> void write(T resource, Format format, Writer writer, boolean formatted) throws FHIRException {
-        try {
-            FHIRGenerator.generator(format, formatted).generate(resource, writer);
-        } catch (Exception e) {
-            throw new FHIRException(e.getMessage(), e);
-        }
+    public static <T extends Resource> void write(T resource, Format format, Writer writer, boolean formatted) throws FHIRGeneratorException {
+        FHIRGenerator.generator(format, formatted).generate(resource, writer);
     }
 
-    public static JsonObject toJsonObject(Resource resource) throws FHIRException {
+    public static JsonObject toJsonObject(Resource resource) throws FHIRGeneratorException {
         // write Resource to String
         StringWriter writer = new StringWriter();
         write(resource, Format.JSON, writer);
@@ -392,6 +366,9 @@ public class FHIRUtil {
     }
 
     public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity.ValueSet severity, IssueType.ValueSet code, String details, String expression) {
+        if (expression == null || expression.isEmpty()) {
+            expression = "<no expression>";
+        }
         return OperationOutcome.Issue.builder()
                 .severity(IssueSeverity.of(severity))
                 .code(IssueType.of(code))
