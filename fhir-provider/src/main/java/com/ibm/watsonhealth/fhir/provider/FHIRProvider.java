@@ -72,15 +72,11 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
                     // do nothing
                 }
             }));
-        } catch (Exception e) {
+        } catch (FHIRParserException e) {
             log.log(Level.WARNING, "an error occurred during resource deserialization", e);
-            String path = null;
-            if (e instanceof FHIRParserException) {
-                path = ((FHIRParserException) e).getPath();
-            }
             Response response = buildResponse(
                 buildOperationOutcome(Collections.singletonList(
-                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.ERROR, IssueType.ValueSet.INVALID, "FHIRProvider: " + e.getMessage(), path))));
+                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.ERROR, IssueType.ValueSet.INVALID, "FHIRProvider: " + e.getMessage(), e.getPath()))));
             throw new WebApplicationException(response);
         } finally {
             log.exiting(this.getClass().getName(), "readFrom");
@@ -104,15 +100,11 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
                     // do nothing
                 }
             }, isPretty(requestHeaders));
-        } catch (Exception e) {
+        } catch (FHIRGeneratorException e) {
             log.log(Level.WARNING, "an error occurred during resource serialization", e);
-            String path = null;
-            if (e instanceof FHIRGeneratorException) {
-                path = ((FHIRGeneratorException) e).getPath();
-            }
             Response response = buildResponse(
                 buildOperationOutcome(Collections.singletonList(
-                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.EXCEPTION, "FHIRProvider: " + e.getMessage(), path))));
+                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.EXCEPTION, "FHIRProvider: " + e.getMessage(), e.getPath()))));
             throw new WebApplicationException(response);
         } finally {
             log.exiting(this.getClass().getName(), "writeTo");
