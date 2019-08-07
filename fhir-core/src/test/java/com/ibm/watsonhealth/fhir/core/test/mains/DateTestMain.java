@@ -7,7 +7,7 @@
 package com.ibm.watsonhealth.fhir.core.test.mains;
 
 import static com.ibm.watsonhealth.fhir.core.FHIRUtilities.*;
-import static  org.testng.AssertJUnit.*;
+import static org.testng.AssertJUnit.*;
 
 import java.util.Arrays;
 import java.util.Date;
