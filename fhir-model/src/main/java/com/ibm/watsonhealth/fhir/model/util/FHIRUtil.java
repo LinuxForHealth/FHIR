@@ -262,6 +262,8 @@ public class FHIRUtil {
      * @param lenient
      * @param validating
      * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in the JSON)
+     * @deprecated
+     *     use {@link FHIRParser} directly
      */
     @Deprecated
     public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, InputStream in, List<String> elementsToInclude) throws FHIRParserException {
@@ -270,6 +272,9 @@ public class FHIRUtil {
 
     /**
      * Read a FHIR resource from {@code reader} in the requested {@code format}.
+     * 
+     * @deprecated
+     *     use {@link FHIRParser} directly
      */
     @Deprecated
     public static <T extends Resource> T read(Class<T> resourceType, Format format, Reader reader) throws FHIRParserException {
@@ -278,6 +283,9 @@ public class FHIRUtil {
     
     /**
      * Read a FHIR resource from {@code in} in the requested {@code format}.
+     * 
+     * @deprecated
+     *     use {@link FHIRParser} directly
      */
     @Deprecated
     public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream in) throws FHIRParserException {
@@ -290,12 +298,18 @@ public class FHIRUtil {
      * @param reader
      * @param elements a list of element names to include in the returned resource; null to skip filtering
      * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in the JSON)
+     * @deprecated
+     *     use {@link FHIRParser} directly
      */
     @Deprecated
     public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, Reader reader, List<String> elementsToInclude) throws FHIRParserException {
         return FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(reader, elementsToInclude);
     }
 
+    /**
+     * @deprecated
+     *     use {@link FHIRParser} directly
+     */
     @Deprecated
     public static <T extends Resource> T toResource(Class<T> resourceType, JsonObject jsonObject) throws FHIRParserException {
         return FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parse(jsonObject);
