@@ -263,11 +263,8 @@ public class FHIRUtil {
      * @param validating
      * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in the JSON)
      */
-    @SuppressWarnings("unchecked")
-    public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, InputStream stream, List<String> elementsToInclude) throws FHIRParserException {
-        FHIRJsonParser parser = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class);
-        Resource resource = parser.parseAndFilter(stream, elementsToInclude);
-        return (T) resource;
+    public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, InputStream in, List<String> elementsToInclude) throws FHIRParserException {
+        return FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(in, elementsToInclude);
     }
 
     /**
@@ -291,11 +288,8 @@ public class FHIRUtil {
      * @param elements a list of element names to include in the returned resource; null to skip filtering
      * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in the JSON)
      */
-    @SuppressWarnings("unchecked")
     public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, Reader reader, List<String> elementsToInclude) throws FHIRParserException {
-        FHIRJsonParser parser = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class);
-        Resource resource = parser.parseAndFilter(reader, elementsToInclude);
-        return (T) resource;
+        return FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(reader, elementsToInclude);
     }
 
     public static <T extends Resource> T toResource(Class<T> resourceType, JsonObject jsonObject) throws FHIRParserException {
