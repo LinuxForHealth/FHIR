@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.Writer;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.UUID;
@@ -349,7 +350,7 @@ public class FHIRXMLGenerator implements FHIRGenerator {
                 .build();
         
         Meta meta = Meta.builder().versionId(Id.of("1"))
-                .lastUpdated(Instant.now(true))
+                .lastUpdated(Instant.now(ZoneOffset.UTC))
                 .build();
         
         String given = String.builder().value("John")

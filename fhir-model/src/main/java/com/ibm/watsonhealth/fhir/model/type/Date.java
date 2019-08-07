@@ -27,7 +27,7 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Date extends Element {
-    private static final DateTimeFormatter PARSER = DateTimeFormatter.ofPattern("[yyyy[-MM[-dd]]]");
+    public static final DateTimeFormatter PARSER_FORMATTER = DateTimeFormatter.ofPattern("[yyyy[-MM[-dd]]]");
 
     private final TemporalAccessor value;
 
@@ -116,6 +116,14 @@ public class Date extends Element {
             hashCode = result;
         }
         return result;
+    }
+
+    @Override
+    public java.lang.String toString() {
+        if (value != null) {
+            return PARSER_FORMATTER.format(value);
+        }
+        return super.toString();
     }
 
     @Override
@@ -211,7 +219,7 @@ public class Date extends Element {
         }
 
         public Builder value(java.lang.String value) {
-            this.value = PARSER.parseBest(value, LocalDate::from, YearMonth::from, Year::from);
+            this.value = PARSER_FORMATTER.parseBest(value, LocalDate::from, YearMonth::from, Year::from);
             return this;
         }
 

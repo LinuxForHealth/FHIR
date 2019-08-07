@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.model.path.test;
 
 import java.io.FilterOutputStream;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -38,7 +39,7 @@ public class FHIRPathEvaluatorTest {
                 .build();
         
         Meta meta = Meta.builder().versionId(Id.of("1"))
-                .lastUpdated(Instant.now(true))
+                .lastUpdated(Instant.now(ZoneOffset.UTC))
                 .build();
         
         String given = String.builder().value("John")

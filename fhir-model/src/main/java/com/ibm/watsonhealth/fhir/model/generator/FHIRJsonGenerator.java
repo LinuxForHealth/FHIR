@@ -16,6 +16,7 @@ import java.io.Writer;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.HashMap;
@@ -448,7 +449,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
                 .build();
         
         Meta meta = Meta.builder().versionId(Id.of("1"))
-                .lastUpdated(Instant.now(true))
+                .lastUpdated(Instant.now(ZoneOffset.UTC))
                 .build();
         
         String given = String.builder().value("John")

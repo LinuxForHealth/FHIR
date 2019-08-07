@@ -10,6 +10,7 @@ import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
 import javax.xml.stream.XMLInputFactory;
@@ -36,7 +37,7 @@ public class XMLStreamReaderTest {
                 .build();
         
         Meta meta = Meta.builder().versionId(Id.of("1"))
-                .lastUpdated(Instant.now(true))
+                .lastUpdated(Instant.now(ZoneOffset.UTC))
                 .build();
         
         HumanName name = HumanName.builder()

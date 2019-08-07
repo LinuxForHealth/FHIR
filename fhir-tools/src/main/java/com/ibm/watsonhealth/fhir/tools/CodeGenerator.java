@@ -541,21 +541,21 @@ public class CodeGenerator {
         
         if (isDateTime(structureDefinition)) {
             cb.method(mods("public"), "Builder", "value", params("java.lang.String value"))
-                .assign("this.value", "PARSER.parseBest(value, ZonedDateTime::from, LocalDate::from, YearMonth::from, Year::from)")
+                .assign("this.value", "PARSER_FORMATTER.parseBest(value, ZonedDateTime::from, LocalDate::from, YearMonth::from, Year::from)")
                 ._return("this")
             .end().newLine();
         }
         
         if (isDate(structureDefinition)) {
             cb.method(mods("public"), "Builder", "value", params("java.lang.String value"))
-                .assign("this.value", "PARSER.parseBest(value, LocalDate::from, YearMonth::from, Year::from)")
+                .assign("this.value", "PARSER_FORMATTER.parseBest(value, LocalDate::from, YearMonth::from, Year::from)")
                 ._return("this")
             .end().newLine();
         }
         
         if (isInstant(structureDefinition)) {
             cb.method(mods("public"), "Builder", "value", params("java.lang.String value"))
-                .assign("this.value", "PARSER.parse(value, ZonedDateTime::from)")
+                .assign("this.value", "PARSER_FORMATTER.parse(value, ZonedDateTime::from)")
                 ._return("this")
             .end().newLine();
         }
@@ -722,15 +722,15 @@ public class CodeGenerator {
             cb._class(mods, className, _super);
                         
             if (isDateTime(structureDefinition)) {
-                cb.field(mods("private", "static", "final"), "DateTimeFormatter", "PARSER", "new DateTimeFormatterBuilder().appendPattern(\"yyyy\").optionalStart().appendPattern(\"-MM\").optionalStart().appendPattern(\"-dd\").optionalStart().appendPattern(\"'T'HH:mm:ss\").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().appendPattern(\"XXX\").optionalEnd().optionalEnd().optionalEnd().toFormatter()").newLine();
+                cb.field(mods("public", "static", "final"), "DateTimeFormatter", "PARSER_FORMATTER", "new DateTimeFormatterBuilder().appendPattern(\"yyyy\").optionalStart().appendPattern(\"-MM\").optionalStart().appendPattern(\"-dd\").optionalStart().appendPattern(\"'T'HH:mm:ss\").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().appendPattern(\"XXX\").optionalEnd().optionalEnd().optionalEnd().toFormatter()").newLine();
             }
             
             if (isDate(structureDefinition)) {
-                cb.field(mods("private", "static", "final"), "DateTimeFormatter", "PARSER", "DateTimeFormatter.ofPattern(\"[yyyy[-MM[-dd]]]\")").newLine();
+                cb.field(mods("public", "static", "final"), "DateTimeFormatter", "PARSER_FORMATTER", "DateTimeFormatter.ofPattern(\"[yyyy[-MM[-dd]]]\")").newLine();
             }
             
             if (isInstant(structureDefinition)) {
-                cb.field(mods("private", "static", "final"), "DateTimeFormatter", "PARSER", "new DateTimeFormatterBuilder().appendPattern(\"yyyy-MM-dd'T'HH:mm:ss\").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().appendPattern(\"XXX\").toFormatter()").newLine();
+                cb.field(mods("public", "static", "final"), "DateTimeFormatter", "PARSER_FORMATTER", "new DateTimeFormatterBuilder().appendPattern(\"yyyy-MM-dd'T'HH:mm:ss\").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().appendPattern(\"XXX\").toFormatter()").newLine();
             }
             
             if (isBoolean(structureDefinition)) {
@@ -882,6 +882,7 @@ public class CodeGenerator {
             generateFactoryMethods(structureDefinition, cb);
             generateAcceptMethod(structureDefinition, className, path, cb);
             generateEqualsHashCodeMethods(structureDefinition, className, path, cb);
+            generateToStringMethod(structureDefinition, cb);
                         
             List<String> params = new ArrayList<>();
             List<String> args = new ArrayList<>();
@@ -926,6 +927,19 @@ public class CodeGenerator {
             if (!isLast(paths, path)) {
                 cb.newLine();
             }
+        }
+    }
+
+    private void generateToStringMethod(JsonObject structureDefinition, CodeBuilder cb) {
+        if (isDateTime(structureDefinition) || isDate(structureDefinition) || isInstant(structureDefinition)) {
+            cb.override()
+            .method(mods("public"), "java.lang.String", "toString")
+                ._if("value != null")
+                    ._return("PARSER_FORMATTER.format(value)")
+                ._end()
+                ._return("super.toString()")
+            .end()
+            .newLine();
         }
     }
 
@@ -1156,13 +1170,12 @@ public class CodeGenerator {
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
             
-            cb.method(mods("public", "static"), className, "now", params("boolean normalize"))
-                .assign("ZonedDateTime now", "ZonedDateTime.now()")
-                ._if("normalize")
-                    .comment("normalize to UTC")
-                    .assign("now", "now.withZoneSameInstant(ZoneOffset.UTC)")
-                ._end()
-                ._return(className + ".builder().value(now).build()")
+            cb.method(mods("public", "static"), className, "now")
+                ._return(className + ".builder().value(ZonedDateTime.now()).build()")
+            .end().newLine();
+            
+            cb.method(mods("public", "static"), className, "now", params("ZoneOffset offset"))
+                ._return(className + ".builder().value(ZonedDateTime.now(offset)).build()")
             .end().newLine();
         }
         
@@ -1352,6 +1365,9 @@ public class CodeGenerator {
             if (isDateTime(structureDefinition) || isInstant(structureDefinition)) {
                 imports.add("java.time.temporal.ChronoField");
                 imports.add("java.time.format.DateTimeFormatterBuilder");
+            }
+            if (isInstant(structureDefinition)) {
+                imports.add("java.time.ZoneOffset");
             }
         }
         

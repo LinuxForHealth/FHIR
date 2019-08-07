@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.test;
 
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
 import com.ibm.watsonhealth.fhir.model.format.Format;
@@ -34,7 +35,7 @@ public class PathAwareVisitorTest {
                 .build();
         
         Meta meta = Meta.builder().versionId(Id.of("1"))
-                .lastUpdated(Instant.now(true))
+                .lastUpdated(Instant.now(ZoneOffset.UTC))
                 .build();
         
         String given = String.builder().value("John")

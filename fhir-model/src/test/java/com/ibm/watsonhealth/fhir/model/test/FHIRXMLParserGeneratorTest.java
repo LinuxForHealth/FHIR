@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
 import com.ibm.watsonhealth.fhir.model.format.Format;
@@ -42,7 +43,7 @@ public class FHIRXMLParserGeneratorTest {
                 .build();
         
         Meta meta = Meta.builder().versionId(Id.of("1"))
-                .lastUpdated(Instant.now(true))
+                .lastUpdated(Instant.now(ZoneOffset.UTC))
                 .build();
         
         String given = String.builder().value("John")

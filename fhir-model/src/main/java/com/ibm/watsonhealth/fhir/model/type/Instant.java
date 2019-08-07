@@ -26,7 +26,7 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Instant extends Element {
-    private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd'T'HH:mm:ss").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().appendPattern("XXX").toFormatter();
+    public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd'T'HH:mm:ss").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().appendPattern("XXX").toFormatter();
 
     private final ZonedDateTime value;
 
@@ -68,13 +68,12 @@ public class Instant extends Element {
         return Instant.builder().value(value).build();
     }
 
-    public static Instant now(boolean normalize) {
-        ZonedDateTime now = ZonedDateTime.now();
-        if (normalize) {
-            // normalize to UTC
-            now = now.withZoneSameInstant(ZoneOffset.UTC);
-        }
-        return Instant.builder().value(now).build();
+    public static Instant now() {
+        return Instant.builder().value(ZonedDateTime.now()).build();
+    }
+
+    public static Instant now(ZoneOffset offset) {
+        return Instant.builder().value(ZonedDateTime.now(offset)).build();
     }
 
     @Override
@@ -119,6 +118,14 @@ public class Instant extends Element {
             hashCode = result;
         }
         return result;
+    }
+
+    @Override
+    public java.lang.String toString() {
+        if (value != null) {
+            return PARSER_FORMATTER.format(value);
+        }
+        return super.toString();
     }
 
     @Override
@@ -214,7 +221,7 @@ public class Instant extends Element {
         }
 
         public Builder value(java.lang.String value) {
-            this.value = PARSER.parse(value, ZonedDateTime::from);
+            this.value = PARSER_FORMATTER.parse(value, ZonedDateTime::from);
             return this;
         }
 

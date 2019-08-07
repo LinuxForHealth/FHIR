@@ -31,7 +31,7 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class DateTime extends Element {
-    private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder().appendPattern("yyyy").optionalStart().appendPattern("-MM").optionalStart().appendPattern("-dd").optionalStart().appendPattern("'T'HH:mm:ss").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().appendPattern("XXX").optionalEnd().optionalEnd().optionalEnd().toFormatter();
+    public static final DateTimeFormatter PARSER_FORMATTER = new DateTimeFormatterBuilder().appendPattern("yyyy").optionalStart().appendPattern("-MM").optionalStart().appendPattern("-dd").optionalStart().appendPattern("'T'HH:mm:ss").optionalStart().appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true).optionalEnd().appendPattern("XXX").optionalEnd().optionalEnd().optionalEnd().toFormatter();
 
     private final TemporalAccessor value;
 
@@ -120,6 +120,14 @@ public class DateTime extends Element {
             hashCode = result;
         }
         return result;
+    }
+
+    @Override
+    public java.lang.String toString() {
+        if (value != null) {
+            return PARSER_FORMATTER.format(value);
+        }
+        return super.toString();
     }
 
     @Override
@@ -215,7 +223,7 @@ public class DateTime extends Element {
         }
 
         public Builder value(java.lang.String value) {
-            this.value = PARSER.parseBest(value, ZonedDateTime::from, LocalDate::from, YearMonth::from, Year::from);
+            this.value = PARSER_FORMATTER.parseBest(value, ZonedDateTime::from, LocalDate::from, YearMonth::from, Year::from);
             return this;
         }
 
