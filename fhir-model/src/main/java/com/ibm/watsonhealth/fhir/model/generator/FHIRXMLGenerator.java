@@ -8,7 +8,6 @@ package com.ibm.watsonhealth.fhir.model.generator;
 
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.isPrimitiveType;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.FHIR_NS_URI;
-import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.XML_OUTPUT_FACTORY;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.createStreamWriterDelegate;
 
 import java.io.OutputStream;
@@ -68,7 +67,7 @@ public class FHIRXMLGenerator implements FHIRGenerator {
     @Override
     public void generate(Resource resource, OutputStream out) throws FHIRGeneratorException {
         GeneratingVisitor visitor = null;
-        try (StreamWriterDelegate delegate = createStreamWriterDelegate(XML_OUTPUT_FACTORY.createXMLStreamWriter(out, "UTF-8"))) {
+        try (StreamWriterDelegate delegate = createStreamWriterDelegate(out)) {
             visitor = new XMLGeneratingVisitor(delegate, prettyPrinting);
             delegate.setDefaultNamespace(FHIR_NS_URI);
             resource.accept(visitor);
@@ -81,7 +80,7 @@ public class FHIRXMLGenerator implements FHIRGenerator {
     @Override
     public void generate(Resource resource, Writer writer) throws FHIRGeneratorException {
         GeneratingVisitor visitor = null;
-        try (StreamWriterDelegate delegate = createStreamWriterDelegate(XML_OUTPUT_FACTORY.createXMLStreamWriter(writer))) {
+        try (StreamWriterDelegate delegate = createStreamWriterDelegate(writer)) {
             visitor = new XMLGeneratingVisitor(delegate, prettyPrinting);
             delegate.setDefaultNamespace(FHIR_NS_URI);
             resource.accept(visitor);

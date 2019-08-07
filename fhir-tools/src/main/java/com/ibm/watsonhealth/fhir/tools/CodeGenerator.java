@@ -1544,12 +1544,12 @@ public class CodeGenerator {
         cb.javadoc(HEADER, true, true, false).newLine();
         cb._package(packageName).newLine();
         
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "FHIR_NS_URI");
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "XHTML_NS_URI");
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "checkElementOrder");
         cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "createStreamReaderDelegate");
         cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "parseDiv");
         cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "requireNamespace");
-        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "FHIR_NS_URI");
-        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "XHTML_NS_URI");
-        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "XML_INPUT_FACTORY");
 
         cb.newLine();
         
@@ -1595,7 +1595,7 @@ public class CodeGenerator {
         cb.annotation("SuppressWarnings", quote("unchecked"));
         cb.override();
         cb.method(mods("public"), "<T extends Resource> T", "parse", params("InputStream in"), throwsExceptions("FHIRParserException"))
-            ._try("StreamReaderDelegate delegate = createStreamReaderDelegate(XML_INPUT_FACTORY.createXMLStreamReader(in, \"UTF-8\"))")
+            ._try("StreamReaderDelegate delegate = createStreamReaderDelegate(in)")
                 ._while("delegate.hasNext()")
                     .assign("int eventType", "delegate.next()")
                     ._switch("eventType")
@@ -1616,7 +1616,7 @@ public class CodeGenerator {
         cb.annotation("SuppressWarnings", quote("unchecked"));
         cb.override();
         cb.method(mods("public"), "<T extends Resource> T", "parse", params("Reader reader"), throwsExceptions("FHIRParserException"))
-            ._try("StreamReaderDelegate delegate = createStreamReaderDelegate(XML_INPUT_FACTORY.createXMLStreamReader(reader))")
+            ._try("StreamReaderDelegate delegate = createStreamReaderDelegate(reader)")
                 ._while("delegate.hasNext()")
                     .assign("int eventType", "delegate.next()")
                     ._switch("eventType")
@@ -1782,6 +1782,7 @@ public class CodeGenerator {
             ._end();
         }
         
+        cb.assign("int position", "-1");
         generateElementIndexDeclarations(elementDefinitions, path, cb);
         
         cb._while("reader.hasNext()");
@@ -1802,6 +1803,8 @@ public class CodeGenerator {
         } else {
             cb.invoke("requireNamespace", args("reader", "FHIR_NS_URI"));
         }
+        
+        int orderIndex = 0;
         
         cb._switch("localName");
         for (JsonObject elementDefinition : elementDefinitions) {
@@ -1830,6 +1833,7 @@ public class CodeGenerator {
             
             if (!isChoiceElement(elementDefinition)) {
                 cb._case(quote(elementName));
+                cb.assign("position", "checkElementOrder(" + quote(elementName) + ", " + orderIndex + ", position, " + isRepeating(elementDefinition) + ")");
                 String parseMethodInvocation = buildParseMethodInvocation(elementDefinition, elementName, fieldType);
                 cb.invoke("builder", fieldName, args(parseMethodInvocation));
                 cb._break();
@@ -1837,11 +1841,13 @@ public class CodeGenerator {
                 // generate choice element cases
                 for (String choiceTypeName : getChoiceTypeNames(elementDefinition)) {
                     cb._case(quote(elementName + choiceTypeName));
+                    cb.assign("position", "checkElementOrder(" + quote(elementName + "[x]") + ", " + orderIndex + ", position, " + isRepeating(elementDefinition) + ")");
                     String parseMethodInvocation = buildParseMethodInvocation(elementDefinition, elementName + choiceTypeName, choiceTypeName);
                     cb.invoke("builder", fieldName, args(parseMethodInvocation));
                     cb._break();
                 }
             }
+            orderIndex++;
         }
         
         cb._default()
