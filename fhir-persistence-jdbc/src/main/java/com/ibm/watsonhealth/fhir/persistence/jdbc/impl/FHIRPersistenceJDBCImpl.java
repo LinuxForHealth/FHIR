@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PushbackReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -687,7 +688,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 
         try {
             if (resourceDTO != null) {
-                reader = new InputStreamReader(new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData())));
+                reader = new InputStreamReader(new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData())), StandardCharsets.UTF_8);
                 pushbackReader = new PushbackReader(reader);
                 firstByte = pushbackReader.read();
                 pushbackReader.unread(firstByte);
