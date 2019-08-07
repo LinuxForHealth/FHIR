@@ -375,6 +375,7 @@ public final class XMLSupport {
             writer.writeStartElement(prefix, localName, namespaceURI);
         }
     }
+    
     public static void main(String[] args) throws Exception {
         String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
         XMLStreamReader reader = XML_INPUT_FACTORY.createXMLStreamReader(new StringReader(div));
