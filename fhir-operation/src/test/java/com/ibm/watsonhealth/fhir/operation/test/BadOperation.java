@@ -10,28 +10,29 @@ import java.io.InputStream;
 
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.resource.OperationDefinition;
 import com.ibm.watsonhealth.fhir.model.resource.Parameters;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 
 /**
- * This class will test what happens if there is a bad OperationDefinition defined for a custom operation.
- * There is no corresponding testcase as the Java ServiceLoader (SPI) mechanism 
- * will automatically load this service if it is configured as a service provider and available on the classpath.
- * The expected result is:
- * 1. to see an error/message explaining why this service was not loaded
- * 2. for other operations to continue working
+ * This class will test what happens if there is a bad OperationDefinition defined for a custom operation.<br/>
+ * There is no corresponding testcase as the Java ServiceLoader (SPI) mechanism <br/>
+ * will automatically load this service if it is configured as a service provider and available on the classpath.<br/>
+ * The expected result is:<br/>
+ * 1. to see an error/message explaining why this service was not loaded<br/>
+ * 2. for other operations to continue working<br/>
  * @author lmsurpre
  */
 public class BadOperation extends AbstractOperation {
+    
     @Override
     protected OperationDefinition buildOperationDefinition() {
         try (InputStream in = getClass().getClassLoader().getResourceAsStream("operationdefinition-bad.json");){
-            return FHIRUtil.read(OperationDefinition.class, Format.JSON, in);            
+            return FHIRParser.parser(Format.JSON).parse(in);              
         } catch (Exception e) {
             throw new RuntimeException("Unable to read operationdefinition-bad.json", e);
         }

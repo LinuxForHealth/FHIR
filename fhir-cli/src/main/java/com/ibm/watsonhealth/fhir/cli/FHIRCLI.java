@@ -45,10 +45,10 @@ import com.ibm.watsonhealth.fhir.cli.invoker.UpdateInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.ValidateInvoker;
 import com.ibm.watsonhealth.fhir.cli.invoker.VreadInvoker;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
-import com.ibm.watsonhealth.fhir.model.resource.Resource;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 
 /**
  * This class provides a command-line interface (CLI) to the FHIR Client API, allowing
@@ -323,7 +323,7 @@ public class FHIRCLI {
                         println("Response resource:\n");
                     }
 
-                    FHIRUtil.write(responseObj, Format.JSON, writer);
+                    FHIRGenerator.generator( Format.JSON, false).generate(responseObj, writer);
                 }
             }
         }

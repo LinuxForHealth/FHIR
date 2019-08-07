@@ -7,7 +7,6 @@
 package com.ibm.watsonhealth.fhir.search.test;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 
@@ -18,13 +17,13 @@ import org.testng.annotations.Test;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.resource.InsurancePlan;
 import com.ibm.watsonhealth.fhir.model.resource.Observation;
 import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.visitor.PathAwareAbstractVisitor;
 import com.ibm.watsonhealth.fhir.search.test.ExtractorValidator.Builder;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
@@ -58,7 +57,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
         PathAwareAbstractVisitor.DEBUG = debug;
 
         try (InputStream stream = ExtractParameterValuesTest.class.getResourceAsStream("/testdata/" + file)) {
-            Resource res = FHIRUtil.read(cls, Format.JSON, new InputStreamReader(stream));
+            Resource res = FHIRParser.parser(Format.JSON).parse(stream);  
 
             Map<SearchParameter, List<FHIRPathNode>> output;
             if (skip) {

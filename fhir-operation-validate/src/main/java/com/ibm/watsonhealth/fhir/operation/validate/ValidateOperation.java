@@ -6,16 +6,15 @@
 
 package com.ibm.watsonhealth.fhir.operation.validate;
 
-import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED;
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.resource.OperationDefinition;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
@@ -28,12 +27,11 @@ import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.NarrativeStatus;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
 import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.operation.util.FHIROperationUtil;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
-import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
 
 public class ValidateOperation extends AbstractOperation {
     
@@ -44,7 +42,7 @@ public class ValidateOperation extends AbstractOperation {
     @Override
     protected OperationDefinition buildOperationDefinition() {
         try (InputStream in = getClass().getClassLoader().getResourceAsStream("validate.json");){
-            return FHIRUtil.read(OperationDefinition.class, Format.JSON, in);            
+            return FHIRParser.parser(Format.JSON).parse(in);            
         } catch (Exception e) {
             throw new Error(e);
         }
@@ -70,14 +68,10 @@ public class ValidateOperation extends AbstractOperation {
             throw new FHIROperationException("An error occurred during validation", e);
         }
     }
-    
-    private boolean isUserDefinedSchematronEnabled() {
-        return FHIRConfigHelper.getBooleanProperty(PROPERTY_USER_DEFINED_SCHEMATRON_ENABLED, Boolean.FALSE).booleanValue();
-    }
-
+   
     private OperationOutcome buildResourceValidOperationOutcome() {
         
-        List <Issue> issueList = new ArrayList <Issue> ();
+        List <Issue> issueList = new ArrayList<>();
         Issue newIssue = Issue.builder().severity(IssueSeverity.INFORMATION).code(IssueType.INFORMATIONAL)
                 .details(CodeableConcept.builder().text(string("All OK")).build())
                 .build();

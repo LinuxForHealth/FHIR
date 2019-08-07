@@ -8,7 +8,6 @@ package com.ibm.watsonhealth.fhir.search.test.tools;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -20,6 +19,7 @@ import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorException;
+import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathElementNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
@@ -27,7 +27,6 @@ import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.BundleType;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.search.SearchConstants;
 import com.ibm.watsonhealth.fhir.search.parameters.ParametersUtil;
 
@@ -91,7 +90,7 @@ public class IndexCalculationTool {
 
         try {
             // The code is agnostic to format.
-            Bundle bundle = FHIRUtil.read(Bundle.class, Format.JSON, new InputStreamReader(stream));
+            Bundle bundle = FHIRParser.parser(Format.JSON).parse(stream);  
 
             FHIRPathTree tree = FHIRPathTree.tree(bundle);
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);

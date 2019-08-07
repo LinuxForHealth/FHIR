@@ -7,7 +7,7 @@
 package com.ibm.watsonhealth.fhir.persistence.test.common;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
-import static org.testng.AssertJUnit.*;
+import static org.testng.AssertJUnit.fail;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -34,11 +34,12 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
+import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.resource.DomainResource;
 import com.ibm.watsonhealth.fhir.model.resource.Observation;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
 public class FHIRModelTestBase {
     protected static final String NL = System.getProperty("line.separator");
@@ -72,7 +73,7 @@ public class FHIRModelTestBase {
 
         // Deserialize the file contents.
         try (Reader reader = new InputStreamReader(resolveFileLocation(fileName), Charset.forName("UTF-8"))) {
-            T resource = FHIRUtil.read(resourceClass, fmt, reader);
+            T resource = FHIRParser.parser(fmt).parse(reader);
             return resource;
         }
     }
@@ -193,7 +194,7 @@ public class FHIRModelTestBase {
      */
     public static <T extends Resource> String writeResource(T resource, Format fmt) throws FHIRException {
         StringWriter sw = new StringWriter();
-        FHIRUtil.write(resource, fmt, sw, false);
+        FHIRGenerator.generator( fmt, false).generate(resource, sw);
         return sw.toString();
     }
 
@@ -202,7 +203,7 @@ public class FHIRModelTestBase {
      */
     public static <T extends Resource> String writeResource(T resource, Format fmt, boolean prettyPrint) throws FHIRException {
         StringWriter sw = new StringWriter();
-        FHIRUtil.write(resource, fmt, sw, prettyPrint);
+        FHIRGenerator.generator( fmt, prettyPrint).generate(resource, sw);
         return sw.toString();
     }
     
@@ -218,7 +219,8 @@ public class FHIRModelTestBase {
     
     protected void printOutputToConsole(DomainResource res, Format f) {
         try {
-            FHIRUtil.write(res, f, System.out);
+            FHIRGenerator.generator( f, false).generate(res, System.out);
+            
             System.out.println("");
         } catch (FHIRException e) {
         	// TODO logging?
@@ -229,7 +231,7 @@ public class FHIRModelTestBase {
     protected String getDataAsString(DomainResource res, Format f) {
         StringWriter writer = new StringWriter();
         try {
-            FHIRUtil.write(res, f, writer);
+            FHIRGenerator.generator( f, false).generate(res, writer);
         } catch (FHIRException e) {
         	// TODO logging?
             e.printStackTrace();

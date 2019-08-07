@@ -8,7 +8,6 @@ package com.ibm.watsonhealth.fhir.search.test.tools;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
@@ -18,13 +17,13 @@ import java.util.stream.Collectors;
 
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
 import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.ResourceType;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.search.parameters.ParametersUtil;
 import com.ibm.watsonhealth.fhir.search.valuetypes.impl.ValueTypesR4Impl;
 
@@ -47,7 +46,7 @@ public class ValueTypesTool {
         // The failure is logged out.
         try (InputStream stream = ParametersUtil.class.getClassLoader().getResourceAsStream(ParametersUtil.FHIR_DEFAULT_SEARCH_PARAMETERS_FILE)) {
             // The code is agnostic to format.
-            Bundle bundle = FHIRUtil.read(Bundle.class, Format.JSON, new InputStreamReader(stream));
+            Bundle bundle = FHIRParser.parser(Format.JSON).parse(stream);  
 
             FHIRPathTree tree = FHIRPathTree.tree(bundle);
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);

@@ -13,7 +13,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,13 +29,13 @@ import java.util.stream.Collectors;
 
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
 import com.ibm.watsonhealth.fhir.model.path.evaluator.FHIRPathEvaluator;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.ResourceType;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.search.SearchConstants;
 
 /**
@@ -203,7 +202,7 @@ public final class ParametersUtil {
         // The failure is logged out.
         try {
             // The code is agnostic to format.
-            Bundle bundle = FHIRUtil.read(Bundle.class, format, new InputStreamReader(stream));
+            Bundle bundle = FHIRParser.parser(format).parse(stream);  
 
             FHIRPathTree tree = FHIRPathTree.tree(bundle);
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);

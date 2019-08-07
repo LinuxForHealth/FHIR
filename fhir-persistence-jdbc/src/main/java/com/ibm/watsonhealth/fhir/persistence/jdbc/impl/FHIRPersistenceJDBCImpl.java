@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PushbackReader;
 import java.io.Reader;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -45,16 +44,19 @@ import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.PropertyGroup;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
+import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
+import com.ibm.watsonhealth.fhir.model.parser.FHIRJsonParser;
+import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
+import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.Id;
 import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
-import com.ibm.watsonhealth.fhir.model.format.Format;
-import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
-import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.resource.Resource;
-import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 // import com.ibm.watsonhealth.fhir.model.util.FHIRUtil.Format;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
@@ -232,7 +234,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
              
             // Serialize and compress the Resource
             GZIPOutputStream zipStream = new GZIPOutputStream(stream);
-            FHIRUtil.write(resource, Format.JSON, zipStream, false);
+            
+            FHIRGenerator.generator( Format.JSON, false).generate(resource, zipStream);
+            
             zipStream.finish();
             resourceDTO.setData(stream.toByteArray());
             zipStream.close();
@@ -393,7 +397,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
              
             // Serialize and compress the Resource
             GZIPOutputStream zipStream = new GZIPOutputStream(stream);
-            FHIRUtil.write(resource, Format.JSON, zipStream, false);
+            
+            FHIRGenerator.generator( Format.JSON, false).generate(resource, zipStream);
             zipStream.finish();
             resourceDTO.setData(stream.toByteArray());
             zipStream.close();
@@ -688,21 +693,22 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 
         try {
             if (resourceDTO != null) {
-                reader = new InputStreamReader(new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData())), StandardCharsets.UTF_8);
+                reader = new InputStreamReader(new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData())));
                 pushbackReader = new PushbackReader(reader);
                 firstByte = pushbackReader.read();
                 pushbackReader.unread(firstByte);
                 // At an earlier point in time in the life of the FHIR server, we serialized resources as XML. 
                 // This logic is here to be able to deserialize any old XML resources that might still remain in the FHIR DB. 
                 if (firstByte == 60) {
-                    resource = FHIRUtil.read(resourceType, Format.XML, pushbackReader);
+                    resource = FHIRParser.parser(Format.XML).parse(pushbackReader);  
                 }
                 else {
                     if (elements != null) {
-                        resource = FHIRUtil.readAndFilterJson(resourceType, pushbackReader, elements);
+                        resource = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(pushbackReader, elements);
+                        
                     }
                     else {
-                        resource = FHIRUtil.read(resourceType, Format.JSON, pushbackReader);
+                        resource = FHIRParser.parser(Format.JSON).parse(pushbackReader);  
                     }
                 }
                 pushbackReader.close();

@@ -23,6 +23,7 @@ import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorException;
+import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathResourceNode;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathTree;
@@ -31,7 +32,6 @@ import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.CompartmentDefinition;
 import com.ibm.watsonhealth.fhir.model.resource.CompartmentDefinition.Resource;
 import com.ibm.watsonhealth.fhir.model.type.BundleType;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.exception.SearchExceptionUtil;
 
@@ -110,7 +110,7 @@ public class CompartmentUtil {
             cachedCompartmentMap = new HashMap<>();
 
             try (InputStreamReader reader = new InputStreamReader(CompartmentUtil.class.getResourceAsStream(RESOURCE))) {
-                Bundle bundle = FHIRUtil.read(Bundle.class, Format.JSON, reader);
+                Bundle bundle = FHIRParser.parser(Format.JSON).parse(reader);  
 
                 FHIRPathTree tree = FHIRPathTree.tree(bundle);
                 FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
@@ -216,7 +216,7 @@ public class CompartmentUtil {
         for (String compartmentDefintion : compartmentDefinitions) {
 
             try (InputStreamReader reader = new InputStreamReader(CompartmentUtil.class.getResourceAsStream(compartmentDefintion))) {
-                CompartmentDefinition compartmentDefinitionResource = FHIRUtil.read(CompartmentDefinition.class, Format.JSON, reader);
+                CompartmentDefinition compartmentDefinitionResource = FHIRParser.parser(Format.JSON).parse(reader);  
 
                 build.entry(Bundle.Entry.builder().resource(compartmentDefinitionResource).build());
 

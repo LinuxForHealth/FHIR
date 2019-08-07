@@ -11,8 +11,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 
 import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
+import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 
 /**
  * Tests that serialization generates a valid object, which matches the original
@@ -28,11 +29,11 @@ public class SerializationProcessor implements IExampleProcessor {
     public void process(String jsonFile, Resource resource) throws Exception {
         
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-            FHIRUtil.write(resource, Format.JSON, bos, false);
+            FHIRGenerator.generator( Format.JSON, false).generate(resource, bos);
             
             // Parse the content we just created
             try (InputStreamReader rdr = new InputStreamReader(new ByteArrayInputStream(bos.toByteArray()))) {
-                Resource newResource = FHIRUtil.read(resource.getClass(), Format.JSON, rdr);
+                Resource newResource = FHIRParser.parser(Format.JSON).parse(rdr);
                 
                 if (!newResource.equals(resource)) {
                     

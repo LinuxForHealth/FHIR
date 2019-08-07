@@ -16,9 +16,8 @@ import java.util.Properties;
 
 import com.ibm.watsonhealth.fhir.cli.Operations;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
-import com.ibm.watsonhealth.fhir.model.resource.Resource;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 
 /**
  * This class serves as a holder of context information for a particular operation invocation.
@@ -204,9 +203,7 @@ public class InvocationContext {
                 reader = new InputStreamReader(System.in);
             }
             
-            Object result = FHIRUtil.read(Resource.class, Format.JSON, reader);
-
-            return result;
+            return FHIRParser.parser(Format.JSON).parse(reader);
         } catch (Throwable t) {
             throw t;
         } finally {

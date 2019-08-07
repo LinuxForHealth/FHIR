@@ -6,9 +6,6 @@
 
 package com.ibm.watsonhealth.fhir.client.test.mains;
 
-import com.ibm.watsonhealth.fhir.model.type.Decimal;
-import com.ibm.watsonhealth.fhir.model.type.Quantity;
-
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import java.util.ArrayList;
@@ -21,10 +18,12 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.resource.Observation;
 import com.ibm.watsonhealth.fhir.model.resource.Observation.Component;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.type.Decimal;
+import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
 
 public class UpdateTestMain {
@@ -37,7 +36,8 @@ public class UpdateTestMain {
         Response response = target.path("Observation/14").request(MediaType.APPLICATION_FHIR_JSON).get();
         
         Observation observation = response.readEntity(Observation.class);
-        FHIRUtil.write(observation, Format.JSON, System.out);
+        
+        FHIRGenerator.generator( Format.JSON, false).generate(observation, System.out);
         
                 
         List <Component> newCompList = new ArrayList<Component>();

@@ -68,6 +68,7 @@ import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.core.context.FHIRPagingContext;
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement;
 import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement.Rest;
@@ -3099,7 +3100,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     private String serializeOperationOutcome(OperationOutcome oo) {
         try {
             StringWriter sw = new StringWriter();
-            FHIRUtil.write(oo, Format.JSON, sw);
+            FHIRGenerator.generator( Format.JSON, false).generate(oo, sw);
             return sw.toString();
         } catch (Throwable t) {
             return "Error encountered while serializing OperationOutcome resource: " + t.getMessage();

@@ -6,16 +6,17 @@
 
 package com.ibm.watsonhealth.fhir.client.test.mains;
 
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import static com.ibm.watsonhealth.fhir.model.type.String.string;
-
 import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.Observation;
 import com.ibm.watsonhealth.fhir.model.resource.Observation.Component;
@@ -33,8 +34,6 @@ import com.ibm.watsonhealth.fhir.model.type.ObservationStatus;
 import com.ibm.watsonhealth.fhir.model.type.Quantity;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
-//import com.ibm.watsonhealth.fhir.model.resource.MeasureReport.Group.Stratifier.Stratum.Component;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
 
 public class JaxrsClientTestMain {
@@ -42,10 +41,11 @@ public class JaxrsClientTestMain {
     public static void main(String[] args) throws Exception {
         Patient patient = buildPatient();
         System.out.println("\nJSON:");
-        FHIRUtil.write(patient, Format.JSON, System.out);
+        
+        FHIRGenerator.generator( Format.JSON, false).generate(patient, System.out);
         System.out.println("\nXML:");
-        FHIRUtil.write(patient, Format.XML, System.out);
-
+        FHIRGenerator.generator( Format.XML, false).generate(patient, System.out);
+        
         Client client = ClientBuilder.newBuilder()
                 .register(new FHIRProvider())
                 .build();
@@ -65,15 +65,15 @@ public class JaxrsClientTestMain {
             response = target.path("Patient/" + id).request(MediaType.APPLICATION_FHIR_JSON).get();
             patient = response.readEntity(Patient.class);
             System.out.println("\nJSON:");
-            FHIRUtil.write(patient, Format.JSON, System.out);
+            FHIRGenerator.generator( Format.JSON, false).generate(patient, System.out);
             System.out.println("\nXML:");
-            FHIRUtil.write(patient, Format.XML, System.out);
-            
+            FHIRGenerator.generator( Format.XML, false).generate(patient, System.out);
+                        
             Observation observation = buildObservation(id);
             System.out.println("\nJSON:");
-            FHIRUtil.write(observation, Format.JSON, System.out);
+            FHIRGenerator.generator( Format.JSON, false).generate(observation, System.out);
             System.out.println("\nXML:");
-            FHIRUtil.write(observation, Format.XML, System.out);
+            FHIRGenerator.generator( Format.XML, false).generate(observation, System.out);
             
             Entity<Observation> observationEntity = Entity.entity(observation, MediaType.APPLICATION_FHIR_JSON);
             response = target.path("Observation").request().post(observationEntity, Response.class);
@@ -88,9 +88,9 @@ public class JaxrsClientTestMain {
                 response = target.path("Observation").queryParam("subject", "Patient/" + id).request(MediaType.APPLICATION_FHIR_JSON).get();
                 Bundle bundle = response.readEntity(Bundle.class);
                 System.out.println("\nJSON:");
-                FHIRUtil.write(bundle, Format.JSON, System.out);
+                FHIRGenerator.generator( Format.JSON, false).generate(bundle, System.out);
                 System.out.println("\nXML:");
-                FHIRUtil.write(bundle, Format.XML, System.out);
+                FHIRGenerator.generator( Format.XML, false).generate(bundle, System.out);
             } else {
                 System.out.println("");
                 System.out.println(response.getStatus());

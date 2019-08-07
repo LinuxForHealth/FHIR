@@ -27,6 +27,7 @@ import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
@@ -128,13 +129,14 @@ public class FHIRRestServletFilter implements Filter {
                 }
                 
                 try {
-                    FHIRUtil.write(outcome, format, httpResponse.getWriter());
+                    FHIRGenerator.generator( format, false).generate(outcome, httpResponse.getWriter());
+                    
                 } catch (FHIRException e1) {
                     throw new ServletException(e1);
                 }
             } else {
                 try {
-                    FHIRUtil.write(outcome, Format.JSON, response.getWriter());
+                    FHIRGenerator.generator( Format.JSON, false).generate(outcome, response.getWriter());
                 } catch (FHIRException e1) {
                     throw new ServletException(e1);
                 }
