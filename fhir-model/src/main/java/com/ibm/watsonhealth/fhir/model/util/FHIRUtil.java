@@ -318,7 +318,11 @@ public class FHIRUtil {
     /**
      * Write a resource in XML or JSON to a given output stream, without pretty-printing.
      * This method will close the output stream after writing to it, so passing System.out / System.err is discouraged.
+     * 
+     * @deprecated
+     *     use {@link FHIRGenerator} directly
      */
+    @Deprecated
     public static <T extends Resource> void write(T resource, Format format, OutputStream stream) throws FHIRGeneratorException {
         write(resource, format, stream, false);
     }
@@ -326,7 +330,11 @@ public class FHIRUtil {
     /**
      * Write a resource in XML or JSON to a given output stream, with an option to pretty-print the output.
      * This method will close the output stream after writing to it, so passing System.out / System.err is discouraged.
+     * 
+     * @deprecated
+     *     use {@link FHIRGenerator} directly
      */
+    @Deprecated
     public static <T extends Resource> void write(T resource, Format format, OutputStream stream, boolean formatted) throws FHIRGeneratorException {
         FHIRGenerator.generator(format, formatted).generate(resource, stream);
     }
@@ -334,7 +342,11 @@ public class FHIRUtil {
     /**
      * Write a resource in XML or JSON using the passed writer, without pretty-printing.
      * This method will close the writer after writing to it.
+     * 
+     * @deprecated
+     *     use {@link FHIRGenerator} directly
      */
+    @Deprecated
     public static <T extends Resource> void write(T resource, Format format, Writer writer) throws FHIRGeneratorException {
         write(resource, format, writer, false);
     }
@@ -342,15 +354,19 @@ public class FHIRUtil {
     /**
      * Write a resource in XML or JSON using the passed writer, with an option to pretty-print the output.
      * This method will close the writer after writing to it.
+     * 
+     * @deprecated
+     *     use {@link FHIRGenerator} directly
      */
-    public static <T extends Resource> void write(T resource, Format format, Writer writer, boolean formatted) throws FHIRGeneratorException {
-        FHIRGenerator.generator(format, formatted).generate(resource, writer);
+    @Deprecated
+    public static <T extends Resource> void write(T resource, Format format, Writer writer, boolean prettyPrinting) throws FHIRGeneratorException {
+        FHIRGenerator.generator(format, prettyPrinting).generate(resource, writer);
     }
 
     public static JsonObject toJsonObject(Resource resource) throws FHIRGeneratorException {
         // write Resource to String
         StringWriter writer = new StringWriter();
-        write(resource, Format.JSON, writer);
+        FHIRGenerator.generator(Format.JSON).generate(resource, writer);
         String jsonString = writer.toString();
 
         // read JsonObject from String
