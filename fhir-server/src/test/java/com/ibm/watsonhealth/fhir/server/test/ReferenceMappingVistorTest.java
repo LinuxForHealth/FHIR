@@ -44,7 +44,8 @@ public class ReferenceMappingVistorTest {
     @BeforeClass
     public void setUp() throws Exception {
         Id id = Id.builder().value(UUID.randomUUID().toString())
-                .extension(Extension.builder("http://www.ibm.com/someExtension")
+                .extension(Extension.builder()
+                    .url("http://www.ibm.com/someExtension")
                     .value(string("Hello, World!"))
                     .build())
                 .build();
@@ -54,13 +55,15 @@ public class ReferenceMappingVistorTest {
                 .build();
         
         String given = String.builder().value("John")
-                .extension(Extension.builder("http://www.ibm.com/someExtension")
+                .extension(Extension.builder()
+                    .url("http://www.ibm.com/someExtension")    
                     .value(String.of("value and extension"))
                     .build())
                 .build();
         
         String otherGiven = String.builder()
-                .extension(Extension.builder("http://www.ibm.com/someExtension")
+                .extension(Extension.builder()
+                    .url("http://www.ibm.com/someExtension")    
                     .value(String.of("extension only"))
                     .build())
                 .build();

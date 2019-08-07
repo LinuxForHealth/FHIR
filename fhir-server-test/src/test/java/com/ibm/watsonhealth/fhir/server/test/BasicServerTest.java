@@ -7,7 +7,6 @@
 package com.ibm.watsonhealth.fhir.server.test;
 
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
-import static org.testng.AssertJUnit.assertNotEquals;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
@@ -244,8 +243,8 @@ public class BasicServerTest extends FHIRServerTestBase {
         Patient originalPatient = (Patient) resources.getEntry().get(1).getResource();
         // Make sure patient ids are equal, and versionIds are NOT equal.
         assertEquals(originalPatient.getId().getValue(), updatedPatient.getId().getValue());
-        assertNotEquals(updatedPatient.getMeta().getVersionId().getValue(),
-                originalPatient.getMeta().getVersionId().getValue());
+        assertTrue(updatedPatient.getMeta().getVersionId().getValue()
+                .contentEquals(originalPatient.getMeta().getVersionId().getValue()));
         // Patient create time should be earlier than Patient update time.
         assertEquals(DatatypeConstants.LESSER, originalPatient.getMeta().getLastUpdated().getValue()
                 .compareTo(updatedPatient.getMeta().getLastUpdated().getValue()));
@@ -273,8 +272,8 @@ public class BasicServerTest extends FHIRServerTestBase {
         Observation originalObservation = (Observation) resources.getEntry().get(1).getResource();
         // Make sure observation ids are equal, and versionIds are NOT equal.
         assertEquals(originalObservation.getId().getValue(), updatedObservation.getId().getValue());
-        assertNotEquals(updatedObservation.getMeta().getVersionId().getValue(),
-                originalObservation.getMeta().getVersionId().getValue());
+        assertTrue(updatedObservation.getMeta().getVersionId().getValue()
+                .contentEquals(originalObservation.getMeta().getVersionId().getValue()));
         // Observation create time should be earlier than Observation update time.
         assertEquals(DatatypeConstants.LESSER, originalObservation.getMeta().getLastUpdated().getValue()
                 .compareTo(updatedObservation.getMeta().getLastUpdated().getValue()));

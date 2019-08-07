@@ -145,7 +145,7 @@ public class SimpleRouterTest extends FHIRServerTestBase {
     private Bundle addRequestToBundle(Bundle bundle, HTTPVerb method, String url, String ifMatch, Resource resource)
             throws Exception {
         Bundle.Entry.Builder entryBuilder = Entry.builder();
-        Entry.Request.Builder requestBuilder = Entry.Request.builder(method, Uri.of(url));
+        Entry.Request.Builder requestBuilder = Entry.Request.builder().method(method).url(Uri.of(url));
 
         if (ifMatch != null) {
             requestBuilder.ifMatch(string(ifMatch));
@@ -160,7 +160,7 @@ public class SimpleRouterTest extends FHIRServerTestBase {
     }
 
     private Bundle buildBundle(BundleType bundleType) {
-        Bundle bundle = Bundle.builder(bundleType).build();
+        Bundle bundle = Bundle.builder().type(bundleType).build();
         return bundle;
     }
 

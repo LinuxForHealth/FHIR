@@ -157,7 +157,7 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
     @Test
     public void testNonDocumentBundle() throws Exception {
         // use an empty bundle to ensure its invalid
-        Bundle documentBundle = Bundle.builder(null).build();
+        Bundle documentBundle = Bundle.builder().build();
 
         Parameters parameters = createParametersWithDocument(documentBundle);
 
@@ -289,12 +289,18 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
      */
     private Bundle createCCD(DateTime date, com.ibm.watsonhealth.fhir.model.type.String title, CompositionStatus status)
             throws Exception {
-        Bundle document = Bundle.builder(BundleType.DOCUMENT).build();
+        Bundle document = Bundle.builder().type(BundleType.DOCUMENT).build();
 
         List<Reference> authorList = new ArrayList<Reference>();
-        Composition composition = Composition.builder(status, CodeableConcept.builder()
-                .coding(Coding.builder().system(Uri.of(LOINC.URI)).code(Code.of(LOINC.CCDA_CCD)).build()).build(), date,
-                authorList, title).build();
+        Composition composition = Composition.builder()
+                .status(status)
+                .type(CodeableConcept.builder()
+                        .coding(Coding.builder().system(Uri.of(LOINC.URI))
+                                .code(Code.of(LOINC.CCDA_CCD)).build()).build())
+                .author(authorList)
+                .date(date)
+                .title(title)
+                .build();
         Uri uri = createUUID();
         document = addResourceToBundle(document, composition, uri);
         return document;
@@ -412,10 +418,10 @@ public class FHIRToCdaOperationTest extends FHIRServerTestBase {
      */
     private Parameters createParameters(Bundle documentBundle, Boolean validate) throws Exception {
         Parameters.Builder parametersBuilder = Parameters.builder()
-                .parameter(Parameter.builder(string("document")).resource(documentBundle).build());
+                .parameter(Parameter.builder().name(string("document")).resource(documentBundle).build());
 
         if (validate != null) {
-            parametersBuilder.parameter(Parameter.builder(string("validateFHIR"))
+            parametersBuilder.parameter(Parameter.builder().name(string("validateFHIR"))
                     .value(com.ibm.watsonhealth.fhir.model.type.Boolean.of(validate)).build());
         }
 

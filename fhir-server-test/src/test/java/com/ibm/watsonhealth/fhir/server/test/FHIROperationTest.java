@@ -205,12 +205,15 @@ public class FHIROperationTest extends FHIRServerTestBase {
         List<Reference> authorList = new ArrayList<Reference>();
         authorList.add(Reference.builder().reference(string("Practitioner/" + practitionerId)).build());
         Composition composition = Composition
-                .builder(CompositionStatus.FINAL,
-                        CodeableConcept.builder()
-                                .coding(Coding.builder().code(Code.of("somecode-1234"))
-                                        .system(Uri.of("http://somesystem.org")).build())
-                                .build(),
-                        DateTime.of("2015-02-14T13:42:00+10:00"), authorList, string("This is the title"))
+                .builder()
+                .status(CompositionStatus.FINAL)
+                .type(CodeableConcept.builder()
+                        .coding(Coding.builder().code(Code.of("somecode-1234"))
+                                .system(Uri.of("http://somesystem.org")).build())
+                        .build())
+                .date(DateTime.of("2015-02-14T13:42:00+10:00"))
+                .title(string("This is the title"))
+                .author(authorList)
                 .subject(Reference.builder().reference(string("Patient/" + patientId)).build())
                 .section(Section.builder()
                         .entry(Reference.builder().reference(string("Observation/" + observationId)).build()).build())
@@ -245,7 +248,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         String message = "Hello, World!";
 
         Parameters parameters = Parameters.builder()
-                .parameter(Parameter.builder(string("input")).value(string(message)).build()).build();
+                .parameter(Parameter.builder().name(string("input")).value(string(message)).build()).build();
 
         FHIRClient client = getFHIRClient();
         FHIRResponse response = client.invoke("$hello", parameters);
@@ -281,7 +284,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
 
         Parameters parameters = Parameters.builder()
-                .parameter(Parameter.builder(string("resource")).resource(patient).build()).build();
+                .parameter(Parameter.builder().name(string("resource")).resource(patient).build()).build();
 
         FHIRClient client = getFHIRClient();
         FHIRResponse response = client.invoke("Patient", "$validate", parameters);
@@ -316,7 +319,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
     // Testcase for "POST [baseUrl]/{resourceTypeName}/{logicalId}/${operationName}"
     public void testPostRscIdValidateOperation() throws Exception {
         Parameters parameters = Parameters.builder()
-                .parameter(Parameter.builder(string("resource")).resource(savedCreatedPatient).build()).build();
+                .parameter(Parameter.builder().name(string("resource")).resource(savedCreatedPatient).build()).build();
 
         FHIRClient client = getFHIRClient();
         FHIRResponse response = client.invoke("Patient", "$validate", savedCreatedPatient.getId().getValue(),
@@ -371,7 +374,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
     // [baseUrl]/{resourceTypeName}/{logicalId}/_history/{versionId}/${operationName}"
     public void testPostRscIdVersionValidateOperation() throws Exception {
         Parameters parameters = Parameters.builder()
-                .parameter(Parameter.builder(string("resource")).resource(savedCreatedPatient).build()).build();
+                .parameter(Parameter.builder().name(string("resource")).resource(savedCreatedPatient).build()).build();
 
         FHIRClient client = getFHIRClient();
         FHIRResponse response = client.invoke("Patient", "$validate", savedCreatedPatient.getId().getValue(), "1",

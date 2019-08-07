@@ -93,11 +93,8 @@ public abstract class AbstractOperation implements FHIROperation {
     protected String getParameterValueTypeName(Parameters.Parameter parameter) throws FHIROperationException {
         if (parameter.getResource() != null) {
             try {
-//                Resource resource = FHIRUtil.getResourceContainerResource(parameter.getResource());
-//                return resource.getClass().getSimpleName();
-                /* ToDo  because we don't want to support virtual resource which is the only one who uses ResourceContainer  */ 
-                /* So, assume all ResourceTainer to be null to allow compile */ 
-                return null;
+                Resource resource = parameter.getResource();                
+                return resource.getClass().getSimpleName();
             } catch (Exception e) {
             }
         }
@@ -197,8 +194,8 @@ public abstract class AbstractOperation implements FHIROperation {
                     String parameterDefinitionTypeName = parameterDefinition.getType().getValue();
                     parameterDefinitionTypeName = parameterDefinitionTypeName.substring(0, 1).toUpperCase() + parameterDefinitionTypeName.substring(1);
                     try {
-                        Class<?> parameterValueType = Class.forName("com.ibm.watsonhealth.fhir.model." + parameterValueTypeName);
-                        Class<?> parameterDefinitionType = Class.forName("com.ibm.watsonhealth.fhir.model." + parameterDefinitionTypeName);
+                        Class<?> parameterValueType = Class.forName("com.ibm.watsonhealth.fhir.model.type" + parameterValueTypeName);
+                        Class<?> parameterDefinitionType = Class.forName("com.ibm.watsonhealth.fhir.model.type" + parameterDefinitionTypeName);
                         if (!parameterDefinitionType.isAssignableFrom(parameterValueType)) {
                             String msg = "Invalid type: '" + parameterValueTypeName + "' for " + direction + " parameter: '" + name + "'";
                             throw buildExceptionWithIssue(msg, IssueType.ValueSet.INVALID);

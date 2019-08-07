@@ -76,7 +76,8 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         byte[] value = "Hello, World!".getBytes();
-        Binary binary = Binary.builder(Code.of("text/plain")).data(Base64Binary.builder().value(value).build()).build();
+        Binary binary = Binary.builder()
+                .contentType(Code.of("text/plain")).data(Base64Binary.builder().value(value).build()).build();
 
         Entity<Binary> entity = Entity.entity(binary, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Binary").request().post(entity, Response.class);
@@ -116,10 +117,12 @@ public class Base64BinaryTest extends FHIRServerTestBase {
 
         // Create a DocumentReference resource and connect the attachment to it.
         List<DocumentReference.Content> listDocRef = new ArrayList<DocumentReference.Content>();
-        listDocRef.add(DocumentReference.Content.builder(attachment).build());
+        listDocRef.add(DocumentReference.Content.builder().attachment(attachment).build());
 
-        DocumentReference docRef = DocumentReference
-                .builder(DocumentReferenceStatus.CURRENT, listDocRef).type(CodeableConcept.builder()
+        DocumentReference docRef = DocumentReference.builder()
+                .status(DocumentReferenceStatus.CURRENT)
+                .content(listDocRef)
+                .type(CodeableConcept.builder()
                         .coding(Coding.builder().code(Code.of("attachmentTest")).build()).build())
                 .date(Instant.of(ZonedDateTime.now())).build();
 
@@ -157,15 +160,20 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         // Create an AuditEvent with an AuditEventObject that has an AuditEventDetail
         // with a base64 encoded value.
         List<AuditEvent.Agent> listAgents = new ArrayList<AuditEvent.Agent>();
-        listAgents.add(AuditEvent.Agent.builder(com.ibm.watsonhealth.fhir.model.type.Boolean.TRUE).build());
-        AuditEvent auditEvent = AuditEvent
-                .builder(Coding.builder().code(Code.of("99")).build(), Instant.of(ZonedDateTime.now()), listAgents,
-                        AuditEvent.Source
-                                .builder(Reference.builder()
-                                        .identifier(Identifier.builder().value(string("Device/1")).build()).build())
+        listAgents.add(AuditEvent.Agent.builder()
+                .requestor(com.ibm.watsonhealth.fhir.model.type.Boolean.TRUE).build());
+        AuditEvent auditEvent = AuditEvent.builder()
+                .type(Coding.builder().code(Code.of("99")).build())
+                .recorded(Instant.of(ZonedDateTime.now()))
+                .agent(listAgents)
+                .source(AuditEvent.Source.builder()
+                        .observer(Reference.builder()
+                                .identifier(Identifier.builder().value(string("Device/1")).build()).build())
                                 .build())
-                .entity(AuditEvent.Entity.builder().detail(AuditEvent.Entity.Detail
-                        .builder(string("Base64Binary test"), Base64Binary.builder().value(value).build()).build())
+                .entity(AuditEvent.Entity.builder()
+                        .detail(AuditEvent.Entity.Detail.builder()
+                                .type(string("Base64Binary test"))
+                                .value(Base64Binary.builder().value(value).build()).build())
                         .build())
                 .build();
 
@@ -208,17 +216,21 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         List<Coding> listCoding = new ArrayList<Coding>();
         listCoding.add(Coding.builder().code(Code.of(MediaType.APPLICATION_FHIR_JSON)).build());
         Parameters parameters = Parameters.builder()
-                .parameter(Parameters.Parameter.builder(string("base64BinaryParameterTest"))
+                .parameter(Parameters.Parameter.builder()
+                        .name(string("base64BinaryParameterTest"))
                         .value(Base64Binary.builder().value(valueParameter).build()).build())
-                .parameter(Parameters.Parameter.builder(string("resourceParameterTest"))
+                .parameter(Parameters.Parameter.builder()
+                        .name(string("resourceParameterTest"))
                         .resource(Person.builder().active(com.ibm.watsonhealth.fhir.model.type.Boolean.FALSE)
                                 .build())
                         .build())
-                .parameter(Parameters.Parameter.builder(string("signatureParameterTest"))
-                        .value(Signature
-                                .builder(listCoding, Instant.of(ZonedDateTime.now()),
-                                        Reference.builder().type(Uri.of("1.2.840.10065.1.12.1.1"))
-                                                .reference(string("Patient/777")).build())
+                .parameter(Parameters.Parameter.builder()
+                        .name(string("signatureParameterTest"))
+                        .value(Signature.builder()
+                                .type(listCoding)
+                                .when(Instant.of(ZonedDateTime.now()))
+                                .who(Reference.builder().type(Uri.of("1.2.840.10065.1.12.1.1"))
+                                        .reference(string("Patient/777")).build())
                                 .data(Base64Binary.builder().value(valueSignature).build()).build())
                         .build())
                 .build();
@@ -261,14 +273,20 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         // Create an AuditEvent with an AuditEventObject that has an AuditEventDetail
         // with a base64 encoded value.
         List<AuditEvent.Agent> listAgents = new ArrayList<AuditEvent.Agent>();
-        listAgents.add(AuditEvent.Agent.builder(com.ibm.watsonhealth.fhir.model.type.Boolean.FALSE).build());
-        AuditEvent auditEvent = AuditEvent
-                .builder(Coding.builder().code(Code.of("99")).build(), Instant.of(ZonedDateTime.now()), listAgents,
-                        AuditEvent.Source
-                                .builder(Reference.builder()
-                                        .identifier(Identifier.builder().value(string("Device/1")).build()).build())
+        listAgents.add(AuditEvent.Agent.builder()
+                .requestor(com.ibm.watsonhealth.fhir.model.type.Boolean.FALSE)
+                .build());
+        
+        AuditEvent auditEvent = AuditEvent.builder()
+                .type(Coding.builder().code(Code.of("99")).build())
+                .recorded(Instant.of(ZonedDateTime.now()))
+                .agent(listAgents)
+                .source(AuditEvent.Source.builder()
+                        .observer(Reference.builder()
+                                .identifier(Identifier.builder().value(string("Device/1")).build()).build())
                                 .build())
-                .extension(Extension.builder("http://ibm.com/watsonhealth/fhir/AuditEvent/testExtension")
+                .extension(Extension.builder()
+                        .url("http://ibm.com/watsonhealth/fhir/AuditEvent/testExtension")
                         .value(Base64Binary.builder().value(value).build()).build())
                 .build();
 

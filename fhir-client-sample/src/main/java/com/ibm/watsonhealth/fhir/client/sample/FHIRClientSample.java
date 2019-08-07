@@ -197,10 +197,11 @@ public class FHIRClientSample {
 
     private Observation createObservation(Patient p, double glucoseReading) {
         String subject = "Patient/" + p.getId().getValue();
-        Observation o = Observation.builder(ObservationStatus.PRELIMINARY, 
-                                CodeableConcept.builder().coding(Coding.builder().code(Code.of("15074-8"))
-                                        .system(Uri.of("http://loinc.org")).display(string("Glucose [Moles/volume] in Blood"))
-                                        .build()).build())
+        Observation o = Observation.builder()
+                .status(ObservationStatus.PRELIMINARY)
+                .code(CodeableConcept.builder().coding(Coding.builder().code(Code.of("15074-8"))
+                        .system(Uri.of("http://loinc.org")).display(string("Glucose [Moles/volume] in Blood"))
+                        .build()).build())
                 .subject(Reference.builder().reference(string(subject)).build())
                 .value(Quantity.builder().unit(string("mmol/l")).value(Decimal.of(glucoseReading))
                         .system(Uri.of("http://unitsofmeasure.org")).code(Code.of("mmol/L")).build())

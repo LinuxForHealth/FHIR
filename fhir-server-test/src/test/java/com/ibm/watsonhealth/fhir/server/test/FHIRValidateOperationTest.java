@@ -67,7 +67,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
         patient = patient.toBuilder()
                 .meta(Meta.builder().profile(Canonical.of("http://ibm.com/watsonhealth/fhir/profile/acme-sample"))
                         .build())
-                .extension(Extension.builder("http://ibm.com/watsonhealth/fhir/extension/acme-sample/study_ID")
+                .extension(Extension.builder().url("http://ibm.com/watsonhealth/fhir/extension/acme-sample/study_ID")
                         .value(string("abc-1234")).build())
                 .build();
 

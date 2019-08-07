@@ -41,19 +41,19 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
 
         Patient patient = readResource(Patient.class, "Patient_SearchExtensions.json");
         patient = patient.toBuilder()
-                .extension(Extension.builder(EXTENSION_BASE_URL + "favorite-color").value(string("blue")).build())
-                .extension(Extension.builder(EXTENSION_BASE_URL + "favorite-number").value(Integer.of(5)).build())
-                .extension(Extension.builder(EXTENSION_BASE_URL + "favorite-code")
+                .extension(Extension.builder().url(EXTENSION_BASE_URL + "favorite-color").value(string("blue")).build())
+                .extension(Extension.builder().url(EXTENSION_BASE_URL + "favorite-number").value(Integer.of(5)).build())
+                .extension(Extension.builder().url(EXTENSION_BASE_URL + "favorite-code")
                         .value(CodeableConcept.builder()
                                 .coding(Coding.builder().code(Code.of("someCode-1234"))
                                         .system(uri("http://ibm.com/fhir/system")).build())
                                 .build())
                         .build())
                 .extension(
-                        Extension.builder(EXTENSION_BASE_URL + "favorite-uri").value(uri("http://www.ibm.com")).build())
-                .extension(Extension.builder(EXTENSION_BASE_URL + "favorite-quantity")
+                        Extension.builder().url(EXTENSION_BASE_URL + "favorite-uri").value(uri("http://www.ibm.com")).build())
+                .extension(Extension.builder().url(EXTENSION_BASE_URL + "favorite-quantity")
                         .value(Quantity.builder().unit(string("lbs")).value(Decimal.of(180)).build()).build())
-                .extension(Extension.builder(EXTENSION_BASE_URL + "favorite-date").value(Date.of("2018-10-25")).build())
+                .extension(Extension.builder().url(EXTENSION_BASE_URL + "favorite-date").value(Date.of("2018-10-25")).build())
                 .build();
 
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);

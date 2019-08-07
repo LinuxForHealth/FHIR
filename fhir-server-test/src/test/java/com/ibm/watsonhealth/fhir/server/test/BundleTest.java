@@ -141,7 +141,7 @@ public class BundleTest extends FHIRServerTestBase {
     public void testMissingBundleType() throws Exception {
         WebTarget target = getWebTarget();
 
-        Bundle bundle = Bundle.builder(null).entry(Entry.builder().build()).build();
+        Bundle bundle = Bundle.builder().entry(Entry.builder().build()).build();
 
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
@@ -153,7 +153,8 @@ public class BundleTest extends FHIRServerTestBase {
     public void testIncorrectBundleType() throws Exception {
         WebTarget target = getWebTarget();
 
-        Bundle bundle = Bundle.builder(BundleType.BATCH_RESPONSE).entry(Entry.builder().build()).build();
+        Bundle bundle = Bundle.builder().type(BundleType.BATCH_RESPONSE)
+                .entry(Entry.builder().build()).build();
 
         Entity<Bundle> entity = Entity.entity(bundle, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.request().post(entity, Response.class);
@@ -167,7 +168,8 @@ public class BundleTest extends FHIRServerTestBase {
         String method = "testMissingRequestField";
         WebTarget target = getWebTarget();
 
-        Bundle bundle = Bundle.builder(BundleType.BATCH).entry(Entry.builder().build()).build();
+        Bundle bundle = Bundle.builder().type(BundleType.BATCH)
+                .entry(Entry.builder().build()).build();
 
         printBundle(method, "request", bundle);
 
@@ -1566,7 +1568,7 @@ public class BundleTest extends FHIRServerTestBase {
             // Update the previously-created Observation to add a subject and extension.
             String patientLocalRef = "urn:Patient_" + Integer.toString(i);
             obs = obs.toBuilder().subject(Reference.builder().reference(string(patientLocalRef)).build())
-                    .extension(Extension.builder(PATIENT_EXTENSION_URL)
+                    .extension(Extension.builder().url(PATIENT_EXTENSION_URL)
                             .value(Reference.builder().reference(string(patientLocalRef)).build()).build())
                     .build();
 
@@ -1745,7 +1747,7 @@ public class BundleTest extends FHIRServerTestBase {
             // Set its "subject" field to reference the Patient.
             // Add an extension element that references the Organization
             obs = obs.toBuilder().subject(Reference.builder().reference(string(patientLocalRef)).build())
-                    .extension(Extension.builder(ORG_EXTENSION_URL)
+                    .extension(Extension.builder().url(ORG_EXTENSION_URL)
                             .value(Reference.builder().reference(string(orgLocalRef)).build()).build())
                     .build();
 
@@ -2240,7 +2242,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         // 2. POST request at global level
         Parameters hellowWorldParameters = Parameters.builder()
-                .parameter(Parameter.builder(string("input")).value(string(message)).build()).build();
+                .parameter(Parameter.builder().name(string("input")).value(string(message)).build()).build();
 
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "$hello", null, hellowWorldParameters);
 
@@ -2248,7 +2250,7 @@ public class BundleTest extends FHIRServerTestBase {
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
 
         Parameters validateOperationParameters = Parameters.builder()
-                .parameter(Parameter.builder(string("resource")).resource(patient).build()).build();
+                .parameter(Parameter.builder().name(string("resource")).resource(patient).build()).build();
 
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient/$validate", null,
                 validateOperationParameters);
@@ -2344,14 +2346,17 @@ public class BundleTest extends FHIRServerTestBase {
         // 1) Add a request with some valid request header extensions.
         extensions = new ArrayList<>();
 
-        extension = Extension.builder(HEADER_EXTENSION_URL).value(string("X-WHC-LSF-resourcename: Participant"))
+        extension = Extension.builder().url(HEADER_EXTENSION_URL)
+                .value(string("X-WHC-LSF-resourcename: Participant"))
                 .build();
         extensions.add(extension);
 
-        extension = Extension.builder("urn:some-url").value(string("Some string value...")).build();
+        extension = Extension.builder().url("urn:some-url")
+                .value(string("Some string value...")).build();
         extensions.add(extension);
 
-        extension = Extension.builder(HEADER_EXTENSION_URL).value(string("X-WHC-LSF-studyid: study001")).build();
+        extension = Extension.builder().url(HEADER_EXTENSION_URL)
+                .value(string("X-WHC-LSF-studyid: study001")).build();
         extensions.add(extension);
 
         bundle = addRequestToBundle(null, null, bundle, HTTPVerb.GET, urlString, null, null, extensions);
@@ -2359,7 +2364,8 @@ public class BundleTest extends FHIRServerTestBase {
         // 2) Add a request with an invalid request header extension.
         extensions = new ArrayList<>();
 
-        extension = Extension.builder(HEADER_EXTENSION_URL).value(string("FOO")).build();
+        extension = Extension.builder().url(HEADER_EXTENSION_URL)
+                .value(string("FOO")).build();
         extensions.add(extension);
 
         bundle = addRequestToBundle(null, null, bundle, HTTPVerb.GET, urlString, null, null, extensions);
@@ -2367,7 +2373,8 @@ public class BundleTest extends FHIRServerTestBase {
         // 3) Add a request with an invalid request header extension.
         extensions = new ArrayList<>();
 
-        extension = Extension.builder(HEADER_EXTENSION_URL).value(string("Header1:")).build();
+        extension = Extension.builder().url(HEADER_EXTENSION_URL)
+                .value(string("Header1:")).build();
         extensions.add(extension);
 
         bundle = addRequestToBundle(null, null, bundle, HTTPVerb.GET, urlString, null, null, extensions);
@@ -2375,7 +2382,8 @@ public class BundleTest extends FHIRServerTestBase {
         // 4) Add a request with an invalid request header extension.
         extensions = new ArrayList<>();
 
-        extension = Extension.builder(HEADER_EXTENSION_URL).value(com.ibm.watsonhealth.fhir.model.type.Boolean.TRUE)
+        extension = Extension.builder().url(HEADER_EXTENSION_URL)
+                .value(com.ibm.watsonhealth.fhir.model.type.Boolean.TRUE)
                 .build();
         extensions.add(extension);
 
@@ -2546,7 +2554,7 @@ public class BundleTest extends FHIRServerTestBase {
     private Bundle addRequestToBundle(String ifNoexisting, String fullUrl, Bundle bundle, HTTPVerb method, String url,
             String ifMatch, Resource resource, List<Extension> requestExtensions) throws Exception {
         Bundle.Entry.Builder entryBuilder = Entry.builder();
-        Bundle.Entry.Request.Builder requestBuilder = Bundle.Entry.Request.builder(method, Uri.of(url));
+        Bundle.Entry.Request.Builder requestBuilder = Bundle.Entry.Request.builder().method(method).url(Uri.of(url));
 
         if (ifMatch != null) {
             requestBuilder.ifMatch(string(ifMatch));
@@ -2583,7 +2591,7 @@ public class BundleTest extends FHIRServerTestBase {
     }
 
     private Bundle buildBundle(BundleType bundleType) {
-        Bundle bundle = Bundle.builder(bundleType).build();
+        Bundle bundle = Bundle.builder().type(bundleType).build();
         return bundle;
     }
 

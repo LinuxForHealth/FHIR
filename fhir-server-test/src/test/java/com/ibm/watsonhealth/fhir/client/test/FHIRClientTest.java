@@ -450,7 +450,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
 
     @Test(dependsOnMethods = { "testUpdatePatient" })
     public void testBatch() throws Exception {
-        Bundle requestBundle = Bundle.builder(BundleType.BATCH).build();
+        Bundle requestBundle = Bundle.builder().type(BundleType.BATCH).build();
         
         // read
         addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + createdPatient.getId().getValue(), null);
@@ -476,7 +476,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
 
     @Test(dependsOnMethods = { "testUpdatePatient" })
     public void testTransaction() throws Exception {
-        Bundle requestBundle = Bundle.builder(BundleType.BATCH).build();
+        Bundle requestBundle = Bundle.builder().type(BundleType.BATCH).build();
         // read
         addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + createdPatient.getId().getValue(), null);
         // vread
@@ -500,7 +500,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
 
     private Bundle addRequestToBundle(Bundle bundle, HTTPVerb method, String url, Resource resource) throws Exception {
           
-        Bundle.Entry.Request request = Bundle.Entry.Request.builder(method, Uri.of(url)).build();   
+        Bundle.Entry.Request request = Bundle.Entry.Request.builder().method(method).url(Uri.of(url)).build();   
         Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder().request(request);
              
         if (resource != null) {

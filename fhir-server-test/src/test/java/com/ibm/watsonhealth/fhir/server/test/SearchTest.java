@@ -165,7 +165,7 @@ public class SearchTest extends FHIRServerTestBase {
 
         Person person = Person.builder().id(Id.of(id))
                 .identifier(Identifier.builder().value(string(identifier)).system(uri("test")).build())
-                .link(Link.builder(Reference.builder().reference(string(patientRef)).build()).build()).build();
+                .link(Link.builder().target(Reference.builder().reference(string(patientRef)).build()).build()).build();
 
         FHIRResponse createResponse = client.update(person);
         assertResponse(createResponse, Response.Status.CREATED.getStatusCode());
@@ -176,7 +176,7 @@ public class SearchTest extends FHIRServerTestBase {
         Person.Builder personBuilder = person.toBuilder();
         for (int i = 0; i < numberOfLinks; i++) {
             Person.Link link = Link
-                    .builder(Reference.builder().reference(string("Patient/" + UUID.randomUUID())).build()).build();
+                    .builder().target(Reference.builder().reference(string("Patient/" + UUID.randomUUID())).build()).build();
             personBuilder.link(link);
         }
         return personBuilder.build();

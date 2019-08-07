@@ -265,7 +265,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
     @Test(groups = { "server-spec" })
     public void testCreateObservationErrorInvalidResource() throws JAXBException {
         WebTarget target = getWebTarget();
-        Observation observation = Observation.builder(null, null).build();
+        Observation observation = Observation.builder().build();
         Entity<Observation> entity = Entity.entity(observation, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
@@ -278,8 +278,9 @@ public class ServerSpecTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build an Observation, then try to call the 'create patient' API.
-        Observation observation = Observation.builder(ObservationStatus.FINAL, 
-                CodeableConcept.builder().coding(Coding.builder()
+        Observation observation = Observation.builder()
+                .status(ObservationStatus.FINAL)
+                .code(CodeableConcept.builder().coding(Coding.builder()
                         .system(uri("http://ibm.com/system"))
                         .code(Code.of("someCode")).build()).build())
                 .build();

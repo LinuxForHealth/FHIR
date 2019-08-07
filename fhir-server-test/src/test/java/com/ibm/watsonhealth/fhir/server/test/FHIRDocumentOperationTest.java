@@ -215,12 +215,15 @@ public class FHIRDocumentOperationTest extends FHIRServerTestBase {
         List<Reference> authorList = new ArrayList<Reference>();
         authorList.add(Reference.builder().reference(string("Practitioner/" + practitionerId)).build());
         Composition composition = Composition
-                .builder(CompositionStatus.FINAL,
-                        CodeableConcept.builder()
-                                .coding(Coding.builder().code(Code.of("somecode-1234"))
-                                        .system(Uri.of("http://somesystem.org")).build())
-                                .build(),
-                        DateTime.of("2015-02-14T13:42:00+10:00"), authorList, string("This is the title"))
+                .builder()
+                .status(CompositionStatus.FINAL)
+                .date(DateTime.of("2015-02-14T13:42:00+10:00"))
+                .title(string("This is the title"))
+                .author(authorList)
+                .type(CodeableConcept.builder()
+                        .coding(Coding.builder().code(Code.of("somecode-1234"))
+                                .system(Uri.of("http://somesystem.org")).build())
+                        .build())
                 .subject(Reference.builder().reference(string("Patient/" + patientId)).build())
                 .section(Section.builder()
                         .entry(Reference.builder().reference(string("Observation/" + observationId)).build()).build())

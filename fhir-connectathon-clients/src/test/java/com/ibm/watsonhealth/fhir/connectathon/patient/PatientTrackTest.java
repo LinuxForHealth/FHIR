@@ -330,7 +330,7 @@ public class PatientTrackTest extends FHIRModelTestBase {
         }
         
         // Finally, add a new extension to indicate the patient's favorite NBA team.
-        newExtensions.add(Extension.builder(EXTURI_FAVORITE_NBA).value(string("Spurs")).build());        
+        newExtensions.add(Extension.builder().url(EXTURI_FAVORITE_NBA).value(string("Spurs")).build());        
         patient = patient.toBuilder().name(newNames).extension(newExtensions).build();
 
         return patient;
