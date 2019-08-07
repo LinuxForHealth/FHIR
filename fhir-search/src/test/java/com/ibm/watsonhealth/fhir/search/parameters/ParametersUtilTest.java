@@ -58,7 +58,7 @@ public class ParametersUtilTest extends BaseSearchTest {
         assertEquals(params.size(), 135);
     }
 
-    @Test(expectedExceptions = { UnsupportedOperationException.class })
+    @Test()
     public void testPopulateSearchParameterMapFromStreamXML() throws IOException {
         // Tests XML (once we support reading XML)
         try (InputStream stream = ParametersUtil.class.getClassLoader().getResourceAsStream("search-parameters.xml")) {
@@ -67,7 +67,8 @@ public class ParametersUtilTest extends BaseSearchTest {
             if (DEBUG) {
                 ParametersUtil.print(System.out);
             }
-            assertEquals(134, params.size());
+            // 134 + DomainResource
+            assertEquals(params.size(), 135);
         }
 
     }
@@ -97,10 +98,10 @@ public class ParametersUtilTest extends BaseSearchTest {
             ParametersUtil.print(out);
             assertNotNull(outBA);
             assertNotNull(outBA.toByteArray());
-        }catch(Exception e) {
+        } catch (Exception e) {
             fail();
         }
-        
+
     }
 
     @Test(expectedExceptions = {})
@@ -228,22 +229,21 @@ public class ParametersUtilTest extends BaseSearchTest {
         ParametersUtil.init();
         assertTrue(true);
     }
-    
-    @Test 
-    public void testCheckAndWarnForIssueWithCodeAndName() {
-        // Issue 202 : added warning and corresponding test. 
-        ParametersUtil.checkAndWarnForIssueWithCodeAndName(null,null);
-        ParametersUtil.checkAndWarnForIssueWithCodeAndName(null,"");
-        ParametersUtil.checkAndWarnForIssueWithCodeAndName("",null);
-        ParametersUtil.checkAndWarnForIssueWithCodeAndName("","");
-        ParametersUtil.checkAndWarnForIssueWithCodeAndName("_code","_code");
 
-        // Run as individual unit test, you should see only one warning: 
+    @Test
+    public void testCheckAndWarnForIssueWithCodeAndName() {
+        // Issue 202 : added warning and corresponding test.
+        ParametersUtil.checkAndWarnForIssueWithCodeAndName(null, null);
+        ParametersUtil.checkAndWarnForIssueWithCodeAndName(null, "");
+        ParametersUtil.checkAndWarnForIssueWithCodeAndName("", null);
+        ParametersUtil.checkAndWarnForIssueWithCodeAndName("", "");
+        ParametersUtil.checkAndWarnForIssueWithCodeAndName("_code", "_code");
+
+        // Run as individual unit test, you should see only one warning:
         // WARNING: The code and name of the search parameter does not match [_code] [_notcode]
-        ParametersUtil.checkAndWarnForIssueWithCodeAndName("_code","_notcode");
-        
+        ParametersUtil.checkAndWarnForIssueWithCodeAndName("_code", "_notcode");
+
         assertTrue(true);
     }
-    
 
 }
