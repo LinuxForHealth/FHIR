@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.model.util;
 
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import static java.util.Objects.nonNull;
 
 import java.io.InputStream;
@@ -35,8 +36,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
-
-import org.w3c.dom.Node;
 
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
@@ -71,7 +70,6 @@ import com.ibm.watsonhealth.fhir.model.type.Decimal;
 import com.ibm.watsonhealth.fhir.model.type.Distance;
 import com.ibm.watsonhealth.fhir.model.type.Dosage;
 import com.ibm.watsonhealth.fhir.model.type.Duration;
-import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.type.Expression;
 import com.ibm.watsonhealth.fhir.model.type.Extension;
 import com.ibm.watsonhealth.fhir.model.type.HumanName;
@@ -281,11 +279,10 @@ public class FHIRUtil {
      * Read a FHIR resource from {@code reader} in the requested {@code format}.
      */
     public static <T extends Resource> T read(Class<T> resourceType, Format format, Reader reader) throws FHIRException {
-        if (Format.XML.equals(format)) {
-            throw new UnsupportedOperationException();
-        } else {
-            // Format.JSON.equals(format)
-            return readAndFilterJson(resourceType, reader, null);
+        try {
+            return FHIRParser.parser(format).parse(reader);
+        } catch (FHIRParserException e) {
+            throw new FHIRException(e.getMessage() + ", location: '" + e.getPath() + "'", e);
         }
     }
     
@@ -293,11 +290,10 @@ public class FHIRUtil {
      * Read a FHIR resource from {@code in} in the requested {@code format}.
      */
     public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream in) throws FHIRException {
-        if (Format.XML.equals(format)) {
-            throw new UnsupportedOperationException();
-        } else {
-            // Format.JSON.equals(format)
-            return readAndFilterJson(resourceType, in, null);
+        try {
+            return FHIRParser.parser(format).parse(in);
+        } catch (FHIRParserException e) {
+            throw new FHIRException(e.getMessage() + ", location: '" + e.getPath() + "'", e);
         }
     }
 
@@ -320,18 +316,10 @@ public class FHIRUtil {
         }
     }
 
-    public static <T extends Resource> T read(Node node) {
-        throw new UnsupportedOperationException();
-    }
-
     public static <T extends Resource> T toResource(Class<T> resourceType, JsonObject jsonObject) throws FHIRParserException{
         FHIRJsonParser parser = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class);
         parser.reset();
         return parser.parse(jsonObject);
-    }
-
-    public static <T extends Element> T toElement(Class<T> elementType, JsonObject jsonObject) {
-        throw new UnsupportedOperationException();
     }
 
     /**
@@ -407,8 +395,8 @@ public class FHIRUtil {
         return OperationOutcome.Issue.builder()
                 .severity(IssueSeverity.of(severity))
                 .code(IssueType.of(code))
-                .details(CodeableConcept.builder().text(com.ibm.watsonhealth.fhir.model.type.String.of(details)).build())
-                .expression(Collections.singletonList(com.ibm.watsonhealth.fhir.model.type.String.of(expression))).build();
+                .details(CodeableConcept.builder().text(string(details)).build())
+                .expression(Collections.singletonList(string(expression))).build();
     }
 
     /**
@@ -485,7 +473,7 @@ public class FHIRUtil {
         OperationOutcome.Issue ooi = OperationOutcome.Issue.builder()
                 .severity(IssueSeverity.of(severity))
                 .code(IssueType.of(issueType))
-                .details(CodeableConcept.builder().text(com.ibm.watsonhealth.fhir.model.type.String.of(message)).build())
+                .details(CodeableConcept.builder().text(string(message)).build())
                 .build();
 
         // Next, build the OperationOutcome.
@@ -738,7 +726,6 @@ public class FHIRUtil {
      * @return
      */
     public static boolean isFailure(IssueSeverity severity) {
-
         switch (IssueSeverity.ValueSet.from(severity.getValue())) {
         case INFORMATION:
         case WARNING:

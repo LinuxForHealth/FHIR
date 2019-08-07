@@ -6,6 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.provider;
 
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.buildOperationOutcome;
+import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.buildOperationOutcomeIssue;
+
 import java.io.FilterInputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -14,13 +17,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
-import javax.ws.rs.RuntimeType;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -33,9 +35,9 @@ import javax.ws.rs.ext.MessageBodyWriter;
 
 import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
-import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
-import com.ibm.watsonhealth.fhir.model.path.exception.FHIRPathException;
+import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorException;
+import com.ibm.watsonhealth.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
@@ -53,26 +55,9 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
     private UriInfo uriInfo;
     @Context
     private HttpHeaders requestHeaders;
-    private RuntimeType runtimeType = null;
-
-    public FHIRProvider() {
-        // default to client runtime type
-        this(RuntimeType.CLIENT);
-    }
-
-    public FHIRProvider(RuntimeType runtimeType) {
-        this.runtimeType = runtimeType;
-    }
     
-  
-
     @Override
     public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-        if (RuntimeType.SERVER.equals(runtimeType)) {
-            // server specific logic to ensure that this provider gets selected for standard resource types
-            String typePathParameter = uriInfo.getPathParameters().getFirst("type");
-            return Resource.class.isAssignableFrom(type) && (typePathParameter == null || FHIRUtil.isStandardResourceType(typePathParameter));
-        }
         return Resource.class.isAssignableFrom(type);
     }
 
@@ -87,30 +72,23 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
                     // do nothing
                 }
             }));
-        } 
-        catch (FHIRException e) {
+        } catch (Exception e) {
             log.log(Level.WARNING, "an error occurred during resource deserialization", e);
-            // TODO get actual location/path from exception
-            final String location = e.getMessage();
+            String path = null;
+            if (e instanceof FHIRParserException) {
+                path = ((FHIRParserException) e).getPath();
+            }
             Response response = buildResponse(
-                    FHIRUtil.buildOperationOutcome(Arrays.asList(
-                            FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.ERROR, IssueType.ValueSet.INVALID, "FHIRProvider: " + e.getMessage(), location)
-            )));
+                buildOperationOutcome(Collections.singletonList(
+                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.ERROR, IssueType.ValueSet.INVALID, "FHIRProvider: " + e.getMessage(), path))));
             throw new WebApplicationException(response);
-        } 
-        finally {
+        } finally {
             log.exiting(this.getClass().getName(), "readFrom");
         }
     }
 
     @Override
     public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-        if (RuntimeType.SERVER.equals(runtimeType)) {
-            // server specific logic to ensure that this provider gets selected for standard resource types
-            String typePathParameter = uriInfo.getPathParameters().getFirst("type");
-            return (Resource.class.isAssignableFrom(type) && (typePathParameter == null || FHIRUtil.isStandardResourceType(typePathParameter)))
-                    || type == OperationOutcome.class;
-        }
         return Resource.class.isAssignableFrom(type);
     }
 
@@ -127,11 +105,14 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
                 }
             }, isPretty(requestHeaders));
         } catch (Exception e) {
-            Response response = buildResponse(
-                    FHIRUtil.buildOperationOutcome(Arrays.asList(
-                            FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.EXCEPTION, "FHIRProvider: an error occurred during resource serialization",null)
-            )));
             log.log(Level.WARNING, "an error occurred during resource serialization", e);
+            String path = null;
+            if (e instanceof FHIRGeneratorException) {
+                path = ((FHIRGeneratorException) e).getPath();
+            }
+            Response response = buildResponse(
+                buildOperationOutcome(Collections.singletonList(
+                    buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.EXCEPTION, "FHIRProvider: " + e.getMessage(), path))));
             throw new WebApplicationException(response);
         } finally {
             log.exiting(this.getClass().getName(), "writeTo");
@@ -153,14 +134,6 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
 
         // Config evaluation (default false)
         return FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_DEFAULT_PRETTY_PRINT, false);
-    }
-    
-    protected static boolean isLenient() {
-        return FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_JSON_PARSER_LENIENT, false);
-    }
-    
-    protected static boolean isValidating() {
-        return FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_JSON_PARSER_VALIDATING, true);
     }
 
     @Override
@@ -188,5 +161,4 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
                 .build();
         return response;
     }
-    
 }

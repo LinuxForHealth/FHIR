@@ -23,6 +23,7 @@ import javax.xml.stream.XMLStreamWriter;
 public final class XMLSupport {
     public static final String FHIR_NS_URI = "http://hl7.org/fhir";
     public static final String XHTML_NS_URI = "http://www.w3.org/1999/xhtml";
+    
     private static final XMLInputFactory XML_INPUT_FACTORY = createXMLInputFactory();
     private static final XMLOutputFactory XML_OUTPUT_FACTORY = XMLOutputFactory.newInstance();
     
