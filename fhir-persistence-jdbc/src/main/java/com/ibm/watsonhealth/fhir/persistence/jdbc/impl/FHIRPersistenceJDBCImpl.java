@@ -14,10 +14,7 @@ import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PushbackReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -225,6 +222,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             metaBuilder.lastUpdated(lastUpdated);
             resultBuilder.meta(metaBuilder.build());
             
+            resource = resultBuilder.build();
+            
             // Create the new Resource DTO instance.
             com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
             resourceDTO.setLogicalId(logicalId);
@@ -235,9 +234,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
              
             // Serialize and compress the Resource
             GZIPOutputStream zipStream = new GZIPOutputStream(stream);
-            
-            FHIRGenerator.generator( Format.JSON, false).generate(resource, zipStream);
-            
+            FHIRGenerator.generator(Format.JSON).generate(resource, zipStream);
             zipStream.finish();
             resourceDTO.setData(stream.toByteArray());
             zipStream.close();
@@ -253,7 +250,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             this.storeSearchParameters(resource, resourceDTO);
             
             // For FHIR R4, model objects are immutable, so we need to return an updated copy
-            return resultBuilder.build();
+            return resource;
         }
         catch(FHIRPersistenceException e) {
             throw e;
@@ -388,6 +385,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             metaBuilder.lastUpdated(lastUpdated);
             resultBuilder.meta(metaBuilder.build());
             
+            resource = resultBuilder.build();
+            
             // Create the new Resource DTO instance.
             com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
             resourceDTO.setLogicalId(logicalId);
@@ -398,8 +397,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
              
             // Serialize and compress the Resource
             GZIPOutputStream zipStream = new GZIPOutputStream(stream);
-            
-            FHIRGenerator.generator( Format.JSON, false).generate(resource, zipStream);
+            FHIRGenerator.generator(Format.JSON).generate(resource, zipStream);
             zipStream.finish();
             resourceDTO.setData(stream.toByteArray());
             zipStream.close();
@@ -414,7 +412,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             // Store search parameters
             this.storeSearchParameters(resource, resourceDTO);
             
-            return resultBuilder.build();
+            return resource;
         }
         catch(FHIRPersistenceException e) {
             throw e;
@@ -688,43 +686,32 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         log.entering(CLASSNAME, METHODNAME);
         
         Resource resource = null;
-        Reader reader;
-        PushbackReader pushbackReader;
-        int firstByte;
                 
         try {
             if (resourceDTO != null) {
-                reader = new InputStreamReader(new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData())), StandardCharsets.UTF_8);
-                pushbackReader = new PushbackReader(reader);
-                firstByte = pushbackReader.read();
-                pushbackReader.unread(firstByte);
-                // At an earlier point in time in the life of the FHIR server, we serialized resources as XML. 
-                // This logic is here to be able to deserialize any old XML resources that might still remain in the FHIR DB. 
-                if (firstByte == 60) {
-                    resource = FHIRParser.parser(Format.XML).parse(pushbackReader);  
+                InputStream in = new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData()));
+
+                if (elements != null) {
+                    resource = FHIRParser.parser(Format.JSON)
+                            .as(FHIRJsonParser.class)
+                            .parseAndFilter(in, elements);
+                } else {
+                    resource = FHIRParser.parser(Format.JSON).parse(in);
                 }
-                else {
-                    if (elements != null) {
-                        resource = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(pushbackReader, elements);
-                        
-                    }
-                    else {
-                        resource = FHIRParser.parser(Format.JSON).parse(pushbackReader);  
-                    }
-                }
-                pushbackReader.close();
+                
+                in.close();
                 
                 Timestamp lastUpdated = resourceDTO.getLastUpdated();
                 Meta meta = resource.getMeta();
                 
                 Meta.Builder mb = meta == null ? Meta.builder() : meta.toBuilder();
                 mb.versionId(Id.of(Integer.toString(resourceDTO.getVersionId())))
-                .lastUpdated(Instant.of(ZonedDateTime.ofInstant(lastUpdated.toInstant(), ZoneOffset.UTC)));
+                    .lastUpdated(Instant.of(ZonedDateTime.ofInstant(lastUpdated.toInstant(), ZoneOffset.UTC)));
 
                 // Update the id/meta data in the resource
                 Resource.Builder rb = resource.toBuilder();
                 rb.id(Id.of(resourceDTO.getLogicalId()))
-                .meta(mb.build());
+                    .meta(mb.build());
                 
                 resource = rb.build();
                 
@@ -732,8 +719,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                     resource = FHIRPersistenceUtil.addFilteredTag(resource);
                 }
             }
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
                 

@@ -18,7 +18,7 @@ import com.ibm.watsonhealth.fhir.model.type.Element;
 public abstract class PathAwareAbstractVisitor extends AbstractVisitor implements PathAwareVisitor {
     public static boolean DEBUG = false;
     
-    protected final Stack<String> pathStack = new Stack<>();
+    private final Stack<String> pathStack = new Stack<>();
         
     // called by template methods
     protected abstract void doVisitEnd(String elementName, int elementIndex, Element element);
