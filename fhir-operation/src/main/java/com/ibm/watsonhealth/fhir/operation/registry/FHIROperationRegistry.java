@@ -21,6 +21,7 @@ import javax.xml.bind.JAXBException;
 
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.operation.FHIROperation;
 import com.ibm.watsonhealth.fhir.operation.exception.FHIROperationNotFoundException;
 import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
@@ -65,8 +66,12 @@ public class FHIROperationRegistry {
             for (Issue issue : issues) {
                 log.info("Issue: " + issue.getCode().getValue() + ":" 
             + issue.getSeverity().getValue() + ":" + issue.getDiagnostics());
+                if (issue.getSeverity().equals(IssueSeverity.ERROR) 
+                        || issue.getSeverity().equals(IssueSeverity.FATAL)) {
+                    return false;
+                }
             }
-            return false;
+
         }
         if (operation.getName() == null) {
             return false;

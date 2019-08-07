@@ -70,13 +70,13 @@ public class FHIRCliTest extends FHIRServerTestBase {
     @Test
     public void testMetadataToConsole() throws Exception {
         runTest("testMetadataToConsole", "-p", propsFile(), "--operation", "metadata");
-        verifyConsoleOutput("IBM Watson Health Cloud FHIR Server", "(c) Copyright IBM Corporation 2016, 2017", "1.0.2 - DSTU2");
+        verifyConsoleOutput("IBM Watson Health Cloud FHIR Server", "(c) Copyright IBM Corporation 2018, 2019", "4.0.0");
     }
     
     @Test
     public void testMetadataToFile() throws Exception {
         runTest("testMetadataToFile", "-p", propsFile(), "--operation", "metadata", "--output", dirPrefix("metadata.json"));
-        verifyFileContents("metadata.json", "IBM Watson Health Cloud FHIR Server", "(c) Copyright IBM Corporation 2016, 2017", "1.0.2 - DSTU2");
+        verifyFileContents("metadata.json", "IBM Watson Health Cloud FHIR Server", "(c) Copyright IBM Corporation 2018, 2019", "4.0.0");
     }
     
     @Test
@@ -210,7 +210,7 @@ public class FHIRCliTest extends FHIRServerTestBase {
     public void testConditionalCreatePatient() throws Exception {
         assertNotNull(patientId);
         runTest("testConditionalCreatePatient", "-p", propsFile(), "--operation", "conditional-create", "--resource", testData("Patient_MookieBetts.json"), "-qp", "_id=" + patientId);
-        verifyConsoleOutput("Status code: 200");
+        verifyConsoleOutput("Status code: 201");
     }
     
     @Test(dependsOnMethods={"testCreatePatient"})

@@ -330,7 +330,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         if (restList != null) {
             CapabilityStatement.Rest rest = restList.get(0);
             if (rest != null) {
-                assertEquals(RestfulCapabilityMode.SERVER, rest.getMode().getValue());
+                assertEquals(RestfulCapabilityMode.SERVER.getValue(), rest.getMode().getValue());
                 List<Rest.Resource> resources = rest.getResource();
                 if (resources != null) {
                     Rest.Resource resource = resources.get(0);

@@ -32,8 +32,13 @@ import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
+import com.ibm.watsonhealth.fhir.model.resource.Basic;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle.Entry;
+import com.ibm.watsonhealth.fhir.model.resource.DomainResource;
+import com.ibm.watsonhealth.fhir.model.type.Code;
+import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
+import com.ibm.watsonhealth.fhir.model.type.Coding;
 import com.ibm.watsonhealth.fhir.model.type.HTTPVerb;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Id;
@@ -382,17 +387,15 @@ public class RestAuditLogger {
         final String METHODNAME = "logOperation";
         log.entering(CLASSNAME, METHODNAME);
         
-        Class<? extends Resource> resourceType;
-        Builder tempResourceBuilder = null;
+        Basic.Builder tempResourceBuilder = null;
         Meta meta;
         AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
         AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_OPERATION);
         
         try {
             if (resourceTypeName != null) {
-                resourceType = (Class<? extends Resource>) FHIRUtil.getResourceType(resourceTypeName);
-             
-                tempResourceBuilder = resourceType.newInstance().toBuilder();    
+                tempResourceBuilder = Basic.builder().code(CodeableConcept.builder()
+                        .coding(Coding.builder().code(Code.of("forLogging")).build()).build());
                 if (logicalId != null) {
                     tempResourceBuilder.id(Id.of(logicalId));
                 }
