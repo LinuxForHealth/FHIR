@@ -90,17 +90,11 @@ public final class XMLSupport {
     public static XMLStreamWriter createXMLStreamWriter(Writer writer) throws XMLStreamException {
         return XML_OUTPUT_FACTORY.createXMLStreamWriter(writer);
     }
-
-    public static void main(String[] args) throws Exception {
-        String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
-        XMLStreamReader reader = XML_INPUT_FACTORY.createXMLStreamReader(new StringReader(div));
-        reader.next();
-        System.out.println(parseDiv(reader));
-        
-        div = "<h:div xmlns:h=\"http://www.w3.org/1999/xhtml\"><h:p><h:b>Generated Narrative</h:b></h:p></h:div>";
-        reader = XML_INPUT_FACTORY.createXMLStreamReader(new StringReader(div));
-        reader.next();
-        System.out.println(parseDiv(reader));
+    
+    public static boolean isResourceContainer(String elementName) {
+        return "contained".equals(elementName) || 
+                "resource".equals(elementName) || 
+                "outcome".equals(elementName);
     }
 
     public static String parseDiv(XMLStreamReader reader) throws XMLStreamException {
@@ -379,5 +373,16 @@ public final class XMLSupport {
         public void writeStartElement(java.lang.String prefix, java.lang.String localName, java.lang.String namespaceURI) throws XMLStreamException {
             writer.writeStartElement(prefix, localName, namespaceURI);
         }
+    }
+    public static void main(String[] args) throws Exception {
+        String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
+        XMLStreamReader reader = XML_INPUT_FACTORY.createXMLStreamReader(new StringReader(div));
+        reader.next();
+        System.out.println(parseDiv(reader));
+        
+        div = "<h:div xmlns:h=\"http://www.w3.org/1999/xhtml\"><h:p><h:b>Generated Narrative</h:b></h:p></h:div>";
+        reader = XML_INPUT_FACTORY.createXMLStreamReader(new StringReader(div));
+        reader.next();
+        System.out.println(parseDiv(reader));
     }
 }

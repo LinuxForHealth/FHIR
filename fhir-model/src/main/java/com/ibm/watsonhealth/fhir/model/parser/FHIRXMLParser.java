@@ -10,6 +10,7 @@ import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.FHIR_NS_URI;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.XHTML_NS_URI;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.checkElementOrder;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.createStreamReaderDelegate;
+import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.isResourceContainer;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.parseDiv;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.requireNamespace;
 
@@ -81,6 +82,9 @@ public class FHIRXMLParser implements FHIRParser {
     }
 
     private Resource parseResource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        if (isResourceContainer(elementName)) {
+            reader.nextTag();
+        }
         java.lang.String resourceType = getResourceType(reader);
         switch (resourceType) {
         case "Account":
@@ -11615,9 +11619,9 @@ public class FHIRXMLParser implements FHIRParser {
                     position = checkElementOrder("type", 2, position, false);
                     builder.type(parseCodeableConcept("type", reader, -1));
                     break;
-                case "valueSimpleQuantity":
+                case "valueQuantity":
                     position = checkElementOrder("value[x]", 3, position, false);
-                    builder.value((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "valueSimpleQuantity", reader, -1));
+                    builder.value((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "valueQuantity", reader, -1));
                     break;
                 case "valueMoney":
                     position = checkElementOrder("value[x]", 3, position, false);
@@ -15086,9 +15090,9 @@ public class FHIRXMLParser implements FHIRParser {
                     position = checkElementOrder("dose[x]", 3, position, false);
                     builder.dose(parseRange("doseRange", reader, -1));
                     break;
-                case "doseSimpleQuantity":
+                case "doseQuantity":
                     position = checkElementOrder("dose[x]", 3, position, false);
-                    builder.dose((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "doseSimpleQuantity", reader, -1));
+                    builder.dose((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "doseQuantity", reader, -1));
                     break;
                 case "rateRatio":
                     position = checkElementOrder("rate[x]", 4, position, false);
@@ -15098,9 +15102,9 @@ public class FHIRXMLParser implements FHIRParser {
                     position = checkElementOrder("rate[x]", 4, position, false);
                     builder.rate(parseRange("rateRange", reader, -1));
                     break;
-                case "rateSimpleQuantity":
+                case "rateQuantity":
                     position = checkElementOrder("rate[x]", 4, position, false);
-                    builder.rate((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "rateSimpleQuantity", reader, -1));
+                    builder.rate((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "rateQuantity", reader, -1));
                     break;
                 default:
                     throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
@@ -27724,9 +27728,9 @@ public class FHIRXMLParser implements FHIRParser {
                     position = checkElementOrder("rate[x]", 7, position, false);
                     builder.rate(parseRatio("rateRatio", reader, -1));
                     break;
-                case "rateSimpleQuantity":
+                case "rateQuantity":
                     position = checkElementOrder("rate[x]", 7, position, false);
-                    builder.rate((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "rateSimpleQuantity", reader, -1));
+                    builder.rate((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "rateQuantity", reader, -1));
                     break;
                 default:
                     throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
@@ -28332,9 +28336,9 @@ public class FHIRXMLParser implements FHIRParser {
                     position = checkElementOrder("characteristic[x]", 2, position, false);
                     builder.characteristic(parseCodeableConcept("characteristicCodeableConcept", reader, -1));
                     break;
-                case "characteristicSimpleQuantity":
+                case "characteristicQuantity":
                     position = checkElementOrder("characteristic[x]", 2, position, false);
-                    builder.characteristic((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "characteristicSimpleQuantity", reader, -1));
+                    builder.characteristic((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "characteristicQuantity", reader, -1));
                     break;
                 case "value":
                     position = checkElementOrder("value", 3, position, true);
@@ -28442,9 +28446,9 @@ public class FHIRXMLParser implements FHIRParser {
                     position = checkElementOrder("value[x]", 3, position, false);
                     builder.value(parseString("valueString", reader, -1));
                     break;
-                case "valueSimpleQuantity":
+                case "valueQuantity":
                     position = checkElementOrder("value[x]", 3, position, false);
-                    builder.value((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "valueSimpleQuantity", reader, -1));
+                    builder.value((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "valueQuantity", reader, -1));
                     break;
                 case "valueBase64Binary":
                     position = checkElementOrder("value[x]", 3, position, false);
@@ -33415,9 +33419,9 @@ public class FHIRXMLParser implements FHIRParser {
                     position = checkElementOrder("quantity", 3, position, false);
                     builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", reader, -1));
                     break;
-                case "rateSimpleQuantity":
+                case "rateQuantity":
                     position = checkElementOrder("rate[x]", 4, position, false);
-                    builder.rate((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "rateSimpleQuantity", reader, -1));
+                    builder.rate((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "rateQuantity", reader, -1));
                     break;
                 case "rateRatio":
                     position = checkElementOrder("rate[x]", 4, position, false);
@@ -42266,9 +42270,9 @@ public class FHIRXMLParser implements FHIRParser {
                     position = checkElementOrder("capacity", 6, position, false);
                     builder.capacity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "capacity", reader, -1));
                     break;
-                case "minimumVolumeSimpleQuantity":
+                case "minimumVolumeQuantity":
                     position = checkElementOrder("minimumVolume[x]", 7, position, false);
-                    builder.minimumVolume((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "minimumVolumeSimpleQuantity", reader, -1));
+                    builder.minimumVolume((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "minimumVolumeQuantity", reader, -1));
                     break;
                 case "minimumVolumeString":
                     position = checkElementOrder("minimumVolume[x]", 7, position, false);

@@ -92,7 +92,13 @@ public class FHIRXMLParserGeneratorTest {
         
         InputStream in = FHIRXMLParserGeneratorTest.class.getClassLoader().getResourceAsStream("JSON/activitydefinition.json");
         ActivityDefinition activityDefinition = FHIRParser.parser(Format.JSON).parse(in);
+        
+        writer = new StringWriter();
+        FHIRGenerator.generator(Format.XML, true).generate(activityDefinition, writer);
+        result = writer.toString();
+        
+        reader = new StringReader(result);
+        activityDefinition = FHIRParser.parser(Format.XML).parse(reader);
         FHIRGenerator.generator(Format.XML, true).generate(activityDefinition, System.out);
-        FHIRGenerator.generator(Format.JSON, true).generate(activityDefinition, System.out);
     }
 }

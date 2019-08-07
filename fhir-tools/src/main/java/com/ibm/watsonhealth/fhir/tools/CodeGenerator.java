@@ -95,14 +95,14 @@ public class CodeGenerator {
         "HumanName", 
         "Identifier", 
         "Money", 
-        "MoneyQuantity", 
+        "MoneyQuantity", // profiled type
         "Period", 
         "Quantity", 
         "Range", 
         "Ratio", 
         "Reference", 
         "SampledData", 
-        "SimpleQuantity", 
+        "SimpleQuantity", // profiled type
         "Signature", 
         "Timing", 
         "ContactDetail", 
@@ -1548,6 +1548,7 @@ public class CodeGenerator {
         cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "XHTML_NS_URI");
         cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "checkElementOrder");
         cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "createStreamReaderDelegate");
+        cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "isResourceContainer");
         cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "parseDiv");
         cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "requireNamespace");
 
@@ -1641,6 +1642,9 @@ public class CodeGenerator {
         cb.newLine();
                 
         cb.method(mods("private"), "Resource", "parseResource", params("java.lang.String elementName", "XMLStreamReader reader", "int elementIndex"), throwsExceptions("XMLStreamException"));
+        cb._if("isResourceContainer(elementName)")
+            .invoke("reader", "nextTag", args())
+        ._end();
         cb.assign("java.lang.String resourceType", "getResourceType(reader)");
         cb._switch("resourceType");
         for (String resourceClassName : resourceClassNames) {
@@ -1840,9 +1844,9 @@ public class CodeGenerator {
             } else {
                 // generate choice element cases
                 for (String choiceTypeName : getChoiceTypeNames(elementDefinition)) {
-                    cb._case(quote(elementName + choiceTypeName));
+                    cb._case(quote(elementName + getConcreteTypeName(choiceTypeName)));
                     cb.assign("position", "checkElementOrder(" + quote(elementName + "[x]") + ", " + orderIndex + ", position, " + isRepeating(elementDefinition) + ")");
-                    String parseMethodInvocation = buildParseMethodInvocation(elementDefinition, elementName + choiceTypeName, choiceTypeName);
+                    String parseMethodInvocation = buildParseMethodInvocation(elementDefinition, elementName + getConcreteTypeName(choiceTypeName), choiceTypeName);
                     cb.invoke("builder", fieldName, args(parseMethodInvocation));
                     cb._break();
                 }
@@ -1884,6 +1888,13 @@ public class CodeGenerator {
                 ._return("parse" + generatedClassName + "(" + generatedClassName + ".builder(), elementName, reader, elementIndex)")
             .end().newLine();
         }
+    }
+
+    private String getConcreteTypeName(String choiceTypeName) {
+        if (isProfiledType(choiceTypeName)) {
+            return "Quantity";
+        }
+        return choiceTypeName;
     }
 
     private void generateElementIndexDeclarations(List<JsonObject> elementDefinitions, String path, CodeBuilder cb) {
