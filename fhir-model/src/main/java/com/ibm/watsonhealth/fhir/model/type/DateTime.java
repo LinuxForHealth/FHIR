@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.model.type;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.YearMonth;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -78,6 +79,14 @@ public class DateTime extends Element {
         return DateTime.builder().value(value).build();
     }
 
+    public static DateTime now() {
+        return DateTime.builder().value(ZonedDateTime.now()).build();
+    }
+
+    public static DateTime now(ZoneOffset offset) {
+        return DateTime.builder().value(ZonedDateTime.now(offset)).build();
+    }
+
     @Override
     public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
         if (visitor.preVisit(this)) {
@@ -125,6 +134,9 @@ public class DateTime extends Element {
     @Override
     public java.lang.String toString() {
         if (value != null) {
+            if (isPartial()) {
+                return value.toString();
+            }
             return PARSER_FORMATTER.format(value);
         }
         return super.toString();

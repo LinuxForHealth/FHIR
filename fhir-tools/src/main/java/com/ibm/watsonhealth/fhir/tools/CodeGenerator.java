@@ -931,11 +931,34 @@ public class CodeGenerator {
     }
 
     private void generateToStringMethod(JsonObject structureDefinition, CodeBuilder cb) {
-        if (isDateTime(structureDefinition) || isDate(structureDefinition) || isInstant(structureDefinition)) {
+        if (isDateTime(structureDefinition)) {
+            cb.override()
+            .method(mods("public"), "java.lang.String", "toString")
+                ._if("value != null")
+                    ._if("isPartial()")
+                        ._return("value.toString()")
+                    ._end()
+                    ._return("PARSER_FORMATTER.format(value)")
+                ._end()
+                ._return("super.toString()")
+            .end()
+            .newLine();
+        }
+        if (isInstant(structureDefinition)) {
             cb.override()
             .method(mods("public"), "java.lang.String", "toString")
                 ._if("value != null")
                     ._return("PARSER_FORMATTER.format(value)")
+                ._end()
+                ._return("super.toString()")
+            .end()
+            .newLine();
+        }
+        if (isDate(structureDefinition) || isTime(structureDefinition)) {
+            cb.override()
+            .method(mods("public"), "java.lang.String", "toString")
+                ._if("value != null")
+                    ._return("value.toString()")
                 ._end()
                 ._return("super.toString()")
             .end()
@@ -1161,6 +1184,16 @@ public class CodeGenerator {
             .end().newLine();
         }
         
+        if (isDateTime(structureDefinition)) {
+            cb.method(mods("public", "static"), className, "now")
+                ._return(className + ".builder().value(ZonedDateTime.now()).build()")
+            .end().newLine();
+        
+            cb.method(mods("public", "static"), className, "now", params("ZoneOffset offset"))
+                ._return(className + ".builder().value(ZonedDateTime.now(offset)).build()")
+            .end().newLine();
+        }
+        
         if (isInstant(structureDefinition)) {
             cb.method(mods("public", "static"), className, "of", params("ZonedDateTime value"))
                 ._return(className + ".builder().value(value).build()")
@@ -1178,9 +1211,9 @@ public class CodeGenerator {
                 ._return(className + ".builder().value(ZonedDateTime.now(offset)).build()")
             .end().newLine();
         }
-        
-        if (isBoolean(structureDefinition)) {
-            cb.method(mods("public", "static"), className, "of", params("java.lang.Boolean value"))
+
+        if (isTime(structureDefinition)) {
+            cb.method(mods("public", "static"), className, "of", params("LocalTime value"))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
             
@@ -1189,8 +1222,8 @@ public class CodeGenerator {
             .end().newLine();
         }
         
-        if (isTime(structureDefinition)) {
-            cb.method(mods("public", "static"), className, "of", params("LocalTime value"))
+        if (isBoolean(structureDefinition)) {
+            cb.method(mods("public", "static"), className, "of", params("java.lang.Boolean value"))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
             
@@ -1366,12 +1399,9 @@ public class CodeGenerator {
                 imports.add("java.time.temporal.ChronoField");
                 imports.add("java.time.format.DateTimeFormatterBuilder");
             }
-            if (isInstant(structureDefinition)) {
-                imports.add("java.time.ZoneOffset");
-            }
         }
         
-        if (isInstant(structureDefinition)) {
+        if (isDateTime(structureDefinition) || isInstant(structureDefinition)) {
             imports.add("java.time.ZoneOffset");
         }
         

@@ -121,7 +121,7 @@ public class Date extends Element {
     @Override
     public java.lang.String toString() {
         if (value != null) {
-            return PARSER_FORMATTER.format(value);
+            return value.toString();
         }
         return super.toString();
     }

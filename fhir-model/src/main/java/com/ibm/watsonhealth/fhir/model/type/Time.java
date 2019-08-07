@@ -107,6 +107,14 @@ public class Time extends Element {
     }
 
     @Override
+    public java.lang.String toString() {
+        if (value != null) {
+            return value.toString();
+        }
+        return super.toString();
+    }
+
+    @Override
     public Builder toBuilder() {
         return new Builder().from(this);
     }
