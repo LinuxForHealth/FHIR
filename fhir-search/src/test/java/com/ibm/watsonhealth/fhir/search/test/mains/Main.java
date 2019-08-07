@@ -38,25 +38,25 @@ public class Main extends BaseSearchTest {
      */
     public static void main(String[] args) throws Exception {
         for (SearchParameter parameter : SearchUtil.getSearchParameters(Resource.class)) {
-            String name = parameter.getName().getValue();
+            String code = parameter.getCode().getValue();
             String type = parameter.getType().getValue();
             String description = parameter.getDescription().getValue();
             String xpath = null;
             if (parameter.getXpath() != null) {
                 xpath = parameter.getXpath().getValue();
             }
-            System.out.println("name: " + name + ", type: " + type + ", description: " + description + ", xpath: " + xpath);
+            System.out.println("name: " + code + ", type: " + type + ", description: " + description + ", xpath: " + xpath);
         }
 
         for (SearchParameter parameter : SearchUtil.getSearchParameters(Patient.class)) {
-            String name = parameter.getName().getValue();
+            String code = parameter.getCode().getValue();
             String type = parameter.getType().getValue();
             String description = parameter.getDescription().getValue();
             String xpath = null;
             if (parameter.getXpath() != null) {
                 xpath = parameter.getXpath().getValue();
             }
-            System.out.println("name: " + name + ", type: " + type + ", description: " + description + ", xpath: " + xpath);
+            System.out.println("name: " + code + ", type: " + type + ", description: " + description + ", xpath: " + xpath);
         }
 
         // Build Patient Resource
@@ -91,10 +91,10 @@ public class Main extends BaseSearchTest {
 
         Map<SearchParameter, List<FHIRPathNode>> map = SearchUtil.extractParameterValues(resource);
         for (SearchParameter parameter : map.keySet()) {
-            String name = parameter.getName().getValue();
+            String code = parameter.getCode().getValue();
             String type = parameter.getType().getValue();
             String xpath = parameter.getXpath().getValue();
-            System.out.println("name: " + name + ", type: " + type + ", xpath: " + xpath);
+            System.out.println("code: " + code + ", type: " + type + ", xpath: " + xpath);
             List<FHIRPathNode> values = map.get(parameter);
             for (FHIRPathNode value : values) {
                 System.out.println("    " + value.getClass().getName());

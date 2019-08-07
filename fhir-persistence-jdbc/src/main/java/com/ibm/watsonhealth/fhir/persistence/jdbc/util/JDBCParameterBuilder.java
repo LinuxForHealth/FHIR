@@ -96,8 +96,9 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
     private static final Timestamp SMALLEST_TIMESTAMP = Timestamp.valueOf("0001-01-01 00:00:00.000000");
     private static final Timestamp LARGEST_TIMESTAMP = Timestamp.valueOf("9999-12-31 23:59:59.999999");
 
-    private FHIRPersistenceProcessorException buildNameOnlyNewException(SearchParameter parameter, Exception e) {
-        return new FHIRPersistenceProcessorException(String.format(EXCEPTION_MSG_NAME_ONLY, parameter.getName().getValue()), e);
+    private FHIRPersistenceProcessorException buildCodeOnlyNewException(SearchParameter parameter, Exception e) {
+        // Issue 202: changed to Code
+        return new FHIRPersistenceProcessorException(String.format(EXCEPTION_MSG_NAME_ONLY, parameter.getCode().getValue()), e);
     }
 
     private List<Parameter> buildUnsupportedTypeResponse(Class<?> cls) {
@@ -232,7 +233,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
             // Range match as it came in to store into TIMESTAMP
             Parameter pDate = new Parameter();
-            pDate.setName(parameter.getName().getValue());
+            pDate.setName(parameter.getCode().getValue());
 
             // Forces to the first day of the month.
             // Honors the zone
@@ -242,7 +243,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -260,7 +261,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
             // Range match as it came in to store into TIMESTAMP
             Parameter pDate = new Parameter();
-            pDate.setName(parameter.getName().getValue());
+            pDate.setName(parameter.getCode().getValue());
 
             // Forces to the first day of the month.
             // Default to UTC as this is not Zoned.
@@ -270,7 +271,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -289,7 +290,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
             // Range match as it came in to store into TIMESTAMP
             Parameter pDate = new Parameter();
-            pDate.setName(parameter.getName().getValue());
+            pDate.setName(parameter.getCode().getValue());
             pDate.setTimeType(Parameter.TimeType.YEAR_MONTH);
 
             // Forces to the first day of the month.
@@ -298,7 +299,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -319,7 +320,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
             // Range match as it came in to store into TIMESTAMP
             Parameter pDate = new Parameter();
-            pDate.setName(parameter.getName().getValue());
+            pDate.setName(parameter.getCode().getValue());
 
             // Forces to the first day of the month.
             pDate.setValueDate(java.sql.Timestamp.from(QueryBuilderUtil.getInstantFromPartial(value)));
@@ -328,7 +329,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -342,7 +343,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             if ("token".equals(parameter.getType().getValue())) {
                 p.setValueCode(value);
             } else {
@@ -351,7 +352,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
-            throw new FHIRPersistenceProcessorException(String.format(EXCEPTION_MSG, parameter.getName(), value), e);
+            throw new FHIRPersistenceProcessorException(String.format(EXCEPTION_MSG, parameter.getCode(), value), e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -365,12 +366,12 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         try {
 
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             p.setValueString(value.getValue());
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -384,7 +385,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         try {
             Parameter p = new Parameter();
 
-            String paramName = parameter.getName().getValue();
+            String paramName = parameter.getCode().getValue();
 
             if (value.getCity() != null) {
                 p = new Parameter();
@@ -453,7 +454,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -481,7 +482,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             if (value) {
                 p.setValueCode("true");
             } else {
@@ -490,7 +491,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -503,12 +504,12 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             p.setValueCode(value.getValue());
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -537,7 +538,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         try {
             if (value.getCode() != null || value.getSystem() != null) {
                 Parameter p = new Parameter();
-                p.setName(parameter.getName().getValue());
+                p.setName(parameter.getCode().getValue());
                 if (value.getSystem() != null) {
                     p.setValueSystem(value.getSystem().getValue());
                 }
@@ -548,7 +549,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             }
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -562,7 +563,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         try {
             if (value.getValue() != null) {
                 Parameter telecom = new Parameter();
-                telecom.setName(parameter.getName().getValue());
+                telecom.setName(parameter.getCode().getValue());
                 telecom.setValueCode(value.getValue().getValue());
                 if (value.getSystem() != null && value.getSystem().getValue() != null) {
                     // <code> according to spec, this should be "http://hl7.org/fhir/contact-point-system/" +
@@ -584,7 +585,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -598,12 +599,12 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         try {
             // handles all the variants of partial dates
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             setDateValues(p, value);
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -641,7 +642,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         p.setValueDateStart(startTime);
         p.setValueDate(startTime);
         p.setTimeType(TimeType.UNKNOWN);
-        
+
         Timestamp implicitEndExclusive = Timestamp.from(end);
         Timestamp implicitEndInclusive = convertToExlusiveEnd(implicitEndExclusive);
         p.setValueDateEnd(implicitEndInclusive);
@@ -681,12 +682,12 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             setDateValues(p, value);
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -699,12 +700,12 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             p.setValueNumber(value.getValue());
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -716,7 +717,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         log.entering(CLASSNAME, methodName);
         List<Parameter> parameters = new ArrayList<>();
         try {
-            String paramname = parameter.getName().getValue();
+            String paramname = parameter.getCode().getValue();
 
             Parameter p = new Parameter();
             if (value.getFamily() != null) {
@@ -757,7 +758,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
         } catch (Exception e) {
 
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -770,13 +771,13 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             p.setValueCode(value.getValue());
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
 
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -790,7 +791,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         try {
             if (Objects.nonNull(value) && Objects.nonNull(value.getValue())) {
                 Parameter p = new Parameter();
-                p.setName(parameter.getName().getValue());
+                p.setName(parameter.getCode().getValue());
                 if (value.getSystem() != null) {
                     p.setValueSystem(value.getSystem().getValue());
                 }
@@ -799,7 +800,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             }
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -812,12 +813,12 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             p.setValueDate(Timestamp.from(value.getValue().toInstant()));
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -830,13 +831,13 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             // TODO: consider moving integer values to separate column so they can be searched different from decimals
             p.setValueNumber(new BigDecimal(value));
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -856,7 +857,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             if (value.getLatitude() != null) {
                 p.setValueLatitude(value.getLatitude().getValue().doubleValue());
             }
@@ -866,7 +867,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -879,12 +880,12 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             p.setValueString(value.getValue());
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -902,12 +903,12 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             p.setValueString(value.getValue());
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -923,7 +924,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
                 return parameters;
             }
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             if (value.getStart() == null || value.getStart().getValue() == null) {
                 p.setValueDateStart(SMALLEST_TIMESTAMP);
             } else {
@@ -939,7 +940,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -952,13 +953,13 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             // TODO: consider moving integer values to separate column so they can be searched different from decimals
             p.setValueNumber(new BigDecimal(value.getValue()));
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -971,13 +972,13 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             // TODO: consider moving integer values to separate column so they can be searched different from decimals
             p.setValueNumber(value);
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -992,7 +993,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             if (Objects.nonNull(value) && Objects.nonNull(value.getValue()) && Objects.nonNull(value.getValue().getValue())
                     && (Objects.nonNull(value.getCode()) || Objects.nonNull(value.getUnit()))) {
                 Parameter p = new Parameter();
-                p.setName(parameter.getName().getValue());
+                p.setName(parameter.getCode().getValue());
                 BigDecimal bd = value.getValue().getValue();
                 p.setValueNumber(bd);
                 if (value.getCode() != null) {
@@ -1007,7 +1008,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             }
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -1020,7 +1021,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             if (value.getLow() != null && value.getLow().getValue() != null && value.getLow().getValue().getValue() != null) {
                 if (value.getLow().getSystem() != null) {
                     p.setValueSystem(value.getLow().getSystem().getValue());
@@ -1054,7 +1055,7 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
             // The parameter isn't added unless either low or high holds a value
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -1073,13 +1074,13 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         try {
             if (value.getReference() != null) {
                 Parameter p = new Parameter();
-                p.setName(parameter.getName().getValue());
+                p.setName(parameter.getCode().getValue());
                 p.setValueString(value.getReference().getValue());
                 parameters.add(p);
             }
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }
@@ -1132,12 +1133,12 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
         List<Parameter> parameters = new ArrayList<>();
         try {
             Parameter p = new Parameter();
-            p.setName(parameter.getName().getValue());
+            p.setName(parameter.getCode().getValue());
             p.setValueString(value.getValue());
             parameters.add(p);
             return parameters;
         } catch (Exception e) {
-            throw buildNameOnlyNewException(parameter, e);
+            throw buildCodeOnlyNewException(parameter, e);
         } finally {
             log.exiting(CLASSNAME, methodName);
         }

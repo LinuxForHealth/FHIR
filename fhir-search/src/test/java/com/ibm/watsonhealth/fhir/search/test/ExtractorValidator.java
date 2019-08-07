@@ -63,18 +63,18 @@ public class ExtractorValidator {
 
         //
         for (Entry<SearchParameter, List<FHIRPathNode>> entry : output.entrySet()) {
-            String name = entry.getKey().getName().getValue();
+            String code = entry.getKey().getCode().getValue();
 
             if (strict) {
-                assertTrue(expected.containsKey(name));
+                assertTrue(expected.containsKey(code));
             }
 
-            List<String> expectedValues = expected.remove(name);
+            List<String> expectedValues = expected.remove(code);
             if (expectedValues != null) {
                 for (FHIRPathNode node : entry.getValue()) {
                     String tmp = processOutput(node);
                     if (BaseSearchTest.DEBUG) {
-                        System.out.println("NODE: " + name + " " + tmp);
+                        System.out.println("NODE: " + code + " " + tmp);
                     }
                     if (expectedValues.contains(tmp)) {
                         expectedValues = expectedValues.stream().filter(new Predicate<String>() {
@@ -114,7 +114,7 @@ public class ExtractorValidator {
         if (BaseSearchTest.DEBUG) {
             int i = 0;
             for (Entry<SearchParameter, List<FHIRPathNode>> entry : output.entrySet()) {
-                String name = entry.getKey().getName().getValue();
+                String name = entry.getKey().getCode().getValue();
 
                 String outputStr = i++ + "|" + name + "|=[";
                 StringJoiner joiner = new StringJoiner(",");

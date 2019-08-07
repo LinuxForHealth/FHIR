@@ -45,7 +45,7 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
             StringBuilder sb = new StringBuilder("Unexpected error while processing parameter");
             if (parameter != null) {
                 sb.append(' '); 
-                sb.append(parameter.getName().getValue());
+                sb.append(parameter.getCode().getValue());
             }
             throw new FHIRPersistenceProcessorException(sb.toString(), e);
         }
@@ -59,7 +59,7 @@ public abstract class AbstractProcessor<T> implements Processor<T> {
                 StringBuilder sb = new StringBuilder("Unexpected error while processing parameter");
                 if (parameter != null) {
                     sb.append(' ');
-                    sb.append(parameter.getName().getValue());
+                    sb.append(parameter.getCode().getValue());
                 }
                 throw new FHIRPersistenceProcessorException(sb.toString(), e);
             }

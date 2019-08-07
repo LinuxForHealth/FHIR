@@ -767,7 +767,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
         log.entering(CLASSNAME, METHODNAME);
         
         Map<SearchParameter, List<FHIRPathNode>> map;
-        String name, type, xpath;
+        String code;
+        String type;
+        String xpath;
+        
         List<Parameter> allParameters = new ArrayList<>();
         Processor<List<Parameter>> processor = new JDBCParameterBuilder();
         
@@ -775,12 +778,14 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             map = SearchUtil.extractParameterValues(fhirResource);
             
             for (SearchParameter parameter : map.keySet()) {
-                name = parameter.getName().getValue();
+                
+                // Issue 202: changed to code. 
+                code = parameter.getCode().getValue();
                 type = parameter.getType().getValue();
                 xpath = parameter.getXpath().getValue();
                 
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Processing SearchParameter name: " + name + ", type: " + type + ", xpath: " + xpath);
+                    log.fine("Processing SearchParameter code: " + code + ", type: " + type + ", xpath: " + xpath);
                 }
                 
                 List<FHIRPathNode> values = map.get(parameter);

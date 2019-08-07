@@ -228,5 +228,22 @@ public class ParametersUtilTest extends BaseSearchTest {
         ParametersUtil.init();
         assertTrue(true);
     }
+    
+    @Test 
+    public void testCheckAndWarnForIssueWithCodeAndName() {
+        // Issue 202 : added warning and corresponding test. 
+        ParametersUtil.checkAndWarnForIssueWithCodeAndName(null,null);
+        ParametersUtil.checkAndWarnForIssueWithCodeAndName(null,"");
+        ParametersUtil.checkAndWarnForIssueWithCodeAndName("",null);
+        ParametersUtil.checkAndWarnForIssueWithCodeAndName("","");
+        ParametersUtil.checkAndWarnForIssueWithCodeAndName("_code","_code");
+
+        // Run as individual unit test, you should see only one warning: 
+        // WARNING: The code and name of the search parameter does not match [_code] [_notcode]
+        ParametersUtil.checkAndWarnForIssueWithCodeAndName("_code","_notcode");
+        
+        assertTrue(true);
+    }
+    
 
 }

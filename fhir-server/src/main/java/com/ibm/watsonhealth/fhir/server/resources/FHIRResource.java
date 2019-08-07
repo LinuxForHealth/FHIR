@@ -175,14 +175,14 @@ public class FHIRResource implements FHIRResourceHelpers {
     private String bundleRequestCorrelationId = null;
 
     /**
-     * This method will do a quick check of the "initCompleted" flag in the servlet context.
-     * If the flag is FALSE, then we'll throw an error to short-circuit the current in-progress REST API invocation.
+     * This method will do a quick check of the "initCompleted" flag in the servlet context. If the flag is FALSE, then
+     * we'll throw an error to short-circuit the current in-progress REST API invocation.
      */
     private void checkInitComplete() throws FHIRHttpException {
         Boolean fhirServerInitComplete = (Boolean) context.getAttribute(FHIRServletContextListener.FHIR_SERVER_INIT_COMPLETE);
         if (Boolean.FALSE.equals(fhirServerInitComplete)) {
             String msg = "The FHIR Server web application cannot process requests because it did not initialize correctly";
-            throw new FHIRHttpException(msg, Status.INTERNAL_SERVER_ERROR );
+            throw new FHIRHttpException(msg, Status.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -221,7 +221,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             log.log(Level.SEVERE, errMsg, e);
             status = e.getHttpStatus();
             return exceptionResponse(e);
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.log(Level.SEVERE, errMsg, e);
             return exceptionResponse(e, status);
         } finally {
@@ -231,9 +231,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     @POST
     @Path("{type}")
-    public Response create(
-        @PathParam("type") String type,
-        Resource resource) {
+    public Response create(@PathParam("type") String type, Resource resource) {
 
         log.entering(this.getClass().getName(), "create(Resource)");
 
@@ -262,10 +260,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     @PUT
     @Path("{type}/{id}")
-    public Response update(
-        @PathParam("type") String type,
-        @PathParam("id") String id,
-        Resource resource) {
+    public Response update(@PathParam("type") String type, @PathParam("id") String id, Resource resource) {
 
         Response.Status status;
 
@@ -297,9 +292,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     @PUT
     @Path("{type}")
-    public Response conditionalUpdate(
-        @PathParam("type") String type,
-        Resource resource) {
+    public Response conditionalUpdate(@PathParam("type") String type, Resource resource) {
 
         Date startTime = new Date();
         Response.Status status = Response.Status.INTERNAL_SERVER_ERROR;
@@ -331,7 +324,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                 if (status == Response.Status.CREATED) {
                     RestAuditLogger.logCreate(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
                 } else {
-                    RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+                    RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource()
+                            : null), startTime, new Date(), status);
                 }
             }
 
@@ -354,9 +348,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     @DELETE
     @Path("{type}/{id}")
-    public Response delete(
-        @PathParam("type") String type,
-        @PathParam("id") String id) throws Exception {
+    public Response delete(@PathParam("type") String type, @PathParam("id") String id) throws Exception {
         log.entering(this.getClass().getName(), "delete(String,String)");
 
         FHIRRestOperationResponse ior = null;
@@ -436,9 +428,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     @GET
     @Path("{type}/{id}")
-    public Response read(
-        @PathParam("type") String type,
-        @PathParam("id") String id) throws Exception {
+    public Response read(@PathParam("type") String type, @PathParam("id") String id) throws Exception {
         log.entering(this.getClass().getName(), "read(String,String)");
 
         try {
@@ -465,10 +455,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     @GET
     @Path("{type}/{id}/_history/{vid}")
-    public Response vread(
-        @PathParam("type") String type,
-        @PathParam("id") String id,
-        @PathParam("vid") String vid) {
+    public Response vread(@PathParam("type") String type, @PathParam("id") String id, @PathParam("vid") String vid) {
 
         log.entering(this.getClass().getName(), "vread(String,String,String)");
 
@@ -496,9 +483,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     @GET
     @Path("{type}/{id}/_history")
-    public Response history(
-        @PathParam("type") String type,
-        @PathParam("id") String id) {
+    public Response history(@PathParam("type") String type, @PathParam("id") String id) {
         log.entering(this.getClass().getName(), "history(String,String)");
 
         try {
@@ -519,8 +504,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     @GET
     @Path("{type}")
-    public Response search(
-        @PathParam("type") String type) {
+    public Response search(@PathParam("type") String type) {
 
         log.entering(this.getClass().getName(), "search(String,UriInfo)");
         Response.Status status;
@@ -550,9 +534,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     @GET
     @Path("{compartment}/{compartmentId}/{type}")
-    public Response searchCompartment(
-        @PathParam("compartment") String compartment,
-        @PathParam("compartmentId") String compartmentId,
+    public Response searchCompartment(@PathParam("compartment") String compartment, @PathParam("compartmentId") String compartmentId,
         @PathParam("type") String type) {
 
         log.entering(this.getClass().getName(), "search(String, String, String)");
@@ -705,7 +687,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     @GET
     @Path("{resourceTypeName}/{logicalId}/${operationName}")
-    public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId, @PathParam("operationName") String operationName) {
+    public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId,
+        @PathParam("operationName") String operationName) {
         log.entering(this.getClass().getName(), "invoke(String,String,String)");
         try {
             checkInitComplete();
@@ -726,7 +709,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     @POST
     @Path("{resourceTypeName}/{logicalId}/${operationName}")
-    public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId, @PathParam("operationName") String operationName, Resource resource) {
+    public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId,
+        @PathParam("operationName") String operationName, Resource resource) {
         log.entering(this.getClass().getName(), "invoke(String,String,String,Resource)");
         try {
             checkInitComplete();
@@ -747,7 +731,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     @GET
     @Path("{resourceTypeName}/{logicalId}/_history/{versionId}/${operationName}")
-    public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId, @PathParam("versionId") String versionId, @PathParam("operationName") String operationName) {
+    public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId,
+        @PathParam("versionId") String versionId, @PathParam("operationName") String operationName) {
         log.entering(this.getClass().getName(), "invoke(String,String,String,String)");
         try {
             checkInitComplete();
@@ -768,7 +753,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     @POST
     @Path("{resourceTypeName}/{logicalId}/_history/{versionId}/${operationName}")
-    public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId, @PathParam("versionId") String versionId, @PathParam("operationName") String operationName, Resource resource) {
+    public Response invoke(@PathParam("resourceTypeName") String resourceTypeName, @PathParam("logicalId") String logicalId,
+        @PathParam("versionId") String versionId, @PathParam("operationName") String operationName, Resource resource) {
         log.entering(this.getClass().getName(), "invoke(String,String,String,String,Resource)");
         try {
             checkInitComplete();
@@ -813,9 +799,13 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Performs the heavy lifting associated with a 'create' interaction.
-     * @param type the resource type specified as part of the request URL
-     * @param resource the Resource to be stored.
-     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
+     * 
+     * @param type
+     *            the resource type specified as part of the request URL
+     * @param resource
+     *            the Resource to be stored.
+     * @param requestProperties
+     *            additional request properties which supplement the HTTP headers associated with this request
      * @return a FHIRRestOperationResponse object containing the results of the operation
      * @throws Exception
      */
@@ -965,7 +955,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         List<OperationOutcome.Issue> issues = FHIRValidator.validator(resource).validate();
         if (!issues.isEmpty()) {
             boolean includesFailure = false;
-            for (OperationOutcome.Issue issue: issues) {
+            for (OperationOutcome.Issue issue : issues) {
                 if (FHIRUtil.isFailure(issue.getSeverity())) {
                     includesFailure = true;
                 }
@@ -973,32 +963,35 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             if (includesFailure) {
                 throw new FHIRHttpException("Input resource failed validation.", Response.Status.BAD_REQUEST).withIssue(issues);
-            }
-            else {
-                String info = issues.stream()
-                    .flatMap(issue -> Stream.of(issue.getDetails()))
-                    .flatMap(details -> Stream.of(details.getText()))
-                    .flatMap(text -> Stream.of(text.getValue()))
-                    .collect(Collectors.joining(", "));
+            } else {
+                String info =
+                        issues.stream().flatMap(issue -> Stream.of(issue.getDetails())).flatMap(details -> Stream.of(details.getText())).flatMap(text -> Stream.of(text.getValue())).collect(Collectors.joining(", "));
                 log.warning("TODO: Validation warnings should be added to response: " + info);
             }
         }
         return issues;
     }
 
-
     /**
      * Performs an update operation (a new version of the Resource will be stored).
-     * @param type the type of the resource to be updated
-     * @param id the id of the Resource being updated
-     * @param newResource the new resource to be stored
-     * @param ifMatchValue an optional "If-Match" header value to request a version-aware update
-     * @param searchQueryString an optional search query string to request a conditional update
-     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
+     * 
+     * @param type
+     *            the type of the resource to be updated
+     * @param id
+     *            the id of the Resource being updated
+     * @param newResource
+     *            the new resource to be stored
+     * @param ifMatchValue
+     *            an optional "If-Match" header value to request a version-aware update
+     * @param searchQueryString
+     *            an optional search query string to request a conditional update
+     * @param requestProperties
+     *            additional request properties which supplement the HTTP headers associated with this request
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception {
+    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString,
+        Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doUpdate");
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
@@ -1012,7 +1005,8 @@ public class FHIRResource implements FHIRResourceHelpers {
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
 
         // Pass end time the same as start time to tell cadf log service that this is a pending request.
-        // At this time point, we don't have the updated resource, so use the input resource as the updated resource in the pending request.
+        // At this time point, we don't have the updated resource, so use the input resource as the updated resource in
+        // the pending request.
         RestAuditLogger.logUpdate(httpServletRequest, newResource, newResource, startTime, startTime, Response.Status.OK);
 
         try {
@@ -1030,7 +1024,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             // Next, if a conditional update was invoked then use the search criteria to find the
-            // resource to be updated.   Otherwise, we'll use the id value to retrieve the current
+            // resource to be updated. Otherwise, we'll use the id value to retrieve the current
             // version of the resource.
             if (searchQueryString != null) {
                 if (log.isLoggable(Level.FINE)) {
@@ -1096,7 +1090,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             txn.begin();
 
             // First, create the persistence event.
-            FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource, buildPersistenceEventProperties(type, newResource.getId().getValue(), null, requestProperties));
+            FHIRPersistenceEvent event =
+                    new FHIRPersistenceEvent(newResource, buildPersistenceEventProperties(type, newResource.getId().getValue(), null, requestProperties));
 
             // Next, set the "previous resource" in the persistence event.
             event.setPrevFhirResource(ior.getPrevResource());
@@ -1169,7 +1164,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                 // Now Audit log the final status of the request,
                 // if fails to log, then log the error in local log file and ignore.
                 try {
-                    RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+                    RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource()
+                            : null), startTime, new Date(), status);
                 } catch (Exception e) {
                     log.log(Level.INFO, errMsg, e);
                 }
@@ -1180,9 +1176,13 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Performs a 'delete' operation on the specified resource.
-     * @param type the resource type associated with the Resource to be deleted
-     * @param id the id of the Resource to be deleted
-     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
+     * 
+     * @param type
+     *            the resource type associated with the Resource to be deleted
+     * @param id
+     *            the id of the Resource to be deleted
+     * @param requestProperties
+     *            additional request properties which supplement the HTTP headers associated with this request
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
@@ -1210,8 +1210,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                     throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
                 }
                 if (!isAllowableVirtualResourceType(type)) {
-                    String msg = "The virtual resource type '" + type
-                            + "' is not allowed. Allowable virtual types for this server are: " + getAllowableVirtualResourceTypes().toString();
+                    String msg = "The virtual resource type '" + type + "' is not allowed. Allowable virtual types for this server are: "
+                            + getAllowableVirtualResourceTypes().toString();
                     throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
                 }
                 resourceTypeName = "Basic";
@@ -1220,7 +1220,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             Class<? extends Resource> resourceType = (Class<? extends Resource>) getResourceType(resourceTypeName);
 
             // Next, if a conditional delete was invoked then use the search criteria to find the
-            // resource to be deleted.   Otherwise, we'll use the id value to identify the resource
+            // resource to be deleted. Otherwise, we'll use the id value to identify the resource
             // to be deleted.
             Resource resourceToDelete = null;
             if (searchQueryString != null) {
@@ -1341,14 +1341,19 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Performs a 'read' operation to retrieve a Resource.
-     * @param type the resource type associated with the Resource to be retrieved
-     * @param id the id of the Resource to be retrieved
-     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
+     * 
+     * @param type
+     *            the resource type associated with the Resource to be retrieved
+     * @param id
+     *            the id of the Resource to be retrieved
+     * @param requestProperties
+     *            additional request properties which supplement the HTTP headers associated with this request
      * @return the Resource
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Map<String, String> requestProperties, Resource contextResource) throws Exception {
+    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Map<String, String> requestProperties,
+        Resource contextResource) throws Exception {
         log.entering(this.getClass().getName(), "doRead");
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
@@ -1368,8 +1373,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                     throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
                 }
                 if (!isAllowableVirtualResourceType(type)) {
-                    String msg = "The virtual resource type '" + type
-                            + "' is not allowed. Allowable virtual types for this server are: " + getAllowableVirtualResourceTypes().toString();
+                    String msg = "The virtual resource type '" + type + "' is not allowed. Allowable virtual types for this server are: "
+                            + getAllowableVirtualResourceTypes().toString();
                     throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
                 }
                 resourceTypeName = "Basic";
@@ -1442,12 +1447,18 @@ public class FHIRResource implements FHIRResourceHelpers {
             log.exiting(this.getClass().getName(), "doRead");
         }
     }
+
     /**
      * Performs a 'vread' operation by retrieving the specified version of a Resource.
-     * @param type the resource type associated with the Resource to be retrieved
-     * @param id the id of the Resource to be retrieved
-     * @param versionId the version id of the Resource to be retrieved
-     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
+     * 
+     * @param type
+     *            the resource type associated with the Resource to be retrieved
+     * @param id
+     *            the id of the Resource to be retrieved
+     * @param versionId
+     *            the version id of the Resource to be retrieved
+     * @param requestProperties
+     *            additional request properties which supplement the HTTP headers associated with this request
      * @return the Resource
      * @throws Exception
      */
@@ -1472,8 +1483,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                     throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
                 }
                 if (!isAllowableVirtualResourceType(type)) {
-                    String msg = "The virtual resource type '" + type
-                            + "' is not allowed. Allowable virtual resource types for this server are: " + getAllowableVirtualResourceTypes().toString();
+                    String msg = "The virtual resource type '" + type + "' is not allowed. Allowable virtual resource types for this server are: "
+                            + getAllowableVirtualResourceTypes().toString();
                     throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
                 }
                 resourceTypeName = "Basic";
@@ -1491,7 +1502,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
             resource = getPersistenceImpl().vread(persistenceContext, resourceType, id, versionId);
             if (resource == null) {
-                throw new FHIRPersistenceResourceNotFoundException("Resource '" + resourceType.getSimpleName() + "/" + id + "' version " + versionId + " not found.");
+                throw new FHIRPersistenceResourceNotFoundException("Resource '" + resourceType.getSimpleName() + "/" + id + "' version " + versionId
+                        + " not found.");
             }
 
             event.setFhirResource(resource);
@@ -1550,15 +1562,20 @@ public class FHIRResource implements FHIRResourceHelpers {
     /**
      * Performs the work of retrieving versions of a Resource.
      *
-     * @param type the resource type associated with the Resource to be retrieved
-     * @param id the id of the Resource to be retrieved
-     * @param queryparameters a Map containing the query parameters from the request URL
-     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
+     * @param type
+     *            the resource type associated with the Resource to be retrieved
+     * @param id
+     *            the id of the Resource to be retrieved
+     * @param queryparameters
+     *            a Map containing the query parameters from the request URL
+     * @param requestProperties
+     *            additional request properties which supplement the HTTP headers associated with this request
      * @return a Bundle containing the history of the specified Resource
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    public Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri, Map<String, String> requestProperties) throws Exception {
+    public Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri, Map<String, String> requestProperties)
+        throws Exception {
         log.entering(this.getClass().getName(), "doHistory");
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
@@ -1578,8 +1595,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                     throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
                 }
                 if (!isAllowableVirtualResourceType(type)) {
-                    String msg = "The virtual resource type '" + type
-                            + "' is not allowed. Allowable virtual resource types for this server are: " + getAllowableVirtualResourceTypes().toString();
+                    String msg = "The virtual resource type '" + type + "' is not allowed. Allowable virtual resource types for this server are: "
+                            + getAllowableVirtualResourceTypes().toString();
                     throw buildVirtualResourceException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
                 }
                 resourceTypeName = "Basic";
@@ -1646,14 +1663,19 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Performs heavy lifting associated with a 'search' operation.
-     * @param type the resource type associated with the search
-     * @param queryParameters a Map containing the query parameters from the request URL
-     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
+     * 
+     * @param type
+     *            the resource type associated with the search
+     * @param queryParameters
+     *            a Map containing the query parameters from the request URL
+     * @param requestProperties
+     *            additional request properties which supplement the HTTP headers associated with this request
      * @return a Bundle containing the search result set
      * @throws Exception
      */
     @SuppressWarnings("unchecked")
-    public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri, Map<String, String> requestProperties, Resource contextResource) throws Exception {
+    public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri,
+        Map<String, String> requestProperties, Resource contextResource) throws Exception {
         log.entering(this.getClass().getName(), "doSearch");
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
@@ -1691,7 +1713,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(contextResource, buildPersistenceEventProperties(type, null, null, requestProperties));
             getInterceptorMgr().fireBeforeSearchEvent(event);
 
-            FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters, httpServletRequest.getQueryString(), isSearchLenient(requestProperties));
+            FHIRSearchContext searchContext =
+                    SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters, httpServletRequest.getQueryString(), isSearchLenient(requestProperties));
             List<Parameter> searchParameters = searchContext.getSearchParameters();
             if (implicitSearchParameter != null) {
                 searchParameters.add(implicitSearchParameter);
@@ -1761,8 +1784,9 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     /**
-     * Helper method for getting header values.
-     * Supports retrieval of a specific part from within a multipart header value.
+     * Helper method for getting header values. Supports retrieval of a specific part from within a multipart header
+     * value.
+     * 
      * @partName optional
      */
     private String getHeaderValue(Map<String, String> requestProperties, String headerName, String partName) {
@@ -1796,7 +1820,9 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Helper method for getting header values from multipart headers
-     * @return the value of the part or the full header value if partName is null; returns null if the partName is not found
+     * 
+     * @return the value of the part or the full header value if partName is null; returns null if the partName is not
+     *         found
      */
     private String getHeaderPartValue(String fullHeaderValue, String partName) {
         if (partName == null) {
@@ -1818,14 +1844,24 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Helper method which invokes a custom operation.
-     * @param operationContext the FHIROperationContext associated with the request
-     * @param resourceTypeName the resource type associated with the request
-     * @param logicalId the resource logical id associated with the request
-     * @param versionId the resource version id associated with the request
-     * @param operationName the name of the custom operation to be invoked
-     * @param resource the input resource associated with the custom operation to be invoked
-     * @param queryParameters query parameters may be passed instead of a Parameters resource for certain custom operations invoked via GET
-     * @param requestProperties additional request properties which supplement the HTTP headers associated with this request
+     * 
+     * @param operationContext
+     *            the FHIROperationContext associated with the request
+     * @param resourceTypeName
+     *            the resource type associated with the request
+     * @param logicalId
+     *            the resource logical id associated with the request
+     * @param versionId
+     *            the resource version id associated with the request
+     * @param operationName
+     *            the name of the custom operation to be invoked
+     * @param resource
+     *            the input resource associated with the custom operation to be invoked
+     * @param queryParameters
+     *            query parameters may be passed instead of a Parameters resource for certain custom operations invoked
+     *            via GET
+     * @param requestProperties
+     *            additional request properties which supplement the HTTP headers associated with this request
      * @return a Resource that represents the response to the custom operation
      * @throws Exception
      */
@@ -1931,13 +1967,13 @@ public class FHIRResource implements FHIRResourceHelpers {
         FHIRRequestContext requestContext = FHIRRequestContext.get();
 
         // Pass end time the same as start time to tell cadf log service that this is a pending request.
-        RestAuditLogger.logBundle(httpServletRequest, bundleResource instanceof Bundle? (Bundle) bundleResource: null, startTime, startTime, Response.Status.OK);
+        RestAuditLogger.logBundle(httpServletRequest, bundleResource instanceof Bundle ? (Bundle) bundleResource
+                : null, startTime, startTime, Response.Status.OK);
 
         try {
             if (bundleResource instanceof Bundle) {
                 inputBundle = (Bundle) bundleResource;
-            }
-            else {
+            } else {
                 String msg = "A 'Bundle' resource type is required but a '" + bundleResource.getClass().getSimpleName() + "' resource type was sent.";
                 throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
             }
@@ -1977,7 +2013,8 @@ public class FHIRResource implements FHIRResourceHelpers {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers#getTransaction()
      */
     @Override
@@ -1987,7 +2024,9 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Sets various properties on the FHIROperationContext instance.
-     * @param operationContext the FHIROperationContext on which to set the properties
+     * 
+     * @param operationContext
+     *            the FHIROperationContext on which to set the properties
      * @throws FHIRPersistenceException
      */
     private void setOperationContextProperties(FHIROperationContext operationContext, Map<String, String> requestProperties) throws FHIRPersistenceException {
@@ -2029,7 +2068,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             if (bundle.getType().equals(BundleType.BATCH)) {
                 responseBundleType = BundleType.BATCH_RESPONSE;
-            }else if (bundle.getType().equals(BundleType.TRANSACTION)) {
+            } else if (bundle.getType().equals(BundleType.TRANSACTION)) {
                 responseBundleType = BundleType.TRANSACTION_RESPONSE;
                 // For a 'transaction' interaction, if the underlying persistence layer doesn't support
                 // transactions, then throw an error.
@@ -2037,7 +2076,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                     String msg = "Bundled 'transaction' request cannot be processed because the configured persistence layer does not support transactions.";
                     throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
                 }
-            // For any other bundle type, we'll throw an error.
+                // For any other bundle type, we'll throw an error.
             } else {
                 String msg = "Bundle.type must be either 'batch' or 'transaction'.";
                 throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.VALUE);
@@ -2046,12 +2085,11 @@ public class FHIRResource implements FHIRResourceHelpers {
             // Next, make sure that each bundle entry contains a valid request.
             // As we're validating the request bundle, we'll also construct entries for the response bundle.
             int numErrors = 0;
-            List <Bundle.Entry> responseList = new ArrayList<Bundle.Entry>();
+            List<Bundle.Entry> responseList = new ArrayList<Bundle.Entry>();
             for (Bundle.Entry requestEntry : bundle.getEntry()) {
                 // Create a corresponding response entry and add it to the response bundle.
                 Bundle.Entry.Response response;
                 Bundle.Entry responseEntry = null;
-
 
                 // Validate 'requestEntry' and update 'responseEntry' with any errors.
                 try {
@@ -2116,19 +2154,17 @@ public class FHIRResource implements FHIRResourceHelpers {
                             }
                         }
 
-                        List<OperationOutcome.Issue> issues = FHIRValidator.validator(resource) .validate();
+                        List<OperationOutcome.Issue> issues = FHIRValidator.validator(resource).validate();
                         if (!issues.isEmpty()) {
                             OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
-                            response = Bundle.Entry.Response.builder()
-                                    .status(string(Integer.toString(SC_BAD_REQUEST))).build();
-                            
+                            response = Bundle.Entry.Response.builder().status(string(Integer.toString(SC_BAD_REQUEST))).build();
+
                             responseEntry = Bundle.Entry.builder().response(response).resource(oo).build();
                             for (Issue issue : issues) {
-                                if (issue.getSeverity().equals(IssueSeverity.ERROR) 
-                                        || issue.getSeverity().equals(IssueSeverity.FATAL)) {
+                                if (issue.getSeverity().equals(IssueSeverity.ERROR) || issue.getSeverity().equals(IssueSeverity.FATAL)) {
                                     numErrors++;
                                 }
-                            }                            
+                            }
                             continue;
                         }
                     }
@@ -2165,13 +2201,12 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     /**
-     * This function will perform the version-aware update check by making sure that
-     * the If-Match request header value (if present) specifies a version # equal to
-     * the current latest version of the resource.
-     * If the check fails, then a FHIRRestException will be thrown.
-     * If the check succeeds then nothing occurs and processing continues.
+     * This function will perform the version-aware update check by making sure that the If-Match request header value
+     * (if present) specifies a version # equal to the current latest version of the resource. If the check fails, then
+     * a FHIRRestException will be thrown. If the check succeeds then nothing occurs and processing continues.
      *
-     * @param currentResource the current latest version of the resource
+     * @param currentResource
+     *            the current latest version of the resource
      */
     private void performVersionAwareUpdateCheck(Resource currentResource, String ifMatchValue) throws FHIRHttpException {
         if (ifMatchValue != null) {
@@ -2204,7 +2239,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     private FHIRVirtualResourceTypeException buildVirtualResourceException(String msg, Status status, IssueType.ValueSet issueType)
-            throws FHIRVirtualResourceTypeException {
+        throws FHIRVirtualResourceTypeException {
         OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
         return new FHIRVirtualResourceTypeException(msg, status).withIssue(ooi);
     }
@@ -2213,16 +2248,19 @@ public class FHIRResource implements FHIRResourceHelpers {
         return buildRestException(msg, status, issueType, IssueSeverity.ValueSet.FATAL);
     }
 
-    private FHIRHttpException buildRestException(String msg, Status status, IssueType.ValueSet issueType, IssueSeverity.ValueSet severity) throws FHIRHttpException {
+    private FHIRHttpException buildRestException(String msg, Status status, IssueType.ValueSet issueType, IssueSeverity.ValueSet severity)
+        throws FHIRHttpException {
         final String location = "<empty>";
         OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(severity, issueType, msg, location);
         return new FHIRHttpException(msg, status).withIssue(ooi);
     }
 
     /**
-     * Retrieves the version id value from an ETag header value.
-     * The ETag header value will be of the form: W/"<version-id>".
-     * @param ifMatchValue the value of the If-Match request header.
+     * Retrieves the version id value from an ETag header value. The ETag header value will be of the form:
+     * W/"<version-id>".
+     * 
+     * @param ifMatchValue
+     *            the value of the If-Match request header.
      */
     private String getVersionIdFromETagValue(String ifMatchValue) {
         String result = null;
@@ -2231,7 +2269,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 String s = ifMatchValue.substring(2);
                 // If the part after "W/" starts and ends with a ",
                 // then extract the part between the " characters and we're done.
-                if (s.charAt(0) == '\"' && s.charAt(s.length()-1) == '\"') {
+                if (s.charAt(0) == '\"' && s.charAt(s.length() - 1) == '\"') {
                     result = s.substring(1, s.length() - 1);
                 }
             }
@@ -2240,10 +2278,13 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     /**
-     * This function will process each request contained in the specified request bundle,
-     * and update the response bundle with the appropriate response information.
-     * @param requestBundle the bundle containing the requests
-     * @param responseBundle the bundle containing the responses
+     * This function will process each request contained in the specified request bundle, and update the response bundle
+     * with the appropriate response information.
+     * 
+     * @param requestBundle
+     *            the bundle containing the requests
+     * @param responseBundle
+     *            the bundle containing the responses
      */
     private Bundle processBundleEntries(Bundle requestBundle, Bundle responseBundle, Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "processBundleEntries");
@@ -2267,10 +2308,14 @@ public class FHIRResource implements FHIRResourceHelpers {
             Map<String, String> localRefMap = new HashMap<>();
 
             // Next, process entries in the correct order.
-            responseBundle = processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.DELETE, txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
-            responseBundle = processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.POST, txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
-            responseBundle = processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.PUT, txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
-            responseBundle = processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.GET, txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
+            responseBundle =
+                    processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.DELETE, txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
+            responseBundle =
+                    processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.POST, txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
+            responseBundle =
+                    processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.PUT, txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
+            responseBundle =
+                    processEntriesForMethod(requestBundle, responseBundle, HTTPVerb.GET, txn != null, localRefMap, requestProperties, bundleRequestCorrelationId);
 
             if (txn != null) {
                 log.fine("Committing transaction for transaction bundle, txn-correlation-id=" + bundleTransactionCorrelationId);
@@ -2304,11 +2349,9 @@ public class FHIRResource implements FHIRResourceHelpers {
      * @param httpMethod
      *            the HTTP method (GET, POST, PUT, etc.) to be processed
      */
-    private Bundle processEntriesForMethod(Bundle requestBundle, Bundle responseBundle, HTTPVerb httpMethod, boolean failFast,
-        Map<String, String> localRefMap, Map<String, String> bundleRequestProperties, String bundleRequestCorrelationId) throws Exception {
-        log.entering(this.getClass().getName(), "processEntriesForMethod", new Object[] {
-                "httpMethod", httpMethod
-        });
+    private Bundle processEntriesForMethod(Bundle requestBundle, Bundle responseBundle, HTTPVerb httpMethod, boolean failFast, Map<String, String> localRefMap,
+        Map<String, String> bundleRequestProperties, String bundleRequestCorrelationId) throws Exception {
+        log.entering(this.getClass().getName(), "processEntriesForMethod", new Object[] { "httpMethod", httpMethod });
         try {
             // First, obtain a list of request entry indices for the entries that we'll process.
             // This list will contain the indices associated with only the entries for the specified http method.
@@ -2344,7 +2387,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             // Now visit each of the request entries using the list of indices obtained above.
             // Use hashmap to store both the index and the according updated response bundle entry.
-            List <Bundle.Entry> responseEntries = new ArrayList<Bundle.Entry>();
+            List<Bundle.Entry> responseEntries = new ArrayList<Bundle.Entry>();
             HashMap<Integer, Bundle.Entry> responseIndexAndEntries = new HashMap<Integer, Bundle.Entry>();
             for (Integer entryIndex : entryIndices) {
                 Bundle.Entry requestEntry = requestBundle.getEntry().get(entryIndex);
@@ -2353,7 +2396,6 @@ public class FHIRResource implements FHIRResourceHelpers {
 
                 Bundle.Entry.Request request = requestEntry.getRequest();
                 Bundle.Entry.Response response = responseEntry.getResponse();
-
 
                 StringBuffer requestDescription = new StringBuffer();
                 long initialTime = System.currentTimeMillis();
@@ -2396,14 +2438,14 @@ public class FHIRResource implements FHIRResourceHelpers {
 
                         // Process a GET (read, vread, history, search, etc.).
                         // Determine the type of request from the path tokens.
-                        if (pathTokens.length > 0 && pathTokens[pathTokens.length-1].startsWith("$")) {
+                        if (pathTokens.length > 0 && pathTokens[pathTokens.length - 1].startsWith("$")) {
                             // This is a custom operation request
                             checkInitComplete();
 
                             // Chop off the '$' and save the name
-                            String operationName = pathTokens[pathTokens.length-1].substring(1);
+                            String operationName = pathTokens[pathTokens.length - 1].substring(1);
 
-//                            FHIROperationContext operationContext;
+                            // FHIROperationContext operationContext;
                             switch (pathTokens.length) {
                             case 1: {
                                 FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
@@ -2421,7 +2463,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             }
                                 break;
                             default:
-                                String msg = "Invalid URL for custom operation '" + pathTokens[pathTokens.length-1] + "'";
+                                String msg = "Invalid URL for custom operation '" + pathTokens[pathTokens.length - 1] + "'";
                                 throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_FOUND);
                             }
                         } else if (pathTokens.length == 1) {
@@ -2455,15 +2497,15 @@ public class FHIRResource implements FHIRResourceHelpers {
                         responseBuilder.status(string(Integer.toString(httpStatus)));
                         setBundleResponseStatus(response, httpStatus, requestDescription.toString(), initialTime);
 
-                        responseIndexAndEntries.put(entryIndex,responseEntryBuilder.resource(resource).response(responseBuilder.build()).build());
-                    } else if(request.getMethod() == HTTPVerb.POST){
+                        responseIndexAndEntries.put(entryIndex, responseEntryBuilder.resource(resource).response(responseBuilder.build()).build());
+                    } else if (request.getMethod() == HTTPVerb.POST) {
                         // Process a POST (create or search, or custom operation).
-                        if (pathTokens.length > 0 && pathTokens[pathTokens.length-1].startsWith("$")) {
+                        if (pathTokens.length > 0 && pathTokens[pathTokens.length - 1].startsWith("$")) {
                             // This is a custom operation request
                             checkInitComplete();
 
                             // Chop off the '$' and save the name
-                            String operationName = pathTokens[pathTokens.length-1].substring(1);
+                            String operationName = pathTokens[pathTokens.length - 1].substring(1);
 
                             // Retrieve the resource from the request entry.
                             Resource resource = requestEntry.getResource();
@@ -2484,14 +2526,14 @@ public class FHIRResource implements FHIRResourceHelpers {
                                 result = doInvoke(operationContext, pathTokens[0], pathTokens[1], null, operationName, resource, queryParams, null);
                                 break;
                             default:
-                                String msg = "Invalid URL for custom operation '" + pathTokens[pathTokens.length-1] + "'";
+                                String msg = "Invalid URL for custom operation '" + pathTokens[pathTokens.length - 1] + "'";
                                 throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_FOUND);
                             }
 
                             Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
                             responseBuilder.status(string(Integer.toString(SC_OK)));
 
-                            responseIndexAndEntries.put(entryIndex,responseEntryBuilder.resource(result).response(responseBuilder.build()).build());
+                            responseIndexAndEntries.put(entryIndex, responseEntryBuilder.resource(result).response(responseBuilder.build()).build());
 
                             setBundleResponseStatus(response, SC_OK, requestDescription.toString(), initialTime);
 
@@ -2503,7 +2545,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
                             responseBuilder.status(string(Integer.toString(SC_OK)));
 
-                            responseIndexAndEntries.put(entryIndex,responseEntryBuilder.resource(searchResults).response(responseBuilder.build()).build());
+                            responseIndexAndEntries.put(entryIndex, responseEntryBuilder.resource(searchResults).response(responseBuilder.build()).build());
 
                             setBundleResponseStatus(response, SC_OK, requestDescription.toString(), initialTime);
                         } else if (pathTokens.length == 1) {
@@ -2527,22 +2569,22 @@ public class FHIRResource implements FHIRResourceHelpers {
                             final String errorMsg = visitor.getErrorMsg();
                             if (errorMsg != null) {
                                 final String location = "<empty>";
-                                OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.INVALID, errorMsg, location);
+                                OperationOutcome.Issue ooi =
+                                        FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.INVALID, errorMsg, location);
 
                                 throw new FHIRHttpException(errorMsg, Status.BAD_REQUEST).withIssue(ooi);
                             }
                             resource = visitor.getResult();
 
-
                             // Perform the 'create' operation.
                             String ifNoneExist = request.getIfNoneExist() != null ? request.getIfNoneExist().getValue() : null;
                             FHIRRestOperationResponse ior = doCreate(pathTokens[0], resource, ifNoneExist, requestProperties);
 
-                            //Process and replace bundler Entry
-                            Bundle.Entry resultEntry = setBundleResponseFields(responseEntry, ior.getResource(), ior.getLocationURI(),
-                                    ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
+                            // Process and replace bundler Entry
+                            Bundle.Entry resultEntry =
+                                    setBundleResponseFields(responseEntry, ior.getResource(), ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
 
-                            responseIndexAndEntries.put(entryIndex,resultEntry);
+                            responseIndexAndEntries.put(entryIndex, resultEntry);
 
                             // Next, if a local identifier was present, we'll need to map this to the
                             // correct external identifier (e.g. Patient/12345).
@@ -2551,7 +2593,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             String msg = "Request URL for bundled create requests should have a path with exactly one token (<resourceType>).";
                             throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_FOUND);
                         }
-                    }else if(request.getMethod() == HTTPVerb.PUT) {
+                    } else if (request.getMethod() == HTTPVerb.PUT) {
                         String type = null;
                         String id = null;
 
@@ -2569,7 +2611,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                             id = pathTokens[1];
                         } else {
                             // A url with any other pattern is an error.
-                            String msg = "Request URL for bundled PUT request should have path part with either one or two tokens (<resourceType> or <resourceType>/<id>).";
+                            String msg =
+                                    "Request URL for bundled PUT request should have path part with either one or two tokens (<resourceType> or <resourceType>/<id>).";
                             throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
                         }
 
@@ -2583,7 +2626,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                         final String errorMsg = visitor.getErrorMsg();
                         if (errorMsg != null) {
                             final String location = "<empty>";
-                            OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.INVALID, errorMsg, location);
+                            OperationOutcome.Issue ooi =
+                                    FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, IssueType.ValueSet.INVALID, errorMsg, location);
 
                             throw new FHIRHttpException(errorMsg, Status.BAD_REQUEST).withIssue(ooi);
                         }
@@ -2596,13 +2640,13 @@ public class FHIRResource implements FHIRResourceHelpers {
                         }
                         FHIRRestOperationResponse ior = doUpdate(type, id, resource, ifMatchBundleValue, query, requestProperties);
 
-                        //Process and replace bundler Entry
-                        Bundle.Entry resultEntry = setBundleResponseFields(responseEntry, ior.getResource(), ior.getLocationURI(),
-                                ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
+                        // Process and replace bundler Entry
+                        Bundle.Entry resultEntry =
+                                setBundleResponseFields(responseEntry, ior.getResource(), ior.getLocationURI(), ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
 
-                        responseIndexAndEntries.put(entryIndex,resultEntry);
+                        responseIndexAndEntries.put(entryIndex, resultEntry);
 
-                    } else if(request.getMethod() == HTTPVerb.DELETE) {
+                    } else if (request.getMethod() == HTTPVerb.DELETE) {
                         String type = null;
                         String id = null;
 
@@ -2618,19 +2662,20 @@ public class FHIRResource implements FHIRResourceHelpers {
                             type = pathTokens[0];
                             id = pathTokens[1];
                         } else {
-                            String msg = "Request URL for bundled DELETE request should have path part with one or two tokens (<resourceType> or <resourceType>/<id>).";
+                            String msg =
+                                    "Request URL for bundled DELETE request should have path part with one or two tokens (<resourceType> or <resourceType>/<id>).";
                             throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
                         }
 
                         // Perform the 'delete' operation.
                         FHIRRestOperationResponse ior = doDelete(type, id, query, requestProperties);
 
-                        //Process and replace bundler Entry
-                        Bundle.Entry resultEntry = setBundleResponseFields(responseEntry, ior.getResource(), null, ior.getStatus().getStatusCode(),
-                                requestDescription.toString(), initialTime);
+                        // Process and replace bundler Entry
+                        Bundle.Entry resultEntry =
+                                setBundleResponseFields(responseEntry, ior.getResource(), null, ior.getStatus().getStatusCode(), requestDescription.toString(), initialTime);
 
-                        responseIndexAndEntries.put(entryIndex,resultEntry);
-                    }else {
+                        responseIndexAndEntries.put(entryIndex, resultEntry);
+                    } else {
                         // Internal error, should not get here!
                         throw new IllegalStateException("Internal Server Error: reached an unexpected code location.");
                     }
@@ -2638,41 +2683,37 @@ public class FHIRResource implements FHIRResourceHelpers {
                     Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
                     responseBuilder.status(string(Integer.toString(e.getHttpStatus().getStatusCode())));
 
-                    responseIndexAndEntries.put(entryIndex,responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
+                    responseIndexAndEntries.put(entryIndex, responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
 
                     setBundleResponseStatus(response, e.getHttpStatus().getStatusCode(), requestDescription.toString(), initialTime);
 
-
                     if (failFast) {
                         String msg = "Error while processing request bundle.";
-                        throw new FHIRRestBundledRequestException(msg, Response.Status.BAD_REQUEST, responseBundle, e)
-                            .withIssue(e.getIssues());
+                        throw new FHIRRestBundledRequestException(msg, Response.Status.BAD_REQUEST, responseBundle, e).withIssue(e.getIssues());
                     }
                 } catch (FHIRPersistenceResourceNotFoundException e) {
                     Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
                     responseBuilder.status(string(Integer.toString(SC_NOT_FOUND)));
 
-                    responseIndexAndEntries.put(entryIndex,responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
+                    responseIndexAndEntries.put(entryIndex, responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
 
                     setBundleResponseStatus(response, SC_NOT_FOUND, requestDescription.toString(), initialTime);
 
                     if (failFast) {
                         String msg = "Error while processing request bundle.";
-                        throw new FHIRRestBundledRequestException(msg, Response.Status.NOT_FOUND, responseBundle, e)
-                            .withIssue(e.getIssues());
+                        throw new FHIRRestBundledRequestException(msg, Response.Status.NOT_FOUND, responseBundle, e).withIssue(e.getIssues());
                     }
                 } catch (FHIRPersistenceResourceDeletedException e) {
                     Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
                     responseBuilder.status(string(Integer.toString(SC_GONE)));
 
-                    responseIndexAndEntries.put(entryIndex,responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
+                    responseIndexAndEntries.put(entryIndex, responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
 
                     setBundleResponseStatus(response, SC_GONE, requestDescription.toString(), initialTime);
 
                     if (failFast) {
                         String msg = "Error while processing request bundle.";
-                        throw new FHIRRestBundledRequestException(msg, Response.Status.GONE, responseBundle, e)
-                            .withIssue(e.getIssues());
+                        throw new FHIRRestBundledRequestException(msg, Response.Status.GONE, responseBundle, e).withIssue(e.getIssues());
                     }
                 } catch (FHIROperationException e) {
                     Status status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
@@ -2680,22 +2721,21 @@ public class FHIRResource implements FHIRResourceHelpers {
                     Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
                     responseBuilder.status(string(Integer.toString(status.getStatusCode())));
 
-                    responseIndexAndEntries.put(entryIndex,responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
+                    responseIndexAndEntries.put(entryIndex, responseEntryBuilder.resource(FHIRUtil.buildOperationOutcome(e, false)).response(responseBuilder.build()).build());
 
                     setBundleResponseStatus(response, status.getStatusCode(), requestDescription.toString(), initialTime);
 
                     if (failFast) {
                         String msg = "Error while processing request bundle.";
-                        throw new FHIRRestBundledRequestException(msg, status, responseBundle, e)
-                            .withIssue(e.getIssues());
+                        throw new FHIRRestBundledRequestException(msg, status, responseBundle, e).withIssue(e.getIssues());
                     }
                 }
             }
             // Now, let's re-construct the responseBundle
-            for (int i=0; i< responseBundle.getEntry().size(); i++ ) {
-                Bundle.Entry bundleEntry =  responseIndexAndEntries.get(Integer.valueOf(i)) == null?
-                        responseBundle.getEntry().get(i) : responseIndexAndEntries.get(Integer.valueOf(i));
-                        responseEntries.add(bundleEntry);
+            for (int i = 0; i < responseBundle.getEntry().size(); i++) {
+                Bundle.Entry bundleEntry = responseIndexAndEntries.get(Integer.valueOf(i)) == null ? responseBundle.getEntry().get(i)
+                        : responseIndexAndEntries.get(Integer.valueOf(i));
+                responseEntries.add(bundleEntry);
             }
 
             responseBundle = responseBundle.toBuilder().entry(responseEntries).build();
@@ -2708,12 +2748,15 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * This function will return the set of request properties specified via extensions belonging to the BundleRequest
-     * plus any request properties associated with the "parent" bundle request.
-     * The "parent" bundle request refers to the situation where a request bundle contains a request that is itself
-     * a request bundle.   In this situation, the higher-level bundle request might have request properties that should be
-     * pushed down and used by bundle requests within that high-level bundle request.
-     * @param extensions the list of extensions belonging to the BundleRequest
-     * @param bundleRequestProperties request properties associated with a "parent" bundle request
+     * plus any request properties associated with the "parent" bundle request. The "parent" bundle request refers to
+     * the situation where a request bundle contains a request that is itself a request bundle. In this situation, the
+     * higher-level bundle request might have request properties that should be pushed down and used by bundle requests
+     * within that high-level bundle request.
+     * 
+     * @param extensions
+     *            the list of extensions belonging to the BundleRequest
+     * @param bundleRequestProperties
+     *            request properties associated with a "parent" bundle request
      * @return
      */
     private Map<String, String> extractRequestPropertiesFromExtensions(List<Extension> extensions, Map<String, String> bundleRequestProperties)
@@ -2737,7 +2780,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                     if (REQUEST_HEADER_URL.equals(url)) {
                         String value = null;
                         if (ext.getValue() != null) {
-                            value = ((com.ibm.watsonhealth.fhir.model.type.String)(ext.getValue())).getValue();
+                            value = ((com.ibm.watsonhealth.fhir.model.type.String) (ext.getValue())).getValue();
                         }
 
                         if (value == null) {
@@ -2774,10 +2817,13 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     /**
-     * Returns a list of Integers that provide the indices of the bundle entries associated
-     * with the specified http method.
-     * @param requestBundle the request bundle
-     * @param httpMethod the http method to look for
+     * Returns a list of Integers that provide the indices of the bundle entries associated with the specified http
+     * method.
+     * 
+     * @param requestBundle
+     *            the request bundle
+     * @param httpMethod
+     *            the http method to look for
      * @return
      */
     private List<Integer> getBundleRequestIndicesForMethod(Bundle requestBundle, Bundle responseBundle, HTTPVerb httpMethod) {
@@ -2799,9 +2845,11 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     /**
-     * This function sorts the request entries in the specified bundle, based on the path
-     * part of the entry's 'url' field.
-     * @param bundle the bundle containing the request entries to be sorted.
+     * This function sorts the request entries in the specified bundle, based on the path part of the entry's 'url'
+     * field.
+     * 
+     * @param bundle
+     *            the bundle containing the request entries to be sorted.
      * @return an array of Integer which provides the "sorted" ordering of request entry index values.
      */
     private void sortBundleRequestEntries(Bundle bundle, List<Integer> indices) {
@@ -2816,7 +2864,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             this.entries = entries;
         }
 
-        /* (non-Javadoc)
+        /*
+         * (non-Javadoc)
          * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
          */
         @Override
@@ -2839,10 +2888,11 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     /**
-     * This function converts the specified query string (a String) into an
-     * equivalent MultivaluedMap<String,String> containing the query parameters
-     * defined in the query string.
-     * @param queryString the query string to be processed
+     * This function converts the specified query string (a String) into an equivalent MultivaluedMap<String,String>
+     * containing the query parameters defined in the query string.
+     * 
+     * @param queryString
+     *            the query string to be processed
      * @return
      */
     private MultivaluedMap<String, String> getQueryParameterMap(String queryString) {
@@ -2854,7 +2904,9 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Returns the specified BundleEntry's path component of the 'url' field.
-     * @param entry the bundle entry
+     * 
+     * @param entry
+     *            the bundle entry
      * @return the bundle entry's 'url' field's path component
      */
     private static String getUrlPath(Bundle.Entry entry) {
@@ -2871,26 +2923,32 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     /**
-     * This method will add a mapping to the local-to-external identifier map if
-     * the specified localIdentifier is non-null.
-     * @param localRefMap the map containing the local-to-external identifier mappings
-     * @param localIdentifier the localIdentifier previously obtained for the resource
-     * @param resource the resource for which an external identifier will be built
+     * This method will add a mapping to the local-to-external identifier map if the specified localIdentifier is
+     * non-null.
+     * 
+     * @param localRefMap
+     *            the map containing the local-to-external identifier mappings
+     * @param localIdentifier
+     *            the localIdentifier previously obtained for the resource
+     * @param resource
+     *            the resource for which an external identifier will be built
      */
     private void addLocalRefMapping(Map<String, String> localRefMap, String localIdentifier, Resource resource) {
         if (localIdentifier != null) {
             String externalIdentifier = FHIRUtil.getResourceTypeName(resource) + "/" + resource.getId().getValue();
             localRefMap.put(localIdentifier, externalIdentifier);
-            log.finer("Added local/ext identifier mapping: "
-                    + localIdentifier + " --> " + externalIdentifier);
+            log.finer("Added local/ext identifier mapping: " + localIdentifier + " --> " + externalIdentifier);
         }
     }
 
     /**
-     * This method will retrieve the local identifier associated with the specified bundle request entry,
-     * or return null if the fullUrl field is not specified or doesn't contain a local identifier.
-     * @param requestEntry the bundle request entry
-     * @param localRefMap the Map containing the local-to-external reference mappings
+     * This method will retrieve the local identifier associated with the specified bundle request entry, or return null
+     * if the fullUrl field is not specified or doesn't contain a local identifier.
+     * 
+     * @param requestEntry
+     *            the bundle request entry
+     * @param localRefMap
+     *            the Map containing the local-to-external reference mappings
      * @return
      */
     private String retrieveLocalIdentifier(Bundle.Entry requestEntry, Map<String, String> localRefMap) throws Exception {
@@ -2909,11 +2967,13 @@ public class FHIRResource implements FHIRResourceHelpers {
         return localIdentifier;
     }
 
-
     /**
      * This function will build an absolute URI from the specified base URI and relative URI.
-     * @param baseUri the base URI to be used; this will be of the form <scheme>://<host>:<port>/<context-root>
-     * @param relativeUri the path and query parts
+     * 
+     * @param baseUri
+     *            the base URI to be used; this will be of the form <scheme>://<host>:<port>/<context-root>
+     * @param relativeUri
+     *            the path and query parts
      * @return the full URI value as a String
      */
     private String getAbsoluteUri(String baseUri, String relativeUri) {
@@ -2926,7 +2986,8 @@ public class FHIRResource implements FHIRResourceHelpers {
         return fullUri.toString();
     }
 
-    private Bundle.Entry setBundleResponseFields(Bundle.Entry responseEntry, Resource resource, URI locationURI, int httpStatus, String requestDescription, long initialTime) throws FHIROperationException {
+    private Bundle.Entry setBundleResponseFields(Bundle.Entry responseEntry, Resource resource, URI locationURI, int httpStatus, String requestDescription,
+        long initialTime) throws FHIROperationException {
         Bundle.Entry.Response response = responseEntry.getResponse();
         Bundle.Entry.Response.Builder resBuilder = response.toBuilder();
         resBuilder.status(string(Integer.toString(httpStatus)));
@@ -2934,9 +2995,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         Bundle.Entry.Builder bundleEntryBuilder = responseEntry.toBuilder();
 
         if (resource != null) {
-            resBuilder = resBuilder.id(resource.getId().getValue())
-            .lastModified(resource.getMeta().getLastUpdated())
-            .etag(string(getEtagValue(resource)));
+            resBuilder = resBuilder.id(resource.getId().getValue()).lastModified(resource.getMeta().getLastUpdated()).etag(string(getEtagValue(resource)));
 
             bundleEntryBuilder = bundleEntryBuilder.resource(resource);
 
@@ -2946,7 +3005,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         }
 
         logBundleRequestCompletedMsg(requestDescription, initialTime, httpStatus);
-        return  bundleEntryBuilder.response(resBuilder.build()).build();
+        return bundleEntryBuilder.response(resBuilder.build()).build();
     }
 
     private void setBundleResponseStatus(Bundle.Entry.Response response, int httpStatus, String requestDescription, long initialTime) {
@@ -2964,8 +3023,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      * Adds the Etag and Last-Modified headers to the specified response object.
      */
     private ResponseBuilder addHeaders(ResponseBuilder rb, Resource resource) {
-        return rb.header(HttpHeaders.ETAG, getEtagValue(resource))
-                .header(HttpHeaders.LAST_MODIFIED, resource.getMeta().getLastUpdated().getValue().toString());
+        return rb.header(HttpHeaders.ETAG, getEtagValue(resource)).header(HttpHeaders.LAST_MODIFIED, resource.getMeta().getLastUpdated().getValue().toString());
     }
 
     private String getEtagValue(Resource resource) {
@@ -2976,23 +3034,23 @@ public class FHIRResource implements FHIRResourceHelpers {
         Response response;
         if (e.getResponseBundle() != null) {
             if (e.getIssues() != null && e.getIssues().size() > 0) {
-                // DSTU2 says we should return the response bundle: http://www.hl7.org/fhir/dstu2/http.html#transaction-response
-                // STU3 says we should return a single OperationOutcome with the issues:  http://www.hl7.org/fhir/stu3/http.html#transaction-response
-                String msg = "FHIRRestBundledRequestException contains both a response bundle and a list of issues. "
-                        + "Only the response bundle will be returned.";
+                // DSTU2 says we should return the response bundle:
+                // http://www.hl7.org/fhir/dstu2/http.html#transaction-response
+                // STU3 says we should return a single OperationOutcome with the issues:
+                // http://www.hl7.org/fhir/stu3/http.html#transaction-response
+                String msg =
+                        "FHIRRestBundledRequestException contains both a response bundle and a list of issues. " + "Only the response bundle will be returned.";
                 log.log(Level.WARNING, msg, e);
             }
 
-            List <Bundle.Entry> toAdd = new ArrayList<Bundle.Entry>();
+            List<Bundle.Entry> toAdd = new ArrayList<Bundle.Entry>();
             // replace bundle entries that have an empty response
-            for (int i=0; i< e.getResponseBundle().getEntry().size(); i++) {
+            for (int i = 0; i < e.getResponseBundle().getEntry().size(); i++) {
                 Bundle.Entry entry = e.getResponseBundle().getEntry().get(i);
                 if (entry.getResponse() != null && entry.getResponse().getStatus() == null) {
 
-                    com.ibm.watsonhealth.fhir.model.type.String status = com.ibm.watsonhealth.fhir.model.type.String.builder()
-                            .extension(Extension.builder()
-                                    .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
-                                    .value(Code.of("error")).build()).build();
+                    com.ibm.watsonhealth.fhir.model.type.String status =
+                            com.ibm.watsonhealth.fhir.model.type.String.builder().extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("error")).build()).build();
                     entry = entry.toBuilder().response(entry.getResponse().toBuilder().status(status).build()).build();
                 }
                 toAdd.add(entry);
@@ -3000,10 +3058,9 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             Bundle responseBundle = e.getResponseBundle().toBuilder().entry(toAdd).build();
 
-
-            response = Response.status(e.getHttpStatus()).entity(responseBundle).build() ;
+            response = Response.status(e.getHttpStatus()).entity(responseBundle).build();
         } else {
-            response = exceptionResponse(e, e.getHttpStatus()) ;
+            response = exceptionResponse(e, e.getHttpStatus());
         }
         return response;
     }
@@ -3062,6 +3119,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Builds a Conformance resource instance which describes this server.
+     * 
      * @throws Exception
      */
     private CapabilityStatement buildConformanceStatement() throws Exception {
@@ -3088,10 +3146,9 @@ public class FHIRResource implements FHIRResourceHelpers {
             List<SearchParameter> searchParameters = SearchUtil.getSearchParameters(resourceType);
             if (searchParameters != null) {
                 for (SearchParameter searchParameter : searchParameters) {
-                    Rest.Resource.SearchParam.Builder conformanceSearchParamBuilder = Rest.Resource.SearchParam
-                            .builder()
-                            .name(searchParameter.getName())
-                            .type(searchParameter.getType());
+                    // Issue 202: the name here is a natural language name, and intentionally not replaced with code.
+                    Rest.Resource.SearchParam.Builder conformanceSearchParamBuilder =
+                            Rest.Resource.SearchParam.builder().name(searchParameter.getName()).type(searchParameter.getType());
                     if (searchParameter.getDescription() != null) {
                         conformanceSearchParamBuilder.documentation(searchParameter.getDescription());
                     }
@@ -3102,19 +3159,13 @@ public class FHIRResource implements FHIRResourceHelpers {
                 }
             }
 
-
             // Build the ConformanceResource for this resource type.
-            Rest.Resource cr = Rest.Resource.builder()
-                    .type(ResourceType.of(resourceType))
-                    .profile(com.ibm.watsonhealth.fhir.model.type.Canonical.of("http://hl7.org/fhir/profiles/" + resourceType))
-                    .interaction(interactions).conditionalCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true))
-                    .conditionalUpdate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true))
-                    .conditionalCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(isUpdateCreateEnabled()))
-                    .conditionalDelete(ConditionalDeleteStatus.of(ConditionalDeleteStatus.ValueSet.SINGLE)).build();
+            Rest.Resource cr =
+                    Rest.Resource.builder().type(ResourceType.of(resourceType)).profile(com.ibm.watsonhealth.fhir.model.type.Canonical.of("http://hl7.org/fhir/profiles/"
+                            + resourceType)).interaction(interactions).conditionalCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true)).conditionalUpdate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true)).conditionalCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(isUpdateCreateEnabled())).conditionalDelete(ConditionalDeleteStatus.of(ConditionalDeleteStatus.ValueSet.SINGLE)).build();
 
             resources.add(cr);
         }
-
 
         // Determine if transactions are supported for this FHIR Server configuration.
         SystemRestfulInteraction transactionMode = SystemRestfulInteraction.BATCH;
@@ -3143,28 +3194,14 @@ public class FHIRResource implements FHIRResourceHelpers {
 
         String regURL = regURLTemplate.replaceAll("<host>", actualHost);
 
+        CapabilityStatement.Rest.Security restSecurity =
+                CapabilityStatement.Rest.Security.builder().service(CodeableConcept.builder().coding(Coding.builder().code(Code.of("SMART-on-FHIR")).system(Uri.of("http://hl7.org/fhir/restful-security-service")).build()).text(string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)")).build()).extension(Extension.builder().url("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris").extension(Extension.builder().url("token").value(Url.of(tokenURL)).build(), Extension.builder().url("authorize").value(Url.of(authURL)).build(), Extension.builder().url("register").value(Url.of(regURL)).build()).build()).build();
 
-        CapabilityStatement.Rest.Security restSecurity =  CapabilityStatement.Rest.Security.builder()
-                .service(CodeableConcept.builder().coding(Coding.builder().code(Code.of("SMART-on-FHIR"))
-                        .system(Uri.of("http://hl7.org/fhir/restful-security-service")).build())
-                        .text(string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)")).build())
-                .extension(Extension.builder()
-                        .url("http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris")
-                        .extension(Extension.builder().url("token").value(Url.of(tokenURL)).build(),
-                                Extension.builder().url("authorize").value(Url.of(authURL)).build(),
-                                Extension.builder().url("register").value(Url.of(regURL)).build()).build()).build();
-
-
-        CapabilityStatement.Rest rest = CapabilityStatement.Rest.builder()
-              .mode(RestfulCapabilityMode.SERVER)
-              .security(restSecurity).resource(resources)
-              .interaction(CapabilityStatement.Rest.Interaction.builder()
-                      .code(transactionMode).build()).build();
-
+        CapabilityStatement.Rest rest =
+                CapabilityStatement.Rest.builder().mode(RestfulCapabilityMode.SERVER).security(restSecurity).resource(resources).interaction(CapabilityStatement.Rest.Interaction.builder().code(transactionMode).build()).build();
 
         FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
-        String buildDescription = FHIR_SERVER_NAME + " version " + buildInfo.getBuildVersion()
-            + " build id " + buildInfo.getBuildId() + "";
+        String buildDescription = FHIR_SERVER_NAME + " version " + buildInfo.getBuildVersion() + " build id " + buildInfo.getBuildId() + "";
 
         List<Code> format = new ArrayList<Code>();
         format.add(Code.of(MediaType.APPLICATION_JSON));
@@ -3173,23 +3210,8 @@ public class FHIRResource implements FHIRResourceHelpers {
         format.add(Code.of(MediaType.APPLICATION_FHIR_XML));
 
         // Finally, create the Conformance resource itself.
-        CapabilityStatement conformance = CapabilityStatement.builder()
-                .status(PublicationStatus.ACTIVE)
-                .date(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC)))
-                .kind(CapabilityStatementKind.of(CapabilityStatementKind.ValueSet.INSTANCE))
-                .fhirVersion(FHIRVersion.VERSION_4_0_0)
-                .format(format)
-                .version(string(buildInfo.getBuildVersion()))
-                .name(string(FHIR_SERVER_NAME))
-                .description(com.ibm.watsonhealth.fhir.model.type.Markdown.of(buildDescription))
-                .copyright(com.ibm.watsonhealth.fhir.model.type.Markdown.of(FHIR_COPY_RIGHT))
-                .publisher(string("IBM Corporation"))
-                .software(CapabilityStatement.Software.builder()
-                        .name(string(FHIR_SERVER_NAME))
-                        .version(string(buildInfo.getBuildVersion()))
-                        .id(buildInfo.getBuildId()).build())
-                .rest(rest)
-                .build() ;
+        CapabilityStatement conformance =
+                CapabilityStatement.builder().status(PublicationStatus.ACTIVE).date(DateTime.of(ZonedDateTime.now(ZoneOffset.UTC))).kind(CapabilityStatementKind.of(CapabilityStatementKind.ValueSet.INSTANCE)).fhirVersion(FHIRVersion.VERSION_4_0_0).format(format).version(string(buildInfo.getBuildVersion())).name(string(FHIR_SERVER_NAME)).description(com.ibm.watsonhealth.fhir.model.type.Markdown.of(buildDescription)).copyright(com.ibm.watsonhealth.fhir.model.type.Markdown.of(FHIR_COPY_RIGHT)).publisher(string("IBM Corporation")).software(CapabilityStatement.Software.builder().name(string(FHIR_SERVER_NAME)).version(string(buildInfo.getBuildVersion())).id(buildInfo.getBuildId()).build()).rest(rest).build();
 
         try {
             conformance = addExtensionElements(conformance);
@@ -3201,85 +3223,61 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     private CapabilityStatement addExtensionElements(CapabilityStatement capabilityStatement) throws Exception {
-        List <Extension> extentions = new ArrayList<Extension>();
-        Extension extension = Extension.builder()
-                .url(EXTENSION_URL + "/defaultTenantId")
-                .value(string(fhirConfig
-                        .getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_TENANT_ID))).build();
+        List<Extension> extentions = new ArrayList<Extension>();
+        Extension extension = Extension.builder().url(EXTENSION_URL
+                + "/defaultTenantId").value(string(fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_TENANT_ID))).build();
         extentions.add(extension);
 
-        extension = Extension.builder()
-                .url(EXTENSION_URL + "/encryptionEnabled")
-                .value(com.ibm.watsonhealth.fhir.model.type.Boolean.of(fhirConfig.getPropertyGroup(FHIRConfiguration.PROPERTY_ENCRYPTION)
-                        .getBooleanProperty("enabled", Boolean.FALSE))).build();
+        extension = Extension.builder().url(EXTENSION_URL
+                + "/encryptionEnabled").value(com.ibm.watsonhealth.fhir.model.type.Boolean.of(fhirConfig.getPropertyGroup(FHIRConfiguration.PROPERTY_ENCRYPTION).getBooleanProperty("enabled", Boolean.FALSE))).build();
         extentions.add(extension);
 
-        extension = Extension.builder()
-                .url(EXTENSION_URL + "/userDefinedSchematronEnabled")
-                .value(com.ibm.watsonhealth.fhir.model.type.Boolean.of(isUserDefinedSchematronEnabled())).build();
+        extension = Extension.builder().url(EXTENSION_URL
+                + "/userDefinedSchematronEnabled").value(com.ibm.watsonhealth.fhir.model.type.Boolean.of(isUserDefinedSchematronEnabled())).build();
         extentions.add(extension);
 
-        extension = Extension.builder()
-                .url(EXTENSION_URL + "/virtualResourcesEnabled")
-                .value(com.ibm.watsonhealth.fhir.model.type.Boolean.of(isVirtualResourceTypesFeatureEnabled())).build();
+        extension = Extension.builder().url(EXTENSION_URL
+                + "/virtualResourcesEnabled").value(com.ibm.watsonhealth.fhir.model.type.Boolean.of(isVirtualResourceTypesFeatureEnabled())).build();
         extentions.add(extension);
 
-        extension = Extension.builder()
-                .url(EXTENSION_URL + "/allowableVirtualResourceTypes")
-                .value(string(getAllowableVirtualResourceTypes()
-                        .toString().replace("[", "").replace("]", "").replace(" ", ""))).build();
+        extension = Extension.builder().url(EXTENSION_URL
+                + "/allowableVirtualResourceTypes").value(string(getAllowableVirtualResourceTypes().toString().replace("[", "").replace("]", "").replace(" ", ""))).build();
         extentions.add(extension);
 
-        extension = Extension.builder()
-                .url(EXTENSION_URL + "/websocketNotificationsEnabled")
-                .value(com.ibm.watsonhealth.fhir.model.type.Boolean.of(fhirConfig
-                        .getBooleanProperty(FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED, Boolean.FALSE))).build();
+        extension = Extension.builder().url(EXTENSION_URL
+                + "/websocketNotificationsEnabled").value(com.ibm.watsonhealth.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED, Boolean.FALSE))).build();
         extentions.add(extension);
 
-        extension = Extension.builder()
-                .url(EXTENSION_URL + "/kafkaNotificationsEnabled")
-                .value(com.ibm.watsonhealth.fhir.model.type.Boolean.of(fhirConfig
-                        .getBooleanProperty(FHIRConfiguration.PROPERTY_KAFKA_ENABLED, Boolean.FALSE))).build();
+        extension = Extension.builder().url(EXTENSION_URL
+                + "/kafkaNotificationsEnabled").value(com.ibm.watsonhealth.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_KAFKA_ENABLED, Boolean.FALSE))).build();
         extentions.add(extension);
-
 
         String notificationResourceTypes = getNotificationResourceTypes();
         if ("".equals(notificationResourceTypes)) {
             notificationResourceTypes = "<not specified - all resource types>";
         }
 
-        extension = Extension.builder()
-                .url(EXTENSION_URL + "/notificationResourceTypes")
-                .value(string(notificationResourceTypes)).build();
+        extension = Extension.builder().url(EXTENSION_URL + "/notificationResourceTypes").value(string(notificationResourceTypes)).build();
         extentions.add(extension);
 
         String auditLogServiceName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_SERVICE_CLASS_NAME);
 
         if (auditLogServiceName == null || "".equals(auditLogServiceName)) {
             auditLogServiceName = "<not specified>";
-        }
-        else {
+        } else {
             int lastDelimeter = auditLogServiceName.lastIndexOf(".");
             auditLogServiceName = auditLogServiceName.substring(lastDelimeter + 1);
         }
 
-        extension = Extension.builder()
-                .url(EXTENSION_URL + "/auditLogServiceName")
-                .value(string(auditLogServiceName)).build();
+        extension = Extension.builder().url(EXTENSION_URL + "/auditLogServiceName").value(string(auditLogServiceName)).build();
         extentions.add(extension);
-
 
         PropertyGroup auditLogProperties = fhirConfig.getPropertyGroup(FHIRConfiguration.PROPERTY_AUDIT_SERVICE_PROPERTIES);
         String auditLogPropertiesString = auditLogProperties != null ? auditLogProperties.toString() : "<not specified>";
-        extension = Extension.builder()
-                .url(EXTENSION_URL + "/auditLogProperties")
-                .value(string(auditLogPropertiesString)).build();
+        extension = Extension.builder().url(EXTENSION_URL + "/auditLogProperties").value(string(auditLogPropertiesString)).build();
         extentions.add(extension);
 
-
-        extension = Extension.builder()
-                .url(EXTENSION_URL + "/persistenceType")
-                .value(string(getPersistenceImpl().getClass().getSimpleName())).build();
+        extension = Extension.builder().url(EXTENSION_URL + "/persistenceType").value(string(getPersistenceImpl().getClass().getSimpleName())).build();
         extentions.add(extension);
 
         return capabilityStatement.toBuilder().extension(extentions).build();
@@ -3301,17 +3299,19 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Creates a bundle that will hold results for a search operation.
-     * @param resources the list of resources to include in the bundle
-     * @param searchContext the FHIRSearchContext object associated with the search
+     * 
+     * @param resources
+     *            the list of resources to include in the bundle
+     * @param searchContext
+     *            the FHIRSearchContext object associated with the search
      * @return the bundle
      * @throws FHIROperationException
      */
     private Bundle createSearchBundle(List<Resource> resources, FHIRSearchContext searchContext) throws FHIROperationException {
-     // generate ID for this bundle and set total
+        // generate ID for this bundle and set total
 
-        Bundle.Builder bundleBuider = Bundle.builder()
-                .type(BundleType.SEARCHSET).id(Id.of(UUID.randomUUID().toString()))
-                .total(com.ibm.watsonhealth.fhir.model.type.UnsignedInt.of((int) (long) searchContext.getTotalCount()));
+        Bundle.Builder bundleBuider =
+                Bundle.builder().type(BundleType.SEARCHSET).id(Id.of(UUID.randomUUID().toString())).total(com.ibm.watsonhealth.fhir.model.type.UnsignedInt.of((int) (long) searchContext.getTotalCount()));
 
         for (Resource resource : resources) {
             Bundle.Entry entry = Bundle.Entry.builder().resource(resource).build();
@@ -3324,7 +3324,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         // Add the SUBSETTED tag, if the _elements search result parameter was applied to limit elements included in
         // returned resources.
         if (searchContext.hasElementsParameters()) {
-            bundle = (Bundle)FHIRPersistenceUtil.addFilteredTag(bundle);
+            bundle = (Bundle) FHIRPersistenceUtil.addFilteredTag(bundle);
         }
 
         return bundle;
@@ -3332,15 +3332,17 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Creates a bundle that will hold the results of a history operation.
-     * @param resources the list of resources to include in the bundle
-     * @param historyContext the FHIRHistoryContext associated with the history operation
+     * 
+     * @param resources
+     *            the list of resources to include in the bundle
+     * @param historyContext
+     *            the FHIRHistoryContext associated with the history operation
      * @return the bundle
      */
     private Bundle createHistoryBundle(List<Resource> resources, FHIRHistoryContext historyContext) throws FHIROperationException {
         // generate ID for this bundle and set the "total" field for the bundle
-        Bundle.Builder bundleBuilder = Bundle.builder()
-                .type(BundleType.HISTORY).id(Id.of(UUID.randomUUID().toString()))
-                .total(com.ibm.watsonhealth.fhir.model.type.UnsignedInt.of((int) (long) historyContext.getTotalCount()));
+        Bundle.Builder bundleBuilder =
+                Bundle.builder().type(BundleType.HISTORY).id(Id.of(UUID.randomUUID().toString())).total(com.ibm.watsonhealth.fhir.model.type.UnsignedInt.of((int) (long) historyContext.getTotalCount()));
 
         Map<String, List<Integer>> deletedResourcesMap = historyContext.getDeletedResources();
 
@@ -3365,9 +3367,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             // Create the 'request' entry, and set the request.url field.
             // 'create' --> url = "<resourceType>"
             // 'update'/'delete' --> url = "<resourceType>/<logicalId>"
-            Bundle.Entry.Request request = Bundle.Entry.Request
-                    .builder().method(method)
-                    .url(Url.of(method == HTTPVerb.POST? resourceType:resourceType + "/" + logicalId)).build();
+            Bundle.Entry.Request request =
+                    Bundle.Entry.Request.builder().method(method).url(Url.of(method == HTTPVerb.POST ? resourceType : resourceType + "/" + logicalId)).build();
 
             Bundle.Entry entry = Bundle.Entry.builder().request(request).resource(resource).build();
 
@@ -3408,8 +3409,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     private boolean isAllowableVirtualResourceType(String virtualResourceType) throws Exception {
-        return getAllowableVirtualResourceTypes().contains(virtualResourceType) ||
-                getAllowableVirtualResourceTypes().contains("*");
+        return getAllowableVirtualResourceTypes().contains(virtualResourceType) || getAllowableVirtualResourceTypes().contains("*");
     }
 
     private List<String> getAllowableVirtualResourceTypes() throws Exception {
@@ -3460,10 +3460,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             selfUri = requestUri;
         }
         // create 'self' link
-        Bundle.Link selfLink = Bundle.Link.builder()
-                .relation(string("self"))
-                .url(Url.of(selfUri))
-                .build();
+        Bundle.Link selfLink = Bundle.Link.builder().relation(string("self")).url(Url.of(selfUri)).build();
         bundleBuilder.link(selfLink);
 
         int nextPageNumber = context.getPageNumber() + 1;
@@ -3473,10 +3470,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             String nextLinkUrl = selfUri;
 
             // remove existing _page parameters from the query string
-            nextLinkUrl = nextLinkUrl
-                    .replace("&_page=" + context.getPageNumber(), "")
-                    .replace("_page=" + context.getPageNumber() + "&", "")
-                    .replace("_page=" + context.getPageNumber(), "");
+            nextLinkUrl = nextLinkUrl.replace("&_page=" + context.getPageNumber(), "").replace("_page=" + context.getPageNumber() + "&", "").replace("_page="
+                    + context.getPageNumber(), "");
 
             if (nextLinkUrl.contains("?")) {
                 if (!nextLinkUrl.endsWith("?")) {
@@ -3491,10 +3486,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             nextLinkUrl += "_page=" + nextPageNumber;
 
             // create 'next' link
-            Bundle.Link nextLink = Bundle.Link.builder()
-                    .relation(string("next"))
-                    .url(Url.of(nextLinkUrl))
-                    .build();
+            Bundle.Link nextLink = Bundle.Link.builder().relation(string("next")).url(Url.of(nextLinkUrl)).build();
             bundleBuilder.link(nextLink);
         }
 
@@ -3505,10 +3497,8 @@ public class FHIRResource implements FHIRResourceHelpers {
             String prevLinkUrl = requestUri;
 
             // remove existing _page parameters from the query string
-            prevLinkUrl = prevLinkUrl
-                    .replace("&_page=" + context.getPageNumber(), "")
-                    .replace("_page=" + context.getPageNumber() + "&", "")
-                    .replace("_page=" + context.getPageNumber(), "");
+            prevLinkUrl = prevLinkUrl.replace("&_page=" + context.getPageNumber(), "").replace("_page=" + context.getPageNumber() + "&", "").replace("_page="
+                    + context.getPageNumber(), "");
 
             if (prevLinkUrl.contains("?")) {
                 if (!prevLinkUrl.endsWith("?")) {
@@ -3523,10 +3513,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             prevLinkUrl += "_page=" + prevPageNumber;
 
             // create 'previous' link
-            Bundle.Link prevLink = Bundle.Link.builder()
-                    .relation(string("previous"))
-                    .url(Url.of(prevLinkUrl))
-                    .build();
+            Bundle.Link prevLink = Bundle.Link.builder().relation(string("previous")).url(Url.of(prevLinkUrl)).build();
             bundleBuilder.link(prevLink);
         }
         return bundleBuilder.build();
@@ -3536,13 +3523,9 @@ public class FHIRResource implements FHIRResourceHelpers {
      * Builds an OperationOutcomeIssue with the respective values for some of the fields.
      */
     private OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity.ValueSet severity, IssueType.ValueSet type, String msg) {
-        return OperationOutcome.Issue.builder()
-                .severity(IssueSeverity.of(severity))
-                .code(IssueType.of(type))
-                .diagnostics(string(msg)).build();
+        return OperationOutcome.Issue.builder().severity(IssueSeverity.of(severity)).code(IssueType.of(type)).diagnostics(string(msg)).build();
 
     }
-
 
     /**
      * Retrieves the Resource from the specified BundleEntry's ResourceContainer.
@@ -3564,9 +3547,11 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * Builds a collection of properties that will be passed to the persistence interceptors.
+     * 
      * @throws FHIRPersistenceException
      */
-    private Map<String, Object> buildPersistenceEventProperties(String type, String id, String version, Map<String, String> requestProperties) throws FHIRPersistenceException {
+    private Map<String, Object> buildPersistenceEventProperties(String type, String id, String version, Map<String, String> requestProperties)
+        throws FHIRPersistenceException {
         Map<String, Object> props = new HashMap<>();
         props.put(FHIRPersistenceEvent.PROPNAME_PERSISTENCE_IMPL, getPersistenceImpl());
         props.put(FHIRPersistenceEvent.PROPNAME_URI_INFO, uriInfo);
@@ -3588,10 +3573,11 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     /**
-     * This method returns the equivalent of: uriInfo.getRequestUri().toString()
-     * This method is necessary to provide a workaround to a bug in uriInfo.getRequestUri() where an IllegalArgumentException is thrown by
-     * getRequestUri() when the query string portion contains a vertical bar | character. The vertical bar is one known case of a special
-     * character causing the exception. There could be others.
+     * This method returns the equivalent of: uriInfo.getRequestUri().toString() This method is necessary to provide a
+     * workaround to a bug in uriInfo.getRequestUri() where an IllegalArgumentException is thrown by getRequestUri()
+     * when the query string portion contains a vertical bar | character. The vertical bar is one known case of a
+     * special character causing the exception. There could be others.
+     * 
      * @return String The complete request URI
      */
     private String getRequestUri() {
@@ -3608,19 +3594,15 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     /**
-     * This method returns the "base URI" associated with the current request.
-     * For example, if a client invoked POST https://myhost:9443/fhir-server/api/v4/Patient to create a Patient resource,
-     * this method would return "https://myhost:9443/fhir-server/api/v4".
+     * This method returns the "base URI" associated with the current request. For example, if a client invoked POST
+     * https://myhost:9443/fhir-server/api/v4/Patient to create a Patient resource, this method would return
+     * "https://myhost:9443/fhir-server/api/v4".
+     * 
      * @return The base endpoint URI associated with the current request.
      */
     private String getRequestBaseUri() {
         StringBuilder sb = new StringBuilder();
-        sb.append(httpServletRequest.getScheme())
-            .append("://")
-            .append(httpServletRequest.getServerName())
-            .append(":")
-            .append(httpServletRequest.getServerPort())
-            .append(httpServletRequest.getContextPath());
+        sb.append(httpServletRequest.getScheme()).append("://").append(httpServletRequest.getServerName()).append(":").append(httpServletRequest.getServerPort()).append(httpServletRequest.getContextPath());
         String servletPath = httpServletRequest.getServletPath();
         if (servletPath != null && !servletPath.isEmpty()) {
             sb.append(servletPath);
@@ -3631,7 +3613,9 @@ public class FHIRResource implements FHIRResourceHelpers {
 
     /**
      * This method simply returns a URI object containing the specified URI string.
-     * @param uriString the URI string for which the URI object will be created
+     * 
+     * @param uriString
+     *            the URI string for which the URI object will be created
      * @throws URISyntaxException
      */
     private URI toUri(String uriString) throws URISyntaxException {

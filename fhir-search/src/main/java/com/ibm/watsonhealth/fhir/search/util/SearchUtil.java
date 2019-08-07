@@ -273,7 +273,7 @@ public class SearchUtil {
             else {
                 for (SearchParameter sp : unfilteredSearchParameters) {
 
-                    String name = sp.getName().getValue();
+                    String name = sp.getCode().getValue();
                     if (includedSPs.contains(name)) {
                         results.add(sp);
                     }
@@ -306,7 +306,7 @@ public class SearchUtil {
             for (PropertyEntry ruleEntry : ruleEntries) {
                 String resourceType = ruleEntry.getName();
 
-                // Make sure the value is a List<String>.
+                // Make sure the value is a List<String>. 
                 if (ruleEntry.getValue() instanceof List<?>) {
                     for (Object listMember : (List<?>) ruleEntry.getValue()) {
                         if (!(listMember instanceof String)) {
@@ -473,7 +473,8 @@ public class SearchUtil {
 
             // Outputs the Expression and the Name of the SearchParameter
             if (log.isLoggable(Level.FINEST)) {
-                log.finest(String.format(EXTRACT_PARAMETERS_LOGGING, parameter.getName().getValue(), expression.getValue()));
+                // Issue 202: switched to using Code
+                log.finest(String.format(EXTRACT_PARAMETERS_LOGGING, parameter.getCode().getValue(), expression.getValue()));
             }
 
             // Process the Expression
@@ -492,11 +493,12 @@ public class SearchUtil {
                     }
 
                 } catch (java.lang.UnsupportedOperationException | FHIRPathException uoe) {
-                    log.warning(String.format(UNSUPPORTED_EXCEPTION, parameter.getName().getValue(), expression.getValue(), uoe.getMessage()));
+                    // Issue 202: switched to using code
+                    log.warning(String.format(UNSUPPORTED_EXCEPTION, parameter.getCode().getValue(), expression.getValue(), uoe.getMessage()));
                 }
             } else { 
                 if (log.isLoggable(Level.FINER)) {
-                    log.fine(String.format(UNSUPPOTED_EXPR_NULL, parameter.getType(), parameter.getName()));
+                    log.fine(String.format(UNSUPPOTED_EXPR_NULL, parameter.getType(), parameter.getCode().getValue()));
                 }
             }
 
@@ -745,7 +747,7 @@ public class SearchUtil {
         Map<String, SearchParameter> result = new HashMap<>();
         List<SearchParameter> list = getApplicableSearchParameters(resourceType);
         for (SearchParameter sp : list) {
-            result.put(sp.getName().getValue(), sp);
+            result.put(sp.getCode().getValue(), sp);
         }
         return result;
     }

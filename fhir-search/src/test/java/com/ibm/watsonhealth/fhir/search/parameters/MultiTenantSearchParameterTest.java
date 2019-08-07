@@ -98,10 +98,10 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         assertEquals(2, result.size());
         SearchParameter sp = result.get(0);
         assertNotNull(sp);
-        assertEquals("code", sp.getName().getValue());
+        assertEquals("code", sp.getCode().getValue());
         sp = result.get(1);
         assertNotNull(sp);
-        assertEquals("value-range", sp.getName().getValue());
+        assertEquals("value-range", sp.getCode().getValue());
 
         result = SearchUtil.getApplicableSearchParameters("WeatherDetail");
         assertNotNull(result);
@@ -408,7 +408,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
     protected List<String> getSearchParameterNames(List<SearchParameter> spList) {
         List<String> result = new ArrayList<>();
         for (SearchParameter sp : spList) {
-            result.add(sp.getName().getValue());
+            result.add(sp.getCode().getValue());
         }
         return result;
     }

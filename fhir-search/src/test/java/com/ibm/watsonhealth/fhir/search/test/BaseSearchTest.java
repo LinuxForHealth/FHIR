@@ -78,7 +78,7 @@ public abstract class BaseSearchTest {
     protected List<String> getSearchParameterNames(List<SearchParameter> spList) {
         List<String> result = new ArrayList<>();
         for (SearchParameter sp : spList) {
-            result.add(sp.getName().getValue());
+            result.add(sp.getCode().getValue());
         }
         return result;
     }
@@ -95,7 +95,7 @@ public abstract class BaseSearchTest {
             for (SearchParameter sp : spList) {
                 List<ResourceType> resources = sp.getBase();
                 for (ResourceType resource : resources) {
-                    System.out.println("\t" + resource.getValue() + ":" + sp.getName().getValue());
+                    System.out.println("\t" + resource.getValue() + ":" + sp.getCode().getValue());
                 }
 
             }

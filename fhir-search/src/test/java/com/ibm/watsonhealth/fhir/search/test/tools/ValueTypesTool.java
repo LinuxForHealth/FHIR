@@ -65,7 +65,7 @@ public class ValueTypesTool {
                         String base = type.getValue();
 
                         // Need - name|base
-                        String hash = ValueTypesR4Impl.hash(base, parameter.getName().getValue());
+                        String hash = ValueTypesR4Impl.hash(base, parameter.getCode().getValue());
                         outputJson(hash, getFieldTypesForExpression(parameter.getExpression().getValue()));
 
                     }

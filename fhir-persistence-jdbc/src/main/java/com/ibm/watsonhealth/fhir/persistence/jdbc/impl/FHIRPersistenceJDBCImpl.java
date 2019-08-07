@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PushbackReader;
 import java.io.Reader;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -605,7 +604,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         log.entering(CLASSNAME, METHODNAME);
         
         Map<SearchParameter, List<FHIRPathNode>> map;
-        String name, type, xpath;
+        String code, type, xpath;
         List<Parameter> allParameters = new ArrayList<>();
         Processor<List<Parameter>> processor = new JDBCParameterBuilder();
         
@@ -613,12 +612,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
             map = SearchUtil.extractParameterValues(fhirResource);
             
             for (SearchParameter parameter : map.keySet()) {
-                name = parameter.getName().getValue();
+                code = parameter.getCode().getValue();
                 type = parameter.getType().getValue();
                 xpath = parameter.getXpath().getValue();
                 
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Processing SearchParameter name: " + name + ", type: " + type + ", xpath: " + xpath);
+                    log.fine("Processing SearchParameter code: " + code + ", type: " + type + ", xpath: " + xpath);
                 }
                 
                 List<FHIRPathNode> values = map.get(parameter);
@@ -688,7 +687,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 
         try {
             if (resourceDTO != null) {
-                reader = new InputStreamReader(new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData())), StandardCharsets.UTF_8);
+                reader = new InputStreamReader(new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData())));
                 pushbackReader = new PushbackReader(reader);
                 firstByte = pushbackReader.read();
                 pushbackReader.unread(firstByte);

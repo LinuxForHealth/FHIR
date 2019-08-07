@@ -88,16 +88,16 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         // Simple conversion and output.
         if (DEBUG) {
             System.out.println("As Follows: ");
-            System.out.println(result.stream().map(in -> in.getName().getValue()).collect(Collectors.toList()));
+            System.out.println(result.stream().map(in -> in.getCode().getValue()).collect(Collectors.toList()));
         }
         assertEquals(2, result.size());
         SearchParameter sp = result.get(0);
         assertNotNull(sp);
-        assertEquals("code", sp.getName().getValue());
+        assertEquals("code", sp.getCode().getValue());
 
         sp = result.get(1);
         assertNotNull(sp);
-        assertEquals("value-range", sp.getName().getValue());
+        assertEquals("value-range", sp.getCode().getValue());
 
         result = SearchUtil.getSearchParameters("Immunization");
         assertNotNull(result);
@@ -114,9 +114,9 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters4/Device", result);
         assertEquals(2, result.size());
-        List<String> names = getSearchParameterNames(result);
-        assertTrue(names.contains("patient"));
-        assertTrue(names.contains("organization"));
+        List<String> codes = getSearchParameterNames(result);
+        assertTrue(codes.contains("patient"));
+        assertTrue(codes.contains("organization"));
     }
 
     @Test
@@ -128,11 +128,11 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters5/Patient", result);
         assertEquals(4, result.size());
-        List<String> names = getSearchParameterNames(result);
-        assertTrue(names.contains("active"));
-        assertTrue(names.contains("address"));
-        assertTrue(names.contains("birthdate"));
-        assertTrue(names.contains("name"));
+        List<String> codes = getSearchParameterNames(result);
+        assertTrue(codes.contains("active"));
+        assertTrue(codes.contains("address"));
+        assertTrue(codes.contains("birthdate"));
+        assertTrue(codes.contains("name"));
 
         // Make sure we get all of the MedicationAdministration search parameters.
         // (No filtering configured for these)

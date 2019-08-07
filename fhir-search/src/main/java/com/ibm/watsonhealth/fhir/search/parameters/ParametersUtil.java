@@ -46,7 +46,7 @@ import com.ibm.watsonhealth.fhir.search.SearchConstants;
  * which overwrites the behaviors of the buildInSearchParameters.
  * 
  * @author pbastide@us.ibm.com
- * @author markd 
+ * @author markd
  */
 public final class ParametersUtil {
 
@@ -75,6 +75,7 @@ public final class ParametersUtil {
     public static final String ERROR_EXCEPTION = "Error condition reading the FHIR Bundle of Search Parameters -> %s ";
     public static final String BUILTIN_ERROR_EXCEPTION = String.format(ERROR_EXCEPTION, FHIR_DEFAULT_SEARCH_PARAMETERS_FILE);
     public static final String STREAM_ERROR_EXCEPTION = String.format(ERROR_EXCEPTION, FROM_STEAM);
+    private static final String NO_MATCH_ON_NAME_CODE = "The code and name of the search parameter does not match [%s] [%s]";
 
     // Logging:
     public static final String LOG_PARAMETERS = "Parameter is loaded -> %s";
@@ -94,7 +95,7 @@ public final class ParametersUtil {
     private static final String REPLACE_RESOLVE = "(\\.where\\([\\s]{0,}resolve\\(\\)[\\s]{0,}[is]{0,2}[\\s]{0,}[\\w]{0,}\\))";
 
     private static final Map<String, Map<String, SearchParameter>> builtInSearchParameters = loadBuiltIn();
-    
+
     private static final String INVALID_EXPRESSION = "/NONE/";
 
     private ParametersUtil() {
@@ -117,7 +118,7 @@ public final class ParametersUtil {
         try {
             result = populateSearchParameterMapFromResource(FHIR_DEFAULT_SEARCH_PARAMETERS_FILE);
         } catch (IOException e) {
-            // This Exception is HIGHLY improbable. 
+            // This Exception is HIGHLY improbable.
             log.warning(BUILTIN_ERROR_EXCEPTION);
         }
         return result;
@@ -212,7 +213,7 @@ public final class ParametersUtil {
 
                 // Conditional Logging intentionally avoids forming of the String.
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine(String.format(LOG_PARAMETERS, parameter.getName().getValue()));
+                    log.fine(String.format(LOG_PARAMETERS, parameter.getCode().getValue()));
                 }
 
                 // Cleanse Unsupported Expressions
@@ -237,8 +238,13 @@ public final class ParametersUtil {
                             map = new LinkedHashMap<>();
                             searchParameterMap.put(base, map);
                         }
+
+                        // Issue 202: check and warns if the parameter and code do not agree.
+                        // Switch to using code
+                        String code = parameter.getCode().getValue();
                         String name = parameter.getName().getValue();
-                        map.put(name, parameter);
+                        checkAndWarnForIssueWithCodeAndName(code, name);
+                        map.put(code, parameter);
                     }
                 }
 
@@ -250,6 +256,28 @@ public final class ParametersUtil {
 
         // Must be unmodifiable, lest there be side effects.
         return Collections.unmodifiableMap(assignInheritedToAll(searchParameterMap));
+    }
+
+    /**
+     * checks and warns if name and code are not equivalent. 
+     * 
+     * @param code
+     * @param name
+     */
+    public static void checkAndWarnForIssueWithCodeAndName(String code, String name) {
+        // Name A natural language name identifying the search parameter. This name should be usable as an identifier
+        // for the module by machine processing applications such as code generation.
+        // @see https://www.hl7.org/fhir/searchparameter-definitions.html#SearchParameter.name
+
+        // Code is the code used in the URL or the parameter name in a parameters resource for this search parameter.
+        // @see https://www.hl7.org/fhir/searchparameter-definitions.html#SearchParameter.code
+
+        if (code != null && name != null && code.compareTo(name) != 0) {
+            
+            // Note, this is conditionally output, while the code assist complains it is not. 
+            log.warning(String.format(NO_MATCH_ON_NAME_CODE, code, name));
+        }
+
     }
 
     /**
@@ -265,9 +293,9 @@ public final class ParametersUtil {
         if (parameter == null) {
             revisedParameter = null;
         } else if (parameter.getBase().contains(ResourceType.DOMAIN_RESOURCE)) {
-            // Domain Resources are a special case where the expression is unknown. 
-            // We want this to pass through no matter what. 
-            revisedParameter = parameter; 
+            // Domain Resources are a special case where the expression is unknown.
+            // We want this to pass through no matter what.
+            revisedParameter = parameter;
         } else if (parameter.getExpression() == null) {
             revisedParameter = null;
         } else {
@@ -389,7 +417,7 @@ public final class ParametersUtil {
             Map<String, SearchParameter> tmp = searchParamsMap.get(base);
             for (Entry<String, SearchParameter> entry : tmp.entrySet()) {
                 String expressions = INVALID_EXPRESSION;
-                if(entry.getValue().getExpression() != null) {
+                if (entry.getValue().getExpression() != null) {
                     expressions = entry.getValue().getExpression().getValue();
                 }
                 out.println(String.format(LOG_OUTPUT, base, entry.getKey(), expressions));
@@ -406,11 +434,13 @@ public final class ParametersUtil {
      * @param out
      */
     public static void printSearchParameter(SearchParameter parameter, PrintStream out) {
-        String name = parameter.getName().getValue();
+        
+        // Issue 202: Changed to code 
+        String code = parameter.getCode().getValue();
         List<ResourceType> types = parameter.getBase();
 
         StringBuilder builder = new StringBuilder();
-        builder.append(name);
+        builder.append(code);
         builder.append(EQUALS);
         builder.append(LEFT);
         for (ResourceType type : types) {
