@@ -33,11 +33,6 @@
             <fileMode>0755</fileMode>
         </file>
         <file>
-            <source>../fhir-audit-trail/target/fhir-audit-trail.war</source>
-            <outputDirectory>fhir/server/fhir/apps</outputDirectory>
-            <fileMode>0755</fileMode>
-        </file>
-        <file>
             <source>../fhir-openapi/target/fhir-openapi.war</source>
             <outputDirectory>fhir/server/usr/servers/fhir-server/apps</outputDirectory>
             <fileMode>0755</fileMode>
@@ -124,16 +119,6 @@
             <fileMode>0755</fileMode>
             <includes>
                 <include>com.ibm.db2:db2jcc4:*</include>
-            </includes>
-        </dependencySet>
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>fhir/server/</outputDirectory>
-            <unpack>true</unpack>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>com.ibm.watsonhealth.fhir:fhir-schemaddl-dist:*</include>
             </includes>
         </dependencySet>
         <dependencySet>
