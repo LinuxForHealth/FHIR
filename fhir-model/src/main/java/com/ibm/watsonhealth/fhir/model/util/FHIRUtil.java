@@ -263,21 +263,36 @@ public class FHIRUtil {
      * @param validating
      * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in the JSON)
      */
+    @Deprecated
     public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, InputStream in, List<String> elementsToInclude) throws FHIRParserException {
+        return FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(in, elementsToInclude);
+    }
+    
+    public static <T extends Resource> T readAndFilterJson(InputStream in, List<String> elementsToInclude) throws FHIRParserException {
         return FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(in, elementsToInclude);
     }
 
     /**
      * Read a FHIR resource from {@code reader} in the requested {@code format}.
      */
+    @Deprecated
     public static <T extends Resource> T read(Class<T> resourceType, Format format, Reader reader) throws FHIRParserException {
+        return FHIRParser.parser(format).parse(reader);
+    }
+    
+    public static <T extends Resource> T read(Format format, Reader reader) throws FHIRParserException {
         return FHIRParser.parser(format).parse(reader);
     }
     
     /**
      * Read a FHIR resource from {@code in} in the requested {@code format}.
      */
+    @Deprecated
     public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream in) throws FHIRParserException {
+        return FHIRParser.parser(format).parse(in);
+    }
+    
+    public static <T extends Resource> T read(Format format, InputStream in) throws FHIRParserException {
         return FHIRParser.parser(format).parse(in);
     }
 
@@ -288,11 +303,23 @@ public class FHIRUtil {
      * @param elements a list of element names to include in the returned resource; null to skip filtering
      * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in the JSON)
      */
+    @Deprecated
     public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, Reader reader, List<String> elementsToInclude) throws FHIRParserException {
         return FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(reader, elementsToInclude);
     }
+    
+    public static <T extends Resource> T readAndFilterJson(Reader reader, List<String> elementsToInclude) throws FHIRParserException {
+        return FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(reader, elementsToInclude);
+    }
 
+    @Deprecated
     public static <T extends Resource> T toResource(Class<T> resourceType, JsonObject jsonObject) throws FHIRParserException {
+        FHIRJsonParser parser = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class);
+        parser.reset();
+        return parser.parse(jsonObject);
+    }
+    
+    public static <T extends Resource> T toResource(JsonObject jsonObject) throws FHIRParserException {
         FHIRJsonParser parser = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class);
         parser.reset();
         return parser.parse(jsonObject);
