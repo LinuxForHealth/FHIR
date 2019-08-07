@@ -14,10 +14,7 @@ import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PushbackReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -695,23 +692,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
                 
         try {
             if (resourceDTO != null) {
-                reader = new InputStreamReader(new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData())), StandardCharsets.UTF_8);
-                pushbackReader = new PushbackReader(reader);
-                firstByte = pushbackReader.read();
-                pushbackReader.unread(firstByte);
-                // At an earlier point in time in the life of the FHIR server, we serialized resources as XML. 
-                // This logic is here to be able to deserialize any old XML resources that might still remain in the FHIR DB. 
-                if (firstByte == 60) {
-                    resource = FHIRParser.parser(Format.XML).parse(pushbackReader);  
-                }
-                else {
-                    if (elements != null) {
-                        resource = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(pushbackReader, elements);
-                        
-                    }
-                    else {
-                        resource = FHIRParser.parser(Format.JSON).parse(pushbackReader);  
-                    }
+                InputStream in = new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData()));
+
+                if (elements != null) {
+                    resource = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(in, elements);
+                } else {
+                    resource = FHIRParser.parser(Format.JSON).parse(in);  
                 }
                 
                 in.close();
