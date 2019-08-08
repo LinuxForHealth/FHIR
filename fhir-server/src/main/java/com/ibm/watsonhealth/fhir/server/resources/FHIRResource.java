@@ -1957,7 +1957,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             log.exiting(this.getClass().getName(), "doInvoke");
-        } 
+        }
     }
 
     /**
