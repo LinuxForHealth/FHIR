@@ -693,7 +693,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 return exceptionResponse(e, Response.Status.OK);
             }
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);    
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
             log.exiting(this.getClass().getName(), "invoke(String,String,Resource)");
         }
@@ -1881,7 +1881,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      */
     @SuppressWarnings("unchecked")
     public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
-        Resource resource, MultivaluedMap<String, String> queryParameters, Map<String, String> requestProperties) throws FHIRHttpException, FHIROperationException, Exception {
+        Resource resource, MultivaluedMap<String, String> queryParameters, Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doInvoke");
 
         Date startTime = new Date();
