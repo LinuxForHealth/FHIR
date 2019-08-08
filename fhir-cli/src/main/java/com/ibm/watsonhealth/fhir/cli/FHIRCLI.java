@@ -73,7 +73,7 @@ public class FHIRCLI {
         }
     }
     
-    private static final String copyright = "\nFHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 2016, 2017.\n";
+    private static final String copyright = "\nFHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 2018, 2019.\n";
     private static final String header = "\nProvides access to the FHIR Client API via the command line.\n\nOptions:\n";
     private static final String syntax = "fhir-cli [options]";
     private static final String CONTENT_LENGTH_HEADER = "Content-Length";
