@@ -190,7 +190,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             }
 
             // Set the resource id and meta fields.
-            Instant lastUpdated = Instant.of(java.time.Instant.now().atZone(ZoneOffset.UTC));
+            Instant lastUpdated = Instant.now(ZoneOffset.UTC);
             resultBuilder.id(Id.of(logicalId));
             Meta meta = resource.getMeta();
             Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
@@ -305,7 +305,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                 log.fine("Storing new FHIR Resource '" + resource.getClass().getSimpleName() + "/" + logicalId + "', version=" + newVersionNumber);
             }
             
-            Instant lastUpdated = instant(System.currentTimeMillis());
+            Instant lastUpdated = Instant.now(ZoneOffset.UTC);
             
             // Set the resource id and meta fields.
             resultBuilder.id(Id.of(logicalId));
@@ -477,7 +477,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                     resourceBuilder = existingResource.toBuilder();
     
                     int newVersionNumber = existingResourceDTO.getVersionId() + 1;
-                    Instant lastUpdated = instant(System.currentTimeMillis());
+                    Instant lastUpdated = Instant.now(ZoneOffset.UTC);
                     
                     // Update the soft-delete resource to reflect the new version and lastUpdated values.
                     Meta meta = existingResource.getMeta();
