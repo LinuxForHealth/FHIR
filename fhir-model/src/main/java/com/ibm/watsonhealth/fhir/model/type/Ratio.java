@@ -16,9 +16,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A relationship of two Quantity values - expressed as a numerator and a denominator.
- * </p>
  */
 @Constraint(
     id = "rat-1",
@@ -42,9 +40,7 @@ public class Ratio extends Element {
     }
 
     /**
-     * <p>
      * The value of the numerator.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Quantity}.
@@ -54,9 +50,7 @@ public class Ratio extends Element {
     }
 
     /**
-     * <p>
      * The value of the denominator.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Quantity}.
@@ -137,10 +131,8 @@ public class Ratio extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -154,15 +146,12 @@ public class Ratio extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -176,15 +165,12 @@ public class Ratio extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -198,9 +184,7 @@ public class Ratio extends Element {
         }
 
         /**
-         * <p>
          * The value of the numerator.
-         * </p>
          * 
          * @param numerator
          *     Numerator value
@@ -214,9 +198,7 @@ public class Ratio extends Element {
         }
 
         /**
-         * <p>
          * The value of the denominator.
-         * </p>
          * 
          * @param denominator
          *     Denominator value
@@ -229,6 +211,12 @@ public class Ratio extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link Ratio}
+         * 
+         * @return
+         *     An immutable object of type {@link Ratio}
+         */
         @Override
         public Ratio build() {
             return new Ratio(this);

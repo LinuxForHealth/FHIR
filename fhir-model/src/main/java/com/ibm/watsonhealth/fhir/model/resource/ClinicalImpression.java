@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.ClinicalImpressionStatus;
@@ -34,23 +36,24 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A record of a clinical assessment performed to determine what problem(s) may affect the patient and before planning 
  * the treatments or management strategies that are best to manage a patient's condition. Assessments are often 1:1 with 
  * a clinical consultation / encounter, but this varies greatly depending on the clinical workflow. This resource is 
  * called "ClinicalImpression" rather than "ClinicalAssessment" to avoid confusion with the recording of assessment tools 
  * such as Apgar score.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ClinicalImpression extends DomainResource {
     private final List<Identifier> identifier;
+    @Required
     private final ClinicalImpressionStatus status;
     private final CodeableConcept statusReason;
     private final CodeableConcept code;
     private final String description;
+    @Required
     private final Reference subject;
     private final Reference encounter;
+    @Choice({DateTime.class, Period.class})
     private final Element effective;
     private final DateTime date;
     private final Reference assessor;
@@ -92,10 +95,8 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * Business identifiers assigned to this clinical impression by the performer or other systems which remain constant as 
      * the resource is updated and propagates from server to server.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -105,9 +106,7 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the workflow status of the assessment.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ClinicalImpressionStatus}.
@@ -117,9 +116,7 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * Captures the reason for the current state of the ClinicalImpression.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -129,9 +126,7 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * Categorizes the type of clinical assessment performed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -141,10 +136,8 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * A summary of the context and/or cause of the assessment - why / where it was performed, and what patient events/status 
      * prompted it.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -154,9 +147,7 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * The patient or group of individuals assessed as part of this record.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -166,10 +157,8 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * The Encounter during which this ClinicalImpression was created or to which the creation of this record is tightly 
      * associated.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -179,9 +168,7 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * The point in time or period over which the subject was assessed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -191,9 +178,7 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates when the documentation of the assessment was complete.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -203,9 +188,7 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * The clinician performing the assessment.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -215,11 +198,9 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * A reference to the last assessment that was conducted on this patient. Assessments are often/usually ongoing in 
      * nature; a care provider (practitioner or team) will make new assessments on an ongoing basis as new data arises or the 
      * patient's conditions changes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -229,9 +210,7 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * A list of the relevant problems/conditions for a patient.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -241,11 +220,9 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * One or more sets of investigations (signs, symptoms, etc.). The actual grouping of investigations varies greatly 
      * depending on the type and context of the assessment. These investigations may include data generated during the 
      * assessment process, or data previously generated and recorded that is pertinent to the outcomes.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Investigation}.
@@ -255,10 +232,8 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * Reference to a specific published clinical protocol that was followed during this assessment, and/or that provides 
      * evidence in support of the diagnosis.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Uri}.
@@ -268,9 +243,7 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * A text summary of the investigations and the diagnosis.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -280,9 +253,7 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * Specific findings or diagnoses that were considered likely or relevant to ongoing treatment.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Finding}.
@@ -292,9 +263,7 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * Estimate of likely outcome.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -304,9 +273,7 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * RiskAssessment expressing likely outcome.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -316,9 +283,7 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * Information supporting the clinical impression.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -328,10 +293,8 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * Commentary about the impression, typically recorded after the impression itself was made, though supplemental notes by 
      * the original author could also appear.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -495,9 +458,7 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -511,10 +472,8 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -528,11 +487,9 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -546,9 +503,7 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -562,12 +517,10 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -581,13 +534,10 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -601,13 +551,10 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -621,15 +568,12 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -643,15 +587,12 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -665,21 +606,17 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -693,21 +630,17 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -721,13 +654,10 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifiers assigned to this clinical impression by the performer or other systems which remain constant as 
          * the resource is updated and propagates from server to server.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Business identifier
@@ -743,13 +673,10 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifiers assigned to this clinical impression by the performer or other systems which remain constant as 
          * the resource is updated and propagates from server to server.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Business identifier
@@ -763,9 +690,9 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the workflow status of the assessment.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | completed | entered-in-error
@@ -779,9 +706,7 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Captures the reason for the current state of the ClinicalImpression.
-         * </p>
          * 
          * @param statusReason
          *     Reason for current status
@@ -795,9 +720,7 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Categorizes the type of clinical assessment performed.
-         * </p>
          * 
          * @param code
          *     Kind of assessment performed
@@ -811,10 +734,8 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * A summary of the context and/or cause of the assessment - why / where it was performed, and what patient events/status 
          * prompted it.
-         * </p>
          * 
          * @param description
          *     Why/how the assessment was performed
@@ -828,9 +749,9 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * The patient or group of individuals assessed as part of this record.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param subject
          *     Patient or group assessed
@@ -844,10 +765,8 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * The Encounter during which this ClinicalImpression was created or to which the creation of this record is tightly 
          * associated.
-         * </p>
          * 
          * @param encounter
          *     Encounter created as part of
@@ -861,9 +780,13 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * The point in time or period over which the subject was assessed.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link DateTime}</li>
+         * <li>{@link Period}</li>
+         * </ul>
          * 
          * @param effective
          *     Time of assessment
@@ -877,9 +800,7 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates when the documentation of the assessment was complete.
-         * </p>
          * 
          * @param date
          *     When the assessment was documented
@@ -893,9 +814,7 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * The clinician performing the assessment.
-         * </p>
          * 
          * @param assessor
          *     The clinician performing the assessment
@@ -909,11 +828,9 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to the last assessment that was conducted on this patient. Assessments are often/usually ongoing in 
          * nature; a care provider (practitioner or team) will make new assessments on an ongoing basis as new data arises or the 
          * patient's conditions changes.
-         * </p>
          * 
          * @param previous
          *     Reference to last assessment
@@ -927,12 +844,9 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of the relevant problems/conditions for a patient.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param problem
          *     Relevant impressions of patient state
@@ -948,12 +862,9 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of the relevant problems/conditions for a patient.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param problem
          *     Relevant impressions of patient state
@@ -967,14 +878,11 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * One or more sets of investigations (signs, symptoms, etc.). The actual grouping of investigations varies greatly 
          * depending on the type and context of the assessment. These investigations may include data generated during the 
          * assessment process, or data previously generated and recorded that is pertinent to the outcomes.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param investigation
          *     One or more sets of investigations (signs, symptoms, etc.)
@@ -990,14 +898,11 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * One or more sets of investigations (signs, symptoms, etc.). The actual grouping of investigations varies greatly 
          * depending on the type and context of the assessment. These investigations may include data generated during the 
          * assessment process, or data previously generated and recorded that is pertinent to the outcomes.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param investigation
          *     One or more sets of investigations (signs, symptoms, etc.)
@@ -1011,13 +916,10 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to a specific published clinical protocol that was followed during this assessment, and/or that provides 
          * evidence in support of the diagnosis.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param protocol
          *     Clinical Protocol followed
@@ -1033,13 +935,10 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to a specific published clinical protocol that was followed during this assessment, and/or that provides 
          * evidence in support of the diagnosis.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param protocol
          *     Clinical Protocol followed
@@ -1053,9 +952,7 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * A text summary of the investigations and the diagnosis.
-         * </p>
          * 
          * @param summary
          *     Summary of the assessment
@@ -1069,12 +966,9 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Specific findings or diagnoses that were considered likely or relevant to ongoing treatment.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param finding
          *     Possible or likely findings and diagnoses
@@ -1090,12 +984,9 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Specific findings or diagnoses that were considered likely or relevant to ongoing treatment.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param finding
          *     Possible or likely findings and diagnoses
@@ -1109,12 +1000,9 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Estimate of likely outcome.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param prognosisCodeableConcept
          *     Estimate of likely outcome
@@ -1130,12 +1018,9 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Estimate of likely outcome.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param prognosisCodeableConcept
          *     Estimate of likely outcome
@@ -1149,12 +1034,9 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * RiskAssessment expressing likely outcome.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param prognosisReference
          *     RiskAssessment expressing likely outcome
@@ -1170,12 +1052,9 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * RiskAssessment expressing likely outcome.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param prognosisReference
          *     RiskAssessment expressing likely outcome
@@ -1189,12 +1068,9 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Information supporting the clinical impression.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param supportingInfo
          *     Information supporting the clinical impression
@@ -1210,12 +1086,9 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Information supporting the clinical impression.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param supportingInfo
          *     Information supporting the clinical impression
@@ -1229,13 +1102,10 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Commentary about the impression, typically recorded after the impression itself was made, though supplemental notes by 
          * the original author could also appear.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     Comments made about the ClinicalImpression
@@ -1251,13 +1121,10 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Commentary about the impression, typically recorded after the impression itself was made, though supplemental notes by 
          * the original author could also appear.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     Comments made about the ClinicalImpression
@@ -1270,6 +1137,18 @@ public class ClinicalImpression extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link ClinicalImpression}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>subject</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link ClinicalImpression}
+         */
         @Override
         public ClinicalImpression build() {
             return new ClinicalImpression(this);
@@ -1302,13 +1181,12 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * One or more sets of investigations (signs, symptoms, etc.). The actual grouping of investigations varies greatly 
      * depending on the type and context of the assessment. These investigations may include data generated during the 
      * assessment process, or data previously generated and recorded that is pertinent to the outcomes.
-     * </p>
      */
     public static class Investigation extends BackboneElement {
+        @Required
         private final CodeableConcept code;
         private final List<Reference> item;
 
@@ -1322,11 +1200,9 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * A name/code for the group ("set") of investigations. Typically, this will be something like "signs", "symptoms", 
          * "clinical", "diagnostic", but the list is not constrained, and others such groups such as 
          * (exposure|family|travel|nutritional) history may be used.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1336,9 +1212,7 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * A record of a specific investigation that was undertaken.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -1422,10 +1296,8 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1439,15 +1311,12 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1461,15 +1330,12 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1483,21 +1349,17 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1511,21 +1373,17 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1539,11 +1397,11 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * <p>
              * A name/code for the group ("set") of investigations. Typically, this will be something like "signs", "symptoms", 
              * "clinical", "diagnostic", but the list is not constrained, and others such groups such as 
              * (exposure|family|travel|nutritional) history may be used.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param code
              *     A name/code for the set
@@ -1557,12 +1415,9 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * <p>
              * A record of a specific investigation that was undertaken.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param item
              *     Record of a specific investigation
@@ -1578,12 +1433,9 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * <p>
              * A record of a specific investigation that was undertaken.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param item
              *     Record of a specific investigation
@@ -1596,6 +1448,17 @@ public class ClinicalImpression extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Investigation}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>code</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Investigation}
+             */
             @Override
             public Investigation build() {
                 return new Investigation(this);
@@ -1611,9 +1474,7 @@ public class ClinicalImpression extends DomainResource {
     }
 
     /**
-     * <p>
      * Specific findings or diagnoses that were considered likely or relevant to ongoing treatment.
-     * </p>
      */
     public static class Finding extends BackboneElement {
         private final CodeableConcept itemCodeableConcept;
@@ -1631,9 +1492,7 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Specific text or code for finding or diagnosis, which may include ruled-out or resolved conditions.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1643,9 +1502,7 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Specific reference for finding or diagnosis, which may include ruled-out or resolved conditions.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1655,9 +1512,7 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * <p>
          * Which investigations support finding or diagnosis.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1746,10 +1601,8 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1763,15 +1616,12 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1785,15 +1635,12 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1807,21 +1654,17 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1835,21 +1678,17 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1863,9 +1702,7 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * <p>
              * Specific text or code for finding or diagnosis, which may include ruled-out or resolved conditions.
-             * </p>
              * 
              * @param itemCodeableConcept
              *     What was found
@@ -1879,9 +1716,7 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * <p>
              * Specific reference for finding or diagnosis, which may include ruled-out or resolved conditions.
-             * </p>
              * 
              * @param itemReference
              *     What was found
@@ -1895,9 +1730,7 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * <p>
              * Which investigations support finding or diagnosis.
-             * </p>
              * 
              * @param basis
              *     Which investigations support finding
@@ -1910,6 +1743,12 @@ public class ClinicalImpression extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Finding}
+             * 
+             * @return
+             *     An immutable object of type {@link Finding}
+             */
             @Override
             public Finding build() {
                 return new Finding(this);

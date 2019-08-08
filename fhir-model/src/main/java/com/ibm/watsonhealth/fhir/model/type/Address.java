@@ -20,11 +20,9 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * An address expressed using postal conventions (as opposed to GPS or other location definition formats). This data type 
  * may be used to convey addresses for use in delivering mail as well as for visiting locations which might not be valid 
  * for mail delivery. There are a variety of postal address formats defined around the world.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Address extends Element {
@@ -57,9 +55,7 @@ public class Address extends Element {
     }
 
     /**
-     * <p>
      * The purpose of this address.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link AddressUse}.
@@ -69,10 +65,8 @@ public class Address extends Element {
     }
 
     /**
-     * <p>
      * Distinguishes between physical addresses (those you can visit) and mailing addresses (e.g. PO Boxes and care-of 
      * addresses). Most addresses are both.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link AddressType}.
@@ -82,10 +76,8 @@ public class Address extends Element {
     }
 
     /**
-     * <p>
      * Specifies the entire address as it should be displayed e.g. on a postal label. This may be provided instead of or as 
      * well as the specific parts.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -95,10 +87,8 @@ public class Address extends Element {
     }
 
     /**
-     * <p>
      * This component contains the house number, apartment number, street name, street direction, P.O. Box number, delivery 
      * hints, and similar address information.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -108,9 +98,7 @@ public class Address extends Element {
     }
 
     /**
-     * <p>
      * The name of the city, town, suburb, village or other community or delivery center.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -120,9 +108,7 @@ public class Address extends Element {
     }
 
     /**
-     * <p>
      * The name of the administrative area (county).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -132,10 +118,8 @@ public class Address extends Element {
     }
 
     /**
-     * <p>
      * Sub-unit of a country with limited sovereignty in a federally organized country. A code may be used if codes are in 
      * common use (e.g. US 2 letter state codes).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -145,9 +129,7 @@ public class Address extends Element {
     }
 
     /**
-     * <p>
      * A postal code designating a region defined by the postal service.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -157,9 +139,7 @@ public class Address extends Element {
     }
 
     /**
-     * <p>
      * Country - a nation as commonly understood or generally accepted.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -169,9 +149,7 @@ public class Address extends Element {
     }
 
     /**
-     * <p>
      * Time period when address was/is in use.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -292,10 +270,8 @@ public class Address extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -309,15 +285,12 @@ public class Address extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -331,15 +304,12 @@ public class Address extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -353,9 +323,7 @@ public class Address extends Element {
         }
 
         /**
-         * <p>
          * The purpose of this address.
-         * </p>
          * 
          * @param use
          *     home | work | temp | old | billing - purpose of this address
@@ -369,10 +337,8 @@ public class Address extends Element {
         }
 
         /**
-         * <p>
          * Distinguishes between physical addresses (those you can visit) and mailing addresses (e.g. PO Boxes and care-of 
          * addresses). Most addresses are both.
-         * </p>
          * 
          * @param type
          *     postal | physical | both
@@ -386,10 +352,8 @@ public class Address extends Element {
         }
 
         /**
-         * <p>
          * Specifies the entire address as it should be displayed e.g. on a postal label. This may be provided instead of or as 
          * well as the specific parts.
-         * </p>
          * 
          * @param text
          *     Text representation of the address
@@ -403,13 +367,10 @@ public class Address extends Element {
         }
 
         /**
-         * <p>
          * This component contains the house number, apartment number, street name, street direction, P.O. Box number, delivery 
          * hints, and similar address information.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param line
          *     Street name, number, direction &amp; P.O. Box etc.
@@ -425,13 +386,10 @@ public class Address extends Element {
         }
 
         /**
-         * <p>
          * This component contains the house number, apartment number, street name, street direction, P.O. Box number, delivery 
          * hints, and similar address information.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param line
          *     Street name, number, direction &amp; P.O. Box etc.
@@ -445,9 +403,7 @@ public class Address extends Element {
         }
 
         /**
-         * <p>
          * The name of the city, town, suburb, village or other community or delivery center.
-         * </p>
          * 
          * @param city
          *     Name of city, town etc.
@@ -461,9 +417,7 @@ public class Address extends Element {
         }
 
         /**
-         * <p>
          * The name of the administrative area (county).
-         * </p>
          * 
          * @param district
          *     District name (aka county)
@@ -477,10 +431,8 @@ public class Address extends Element {
         }
 
         /**
-         * <p>
          * Sub-unit of a country with limited sovereignty in a federally organized country. A code may be used if codes are in 
          * common use (e.g. US 2 letter state codes).
-         * </p>
          * 
          * @param state
          *     Sub-unit of country (abbreviations ok)
@@ -494,9 +446,7 @@ public class Address extends Element {
         }
 
         /**
-         * <p>
          * A postal code designating a region defined by the postal service.
-         * </p>
          * 
          * @param postalCode
          *     Postal code for area
@@ -510,9 +460,7 @@ public class Address extends Element {
         }
 
         /**
-         * <p>
          * Country - a nation as commonly understood or generally accepted.
-         * </p>
          * 
          * @param country
          *     Country (e.g. can be ISO 3166 2 or 3 letter code)
@@ -526,9 +474,7 @@ public class Address extends Element {
         }
 
         /**
-         * <p>
          * Time period when address was/is in use.
-         * </p>
          * 
          * @param period
          *     Time period when address was/is in use
@@ -541,6 +487,12 @@ public class Address extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link Address}
+         * 
+         * @return
+         *     An immutable object of type {@link Address}
+         */
         @Override
         public Address build() {
             return new Address(this);

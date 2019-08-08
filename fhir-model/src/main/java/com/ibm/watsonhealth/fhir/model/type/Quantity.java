@@ -17,10 +17,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A measured amount (or an amount that can potentially be measured). Note that measured amounts include amounts that are 
  * not precisely quantified, including amounts involving arbitrary units and floating currencies.
- * </p>
  */
 @Constraint(
     id = "qty-3",
@@ -50,9 +48,7 @@ public class Quantity extends Element {
     }
 
     /**
-     * <p>
      * The value of the measured amount. The value includes an implicit precision in the presentation of the value.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Decimal}.
@@ -62,10 +58,8 @@ public class Quantity extends Element {
     }
 
     /**
-     * <p>
      * How the value should be understood and represented - whether the actual value is greater or less than the stated value 
      * due to measurement issues; e.g. if the comparator is "&lt;" , then the real value is &lt; stated value.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link QuantityComparator}.
@@ -75,9 +69,7 @@ public class Quantity extends Element {
     }
 
     /**
-     * <p>
      * A human-readable form of the unit.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -87,9 +79,7 @@ public class Quantity extends Element {
     }
 
     /**
-     * <p>
      * The identification of the system that provides the coded form of the unit.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -99,9 +89,7 @@ public class Quantity extends Element {
     }
 
     /**
-     * <p>
      * A computer processable form of the unit in some unit representation system.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Code}.
@@ -197,10 +185,8 @@ public class Quantity extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -214,15 +200,12 @@ public class Quantity extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -236,15 +219,12 @@ public class Quantity extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -258,9 +238,7 @@ public class Quantity extends Element {
         }
 
         /**
-         * <p>
          * The value of the measured amount. The value includes an implicit precision in the presentation of the value.
-         * </p>
          * 
          * @param value
          *     Numerical value (with implicit precision)
@@ -274,10 +252,8 @@ public class Quantity extends Element {
         }
 
         /**
-         * <p>
          * How the value should be understood and represented - whether the actual value is greater or less than the stated value 
          * due to measurement issues; e.g. if the comparator is "&lt;" , then the real value is &lt; stated value.
-         * </p>
          * 
          * @param comparator
          *     &lt; | &lt;= | &gt;= | &gt; - how to understand the value
@@ -291,9 +267,7 @@ public class Quantity extends Element {
         }
 
         /**
-         * <p>
          * A human-readable form of the unit.
-         * </p>
          * 
          * @param unit
          *     Unit representation
@@ -307,9 +281,7 @@ public class Quantity extends Element {
         }
 
         /**
-         * <p>
          * The identification of the system that provides the coded form of the unit.
-         * </p>
          * 
          * @param system
          *     System that defines coded unit form
@@ -323,9 +295,7 @@ public class Quantity extends Element {
         }
 
         /**
-         * <p>
          * A computer processable form of the unit in some unit representation system.
-         * </p>
          * 
          * @param code
          *     Coded form of the unit
@@ -338,6 +308,12 @@ public class Quantity extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link Quantity}
+         * 
+         * @return
+         *     An immutable object of type {@link Quantity}
+         */
         @Override
         public Quantity build() {
             return new Quantity(this);

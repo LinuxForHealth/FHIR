@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.BindingStrength;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -42,10 +43,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A formal computable definition of an operation (on the RESTful interface) or a named query (using the search 
  * interaction).
- * </p>
  */
 @Constraint(
     id = "opd-0",
@@ -79,9 +78,12 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 public class OperationDefinition extends DomainResource {
     private final Uri url;
     private final String version;
+    @Required
     private final String name;
     private final String title;
+    @Required
     private final PublicationStatus status;
+    @Required
     private final OperationKind kind;
     private final Boolean experimental;
     private final DateTime date;
@@ -92,12 +94,16 @@ public class OperationDefinition extends DomainResource {
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Boolean affectsState;
+    @Required
     private final Code code;
     private final Markdown comment;
     private final Canonical base;
     private final List<ResourceType> resource;
+    @Required
     private final Boolean system;
+    @Required
     private final Boolean type;
+    @Required
     private final Boolean instance;
     private final Canonical inputProfile;
     private final Canonical outputProfile;
@@ -137,13 +143,11 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * An absolute URI that is used to identify this operation definition when it is referenced in a specification, model, 
      * design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal 
      * address at which at which an authoritative instance of this operation definition is (or will be) published. This URL 
      * can be the target of a canonical reference. It SHALL remain the same when the operation definition is stored on 
      * different servers.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -153,12 +157,10 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The identifier that is used to identify this version of the operation definition when it is referenced in a 
      * specification, model, design or instance. This is an arbitrary value managed by the operation definition author and is 
      * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
      * available. There is also no expectation that versions can be placed in a lexicographical sequence.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -168,10 +170,8 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A natural language name identifying the operation definition. This name should be usable as an identifier for the 
      * module by machine processing applications such as code generation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -181,9 +181,7 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A short, descriptive, user-friendly title for the operation definition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -193,9 +191,7 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of this operation definition. Enables tracking the life-cycle of the content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PublicationStatus}.
@@ -205,9 +201,7 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether this is an operation or a named query.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link OperationKind}.
@@ -217,10 +211,8 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A Boolean value to indicate that this operation definition is authored for testing purposes (or 
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -230,11 +222,9 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and optionally time) when the operation definition was published. The date must change when the business 
      * version changes and it must change if the status code changes. In addition, it should change when the substantive 
      * content of the operation definition changes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -244,9 +234,7 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the organization or individual that published the operation definition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -256,9 +244,7 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Contact details to assist a user in finding and communicating with the publisher.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -268,9 +254,7 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A free text natural language description of the operation definition from a consumer's perspective.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -280,11 +264,9 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
      * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
      * may be used to assist with indexing and searching for appropriate operation definition instances.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
@@ -294,9 +276,7 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A legal or geographic region in which the operation definition is intended to be used.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -306,9 +286,7 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Explanation of why this operation definition is needed and why it has been designed as it has.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -318,10 +296,8 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether the operation affects state. Side effects such as producing audit trail entries do not count as 'affecting 
      * state'.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -331,9 +307,7 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The name used to invoke the operation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Code}.
@@ -343,9 +317,7 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Additional information about how to use this operation or named query.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -355,9 +327,7 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates that this operation definition is a constraining profile on the base.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Canonical}.
@@ -367,9 +337,7 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The types on which this operation can be executed.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ResourceType}.
@@ -379,10 +347,8 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates whether this operation or named query can be invoked at the system level (e.g. without needing to choose a 
      * resource type for the context).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -392,10 +358,8 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates whether this operation or named query can be invoked at the resource type level for any given resource type 
      * level (e.g. without needing to choose a specific resource id for the context).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -405,9 +369,7 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates whether this operation can be invoked on a particular instance of one of the given types.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -417,10 +379,8 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Additional validation information for the in parameters - a single profile that covers all the parameters. The profile 
      * is a constraint on the parameters resource as a whole.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Canonical}.
@@ -430,10 +390,8 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Additional validation information for the out parameters - a single profile that covers all the parameters. The 
      * profile is a constraint on the parameters resource.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Canonical}.
@@ -443,9 +401,7 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The parameters for the operation/query.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Parameter}.
@@ -455,10 +411,8 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Defines an appropriate combination of parameters to use when invoking this operation, to help code generators when 
      * generating overloaded parameter sets for this operation.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Overload}.
@@ -646,9 +600,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -662,10 +614,8 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -679,11 +629,9 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -697,9 +645,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -713,12 +659,10 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -732,13 +676,10 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -752,13 +693,10 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -772,15 +710,12 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -794,15 +729,12 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -816,21 +748,17 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -844,21 +772,17 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -872,13 +796,11 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that is used to identify this operation definition when it is referenced in a specification, model, 
          * design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal 
          * address at which at which an authoritative instance of this operation definition is (or will be) published. This URL 
          * can be the target of a canonical reference. It SHALL remain the same when the operation definition is stored on 
          * different servers.
-         * </p>
          * 
          * @param url
          *     Canonical identifier for this operation definition, represented as a URI (globally unique)
@@ -892,12 +814,10 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The identifier that is used to identify this version of the operation definition when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the operation definition author and is 
          * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
          * available. There is also no expectation that versions can be placed in a lexicographical sequence.
-         * </p>
          * 
          * @param version
          *     Business version of the operation definition
@@ -911,10 +831,10 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A natural language name identifying the operation definition. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param name
          *     Name for this operation definition (computer friendly)
@@ -928,9 +848,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A short, descriptive, user-friendly title for the operation definition.
-         * </p>
          * 
          * @param title
          *     Name for this operation definition (human friendly)
@@ -944,9 +862,9 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of this operation definition. Enables tracking the life-cycle of the content.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | retired | unknown
@@ -960,9 +878,9 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether this is an operation or a named query.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param kind
          *     operation | query
@@ -976,10 +894,8 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A Boolean value to indicate that this operation definition is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
-         * </p>
          * 
          * @param experimental
          *     For testing purposes, not real usage
@@ -993,11 +909,9 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and optionally time) when the operation definition was published. The date must change when the business 
          * version changes and it must change if the status code changes. In addition, it should change when the substantive 
          * content of the operation definition changes.
-         * </p>
          * 
          * @param date
          *     Date last changed
@@ -1011,9 +925,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the organization or individual that published the operation definition.
-         * </p>
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
@@ -1027,12 +939,9 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1048,12 +957,9 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1067,9 +973,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A free text natural language description of the operation definition from a consumer's perspective.
-         * </p>
          * 
          * @param description
          *     Natural language description of the operation definition
@@ -1083,14 +987,11 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate operation definition instances.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1106,14 +1007,11 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate operation definition instances.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1127,12 +1025,9 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the operation definition is intended to be used.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param jurisdiction
          *     Intended jurisdiction for operation definition (if applicable)
@@ -1148,12 +1043,9 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the operation definition is intended to be used.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param jurisdiction
          *     Intended jurisdiction for operation definition (if applicable)
@@ -1167,9 +1059,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Explanation of why this operation definition is needed and why it has been designed as it has.
-         * </p>
          * 
          * @param purpose
          *     Why this operation definition is defined
@@ -1183,10 +1073,8 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether the operation affects state. Side effects such as producing audit trail entries do not count as 'affecting 
          * state'.
-         * </p>
          * 
          * @param affectsState
          *     Whether content is changed by the operation
@@ -1200,9 +1088,9 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The name used to invoke the operation.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param code
          *     Name used to invoke the operation
@@ -1216,9 +1104,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional information about how to use this operation or named query.
-         * </p>
          * 
          * @param comment
          *     Additional information about use
@@ -1232,9 +1118,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates that this operation definition is a constraining profile on the base.
-         * </p>
          * 
          * @param base
          *     Marks this as a profile of the base
@@ -1248,12 +1132,9 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The types on which this operation can be executed.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param resource
          *     Types this operation applies to
@@ -1269,12 +1150,9 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The types on which this operation can be executed.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param resource
          *     Types this operation applies to
@@ -1288,10 +1166,10 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates whether this operation or named query can be invoked at the system level (e.g. without needing to choose a 
          * resource type for the context).
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param system
          *     Invoke at the system level?
@@ -1305,10 +1183,10 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates whether this operation or named query can be invoked at the resource type level for any given resource type 
          * level (e.g. without needing to choose a specific resource id for the context).
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     Invoke at the type level?
@@ -1322,9 +1200,9 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates whether this operation can be invoked on a particular instance of one of the given types.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param instance
          *     Invoke on an instance?
@@ -1338,10 +1216,8 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional validation information for the in parameters - a single profile that covers all the parameters. The profile 
          * is a constraint on the parameters resource as a whole.
-         * </p>
          * 
          * @param inputProfile
          *     Validation information for in parameters
@@ -1355,10 +1231,8 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional validation information for the out parameters - a single profile that covers all the parameters. The 
          * profile is a constraint on the parameters resource.
-         * </p>
          * 
          * @param outputProfile
          *     Validation information for out parameters
@@ -1372,12 +1246,9 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The parameters for the operation/query.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param parameter
          *     Parameters for the operation/query
@@ -1393,12 +1264,9 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The parameters for the operation/query.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param parameter
          *     Parameters for the operation/query
@@ -1412,13 +1280,10 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines an appropriate combination of parameters to use when invoking this operation, to help code generators when 
          * generating overloaded parameter sets for this operation.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param overload
          *     Define overloaded variants for when generating code
@@ -1434,13 +1299,10 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines an appropriate combination of parameters to use when invoking this operation, to help code generators when 
          * generating overloaded parameter sets for this operation.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param overload
          *     Define overloaded variants for when generating code
@@ -1453,6 +1315,23 @@ public class OperationDefinition extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link OperationDefinition}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>name</li>
+         * <li>status</li>
+         * <li>kind</li>
+         * <li>code</li>
+         * <li>system</li>
+         * <li>type</li>
+         * <li>instance</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link OperationDefinition}
+         */
         @Override
         public OperationDefinition build() {
             return new OperationDefinition(this);
@@ -1491,14 +1370,16 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The parameters for the operation/query.
-     * </p>
      */
     public static class Parameter extends BackboneElement {
+        @Required
         private final Code name;
+        @Required
         private final OperationParameterUse use;
+        @Required
         private final Integer min;
+        @Required
         private final String max;
         private final String documentation;
         private final FHIRAllTypes type;
@@ -1527,9 +1408,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of used to identify the parameter.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Code}.
@@ -1539,9 +1418,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether this is an input or an output parameter.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link OperationParameterUse}.
@@ -1551,9 +1428,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The minimum number of times this parameter SHALL appear in the request or response.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Integer}.
@@ -1563,9 +1438,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The maximum number of times this element is permitted to appear in the request or response.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1575,9 +1448,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the meaning or use of this parameter.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1587,9 +1458,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The type for this parameter.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link FHIRAllTypes}.
@@ -1599,13 +1468,11 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Used when the type is "Reference" or "canonical", and identifies a profile structure or implementation Guide that 
          * applies to the target of the reference this parameter refers to. If any profiles are specified, then the content must 
          * conform to at least one of them. The URL can be a local reference - to a contained StructureDefinition, or a reference 
          * to another StructureDefinition or Implementation Guide by a canonical URL. When an implementation guide is specified, 
          * the target resource SHALL conform to at least one profile defined in the implementation guide.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -1615,9 +1482,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * How the parameter is understood as a search parameter. This is only used if the parameter type is 'string'.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link SearchParamType}.
@@ -1627,9 +1492,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Binds to a value set if this parameter is coded (code, Coding, CodeableConcept).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Binding}.
@@ -1639,9 +1502,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies other resource parameters within the operation invocation that are expected to resolve to this resource.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link ReferencedFrom}.
@@ -1651,9 +1512,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The parts of a nested Parameter.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Parameter}.
@@ -1782,10 +1641,8 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1799,15 +1656,12 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1821,15 +1675,12 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1843,21 +1694,17 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1871,21 +1718,17 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1899,9 +1742,9 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The name of used to identify the parameter.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param name
              *     Name in Parameters.parameter.name or in URL
@@ -1915,9 +1758,9 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Whether this is an input or an output parameter.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param use
              *     in | out
@@ -1931,9 +1774,9 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The minimum number of times this parameter SHALL appear in the request or response.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param min
              *     Minimum Cardinality
@@ -1947,9 +1790,9 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The maximum number of times this element is permitted to appear in the request or response.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param max
              *     Maximum Cardinality (a number or *)
@@ -1963,9 +1806,7 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Describes the meaning or use of this parameter.
-             * </p>
              * 
              * @param documentation
              *     Description of meaning/use
@@ -1979,9 +1820,7 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The type for this parameter.
-             * </p>
              * 
              * @param type
              *     What type this parameter has
@@ -1995,16 +1834,13 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Used when the type is "Reference" or "canonical", and identifies a profile structure or implementation Guide that 
              * applies to the target of the reference this parameter refers to. If any profiles are specified, then the content must 
              * conform to at least one of them. The URL can be a local reference - to a contained StructureDefinition, or a reference 
              * to another StructureDefinition or Implementation Guide by a canonical URL. When an implementation guide is specified, 
              * the target resource SHALL conform to at least one profile defined in the implementation guide.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param targetProfile
              *     If type is Reference | canonical, allowed targets
@@ -2020,16 +1856,13 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Used when the type is "Reference" or "canonical", and identifies a profile structure or implementation Guide that 
              * applies to the target of the reference this parameter refers to. If any profiles are specified, then the content must 
              * conform to at least one of them. The URL can be a local reference - to a contained StructureDefinition, or a reference 
              * to another StructureDefinition or Implementation Guide by a canonical URL. When an implementation guide is specified, 
              * the target resource SHALL conform to at least one profile defined in the implementation guide.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param targetProfile
              *     If type is Reference | canonical, allowed targets
@@ -2043,9 +1876,7 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * How the parameter is understood as a search parameter. This is only used if the parameter type is 'string'.
-             * </p>
              * 
              * @param searchType
              *     number | date | string | token | reference | composite | quantity | uri | special
@@ -2059,9 +1890,7 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Binds to a value set if this parameter is coded (code, Coding, CodeableConcept).
-             * </p>
              * 
              * @param binding
              *     ValueSet details if this is coded
@@ -2075,12 +1904,9 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies other resource parameters within the operation invocation that are expected to resolve to this resource.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param referencedFrom
              *     References to this parameter
@@ -2096,12 +1922,9 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies other resource parameters within the operation invocation that are expected to resolve to this resource.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param referencedFrom
              *     References to this parameter
@@ -2115,12 +1938,9 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The parts of a nested Parameter.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param part
              *     Parts of a nested Parameter
@@ -2136,12 +1956,9 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The parts of a nested Parameter.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param part
              *     Parts of a nested Parameter
@@ -2154,6 +1971,20 @@ public class OperationDefinition extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Parameter}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>name</li>
+             * <li>use</li>
+             * <li>min</li>
+             * <li>max</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Parameter}
+             */
             @Override
             public Parameter build() {
                 return new Parameter(this);
@@ -2177,12 +2008,12 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Binds to a value set if this parameter is coded (code, Coding, CodeableConcept).
-         * </p>
          */
         public static class Binding extends BackboneElement {
+            @Required
             private final BindingStrength strength;
+            @Required
             private final Canonical valueSet;
 
             private volatile int hashCode;
@@ -2195,10 +2026,8 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates the degree of conformance expectations associated with this binding - that is, the degree to which the 
              * provided value set must be adhered to in the instances.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link BindingStrength}.
@@ -2208,9 +2037,7 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Points to the value set or external definition (e.g. implicit value set) that identifies the set of codes to be used.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Canonical}.
@@ -2294,10 +2121,8 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2311,15 +2136,12 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2333,15 +2155,12 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2355,21 +2174,17 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2383,21 +2198,17 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2411,10 +2222,10 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Indicates the degree of conformance expectations associated with this binding - that is, the degree to which the 
                  * provided value set must be adhered to in the instances.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param strength
                  *     required | extensible | preferred | example
@@ -2428,9 +2239,9 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Points to the value set or external definition (e.g. implicit value set) that identifies the set of codes to be used.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param valueSet
                  *     Source of value set
@@ -2443,6 +2254,18 @@ public class OperationDefinition extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Binding}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>strength</li>
+                 * <li>valueSet</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Binding}
+                 */
                 @Override
                 public Binding build() {
                     return new Binding(this);
@@ -2458,11 +2281,10 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies other resource parameters within the operation invocation that are expected to resolve to this resource.
-         * </p>
          */
         public static class ReferencedFrom extends BackboneElement {
+            @Required
             private final String source;
             private final String sourceId;
 
@@ -2476,10 +2298,8 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The name of the parameter or dot-separated path of parameter names pointing to the resource parameter that is expected 
              * to contain a reference to this resource.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2489,9 +2309,7 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The id of the element in the referencing resource that is expected to resolve to this resource.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2575,10 +2393,8 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2592,15 +2408,12 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2614,15 +2427,12 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2636,21 +2446,17 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2664,21 +2470,17 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2692,10 +2494,10 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The name of the parameter or dot-separated path of parameter names pointing to the resource parameter that is expected 
                  * to contain a reference to this resource.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param source
                  *     Referencing parameter
@@ -2709,9 +2511,7 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The id of the element in the referencing resource that is expected to resolve to this resource.
-                 * </p>
                  * 
                  * @param sourceId
                  *     Element id of reference
@@ -2724,6 +2524,17 @@ public class OperationDefinition extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link ReferencedFrom}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>source</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link ReferencedFrom}
+                 */
                 @Override
                 public ReferencedFrom build() {
                     return new ReferencedFrom(this);
@@ -2740,10 +2551,8 @@ public class OperationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Defines an appropriate combination of parameters to use when invoking this operation, to help code generators when 
      * generating overloaded parameter sets for this operation.
-     * </p>
      */
     public static class Overload extends BackboneElement {
         private final List<String> parameterName;
@@ -2759,9 +2568,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Name of parameter to include in overload.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -2771,9 +2578,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Comments to go on overload.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2857,10 +2662,8 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2874,15 +2677,12 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2896,15 +2696,12 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2918,21 +2715,17 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2946,21 +2739,17 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2974,12 +2763,9 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Name of parameter to include in overload.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param parameterName
              *     Name of parameter to include in overload
@@ -2995,12 +2781,9 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Name of parameter to include in overload.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param parameterName
              *     Name of parameter to include in overload
@@ -3014,9 +2797,7 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Comments to go on overload.
-             * </p>
              * 
              * @param comment
              *     Comments to go on overload
@@ -3029,6 +2810,12 @@ public class OperationDefinition extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Overload}
+             * 
+             * @return
+             *     An immutable object of type {@link Overload}
+             */
             @Override
             public Overload build() {
                 return new Overload(this);

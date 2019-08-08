@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -43,11 +45,9 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A set of rules of how a particular interoperability or standards problem is solved - typically through the use of FHIR 
  * resources. This resource is used to gather all the parts of an implementation guide into a logical whole and to 
  * publish a computable definition of all the parts.
- * </p>
  */
 @Constraint(
     id = "ig-0",
@@ -72,10 +72,13 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ImplementationGuide extends DomainResource {
+    @Required
     private final Uri url;
     private final String version;
+    @Required
     private final String name;
     private final String title;
+    @Required
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -85,8 +88,10 @@ public class ImplementationGuide extends DomainResource {
     private final List<UsageContext> useContext;
     private final List<CodeableConcept> jurisdiction;
     private final Markdown copyright;
+    @Required
     private final Id packageId;
     private final SPDXLicense license;
+    @Required
     private final List<FHIRVersion> fhirVersion;
     private final List<DependsOn> dependsOn;
     private final List<Global> global;
@@ -120,13 +125,11 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * An absolute URI that is used to identify this implementation guide when it is referenced in a specification, model, 
      * design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal 
      * address at which at which an authoritative instance of this implementation guide is (or will be) published. This URL 
      * can be the target of a canonical reference. It SHALL remain the same when the implementation guide is stored on 
      * different servers.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -136,12 +139,10 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * The identifier that is used to identify this version of the implementation guide when it is referenced in a 
      * specification, model, design or instance. This is an arbitrary value managed by the implementation guide author and is 
      * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
      * available. There is also no expectation that versions can be placed in a lexicographical sequence.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -151,10 +152,8 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * A natural language name identifying the implementation guide. This name should be usable as an identifier for the 
      * module by machine processing applications such as code generation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -164,9 +163,7 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * A short, descriptive, user-friendly title for the implementation guide.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -176,9 +173,7 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of this implementation guide. Enables tracking the life-cycle of the content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PublicationStatus}.
@@ -188,10 +183,8 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * A Boolean value to indicate that this implementation guide is authored for testing purposes (or 
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -201,11 +194,9 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and optionally time) when the implementation guide was published. The date must change when the business 
      * version changes and it must change if the status code changes. In addition, it should change when the substantive 
      * content of the implementation guide changes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -215,9 +206,7 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the organization or individual that published the implementation guide.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -227,9 +216,7 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * Contact details to assist a user in finding and communicating with the publisher.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -239,9 +226,7 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * A free text natural language description of the implementation guide from a consumer's perspective.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -251,11 +236,9 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
      * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
      * may be used to assist with indexing and searching for appropriate implementation guide instances.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
@@ -265,9 +248,7 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * A legal or geographic region in which the implementation guide is intended to be used.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -277,10 +258,8 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * A copyright statement relating to the implementation guide and/or its contents. Copyright statements are generally 
      * legal restrictions on the use and publishing of the implementation guide.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -290,11 +269,9 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * The NPM package name for this Implementation Guide, used in the NPM package distribution, which is the primary 
      * mechanism by which FHIR based tooling manages IG dependencies. This value must be globally unique, and should be 
      * assigned with care.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Id}.
@@ -304,9 +281,7 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * The license that applies to this Implementation Guide, using an SPDX license code, or 'not-open-source'.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link SPDXLicense}.
@@ -316,11 +291,9 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value 
      * of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].
      * [minor], which is 4.0.0. for this version.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link FHIRVersion}.
@@ -330,10 +303,8 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * Another implementation guide that this implementation depends on. Typically, an implementation guide uses value sets, 
      * profiles etc.defined in other implementation guides.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link DependsOn}.
@@ -343,9 +314,7 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * A set of profiles that all resources covered by this implementation guide must conform to.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Global}.
@@ -355,9 +324,7 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * The information needed by an IG publisher tool to publish the whole implementation guide.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Definition}.
@@ -367,9 +334,7 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about an assembled implementation guide, created by the publication tooling.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Manifest}.
@@ -533,9 +498,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -549,10 +512,8 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -566,11 +527,9 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -584,9 +543,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -600,12 +557,10 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -619,13 +574,10 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -639,13 +591,10 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -659,15 +608,12 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -681,15 +627,12 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -703,21 +646,17 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -731,21 +670,17 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -759,13 +694,13 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that is used to identify this implementation guide when it is referenced in a specification, model, 
          * design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal 
          * address at which at which an authoritative instance of this implementation guide is (or will be) published. This URL 
          * can be the target of a canonical reference. It SHALL remain the same when the implementation guide is stored on 
          * different servers.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param url
          *     Canonical identifier for this implementation guide, represented as a URI (globally unique)
@@ -779,12 +714,10 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The identifier that is used to identify this version of the implementation guide when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the implementation guide author and is 
          * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
          * available. There is also no expectation that versions can be placed in a lexicographical sequence.
-         * </p>
          * 
          * @param version
          *     Business version of the implementation guide
@@ -798,10 +731,10 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A natural language name identifying the implementation guide. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param name
          *     Name for this implementation guide (computer friendly)
@@ -815,9 +748,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A short, descriptive, user-friendly title for the implementation guide.
-         * </p>
          * 
          * @param title
          *     Name for this implementation guide (human friendly)
@@ -831,9 +762,9 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of this implementation guide. Enables tracking the life-cycle of the content.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | retired | unknown
@@ -847,10 +778,8 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A Boolean value to indicate that this implementation guide is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
-         * </p>
          * 
          * @param experimental
          *     For testing purposes, not real usage
@@ -864,11 +793,9 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and optionally time) when the implementation guide was published. The date must change when the business 
          * version changes and it must change if the status code changes. In addition, it should change when the substantive 
          * content of the implementation guide changes.
-         * </p>
          * 
          * @param date
          *     Date last changed
@@ -882,9 +809,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the organization or individual that published the implementation guide.
-         * </p>
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
@@ -898,12 +823,9 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Contact details for the publisher
@@ -919,12 +841,9 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Contact details for the publisher
@@ -938,9 +857,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A free text natural language description of the implementation guide from a consumer's perspective.
-         * </p>
          * 
          * @param description
          *     Natural language description of the implementation guide
@@ -954,14 +871,11 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate implementation guide instances.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -977,14 +891,11 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate implementation guide instances.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -998,12 +909,9 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the implementation guide is intended to be used.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param jurisdiction
          *     Intended jurisdiction for implementation guide (if applicable)
@@ -1019,12 +927,9 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the implementation guide is intended to be used.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param jurisdiction
          *     Intended jurisdiction for implementation guide (if applicable)
@@ -1038,10 +943,8 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A copyright statement relating to the implementation guide and/or its contents. Copyright statements are generally 
          * legal restrictions on the use and publishing of the implementation guide.
-         * </p>
          * 
          * @param copyright
          *     Use and/or publishing restrictions
@@ -1055,11 +958,11 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The NPM package name for this Implementation Guide, used in the NPM package distribution, which is the primary 
          * mechanism by which FHIR based tooling manages IG dependencies. This value must be globally unique, and should be 
          * assigned with care.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param packageId
          *     NPM Package name for IG
@@ -1073,9 +976,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The license that applies to this Implementation Guide, using an SPDX license code, or 'not-open-source'.
-         * </p>
          * 
          * @param license
          *     SPDX license code for this IG (or not-open-source)
@@ -1089,14 +990,13 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value 
          * of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].
          * [minor], which is 4.0.0. for this version.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is required.
          * 
          * @param fhirVersion
          *     FHIR Version(s) this Implementation Guide targets
@@ -1112,14 +1012,13 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The version(s) of the FHIR specification that this ImplementationGuide targets - e.g. describes how to use. The value 
          * of this element is the formal version of the specification, without the revision number, e.g. [publication].[major].
          * [minor], which is 4.0.0. for this version.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is required.
          * 
          * @param fhirVersion
          *     FHIR Version(s) this Implementation Guide targets
@@ -1133,13 +1032,10 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * Another implementation guide that this implementation depends on. Typically, an implementation guide uses value sets, 
          * profiles etc.defined in other implementation guides.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param dependsOn
          *     Another Implementation guide this depends on
@@ -1155,13 +1051,10 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * Another implementation guide that this implementation depends on. Typically, an implementation guide uses value sets, 
          * profiles etc.defined in other implementation guides.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param dependsOn
          *     Another Implementation guide this depends on
@@ -1175,12 +1068,9 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A set of profiles that all resources covered by this implementation guide must conform to.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param global
          *     Profiles that apply globally
@@ -1196,12 +1086,9 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A set of profiles that all resources covered by this implementation guide must conform to.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param global
          *     Profiles that apply globally
@@ -1215,9 +1102,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The information needed by an IG publisher tool to publish the whole implementation guide.
-         * </p>
          * 
          * @param definition
          *     Information needed to build the IG
@@ -1231,9 +1116,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about an assembled implementation guide, created by the publication tooling.
-         * </p>
          * 
          * @param manifest
          *     Information about an assembled IG
@@ -1246,6 +1129,21 @@ public class ImplementationGuide extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link ImplementationGuide}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>url</li>
+         * <li>name</li>
+         * <li>status</li>
+         * <li>packageId</li>
+         * <li>fhirVersion</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link ImplementationGuide}
+         */
         @Override
         public ImplementationGuide build() {
             return new ImplementationGuide(this);
@@ -1278,12 +1176,11 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * Another implementation guide that this implementation depends on. Typically, an implementation guide uses value sets, 
      * profiles etc.defined in other implementation guides.
-     * </p>
      */
     public static class DependsOn extends BackboneElement {
+        @Required
         private final Canonical uri;
         private final Id packageId;
         private final String version;
@@ -1299,9 +1196,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A canonical reference to the Implementation guide for the dependency.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Canonical}.
@@ -1311,9 +1206,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The NPM package name for the Implementation Guide that this IG depends on.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Id}.
@@ -1323,9 +1216,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The version of the IG that is depended on, when the correct version is required to understand the IG correctly.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1414,10 +1305,8 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1431,15 +1320,12 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1453,15 +1339,12 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1475,21 +1358,17 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1503,21 +1382,17 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1531,9 +1406,9 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * A canonical reference to the Implementation guide for the dependency.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param uri
              *     Identity of the IG that this depends on
@@ -1547,9 +1422,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * The NPM package name for the Implementation Guide that this IG depends on.
-             * </p>
              * 
              * @param packageId
              *     NPM Package name for IG this depends on
@@ -1563,9 +1436,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * The version of the IG that is depended on, when the correct version is required to understand the IG correctly.
-             * </p>
              * 
              * @param version
              *     Version of the IG
@@ -1578,6 +1449,17 @@ public class ImplementationGuide extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link DependsOn}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>uri</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link DependsOn}
+             */
             @Override
             public DependsOn build() {
                 return new DependsOn(this);
@@ -1594,12 +1476,12 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * A set of profiles that all resources covered by this implementation guide must conform to.
-     * </p>
      */
     public static class Global extends BackboneElement {
+        @Required
         private final ResourceType type;
+        @Required
         private final Canonical profile;
 
         private volatile int hashCode;
@@ -1612,9 +1494,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of resource that all instances must conform to.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ResourceType}.
@@ -1624,9 +1504,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to the profile that all instances must conform to.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Canonical}.
@@ -1710,10 +1588,8 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1727,15 +1603,12 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1749,15 +1622,12 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1771,21 +1641,17 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1799,21 +1665,17 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1827,9 +1689,9 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of resource that all instances must conform to.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     Type this profile applies to
@@ -1843,9 +1705,9 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * A reference to the profile that all instances must conform to.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param profile
              *     Profile that all resources must conform to
@@ -1858,6 +1720,18 @@ public class ImplementationGuide extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Global}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>type</li>
+             * <li>profile</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Global}
+             */
             @Override
             public Global build() {
                 return new Global(this);
@@ -1873,12 +1747,11 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * The information needed by an IG publisher tool to publish the whole implementation guide.
-     * </p>
      */
     public static class Definition extends BackboneElement {
         private final List<Grouping> grouping;
+        @Required
         private final List<Resource> resource;
         private final Page page;
         private final List<Parameter> parameter;
@@ -1897,9 +1770,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A logical group of resources. Logical groups can be used when building pages.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Grouping}.
@@ -1909,11 +1780,9 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A resource that is part of the implementation guide. Conformance resources (value set, structure definition, 
          * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
          * example resource.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Resource}.
@@ -1923,9 +1792,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A page / section in the implementation guide. The root page is the implementation guide home page.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Page}.
@@ -1935,9 +1802,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines how IG is built by tools.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Parameter}.
@@ -1947,9 +1812,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A template for building resources.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Template}.
@@ -2048,10 +1911,8 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2065,15 +1926,12 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2087,15 +1945,12 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2109,21 +1964,17 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2137,21 +1988,17 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2165,12 +2012,9 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * A logical group of resources. Logical groups can be used when building pages.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param grouping
              *     Grouping used to present related resources in the IG
@@ -2186,12 +2030,9 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * A logical group of resources. Logical groups can be used when building pages.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param grouping
              *     Grouping used to present related resources in the IG
@@ -2205,14 +2046,13 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * A resource that is part of the implementation guide. Conformance resources (value set, structure definition, 
              * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
              * example resource.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * <p>This element is required.
              * 
              * @param resource
              *     Resource in the implementation guide
@@ -2228,14 +2068,13 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * A resource that is part of the implementation guide. Conformance resources (value set, structure definition, 
              * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
              * example resource.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>This element is required.
              * 
              * @param resource
              *     Resource in the implementation guide
@@ -2249,9 +2088,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * A page / section in the implementation guide. The root page is the implementation guide home page.
-             * </p>
              * 
              * @param page
              *     Page/Section in the Guide
@@ -2265,12 +2102,9 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines how IG is built by tools.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param parameter
              *     Defines how IG is built by tools
@@ -2286,12 +2120,9 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines how IG is built by tools.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param parameter
              *     Defines how IG is built by tools
@@ -2305,12 +2136,9 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * A template for building resources.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param template
              *     A template for building resources
@@ -2326,12 +2154,9 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * A template for building resources.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param template
              *     A template for building resources
@@ -2344,6 +2169,17 @@ public class ImplementationGuide extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Definition}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>resource</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Definition}
+             */
             @Override
             public Definition build() {
                 return new Definition(this);
@@ -2361,11 +2197,10 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A logical group of resources. Logical groups can be used when building pages.
-         * </p>
          */
         public static class Grouping extends BackboneElement {
+            @Required
             private final String name;
             private final String description;
 
@@ -2379,9 +2214,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * The human-readable title to display for the package of resources when rendering the implementation guide.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2391,9 +2224,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Human readable text describing the package.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2477,10 +2308,8 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2494,15 +2323,12 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2516,15 +2342,12 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2538,21 +2361,17 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2566,21 +2385,17 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2594,9 +2409,9 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The human-readable title to display for the package of resources when rendering the implementation guide.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param name
                  *     Descriptive name for the package
@@ -2610,9 +2425,7 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Human readable text describing the package.
-                 * </p>
                  * 
                  * @param description
                  *     Human readable text describing the package
@@ -2625,6 +2438,17 @@ public class ImplementationGuide extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Grouping}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>name</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Grouping}
+                 */
                 @Override
                 public Grouping build() {
                     return new Grouping(this);
@@ -2640,17 +2464,17 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A resource that is part of the implementation guide. Conformance resources (value set, structure definition, 
          * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
          * example resource.
-         * </p>
          */
         public static class Resource extends BackboneElement {
+            @Required
             private final Reference reference;
             private final List<FHIRVersion> fhirVersion;
             private final String name;
             private final String description;
+            @Choice({Boolean.class, Canonical.class})
             private final Element example;
             private final Id groupingId;
 
@@ -2668,9 +2492,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Where this resource is found.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Reference}.
@@ -2680,10 +2502,8 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates the FHIR Version(s) this artifact is intended to apply to. If no versions are specified, the resource is 
              * assumed to apply to all the versions stated in ImplementationGuide.fhirVersion.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link FHIRVersion}.
@@ -2693,10 +2513,8 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * A human assigned name for the resource. All resources SHOULD have a name, but the name may be extracted from the 
              * resource (e.g. ValueSet.name).
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2706,9 +2524,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * A description of the reason that a resource has been included in the implementation guide.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2718,10 +2534,8 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * If true or a reference, indicates the resource is an example instance. If a reference is present, indicates that the 
              * example is an example of the specified profile.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -2731,9 +2545,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference to the id of the grouping this resource appears in.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Id}.
@@ -2837,10 +2649,8 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2854,15 +2664,12 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2876,15 +2683,12 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2898,21 +2702,17 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2926,21 +2726,17 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2954,9 +2750,9 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Where this resource is found.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param reference
                  *     Location of the resource
@@ -2970,13 +2766,10 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Indicates the FHIR Version(s) this artifact is intended to apply to. If no versions are specified, the resource is 
                  * assumed to apply to all the versions stated in ImplementationGuide.fhirVersion.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param fhirVersion
                  *     Versions this applies to (if different to IG)
@@ -2992,13 +2785,10 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Indicates the FHIR Version(s) this artifact is intended to apply to. If no versions are specified, the resource is 
                  * assumed to apply to all the versions stated in ImplementationGuide.fhirVersion.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param fhirVersion
                  *     Versions this applies to (if different to IG)
@@ -3012,10 +2802,8 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A human assigned name for the resource. All resources SHOULD have a name, but the name may be extracted from the 
                  * resource (e.g. ValueSet.name).
-                 * </p>
                  * 
                  * @param name
                  *     Human Name for the resource
@@ -3029,9 +2817,7 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A description of the reason that a resource has been included in the implementation guide.
-                 * </p>
                  * 
                  * @param description
                  *     Reason why included in guide
@@ -3045,10 +2831,14 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * If true or a reference, indicates the resource is an example instance. If a reference is present, indicates that the 
                  * example is an example of the specified profile.
-                 * </p>
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link Boolean}</li>
+                 * <li>{@link Canonical}</li>
+                 * </ul>
                  * 
                  * @param example
                  *     Is an example/What is this an example of?
@@ -3062,9 +2852,7 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Reference to the id of the grouping this resource appears in.
-                 * </p>
                  * 
                  * @param groupingId
                  *     Grouping this is part of
@@ -3077,6 +2865,17 @@ public class ImplementationGuide extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Resource}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>reference</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Resource}
+                 */
                 @Override
                 public Resource build() {
                     return new Resource(this);
@@ -3096,13 +2895,15 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A page / section in the implementation guide. The root page is the implementation guide home page.
-         * </p>
          */
         public static class Page extends BackboneElement {
+            @Required
+            @Choice({Url.class, Reference.class})
             private final Element name;
+            @Required
             private final String title;
+            @Required
             private final GuidePageGeneration generation;
             private final List<ImplementationGuide.Definition.Page> page;
 
@@ -3118,9 +2919,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * The source address for the page.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -3130,9 +2929,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * A short title used to represent this page in navigational structures such as table of contents, bread crumbs, etc.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -3142,9 +2939,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * A code that indicates how the page is generated.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link GuidePageGeneration}.
@@ -3154,9 +2949,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Nested Pages/Sections under this page.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Page}.
@@ -3250,10 +3043,8 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -3267,15 +3058,12 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3289,15 +3077,12 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3311,21 +3096,17 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3339,21 +3120,17 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3367,9 +3144,15 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The source address for the page.
-                 * </p>
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link Url}</li>
+                 * <li>{@link Reference}</li>
+                 * </ul>
                  * 
                  * @param name
                  *     Where to find that page
@@ -3383,9 +3166,9 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A short title used to represent this page in navigational structures such as table of contents, bread crumbs, etc.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param title
                  *     Short title shown for navigational assistance
@@ -3399,9 +3182,9 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A code that indicates how the page is generated.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param generation
                  *     html | markdown | xml | generated
@@ -3415,12 +3198,9 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Nested Pages/Sections under this page.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param page
                  *     Nested Pages / Sections
@@ -3436,12 +3216,9 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Nested Pages/Sections under this page.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param page
                  *     Nested Pages / Sections
@@ -3454,6 +3231,19 @@ public class ImplementationGuide extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Page}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>name</li>
+                 * <li>title</li>
+                 * <li>generation</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Page}
+                 */
                 @Override
                 public Page build() {
                     return new Page(this);
@@ -3471,12 +3261,12 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines how IG is built by tools.
-         * </p>
          */
         public static class Parameter extends BackboneElement {
+            @Required
             private final GuideParameterCode code;
+            @Required
             private final String value;
 
             private volatile int hashCode;
@@ -3489,10 +3279,8 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * apply | path-resource | path-pages | path-tx-cache | expansion-parameter | rule-broken-links | generate-xml | generate-
              * json | generate-turtle | html-template.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link GuideParameterCode}.
@@ -3502,9 +3290,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Value for named type.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -3588,10 +3374,8 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -3605,15 +3389,12 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3627,15 +3408,12 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3649,21 +3427,17 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3677,21 +3451,17 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3705,10 +3475,10 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * apply | path-resource | path-pages | path-tx-cache | expansion-parameter | rule-broken-links | generate-xml | generate-
                  * json | generate-turtle | html-template.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param code
                  *     apply | path-resource | path-pages | path-tx-cache | expansion-parameter | rule-broken-links | generate-xml | generate-
@@ -3723,9 +3493,9 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Value for named type.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param value
                  *     Value for named type
@@ -3738,6 +3508,18 @@ public class ImplementationGuide extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Parameter}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>code</li>
+                 * <li>value</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Parameter}
+                 */
                 @Override
                 public Parameter build() {
                     return new Parameter(this);
@@ -3753,12 +3535,12 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A template for building resources.
-         * </p>
          */
         public static class Template extends BackboneElement {
+            @Required
             private final Code code;
+            @Required
             private final String source;
             private final String scope;
 
@@ -3773,9 +3555,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Type of template specified.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Code}.
@@ -3785,9 +3565,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * The source location for the template.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -3797,9 +3575,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * The scope in which the template applies.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -3888,10 +3664,8 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -3905,15 +3679,12 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3927,15 +3698,12 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3949,21 +3717,17 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3977,21 +3741,17 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4005,9 +3765,9 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Type of template specified.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param code
                  *     Type of template specified
@@ -4021,9 +3781,9 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The source location for the template.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param source
                  *     The source location for the template
@@ -4037,9 +3797,7 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The scope in which the template applies.
-                 * </p>
                  * 
                  * @param scope
                  *     The scope in which the template applies
@@ -4052,6 +3810,18 @@ public class ImplementationGuide extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Template}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>code</li>
+                 * <li>source</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Template}
+                 */
                 @Override
                 public Template build() {
                     return new Template(this);
@@ -4069,12 +3839,11 @@ public class ImplementationGuide extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about an assembled implementation guide, created by the publication tooling.
-     * </p>
      */
     public static class Manifest extends BackboneElement {
         private final Url rendering;
+        @Required
         private final List<Resource> resource;
         private final List<Page> page;
         private final List<String> image;
@@ -4093,9 +3862,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A pointer to official web page, PDF or other rendering of the implementation guide.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Url}.
@@ -4105,11 +3872,9 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A resource that is part of the implementation guide. Conformance resources (value set, structure definition, 
          * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
          * example resource.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Resource}.
@@ -4119,9 +3884,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about a page within the IG.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Page}.
@@ -4131,9 +3894,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates a relative path to an image that exists within the IG.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -4143,10 +3904,8 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the relative path of an additional non-page, non-image file that is part of the IG - e.g. zip, jar and 
          * similar files that could be the target of a hyperlink in a derived IG.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -4245,10 +4004,8 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -4262,15 +4019,12 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4284,15 +4038,12 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4306,21 +4057,17 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4334,21 +4081,17 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4362,9 +4105,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * A pointer to official web page, PDF or other rendering of the implementation guide.
-             * </p>
              * 
              * @param rendering
              *     Location of rendered implementation guide
@@ -4378,14 +4119,13 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * A resource that is part of the implementation guide. Conformance resources (value set, structure definition, 
              * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
              * example resource.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * <p>This element is required.
              * 
              * @param resource
              *     Resource in the implementation guide
@@ -4401,14 +4141,13 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * A resource that is part of the implementation guide. Conformance resources (value set, structure definition, 
              * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
              * example resource.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>This element is required.
              * 
              * @param resource
              *     Resource in the implementation guide
@@ -4422,12 +4161,9 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Information about a page within the IG.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param page
              *     HTML page within the parent IG
@@ -4443,12 +4179,9 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Information about a page within the IG.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param page
              *     HTML page within the parent IG
@@ -4462,12 +4195,9 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates a relative path to an image that exists within the IG.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param image
              *     Image within the IG
@@ -4483,12 +4213,9 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates a relative path to an image that exists within the IG.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param image
              *     Image within the IG
@@ -4502,13 +4229,10 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates the relative path of an additional non-page, non-image file that is part of the IG - e.g. zip, jar and 
              * similar files that could be the target of a hyperlink in a derived IG.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param other
              *     Additional linkable file in IG
@@ -4524,13 +4248,10 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates the relative path of an additional non-page, non-image file that is part of the IG - e.g. zip, jar and 
              * similar files that could be the target of a hyperlink in a derived IG.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param other
              *     Additional linkable file in IG
@@ -4543,6 +4264,17 @@ public class ImplementationGuide extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Manifest}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>resource</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Manifest}
+             */
             @Override
             public Manifest build() {
                 return new Manifest(this);
@@ -4560,14 +4292,14 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * A resource that is part of the implementation guide. Conformance resources (value set, structure definition, 
          * capability statements etc.) are obvious candidates for inclusion, but any kind of resource can be included as an 
          * example resource.
-         * </p>
          */
         public static class Resource extends BackboneElement {
+            @Required
             private final Reference reference;
+            @Choice({Boolean.class, Canonical.class})
             private final Element example;
             private final Url relativePath;
 
@@ -4582,9 +4314,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Where this resource is found.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Reference}.
@@ -4594,10 +4324,8 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * If true or a reference, indicates the resource is an example instance. If a reference is present, indicates that the 
              * example is an example of the specified profile.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -4607,9 +4335,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * The relative path for primary page for this resource within the IG.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Url}.
@@ -4698,10 +4424,8 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -4715,15 +4439,12 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4737,15 +4458,12 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4759,21 +4477,17 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4787,21 +4501,17 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4815,9 +4525,9 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Where this resource is found.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param reference
                  *     Location of the resource
@@ -4831,10 +4541,14 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * If true or a reference, indicates the resource is an example instance. If a reference is present, indicates that the 
                  * example is an example of the specified profile.
-                 * </p>
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link Boolean}</li>
+                 * <li>{@link Canonical}</li>
+                 * </ul>
                  * 
                  * @param example
                  *     Is an example/What is this an example of?
@@ -4848,9 +4562,7 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The relative path for primary page for this resource within the IG.
-                 * </p>
                  * 
                  * @param relativePath
                  *     Relative path for page in IG
@@ -4863,6 +4575,17 @@ public class ImplementationGuide extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Resource}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>reference</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Resource}
+                 */
                 @Override
                 public Resource build() {
                     return new Resource(this);
@@ -4879,11 +4602,10 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about a page within the IG.
-         * </p>
          */
         public static class Page extends BackboneElement {
+            @Required
             private final String name;
             private final String title;
             private final List<String> anchor;
@@ -4899,9 +4621,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Relative path to the page.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -4911,9 +4631,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * Label for the page intended for human display.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -4923,9 +4641,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * <p>
              * The name of an anchor available on the page.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -5014,10 +4730,8 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -5031,15 +4745,12 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -5053,15 +4764,12 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -5075,21 +4783,17 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -5103,21 +4807,17 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -5131,9 +4831,9 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Relative path to the page.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param name
                  *     HTML page name
@@ -5147,9 +4847,7 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Label for the page intended for human display.
-                 * </p>
                  * 
                  * @param title
                  *     Title of the page, for references
@@ -5163,12 +4861,9 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The name of an anchor available on the page.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param anchor
                  *     Anchor available on the page
@@ -5184,12 +4879,9 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The name of an anchor available on the page.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param anchor
                  *     Anchor available on the page
@@ -5202,6 +4894,17 @@ public class ImplementationGuide extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Page}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>name</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Page}
+                 */
                 @Override
                 public Page build() {
                     return new Page(this);

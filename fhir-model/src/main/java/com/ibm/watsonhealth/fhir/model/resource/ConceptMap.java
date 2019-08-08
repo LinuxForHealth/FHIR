@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -39,10 +41,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A statement of relationships from one set of concepts to one or more other concepts - either concepts in code systems, 
  * or data element/data element concepts, or classes in class models.
- * </p>
  */
 @Constraint(
     id = "cmd-0",
@@ -79,6 +79,7 @@ public class ConceptMap extends DomainResource {
     private final String version;
     private final String name;
     private final String title;
+    @Required
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -89,7 +90,9 @@ public class ConceptMap extends DomainResource {
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
+    @Choice({Uri.class, Canonical.class})
     private final Element source;
+    @Choice({Uri.class, Canonical.class})
     private final Element target;
     private final List<Group> group;
 
@@ -118,12 +121,10 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * An absolute URI that is used to identify this concept map when it is referenced in a specification, model, design or 
      * an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at 
      * which at which an authoritative instance of this concept map is (or will be) published. This URL can be the target of 
      * a canonical reference. It SHALL remain the same when the concept map is stored on different servers.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -133,10 +134,8 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * A formal identifier that is used to identify this concept map when it is represented in other formats, or referenced 
      * in a specification, model, design or an instance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Identifier}.
@@ -146,12 +145,10 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * The identifier that is used to identify this version of the concept map when it is referenced in a specification, 
      * model, design or instance. This is an arbitrary value managed by the concept map author and is not expected to be 
      * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
      * also no expectation that versions can be placed in a lexicographical sequence.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -161,10 +158,8 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * A natural language name identifying the concept map. This name should be usable as an identifier for the module by 
      * machine processing applications such as code generation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -174,9 +169,7 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * A short, descriptive, user-friendly title for the concept map.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -186,9 +179,7 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of this concept map. Enables tracking the life-cycle of the content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PublicationStatus}.
@@ -198,10 +189,8 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * A Boolean value to indicate that this concept map is authored for testing purposes (or education/evaluation/marketing) 
      * and is not intended to be used for genuine usage.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -211,11 +200,9 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and optionally time) when the concept map was published. The date must change when the business version 
      * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
      * the concept map changes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -225,9 +212,7 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the organization or individual that published the concept map.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -237,9 +222,7 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * Contact details to assist a user in finding and communicating with the publisher.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -249,9 +232,7 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * A free text natural language description of the concept map from a consumer's perspective.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -261,11 +242,9 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
      * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
      * may be used to assist with indexing and searching for appropriate concept map instances.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
@@ -275,9 +254,7 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * A legal or geographic region in which the concept map is intended to be used.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -287,9 +264,7 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * Explanation of why this concept map is needed and why it has been designed as it has.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -299,10 +274,8 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * A copyright statement relating to the concept map and/or its contents. Copyright statements are generally legal 
      * restrictions on the use and publishing of the concept map.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -312,10 +285,8 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifier for the source value set that contains the concepts that are being mapped and provides context for the 
      * mappings.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -325,10 +296,8 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * The target value set provides context for the mappings. Note that the mapping is made between concepts, not between 
      * value sets, but the value set provides important context about how the concept mapping choices are made.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -338,9 +307,7 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * A group of mappings that all have the same source and target system.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Group}.
@@ -496,9 +463,7 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -512,10 +477,8 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -529,11 +492,9 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -547,9 +508,7 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -563,12 +522,10 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -582,13 +539,10 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -602,13 +556,10 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -622,15 +573,12 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -644,15 +592,12 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -666,21 +611,17 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -694,21 +635,17 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -722,12 +659,10 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that is used to identify this concept map when it is referenced in a specification, model, design or 
          * an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at 
          * which at which an authoritative instance of this concept map is (or will be) published. This URL can be the target of 
          * a canonical reference. It SHALL remain the same when the concept map is stored on different servers.
-         * </p>
          * 
          * @param url
          *     Canonical identifier for this concept map, represented as a URI (globally unique)
@@ -741,10 +676,8 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * A formal identifier that is used to identify this concept map when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
-         * </p>
          * 
          * @param identifier
          *     Additional identifier for the concept map
@@ -758,12 +691,10 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * The identifier that is used to identify this version of the concept map when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the concept map author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
          * also no expectation that versions can be placed in a lexicographical sequence.
-         * </p>
          * 
          * @param version
          *     Business version of the concept map
@@ -777,10 +708,8 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * A natural language name identifying the concept map. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
-         * </p>
          * 
          * @param name
          *     Name for this concept map (computer friendly)
@@ -794,9 +723,7 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * A short, descriptive, user-friendly title for the concept map.
-         * </p>
          * 
          * @param title
          *     Name for this concept map (human friendly)
@@ -810,9 +737,9 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of this concept map. Enables tracking the life-cycle of the content.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | retired | unknown
@@ -826,10 +753,8 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * A Boolean value to indicate that this concept map is authored for testing purposes (or education/evaluation/marketing) 
          * and is not intended to be used for genuine usage.
-         * </p>
          * 
          * @param experimental
          *     For testing purposes, not real usage
@@ -843,11 +768,9 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and optionally time) when the concept map was published. The date must change when the business version 
          * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
          * the concept map changes.
-         * </p>
          * 
          * @param date
          *     Date last changed
@@ -861,9 +784,7 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the organization or individual that published the concept map.
-         * </p>
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
@@ -877,12 +798,9 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Contact details for the publisher
@@ -898,12 +816,9 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Contact details for the publisher
@@ -917,9 +832,7 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * A free text natural language description of the concept map from a consumer's perspective.
-         * </p>
          * 
          * @param description
          *     Natural language description of the concept map
@@ -933,14 +846,11 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate concept map instances.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -956,14 +866,11 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate concept map instances.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -977,12 +884,9 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the concept map is intended to be used.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param jurisdiction
          *     Intended jurisdiction for concept map (if applicable)
@@ -998,12 +902,9 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the concept map is intended to be used.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param jurisdiction
          *     Intended jurisdiction for concept map (if applicable)
@@ -1017,9 +918,7 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * Explanation of why this concept map is needed and why it has been designed as it has.
-         * </p>
          * 
          * @param purpose
          *     Why this concept map is defined
@@ -1033,10 +932,8 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * A copyright statement relating to the concept map and/or its contents. Copyright statements are generally legal 
          * restrictions on the use and publishing of the concept map.
-         * </p>
          * 
          * @param copyright
          *     Use and/or publishing restrictions
@@ -1050,10 +947,14 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifier for the source value set that contains the concepts that are being mapped and provides context for the 
          * mappings.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Uri}</li>
+         * <li>{@link Canonical}</li>
+         * </ul>
          * 
          * @param source
          *     The source value set that contains the concepts that are being mapped
@@ -1067,10 +968,14 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * The target value set provides context for the mappings. Note that the mapping is made between concepts, not between 
          * value sets, but the value set provides important context about how the concept mapping choices are made.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Uri}</li>
+         * <li>{@link Canonical}</li>
+         * </ul>
          * 
          * @param target
          *     The target value set which provides context for the mappings
@@ -1084,12 +989,9 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * A group of mappings that all have the same source and target system.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param group
          *     Same source and target systems
@@ -1105,12 +1007,9 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * A group of mappings that all have the same source and target system.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param group
          *     Same source and target systems
@@ -1123,6 +1022,17 @@ public class ConceptMap extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link ConceptMap}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link ConceptMap}
+         */
         @Override
         public ConceptMap build() {
             return new ConceptMap(this);
@@ -1153,15 +1063,14 @@ public class ConceptMap extends DomainResource {
     }
 
     /**
-     * <p>
      * A group of mappings that all have the same source and target system.
-     * </p>
      */
     public static class Group extends BackboneElement {
         private final Uri source;
         private final String sourceVersion;
         private final Uri target;
         private final String targetVersion;
+        @Required
         private final List<Element> element;
         private final Unmapped unmapped;
 
@@ -1179,9 +1088,7 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that identifies the source system where the concepts to be mapped are defined.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Uri}.
@@ -1191,9 +1098,7 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * The specific version of the code system, as determined by the code system authority.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1203,9 +1108,7 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that identifies the target system that the concepts will be mapped to.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Uri}.
@@ -1215,9 +1118,7 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * The specific version of the code system, as determined by the code system authority.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1227,9 +1128,7 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * Mappings for an individual concept in the source to one or more concepts in the target.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Element}.
@@ -1239,10 +1138,8 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * What to do when there is no mapping for the source concept. "Unmapped" does not include codes that are unmatched, and 
          * the unmapped element is ignored in a code is specified to have equivalence = unmatched.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Unmapped}.
@@ -1346,10 +1243,8 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1363,15 +1258,12 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1385,15 +1277,12 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1407,21 +1296,17 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1435,21 +1320,17 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1463,9 +1344,7 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * An absolute URI that identifies the source system where the concepts to be mapped are defined.
-             * </p>
              * 
              * @param source
              *     Source system where concepts to be mapped are defined
@@ -1479,9 +1358,7 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * The specific version of the code system, as determined by the code system authority.
-             * </p>
              * 
              * @param sourceVersion
              *     Specific version of the code system
@@ -1495,9 +1372,7 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * An absolute URI that identifies the target system that the concepts will be mapped to.
-             * </p>
              * 
              * @param target
              *     Target system that the concepts are to be mapped to
@@ -1511,9 +1386,7 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * The specific version of the code system, as determined by the code system authority.
-             * </p>
              * 
              * @param targetVersion
              *     Specific version of the code system
@@ -1527,12 +1400,11 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * Mappings for an individual concept in the source to one or more concepts in the target.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * <p>This element is required.
              * 
              * @param element
              *     Mappings for a concept from the source set
@@ -1548,12 +1420,11 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * Mappings for an individual concept in the source to one or more concepts in the target.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>This element is required.
              * 
              * @param element
              *     Mappings for a concept from the source set
@@ -1567,10 +1438,8 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * What to do when there is no mapping for the source concept. "Unmapped" does not include codes that are unmatched, and 
              * the unmapped element is ignored in a code is specified to have equivalence = unmatched.
-             * </p>
              * 
              * @param unmapped
              *     What to do when there is no mapping for the source concept
@@ -1583,6 +1452,17 @@ public class ConceptMap extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Group}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>element</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Group}
+             */
             @Override
             public Group build() {
                 return new Group(this);
@@ -1601,9 +1481,7 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * Mappings for an individual concept in the source to one or more concepts in the target.
-         * </p>
          */
         public static class Element extends BackboneElement {
             private final Code code;
@@ -1621,9 +1499,7 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * Identity (code or path) or the element/item being mapped.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Code}.
@@ -1633,9 +1509,7 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * The display for the code. The display is only provided to help editors when editing the concept map.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -1645,9 +1519,7 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * A concept from the target value set that this concept maps to.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Target}.
@@ -1736,10 +1608,8 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -1753,15 +1623,12 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1775,15 +1642,12 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1797,21 +1661,17 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1825,21 +1685,17 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1853,9 +1709,7 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Identity (code or path) or the element/item being mapped.
-                 * </p>
                  * 
                  * @param code
                  *     Identifies element being mapped
@@ -1869,9 +1723,7 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The display for the code. The display is only provided to help editors when editing the concept map.
-                 * </p>
                  * 
                  * @param display
                  *     Display for the code
@@ -1885,12 +1737,9 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A concept from the target value set that this concept maps to.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param target
                  *     Concept in target system for element
@@ -1906,12 +1755,9 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A concept from the target value set that this concept maps to.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param target
                  *     Concept in target system for element
@@ -1924,6 +1770,12 @@ public class ConceptMap extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Element}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Element}
+                 */
                 @Override
                 public Element build() {
                     return new Element(this);
@@ -1939,13 +1791,12 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * A concept from the target value set that this concept maps to.
-             * </p>
              */
             public static class Target extends BackboneElement {
                 private final Code code;
                 private final String display;
+                @Required
                 private final ConceptMapEquivalence equivalence;
                 private final String comment;
                 private final List<DependsOn> dependsOn;
@@ -1965,9 +1816,7 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Identity (code or path) or the element/item that the map refers to.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Code}.
@@ -1977,9 +1826,7 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The display for the code. The display is only provided to help editors when editing the concept map.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -1989,10 +1836,8 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The equivalence between the source and target concepts (counting for the dependencies and products). The equivalence 
                  * is read from target to source (e.g. the target is 'wider' than the source).
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link ConceptMapEquivalence}.
@@ -2002,9 +1847,7 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A description of status/issues in mapping that conveys additional information not represented in the structured data.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -2014,10 +1857,8 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A set of additional dependencies for this mapping to hold. This mapping is only applicable if the specified element 
                  * can be resolved, and it has the specified value.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link DependsOn}.
@@ -2027,11 +1868,9 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A set of additional outcomes from this mapping to other elements. To properly execute this mapping, the specified 
                  * element must be mapped to some data element or source that is in context. The mapping may still be useful without a 
                  * place for the additional data elements, but the equivalence cannot be relied on.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link DependsOn}.
@@ -2135,10 +1974,8 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -2152,15 +1989,12 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2174,15 +2008,12 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2196,21 +2027,17 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -2224,21 +2051,17 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -2252,9 +2075,7 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Identity (code or path) or the element/item that the map refers to.
-                     * </p>
                      * 
                      * @param code
                      *     Code that identifies the target element
@@ -2268,9 +2089,7 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The display for the code. The display is only provided to help editors when editing the concept map.
-                     * </p>
                      * 
                      * @param display
                      *     Display for the code
@@ -2284,10 +2103,10 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The equivalence between the source and target concepts (counting for the dependencies and products). The equivalence 
                      * is read from target to source (e.g. the target is 'wider' than the source).
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param equivalence
                      *     relatedto | equivalent | equal | wider | subsumes | narrower | specializes | inexact | unmatched | disjoint
@@ -2301,9 +2120,7 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A description of status/issues in mapping that conveys additional information not represented in the structured data.
-                     * </p>
                      * 
                      * @param comment
                      *     Description of status/issues in mapping
@@ -2317,13 +2134,10 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A set of additional dependencies for this mapping to hold. This mapping is only applicable if the specified element 
                      * can be resolved, and it has the specified value.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param dependsOn
                      *     Other elements required for this mapping (from context)
@@ -2339,13 +2153,10 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A set of additional dependencies for this mapping to hold. This mapping is only applicable if the specified element 
                      * can be resolved, and it has the specified value.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param dependsOn
                      *     Other elements required for this mapping (from context)
@@ -2359,14 +2170,11 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A set of additional outcomes from this mapping to other elements. To properly execute this mapping, the specified 
                      * element must be mapped to some data element or source that is in context. The mapping may still be useful without a 
                      * place for the additional data elements, but the equivalence cannot be relied on.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param product
                      *     Other concepts that this mapping also produces
@@ -2382,14 +2190,11 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A set of additional outcomes from this mapping to other elements. To properly execute this mapping, the specified 
                      * element must be mapped to some data element or source that is in context. The mapping may still be useful without a 
                      * place for the additional data elements, but the equivalence cannot be relied on.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param product
                      *     Other concepts that this mapping also produces
@@ -2402,6 +2207,17 @@ public class ConceptMap extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link Target}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>equivalence</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link Target}
+                     */
                     @Override
                     public Target build() {
                         return new Target(this);
@@ -2420,14 +2236,14 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A set of additional dependencies for this mapping to hold. This mapping is only applicable if the specified element 
                  * can be resolved, and it has the specified value.
-                 * </p>
                  */
                 public static class DependsOn extends BackboneElement {
+                    @Required
                     private final Uri property;
                     private final Canonical system;
+                    @Required
                     private final String value;
                     private final String display;
 
@@ -2443,10 +2259,8 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A reference to an element that holds a coded value that corresponds to a code system property. The idea is that the 
                      * information model carries an element somewhere that is labeled to correspond with a code system property.
-                     * </p>
                      * 
                      * @return
                      *     An immutable object of type {@link Uri}.
@@ -2456,10 +2270,8 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * An absolute URI that identifies the code system of the dependency code (if the source/dependency is a value set that 
                      * crosses code systems).
-                     * </p>
                      * 
                      * @return
                      *     An immutable object of type {@link Canonical}.
@@ -2469,9 +2281,7 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Identity (code or path) or the element/item/ValueSet/text that the map depends on / refers to.
-                     * </p>
                      * 
                      * @return
                      *     An immutable object of type {@link String}.
@@ -2481,9 +2291,7 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The display for the code. The display is only provided to help editors when editing the concept map.
-                     * </p>
                      * 
                      * @return
                      *     An immutable object of type {@link String}.
@@ -2577,10 +2385,8 @@ public class ConceptMap extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                          * contain spaces.
-                         * </p>
                          * 
                          * @param id
                          *     Unique id for inter-element referencing
@@ -2594,15 +2400,12 @@ public class ConceptMap extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
-                         * </p>
-                         * <p>
-                         * Adds new element(s) to existing list
-                         * </p>
+                         * 
+                         * <p>Adds new element(s) to the existing list
                          * 
                          * @param extension
                          *     Additional content defined by implementations
@@ -2616,15 +2419,12 @@ public class ConceptMap extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
-                         * </p>
-                         * <p>
-                         * Replaces existing list with a new one containing elements from the Collection
-                         * </p>
+                         * 
+                         * <p>Replaces the existing list with a new one containing elements from the Collection
                          * 
                          * @param extension
                          *     Additional content defined by implementations
@@ -2638,21 +2438,17 @@ public class ConceptMap extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element and that 
                          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                          * extension. Applications processing a resource are required to check for modifier extensions.
-                         * </p>
-                         * <p>
-                         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                         * 
+                         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
-                         * </p>
-                         * <p>
-                         * Adds new element(s) to existing list
-                         * </p>
+                         * 
+                         * <p>Adds new element(s) to the existing list
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
@@ -2666,21 +2462,17 @@ public class ConceptMap extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element and that 
                          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                          * extension. Applications processing a resource are required to check for modifier extensions.
-                         * </p>
-                         * <p>
-                         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                         * 
+                         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
-                         * </p>
-                         * <p>
-                         * Replaces existing list with a new one containing elements from the Collection
-                         * </p>
+                         * 
+                         * <p>Replaces the existing list with a new one containing elements from the Collection
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
@@ -2694,10 +2486,10 @@ public class ConceptMap extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * A reference to an element that holds a coded value that corresponds to a code system property. The idea is that the 
                          * information model carries an element somewhere that is labeled to correspond with a code system property.
-                         * </p>
+                         * 
+                         * <p>This element is required.
                          * 
                          * @param property
                          *     Reference to property mapping depends on
@@ -2711,10 +2503,8 @@ public class ConceptMap extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * An absolute URI that identifies the code system of the dependency code (if the source/dependency is a value set that 
                          * crosses code systems).
-                         * </p>
                          * 
                          * @param system
                          *     Code System (if necessary)
@@ -2728,9 +2518,9 @@ public class ConceptMap extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * Identity (code or path) or the element/item/ValueSet/text that the map depends on / refers to.
-                         * </p>
+                         * 
+                         * <p>This element is required.
                          * 
                          * @param value
                          *     Value of the referenced element
@@ -2744,9 +2534,7 @@ public class ConceptMap extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * The display for the code. The display is only provided to help editors when editing the concept map.
-                         * </p>
                          * 
                          * @param display
                          *     Display for the code (if value is a code)
@@ -2759,6 +2547,18 @@ public class ConceptMap extends DomainResource {
                             return this;
                         }
 
+                        /**
+                         * Build the {@link DependsOn}
+                         * 
+                         * <p>Required elements:
+                         * <ul>
+                         * <li>property</li>
+                         * <li>value</li>
+                         * </ul>
+                         * 
+                         * @return
+                         *     An immutable object of type {@link DependsOn}
+                         */
                         @Override
                         public DependsOn build() {
                             return new DependsOn(this);
@@ -2778,12 +2578,11 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * <p>
          * What to do when there is no mapping for the source concept. "Unmapped" does not include codes that are unmatched, and 
          * the unmapped element is ignored in a code is specified to have equivalence = unmatched.
-         * </p>
          */
         public static class Unmapped extends BackboneElement {
+            @Required
             private final ConceptMapGroupUnmappedMode mode;
             private final Code code;
             private final String display;
@@ -2801,12 +2600,10 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines which action to take if there is no match for the source concept in the target system designated for the 
              * group. One of 3 actions are possible: use the unmapped code (this is useful when doing a mapping between versions, and 
              * only a few codes have changed), use a fixed code (a default code), or alternatively, a reference to a different 
              * concept map can be provided (by canonical URL).
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link ConceptMapGroupUnmappedMode}.
@@ -2816,9 +2613,7 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * The fixed code to use when the mode = 'fixed' - all unmapped codes are mapped to a single fixed code.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Code}.
@@ -2828,9 +2623,7 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * The display for the code. The display is only provided to help editors when editing the concept map.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2840,10 +2633,8 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * <p>
              * The canonical reference to an additional ConceptMap resource instance to use for mapping if this ConceptMap resource 
              * contains no matching mapping for the source concept.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Canonical}.
@@ -2937,10 +2728,8 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2954,15 +2743,12 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2976,15 +2762,12 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2998,21 +2781,17 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3026,21 +2805,17 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3054,12 +2829,12 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Defines which action to take if there is no match for the source concept in the target system designated for the 
                  * group. One of 3 actions are possible: use the unmapped code (this is useful when doing a mapping between versions, and 
                  * only a few codes have changed), use a fixed code (a default code), or alternatively, a reference to a different 
                  * concept map can be provided (by canonical URL).
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param mode
                  *     provided | fixed | other-map
@@ -3073,9 +2848,7 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The fixed code to use when the mode = 'fixed' - all unmapped codes are mapped to a single fixed code.
-                 * </p>
                  * 
                  * @param code
                  *     Fixed code when mode = fixed
@@ -3089,9 +2862,7 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The display for the code. The display is only provided to help editors when editing the concept map.
-                 * </p>
                  * 
                  * @param display
                  *     Display for the code
@@ -3105,10 +2876,8 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The canonical reference to an additional ConceptMap resource instance to use for mapping if this ConceptMap resource 
                  * contains no matching mapping for the source concept.
-                 * </p>
                  * 
                  * @param url
                  *     canonical reference to an additional ConceptMap to use for mapping if the source concept is unmapped
@@ -3121,6 +2890,17 @@ public class ConceptMap extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Unmapped}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>mode</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Unmapped}
+                 */
                 @Override
                 public Unmapped build() {
                     return new Unmapped(this);

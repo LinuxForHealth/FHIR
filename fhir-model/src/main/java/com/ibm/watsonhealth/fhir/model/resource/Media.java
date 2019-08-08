@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.Attachment;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -37,22 +39,22 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A photo, video, or audio recording acquired or used in healthcare. The actual content may be inline or provided by 
  * direct reference.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Media extends DomainResource {
     private final List<Identifier> identifier;
     private final List<Reference> basedOn;
     private final List<Reference> partOf;
+    @Required
     private final MediaStatus status;
     private final CodeableConcept type;
     private final CodeableConcept modality;
     private final CodeableConcept view;
     private final Reference subject;
     private final Reference encounter;
+    @Choice({DateTime.class, Period.class})
     private final Element created;
     private final Instant issued;
     private final Reference operator;
@@ -64,6 +66,7 @@ public class Media extends DomainResource {
     private final PositiveInt width;
     private final PositiveInt frames;
     private final Decimal duration;
+    @Required
     private final Attachment content;
     private final List<Annotation> note;
 
@@ -96,10 +99,8 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifiers associated with the image - these may include identifiers for the image itself, identifiers for the 
      * context of its collection (e.g. series ids) and context ids such as accession numbers or other workflow identifiers.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -109,9 +110,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * A procedure that is fulfilled in whole or in part by the creation of this media.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -121,9 +120,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * A larger event of which this particular event is a component or step.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -133,9 +130,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * The current state of the {{title}}.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link MediaStatus}.
@@ -145,9 +140,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * A code that classifies whether the media is an image, video or audio recording or some other media category.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -157,10 +150,8 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * Details of the type of the media - usually, how it was acquired (what type of device). If images sourced from a DICOM 
      * system, are wrapped in a Media resource, then this is the modality.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -170,9 +161,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the imaging view e.g. Lateral or Antero-posterior (AP).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -182,9 +171,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * Who/What this Media is a record of.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -194,9 +181,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * The encounter that establishes the context for this media.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -206,9 +191,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * The date and time(s) at which the media was collected.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -218,9 +201,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * The date and time this version of the media was made available to providers, typically after having been reviewed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Instant}.
@@ -230,9 +211,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * The person who administered the collection of the image.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -242,9 +221,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes why the event occurred in coded or textual form.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -254,9 +231,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the site on the subject's body where the observation was made (i.e. the target site).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -266,9 +241,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the device / manufacturer of the device that was used to make the recording.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -278,9 +251,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * The device used to collect the media.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -290,9 +261,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * Height of the image in pixels (photo/video).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PositiveInt}.
@@ -302,9 +271,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * Width of the image in pixels (photo/video).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PositiveInt}.
@@ -314,11 +281,9 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * The number of frames in a photo. This is used with a multi-page fax, or an imaging acquisition context that takes 
      * multiple slices in a single image, or an animated gif. If there is more than one frame, this SHALL have a value in 
      * order to alert interface software that a multi-frame capable rendering widget is required.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PositiveInt}.
@@ -328,9 +293,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * The duration of the recording in seconds - for audio and video.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Decimal}.
@@ -340,9 +303,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * The actual content of the media - inline or by direct reference to the media source file.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Attachment}.
@@ -352,9 +313,7 @@ public class Media extends DomainResource {
     }
 
     /**
-     * <p>
      * Comments made about the media by the performer, subject or other participants.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -526,9 +485,7 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -542,10 +499,8 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -559,11 +514,9 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -577,9 +530,7 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -593,12 +544,10 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -612,13 +561,10 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -632,13 +578,10 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -652,15 +595,12 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -674,15 +614,12 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -696,21 +633,17 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -724,21 +657,17 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -752,13 +681,10 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifiers associated with the image - these may include identifiers for the image itself, identifiers for the 
          * context of its collection (e.g. series ids) and context ids such as accession numbers or other workflow identifiers.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Identifier(s) for the image
@@ -774,13 +700,10 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifiers associated with the image - these may include identifiers for the image itself, identifiers for the 
          * context of its collection (e.g. series ids) and context ids such as accession numbers or other workflow identifiers.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Identifier(s) for the image
@@ -794,12 +717,9 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * A procedure that is fulfilled in whole or in part by the creation of this media.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param basedOn
          *     Procedure that caused this media to be created
@@ -815,12 +735,9 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * A procedure that is fulfilled in whole or in part by the creation of this media.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param basedOn
          *     Procedure that caused this media to be created
@@ -834,12 +751,9 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * A larger event of which this particular event is a component or step.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param partOf
          *     Part of referenced event
@@ -855,12 +769,9 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * A larger event of which this particular event is a component or step.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param partOf
          *     Part of referenced event
@@ -874,9 +785,9 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * The current state of the {{title}}.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     preparation | in-progress | not-done | suspended | aborted | completed | entered-in-error | unknown
@@ -890,9 +801,7 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * A code that classifies whether the media is an image, video or audio recording or some other media category.
-         * </p>
          * 
          * @param type
          *     Classification of media as image, video, or audio
@@ -906,10 +815,8 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * Details of the type of the media - usually, how it was acquired (what type of device). If images sourced from a DICOM 
          * system, are wrapped in a Media resource, then this is the modality.
-         * </p>
          * 
          * @param modality
          *     The type of acquisition equipment/process
@@ -923,9 +830,7 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the imaging view e.g. Lateral or Antero-posterior (AP).
-         * </p>
          * 
          * @param view
          *     Imaging view, e.g. Lateral or Antero-posterior
@@ -939,9 +844,7 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * Who/What this Media is a record of.
-         * </p>
          * 
          * @param subject
          *     Who/What this Media is a record of
@@ -955,9 +858,7 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * The encounter that establishes the context for this media.
-         * </p>
          * 
          * @param encounter
          *     Encounter associated with media
@@ -971,9 +872,13 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * The date and time(s) at which the media was collected.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link DateTime}</li>
+         * <li>{@link Period}</li>
+         * </ul>
          * 
          * @param created
          *     When Media was collected
@@ -987,9 +892,7 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * The date and time this version of the media was made available to providers, typically after having been reviewed.
-         * </p>
          * 
          * @param issued
          *     Date/Time this version was made available
@@ -1003,9 +906,7 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * The person who administered the collection of the image.
-         * </p>
          * 
          * @param operator
          *     The person who generated the image
@@ -1019,12 +920,9 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes why the event occurred in coded or textual form.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonCode
          *     Why was event performed?
@@ -1040,12 +938,9 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes why the event occurred in coded or textual form.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonCode
          *     Why was event performed?
@@ -1059,9 +954,7 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the site on the subject's body where the observation was made (i.e. the target site).
-         * </p>
          * 
          * @param bodySite
          *     Observed body part
@@ -1075,9 +968,7 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the device / manufacturer of the device that was used to make the recording.
-         * </p>
          * 
          * @param deviceName
          *     Name of the device/manufacturer
@@ -1091,9 +982,7 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * The device used to collect the media.
-         * </p>
          * 
          * @param device
          *     Observing Device
@@ -1107,9 +996,7 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * Height of the image in pixels (photo/video).
-         * </p>
          * 
          * @param height
          *     Height of the image in pixels (photo/video)
@@ -1123,9 +1010,7 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * Width of the image in pixels (photo/video).
-         * </p>
          * 
          * @param width
          *     Width of the image in pixels (photo/video)
@@ -1139,11 +1024,9 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * The number of frames in a photo. This is used with a multi-page fax, or an imaging acquisition context that takes 
          * multiple slices in a single image, or an animated gif. If there is more than one frame, this SHALL have a value in 
          * order to alert interface software that a multi-frame capable rendering widget is required.
-         * </p>
          * 
          * @param frames
          *     Number of frames if &gt; 1 (photo)
@@ -1157,9 +1040,7 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * The duration of the recording in seconds - for audio and video.
-         * </p>
          * 
          * @param duration
          *     Length in seconds (audio / video)
@@ -1173,9 +1054,9 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * The actual content of the media - inline or by direct reference to the media source file.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param content
          *     Actual Media - reference or data
@@ -1189,12 +1070,9 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * Comments made about the media by the performer, subject or other participants.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     Comments made about the media
@@ -1210,12 +1088,9 @@ public class Media extends DomainResource {
         }
 
         /**
-         * <p>
          * Comments made about the media by the performer, subject or other participants.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     Comments made about the media
@@ -1228,6 +1103,18 @@ public class Media extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link Media}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>content</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Media}
+         */
         @Override
         public Media build() {
             return new Media(this);

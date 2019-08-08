@@ -12,14 +12,13 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.NarrativeStatus;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A human-readable summary of the resource conveying the essential clinical and business information for the resource.
- * </p>
  */
 @Constraint(
     id = "txt-1",
@@ -37,7 +36,9 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Narrative extends Element {
+    @Required
     private final NarrativeStatus status;
+    @Required
     private final java.lang.String div;
 
     private volatile int hashCode;
@@ -51,10 +52,8 @@ public class Narrative extends Element {
     }
 
     /**
-     * <p>
      * The status of the narrative - whether it's entirely generated (from just the defined data or the extensions too), or 
      * whether a human authored it and it may contain additional data.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link NarrativeStatus}.
@@ -64,9 +63,7 @@ public class Narrative extends Element {
     }
 
     /**
-     * <p>
      * The actual narrative content, a stripped down version of XHTML.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link java.lang.String}.
@@ -147,10 +144,8 @@ public class Narrative extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -164,15 +159,12 @@ public class Narrative extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -186,15 +178,12 @@ public class Narrative extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -208,10 +197,10 @@ public class Narrative extends Element {
         }
 
         /**
-         * <p>
          * The status of the narrative - whether it's entirely generated (from just the defined data or the extensions too), or 
          * whether a human authored it and it may contain additional data.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     generated | extensions | additional | empty
@@ -225,9 +214,9 @@ public class Narrative extends Element {
         }
 
         /**
-         * <p>
          * The actual narrative content, a stripped down version of XHTML.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param div
          *     Limited xhtml content
@@ -240,6 +229,18 @@ public class Narrative extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link Narrative}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>div</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Narrative}
+         */
         @Override
         public Narrative build() {
             return new Narrative(this);

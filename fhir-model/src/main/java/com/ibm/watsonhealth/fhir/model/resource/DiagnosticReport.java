@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Attachment;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -35,22 +37,23 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * The findings and interpretation of diagnostic tests performed on patients, groups of patients, devices, and locations, 
  * and/or specimens derived from these. The report includes clinical context such as requesting and provider information, 
  * and some mix of atomic results, images, textual and coded interpretations, and formatted representation of diagnostic 
  * reports.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class DiagnosticReport extends DomainResource {
     private final List<Identifier> identifier;
     private final List<Reference> basedOn;
+    @Required
     private final DiagnosticReportStatus status;
     private final List<CodeableConcept> category;
+    @Required
     private final CodeableConcept code;
     private final Reference subject;
     private final Reference encounter;
+    @Choice({DateTime.class, Period.class})
     private final Element effective;
     private final Instant issued;
     private final List<Reference> performer;
@@ -88,9 +91,7 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifiers assigned to this report by the performer or other systems.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -100,9 +101,7 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * Details concerning a service requested.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -112,9 +111,7 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of the diagnostic report.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DiagnosticReportStatus}.
@@ -124,10 +121,8 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * A code that classifies the clinical discipline, department or diagnostic service that created the report (e.g. 
      * cardiology, biochemistry, hematology, MRI). This is used for searching, sorting and display purposes.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -137,9 +132,7 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * A code or name that describes this diagnostic report.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -149,10 +142,8 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * The subject of the report. Usually, but not always, this is a patient. However, diagnostic services also perform 
      * analyses on specimens collected from a variety of other sources.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -162,9 +153,7 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * The healthcare event (e.g. a patient and healthcare provider interaction) which this DiagnosticReport is about.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -174,11 +163,9 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * The time or time-period the observed values are related to. When the subject of the report is a patient, this is 
      * usually either the time of the procedure or of specimen collection(s), but very often the source of the date/time is 
      * not known, only the date/time itself.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -188,10 +175,8 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * The date and time that this version of the report was made available to providers, typically after the report was 
      * reviewed and verified.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Instant}.
@@ -201,9 +186,7 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * The diagnostic service that is responsible for issuing the report.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -213,9 +196,7 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * The practitioner or organization that is responsible for the report's conclusions and interpretations.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -225,9 +206,7 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * Details about the specimens on which this diagnostic report is based.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -237,9 +216,7 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * [Observations](observation.html) that are part of this diagnostic report.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -249,11 +226,9 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * One or more links to full details of any imaging performed during the diagnostic investigation. Typically, this is 
      * imaging performed by DICOM enabled modalities, but this is not required. A fully enabled PACS viewer can use this 
      * information to provide views of the source images.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -263,10 +238,8 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * A list of key images associated with this report. The images are generally created during the diagnostic process, and 
      * may be directly of the patient, or of treated specimens (i.e. slides of interest).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Media}.
@@ -276,9 +249,7 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * Concise and clinically contextualized summary conclusion (interpretation/impression) of the diagnostic report.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -288,9 +259,7 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * One or more codes that represent the summary conclusion (interpretation/impression) of the diagnostic report.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -300,10 +269,8 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * Rich text representation of the entire result as issued by the diagnostic service. Multiple formats are allowed but 
      * they SHALL be semantically equivalent.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Attachment}.
@@ -459,9 +426,7 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -475,10 +440,8 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -492,11 +455,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -510,9 +471,7 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -526,12 +485,10 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -545,13 +502,10 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -565,13 +519,10 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -585,15 +536,12 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -607,15 +555,12 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -629,21 +574,17 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -657,21 +598,17 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -685,12 +622,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifiers assigned to this report by the performer or other systems.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Business identifier for report
@@ -706,12 +640,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifiers assigned to this report by the performer or other systems.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Business identifier for report
@@ -725,12 +656,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * Details concerning a service requested.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param basedOn
          *     What was requested
@@ -746,12 +674,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * Details concerning a service requested.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param basedOn
          *     What was requested
@@ -765,9 +690,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of the diagnostic report.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     registered | partial | preliminary | final +
@@ -781,13 +706,10 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * A code that classifies the clinical discipline, department or diagnostic service that created the report (e.g. 
          * cardiology, biochemistry, hematology, MRI). This is used for searching, sorting and display purposes.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param category
          *     Service category
@@ -803,13 +725,10 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * A code that classifies the clinical discipline, department or diagnostic service that created the report (e.g. 
          * cardiology, biochemistry, hematology, MRI). This is used for searching, sorting and display purposes.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param category
          *     Service category
@@ -823,9 +742,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * A code or name that describes this diagnostic report.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param code
          *     Name/Code for this diagnostic report
@@ -839,10 +758,8 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The subject of the report. Usually, but not always, this is a patient. However, diagnostic services also perform 
          * analyses on specimens collected from a variety of other sources.
-         * </p>
          * 
          * @param subject
          *     The subject of the report - usually, but not always, the patient
@@ -856,9 +773,7 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The healthcare event (e.g. a patient and healthcare provider interaction) which this DiagnosticReport is about.
-         * </p>
          * 
          * @param encounter
          *     Health care event when test ordered
@@ -872,11 +787,15 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The time or time-period the observed values are related to. When the subject of the report is a patient, this is 
          * usually either the time of the procedure or of specimen collection(s), but very often the source of the date/time is 
          * not known, only the date/time itself.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link DateTime}</li>
+         * <li>{@link Period}</li>
+         * </ul>
          * 
          * @param effective
          *     Clinically relevant time/time-period for report
@@ -890,10 +809,8 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The date and time that this version of the report was made available to providers, typically after the report was 
          * reviewed and verified.
-         * </p>
          * 
          * @param issued
          *     DateTime this version was made
@@ -907,12 +824,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The diagnostic service that is responsible for issuing the report.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param performer
          *     Responsible Diagnostic Service
@@ -928,12 +842,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The diagnostic service that is responsible for issuing the report.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param performer
          *     Responsible Diagnostic Service
@@ -947,12 +858,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The practitioner or organization that is responsible for the report's conclusions and interpretations.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param resultsInterpreter
          *     Primary result interpreter
@@ -968,12 +876,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The practitioner or organization that is responsible for the report's conclusions and interpretations.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param resultsInterpreter
          *     Primary result interpreter
@@ -987,12 +892,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * Details about the specimens on which this diagnostic report is based.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param specimen
          *     Specimens this report is based on
@@ -1008,12 +910,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * Details about the specimens on which this diagnostic report is based.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param specimen
          *     Specimens this report is based on
@@ -1027,12 +926,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * [Observations](observation.html) that are part of this diagnostic report.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param result
          *     Observations
@@ -1048,12 +944,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * [Observations](observation.html) that are part of this diagnostic report.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param result
          *     Observations
@@ -1067,14 +960,11 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * One or more links to full details of any imaging performed during the diagnostic investigation. Typically, this is 
          * imaging performed by DICOM enabled modalities, but this is not required. A fully enabled PACS viewer can use this 
          * information to provide views of the source images.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param imagingStudy
          *     Reference to full details of imaging associated with the diagnostic report
@@ -1090,14 +980,11 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * One or more links to full details of any imaging performed during the diagnostic investigation. Typically, this is 
          * imaging performed by DICOM enabled modalities, but this is not required. A fully enabled PACS viewer can use this 
          * information to provide views of the source images.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param imagingStudy
          *     Reference to full details of imaging associated with the diagnostic report
@@ -1111,13 +998,10 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of key images associated with this report. The images are generally created during the diagnostic process, and 
          * may be directly of the patient, or of treated specimens (i.e. slides of interest).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param media
          *     Key images associated with this report
@@ -1133,13 +1017,10 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of key images associated with this report. The images are generally created during the diagnostic process, and 
          * may be directly of the patient, or of treated specimens (i.e. slides of interest).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param media
          *     Key images associated with this report
@@ -1153,9 +1034,7 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * Concise and clinically contextualized summary conclusion (interpretation/impression) of the diagnostic report.
-         * </p>
          * 
          * @param conclusion
          *     Clinical conclusion (interpretation) of test results
@@ -1169,12 +1048,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * One or more codes that represent the summary conclusion (interpretation/impression) of the diagnostic report.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param conclusionCode
          *     Codes for the clinical conclusion of test results
@@ -1190,12 +1066,9 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * One or more codes that represent the summary conclusion (interpretation/impression) of the diagnostic report.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param conclusionCode
          *     Codes for the clinical conclusion of test results
@@ -1209,13 +1082,10 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * Rich text representation of the entire result as issued by the diagnostic service. Multiple formats are allowed but 
          * they SHALL be semantically equivalent.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param presentedForm
          *     Entire report as issued
@@ -1231,13 +1101,10 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * Rich text representation of the entire result as issued by the diagnostic service. Multiple formats are allowed but 
          * they SHALL be semantically equivalent.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param presentedForm
          *     Entire report as issued
@@ -1250,6 +1117,18 @@ public class DiagnosticReport extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link DiagnosticReport}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>code</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link DiagnosticReport}
+         */
         @Override
         public DiagnosticReport build() {
             return new DiagnosticReport(this);
@@ -1280,13 +1159,12 @@ public class DiagnosticReport extends DomainResource {
     }
 
     /**
-     * <p>
      * A list of key images associated with this report. The images are generally created during the diagnostic process, and 
      * may be directly of the patient, or of treated specimens (i.e. slides of interest).
-     * </p>
      */
     public static class Media extends BackboneElement {
         private final String comment;
+        @Required
         private final Reference link;
 
         private volatile int hashCode;
@@ -1299,10 +1177,8 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * A comment about the image. Typically, this is used to provide an explanation for why the image is included, or to draw 
          * the viewer's attention to important features.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1312,9 +1188,7 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to the image source.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1398,10 +1272,8 @@ public class DiagnosticReport extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1415,15 +1287,12 @@ public class DiagnosticReport extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1437,15 +1306,12 @@ public class DiagnosticReport extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1459,21 +1325,17 @@ public class DiagnosticReport extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1487,21 +1349,17 @@ public class DiagnosticReport extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1515,10 +1373,8 @@ public class DiagnosticReport extends DomainResource {
             }
 
             /**
-             * <p>
              * A comment about the image. Typically, this is used to provide an explanation for why the image is included, or to draw 
              * the viewer's attention to important features.
-             * </p>
              * 
              * @param comment
              *     Comment about the image (e.g. explanation)
@@ -1532,9 +1388,9 @@ public class DiagnosticReport extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference to the image source.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param link
              *     Reference to the image source
@@ -1547,6 +1403,17 @@ public class DiagnosticReport extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Media}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>link</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Media}
+             */
             @Override
             public Media build() {
                 return new Media(this);

@@ -15,9 +15,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A reference to a code defined by a terminology system.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Coding extends Element {
@@ -40,9 +38,7 @@ public class Coding extends Element {
     }
 
     /**
-     * <p>
      * The identification of the code system that defines the meaning of the symbol in the code.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -52,11 +48,9 @@ public class Coding extends Element {
     }
 
     /**
-     * <p>
      * The version of the code system which was used when choosing this code. Note that a well-maintained code system does 
      * not need the version reported, because the meaning of codes is consistent across versions. However this cannot 
      * consistently be assured, and when the meaning is not guaranteed to be consistent, the version SHOULD be exchanged.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -66,10 +60,8 @@ public class Coding extends Element {
     }
 
     /**
-     * <p>
      * A symbol in syntax defined by the system. The symbol may be a predefined code or an expression in a syntax defined by 
      * the coding system (e.g. post-coordination).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Code}.
@@ -79,9 +71,7 @@ public class Coding extends Element {
     }
 
     /**
-     * <p>
      * A representation of the meaning of the code in the system, following the rules of the system.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -91,9 +81,7 @@ public class Coding extends Element {
     }
 
     /**
-     * <p>
      * Indicates that this coding was chosen by a user directly - e.g. off a pick list of available items (codes or displays).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -189,10 +177,8 @@ public class Coding extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -206,15 +192,12 @@ public class Coding extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -228,15 +211,12 @@ public class Coding extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -250,9 +230,7 @@ public class Coding extends Element {
         }
 
         /**
-         * <p>
          * The identification of the code system that defines the meaning of the symbol in the code.
-         * </p>
          * 
          * @param system
          *     Identity of the terminology system
@@ -266,11 +244,9 @@ public class Coding extends Element {
         }
 
         /**
-         * <p>
          * The version of the code system which was used when choosing this code. Note that a well-maintained code system does 
          * not need the version reported, because the meaning of codes is consistent across versions. However this cannot 
          * consistently be assured, and when the meaning is not guaranteed to be consistent, the version SHOULD be exchanged.
-         * </p>
          * 
          * @param version
          *     Version of the system - if relevant
@@ -284,10 +260,8 @@ public class Coding extends Element {
         }
 
         /**
-         * <p>
          * A symbol in syntax defined by the system. The symbol may be a predefined code or an expression in a syntax defined by 
          * the coding system (e.g. post-coordination).
-         * </p>
          * 
          * @param code
          *     Symbol in syntax defined by the system
@@ -301,9 +275,7 @@ public class Coding extends Element {
         }
 
         /**
-         * <p>
          * A representation of the meaning of the code in the system, following the rules of the system.
-         * </p>
          * 
          * @param display
          *     Representation defined by the system
@@ -317,9 +289,7 @@ public class Coding extends Element {
         }
 
         /**
-         * <p>
          * Indicates that this coding was chosen by a user directly - e.g. off a pick list of available items (codes or displays).
-         * </p>
          * 
          * @param userSelected
          *     If this coding was chosen directly by the user
@@ -332,6 +302,12 @@ public class Coding extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link Coding}
+         * 
+         * @return
+         *     An immutable object of type {@link Coding}
+         */
         @Override
         public Coding build() {
             return new Coding(this);

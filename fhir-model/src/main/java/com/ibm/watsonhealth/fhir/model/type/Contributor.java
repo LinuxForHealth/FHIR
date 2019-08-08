@@ -14,18 +14,19 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.ContributorType;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A contributor to the content of a knowledge asset, including authors, editors, reviewers, and endorsers.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Contributor extends Element {
+    @Required
     private final ContributorType type;
+    @Required
     private final String name;
     private final List<ContactDetail> contact;
 
@@ -40,9 +41,7 @@ public class Contributor extends Element {
     }
 
     /**
-     * <p>
      * The type of contributor.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ContributorType}.
@@ -52,9 +51,7 @@ public class Contributor extends Element {
     }
 
     /**
-     * <p>
      * The name of the individual or organization responsible for the contribution.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -64,9 +61,7 @@ public class Contributor extends Element {
     }
 
     /**
-     * <p>
      * Contact details to assist a user in finding and communicating with the contributor.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -152,10 +147,8 @@ public class Contributor extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -169,15 +162,12 @@ public class Contributor extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -191,15 +181,12 @@ public class Contributor extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -213,9 +200,9 @@ public class Contributor extends Element {
         }
 
         /**
-         * <p>
          * The type of contributor.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     author | editor | reviewer | endorser
@@ -229,9 +216,9 @@ public class Contributor extends Element {
         }
 
         /**
-         * <p>
          * The name of the individual or organization responsible for the contribution.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param name
          *     Who contributed the content
@@ -245,12 +232,9 @@ public class Contributor extends Element {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the contributor.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Contact details of the contributor
@@ -266,12 +250,9 @@ public class Contributor extends Element {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the contributor.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Contact details of the contributor
@@ -284,6 +265,18 @@ public class Contributor extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link Contributor}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>type</li>
+         * <li>name</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Contributor}
+         */
         @Override
         public Contributor build() {
             return new Contributor(this);

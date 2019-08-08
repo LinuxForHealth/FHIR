@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Address;
 import com.ibm.watsonhealth.fhir.model.type.AdministrativeGender;
 import com.ibm.watsonhealth.fhir.model.type.Attachment;
@@ -36,9 +37,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A person who is directly or indirectly involved in the provisioning of healthcare.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Practitioner extends DomainResource {
@@ -70,9 +69,7 @@ public class Practitioner extends DomainResource {
     }
 
     /**
-     * <p>
      * An identifier that applies to this person in this role.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -82,9 +79,7 @@ public class Practitioner extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether this practitioner's record is in active use.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -94,9 +89,7 @@ public class Practitioner extends DomainResource {
     }
 
     /**
-     * <p>
      * The name(s) associated with the practitioner.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link HumanName}.
@@ -106,9 +99,7 @@ public class Practitioner extends DomainResource {
     }
 
     /**
-     * <p>
      * A contact detail for the practitioner, e.g. a telephone number or an email address.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
@@ -118,11 +109,9 @@ public class Practitioner extends DomainResource {
     }
 
     /**
-     * <p>
      * Address(es) of the practitioner that are not role specific (typically home address). 
 Work addresses are not typically 
      * entered in this property as they are usually role dependent.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Address}.
@@ -132,10 +121,8 @@ Work addresses are not typically
     }
 
     /**
-     * <p>
      * Administrative Gender - the gender that the person is considered to have for administration and record keeping 
      * purposes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link AdministrativeGender}.
@@ -145,9 +132,7 @@ Work addresses are not typically
     }
 
     /**
-     * <p>
      * The date of birth for the practitioner.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Date}.
@@ -157,9 +142,7 @@ Work addresses are not typically
     }
 
     /**
-     * <p>
      * Image of the person.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Attachment}.
@@ -169,11 +152,9 @@ Work addresses are not typically
     }
 
     /**
-     * <p>
      * The official certifications, training, and licenses that authorize or otherwise pertain to the provision of care by 
      * the practitioner. For example, a medical license issued by a medical board authorizing the practitioner to practice 
      * medicine within a certian locality.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Qualification}.
@@ -183,9 +164,7 @@ Work addresses are not typically
     }
 
     /**
-     * <p>
      * A language the practitioner can use in patient communication.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -309,9 +288,7 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -325,10 +302,8 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -342,11 +317,9 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -360,9 +333,7 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -376,12 +347,10 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -395,13 +364,10 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -415,13 +381,10 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -435,15 +398,12 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -457,15 +417,12 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -479,21 +436,17 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -507,21 +460,17 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -535,12 +484,9 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * An identifier that applies to this person in this role.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     An identifier for the person as this agent
@@ -556,12 +502,9 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * An identifier that applies to this person in this role.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     An identifier for the person as this agent
@@ -575,9 +518,7 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * Whether this practitioner's record is in active use.
-         * </p>
          * 
          * @param active
          *     Whether this practitioner's record is in active use
@@ -591,12 +532,9 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * The name(s) associated with the practitioner.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param name
          *     The name(s) associated with the practitioner
@@ -612,12 +550,9 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * The name(s) associated with the practitioner.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param name
          *     The name(s) associated with the practitioner
@@ -631,12 +566,9 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * A contact detail for the practitioner, e.g. a telephone number or an email address.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param telecom
          *     A contact detail for the practitioner (that apply to all roles)
@@ -652,12 +584,9 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * A contact detail for the practitioner, e.g. a telephone number or an email address.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param telecom
          *     A contact detail for the practitioner (that apply to all roles)
@@ -671,14 +600,11 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * Address(es) of the practitioner that are not role specific (typically home address). 
 Work addresses are not typically 
          * entered in this property as they are usually role dependent.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param address
          *     Address(es) of the practitioner that are not role specific (typically home address)
@@ -694,14 +620,11 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * Address(es) of the practitioner that are not role specific (typically home address). 
 Work addresses are not typically 
          * entered in this property as they are usually role dependent.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param address
          *     Address(es) of the practitioner that are not role specific (typically home address)
@@ -715,10 +638,8 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * Administrative Gender - the gender that the person is considered to have for administration and record keeping 
          * purposes.
-         * </p>
          * 
          * @param gender
          *     male | female | other | unknown
@@ -732,9 +653,7 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * The date of birth for the practitioner.
-         * </p>
          * 
          * @param birthDate
          *     The date on which the practitioner was born
@@ -748,12 +667,9 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * Image of the person.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param photo
          *     Image of the person
@@ -769,12 +685,9 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * Image of the person.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param photo
          *     Image of the person
@@ -788,14 +701,11 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * The official certifications, training, and licenses that authorize or otherwise pertain to the provision of care by 
          * the practitioner. For example, a medical license issued by a medical board authorizing the practitioner to practice 
          * medicine within a certian locality.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param qualification
          *     Certification, licenses, or training pertaining to the provision of care
@@ -811,14 +721,11 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * The official certifications, training, and licenses that authorize or otherwise pertain to the provision of care by 
          * the practitioner. For example, a medical license issued by a medical board authorizing the practitioner to practice 
          * medicine within a certian locality.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param qualification
          *     Certification, licenses, or training pertaining to the provision of care
@@ -832,12 +739,9 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * A language the practitioner can use in patient communication.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param communication
          *     A language the practitioner can use in patient communication
@@ -853,12 +757,9 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * A language the practitioner can use in patient communication.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param communication
          *     A language the practitioner can use in patient communication
@@ -871,6 +772,12 @@ Work addresses are not typically
             return this;
         }
 
+        /**
+         * Build the {@link Practitioner}
+         * 
+         * @return
+         *     An immutable object of type {@link Practitioner}
+         */
         @Override
         public Practitioner build() {
             return new Practitioner(this);
@@ -893,14 +800,13 @@ Work addresses are not typically
     }
 
     /**
-     * <p>
      * The official certifications, training, and licenses that authorize or otherwise pertain to the provision of care by 
      * the practitioner. For example, a medical license issued by a medical board authorizing the practitioner to practice 
      * medicine within a certian locality.
-     * </p>
      */
     public static class Qualification extends BackboneElement {
         private final List<Identifier> identifier;
+        @Required
         private final CodeableConcept code;
         private final Period period;
         private final Reference issuer;
@@ -917,9 +823,7 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * An identifier that applies to this person's qualification in this role.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -929,9 +833,7 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * Coded representation of the qualification.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -941,9 +843,7 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * Period during which the qualification is valid.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Period}.
@@ -953,9 +853,7 @@ Work addresses are not typically
         }
 
         /**
-         * <p>
          * Organization that regulates and issues the qualification.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1049,10 +947,8 @@ Work addresses are not typically
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1066,15 +962,12 @@ Work addresses are not typically
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1088,15 +981,12 @@ Work addresses are not typically
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1110,21 +1000,17 @@ Work addresses are not typically
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1138,21 +1024,17 @@ Work addresses are not typically
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1166,12 +1048,9 @@ Work addresses are not typically
             }
 
             /**
-             * <p>
              * An identifier that applies to this person's qualification in this role.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param identifier
              *     An identifier for this qualification for the practitioner
@@ -1187,12 +1066,9 @@ Work addresses are not typically
             }
 
             /**
-             * <p>
              * An identifier that applies to this person's qualification in this role.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param identifier
              *     An identifier for this qualification for the practitioner
@@ -1206,9 +1082,9 @@ Work addresses are not typically
             }
 
             /**
-             * <p>
              * Coded representation of the qualification.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param code
              *     Coded representation of the qualification
@@ -1222,9 +1098,7 @@ Work addresses are not typically
             }
 
             /**
-             * <p>
              * Period during which the qualification is valid.
-             * </p>
              * 
              * @param period
              *     Period during which the qualification is valid
@@ -1238,9 +1112,7 @@ Work addresses are not typically
             }
 
             /**
-             * <p>
              * Organization that regulates and issues the qualification.
-             * </p>
              * 
              * @param issuer
              *     Organization that regulates and issues the qualification
@@ -1253,6 +1125,17 @@ Work addresses are not typically
                 return this;
             }
 
+            /**
+             * Build the {@link Qualification}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>code</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Qualification}
+             */
             @Override
             public Qualification build() {
                 return new Qualification(this);

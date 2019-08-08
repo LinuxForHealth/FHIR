@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Base64Binary;
@@ -37,10 +38,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A type of a manufactured item that is used in the provision of healthcare without being substantially changed through 
  * that activity. The device may be a medical or non-medical device.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Device extends DomainResource {
@@ -104,9 +103,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * Unique instance identifiers assigned to a device by manufacturers other organizations or owners.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -116,9 +113,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * The reference to the definition for the device.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -128,11 +123,9 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * Unique device identifier (UDI) assigned to device label or package. Note that the Device may include multiple 
      * udiCarriers as it either may include just the udiCarrier for the jurisdiction it is sold, or for multiple 
      * jurisdictions it could have been sold.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link UdiCarrier}.
@@ -142,9 +135,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * Status of the Device availability.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link FHIRDeviceStatus}.
@@ -154,9 +145,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * Reason for the dtatus of the Device availability.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -166,10 +155,8 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * The distinct identification string as required by regulation for a human cell, tissue, or cellular and tissue-based 
      * product.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -179,9 +166,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * A name of the manufacturer.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -191,9 +176,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * The date and time when the device was manufactured.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -203,9 +186,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * The date and time beyond which this device is no longer valid or should not be used (if applicable).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -215,9 +196,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * Lot number assigned by the manufacturer.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -227,9 +206,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * The serial number assigned by the organization when the device was manufactured.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -239,11 +216,9 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * This represents the manufacturer's name of the device as provided by the device, from a UDI label, or by a person 
      * describing the Device. This typically would be used when a person provides the name(s) or when the device represents 
      * one of the names available from DeviceDefinition.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link DeviceName}.
@@ -253,9 +228,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * The model number for the device.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -265,9 +238,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * The part number of the device.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -277,9 +248,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * The kind or type of device.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -289,10 +258,8 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * The capabilities supported on a device, the standards to which the device conforms for a particular purpose, and used 
      * for the communication.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Specialization}.
@@ -302,9 +269,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * The actual design of the device or software version running on the device.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Version}.
@@ -314,9 +279,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Property}.
@@ -326,9 +289,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * Patient information, If the device is affixed to a person.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -338,9 +299,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * An organization that is responsible for the provision and ongoing maintenance of the device.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -350,9 +309,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * Contact details for an organization or a particular human that is responsible for the device.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
@@ -362,9 +319,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * The place where the device can be found.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -374,9 +329,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * A network address on which the device may be contacted directly.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -386,9 +339,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * Descriptive information, usage information or implantation information that is not captured in an existing element.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -398,9 +349,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * Provides additional safety characteristics about a medical device. For example devices containing latex.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -410,9 +359,7 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * The parent device.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -600,9 +547,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -616,10 +561,8 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -633,11 +576,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -651,9 +592,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -667,12 +606,10 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -686,13 +623,10 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -706,13 +640,10 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -726,15 +657,12 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -748,15 +676,12 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -770,21 +695,17 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -798,21 +719,17 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -826,12 +743,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Unique instance identifiers assigned to a device by manufacturers other organizations or owners.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Instance identifier
@@ -847,12 +761,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Unique instance identifiers assigned to a device by manufacturers other organizations or owners.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Instance identifier
@@ -866,9 +777,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The reference to the definition for the device.
-         * </p>
          * 
          * @param definition
          *     The reference to the definition for the device
@@ -882,14 +791,11 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Unique device identifier (UDI) assigned to device label or package. Note that the Device may include multiple 
          * udiCarriers as it either may include just the udiCarrier for the jurisdiction it is sold, or for multiple 
          * jurisdictions it could have been sold.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param udiCarrier
          *     Unique Device Identifier (UDI) Barcode string
@@ -905,14 +811,11 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Unique device identifier (UDI) assigned to device label or package. Note that the Device may include multiple 
          * udiCarriers as it either may include just the udiCarrier for the jurisdiction it is sold, or for multiple 
          * jurisdictions it could have been sold.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param udiCarrier
          *     Unique Device Identifier (UDI) Barcode string
@@ -926,9 +829,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Status of the Device availability.
-         * </p>
          * 
          * @param status
          *     active | inactive | entered-in-error | unknown
@@ -942,12 +843,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Reason for the dtatus of the Device availability.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param statusReason
          *     online | paused | standby | offline | not-ready | transduc-discon | hw-discon | off
@@ -963,12 +861,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Reason for the dtatus of the Device availability.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param statusReason
          *     online | paused | standby | offline | not-ready | transduc-discon | hw-discon | off
@@ -982,10 +877,8 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The distinct identification string as required by regulation for a human cell, tissue, or cellular and tissue-based 
          * product.
-         * </p>
          * 
          * @param distinctIdentifier
          *     The distinct identification string
@@ -999,9 +892,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * A name of the manufacturer.
-         * </p>
          * 
          * @param manufacturer
          *     Name of device manufacturer
@@ -1015,9 +906,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The date and time when the device was manufactured.
-         * </p>
          * 
          * @param manufactureDate
          *     Date when the device was made
@@ -1031,9 +920,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The date and time beyond which this device is no longer valid or should not be used (if applicable).
-         * </p>
          * 
          * @param expirationDate
          *     Date and time of expiry of this device (if applicable)
@@ -1047,9 +934,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Lot number assigned by the manufacturer.
-         * </p>
          * 
          * @param lotNumber
          *     Lot number of manufacture
@@ -1063,9 +948,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The serial number assigned by the organization when the device was manufactured.
-         * </p>
          * 
          * @param serialNumber
          *     Serial number assigned by the manufacturer
@@ -1079,14 +962,11 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * This represents the manufacturer's name of the device as provided by the device, from a UDI label, or by a person 
          * describing the Device. This typically would be used when a person provides the name(s) or when the device represents 
          * one of the names available from DeviceDefinition.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param deviceName
          *     The name of the device as given by the manufacturer
@@ -1102,14 +982,11 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * This represents the manufacturer's name of the device as provided by the device, from a UDI label, or by a person 
          * describing the Device. This typically would be used when a person provides the name(s) or when the device represents 
          * one of the names available from DeviceDefinition.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param deviceName
          *     The name of the device as given by the manufacturer
@@ -1123,9 +1000,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The model number for the device.
-         * </p>
          * 
          * @param modelNumber
          *     The model number for the device
@@ -1139,9 +1014,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The part number of the device.
-         * </p>
          * 
          * @param partNumber
          *     The part number of the device
@@ -1155,9 +1028,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The kind or type of device.
-         * </p>
          * 
          * @param type
          *     The kind or type of device
@@ -1171,13 +1042,10 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The capabilities supported on a device, the standards to which the device conforms for a particular purpose, and used 
          * for the communication.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param specialization
          *     The capabilities supported on a device, the standards to which the device conforms for a particular purpose, and used 
@@ -1194,13 +1062,10 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The capabilities supported on a device, the standards to which the device conforms for a particular purpose, and used 
          * for the communication.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param specialization
          *     The capabilities supported on a device, the standards to which the device conforms for a particular purpose, and used 
@@ -1215,12 +1080,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The actual design of the device or software version running on the device.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param version
          *     The actual design of the device or software version running on the device
@@ -1236,12 +1098,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The actual design of the device or software version running on the device.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param version
          *     The actual design of the device or software version running on the device
@@ -1255,12 +1114,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param property
          *     The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties
@@ -1276,12 +1132,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param property
          *     The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties
@@ -1295,9 +1148,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Patient information, If the device is affixed to a person.
-         * </p>
          * 
          * @param patient
          *     Patient to whom Device is affixed
@@ -1311,9 +1162,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * An organization that is responsible for the provision and ongoing maintenance of the device.
-         * </p>
          * 
          * @param owner
          *     Organization responsible for device
@@ -1327,12 +1176,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details for an organization or a particular human that is responsible for the device.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Details for human/organization for support
@@ -1348,12 +1194,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details for an organization or a particular human that is responsible for the device.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Details for human/organization for support
@@ -1367,9 +1210,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The place where the device can be found.
-         * </p>
          * 
          * @param location
          *     Where the device is found
@@ -1383,9 +1224,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * A network address on which the device may be contacted directly.
-         * </p>
          * 
          * @param url
          *     Network address to contact device
@@ -1399,12 +1238,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Descriptive information, usage information or implantation information that is not captured in an existing element.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     Device notes and comments
@@ -1420,12 +1256,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Descriptive information, usage information or implantation information that is not captured in an existing element.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     Device notes and comments
@@ -1439,12 +1272,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Provides additional safety characteristics about a medical device. For example devices containing latex.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param safety
          *     Safety Characteristics of Device
@@ -1460,12 +1290,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Provides additional safety characteristics about a medical device. For example devices containing latex.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param safety
          *     Safety Characteristics of Device
@@ -1479,9 +1306,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The parent device.
-         * </p>
          * 
          * @param parent
          *     The parent device
@@ -1494,6 +1319,12 @@ public class Device extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link Device}
+         * 
+         * @return
+         *     An immutable object of type {@link Device}
+         */
         @Override
         public Device build() {
             return new Device(this);
@@ -1532,11 +1363,9 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * Unique device identifier (UDI) assigned to device label or package. Note that the Device may include multiple 
      * udiCarriers as it either may include just the udiCarrier for the jurisdiction it is sold, or for multiple 
      * jurisdictions it could have been sold.
-     * </p>
      */
     public static class UdiCarrier extends BackboneElement {
         private final String deviceIdentifier;
@@ -1560,10 +1389,8 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The device identifier (DI) is a mandatory, fixed portion of a UDI that identifies the labeler and the specific version 
          * or model of a device.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1573,7 +1400,6 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Organization that is charged with issuing UDIs for devices. For example, the US FDA issuers include :
          * 1) GS1: 
          * http://hl7.org/fhir/NamingSystem/gs1-di, 
@@ -1583,7 +1409,6 @@ public class Device extends DomainResource {
          * http://hl7.org/fhir/NamingSystem/iccbba-blood-di, 
          * 4) ICCBA for other devices:
          * http://hl7.org/fhir/NamingSystem/iccbba-other-di.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Uri}.
@@ -1593,11 +1418,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The identity of the authoritative source for UDI generation within a jurisdiction. All UDIs are globally unique within 
          * a single namespace with the appropriate repository uri as the system. For example, UDIs of devices managed in the U.S. 
          * by the FDA, the value is http://hl7.org/fhir/NamingSystem/fda-udi.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Uri}.
@@ -1607,11 +1430,9 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The full UDI carrier of the Automatic Identification and Data Capture (AIDC) technology representation of the barcode 
          * string as printed on the packaging of the device - e.g., a barcode or RFID. Because of limitations on character sets 
          * in XML and the need to round-trip JSON data through XML, AIDC Formats *SHALL* be base64 encoded.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Base64Binary}.
@@ -1621,10 +1442,8 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The full UDI carrier as the human readable form (HRF) representation of the barcode string as printed on the packaging 
          * of the device.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1634,9 +1453,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * A coded entry to indicate how the data was entered.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link UDIEntryType}.
@@ -1740,10 +1557,8 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1757,15 +1572,12 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1779,15 +1591,12 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1801,21 +1610,17 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1829,21 +1634,17 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1857,10 +1658,8 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * The device identifier (DI) is a mandatory, fixed portion of a UDI that identifies the labeler and the specific version 
              * or model of a device.
-             * </p>
              * 
              * @param deviceIdentifier
              *     Mandatory fixed portion of UDI
@@ -1874,7 +1673,6 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * Organization that is charged with issuing UDIs for devices. For example, the US FDA issuers include :
              * 1) GS1: 
              * http://hl7.org/fhir/NamingSystem/gs1-di, 
@@ -1884,7 +1682,6 @@ public class Device extends DomainResource {
              * http://hl7.org/fhir/NamingSystem/iccbba-blood-di, 
              * 4) ICCBA for other devices:
              * http://hl7.org/fhir/NamingSystem/iccbba-other-di.
-             * </p>
              * 
              * @param issuer
              *     UDI Issuing Organization
@@ -1898,11 +1695,9 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * The identity of the authoritative source for UDI generation within a jurisdiction. All UDIs are globally unique within 
              * a single namespace with the appropriate repository uri as the system. For example, UDIs of devices managed in the U.S. 
              * by the FDA, the value is http://hl7.org/fhir/NamingSystem/fda-udi.
-             * </p>
              * 
              * @param jurisdiction
              *     Regional UDI authority
@@ -1916,11 +1711,9 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * The full UDI carrier of the Automatic Identification and Data Capture (AIDC) technology representation of the barcode 
              * string as printed on the packaging of the device - e.g., a barcode or RFID. Because of limitations on character sets 
              * in XML and the need to round-trip JSON data through XML, AIDC Formats *SHALL* be base64 encoded.
-             * </p>
              * 
              * @param carrierAIDC
              *     UDI Machine Readable Barcode String
@@ -1934,10 +1727,8 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * The full UDI carrier as the human readable form (HRF) representation of the barcode string as printed on the packaging 
              * of the device.
-             * </p>
              * 
              * @param carrierHRF
              *     UDI Human Readable Barcode String
@@ -1951,9 +1742,7 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * A coded entry to indicate how the data was entered.
-             * </p>
              * 
              * @param entryType
              *     barcode | rfid | manual +
@@ -1966,6 +1755,12 @@ public class Device extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link UdiCarrier}
+             * 
+             * @return
+             *     An immutable object of type {@link UdiCarrier}
+             */
             @Override
             public UdiCarrier build() {
                 return new UdiCarrier(this);
@@ -1985,14 +1780,14 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * This represents the manufacturer's name of the device as provided by the device, from a UDI label, or by a person 
      * describing the Device. This typically would be used when a person provides the name(s) or when the device represents 
      * one of the names available from DeviceDefinition.
-     * </p>
      */
     public static class DeviceName extends BackboneElement {
+        @Required
         private final String name;
+        @Required
         private final DeviceNameType type;
 
         private volatile int hashCode;
@@ -2005,9 +1800,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the device.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2017,10 +1810,8 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of deviceName.
          * UDILabelName | UserFriendlyName | PatientReportedName | ManufactureDeviceName | ModelName.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DeviceNameType}.
@@ -2104,10 +1895,8 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2121,15 +1910,12 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2143,15 +1929,12 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2165,21 +1948,17 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2193,21 +1972,17 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2221,9 +1996,9 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * The name of the device.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param name
              *     The name of the device
@@ -2237,10 +2012,10 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of deviceName.
              * UDILabelName | UserFriendlyName | PatientReportedName | ManufactureDeviceName | ModelName.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     udi-label-name | user-friendly-name | patient-reported-name | manufacturer-name | model-name | other
@@ -2253,6 +2028,18 @@ public class Device extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link DeviceName}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>name</li>
+             * <li>type</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link DeviceName}
+             */
             @Override
             public DeviceName build() {
                 return new DeviceName(this);
@@ -2268,12 +2055,11 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * The capabilities supported on a device, the standards to which the device conforms for a particular purpose, and used 
      * for the communication.
-     * </p>
      */
     public static class Specialization extends BackboneElement {
+        @Required
         private final CodeableConcept systemType;
         private final String version;
 
@@ -2287,9 +2073,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The standard that is used to operate and communicate.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2299,9 +2083,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The version of the standard that is used to operate and communicate.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2385,10 +2167,8 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2402,15 +2182,12 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2424,15 +2201,12 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2446,21 +2220,17 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2474,21 +2244,17 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2502,9 +2268,9 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * The standard that is used to operate and communicate.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param systemType
              *     The standard that is used to operate and communicate
@@ -2518,9 +2284,7 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * The version of the standard that is used to operate and communicate.
-             * </p>
              * 
              * @param version
              *     The version of the standard that is used to operate and communicate
@@ -2533,6 +2297,17 @@ public class Device extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Specialization}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>systemType</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Specialization}
+             */
             @Override
             public Specialization build() {
                 return new Specialization(this);
@@ -2548,13 +2323,12 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * The actual design of the device or software version running on the device.
-     * </p>
      */
     public static class Version extends BackboneElement {
         private final CodeableConcept type;
         private final Identifier component;
+        @Required
         private final String value;
 
         private volatile int hashCode;
@@ -2568,9 +2342,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of the device version.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2580,9 +2352,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * A single component of the device version.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Identifier}.
@@ -2592,9 +2362,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * The version text.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2683,10 +2451,8 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2700,15 +2466,12 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2722,15 +2485,12 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2744,21 +2504,17 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2772,21 +2528,17 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2800,9 +2552,7 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of the device version.
-             * </p>
              * 
              * @param type
              *     The type of the device version
@@ -2816,9 +2566,7 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * A single component of the device version.
-             * </p>
              * 
              * @param component
              *     A single component of the device version
@@ -2832,9 +2580,9 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * The version text.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param value
              *     The version text
@@ -2847,6 +2595,17 @@ public class Device extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Version}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>value</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Version}
+             */
             @Override
             public Version build() {
                 return new Version(this);
@@ -2863,11 +2622,10 @@ public class Device extends DomainResource {
     }
 
     /**
-     * <p>
      * The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties.
-     * </p>
      */
     public static class Property extends BackboneElement {
+        @Required
         private final CodeableConcept type;
         private final List<Quantity> valueQuantity;
         private final List<CodeableConcept> valueCode;
@@ -2883,9 +2641,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Code that specifies the property DeviceDefinitionPropetyCode (Extensible).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2895,9 +2651,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Property value as a quantity.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Quantity}.
@@ -2907,9 +2661,7 @@ public class Device extends DomainResource {
         }
 
         /**
-         * <p>
          * Property value as a code, e.g., NTP4 (synced to NTP).
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -2998,10 +2750,8 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3015,15 +2765,12 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3037,15 +2784,12 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3059,21 +2803,17 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3087,21 +2827,17 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3115,9 +2851,9 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * Code that specifies the property DeviceDefinitionPropetyCode (Extensible).
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     Code that specifies the property DeviceDefinitionPropetyCode (Extensible)
@@ -3131,12 +2867,9 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * Property value as a quantity.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param valueQuantity
              *     Property value as a quantity
@@ -3152,12 +2885,9 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * Property value as a quantity.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param valueQuantity
              *     Property value as a quantity
@@ -3171,12 +2901,9 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * Property value as a code, e.g., NTP4 (synced to NTP).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param valueCode
              *     Property value as a code, e.g., NTP4 (synced to NTP)
@@ -3192,12 +2919,9 @@ public class Device extends DomainResource {
             }
 
             /**
-             * <p>
              * Property value as a code, e.g., NTP4 (synced to NTP).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param valueCode
              *     Property value as a code, e.g., NTP4 (synced to NTP)
@@ -3210,6 +2934,17 @@ public class Device extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Property}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>type</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Property}
+             */
             @Override
             public Property build() {
                 return new Property(this);

@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -42,10 +43,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A definition of a FHIR structure. This resource is used to describe the underlying resources, data types defined in 
  * FHIR, and also for describing extensions and constraints on resources and data types.
- * </p>
  */
 @Constraint(
     id = "sdf-0",
@@ -217,11 +216,14 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class StructureDefinition extends DomainResource {
+    @Required
     private final Uri url;
     private final List<Identifier> identifier;
     private final String version;
+    @Required
     private final String name;
     private final String title;
+    @Required
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -235,10 +237,13 @@ public class StructureDefinition extends DomainResource {
     private final List<Coding> keyword;
     private final FHIRVersion fhirVersion;
     private final List<Mapping> mapping;
+    @Required
     private final StructureDefinitionKind kind;
+    @Required
     private final Boolean _abstract;
     private final List<Context> context;
     private final List<String> contextInvariant;
+    @Required
     private final Uri type;
     private final Canonical baseDefinition;
     private final TypeDerivationRule derivation;
@@ -279,13 +284,11 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * An absolute URI that is used to identify this structure definition when it is referenced in a specification, model, 
      * design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal 
      * address at which at which an authoritative instance of this structure definition is (or will be) published. This URL 
      * can be the target of a canonical reference. It SHALL remain the same when the structure definition is stored on 
      * different servers.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -295,10 +298,8 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A formal identifier that is used to identify this structure definition when it is represented in other formats, or 
      * referenced in a specification, model, design or an instance.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -308,12 +309,10 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The identifier that is used to identify this version of the structure definition when it is referenced in a 
      * specification, model, design or instance. This is an arbitrary value managed by the structure definition author and is 
      * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
      * available. There is also no expectation that versions can be placed in a lexicographical sequence.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -323,10 +322,8 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A natural language name identifying the structure definition. This name should be usable as an identifier for the 
      * module by machine processing applications such as code generation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -336,9 +333,7 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A short, descriptive, user-friendly title for the structure definition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -348,9 +343,7 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of this structure definition. Enables tracking the life-cycle of the content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PublicationStatus}.
@@ -360,10 +353,8 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A Boolean value to indicate that this structure definition is authored for testing purposes (or 
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -373,11 +364,9 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and optionally time) when the structure definition was published. The date must change when the business 
      * version changes and it must change if the status code changes. In addition, it should change when the substantive 
      * content of the structure definition changes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -387,9 +376,7 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the organization or individual that published the structure definition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -399,9 +386,7 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Contact details to assist a user in finding and communicating with the publisher.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -411,9 +396,7 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A free text natural language description of the structure definition from a consumer's perspective.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -423,11 +406,9 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
      * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
      * may be used to assist with indexing and searching for appropriate structure definition instances.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
@@ -437,9 +418,7 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A legal or geographic region in which the structure definition is intended to be used.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -449,9 +428,7 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Explanation of why this structure definition is needed and why it has been designed as it has.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -461,10 +438,8 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A copyright statement relating to the structure definition and/or its contents. Copyright statements are generally 
      * legal restrictions on the use and publishing of the structure definition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -474,10 +449,8 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A set of key words or terms from external terminologies that may be used to assist with indexing and searching of 
      * templates nby describing the use of this structure definition, or the content it describes.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -487,10 +460,8 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The version of the FHIR specification on which this StructureDefinition is based - this is the formal version of the 
      * specification, without the revision number, e.g. [publication].[major].[minor], which is 4.0.0. for this version.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link FHIRVersion}.
@@ -500,9 +471,7 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * An external specification that the content is mapped to.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Mapping}.
@@ -512,9 +481,7 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Defines the kind of structure that this definition is describing.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link StructureDefinitionKind}.
@@ -524,10 +491,8 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether structure this definition describes is abstract or not - that is, whether the structure is not intended to be 
      * instantiated. For Resources and Data types, abstract types will never be exchanged between systems.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -537,9 +502,7 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the types of resource or data type elements to which the extension can be applied.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Context}.
@@ -549,10 +512,8 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A set of rules as FHIRPath Invariants about when the extension can be used (e.g. co-occurrence variants for the 
      * extension). All the rules must be true.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -562,13 +523,11 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The type this structure describes. If the derivation kind is 'specialization' then this is the master definition for a 
      * type, and there is always one of these (a data type, an extension, a resource, including abstract ones). Otherwise the 
      * structure definition is a constraint on the stated type (and in this case, the type cannot be an abstract type). 
      * References are URLs that are relative to http://hl7.org/fhir/StructureDefinition e.g. "string" is a reference to http:
      * //hl7.org/fhir/StructureDefinition/string. Absolute URLs are only allowed in logical models.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -578,9 +537,7 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * An absolute URI that is the base structure from which this type is derived, either by specialization or constraint.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Canonical}.
@@ -590,9 +547,7 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * How the type relates to the baseDefinition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link TypeDerivationRule}.
@@ -602,10 +557,8 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A snapshot view is expressed in a standalone form that can be used and interpreted without considering the base 
      * StructureDefinition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Snapshot}.
@@ -615,9 +568,7 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A differential view is expressed relative to the base StructureDefinition - a statement of differences that it applies.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Differential}.
@@ -809,9 +760,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -825,10 +774,8 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -842,11 +789,9 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -860,9 +805,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -876,12 +819,10 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -895,13 +836,10 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -915,13 +853,10 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -935,15 +870,12 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -957,15 +889,12 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -979,21 +908,17 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -1007,21 +932,17 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -1035,13 +956,13 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that is used to identify this structure definition when it is referenced in a specification, model, 
          * design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal 
          * address at which at which an authoritative instance of this structure definition is (or will be) published. This URL 
          * can be the target of a canonical reference. It SHALL remain the same when the structure definition is stored on 
          * different servers.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param url
          *     Canonical identifier for this structure definition, represented as a URI (globally unique)
@@ -1055,13 +976,10 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A formal identifier that is used to identify this structure definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Additional identifier for the structure definition
@@ -1077,13 +995,10 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A formal identifier that is used to identify this structure definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Additional identifier for the structure definition
@@ -1097,12 +1012,10 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The identifier that is used to identify this version of the structure definition when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the structure definition author and is 
          * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
          * available. There is also no expectation that versions can be placed in a lexicographical sequence.
-         * </p>
          * 
          * @param version
          *     Business version of the structure definition
@@ -1116,10 +1029,10 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A natural language name identifying the structure definition. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param name
          *     Name for this structure definition (computer friendly)
@@ -1133,9 +1046,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A short, descriptive, user-friendly title for the structure definition.
-         * </p>
          * 
          * @param title
          *     Name for this structure definition (human friendly)
@@ -1149,9 +1060,9 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of this structure definition. Enables tracking the life-cycle of the content.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | retired | unknown
@@ -1165,10 +1076,8 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A Boolean value to indicate that this structure definition is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
-         * </p>
          * 
          * @param experimental
          *     For testing purposes, not real usage
@@ -1182,11 +1091,9 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and optionally time) when the structure definition was published. The date must change when the business 
          * version changes and it must change if the status code changes. In addition, it should change when the substantive 
          * content of the structure definition changes.
-         * </p>
          * 
          * @param date
          *     Date last changed
@@ -1200,9 +1107,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the organization or individual that published the structure definition.
-         * </p>
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
@@ -1216,12 +1121,9 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1237,12 +1139,9 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1256,9 +1155,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A free text natural language description of the structure definition from a consumer's perspective.
-         * </p>
          * 
          * @param description
          *     Natural language description of the structure definition
@@ -1272,14 +1169,11 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate structure definition instances.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1295,14 +1189,11 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate structure definition instances.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1316,12 +1207,9 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the structure definition is intended to be used.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param jurisdiction
          *     Intended jurisdiction for structure definition (if applicable)
@@ -1337,12 +1225,9 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the structure definition is intended to be used.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param jurisdiction
          *     Intended jurisdiction for structure definition (if applicable)
@@ -1356,9 +1241,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Explanation of why this structure definition is needed and why it has been designed as it has.
-         * </p>
          * 
          * @param purpose
          *     Why this structure definition is defined
@@ -1372,10 +1255,8 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A copyright statement relating to the structure definition and/or its contents. Copyright statements are generally 
          * legal restrictions on the use and publishing of the structure definition.
-         * </p>
          * 
          * @param copyright
          *     Use and/or publishing restrictions
@@ -1389,13 +1270,10 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A set of key words or terms from external terminologies that may be used to assist with indexing and searching of 
          * templates nby describing the use of this structure definition, or the content it describes.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param keyword
          *     Assist with indexing and finding
@@ -1411,13 +1289,10 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A set of key words or terms from external terminologies that may be used to assist with indexing and searching of 
          * templates nby describing the use of this structure definition, or the content it describes.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param keyword
          *     Assist with indexing and finding
@@ -1431,10 +1306,8 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The version of the FHIR specification on which this StructureDefinition is based - this is the formal version of the 
          * specification, without the revision number, e.g. [publication].[major].[minor], which is 4.0.0. for this version.
-         * </p>
          * 
          * @param fhirVersion
          *     FHIR Version this StructureDefinition targets
@@ -1448,12 +1321,9 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An external specification that the content is mapped to.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param mapping
          *     External specification that the content is mapped to
@@ -1469,12 +1339,9 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An external specification that the content is mapped to.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param mapping
          *     External specification that the content is mapped to
@@ -1488,9 +1355,9 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines the kind of structure that this definition is describing.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param kind
          *     primitive-type | complex-type | resource | logical
@@ -1504,10 +1371,10 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether structure this definition describes is abstract or not - that is, whether the structure is not intended to be 
          * instantiated. For Resources and Data types, abstract types will never be exchanged between systems.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param _abstract
          *     Whether the structure is abstract
@@ -1521,12 +1388,9 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the types of resource or data type elements to which the extension can be applied.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param context
          *     If an extension, where it can be used in instances
@@ -1542,12 +1406,9 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the types of resource or data type elements to which the extension can be applied.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param context
          *     If an extension, where it can be used in instances
@@ -1561,13 +1422,10 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A set of rules as FHIRPath Invariants about when the extension can be used (e.g. co-occurrence variants for the 
          * extension). All the rules must be true.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contextInvariant
          *     FHIRPath invariants - when the extension can be used
@@ -1583,13 +1441,10 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A set of rules as FHIRPath Invariants about when the extension can be used (e.g. co-occurrence variants for the 
          * extension). All the rules must be true.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contextInvariant
          *     FHIRPath invariants - when the extension can be used
@@ -1603,13 +1458,13 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The type this structure describes. If the derivation kind is 'specialization' then this is the master definition for a 
          * type, and there is always one of these (a data type, an extension, a resource, including abstract ones). Otherwise the 
          * structure definition is a constraint on the stated type (and in this case, the type cannot be an abstract type). 
          * References are URLs that are relative to http://hl7.org/fhir/StructureDefinition e.g. "string" is a reference to http:
          * //hl7.org/fhir/StructureDefinition/string. Absolute URLs are only allowed in logical models.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     Type defined or constrained by this structure
@@ -1623,9 +1478,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that is the base structure from which this type is derived, either by specialization or constraint.
-         * </p>
          * 
          * @param baseDefinition
          *     Definition that this type is constrained/specialized from
@@ -1639,9 +1492,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * How the type relates to the baseDefinition.
-         * </p>
          * 
          * @param derivation
          *     specialization | constraint - How relates to base definition
@@ -1655,10 +1506,8 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A snapshot view is expressed in a standalone form that can be used and interpreted without considering the base 
          * StructureDefinition.
-         * </p>
          * 
          * @param snapshot
          *     Snapshot view of the structure
@@ -1672,9 +1521,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A differential view is expressed relative to the base StructureDefinition - a statement of differences that it applies.
-         * </p>
          * 
          * @param differential
          *     Differential view of the structure
@@ -1687,6 +1534,22 @@ public class StructureDefinition extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link StructureDefinition}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>url</li>
+         * <li>name</li>
+         * <li>status</li>
+         * <li>kind</li>
+         * <li>abstract</li>
+         * <li>type</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link StructureDefinition}
+         */
         @Override
         public StructureDefinition build() {
             return new StructureDefinition(this);
@@ -1726,11 +1589,10 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * An external specification that the content is mapped to.
-     * </p>
      */
     public static class Mapping extends BackboneElement {
+        @Required
         private final Id identity;
         private final Uri uri;
         private final String name;
@@ -1748,9 +1610,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An Internal id that is used to identify this mapping set when specific mappings are made.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Id}.
@@ -1760,9 +1620,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that identifies the specification that this mapping is expressed to.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Uri}.
@@ -1772,9 +1630,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A name for the specification that is being mapped to.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1784,9 +1640,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Comments about this mapping, including version notes, issues, scope limitations, and other important notes for usage.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1880,10 +1734,8 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1897,15 +1749,12 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1919,15 +1768,12 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1941,21 +1787,17 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1969,21 +1811,17 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1997,9 +1835,9 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * An Internal id that is used to identify this mapping set when specific mappings are made.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param identity
              *     Internal id when this mapping is used
@@ -2013,9 +1851,7 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * An absolute URI that identifies the specification that this mapping is expressed to.
-             * </p>
              * 
              * @param uri
              *     Identifies what this mapping refers to
@@ -2029,9 +1865,7 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A name for the specification that is being mapped to.
-             * </p>
              * 
              * @param name
              *     Names what this mapping refers to
@@ -2045,9 +1879,7 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Comments about this mapping, including version notes, issues, scope limitations, and other important notes for usage.
-             * </p>
              * 
              * @param comment
              *     Versions, Issues, Scope limitations etc.
@@ -2060,6 +1892,17 @@ public class StructureDefinition extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Mapping}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>identity</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Mapping}
+             */
             @Override
             public Mapping build() {
                 return new Mapping(this);
@@ -2077,12 +1920,12 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the types of resource or data type elements to which the extension can be applied.
-     * </p>
      */
     public static class Context extends BackboneElement {
+        @Required
         private final ExtensionContextType type;
+        @Required
         private final String expression;
 
         private volatile int hashCode;
@@ -2095,9 +1938,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines how to interpret the expression that defines what the context of the extension is.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ExtensionContextType}.
@@ -2107,9 +1948,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An expression that defines where an extension can be used in resources.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2193,10 +2032,8 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2210,15 +2047,12 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2232,15 +2066,12 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2254,21 +2085,17 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2282,21 +2109,17 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2310,9 +2133,9 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines how to interpret the expression that defines what the context of the extension is.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     fhirpath | element | extension
@@ -2326,9 +2149,9 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * An expression that defines where an extension can be used in resources.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param expression
              *     Where the extension can be used in instances
@@ -2341,6 +2164,18 @@ public class StructureDefinition extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Context}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>type</li>
+             * <li>expression</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Context}
+             */
             @Override
             public Context build() {
                 return new Context(this);
@@ -2356,12 +2191,11 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A snapshot view is expressed in a standalone form that can be used and interpreted without considering the base 
      * StructureDefinition.
-     * </p>
      */
     public static class Snapshot extends BackboneElement {
+        @Required
         private final List<ElementDefinition> element;
 
         private volatile int hashCode;
@@ -2373,9 +2207,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Captures constraints on each element within the resource.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link ElementDefinition}.
@@ -2454,10 +2286,8 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2471,15 +2301,12 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2493,15 +2320,12 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2515,21 +2339,17 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2543,21 +2363,17 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2571,12 +2387,11 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Captures constraints on each element within the resource.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * <p>This element is required.
              * 
              * @param element
              *     Definition of elements in the resource (if no StructureDefinition)
@@ -2592,12 +2407,11 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Captures constraints on each element within the resource.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>This element is required.
              * 
              * @param element
              *     Definition of elements in the resource (if no StructureDefinition)
@@ -2610,6 +2424,17 @@ public class StructureDefinition extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Snapshot}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>element</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Snapshot}
+             */
             @Override
             public Snapshot build() {
                 return new Snapshot(this);
@@ -2624,11 +2449,10 @@ public class StructureDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A differential view is expressed relative to the base StructureDefinition - a statement of differences that it applies.
-     * </p>
      */
     public static class Differential extends BackboneElement {
+        @Required
         private final List<ElementDefinition> element;
 
         private volatile int hashCode;
@@ -2640,9 +2464,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Captures constraints on each element within the resource.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link ElementDefinition}.
@@ -2721,10 +2543,8 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2738,15 +2558,12 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2760,15 +2577,12 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2782,21 +2596,17 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2810,21 +2620,17 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2838,12 +2644,11 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Captures constraints on each element within the resource.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * <p>This element is required.
              * 
              * @param element
              *     Definition of elements in the resource (if no StructureDefinition)
@@ -2859,12 +2664,11 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Captures constraints on each element within the resource.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>This element is required.
              * 
              * @param element
              *     Definition of elements in the resource (if no StructureDefinition)
@@ -2877,6 +2681,17 @@ public class StructureDefinition extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Differential}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>element</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Differential}
+             */
             @Override
             public Differential build() {
                 return new Differential(this);

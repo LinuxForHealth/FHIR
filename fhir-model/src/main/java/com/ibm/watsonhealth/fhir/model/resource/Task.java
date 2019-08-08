@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Address;
 import com.ibm.watsonhealth.fhir.model.type.Age;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
@@ -76,9 +78,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A task to be performed.
- * </p>
  */
 @Constraint(
     id = "inv-1",
@@ -95,9 +95,11 @@ public class Task extends DomainResource {
     private final List<Reference> basedOn;
     private final Identifier groupIdentifier;
     private final List<Reference> partOf;
+    @Required
     private final TaskStatus status;
     private final CodeableConcept statusReason;
     private final CodeableConcept businessStatus;
+    @Required
     private final TaskIntent intent;
     private final TaskPriority priority;
     private final CodeableConcept code;
@@ -159,9 +161,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * The business identifier for this task.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -171,10 +171,8 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * The URL pointing to a *FHIR*-defined protocol, guideline, orderset or other definition that is adhered to in whole or 
      * in part by this Task.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Canonical}.
@@ -184,10 +182,8 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * The URL pointing to an *externally* maintained protocol, guideline, orderset or other definition that is adhered to in 
      * whole or in part by this Task.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -197,13 +193,11 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * BasedOn refers to a higher-level authorization that triggered the creation of the task. It references a "request" 
      * resource such as a ServiceRequest, MedicationRequest, ServiceRequest, CarePlan, etc. which is distinct from the 
      * "request" resource the task is seeking to fulfill. This latter resource is referenced by FocusOn. For example, based 
      * on a ServiceRequest (= BasedOn), a task is created to fulfill a procedureRequest ( = FocusOn ) to collect a specimen 
      * from a patient.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -213,9 +207,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * An identifier that links together multiple tasks and other requests that were created in the same context.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Identifier}.
@@ -225,9 +217,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * Task that this particular task is part of.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -237,9 +227,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * The current status of the task.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link TaskStatus}.
@@ -249,9 +237,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * An explanation as to why this task is held, failed, was refused, etc.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -261,9 +247,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * Contains business-specific nuances of the business state.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -273,10 +257,8 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the "level" of actionability associated with the Task, i.e. i+R[9]Cs this a proposed task, a planned task, 
      * an actionable task, etc.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link TaskIntent}.
@@ -286,9 +268,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates how quickly the Task should be addressed with respect to other requests.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link TaskPriority}.
@@ -298,9 +278,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * A name or code (or both) briefly describing what the task involves.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -310,9 +288,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * A free-text description of what is to be performed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -322,9 +298,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * The request being actioned or the resource being manipulated by this task.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -334,9 +308,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * The entity who benefits from the performance of the service specified in the task (e.g., the patient).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -346,9 +318,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * The healthcare event (e.g. a patient and healthcare provider interaction) during which this task was created.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -358,10 +328,8 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the time action was first taken against the task (start) and/or the time final action was taken against the 
      * task prior to marking it as completed (end).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -371,9 +339,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * The date and time this task was created.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -383,9 +349,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * The date and time of last modification to this task.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -395,9 +359,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * The creator of the task.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -407,9 +369,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * The kind of participant that should perform the task.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -419,9 +379,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * Individual organization or Device currently responsible for task execution.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -431,9 +389,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * Principal physical location where the this task is performed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -443,9 +399,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * A description or code indicating why this task needs to be performed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -455,9 +409,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * A resource reference indicating why this task needs to be performed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -467,9 +419,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be relevant to the Task.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -479,9 +429,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * Free-text information captured about the task as it progresses.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -491,10 +439,8 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * Links to Provenance records for past versions of this Task that identify key state transitions or updates that are 
      * likely to be relevant to a user looking at the current version of the task.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -504,10 +450,8 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * If the Task.focus is a request resource and the task is seeking fulfillment (i.e. is asking for the request to be 
      * actioned), this element identifies any limitations on what parts of the referenced request should be actioned.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Restriction}.
@@ -517,9 +461,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * Additional information that may be needed in the execution of the task.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Input}.
@@ -529,9 +471,7 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * Outputs produced by the Task.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Output}.
@@ -739,9 +679,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -755,10 +693,8 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -772,11 +708,9 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -790,9 +724,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -806,12 +738,10 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -825,13 +755,10 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -845,13 +772,10 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -865,15 +789,12 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -887,15 +808,12 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -909,21 +827,17 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -937,21 +851,17 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -965,12 +875,9 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The business identifier for this task.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Task Instance Identifier
@@ -986,12 +893,9 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The business identifier for this task.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Task Instance Identifier
@@ -1005,10 +909,8 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to a *FHIR*-defined protocol, guideline, orderset or other definition that is adhered to in whole or 
          * in part by this Task.
-         * </p>
          * 
          * @param instantiatesCanonical
          *     Formal definition of task
@@ -1022,10 +924,8 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to an *externally* maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this Task.
-         * </p>
          * 
          * @param instantiatesUri
          *     Formal definition of task
@@ -1039,16 +939,13 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * BasedOn refers to a higher-level authorization that triggered the creation of the task. It references a "request" 
          * resource such as a ServiceRequest, MedicationRequest, ServiceRequest, CarePlan, etc. which is distinct from the 
          * "request" resource the task is seeking to fulfill. This latter resource is referenced by FocusOn. For example, based 
          * on a ServiceRequest (= BasedOn), a task is created to fulfill a procedureRequest ( = FocusOn ) to collect a specimen 
          * from a patient.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param basedOn
          *     Request fulfilled by this task
@@ -1064,16 +961,13 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * BasedOn refers to a higher-level authorization that triggered the creation of the task. It references a "request" 
          * resource such as a ServiceRequest, MedicationRequest, ServiceRequest, CarePlan, etc. which is distinct from the 
          * "request" resource the task is seeking to fulfill. This latter resource is referenced by FocusOn. For example, based 
          * on a ServiceRequest (= BasedOn), a task is created to fulfill a procedureRequest ( = FocusOn ) to collect a specimen 
          * from a patient.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param basedOn
          *     Request fulfilled by this task
@@ -1087,9 +981,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * An identifier that links together multiple tasks and other requests that were created in the same context.
-         * </p>
          * 
          * @param groupIdentifier
          *     Requisition or grouper id
@@ -1103,12 +995,9 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Task that this particular task is part of.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param partOf
          *     Composite task
@@ -1124,12 +1013,9 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Task that this particular task is part of.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param partOf
          *     Composite task
@@ -1143,9 +1029,9 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The current status of the task.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | requested | received | accepted | +
@@ -1159,9 +1045,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * An explanation as to why this task is held, failed, was refused, etc.
-         * </p>
          * 
          * @param statusReason
          *     Reason for current status
@@ -1175,9 +1059,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Contains business-specific nuances of the business state.
-         * </p>
          * 
          * @param businessStatus
          *     E.g. "Specimen collected", "IV prepped"
@@ -1191,10 +1073,10 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the "level" of actionability associated with the Task, i.e. i+R[9]Cs this a proposed task, a planned task, 
          * an actionable task, etc.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param intent
          *     unknown | proposal | plan | order | original-order | reflex-order | filler-order | instance-order | option
@@ -1208,9 +1090,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates how quickly the Task should be addressed with respect to other requests.
-         * </p>
          * 
          * @param priority
          *     routine | urgent | asap | stat
@@ -1224,9 +1104,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * A name or code (or both) briefly describing what the task involves.
-         * </p>
          * 
          * @param code
          *     Task Type
@@ -1240,9 +1118,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * A free-text description of what is to be performed.
-         * </p>
          * 
          * @param description
          *     Human-readable explanation of task
@@ -1256,9 +1132,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The request being actioned or the resource being manipulated by this task.
-         * </p>
          * 
          * @param focus
          *     What task is acting on
@@ -1272,9 +1146,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The entity who benefits from the performance of the service specified in the task (e.g., the patient).
-         * </p>
          * 
          * @param _for
          *     Beneficiary of the Task
@@ -1288,9 +1160,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The healthcare event (e.g. a patient and healthcare provider interaction) during which this task was created.
-         * </p>
          * 
          * @param encounter
          *     Healthcare event during which this task originated
@@ -1304,10 +1174,8 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the time action was first taken against the task (start) and/or the time final action was taken against the 
          * task prior to marking it as completed (end).
-         * </p>
          * 
          * @param executionPeriod
          *     Start and end time of execution
@@ -1321,9 +1189,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The date and time this task was created.
-         * </p>
          * 
          * @param authoredOn
          *     Task Creation Date
@@ -1337,9 +1203,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The date and time of last modification to this task.
-         * </p>
          * 
          * @param lastModified
          *     Task Last Modified Date
@@ -1353,9 +1217,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The creator of the task.
-         * </p>
          * 
          * @param requester
          *     Who is asking for task to be done
@@ -1369,12 +1231,9 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The kind of participant that should perform the task.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param performerType
          *     Requested performer
@@ -1390,12 +1249,9 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The kind of participant that should perform the task.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param performerType
          *     Requested performer
@@ -1409,9 +1265,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Individual organization or Device currently responsible for task execution.
-         * </p>
          * 
          * @param owner
          *     Responsible individual
@@ -1425,9 +1279,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Principal physical location where the this task is performed.
-         * </p>
          * 
          * @param location
          *     Where task occurs
@@ -1441,9 +1293,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * A description or code indicating why this task needs to be performed.
-         * </p>
          * 
          * @param reasonCode
          *     Why task is needed
@@ -1457,9 +1307,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * A resource reference indicating why this task needs to be performed.
-         * </p>
          * 
          * @param reasonReference
          *     Why task is needed
@@ -1473,12 +1321,9 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be relevant to the Task.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param insurance
          *     Associated insurance coverage
@@ -1494,12 +1339,9 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be relevant to the Task.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param insurance
          *     Associated insurance coverage
@@ -1513,12 +1355,9 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Free-text information captured about the task as it progresses.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     Comments made about the task
@@ -1534,12 +1373,9 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Free-text information captured about the task as it progresses.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     Comments made about the task
@@ -1553,13 +1389,10 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Links to Provenance records for past versions of this Task that identify key state transitions or updates that are 
          * likely to be relevant to a user looking at the current version of the task.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param relevantHistory
          *     Key events in history of the Task
@@ -1575,13 +1408,10 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Links to Provenance records for past versions of this Task that identify key state transitions or updates that are 
          * likely to be relevant to a user looking at the current version of the task.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param relevantHistory
          *     Key events in history of the Task
@@ -1595,10 +1425,8 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * If the Task.focus is a request resource and the task is seeking fulfillment (i.e. is asking for the request to be 
          * actioned), this element identifies any limitations on what parts of the referenced request should be actioned.
-         * </p>
          * 
          * @param restriction
          *     Constraints on fulfillment tasks
@@ -1612,12 +1440,9 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional information that may be needed in the execution of the task.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param input
          *     Information used to perform task
@@ -1633,12 +1458,9 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional information that may be needed in the execution of the task.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param input
          *     Information used to perform task
@@ -1652,12 +1474,9 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Outputs produced by the Task.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param output
          *     Information produced as part of task
@@ -1673,12 +1492,9 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Outputs produced by the Task.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param output
          *     Information produced as part of task
@@ -1691,6 +1507,18 @@ public class Task extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link Task}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>intent</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Task}
+         */
         @Override
         public Task build() {
             return new Task(this);
@@ -1734,10 +1562,8 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * If the Task.focus is a request resource and the task is seeking fulfillment (i.e. is asking for the request to be 
      * actioned), this element identifies any limitations on what parts of the referenced request should be actioned.
-     * </p>
      */
     public static class Restriction extends BackboneElement {
         private final PositiveInt repetitions;
@@ -1755,9 +1581,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the number of times the requested action should occur.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}.
@@ -1767,9 +1591,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * Over what time-period is fulfillment sought.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Period}.
@@ -1779,9 +1601,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * For requests that are targeted to more than on potential recipient/target, for whom is fulfillment sought?
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -1870,10 +1690,8 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1887,15 +1705,12 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1909,15 +1724,12 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1931,21 +1743,17 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1959,21 +1767,17 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1987,9 +1791,7 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates the number of times the requested action should occur.
-             * </p>
              * 
              * @param repetitions
              *     How many times to repeat
@@ -2003,9 +1805,7 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * Over what time-period is fulfillment sought.
-             * </p>
              * 
              * @param period
              *     When fulfillment sought
@@ -2019,12 +1819,9 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * For requests that are targeted to more than on potential recipient/target, for whom is fulfillment sought?
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param recipient
              *     For whom is fulfillment sought?
@@ -2040,12 +1837,9 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * For requests that are targeted to more than on potential recipient/target, for whom is fulfillment sought?
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param recipient
              *     For whom is fulfillment sought?
@@ -2058,6 +1852,12 @@ public class Task extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Restriction}
+             * 
+             * @return
+             *     An immutable object of type {@link Restriction}
+             */
             @Override
             public Restriction build() {
                 return new Restriction(this);
@@ -2074,12 +1874,13 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * Additional information that may be needed in the execution of the task.
-     * </p>
      */
     public static class Input extends BackboneElement {
+        @Required
         private final CodeableConcept type;
+        @Required
+        @Choice({Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class})
         private final Element value;
 
         private volatile int hashCode;
@@ -2092,9 +1893,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * A code or description indicating how the input is intended to be used as part of the task execution.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2104,9 +1903,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The value of the input parameter as a basic type.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -2190,10 +1987,8 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2207,15 +2002,12 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2229,15 +2021,12 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2251,21 +2040,17 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2279,21 +2064,17 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2307,9 +2088,9 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * A code or description indicating how the input is intended to be used as part of the task execution.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     Label for the input
@@ -2323,9 +2104,62 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * The value of the input parameter as a basic type.
-             * </p>
+             * 
+             * <p>This element is required.
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Base64Binary}</li>
+             * <li>{@link Boolean}</li>
+             * <li>{@link Canonical}</li>
+             * <li>{@link Code}</li>
+             * <li>{@link Date}</li>
+             * <li>{@link DateTime}</li>
+             * <li>{@link Decimal}</li>
+             * <li>{@link Id}</li>
+             * <li>{@link Instant}</li>
+             * <li>{@link Integer}</li>
+             * <li>{@link Markdown}</li>
+             * <li>{@link Oid}</li>
+             * <li>{@link PositiveInt}</li>
+             * <li>{@link String}</li>
+             * <li>{@link Time}</li>
+             * <li>{@link UnsignedInt}</li>
+             * <li>{@link Uri}</li>
+             * <li>{@link Url}</li>
+             * <li>{@link Uuid}</li>
+             * <li>{@link Address}</li>
+             * <li>{@link Age}</li>
+             * <li>{@link Annotation}</li>
+             * <li>{@link Attachment}</li>
+             * <li>{@link CodeableConcept}</li>
+             * <li>{@link Coding}</li>
+             * <li>{@link ContactPoint}</li>
+             * <li>{@link Count}</li>
+             * <li>{@link Distance}</li>
+             * <li>{@link Duration}</li>
+             * <li>{@link HumanName}</li>
+             * <li>{@link Identifier}</li>
+             * <li>{@link Money}</li>
+             * <li>{@link Period}</li>
+             * <li>{@link Quantity}</li>
+             * <li>{@link Range}</li>
+             * <li>{@link Ratio}</li>
+             * <li>{@link Reference}</li>
+             * <li>{@link SampledData}</li>
+             * <li>{@link Signature}</li>
+             * <li>{@link Timing}</li>
+             * <li>{@link ContactDetail}</li>
+             * <li>{@link Contributor}</li>
+             * <li>{@link DataRequirement}</li>
+             * <li>{@link Expression}</li>
+             * <li>{@link ParameterDefinition}</li>
+             * <li>{@link RelatedArtifact}</li>
+             * <li>{@link TriggerDefinition}</li>
+             * <li>{@link UsageContext}</li>
+             * <li>{@link Dosage}</li>
+             * </ul>
              * 
              * @param value
              *     Content to use in performing the task
@@ -2338,6 +2172,18 @@ public class Task extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Input}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>type</li>
+             * <li>value</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Input}
+             */
             @Override
             public Input build() {
                 return new Input(this);
@@ -2353,12 +2199,13 @@ public class Task extends DomainResource {
     }
 
     /**
-     * <p>
      * Outputs produced by the Task.
-     * </p>
      */
     public static class Output extends BackboneElement {
+        @Required
         private final CodeableConcept type;
+        @Required
+        @Choice({Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class})
         private final Element value;
 
         private volatile int hashCode;
@@ -2371,9 +2218,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the Output parameter.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2383,9 +2228,7 @@ public class Task extends DomainResource {
         }
 
         /**
-         * <p>
          * The value of the Output parameter as a basic type.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -2469,10 +2312,8 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2486,15 +2327,12 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2508,15 +2346,12 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2530,21 +2365,17 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2558,21 +2389,17 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2586,9 +2413,9 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * The name of the Output parameter.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     Label for output
@@ -2602,9 +2429,62 @@ public class Task extends DomainResource {
             }
 
             /**
-             * <p>
              * The value of the Output parameter as a basic type.
-             * </p>
+             * 
+             * <p>This element is required.
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Base64Binary}</li>
+             * <li>{@link Boolean}</li>
+             * <li>{@link Canonical}</li>
+             * <li>{@link Code}</li>
+             * <li>{@link Date}</li>
+             * <li>{@link DateTime}</li>
+             * <li>{@link Decimal}</li>
+             * <li>{@link Id}</li>
+             * <li>{@link Instant}</li>
+             * <li>{@link Integer}</li>
+             * <li>{@link Markdown}</li>
+             * <li>{@link Oid}</li>
+             * <li>{@link PositiveInt}</li>
+             * <li>{@link String}</li>
+             * <li>{@link Time}</li>
+             * <li>{@link UnsignedInt}</li>
+             * <li>{@link Uri}</li>
+             * <li>{@link Url}</li>
+             * <li>{@link Uuid}</li>
+             * <li>{@link Address}</li>
+             * <li>{@link Age}</li>
+             * <li>{@link Annotation}</li>
+             * <li>{@link Attachment}</li>
+             * <li>{@link CodeableConcept}</li>
+             * <li>{@link Coding}</li>
+             * <li>{@link ContactPoint}</li>
+             * <li>{@link Count}</li>
+             * <li>{@link Distance}</li>
+             * <li>{@link Duration}</li>
+             * <li>{@link HumanName}</li>
+             * <li>{@link Identifier}</li>
+             * <li>{@link Money}</li>
+             * <li>{@link Period}</li>
+             * <li>{@link Quantity}</li>
+             * <li>{@link Range}</li>
+             * <li>{@link Ratio}</li>
+             * <li>{@link Reference}</li>
+             * <li>{@link SampledData}</li>
+             * <li>{@link Signature}</li>
+             * <li>{@link Timing}</li>
+             * <li>{@link ContactDetail}</li>
+             * <li>{@link Contributor}</li>
+             * <li>{@link DataRequirement}</li>
+             * <li>{@link Expression}</li>
+             * <li>{@link ParameterDefinition}</li>
+             * <li>{@link RelatedArtifact}</li>
+             * <li>{@link TriggerDefinition}</li>
+             * <li>{@link UsageContext}</li>
+             * <li>{@link Dosage}</li>
+             * </ul>
              * 
              * @param value
              *     Result of output
@@ -2617,6 +2497,18 @@ public class Task extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Output}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>type</li>
+             * <li>value</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Output}
+             */
             @Override
             public Output build() {
                 return new Output(this);

@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.Attachment;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
@@ -49,9 +51,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Legally enforceable, formally recorded unilateral or bilateral directive i.e., a policy or agreement.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Contract extends DomainResource {
@@ -76,6 +76,7 @@ public class Contract extends DomainResource {
     private final List<String> alias;
     private final Reference author;
     private final CodeableConcept scope;
+    @Choice({CodeableConcept.class, Reference.class})
     private final Element topic;
     private final CodeableConcept type;
     private final List<CodeableConcept> subType;
@@ -87,6 +88,7 @@ public class Contract extends DomainResource {
     private final List<Friendly> friendly;
     private final List<Legal> legal;
     private final List<Rule> rule;
+    @Choice({Attachment.class, Reference.class})
     private final Element legallyBinding;
 
     private volatile int hashCode;
@@ -129,9 +131,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Unique identifier for this Contract or a derivative that references a Source Contract.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -141,9 +141,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Canonical identifier for this contract, represented as a URI (globally unique).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -153,9 +151,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * An edition identifier used for business purposes to label business significant variants.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -165,9 +161,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of the resource instance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ContractStatus}.
@@ -177,11 +171,9 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Legal states of the formation of a legal instrument, which is a formally executed written document that can be 
      * formally attributed to its author, records and formally expresses a legally enforceable act, process, or contractual 
      * duty, obligation, or right, and therefore evidences that act, process, or agreement.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -191,9 +183,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * The URL pointing to a FHIR-defined Contract Definition that is adhered to in whole or part by this Contract.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -203,9 +193,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * The URL pointing to an externally maintained definition that is adhered to in whole or in part by this Contract.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -215,9 +203,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * The minimal content derived from the basal information source at a specific stage in its lifecycle.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -227,9 +213,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * When this Contract was issued.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -239,9 +223,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Relevant time or time-period when this Contract is applicable.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -251,9 +233,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Event resulting in discontinuation or termination of this Contract instance by one or more parties to the contract.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -263,9 +243,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * The target entity impacted by or of interest to parties to the agreement.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -275,11 +253,9 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * A formally or informally recognized grouping of people, principals, organizations, or jurisdictions formed for the 
      * purpose of achieving some form of collective action such as the promulgation, administration and enforcement of 
      * contracts and policies.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -289,11 +265,9 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Recognized governance framework or system operating with a circumscribed scope in accordance with specified 
      * principles, policies, processes or procedures for managing rights, actions, or behaviors of parties or principals 
      * relative to resources.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -303,9 +277,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Sites in which the contract is complied with, exercised, or in force.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -315,11 +287,9 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * A natural language name identifying this Contract definition, derivative, or instance in any legal state. Provides 
      * additional information about its content. This name should be usable as an identifier for the module by machine 
      * processing applications such as code generation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -329,10 +299,8 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * A short, descriptive, user-friendly title for this Contract definition, derivative, or instance in any legal state.t 
      * giving additional information about its content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -342,10 +310,8 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * An explanatory or alternate user-friendly title for this Contract definition, derivative, or instance in any legal 
      * state.t giving additional information about its content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -355,10 +321,8 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Alternative representation of the title for this Contract definition, derivative, or instance in any legal state., e.
      * g., a domain specific contract number related to legislation.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -368,9 +332,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * The individual or organization that authored the Contract definition, derivative, or instance in any legal state.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -380,9 +342,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * A selector of legal concerns for this Contract definition, derivative, or instance in any legal state.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -392,9 +352,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Narrows the range of legal concerns to focus on the achievement of specific contractual objectives.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -404,11 +362,9 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * A high-level category for the legal instrument, whether constructed as a Contract definition, derivative, or instance 
      * in any legal state. Provides additional information about its content within the context of the Contract's scope to 
      * distinguish the kinds of systems that would be interested in the contract.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -418,10 +374,8 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Sub-category for the Contract that distinguishes the kinds of systems that would be interested in the Contract within 
      * the context of the Contract's scope.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -431,10 +385,8 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Precusory content developed with a focus and intent of supporting the formation a Contract instance, which may be 
      * associated with and transformable into a Contract.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ContentDefinition}.
@@ -444,9 +396,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * One or more Contract Provisions, which may be related and conveyed as a group, and may contain nested groups.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Term}.
@@ -456,9 +406,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Information that may be needed by/relevant to the performer in their execution of this term action.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -468,12 +416,10 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Links to Provenance records for past versions of this Contract definition, derivative, or instance, which identify key 
      * state transitions or updates that are likely to be relevant to a user looking at the current version of the Contract. 
      * The Provence.entity indicates the target that was changed in the update. http://build.fhir.org/provenance-definitions.
      * html#Provenance.entity.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -483,11 +429,9 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Parties with legal standing in the Contract, including the principal parties, the grantor(s) and grantee(s), which are 
      * any person or organization bound by the contract, and any ancillary parties, which facilitate the execution of the 
      * contract such as a notary or witness.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Signer}.
@@ -497,12 +441,10 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * The "patient friendly language" versionof the Contract in whole or in parts. "Patient friendly language" means the 
      * representation of the Contract and Contract Provisions in a manner that is readily accessible and understandable by a 
      * layperson in accordance with best practices for communication styles that ensure that those agreeing to or signing the 
      * Contract understand the roles, actions, obligations, responsibilities, and implication of the agreement.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Friendly}.
@@ -512,9 +454,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * List of Legal expressions or representations of this Contract.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Legal}.
@@ -524,9 +464,7 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * List of Computable Policy Rule Language Representations of this Contract.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Rule}.
@@ -536,10 +474,8 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Legally binding Contract: This is the signed and legally recognized representation of the Contract, which is 
      * considered the "source of truth" and which would be the basis for legal action related to enforcement of this Contract.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -755,9 +691,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -771,10 +705,8 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -788,11 +720,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -806,9 +736,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -822,12 +750,10 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -841,13 +767,10 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -861,13 +784,10 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -881,15 +801,12 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -903,15 +820,12 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -925,21 +839,17 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -953,21 +863,17 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -981,12 +887,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Unique identifier for this Contract or a derivative that references a Source Contract.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Contract number
@@ -1002,12 +905,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Unique identifier for this Contract or a derivative that references a Source Contract.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Contract number
@@ -1021,9 +921,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Canonical identifier for this contract, represented as a URI (globally unique).
-         * </p>
          * 
          * @param url
          *     Basal definition
@@ -1037,9 +935,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * An edition identifier used for business purposes to label business significant variants.
-         * </p>
          * 
          * @param version
          *     Business edition
@@ -1053,9 +949,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of the resource instance.
-         * </p>
          * 
          * @param status
          *     draft | active | suspended | cancelled | completed | entered-in-error | unknown
@@ -1069,11 +963,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Legal states of the formation of a legal instrument, which is a formally executed written document that can be 
          * formally attributed to its author, records and formally expresses a legally enforceable act, process, or contractual 
          * duty, obligation, or right, and therefore evidences that act, process, or agreement.
-         * </p>
          * 
          * @param legalState
          *     Negotiation status
@@ -1087,9 +979,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to a FHIR-defined Contract Definition that is adhered to in whole or part by this Contract.
-         * </p>
          * 
          * @param instantiatesCanonical
          *     Source Contract Definition
@@ -1103,9 +993,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to an externally maintained definition that is adhered to in whole or in part by this Contract.
-         * </p>
          * 
          * @param instantiatesUri
          *     External Contract Definition
@@ -1119,9 +1007,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The minimal content derived from the basal information source at a specific stage in its lifecycle.
-         * </p>
          * 
          * @param contentDerivative
          *     Content derived from the basal information
@@ -1135,9 +1021,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * When this Contract was issued.
-         * </p>
          * 
          * @param issued
          *     When this Contract was issued
@@ -1151,9 +1035,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Relevant time or time-period when this Contract is applicable.
-         * </p>
          * 
          * @param applies
          *     Effective time
@@ -1167,9 +1049,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Event resulting in discontinuation or termination of this Contract instance by one or more parties to the contract.
-         * </p>
          * 
          * @param expirationType
          *     Contract cessation cause
@@ -1183,12 +1063,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The target entity impacted by or of interest to parties to the agreement.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param subject
          *     Contract Target Entity
@@ -1204,12 +1081,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The target entity impacted by or of interest to parties to the agreement.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param subject
          *     Contract Target Entity
@@ -1223,14 +1097,11 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * A formally or informally recognized grouping of people, principals, organizations, or jurisdictions formed for the 
          * purpose of achieving some form of collective action such as the promulgation, administration and enforcement of 
          * contracts and policies.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param authority
          *     Authority under which this Contract has standing
@@ -1246,14 +1117,11 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * A formally or informally recognized grouping of people, principals, organizations, or jurisdictions formed for the 
          * purpose of achieving some form of collective action such as the promulgation, administration and enforcement of 
          * contracts and policies.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param authority
          *     Authority under which this Contract has standing
@@ -1267,14 +1135,11 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Recognized governance framework or system operating with a circumscribed scope in accordance with specified 
          * principles, policies, processes or procedures for managing rights, actions, or behaviors of parties or principals 
          * relative to resources.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param domain
          *     A sphere of control governed by an authoritative jurisdiction, organization, or person
@@ -1290,14 +1155,11 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Recognized governance framework or system operating with a circumscribed scope in accordance with specified 
          * principles, policies, processes or procedures for managing rights, actions, or behaviors of parties or principals 
          * relative to resources.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param domain
          *     A sphere of control governed by an authoritative jurisdiction, organization, or person
@@ -1311,12 +1173,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Sites in which the contract is complied with, exercised, or in force.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param site
          *     Specific Location
@@ -1332,12 +1191,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Sites in which the contract is complied with, exercised, or in force.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param site
          *     Specific Location
@@ -1351,11 +1207,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * A natural language name identifying this Contract definition, derivative, or instance in any legal state. Provides 
          * additional information about its content. This name should be usable as an identifier for the module by machine 
          * processing applications such as code generation.
-         * </p>
          * 
          * @param name
          *     Computer friendly designation
@@ -1369,10 +1223,8 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * A short, descriptive, user-friendly title for this Contract definition, derivative, or instance in any legal state.t 
          * giving additional information about its content.
-         * </p>
          * 
          * @param title
          *     Human Friendly name
@@ -1386,10 +1238,8 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * An explanatory or alternate user-friendly title for this Contract definition, derivative, or instance in any legal 
          * state.t giving additional information about its content.
-         * </p>
          * 
          * @param subtitle
          *     Subordinate Friendly name
@@ -1403,13 +1253,10 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Alternative representation of the title for this Contract definition, derivative, or instance in any legal state., e.
          * g., a domain specific contract number related to legislation.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param alias
          *     Acronym or short name
@@ -1425,13 +1272,10 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Alternative representation of the title for this Contract definition, derivative, or instance in any legal state., e.
          * g., a domain specific contract number related to legislation.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param alias
          *     Acronym or short name
@@ -1445,9 +1289,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The individual or organization that authored the Contract definition, derivative, or instance in any legal state.
-         * </p>
          * 
          * @param author
          *     Source of Contract
@@ -1461,9 +1303,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * A selector of legal concerns for this Contract definition, derivative, or instance in any legal state.
-         * </p>
          * 
          * @param scope
          *     Range of Legal Concerns
@@ -1477,9 +1317,13 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Narrows the range of legal concerns to focus on the achievement of specific contractual objectives.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link CodeableConcept}</li>
+         * <li>{@link Reference}</li>
+         * </ul>
          * 
          * @param topic
          *     Focus of contract interest
@@ -1493,11 +1337,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * A high-level category for the legal instrument, whether constructed as a Contract definition, derivative, or instance 
          * in any legal state. Provides additional information about its content within the context of the Contract's scope to 
          * distinguish the kinds of systems that would be interested in the contract.
-         * </p>
          * 
          * @param type
          *     Legal instrument category
@@ -1511,13 +1353,10 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Sub-category for the Contract that distinguishes the kinds of systems that would be interested in the Contract within 
          * the context of the Contract's scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param subType
          *     Subtype within the context of type
@@ -1533,13 +1372,10 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Sub-category for the Contract that distinguishes the kinds of systems that would be interested in the Contract within 
          * the context of the Contract's scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param subType
          *     Subtype within the context of type
@@ -1553,10 +1389,8 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Precusory content developed with a focus and intent of supporting the formation a Contract instance, which may be 
          * associated with and transformable into a Contract.
-         * </p>
          * 
          * @param contentDefinition
          *     Contract precursor content
@@ -1570,12 +1404,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * One or more Contract Provisions, which may be related and conveyed as a group, and may contain nested groups.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param term
          *     Contract Term List
@@ -1591,12 +1422,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * One or more Contract Provisions, which may be related and conveyed as a group, and may contain nested groups.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param term
          *     Contract Term List
@@ -1610,12 +1438,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Information that may be needed by/relevant to the performer in their execution of this term action.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param supportingInfo
          *     Extra Information
@@ -1631,12 +1456,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Information that may be needed by/relevant to the performer in their execution of this term action.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param supportingInfo
          *     Extra Information
@@ -1650,15 +1472,12 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Links to Provenance records for past versions of this Contract definition, derivative, or instance, which identify key 
          * state transitions or updates that are likely to be relevant to a user looking at the current version of the Contract. 
          * The Provence.entity indicates the target that was changed in the update. http://build.fhir.org/provenance-definitions.
          * html#Provenance.entity.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param relevantHistory
          *     Key event in Contract History
@@ -1674,15 +1493,12 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Links to Provenance records for past versions of this Contract definition, derivative, or instance, which identify key 
          * state transitions or updates that are likely to be relevant to a user looking at the current version of the Contract. 
          * The Provence.entity indicates the target that was changed in the update. http://build.fhir.org/provenance-definitions.
          * html#Provenance.entity.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param relevantHistory
          *     Key event in Contract History
@@ -1696,14 +1512,11 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Parties with legal standing in the Contract, including the principal parties, the grantor(s) and grantee(s), which are 
          * any person or organization bound by the contract, and any ancillary parties, which facilitate the execution of the 
          * contract such as a notary or witness.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param signer
          *     Contract Signatory
@@ -1719,14 +1532,11 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Parties with legal standing in the Contract, including the principal parties, the grantor(s) and grantee(s), which are 
          * any person or organization bound by the contract, and any ancillary parties, which facilitate the execution of the 
          * contract such as a notary or witness.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param signer
          *     Contract Signatory
@@ -1740,15 +1550,12 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The "patient friendly language" versionof the Contract in whole or in parts. "Patient friendly language" means the 
          * representation of the Contract and Contract Provisions in a manner that is readily accessible and understandable by a 
          * layperson in accordance with best practices for communication styles that ensure that those agreeing to or signing the 
          * Contract understand the roles, actions, obligations, responsibilities, and implication of the agreement.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param friendly
          *     Contract Friendly Language
@@ -1764,15 +1571,12 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The "patient friendly language" versionof the Contract in whole or in parts. "Patient friendly language" means the 
          * representation of the Contract and Contract Provisions in a manner that is readily accessible and understandable by a 
          * layperson in accordance with best practices for communication styles that ensure that those agreeing to or signing the 
          * Contract understand the roles, actions, obligations, responsibilities, and implication of the agreement.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param friendly
          *     Contract Friendly Language
@@ -1786,12 +1590,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * List of Legal expressions or representations of this Contract.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param legal
          *     Contract Legal Language
@@ -1807,12 +1608,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * List of Legal expressions or representations of this Contract.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param legal
          *     Contract Legal Language
@@ -1826,12 +1624,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * List of Computable Policy Rule Language Representations of this Contract.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param rule
          *     Computable Contract Language
@@ -1847,12 +1642,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * List of Computable Policy Rule Language Representations of this Contract.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param rule
          *     Computable Contract Language
@@ -1866,10 +1658,14 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Legally binding Contract: This is the signed and legally recognized representation of the Contract, which is 
          * considered the "source of truth" and which would be the basis for legal action related to enforcement of this Contract.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Attachment}</li>
+         * <li>{@link Reference}</li>
+         * </ul>
          * 
          * @param legallyBinding
          *     Binding Contract
@@ -1882,6 +1678,12 @@ public class Contract extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link Contract}
+         * 
+         * @return
+         *     An immutable object of type {@link Contract}
+         */
         @Override
         public Contract build() {
             return new Contract(this);
@@ -1927,16 +1729,16 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Precusory content developed with a focus and intent of supporting the formation a Contract instance, which may be 
      * associated with and transformable into a Contract.
-     * </p>
      */
     public static class ContentDefinition extends BackboneElement {
+        @Required
         private final CodeableConcept type;
         private final CodeableConcept subType;
         private final Reference publisher;
         private final DateTime publicationDate;
+        @Required
         private final ContractPublicationStatus publicationStatus;
         private final Markdown copyright;
 
@@ -1954,10 +1756,8 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Precusory content structure and use, i.e., a boilerplate, template, application for a contract such as an insurance 
          * policy or benefits under a program, e.g., workers compensation.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1967,9 +1767,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Detailed Precusory content type.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1979,9 +1777,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The individual or organization that published the Contract precursor content.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1991,11 +1787,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and optionally time) when the contract was published. The date must change when the business version changes 
          * and it must change if the status code changes. In addition, it should change when the substantive content of the 
          * contract changes.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DateTime}.
@@ -2005,9 +1799,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * draft | active | retired | unknown.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ContractPublicationStatus}.
@@ -2017,10 +1809,8 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * A copyright statement relating to Contract precursor content. Copyright statements are generally legal restrictions on 
          * the use and publishing of the Contract precursor content.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Markdown}.
@@ -2124,10 +1914,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2141,15 +1929,12 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2163,15 +1948,12 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2185,21 +1967,17 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2213,21 +1991,17 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2241,10 +2015,10 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Precusory content structure and use, i.e., a boilerplate, template, application for a contract such as an insurance 
              * policy or benefits under a program, e.g., workers compensation.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     Content structure and use
@@ -2258,9 +2032,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Detailed Precusory content type.
-             * </p>
              * 
              * @param subType
              *     Detailed Content Type Definition
@@ -2274,9 +2046,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * The individual or organization that published the Contract precursor content.
-             * </p>
              * 
              * @param publisher
              *     Publisher Entity
@@ -2290,11 +2060,9 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * The date (and optionally time) when the contract was published. The date must change when the business version changes 
              * and it must change if the status code changes. In addition, it should change when the substantive content of the 
              * contract changes.
-             * </p>
              * 
              * @param publicationDate
              *     When published
@@ -2308,9 +2076,9 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * draft | active | retired | unknown.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param publicationStatus
              *     draft | active | retired | unknown
@@ -2324,10 +2092,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * A copyright statement relating to Contract precursor content. Copyright statements are generally legal restrictions on 
              * the use and publishing of the Contract precursor content.
-             * </p>
              * 
              * @param copyright
              *     Publication Ownership
@@ -2340,6 +2106,18 @@ public class Contract extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link ContentDefinition}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>type</li>
+             * <li>publicationStatus</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link ContentDefinition}
+             */
             @Override
             public ContentDefinition build() {
                 return new ContentDefinition(this);
@@ -2359,19 +2137,19 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * One or more Contract Provisions, which may be related and conveyed as a group, and may contain nested groups.
-     * </p>
      */
     public static class Term extends BackboneElement {
         private final Identifier identifier;
         private final DateTime issued;
         private final Period applies;
+        @Choice({CodeableConcept.class, Reference.class})
         private final Element topic;
         private final CodeableConcept type;
         private final CodeableConcept subType;
         private final String text;
         private final List<SecurityLabel> securityLabel;
+        @Required
         private final Offer offer;
         private final List<Asset> asset;
         private final List<Action> action;
@@ -2397,9 +2175,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Unique identifier for this particular Contract Provision.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Identifier}.
@@ -2409,9 +2185,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * When this Contract Provision was issued.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DateTime}.
@@ -2421,9 +2195,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Relevant time or time-period when this Contract Provision is applicable.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Period}.
@@ -2433,9 +2205,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The entity that the term applies to.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -2445,11 +2215,9 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal clause or condition contained within a contract that requires one or both parties to perform a particular 
          * requirement by some specified time or prevents one or both parties from performing a particular requirement by some 
          * specified time.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2459,9 +2227,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * A specialized legal clause or condition based on overarching contract type.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2471,9 +2237,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Statement of a provision in a policy or a contract.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2483,10 +2247,8 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Security labels that protect the handling of information about the term and its elements, which may be specifically 
          * identified..
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link SecurityLabel}.
@@ -2496,9 +2258,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The matter of concern in the context of this provision of the agrement.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Offer}.
@@ -2508,9 +2268,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Contract Term Asset List.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Asset}.
@@ -2520,10 +2278,8 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
          * taking place.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Action}.
@@ -2533,9 +2289,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Nested group of Contract Provisions.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Term}.
@@ -2669,10 +2423,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2686,15 +2438,12 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2708,15 +2457,12 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2730,21 +2476,17 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2758,21 +2500,17 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2786,9 +2524,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique identifier for this particular Contract Provision.
-             * </p>
              * 
              * @param identifier
              *     Contract Term Number
@@ -2802,9 +2538,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * When this Contract Provision was issued.
-             * </p>
              * 
              * @param issued
              *     Contract Term Issue Date Time
@@ -2818,9 +2552,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Relevant time or time-period when this Contract Provision is applicable.
-             * </p>
              * 
              * @param applies
              *     Contract Term Effective Time
@@ -2834,9 +2566,13 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * The entity that the term applies to.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link CodeableConcept}</li>
+             * <li>{@link Reference}</li>
+             * </ul>
              * 
              * @param topic
              *     Term Concern
@@ -2850,11 +2586,9 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * A legal clause or condition contained within a contract that requires one or both parties to perform a particular 
              * requirement by some specified time or prevents one or both parties from performing a particular requirement by some 
              * specified time.
-             * </p>
              * 
              * @param type
              *     Contract Term Type or Form
@@ -2868,9 +2602,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * A specialized legal clause or condition based on overarching contract type.
-             * </p>
              * 
              * @param subType
              *     Contract Term Type specific classification
@@ -2884,9 +2616,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Statement of a provision in a policy or a contract.
-             * </p>
              * 
              * @param text
              *     Term Statement
@@ -2900,13 +2630,10 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Security labels that protect the handling of information about the term and its elements, which may be specifically 
              * identified..
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param securityLabel
              *     Protection for the Term
@@ -2922,13 +2649,10 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Security labels that protect the handling of information about the term and its elements, which may be specifically 
              * identified..
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param securityLabel
              *     Protection for the Term
@@ -2942,9 +2666,9 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * The matter of concern in the context of this provision of the agrement.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param offer
              *     Context of the Contract term
@@ -2958,12 +2682,9 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Contract Term Asset List.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param asset
              *     Contract Term Asset List
@@ -2979,12 +2700,9 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Contract Term Asset List.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param asset
              *     Contract Term Asset List
@@ -2998,13 +2716,10 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
              * taking place.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param action
              *     Entity being ascribed responsibility
@@ -3020,13 +2735,10 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
              * taking place.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param action
              *     Entity being ascribed responsibility
@@ -3040,12 +2752,9 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Nested group of Contract Provisions.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param group
              *     Nested Contract Term Group
@@ -3061,12 +2770,9 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Nested group of Contract Provisions.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param group
              *     Nested Contract Term Group
@@ -3079,6 +2785,17 @@ public class Contract extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Term}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>offer</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Term}
+             */
             @Override
             public Term build() {
                 return new Term(this);
@@ -3103,13 +2820,12 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Security labels that protect the handling of information about the term and its elements, which may be specifically 
          * identified..
-         * </p>
          */
         public static class SecurityLabel extends BackboneElement {
             private final List<UnsignedInt> number;
+            @Required
             private final Coding classification;
             private final List<Coding> category;
             private final List<Coding> control;
@@ -3126,9 +2842,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Number used to link this term or term element to the applicable Security Label.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link UnsignedInt}.
@@ -3138,10 +2852,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Security label privacy tag that species the level of confidentiality protection required for this term and/or term 
              * elements.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Coding}.
@@ -3151,10 +2863,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Security label privacy tag that species the applicable privacy and security policies governing this term and/or term 
              * elements.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -3164,9 +2874,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Security label privacy tag that species the manner in which term and/or term elements are to be protected.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -3260,10 +2968,8 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -3277,15 +2983,12 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3299,15 +3002,12 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3321,21 +3021,17 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3349,21 +3045,17 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3377,12 +3069,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Number used to link this term or term element to the applicable Security Label.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param number
                  *     Link to Security Labels
@@ -3398,12 +3087,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Number used to link this term or term element to the applicable Security Label.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param number
                  *     Link to Security Labels
@@ -3417,10 +3103,10 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Security label privacy tag that species the level of confidentiality protection required for this term and/or term 
                  * elements.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param classification
                  *     Confidentiality Protection
@@ -3434,13 +3120,10 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Security label privacy tag that species the applicable privacy and security policies governing this term and/or term 
                  * elements.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param category
                  *     Applicable Policy
@@ -3456,13 +3139,10 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Security label privacy tag that species the applicable privacy and security policies governing this term and/or term 
                  * elements.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param category
                  *     Applicable Policy
@@ -3476,12 +3156,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Security label privacy tag that species the manner in which term and/or term elements are to be protected.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param control
                  *     Handling Instructions
@@ -3497,12 +3174,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Security label privacy tag that species the manner in which term and/or term elements are to be protected.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param control
                  *     Handling Instructions
@@ -3515,6 +3189,17 @@ public class Contract extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link SecurityLabel}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>classification</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link SecurityLabel}
+                 */
                 @Override
                 public SecurityLabel build() {
                     return new SecurityLabel(this);
@@ -3532,9 +3217,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * The matter of concern in the context of this provision of the agrement.
-         * </p>
          */
         public static class Offer extends BackboneElement {
             private final List<Identifier> identifier;
@@ -3566,9 +3249,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique identifier for this particular Contract Provision.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -3578,9 +3259,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Offer Recipient.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Party}.
@@ -3590,10 +3269,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * The owner of an asset has the residual control rights over the asset: the right to decide all usages of the asset in 
              * any way not inconsistent with a prior contract, custom, or law (Hart, 1995, p. 30).
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Reference}.
@@ -3603,10 +3280,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Type of Contract Provision such as specific requirements, purposes for actions, obligations, prohibitions, e.g. life 
              * time maximum benefit.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -3616,9 +3291,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Type of choice made by accepting party with respect to an offer made by an offeror/ grantee.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -3628,9 +3301,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * How the decision about a Contract was conveyed.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -3640,9 +3311,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Response to offer text.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Answer}.
@@ -3652,9 +3321,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Human readable form of this Contract Offer.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -3664,9 +3331,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * The id of the clause or question text of the offer in the referenced questionnaire/response.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -3676,9 +3341,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Security labels that protects the offer.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link UnsignedInt}.
@@ -3802,10 +3465,8 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -3819,15 +3480,12 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3841,15 +3499,12 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3863,21 +3518,17 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3891,21 +3542,17 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3919,12 +3566,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique identifier for this particular Contract Provision.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param identifier
                  *     Offer business ID
@@ -3940,12 +3584,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique identifier for this particular Contract Provision.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param identifier
                  *     Offer business ID
@@ -3959,12 +3600,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Offer Recipient.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param party
                  *     Offer Recipient
@@ -3980,12 +3618,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Offer Recipient.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param party
                  *     Offer Recipient
@@ -3999,10 +3634,8 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The owner of an asset has the residual control rights over the asset: the right to decide all usages of the asset in 
                  * any way not inconsistent with a prior contract, custom, or law (Hart, 1995, p. 30).
-                 * </p>
                  * 
                  * @param topic
                  *     Negotiable offer asset
@@ -4016,10 +3649,8 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Type of Contract Provision such as specific requirements, purposes for actions, obligations, prohibitions, e.g. life 
                  * time maximum benefit.
-                 * </p>
                  * 
                  * @param type
                  *     Contract Offer Type or Form
@@ -4033,9 +3664,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Type of choice made by accepting party with respect to an offer made by an offeror/ grantee.
-                 * </p>
                  * 
                  * @param decision
                  *     Accepting party choice
@@ -4049,12 +3678,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * How the decision about a Contract was conveyed.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param decisionMode
                  *     How decision is conveyed
@@ -4070,12 +3696,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * How the decision about a Contract was conveyed.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param decisionMode
                  *     How decision is conveyed
@@ -4089,12 +3712,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Response to offer text.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param answer
                  *     Response to offer text
@@ -4110,12 +3730,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Response to offer text.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param answer
                  *     Response to offer text
@@ -4129,9 +3746,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Human readable form of this Contract Offer.
-                 * </p>
                  * 
                  * @param text
                  *     Human readable offer text
@@ -4145,12 +3760,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The id of the clause or question text of the offer in the referenced questionnaire/response.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param linkId
                  *     Pointer to text
@@ -4166,12 +3778,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The id of the clause or question text of the offer in the referenced questionnaire/response.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param linkId
                  *     Pointer to text
@@ -4185,12 +3794,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Security labels that protects the offer.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param securityLabelNumber
                  *     Offer restriction numbers
@@ -4206,12 +3812,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Security labels that protects the offer.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param securityLabelNumber
                  *     Offer restriction numbers
@@ -4224,6 +3827,12 @@ public class Contract extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Offer}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Offer}
+                 */
                 @Override
                 public Offer build() {
                     return new Offer(this);
@@ -4246,12 +3855,12 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Offer Recipient.
-             * </p>
              */
             public static class Party extends BackboneElement {
+                @Required
                 private final List<Reference> reference;
+                @Required
                 private final CodeableConcept role;
 
                 private volatile int hashCode;
@@ -4264,9 +3873,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Participant in the offer.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -4276,9 +3883,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * How the party participates in the offer.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link CodeableConcept}.
@@ -4362,10 +3967,8 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -4379,15 +3982,12 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -4401,15 +4001,12 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -4423,21 +4020,17 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -4451,21 +4044,17 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -4479,12 +4068,11 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Participant in the offer.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param reference
                      *     Referenced entity
@@ -4500,12 +4088,11 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Participant in the offer.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param reference
                      *     Referenced entity
@@ -4519,9 +4106,9 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * How the party participates in the offer.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param role
                      *     Participant engagement type
@@ -4534,6 +4121,18 @@ public class Contract extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link Party}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>reference</li>
+                     * <li>role</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link Party}
+                     */
                     @Override
                     public Party build() {
                         return new Party(this);
@@ -4549,11 +4148,11 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Response to offer text.
-             * </p>
              */
             public static class Answer extends BackboneElement {
+                @Required
+                @Choice({Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class})
                 private final Element value;
 
                 private volatile int hashCode;
@@ -4565,11 +4164,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Response to an offer clause or question text, which enables selection of values to be agreed to, e.g., the period of 
                  * participation, the date of occupancy of a rental, warrently duration, or whether biospecimen may be used for further 
                  * research.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Element}.
@@ -4648,10 +4245,8 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -4665,15 +4260,12 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -4687,15 +4279,12 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -4709,21 +4298,17 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -4737,21 +4322,17 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -4765,11 +4346,27 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Response to an offer clause or question text, which enables selection of values to be agreed to, e.g., the period of 
                      * participation, the date of occupancy of a rental, warrently duration, or whether biospecimen may be used for further 
                      * research.
-                     * </p>
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * <p>This is a choice element with the following allowed types:
+                     * <ul>
+                     * <li>{@link Boolean}</li>
+                     * <li>{@link Decimal}</li>
+                     * <li>{@link Integer}</li>
+                     * <li>{@link Date}</li>
+                     * <li>{@link DateTime}</li>
+                     * <li>{@link Time}</li>
+                     * <li>{@link String}</li>
+                     * <li>{@link Uri}</li>
+                     * <li>{@link Attachment}</li>
+                     * <li>{@link Coding}</li>
+                     * <li>{@link Quantity}</li>
+                     * <li>{@link Reference}</li>
+                     * </ul>
                      * 
                      * @param value
                      *     The actual answer response
@@ -4782,6 +4379,17 @@ public class Contract extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link Answer}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>value</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link Answer}
+                     */
                     @Override
                     public Answer build() {
                         return new Answer(this);
@@ -4797,9 +4405,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Contract Term Asset List.
-         * </p>
          */
         public static class Asset extends BackboneElement {
             private final CodeableConcept scope;
@@ -4841,9 +4447,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Differentiates the kind of the asset .
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -4853,9 +4457,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Target entity type about which the term may be concerned.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -4865,9 +4467,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Associated entities.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -4877,9 +4477,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be a subtype or part of an offered asset.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -4889,10 +4487,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Specifies the applicability of the term to an asset resource instance, and instances it refers to orinstances that 
              * refer to it, and/or are owned by the offeree.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Coding}.
@@ -4902,9 +4498,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Circumstance of the asset.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Context}.
@@ -4914,9 +4508,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Description of the quality and completeness of the asset that imay be a factor in its valuation.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -4926,9 +4518,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Type of Asset availability for use or ownership.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -4938,9 +4528,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Asset relevant contractual time period.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Period}.
@@ -4950,9 +4538,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Time period of asset use.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Period}.
@@ -4962,10 +4548,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Clause or question text (Prose Object) concerning the asset in a linked form, such as a QuestionnaireResponse used in 
              * the formation of the contract.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -4975,9 +4559,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Id [identifier??] of the clause or question text about the asset in the referenced form or QuestionnaireResponse.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -4987,9 +4569,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Response to assets.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Answer}.
@@ -4999,9 +4579,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Security labels that protects the asset.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link UnsignedInt}.
@@ -5011,9 +4589,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Contract Valued Item List.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link ValuedItem}.
@@ -5162,10 +4738,8 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -5179,15 +4753,12 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -5201,15 +4772,12 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -5223,21 +4791,17 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -5251,21 +4815,17 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -5279,9 +4839,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Differentiates the kind of the asset .
-                 * </p>
                  * 
                  * @param scope
                  *     Range of asset
@@ -5295,12 +4853,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Target entity type about which the term may be concerned.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param type
                  *     Asset category
@@ -5316,12 +4871,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Target entity type about which the term may be concerned.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param type
                  *     Asset category
@@ -5335,12 +4887,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Associated entities.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param typeReference
                  *     Associated entities
@@ -5356,12 +4905,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Associated entities.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param typeReference
                  *     Associated entities
@@ -5375,12 +4921,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be a subtype or part of an offered asset.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param subtype
                  *     Asset sub-category
@@ -5396,12 +4939,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be a subtype or part of an offered asset.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param subtype
                  *     Asset sub-category
@@ -5415,10 +4955,8 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Specifies the applicability of the term to an asset resource instance, and instances it refers to orinstances that 
                  * refer to it, and/or are owned by the offeree.
-                 * </p>
                  * 
                  * @param relationship
                  *     Kinship of the asset
@@ -5432,12 +4970,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Circumstance of the asset.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param context
                  *     Circumstance of the asset
@@ -5453,12 +4988,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Circumstance of the asset.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param context
                  *     Circumstance of the asset
@@ -5472,9 +5004,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Description of the quality and completeness of the asset that imay be a factor in its valuation.
-                 * </p>
                  * 
                  * @param condition
                  *     Quality desctiption of asset
@@ -5488,12 +5018,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Type of Asset availability for use or ownership.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param periodType
                  *     Asset availability types
@@ -5509,12 +5036,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Type of Asset availability for use or ownership.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param periodType
                  *     Asset availability types
@@ -5528,12 +5052,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Asset relevant contractual time period.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param period
                  *     Time period of the asset
@@ -5549,12 +5070,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Asset relevant contractual time period.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param period
                  *     Time period of the asset
@@ -5568,12 +5086,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Time period of asset use.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param usePeriod
                  *     Time period
@@ -5589,12 +5104,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Time period of asset use.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param usePeriod
                  *     Time period
@@ -5608,10 +5120,8 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Clause or question text (Prose Object) concerning the asset in a linked form, such as a QuestionnaireResponse used in 
                  * the formation of the contract.
-                 * </p>
                  * 
                  * @param text
                  *     Asset clause or question text
@@ -5625,12 +5135,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Id [identifier??] of the clause or question text about the asset in the referenced form or QuestionnaireResponse.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param linkId
                  *     Pointer to asset text
@@ -5646,12 +5153,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Id [identifier??] of the clause or question text about the asset in the referenced form or QuestionnaireResponse.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param linkId
                  *     Pointer to asset text
@@ -5665,12 +5169,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Response to assets.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param answer
                  *     Response to assets
@@ -5686,12 +5187,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Response to assets.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param answer
                  *     Response to assets
@@ -5705,12 +5203,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Security labels that protects the asset.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param securityLabelNumber
                  *     Asset restriction numbers
@@ -5726,12 +5221,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Security labels that protects the asset.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param securityLabelNumber
                  *     Asset restriction numbers
@@ -5745,12 +5237,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Contract Valued Item List.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param valuedItem
                  *     Contract Valued Item List
@@ -5766,12 +5255,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Contract Valued Item List.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param valuedItem
                  *     Contract Valued Item List
@@ -5784,6 +5270,12 @@ public class Contract extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Asset}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Asset}
+                 */
                 @Override
                 public Asset build() {
                     return new Asset(this);
@@ -5811,9 +5303,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Circumstance of the asset.
-             * </p>
              */
             public static class Context extends BackboneElement {
                 private final Reference reference;
@@ -5831,10 +5321,8 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Asset context reference may include the creator, custodian, or owning Person or Organization (e.g., bank, repository), 
                  * location held, e.g., building, jurisdiction.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Reference}.
@@ -5844,9 +5332,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Coded representation of the context generally or of the Referenced entity, such as the asset holder type or location.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -5856,9 +5342,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Context description.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -5947,10 +5431,8 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -5964,15 +5446,12 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -5986,15 +5465,12 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -6008,21 +5484,17 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -6036,21 +5508,17 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -6064,10 +5532,8 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Asset context reference may include the creator, custodian, or owning Person or Organization (e.g., bank, repository), 
                      * location held, e.g., building, jurisdiction.
-                     * </p>
                      * 
                      * @param reference
                      *     Creator,custodian or owner
@@ -6081,12 +5547,9 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Coded representation of the context generally or of the Referenced entity, such as the asset holder type or location.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param code
                      *     Codeable asset context
@@ -6102,12 +5565,9 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Coded representation of the context generally or of the Referenced entity, such as the asset holder type or location.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param code
                      *     Codeable asset context
@@ -6121,9 +5581,7 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Context description.
-                     * </p>
                      * 
                      * @param text
                      *     Context description
@@ -6136,6 +5594,12 @@ public class Contract extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link Context}
+                     * 
+                     * @return
+                     *     An immutable object of type {@link Context}
+                     */
                     @Override
                     public Context build() {
                         return new Context(this);
@@ -6152,11 +5616,10 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Contract Valued Item List.
-             * </p>
              */
             public static class ValuedItem extends BackboneElement {
+                @Choice({CodeableConcept.class, Reference.class})
                 private final Element entity;
                 private final Identifier identifier;
                 private final DateTime effectiveTime;
@@ -6194,9 +5657,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Specific type of Contract Valued Item that may be priced.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Element}.
@@ -6206,9 +5667,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Identifies a Contract Valued Item instance.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Identifier}.
@@ -6218,9 +5677,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Indicates the time during which this Contract ValuedItem information is effective.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link DateTime}.
@@ -6230,10 +5687,8 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Specifies the units by which the Contract Valued Item is measured or counted, and quantifies the countable or 
                  * measurable Contract Valued Item instances.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link SimpleQuantity}.
@@ -6243,9 +5698,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A Contract Valued Item unit valuation measure.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Money}.
@@ -6255,10 +5708,8 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A real number that represents a multiplier used in determining the overall value of the Contract Valued Item 
                  * delivered. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Decimal}.
@@ -6268,11 +5719,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * An amount that expresses the weighting (based on difficulty, cost and/or resource intensiveness) associated with the 
                  * Contract Valued Item delivered. The concept of Points allows for assignment of point values for a Contract Valued 
                  * Item, such that a monetary amount can be assigned to each point.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Decimal}.
@@ -6282,11 +5731,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Expresses the product of the Contract Valued Item unitQuantity and the unitPriceAmt. For example, the formula: unit 
                  * Quantity * unit Price (Cost per Point) * factor Number * points = net Amount. Quantity, factor and points are assumed 
                  * to be 1 if not supplied.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Money}.
@@ -6296,9 +5743,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Terms of valuation.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -6308,9 +5753,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * When payment is due.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link DateTime}.
@@ -6320,9 +5763,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Who will make payment.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Reference}.
@@ -6332,9 +5773,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Who will receive payment.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Reference}.
@@ -6344,10 +5783,8 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Id of the clause or question text related to the context of this valuedItem in the referenced form or 
                  * QuestionnaireResponse.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -6357,9 +5794,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A set of security labels that define which terms are controlled by this condition.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link UnsignedInt}.
@@ -6503,10 +5938,8 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -6520,15 +5953,12 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -6542,15 +5972,12 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -6564,21 +5991,17 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -6592,21 +6015,17 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -6620,9 +6039,13 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Specific type of Contract Valued Item that may be priced.
-                     * </p>
+                     * 
+                     * <p>This is a choice element with the following allowed types:
+                     * <ul>
+                     * <li>{@link CodeableConcept}</li>
+                     * <li>{@link Reference}</li>
+                     * </ul>
                      * 
                      * @param entity
                      *     Contract Valued Item Type
@@ -6636,9 +6059,7 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Identifies a Contract Valued Item instance.
-                     * </p>
                      * 
                      * @param identifier
                      *     Contract Valued Item Number
@@ -6652,9 +6073,7 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Indicates the time during which this Contract ValuedItem information is effective.
-                     * </p>
                      * 
                      * @param effectiveTime
                      *     Contract Valued Item Effective Tiem
@@ -6668,10 +6087,8 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Specifies the units by which the Contract Valued Item is measured or counted, and quantifies the countable or 
                      * measurable Contract Valued Item instances.
-                     * </p>
                      * 
                      * @param quantity
                      *     Count of Contract Valued Items
@@ -6685,9 +6102,7 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A Contract Valued Item unit valuation measure.
-                     * </p>
                      * 
                      * @param unitPrice
                      *     Contract Valued Item fee, charge, or cost
@@ -6701,10 +6116,8 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A real number that represents a multiplier used in determining the overall value of the Contract Valued Item 
                      * delivered. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-                     * </p>
                      * 
                      * @param factor
                      *     Contract Valued Item Price Scaling Factor
@@ -6718,11 +6131,9 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * An amount that expresses the weighting (based on difficulty, cost and/or resource intensiveness) associated with the 
                      * Contract Valued Item delivered. The concept of Points allows for assignment of point values for a Contract Valued 
                      * Item, such that a monetary amount can be assigned to each point.
-                     * </p>
                      * 
                      * @param points
                      *     Contract Valued Item Difficulty Scaling Factor
@@ -6736,11 +6147,9 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Expresses the product of the Contract Valued Item unitQuantity and the unitPriceAmt. For example, the formula: unit 
                      * Quantity * unit Price (Cost per Point) * factor Number * points = net Amount. Quantity, factor and points are assumed 
                      * to be 1 if not supplied.
-                     * </p>
                      * 
                      * @param net
                      *     Total Contract Valued Item Value
@@ -6754,9 +6163,7 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Terms of valuation.
-                     * </p>
                      * 
                      * @param payment
                      *     Terms of valuation
@@ -6770,9 +6177,7 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * When payment is due.
-                     * </p>
                      * 
                      * @param paymentDate
                      *     When payment is due
@@ -6786,9 +6191,7 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Who will make payment.
-                     * </p>
                      * 
                      * @param responsible
                      *     Who will make payment
@@ -6802,9 +6205,7 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Who will receive payment.
-                     * </p>
                      * 
                      * @param recipient
                      *     Who will receive payment
@@ -6818,13 +6219,10 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Id of the clause or question text related to the context of this valuedItem in the referenced form or 
                      * QuestionnaireResponse.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param linkId
                      *     Pointer to specific item
@@ -6840,13 +6238,10 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Id of the clause or question text related to the context of this valuedItem in the referenced form or 
                      * QuestionnaireResponse.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param linkId
                      *     Pointer to specific item
@@ -6860,12 +6255,9 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A set of security labels that define which terms are controlled by this condition.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param securityLabelNumber
                      *     Security Labels that define affected terms
@@ -6881,12 +6273,9 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A set of security labels that define which terms are controlled by this condition.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param securityLabelNumber
                      *     Security Labels that define affected terms
@@ -6899,6 +6288,12 @@ public class Contract extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link ValuedItem}
+                     * 
+                     * @return
+                     *     An immutable object of type {@link ValuedItem}
+                     */
                     @Override
                     public ValuedItem build() {
                         return new ValuedItem(this);
@@ -6927,20 +6322,22 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
          * taking place.
-         * </p>
          */
         public static class Action extends BackboneElement {
             private final Boolean doNotPerform;
+            @Required
             private final CodeableConcept type;
             private final List<Subject> subject;
+            @Required
             private final CodeableConcept intent;
             private final List<String> linkId;
+            @Required
             private final CodeableConcept status;
             private final Reference context;
             private final List<String> contextLinkId;
+            @Choice({DateTime.class, Period.class, Timing.class})
             private final Element occurrence;
             private final List<Reference> requester;
             private final List<String> requesterLinkId;
@@ -6984,9 +6381,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * True if the term prohibits the action.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Boolean}.
@@ -6996,10 +6391,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Activity or service obligation to be done or not done, performed or not performed, effectuated or not by this Contract 
              * term.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -7009,9 +6402,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Entity of the action.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Subject}.
@@ -7021,9 +6412,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Reason or purpose for the action stipulated by this Contract Provision.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -7033,10 +6422,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Id [identifier??] of the clause or question text related to this action in the referenced form or 
              * QuestionnaireResponse.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -7046,9 +6433,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Current state of the term action.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -7058,9 +6443,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Encounter or Episode with primary association to specified term activity.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Reference}.
@@ -7070,10 +6453,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Id [identifier??] of the clause or question text related to the requester of this action in the referenced form or 
              * QuestionnaireResponse.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -7083,9 +6464,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * When action happens.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -7095,9 +6474,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Who or what initiated the action and has responsibility for its activation.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -7107,10 +6484,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Id [identifier??] of the clause or question text related to the requester of this action in the referenced form or 
              * QuestionnaireResponse.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -7120,9 +6495,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of individual that is desired or required to perform or not perform the action.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -7132,9 +6505,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of role or competency of an individual desired or required to perform or not perform the action.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -7144,9 +6515,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates who or what is being asked to perform (or not perform) the ction.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Reference}.
@@ -7156,10 +6525,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Id [identifier??] of the clause or question text related to the reason type or reference of this action in the 
              * referenced form or QuestionnaireResponse.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -7169,9 +6536,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Rationale for the action to be performed or not performed. Describes why the action is permitted or prohibited.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -7181,9 +6546,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates another resource whose existence justifies permitting or not permitting this action.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -7193,9 +6556,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Describes why the action is to be performed or not performed in textual form.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -7205,10 +6566,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Id [identifier??] of the clause or question text related to the reason type or reference of this action in the 
              * referenced form or QuestionnaireResponse.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -7218,9 +6577,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Comments made about the term action made by the requester, performer, subject or other participants.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -7230,9 +6587,7 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Security labels that protects the action.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link UnsignedInt}.
@@ -7411,10 +6766,8 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -7428,15 +6781,12 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -7450,15 +6800,12 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -7472,21 +6819,17 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -7500,21 +6843,17 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -7528,9 +6867,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * True if the term prohibits the action.
-                 * </p>
                  * 
                  * @param doNotPerform
                  *     True if the term prohibits the action
@@ -7544,10 +6881,10 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Activity or service obligation to be done or not done, performed or not performed, effectuated or not by this Contract 
                  * term.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param type
                  *     Type or form of the action
@@ -7561,12 +6898,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Entity of the action.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param subject
                  *     Entity of the action
@@ -7582,12 +6916,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Entity of the action.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param subject
                  *     Entity of the action
@@ -7601,9 +6932,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Reason or purpose for the action stipulated by this Contract Provision.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param intent
                  *     Purpose for the Contract Term Action
@@ -7617,13 +6948,10 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Id [identifier??] of the clause or question text related to this action in the referenced form or 
                  * QuestionnaireResponse.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param linkId
                  *     Pointer to specific item
@@ -7639,13 +6967,10 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Id [identifier??] of the clause or question text related to this action in the referenced form or 
                  * QuestionnaireResponse.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param linkId
                  *     Pointer to specific item
@@ -7659,9 +6984,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Current state of the term action.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param status
                  *     State of the action
@@ -7675,9 +7000,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Encounter or Episode with primary association to specified term activity.
-                 * </p>
                  * 
                  * @param context
                  *     Episode associated with action
@@ -7691,13 +7014,10 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Id [identifier??] of the clause or question text related to the requester of this action in the referenced form or 
                  * QuestionnaireResponse.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param contextLinkId
                  *     Pointer to specific item
@@ -7713,13 +7033,10 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Id [identifier??] of the clause or question text related to the requester of this action in the referenced form or 
                  * QuestionnaireResponse.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param contextLinkId
                  *     Pointer to specific item
@@ -7733,9 +7050,14 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * When action happens.
-                 * </p>
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link DateTime}</li>
+                 * <li>{@link Period}</li>
+                 * <li>{@link Timing}</li>
+                 * </ul>
                  * 
                  * @param occurrence
                  *     When action happens
@@ -7749,12 +7071,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Who or what initiated the action and has responsibility for its activation.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param requester
                  *     Who asked for action
@@ -7770,12 +7089,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Who or what initiated the action and has responsibility for its activation.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param requester
                  *     Who asked for action
@@ -7789,13 +7105,10 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Id [identifier??] of the clause or question text related to the requester of this action in the referenced form or 
                  * QuestionnaireResponse.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param requesterLinkId
                  *     Pointer to specific item
@@ -7811,13 +7124,10 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Id [identifier??] of the clause or question text related to the requester of this action in the referenced form or 
                  * QuestionnaireResponse.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param requesterLinkId
                  *     Pointer to specific item
@@ -7831,12 +7141,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The type of individual that is desired or required to perform or not perform the action.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param performerType
                  *     Kind of service performer
@@ -7852,12 +7159,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The type of individual that is desired or required to perform or not perform the action.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param performerType
                  *     Kind of service performer
@@ -7871,9 +7175,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The type of role or competency of an individual desired or required to perform or not perform the action.
-                 * </p>
                  * 
                  * @param performerRole
                  *     Competency of the performer
@@ -7887,9 +7189,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Indicates who or what is being asked to perform (or not perform) the ction.
-                 * </p>
                  * 
                  * @param performer
                  *     Actor that wil execute (or not) the action
@@ -7903,13 +7203,10 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Id [identifier??] of the clause or question text related to the reason type or reference of this action in the 
                  * referenced form or QuestionnaireResponse.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param performerLinkId
                  *     Pointer to specific item
@@ -7925,13 +7222,10 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Id [identifier??] of the clause or question text related to the reason type or reference of this action in the 
                  * referenced form or QuestionnaireResponse.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param performerLinkId
                  *     Pointer to specific item
@@ -7945,12 +7239,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Rationale for the action to be performed or not performed. Describes why the action is permitted or prohibited.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param reasonCode
                  *     Why is action (not) needed?
@@ -7966,12 +7257,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Rationale for the action to be performed or not performed. Describes why the action is permitted or prohibited.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param reasonCode
                  *     Why is action (not) needed?
@@ -7985,12 +7273,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Indicates another resource whose existence justifies permitting or not permitting this action.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param reasonReference
                  *     Why is action (not) needed?
@@ -8006,12 +7291,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Indicates another resource whose existence justifies permitting or not permitting this action.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param reasonReference
                  *     Why is action (not) needed?
@@ -8025,12 +7307,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Describes why the action is to be performed or not performed in textual form.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param reason
                  *     Why action is to be performed
@@ -8046,12 +7325,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Describes why the action is to be performed or not performed in textual form.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param reason
                  *     Why action is to be performed
@@ -8065,13 +7341,10 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Id [identifier??] of the clause or question text related to the reason type or reference of this action in the 
                  * referenced form or QuestionnaireResponse.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param reasonLinkId
                  *     Pointer to specific item
@@ -8087,13 +7360,10 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Id [identifier??] of the clause or question text related to the reason type or reference of this action in the 
                  * referenced form or QuestionnaireResponse.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param reasonLinkId
                  *     Pointer to specific item
@@ -8107,12 +7377,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Comments made about the term action made by the requester, performer, subject or other participants.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param note
                  *     Comments about the action
@@ -8128,12 +7395,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Comments made about the term action made by the requester, performer, subject or other participants.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param note
                  *     Comments about the action
@@ -8147,12 +7411,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Security labels that protects the action.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param securityLabelNumber
                  *     Action restriction numbers
@@ -8168,12 +7429,9 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Security labels that protects the action.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param securityLabelNumber
                  *     Action restriction numbers
@@ -8186,6 +7444,19 @@ public class Contract extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Action}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>type</li>
+                 * <li>intent</li>
+                 * <li>status</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Action}
+                 */
                 @Override
                 public Action build() {
                     return new Action(this);
@@ -8219,11 +7490,10 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Entity of the action.
-             * </p>
              */
             public static class Subject extends BackboneElement {
+                @Required
                 private final List<Reference> reference;
                 private final CodeableConcept role;
 
@@ -8237,9 +7507,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The entity the action is performed or not performed on or for.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -8249,9 +7517,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Role type of agent assigned roles in this Contract.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link CodeableConcept}.
@@ -8335,10 +7601,8 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -8352,15 +7616,12 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -8374,15 +7635,12 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -8396,21 +7654,17 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -8424,21 +7678,17 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -8452,12 +7702,11 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The entity the action is performed or not performed on or for.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param reference
                      *     Entity of the action
@@ -8473,12 +7722,11 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The entity the action is performed or not performed on or for.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param reference
                      *     Entity of the action
@@ -8492,9 +7740,7 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Role type of agent assigned roles in this Contract.
-                     * </p>
                      * 
                      * @param role
                      *     Role type of the agent
@@ -8507,6 +7753,17 @@ public class Contract extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link Subject}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>reference</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link Subject}
+                     */
                     @Override
                     public Subject build() {
                         return new Subject(this);
@@ -8524,15 +7781,16 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * Parties with legal standing in the Contract, including the principal parties, the grantor(s) and grantee(s), which are 
      * any person or organization bound by the contract, and any ancillary parties, which facilitate the execution of the 
      * contract such as a notary or witness.
-     * </p>
      */
     public static class Signer extends BackboneElement {
+        @Required
         private final Coding type;
+        @Required
         private final Reference party;
+        @Required
         private final List<Signature> signature;
 
         private volatile int hashCode;
@@ -8546,9 +7804,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Role of this Contract signer, e.g. notary, grantee.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Coding}.
@@ -8558,9 +7814,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Party which is a signator to this Contract.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -8570,9 +7824,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Legally binding Contract DSIG signature contents in Base64.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Signature}.
@@ -8661,10 +7913,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -8678,15 +7928,12 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -8700,15 +7947,12 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -8722,21 +7966,17 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -8750,21 +7990,17 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -8778,9 +8014,9 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Role of this Contract signer, e.g. notary, grantee.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     Contract Signatory Role
@@ -8794,9 +8030,9 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Party which is a signator to this Contract.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param party
              *     Contract Signatory Party
@@ -8810,12 +8046,11 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Legally binding Contract DSIG signature contents in Base64.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * <p>This element is required.
              * 
              * @param signature
              *     Contract Documentation Signature
@@ -8831,12 +8066,11 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Legally binding Contract DSIG signature contents in Base64.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>This element is required.
              * 
              * @param signature
              *     Contract Documentation Signature
@@ -8849,6 +8083,19 @@ public class Contract extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Signer}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>type</li>
+             * <li>party</li>
+             * <li>signature</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Signer}
+             */
             @Override
             public Signer build() {
                 return new Signer(this);
@@ -8865,14 +8112,14 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * The "patient friendly language" versionof the Contract in whole or in parts. "Patient friendly language" means the 
      * representation of the Contract and Contract Provisions in a manner that is readily accessible and understandable by a 
      * layperson in accordance with best practices for communication styles that ensure that those agreeing to or signing the 
      * Contract understand the roles, actions, obligations, responsibilities, and implication of the agreement.
-     * </p>
      */
     public static class Friendly extends BackboneElement {
+        @Required
+        @Choice({Attachment.class, Reference.class})
         private final Element content;
 
         private volatile int hashCode;
@@ -8884,10 +8131,8 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Human readable rendering of this Contract in a format and representation intended to enhance comprehension and ensure 
          * understandability.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -8966,10 +8211,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -8983,15 +8226,12 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -9005,15 +8245,12 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -9027,21 +8264,17 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -9055,21 +8288,17 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -9083,10 +8312,16 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Human readable rendering of this Contract in a format and representation intended to enhance comprehension and ensure 
              * understandability.
-             * </p>
+             * 
+             * <p>This element is required.
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Attachment}</li>
+             * <li>{@link Reference}</li>
+             * </ul>
              * 
              * @param content
              *     Easily comprehended representation of this Contract
@@ -9099,6 +8334,17 @@ public class Contract extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Friendly}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>content</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Friendly}
+             */
             @Override
             public Friendly build() {
                 return new Friendly(this);
@@ -9113,11 +8359,11 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * List of Legal expressions or representations of this Contract.
-     * </p>
      */
     public static class Legal extends BackboneElement {
+        @Required
+        @Choice({Attachment.class, Reference.class})
         private final Element content;
 
         private volatile int hashCode;
@@ -9129,9 +8375,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Contract legal text in human renderable form.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -9210,10 +8454,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -9227,15 +8469,12 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -9249,15 +8488,12 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -9271,21 +8507,17 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -9299,21 +8531,17 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -9327,9 +8555,15 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Contract legal text in human renderable form.
-             * </p>
+             * 
+             * <p>This element is required.
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Attachment}</li>
+             * <li>{@link Reference}</li>
+             * </ul>
              * 
              * @param content
              *     Contract Legal Text
@@ -9342,6 +8576,17 @@ public class Contract extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Legal}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>content</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Legal}
+             */
             @Override
             public Legal build() {
                 return new Legal(this);
@@ -9356,11 +8601,11 @@ public class Contract extends DomainResource {
     }
 
     /**
-     * <p>
      * List of Computable Policy Rule Language Representations of this Contract.
-     * </p>
      */
     public static class Rule extends BackboneElement {
+        @Required
+        @Choice({Attachment.class, Reference.class})
         private final Element content;
 
         private volatile int hashCode;
@@ -9372,9 +8617,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * <p>
          * Computable Contract conveyed using a policy rule language (e.g. XACML, DKAL, SecPal).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -9453,10 +8696,8 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -9470,15 +8711,12 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -9492,15 +8730,12 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -9514,21 +8749,17 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -9542,21 +8773,17 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -9570,9 +8797,15 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * <p>
              * Computable Contract conveyed using a policy rule language (e.g. XACML, DKAL, SecPal).
-             * </p>
+             * 
+             * <p>This element is required.
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Attachment}</li>
+             * <li>{@link Reference}</li>
+             * </ul>
              * 
              * @param content
              *     Computable Contract Rules
@@ -9585,6 +8818,17 @@ public class Contract extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Rule}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>content</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Rule}
+             */
             @Override
             public Rule build() {
                 return new Rule(this);

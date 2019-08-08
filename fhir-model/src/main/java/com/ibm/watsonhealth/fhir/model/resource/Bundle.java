@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.BundleType;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -34,9 +35,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A container for a collection of resources.
- * </p>
  */
 @Constraint(
     id = "bdl-1",
@@ -118,6 +117,7 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Bundle extends Resource {
     private final Identifier identifier;
+    @Required
     private final BundleType type;
     private final Instant timestamp;
     private final UnsignedInt total;
@@ -139,9 +139,7 @@ public class Bundle extends Resource {
     }
 
     /**
-     * <p>
      * A persistent identifier for the bundle that won't change as a bundle is copied from server to server.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Identifier}.
@@ -151,9 +149,7 @@ public class Bundle extends Resource {
     }
 
     /**
-     * <p>
      * Indicates the purpose of this bundle - how it is intended to be used.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link BundleType}.
@@ -163,9 +159,7 @@ public class Bundle extends Resource {
     }
 
     /**
-     * <p>
      * The date/time that the bundle was assembled - i.e. when the resources were placed in the bundle.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Instant}.
@@ -175,11 +169,9 @@ public class Bundle extends Resource {
     }
 
     /**
-     * <p>
      * If a set of search matches, this is the total number of entries of type 'match' across all pages in the search. It 
      * does not include search.mode = 'include' or 'outcome' entries and it does not provide a count of the number of entries 
      * in the Bundle.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link UnsignedInt}.
@@ -189,9 +181,7 @@ public class Bundle extends Resource {
     }
 
     /**
-     * <p>
      * A series of links that provide context to this bundle.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Link}.
@@ -201,10 +191,8 @@ public class Bundle extends Resource {
     }
 
     /**
-     * <p>
      * An entry in a bundle resource - will either contain a resource or information about a resource (transactions and 
      * history only).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Entry}.
@@ -214,9 +202,7 @@ public class Bundle extends Resource {
     }
 
     /**
-     * <p>
      * Digital Signature - base64 encoded. XML-DSig or a JWT.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Signature}.
@@ -316,9 +302,7 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -332,10 +316,8 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -349,11 +331,9 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -367,9 +347,7 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -383,9 +361,7 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * A persistent identifier for the bundle that won't change as a bundle is copied from server to server.
-         * </p>
          * 
          * @param identifier
          *     Persistent identifier for the bundle
@@ -399,9 +375,9 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * Indicates the purpose of this bundle - how it is intended to be used.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     document | message | transaction | transaction-response | batch | batch-response | history | searchset | collection
@@ -415,9 +391,7 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * The date/time that the bundle was assembled - i.e. when the resources were placed in the bundle.
-         * </p>
          * 
          * @param timestamp
          *     When the bundle was assembled
@@ -431,11 +405,9 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * If a set of search matches, this is the total number of entries of type 'match' across all pages in the search. It 
          * does not include search.mode = 'include' or 'outcome' entries and it does not provide a count of the number of entries 
          * in the Bundle.
-         * </p>
          * 
          * @param total
          *     If search, the total number of matches
@@ -449,12 +421,9 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * A series of links that provide context to this bundle.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param link
          *     Links related to this Bundle
@@ -470,12 +439,9 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * A series of links that provide context to this bundle.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param link
          *     Links related to this Bundle
@@ -489,13 +455,10 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * An entry in a bundle resource - will either contain a resource or information about a resource (transactions and 
          * history only).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param entry
          *     Entry in the bundle - will have a resource or information
@@ -511,13 +474,10 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * An entry in a bundle resource - will either contain a resource or information about a resource (transactions and 
          * history only).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param entry
          *     Entry in the bundle - will have a resource or information
@@ -531,9 +491,7 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * Digital Signature - base64 encoded. XML-DSig or a JWT.
-         * </p>
          * 
          * @param signature
          *     Digital Signature
@@ -546,6 +504,17 @@ public class Bundle extends Resource {
             return this;
         }
 
+        /**
+         * Build the {@link Bundle}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>type</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Bundle}
+         */
         @Override
         public Bundle build() {
             return new Bundle(this);
@@ -565,12 +534,12 @@ public class Bundle extends Resource {
     }
 
     /**
-     * <p>
      * A series of links that provide context to this bundle.
-     * </p>
      */
     public static class Link extends BackboneElement {
+        @Required
         private final String relation;
+        @Required
         private final Uri url;
 
         private volatile int hashCode;
@@ -583,11 +552,9 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * A name which details the functional use for this link - see [http://www.iana.org/assignments/link-relations/link-
          * relations.xhtml#link-relations-1](http://www.iana.org/assignments/link-relations/link-relations.xhtml#link-relations-
          * 1).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -597,9 +564,7 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * The reference details for the link.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Uri}.
@@ -683,10 +648,8 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -700,15 +663,12 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -722,15 +682,12 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -744,21 +701,17 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -772,21 +725,17 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -800,11 +749,11 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * A name which details the functional use for this link - see [http://www.iana.org/assignments/link-relations/link-
              * relations.xhtml#link-relations-1](http://www.iana.org/assignments/link-relations/link-relations.xhtml#link-relations-
              * 1).
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param relation
              *     See http://www.iana.org/assignments/link-relations/link-relations.xhtml#link-relations-1
@@ -818,9 +767,9 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * The reference details for the link.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param url
              *     Reference details for the link
@@ -833,6 +782,18 @@ public class Bundle extends Resource {
                 return this;
             }
 
+            /**
+             * Build the {@link Link}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>relation</li>
+             * <li>url</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Link}
+             */
             @Override
             public Link build() {
                 return new Link(this);
@@ -848,10 +809,8 @@ public class Bundle extends Resource {
     }
 
     /**
-     * <p>
      * An entry in a bundle resource - will either contain a resource or information about a resource (transactions and 
      * history only).
-     * </p>
      */
     public static class Entry extends BackboneElement {
         private final List<Bundle.Link> link;
@@ -875,9 +834,7 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * A series of links that provide context to this entry.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Link}.
@@ -887,14 +844,12 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * The Absolute URL for the resource. The fullUrl SHALL NOT disagree with the id in the resource - i.e. if the fullUrl is 
          * not a urn:uuid, the URL shall be version-independent URL consistent with the Resource.id. The fullUrl is a version 
          * independent reference to the resource. The fullUrl element SHALL have a value except that: 
          * * fullUrl can be empty on a POST (although it does not need to when specifying a temporary id for reference in the 
          * bundle)
          * * Results from operations might involve resources that are not identified.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Uri}.
@@ -904,9 +859,7 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * The Resource for the entry. The purpose/meaning of the resource is determined by the Bundle.type.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Resource}.
@@ -916,9 +869,7 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * Information about the search process that lead to the creation of this entry.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Search}.
@@ -928,10 +879,8 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * Additional information about how this entry should be processed as part of a transaction or batch. For history, it 
          * shows how the entry was processed to create the version contained in the entry.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Request}.
@@ -941,10 +890,8 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * Indicates the results of processing the corresponding 'request' entry in the batch or transaction being responded to 
          * or what the results of an operation where when returning history.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Response}.
@@ -1048,10 +995,8 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1065,15 +1010,12 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1087,15 +1029,12 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1109,21 +1048,17 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1137,21 +1072,17 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1165,12 +1096,9 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * A series of links that provide context to this entry.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param link
              *     Links related to this entry
@@ -1186,12 +1114,9 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * A series of links that provide context to this entry.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param link
              *     Links related to this entry
@@ -1205,14 +1130,12 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * The Absolute URL for the resource. The fullUrl SHALL NOT disagree with the id in the resource - i.e. if the fullUrl is 
              * not a urn:uuid, the URL shall be version-independent URL consistent with the Resource.id. The fullUrl is a version 
              * independent reference to the resource. The fullUrl element SHALL have a value except that: 
              * * fullUrl can be empty on a POST (although it does not need to when specifying a temporary id for reference in the 
              * bundle)
              * * Results from operations might involve resources that are not identified.
-             * </p>
              * 
              * @param fullUrl
              *     URI for resource (Absolute URL server address or URI for UUID/OID)
@@ -1226,9 +1149,7 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * The Resource for the entry. The purpose/meaning of the resource is determined by the Bundle.type.
-             * </p>
              * 
              * @param resource
              *     A resource in the bundle
@@ -1242,9 +1163,7 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * Information about the search process that lead to the creation of this entry.
-             * </p>
              * 
              * @param search
              *     Search related information
@@ -1258,10 +1177,8 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * Additional information about how this entry should be processed as part of a transaction or batch. For history, it 
              * shows how the entry was processed to create the version contained in the entry.
-             * </p>
              * 
              * @param request
              *     Additional execution information (transaction/batch/history)
@@ -1275,10 +1192,8 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * Indicates the results of processing the corresponding 'request' entry in the batch or transaction being responded to 
              * or what the results of an operation where when returning history.
-             * </p>
              * 
              * @param response
              *     Results of execution (transaction/batch/history)
@@ -1291,6 +1206,12 @@ public class Bundle extends Resource {
                 return this;
             }
 
+            /**
+             * Build the {@link Entry}
+             * 
+             * @return
+             *     An immutable object of type {@link Entry}
+             */
             @Override
             public Entry build() {
                 return new Entry(this);
@@ -1309,9 +1230,7 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * Information about the search process that lead to the creation of this entry.
-         * </p>
          */
         public static class Search extends BackboneElement {
             private final SearchEntryMode mode;
@@ -1327,10 +1246,8 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * Why this entry is in the result set - whether it's included as a match or because of an _include requirement, or to 
              * convey information or warning information about the search process.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link SearchEntryMode}.
@@ -1340,9 +1257,7 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * When searching, the server's search ranking score for the entry.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Decimal}.
@@ -1426,10 +1341,8 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -1443,15 +1356,12 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1465,15 +1375,12 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1487,21 +1394,17 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1515,21 +1418,17 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1543,10 +1442,8 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * Why this entry is in the result set - whether it's included as a match or because of an _include requirement, or to 
                  * convey information or warning information about the search process.
-                 * </p>
                  * 
                  * @param mode
                  *     match | include | outcome - why this is in the result set
@@ -1560,9 +1457,7 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * When searching, the server's search ranking score for the entry.
-                 * </p>
                  * 
                  * @param score
                  *     Search ranking (between 0 and 1)
@@ -1575,6 +1470,12 @@ public class Bundle extends Resource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Search}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Search}
+                 */
                 @Override
                 public Search build() {
                     return new Search(this);
@@ -1590,13 +1491,13 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * Additional information about how this entry should be processed as part of a transaction or batch. For history, it 
          * shows how the entry was processed to create the version contained in the entry.
-         * </p>
          */
         public static class Request extends BackboneElement {
+            @Required
             private final HTTPVerb method;
+            @Required
             private final Uri url;
             private final String ifNoneMatch;
             private final Instant ifModifiedSince;
@@ -1617,10 +1518,8 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * In a transaction or batch, this is the HTTP action to be executed for this entry. In a history bundle, this indicates 
              * the HTTP action that occurred.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link HTTPVerb}.
@@ -1630,9 +1529,7 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * The URL for this entry, relative to the root (the address to which the request is posted).
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Uri}.
@@ -1642,10 +1539,8 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * If the ETag values match, return a 304 Not Modified status. See the API documentation for ["Conditional Read"](http.
              * html#cread).
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -1655,10 +1550,8 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * Only perform the operation if the last updated date matches. See the API documentation for ["Conditional Read"](http.
              * html#cread).
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Instant}.
@@ -1668,10 +1561,8 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * Only perform the operation if the Etag value matches. For more information, see the API section ["Managing Resource 
              * Contention"](http.html#concurrency).
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -1681,11 +1572,9 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * Instruct the server not to perform the create if a specified resource already exists. For further information, see the 
              * API documentation for ["Conditional Create"](http.html#ccreate). This is just the query portion of the URL - what 
              * follows the "?" (not including the "?").
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -1789,10 +1678,8 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -1806,15 +1693,12 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1828,15 +1712,12 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1850,21 +1731,17 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1878,21 +1755,17 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1906,10 +1779,10 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * In a transaction or batch, this is the HTTP action to be executed for this entry. In a history bundle, this indicates 
                  * the HTTP action that occurred.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param method
                  *     GET | HEAD | POST | PUT | DELETE | PATCH
@@ -1923,9 +1796,9 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * The URL for this entry, relative to the root (the address to which the request is posted).
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param url
                  *     URL for HTTP equivalent of this entry
@@ -1939,10 +1812,8 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * If the ETag values match, return a 304 Not Modified status. See the API documentation for ["Conditional Read"](http.
                  * html#cread).
-                 * </p>
                  * 
                  * @param ifNoneMatch
                  *     For managing cache currency
@@ -1956,10 +1827,8 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * Only perform the operation if the last updated date matches. See the API documentation for ["Conditional Read"](http.
                  * html#cread).
-                 * </p>
                  * 
                  * @param ifModifiedSince
                  *     For managing cache currency
@@ -1973,10 +1842,8 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * Only perform the operation if the Etag value matches. For more information, see the API section ["Managing Resource 
                  * Contention"](http.html#concurrency).
-                 * </p>
                  * 
                  * @param ifMatch
                  *     For managing update contention
@@ -1990,11 +1857,9 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * Instruct the server not to perform the create if a specified resource already exists. For further information, see the 
                  * API documentation for ["Conditional Create"](http.html#ccreate). This is just the query portion of the URL - what 
                  * follows the "?" (not including the "?").
-                 * </p>
                  * 
                  * @param ifNoneExist
                  *     For conditional creates
@@ -2007,6 +1872,18 @@ public class Bundle extends Resource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Request}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>method</li>
+                 * <li>url</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Request}
+                 */
                 @Override
                 public Request build() {
                     return new Request(this);
@@ -2026,12 +1903,11 @@ public class Bundle extends Resource {
         }
 
         /**
-         * <p>
          * Indicates the results of processing the corresponding 'request' entry in the batch or transaction being responded to 
          * or what the results of an operation where when returning history.
-         * </p>
          */
         public static class Response extends BackboneElement {
+            @Required
             private final String status;
             private final Uri location;
             private final String etag;
@@ -2051,10 +1927,8 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * The status code returned by processing this entry. The status SHALL start with a 3 digit HTTP code (e.g. 404) and may 
              * contain the standard HTTP description associated with the status code.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2064,9 +1938,7 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * The location header created by processing this operation, populated if the operation returns a location.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Uri}.
@@ -2076,10 +1948,8 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * The Etag for the resource, if the operation for the entry produced a versioned resource (see [Resource Metadata and 
              * Versioning](http.html#versioning) and [Managing Resource Contention](http.html#concurrency)).
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2089,9 +1959,7 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * The date/time that the resource was modified on the server.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Instant}.
@@ -2101,9 +1969,7 @@ public class Bundle extends Resource {
             }
 
             /**
-             * <p>
              * An OperationOutcome containing hints and warnings produced as part of processing this entry in a batch or transaction.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Resource}.
@@ -2202,10 +2068,8 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2219,15 +2083,12 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2241,15 +2102,12 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2263,21 +2121,17 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2291,21 +2145,17 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2319,10 +2169,10 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * The status code returned by processing this entry. The status SHALL start with a 3 digit HTTP code (e.g. 404) and may 
                  * contain the standard HTTP description associated with the status code.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param status
                  *     Status response code (text optional)
@@ -2336,9 +2186,7 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * The location header created by processing this operation, populated if the operation returns a location.
-                 * </p>
                  * 
                  * @param location
                  *     The location (if the operation returns a location)
@@ -2352,10 +2200,8 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * The Etag for the resource, if the operation for the entry produced a versioned resource (see [Resource Metadata and 
                  * Versioning](http.html#versioning) and [Managing Resource Contention](http.html#concurrency)).
-                 * </p>
                  * 
                  * @param etag
                  *     The Etag for the resource (if relevant)
@@ -2369,9 +2215,7 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * The date/time that the resource was modified on the server.
-                 * </p>
                  * 
                  * @param lastModified
                  *     Server's date time modified
@@ -2385,9 +2229,7 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * <p>
                  * An OperationOutcome containing hints and warnings produced as part of processing this entry in a batch or transaction.
-                 * </p>
                  * 
                  * @param outcome
                  *     OperationOutcome with hints and warnings (for batch/transaction)
@@ -2400,6 +2242,17 @@ public class Bundle extends Resource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Response}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>status</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Response}
+                 */
                 @Override
                 public Response build() {
                     return new Response(this);

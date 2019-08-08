@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
@@ -33,7 +35,6 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Provenance of a resource is a record that describes entities and processes involved in producing and delivering or 
  * otherwise influencing that resource. Provenance provides a critical foundation for assessing authenticity, enabling 
  * trust, and allowing reproducibility. Provenance assertions are a form of contextual metadata and can themselves become 
@@ -41,17 +42,20 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * confidence in authenticity, reliability, and trustworthiness, integrity, and stage in lifecycle (e.g. Document 
  * Completion - has the artifact been legally authenticated), all of which may impact security, privacy, and trust 
  * policies.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Provenance extends DomainResource {
+    @Required
     private final List<Reference> target;
+    @Choice({Period.class, DateTime.class})
     private final Element occurred;
+    @Required
     private final Instant recorded;
     private final List<Uri> policy;
     private final Reference location;
     private final List<CodeableConcept> reason;
     private final CodeableConcept activity;
+    @Required
     private final List<Agent> agent;
     private final List<Entity> entity;
     private final List<Signature> signature;
@@ -73,10 +77,8 @@ public class Provenance extends DomainResource {
     }
 
     /**
-     * <p>
      * The Reference(s) that were generated or updated by the activity described in this resource. A provenance can point to 
      * more than one target if multiple resources were created/updated by the same activity.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -86,9 +88,7 @@ public class Provenance extends DomainResource {
     }
 
     /**
-     * <p>
      * The period during which the activity occurred.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -98,9 +98,7 @@ public class Provenance extends DomainResource {
     }
 
     /**
-     * <p>
      * The instant of time at which the activity was recorded.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Instant}.
@@ -110,10 +108,8 @@ public class Provenance extends DomainResource {
     }
 
     /**
-     * <p>
      * Policy or plan the activity was defined by. Typically, a single activity may have multiple applicable policy 
      * documents, such as patient consent, guarantor funding, etc.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Uri}.
@@ -123,9 +119,7 @@ public class Provenance extends DomainResource {
     }
 
     /**
-     * <p>
      * Where the activity occurred, if relevant.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -135,9 +129,7 @@ public class Provenance extends DomainResource {
     }
 
     /**
-     * <p>
      * The reason that the activity was taking place.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -147,10 +139,8 @@ public class Provenance extends DomainResource {
     }
 
     /**
-     * <p>
      * An activity is something that occurs over a period of time and acts upon or with entities; it may include consuming, 
      * processing, transforming, modifying, relocating, using, or generating entities.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -160,10 +150,8 @@ public class Provenance extends DomainResource {
     }
 
     /**
-     * <p>
      * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
      * taking place.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Agent}.
@@ -173,9 +161,7 @@ public class Provenance extends DomainResource {
     }
 
     /**
-     * <p>
      * An entity used in this activity.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Entity}.
@@ -185,10 +171,8 @@ public class Provenance extends DomainResource {
     }
 
     /**
-     * <p>
      * A digital signature on the target Reference(s). The signer should match a Provenance.agent. The purpose of the 
      * signature is indicated.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Signature}.
@@ -312,9 +296,7 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -328,10 +310,8 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -345,11 +325,9 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -363,9 +341,7 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -379,12 +355,10 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -398,13 +372,10 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -418,13 +389,10 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -438,15 +406,12 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -460,15 +425,12 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -482,21 +444,17 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -510,21 +468,17 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -538,13 +492,12 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * The Reference(s) that were generated or updated by the activity described in this resource. A provenance can point to 
          * more than one target if multiple resources were created/updated by the same activity.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is required.
          * 
          * @param target
          *     Target Reference(s) (usually version specific)
@@ -560,13 +513,12 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * The Reference(s) that were generated or updated by the activity described in this resource. A provenance can point to 
          * more than one target if multiple resources were created/updated by the same activity.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is required.
          * 
          * @param target
          *     Target Reference(s) (usually version specific)
@@ -580,9 +532,13 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * The period during which the activity occurred.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Period}</li>
+         * <li>{@link DateTime}</li>
+         * </ul>
          * 
          * @param occurred
          *     When the activity occurred
@@ -596,9 +552,9 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * The instant of time at which the activity was recorded.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param recorded
          *     When the activity was recorded / updated
@@ -612,13 +568,10 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * Policy or plan the activity was defined by. Typically, a single activity may have multiple applicable policy 
          * documents, such as patient consent, guarantor funding, etc.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param policy
          *     Policy or plan the activity was defined by
@@ -634,13 +587,10 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * Policy or plan the activity was defined by. Typically, a single activity may have multiple applicable policy 
          * documents, such as patient consent, guarantor funding, etc.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param policy
          *     Policy or plan the activity was defined by
@@ -654,9 +604,7 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * Where the activity occurred, if relevant.
-         * </p>
          * 
          * @param location
          *     Where the activity occurred, if relevant
@@ -670,12 +618,9 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * The reason that the activity was taking place.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reason
          *     Reason the activity is occurring
@@ -691,12 +636,9 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * The reason that the activity was taking place.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reason
          *     Reason the activity is occurring
@@ -710,10 +652,8 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * An activity is something that occurs over a period of time and acts upon or with entities; it may include consuming, 
          * processing, transforming, modifying, relocating, using, or generating entities.
-         * </p>
          * 
          * @param activity
          *     Activity that occurred
@@ -727,13 +667,12 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
          * taking place.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is required.
          * 
          * @param agent
          *     Actor involved
@@ -749,13 +688,12 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
          * taking place.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is required.
          * 
          * @param agent
          *     Actor involved
@@ -769,12 +707,9 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * An entity used in this activity.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param entity
          *     An entity used in this activity
@@ -790,12 +725,9 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * An entity used in this activity.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param entity
          *     An entity used in this activity
@@ -809,13 +741,10 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * A digital signature on the target Reference(s). The signer should match a Provenance.agent. The purpose of the 
          * signature is indicated.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param signature
          *     Signature on target
@@ -831,13 +760,10 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * A digital signature on the target Reference(s). The signer should match a Provenance.agent. The purpose of the 
          * signature is indicated.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param signature
          *     Signature on target
@@ -850,6 +776,19 @@ public class Provenance extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link Provenance}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>target</li>
+         * <li>recorded</li>
+         * <li>agent</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Provenance}
+         */
         @Override
         public Provenance build() {
             return new Provenance(this);
@@ -872,14 +811,13 @@ public class Provenance extends DomainResource {
     }
 
     /**
-     * <p>
      * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
      * taking place.
-     * </p>
      */
     public static class Agent extends BackboneElement {
         private final CodeableConcept type;
         private final List<CodeableConcept> role;
+        @Required
         private final Reference who;
         private final Reference onBehalfOf;
 
@@ -895,9 +833,7 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * The participation the agent had with respect to the activity.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -907,10 +843,8 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * The function of the agent with respect to the activity. The security role enabling the agent with respect to the 
          * activity.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -920,9 +854,7 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * The individual, device or organization that participated in the event.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -932,9 +864,7 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * The individual, device, or organization for whom the change was made.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1028,10 +958,8 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1045,15 +973,12 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1067,15 +992,12 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1089,21 +1011,17 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1117,21 +1035,17 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1145,9 +1059,7 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * The participation the agent had with respect to the activity.
-             * </p>
              * 
              * @param type
              *     How the agent participated
@@ -1161,13 +1073,10 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * The function of the agent with respect to the activity. The security role enabling the agent with respect to the 
              * activity.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param role
              *     What the agents role was
@@ -1183,13 +1092,10 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * The function of the agent with respect to the activity. The security role enabling the agent with respect to the 
              * activity.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param role
              *     What the agents role was
@@ -1203,9 +1109,9 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * The individual, device or organization that participated in the event.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param who
              *     Who participated
@@ -1219,9 +1125,7 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * The individual, device, or organization for whom the change was made.
-             * </p>
              * 
              * @param onBehalfOf
              *     Who the agent is representing
@@ -1234,6 +1138,17 @@ public class Provenance extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Agent}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>who</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Agent}
+             */
             @Override
             public Agent build() {
                 return new Agent(this);
@@ -1251,12 +1166,12 @@ public class Provenance extends DomainResource {
     }
 
     /**
-     * <p>
      * An entity used in this activity.
-     * </p>
      */
     public static class Entity extends BackboneElement {
+        @Required
         private final ProvenanceEntityRole role;
+        @Required
         private final Reference what;
         private final List<Provenance.Agent> agent;
 
@@ -1271,9 +1186,7 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * How the entity was used during the activity.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ProvenanceEntityRole}.
@@ -1283,9 +1196,7 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * Identity of the Entity used. May be a logical or physical uri and maybe absolute or relative.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1295,11 +1206,9 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * <p>
          * The entity is attributed to an agent to express the agent's responsibility for that entity, possibly along with other 
          * agents. This description can be understood as shorthand for saying that the agent was responsible for the activity 
          * which generated the entity.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Agent}.
@@ -1388,10 +1297,8 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1405,15 +1312,12 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1427,15 +1331,12 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1449,21 +1350,17 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1477,21 +1374,17 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1505,9 +1398,9 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * How the entity was used during the activity.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param role
              *     derivation | revision | quotation | source | removal
@@ -1521,9 +1414,9 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * Identity of the Entity used. May be a logical or physical uri and maybe absolute or relative.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param what
              *     Identity of entity
@@ -1537,14 +1430,11 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * The entity is attributed to an agent to express the agent's responsibility for that entity, possibly along with other 
              * agents. This description can be understood as shorthand for saying that the agent was responsible for the activity 
              * which generated the entity.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param agent
              *     Entity is attributed to this agent
@@ -1560,14 +1450,11 @@ public class Provenance extends DomainResource {
             }
 
             /**
-             * <p>
              * The entity is attributed to an agent to express the agent's responsibility for that entity, possibly along with other 
              * agents. This description can be understood as shorthand for saying that the agent was responsible for the activity 
              * which generated the entity.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param agent
              *     Entity is attributed to this agent
@@ -1580,6 +1467,18 @@ public class Provenance extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Entity}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>role</li>
+             * <li>what</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Entity}
+             */
             @Override
             public Entity build() {
                 return new Entity(this);

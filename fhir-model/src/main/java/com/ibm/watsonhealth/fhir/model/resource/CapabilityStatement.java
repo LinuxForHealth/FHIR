@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -52,11 +53,9 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A Capability Statement documents a set of capabilities (behaviors) of a FHIR Server for a particular version of FHIR 
  * that may be used as a statement of actual server functionality or a statement of required or desired server 
  * implementation.
- * </p>
  */
 @Constraint(
     id = "cpb-0",
@@ -134,8 +133,10 @@ public class CapabilityStatement extends DomainResource {
     private final String version;
     private final String name;
     private final String title;
+    @Required
     private final PublicationStatus status;
     private final Boolean experimental;
+    @Required
     private final DateTime date;
     private final String publisher;
     private final List<ContactDetail> contact;
@@ -144,12 +145,15 @@ public class CapabilityStatement extends DomainResource {
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
+    @Required
     private final CapabilityStatementKind kind;
     private final List<Canonical> instantiates;
     private final List<Canonical> imports;
     private final Software software;
     private final Implementation implementation;
+    @Required
     private final FHIRVersion fhirVersion;
+    @Required
     private final List<Code> format;
     private final List<Code> patchFormat;
     private final List<Canonical> implementationGuide;
@@ -190,13 +194,11 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * An absolute URI that is used to identify this capability statement when it is referenced in a specification, model, 
      * design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal 
      * address at which at which an authoritative instance of this capability statement is (or will be) published. This URL 
      * can be the target of a canonical reference. It SHALL remain the same when the capability statement is stored on 
      * different servers.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -206,12 +208,10 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * The identifier that is used to identify this version of the capability statement when it is referenced in a 
      * specification, model, design or instance. This is an arbitrary value managed by the capability statement author and is 
      * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
      * available. There is also no expectation that versions can be placed in a lexicographical sequence.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -221,10 +221,8 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * A natural language name identifying the capability statement. This name should be usable as an identifier for the 
      * module by machine processing applications such as code generation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -234,9 +232,7 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * A short, descriptive, user-friendly title for the capability statement.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -246,9 +242,7 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of this capability statement. Enables tracking the life-cycle of the content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PublicationStatus}.
@@ -258,10 +252,8 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * A Boolean value to indicate that this capability statement is authored for testing purposes (or 
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -271,11 +263,9 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and optionally time) when the capability statement was published. The date must change when the business 
      * version changes and it must change if the status code changes. In addition, it should change when the substantive 
      * content of the capability statement changes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -285,9 +275,7 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the organization or individual that published the capability statement.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -297,9 +285,7 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * Contact details to assist a user in finding and communicating with the publisher.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -309,11 +295,9 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * A free text natural language description of the capability statement from a consumer's perspective. Typically, this is 
      * used when the capability statement describes a desired rather than an actual solution, for example as a formal 
      * expression of requirements as part of an RFP.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -323,11 +307,9 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
      * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
      * may be used to assist with indexing and searching for appropriate capability statement instances.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
@@ -337,9 +319,7 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * A legal or geographic region in which the capability statement is intended to be used.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -349,9 +329,7 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * Explanation of why this capability statement is needed and why it has been designed as it has.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -361,10 +339,8 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * A copyright statement relating to the capability statement and/or its contents. Copyright statements are generally 
      * legal restrictions on the use and publishing of the capability statement.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -374,10 +350,8 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * The way that this statement is intended to be used, to describe an actual running instance of software, a particular 
      * product (kind, not instance of software) or a class of implementation (e.g. a desired purchase).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CapabilityStatementKind}.
@@ -387,11 +361,9 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * Reference to a canonical URL of another CapabilityStatement that this software implements. This capability statement 
      * is a published API description that corresponds to a business service. The server may actually implement a subset of 
      * the capability statement it claims to implement, so the capability statement must specify the full capability details.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -401,11 +373,9 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * Reference to a canonical URL of another CapabilityStatement that this software adds to. The capability statement 
      * automatically includes everything in the other statement, and it is not duplicated, though the server may repeat the 
      * same resources, interactions and operations to add additional details to them.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -415,10 +385,8 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * Software that is covered by this capability statement. It is used when the capability statement describes the 
      * capabilities of a particular software version, independent of an installation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Software}.
@@ -428,10 +396,8 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies a specific implementation instance that is described by the capability statement - i.e. a particular 
      * installation, rather than the capabilities of a software program.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Implementation}.
@@ -441,10 +407,8 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * The version of the FHIR specification that this CapabilityStatement describes (which SHALL be the same as the FHIR 
      * version of the CapabilityStatement itself). There is no default value.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link FHIRVersion}.
@@ -454,9 +418,7 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * A list of the formats supported by this implementation using their content types.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Code}.
@@ -466,9 +428,7 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * A list of the patch formats supported by this implementation using their content types.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Code}.
@@ -478,9 +438,7 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * A list of implementation guides that the server does (or should) support in their entirety.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -490,9 +448,7 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * A definition of the restful capabilities of the solution, if any.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Rest}.
@@ -502,9 +458,7 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * A description of the messaging capabilities of the solution.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Messaging}.
@@ -514,9 +468,7 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * A document definition.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Document}.
@@ -704,9 +656,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -720,10 +670,8 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -737,11 +685,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -755,9 +701,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -771,12 +715,10 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -790,13 +732,10 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -810,13 +749,10 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -830,15 +766,12 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -852,15 +785,12 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -874,21 +804,17 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -902,21 +828,17 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -930,13 +852,11 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that is used to identify this capability statement when it is referenced in a specification, model, 
          * design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal 
          * address at which at which an authoritative instance of this capability statement is (or will be) published. This URL 
          * can be the target of a canonical reference. It SHALL remain the same when the capability statement is stored on 
          * different servers.
-         * </p>
          * 
          * @param url
          *     Canonical identifier for this capability statement, represented as a URI (globally unique)
@@ -950,12 +870,10 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * The identifier that is used to identify this version of the capability statement when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the capability statement author and is 
          * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
          * available. There is also no expectation that versions can be placed in a lexicographical sequence.
-         * </p>
          * 
          * @param version
          *     Business version of the capability statement
@@ -969,10 +887,8 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A natural language name identifying the capability statement. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
-         * </p>
          * 
          * @param name
          *     Name for this capability statement (computer friendly)
@@ -986,9 +902,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A short, descriptive, user-friendly title for the capability statement.
-         * </p>
          * 
          * @param title
          *     Name for this capability statement (human friendly)
@@ -1002,9 +916,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of this capability statement. Enables tracking the life-cycle of the content.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | retired | unknown
@@ -1018,10 +932,8 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A Boolean value to indicate that this capability statement is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
-         * </p>
          * 
          * @param experimental
          *     For testing purposes, not real usage
@@ -1035,11 +947,11 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and optionally time) when the capability statement was published. The date must change when the business 
          * version changes and it must change if the status code changes. In addition, it should change when the substantive 
          * content of the capability statement changes.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param date
          *     Date last changed
@@ -1053,9 +965,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the organization or individual that published the capability statement.
-         * </p>
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
@@ -1069,12 +979,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1090,12 +997,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1109,11 +1013,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A free text natural language description of the capability statement from a consumer's perspective. Typically, this is 
          * used when the capability statement describes a desired rather than an actual solution, for example as a formal 
          * expression of requirements as part of an RFP.
-         * </p>
          * 
          * @param description
          *     Natural language description of the capability statement
@@ -1127,14 +1029,11 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate capability statement instances.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1150,14 +1049,11 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate capability statement instances.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1171,12 +1067,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the capability statement is intended to be used.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param jurisdiction
          *     Intended jurisdiction for capability statement (if applicable)
@@ -1192,12 +1085,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the capability statement is intended to be used.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param jurisdiction
          *     Intended jurisdiction for capability statement (if applicable)
@@ -1211,9 +1101,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Explanation of why this capability statement is needed and why it has been designed as it has.
-         * </p>
          * 
          * @param purpose
          *     Why this capability statement is defined
@@ -1227,10 +1115,8 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A copyright statement relating to the capability statement and/or its contents. Copyright statements are generally 
          * legal restrictions on the use and publishing of the capability statement.
-         * </p>
          * 
          * @param copyright
          *     Use and/or publishing restrictions
@@ -1244,10 +1130,10 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * The way that this statement is intended to be used, to describe an actual running instance of software, a particular 
          * product (kind, not instance of software) or a class of implementation (e.g. a desired purchase).
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param kind
          *     instance | capability | requirements
@@ -1261,14 +1147,11 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to a canonical URL of another CapabilityStatement that this software implements. This capability statement 
          * is a published API description that corresponds to a business service. The server may actually implement a subset of 
          * the capability statement it claims to implement, so the capability statement must specify the full capability details.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param instantiates
          *     Canonical URL of another capability statement this implements
@@ -1284,14 +1167,11 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to a canonical URL of another CapabilityStatement that this software implements. This capability statement 
          * is a published API description that corresponds to a business service. The server may actually implement a subset of 
          * the capability statement it claims to implement, so the capability statement must specify the full capability details.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param instantiates
          *     Canonical URL of another capability statement this implements
@@ -1305,14 +1185,11 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to a canonical URL of another CapabilityStatement that this software adds to. The capability statement 
          * automatically includes everything in the other statement, and it is not duplicated, though the server may repeat the 
          * same resources, interactions and operations to add additional details to them.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param imports
          *     Canonical URL of another capability statement this adds to
@@ -1328,14 +1205,11 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to a canonical URL of another CapabilityStatement that this software adds to. The capability statement 
          * automatically includes everything in the other statement, and it is not duplicated, though the server may repeat the 
          * same resources, interactions and operations to add additional details to them.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param imports
          *     Canonical URL of another capability statement this adds to
@@ -1349,10 +1223,8 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Software that is covered by this capability statement. It is used when the capability statement describes the 
          * capabilities of a particular software version, independent of an installation.
-         * </p>
          * 
          * @param software
          *     Software that is covered by this capability statement
@@ -1366,10 +1238,8 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies a specific implementation instance that is described by the capability statement - i.e. a particular 
          * installation, rather than the capabilities of a software program.
-         * </p>
          * 
          * @param implementation
          *     If this describes a specific instance
@@ -1383,10 +1253,10 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * The version of the FHIR specification that this CapabilityStatement describes (which SHALL be the same as the FHIR 
          * version of the CapabilityStatement itself). There is no default value.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param fhirVersion
          *     FHIR Version the system supports
@@ -1400,12 +1270,11 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of the formats supported by this implementation using their content types.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is required.
          * 
          * @param format
          *     formats supported (xml | json | ttl | mime type)
@@ -1421,12 +1290,11 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of the formats supported by this implementation using their content types.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is required.
          * 
          * @param format
          *     formats supported (xml | json | ttl | mime type)
@@ -1440,12 +1308,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of the patch formats supported by this implementation using their content types.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param patchFormat
          *     Patch formats supported
@@ -1461,12 +1326,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of the patch formats supported by this implementation using their content types.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param patchFormat
          *     Patch formats supported
@@ -1480,12 +1342,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of implementation guides that the server does (or should) support in their entirety.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param implementationGuide
          *     Implementation guides supported
@@ -1501,12 +1360,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of implementation guides that the server does (or should) support in their entirety.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param implementationGuide
          *     Implementation guides supported
@@ -1520,12 +1376,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A definition of the restful capabilities of the solution, if any.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param rest
          *     If the endpoint is a RESTful one
@@ -1541,12 +1394,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A definition of the restful capabilities of the solution, if any.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param rest
          *     If the endpoint is a RESTful one
@@ -1560,12 +1410,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A description of the messaging capabilities of the solution.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param messaging
          *     If messaging is supported
@@ -1581,12 +1428,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A description of the messaging capabilities of the solution.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param messaging
          *     If messaging is supported
@@ -1600,12 +1444,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A document definition.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param document
          *     Document definition
@@ -1621,12 +1462,9 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A document definition.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param document
          *     Document definition
@@ -1639,6 +1477,21 @@ public class CapabilityStatement extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link CapabilityStatement}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>date</li>
+         * <li>kind</li>
+         * <li>fhirVersion</li>
+         * <li>format</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link CapabilityStatement}
+         */
         @Override
         public CapabilityStatement build() {
             return new CapabilityStatement(this);
@@ -1677,12 +1530,11 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * Software that is covered by this capability statement. It is used when the capability statement describes the 
      * capabilities of a particular software version, independent of an installation.
-     * </p>
      */
     public static class Software extends BackboneElement {
+        @Required
         private final String name;
         private final String version;
         private final DateTime releaseDate;
@@ -1698,9 +1550,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Name the software is known by.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1710,9 +1560,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * The version identifier for the software covered by this statement.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1722,9 +1570,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Date this version of the software was released.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DateTime}.
@@ -1813,10 +1659,8 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1830,15 +1674,12 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1852,15 +1693,12 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1874,21 +1712,17 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1902,21 +1736,17 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1930,9 +1760,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Name the software is known by.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param name
              *     A name the software is known by
@@ -1946,9 +1776,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * The version identifier for the software covered by this statement.
-             * </p>
              * 
              * @param version
              *     Version covered by this statement
@@ -1962,9 +1790,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Date this version of the software was released.
-             * </p>
              * 
              * @param releaseDate
              *     Date this version was released
@@ -1977,6 +1803,17 @@ public class CapabilityStatement extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Software}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>name</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Software}
+             */
             @Override
             public Software build() {
                 return new Software(this);
@@ -1993,12 +1830,11 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies a specific implementation instance that is described by the capability statement - i.e. a particular 
      * installation, rather than the capabilities of a software program.
-     * </p>
      */
     public static class Implementation extends BackboneElement {
+        @Required
         private final String description;
         private final Url url;
         private final Reference custodian;
@@ -2014,9 +1850,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about the specific installation that this capability statement relates to.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2026,10 +1860,8 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute base URL for the implementation. This forms the base for REST interfaces as well as the mailbox and 
          * document interfaces.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Url}.
@@ -2039,10 +1871,8 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * The organization responsible for the management of the instance and oversight of the data on the server at the 
          * specified URL.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -2131,10 +1961,8 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2148,15 +1976,12 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2170,15 +1995,12 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2192,21 +2014,17 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2220,21 +2038,17 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2248,9 +2062,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Information about the specific installation that this capability statement relates to.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param description
              *     Describes this specific instance
@@ -2264,10 +2078,8 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * An absolute base URL for the implementation. This forms the base for REST interfaces as well as the mailbox and 
              * document interfaces.
-             * </p>
              * 
              * @param url
              *     Base URL for the installation
@@ -2281,10 +2093,8 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * The organization responsible for the management of the instance and oversight of the data on the server at the 
              * specified URL.
-             * </p>
              * 
              * @param custodian
              *     Organization that manages the data
@@ -2297,6 +2107,17 @@ public class CapabilityStatement extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Implementation}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>description</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Implementation}
+             */
             @Override
             public Implementation build() {
                 return new Implementation(this);
@@ -2313,11 +2134,10 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * A definition of the restful capabilities of the solution, if any.
-     * </p>
      */
     public static class Rest extends BackboneElement {
+        @Required
         private final RestfulCapabilityMode mode;
         private final Markdown documentation;
         private final Security security;
@@ -2343,9 +2163,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies whether this portion of the statement is describing the ability to initiate or receive restful operations.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link RestfulCapabilityMode}.
@@ -2355,9 +2173,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about the system's restful capabilities that apply across all applications, such as security.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Markdown}.
@@ -2367,9 +2183,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about security implementation from an interface perspective - what a client needs to know.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Security}.
@@ -2379,9 +2193,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A specification of the restful capabilities of the solution for a specific resource type.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Resource}.
@@ -2391,9 +2203,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A specification of restful operations supported by the system.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Interaction}.
@@ -2403,10 +2213,8 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Search parameters that are supported for searching all resources for implementations to support and/or make use of - 
          * either references to ones defined in the specification, or additional ones defined for/by the implementation.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link SearchParam}.
@@ -2416,9 +2224,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Definition of an operation or a named query together with its parameters and their meaning and type.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Operation}.
@@ -2428,10 +2234,8 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI which is a reference to the definition of a compartment that the system supports. The reference is to 
          * a CompartmentDefinition resource by its canonical URL .
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -2545,10 +2349,8 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2562,15 +2364,12 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2584,15 +2383,12 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2606,21 +2402,17 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2634,21 +2426,17 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2662,9 +2450,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies whether this portion of the statement is describing the ability to initiate or receive restful operations.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param mode
              *     client | server
@@ -2678,9 +2466,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Information about the system's restful capabilities that apply across all applications, such as security.
-             * </p>
              * 
              * @param documentation
              *     General description of implementation
@@ -2694,9 +2480,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Information about security implementation from an interface perspective - what a client needs to know.
-             * </p>
              * 
              * @param security
              *     Information about security of implementation
@@ -2710,12 +2494,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A specification of the restful capabilities of the solution for a specific resource type.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param resource
              *     Resource served on the REST interface
@@ -2731,12 +2512,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A specification of the restful capabilities of the solution for a specific resource type.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param resource
              *     Resource served on the REST interface
@@ -2750,12 +2528,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A specification of restful operations supported by the system.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param interaction
              *     What operations are supported?
@@ -2771,12 +2546,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A specification of restful operations supported by the system.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param interaction
              *     What operations are supported?
@@ -2790,13 +2562,10 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Search parameters that are supported for searching all resources for implementations to support and/or make use of - 
              * either references to ones defined in the specification, or additional ones defined for/by the implementation.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param searchParam
              *     Search parameters for searching all resources
@@ -2812,13 +2581,10 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Search parameters that are supported for searching all resources for implementations to support and/or make use of - 
              * either references to ones defined in the specification, or additional ones defined for/by the implementation.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param searchParam
              *     Search parameters for searching all resources
@@ -2832,12 +2598,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Definition of an operation or a named query together with its parameters and their meaning and type.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param operation
              *     Definition of a system level operation
@@ -2853,12 +2616,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Definition of an operation or a named query together with its parameters and their meaning and type.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param operation
              *     Definition of a system level operation
@@ -2872,13 +2632,10 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * An absolute URI which is a reference to the definition of a compartment that the system supports. The reference is to 
              * a CompartmentDefinition resource by its canonical URL .
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param compartment
              *     Compartments served/used by system
@@ -2894,13 +2651,10 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * An absolute URI which is a reference to the definition of a compartment that the system supports. The reference is to 
              * a CompartmentDefinition resource by its canonical URL .
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param compartment
              *     Compartments served/used by system
@@ -2913,6 +2667,17 @@ public class CapabilityStatement extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Rest}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>mode</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Rest}
+             */
             @Override
             public Rest build() {
                 return new Rest(this);
@@ -2933,9 +2698,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about security implementation from an interface perspective - what a client needs to know.
-         * </p>
          */
         public static class Security extends BackboneElement {
             private final Boolean cors;
@@ -2953,9 +2716,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Server adds CORS headers when responding to requests - this enables Javascript applications to use the server.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Boolean}.
@@ -2965,9 +2726,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Types of security services that are supported/required by the system.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -2977,9 +2736,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * General description of how security works.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Markdown}.
@@ -3068,10 +2825,8 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -3085,15 +2840,12 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3107,15 +2859,12 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3129,21 +2878,17 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3157,21 +2902,17 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3185,9 +2926,7 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Server adds CORS headers when responding to requests - this enables Javascript applications to use the server.
-                 * </p>
                  * 
                  * @param cors
                  *     Adds CORS Headers (http://enable-cors.org/)
@@ -3201,12 +2940,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Types of security services that are supported/required by the system.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param service
                  *     OAuth | SMART-on-FHIR | NTLM | Basic | Kerberos | Certificates
@@ -3222,12 +2958,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Types of security services that are supported/required by the system.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param service
                  *     OAuth | SMART-on-FHIR | NTLM | Basic | Kerberos | Certificates
@@ -3241,9 +2974,7 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * General description of how security works.
-                 * </p>
                  * 
                  * @param description
                  *     General description of how security works
@@ -3256,6 +2987,12 @@ public class CapabilityStatement extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Security}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Security}
+                 */
                 @Override
                 public Security build() {
                     return new Security(this);
@@ -3272,11 +3009,10 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A specification of the restful capabilities of the solution for a specific resource type.
-         * </p>
          */
         public static class Resource extends BackboneElement {
+            @Required
             private final ResourceType type;
             private final Canonical profile;
             private final List<Canonical> supportedProfile;
@@ -3320,9 +3056,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A type of resource exposed via the restful interface.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link ResourceType}.
@@ -3332,11 +3066,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A specification of the profile that describes the solution's overall support for the resource, including any 
              * constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles]
              * (profiling.html#profile-uses).
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Canonical}.
@@ -3346,13 +3078,11 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A list of profiles that represent different use cases supported by the system. For a server, "supported by the system" 
              * means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients 
              * that use its services to search using this profile and to find appropriate data. For a client, it means the system 
              * will search by this profile and process data according to the guidance implicit in the profile. See further discussion 
              * in [Using Profiles](profiling.html#profile-uses).
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -3362,9 +3092,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Additional information about the resource type used by the system.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Markdown}.
@@ -3374,9 +3102,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies a restful operation supported by the solution.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Interaction}.
@@ -3386,12 +3112,10 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * This field is set to no-version to specify that the system does not support (server) or use (client) versioning for 
              * this resource type. If this has some other value, the server must at least correctly track and populate the versionId 
              * meta-property on resources. If the value is 'versioned-update', then the server supports all the versioning features, 
              * including using e-tags for version integrity in the API.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link ResourceVersionPolicy}.
@@ -3401,9 +3125,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A flag for whether the server is able to return past versions as part of the vRead operation.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Boolean}.
@@ -3413,11 +3135,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A flag to indicate that the server allows or needs to allow the client to create new identities on the server (that 
              * is, the client PUTs to a location where there is no existing resource). Allowing this operation means that the server 
              * allows the client to create new identities on the server.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Boolean}.
@@ -3427,9 +3147,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A flag that indicates that the server supports conditional create.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Boolean}.
@@ -3439,9 +3157,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A code that indicates how the server supports conditional read.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link ConditionalReadStatus}.
@@ -3451,9 +3167,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A flag that indicates that the server supports conditional update.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Boolean}.
@@ -3463,9 +3177,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A code that indicates how the server supports conditional delete.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link ConditionalDeleteStatus}.
@@ -3475,9 +3187,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A set of flags that defines how references are supported.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link ReferenceHandlingPolicy}.
@@ -3487,9 +3197,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A list of _include values supported by the server.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -3499,9 +3207,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A list of _revinclude (reverse include) values supported by the server.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -3511,10 +3217,8 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Search parameters for implementations to support and/or make use of - either references to ones defined in the 
              * specification, or additional ones defined for/by the implementation.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link SearchParam}.
@@ -3524,10 +3228,8 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Definition of an operation or a named query together with its parameters and their meaning and type. Consult the 
              * definition of the operation for details about how to invoke the operation, and the parameters.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Operation}.
@@ -3686,10 +3388,8 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -3703,15 +3403,12 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3725,15 +3422,12 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3747,21 +3441,17 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3775,21 +3465,17 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3803,9 +3489,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A type of resource exposed via the restful interface.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param type
                  *     A resource type that is supported
@@ -3819,11 +3505,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A specification of the profile that describes the solution's overall support for the resource, including any 
                  * constraints on cardinality, bindings, lengths or other limitations. See further discussion in [Using Profiles]
                  * (profiling.html#profile-uses).
-                 * </p>
                  * 
                  * @param profile
                  *     Base System profile for all uses of resource
@@ -3837,16 +3521,13 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A list of profiles that represent different use cases supported by the system. For a server, "supported by the system" 
                  * means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients 
                  * that use its services to search using this profile and to find appropriate data. For a client, it means the system 
                  * will search by this profile and process data according to the guidance implicit in the profile. See further discussion 
                  * in [Using Profiles](profiling.html#profile-uses).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param supportedProfile
                  *     Profiles for use cases supported
@@ -3862,16 +3543,13 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A list of profiles that represent different use cases supported by the system. For a server, "supported by the system" 
                  * means the system hosts/produces a set of resources that are conformant to a particular profile, and allows clients 
                  * that use its services to search using this profile and to find appropriate data. For a client, it means the system 
                  * will search by this profile and process data according to the guidance implicit in the profile. See further discussion 
                  * in [Using Profiles](profiling.html#profile-uses).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param supportedProfile
                  *     Profiles for use cases supported
@@ -3885,9 +3563,7 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Additional information about the resource type used by the system.
-                 * </p>
                  * 
                  * @param documentation
                  *     Additional information about the use of the resource type
@@ -3901,12 +3577,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Identifies a restful operation supported by the solution.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param interaction
                  *     What operations are supported?
@@ -3922,12 +3595,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Identifies a restful operation supported by the solution.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param interaction
                  *     What operations are supported?
@@ -3941,12 +3611,10 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * This field is set to no-version to specify that the system does not support (server) or use (client) versioning for 
                  * this resource type. If this has some other value, the server must at least correctly track and populate the versionId 
                  * meta-property on resources. If the value is 'versioned-update', then the server supports all the versioning features, 
                  * including using e-tags for version integrity in the API.
-                 * </p>
                  * 
                  * @param versioning
                  *     no-version | versioned | versioned-update
@@ -3960,9 +3628,7 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A flag for whether the server is able to return past versions as part of the vRead operation.
-                 * </p>
                  * 
                  * @param readHistory
                  *     Whether vRead can return past versions
@@ -3976,11 +3642,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A flag to indicate that the server allows or needs to allow the client to create new identities on the server (that 
                  * is, the client PUTs to a location where there is no existing resource). Allowing this operation means that the server 
                  * allows the client to create new identities on the server.
-                 * </p>
                  * 
                  * @param updateCreate
                  *     If update can commit to a new identity
@@ -3994,9 +3658,7 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A flag that indicates that the server supports conditional create.
-                 * </p>
                  * 
                  * @param conditionalCreate
                  *     If allows/uses conditional create
@@ -4010,9 +3672,7 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A code that indicates how the server supports conditional read.
-                 * </p>
                  * 
                  * @param conditionalRead
                  *     not-supported | modified-since | not-match | full-support
@@ -4026,9 +3686,7 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A flag that indicates that the server supports conditional update.
-                 * </p>
                  * 
                  * @param conditionalUpdate
                  *     If allows/uses conditional update
@@ -4042,9 +3700,7 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A code that indicates how the server supports conditional delete.
-                 * </p>
                  * 
                  * @param conditionalDelete
                  *     not-supported | single | multiple - how conditional delete is supported
@@ -4058,12 +3714,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A set of flags that defines how references are supported.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param referencePolicy
                  *     literal | logical | resolves | enforced | local
@@ -4079,12 +3732,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A set of flags that defines how references are supported.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param referencePolicy
                  *     literal | logical | resolves | enforced | local
@@ -4098,12 +3748,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A list of _include values supported by the server.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param searchInclude
                  *     _include values supported by the server
@@ -4119,12 +3766,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A list of _include values supported by the server.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param searchInclude
                  *     _include values supported by the server
@@ -4138,12 +3782,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A list of _revinclude (reverse include) values supported by the server.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param searchRevInclude
                  *     _revinclude values supported by the server
@@ -4159,12 +3800,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A list of _revinclude (reverse include) values supported by the server.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param searchRevInclude
                  *     _revinclude values supported by the server
@@ -4178,13 +3816,10 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Search parameters for implementations to support and/or make use of - either references to ones defined in the 
                  * specification, or additional ones defined for/by the implementation.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param searchParam
                  *     Search parameters supported by implementation
@@ -4200,13 +3835,10 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Search parameters for implementations to support and/or make use of - either references to ones defined in the 
                  * specification, or additional ones defined for/by the implementation.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param searchParam
                  *     Search parameters supported by implementation
@@ -4220,13 +3852,10 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Definition of an operation or a named query together with its parameters and their meaning and type. Consult the 
                  * definition of the operation for details about how to invoke the operation, and the parameters.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param operation
                  *     Definition of a resource operation
@@ -4242,13 +3871,10 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Definition of an operation or a named query together with its parameters and their meaning and type. Consult the 
                  * definition of the operation for details about how to invoke the operation, and the parameters.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param operation
                  *     Definition of a resource operation
@@ -4261,6 +3887,17 @@ public class CapabilityStatement extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Resource}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>type</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Resource}
+                 */
                 @Override
                 public Resource build() {
                     return new Resource(this);
@@ -4290,11 +3927,10 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies a restful operation supported by the solution.
-             * </p>
              */
             public static class Interaction extends BackboneElement {
+                @Required
                 private final TypeRestfulInteraction code;
                 private final Markdown documentation;
 
@@ -4308,9 +3944,7 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Coded identifier of the operation, supported by the system resource.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link TypeRestfulInteraction}.
@@ -4320,10 +3954,8 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Guidance specific to the implementation of this operation, such as 'delete is a logical delete' or 'updates are only 
                  * allowed with version id' or 'creates permitted from pre-authorized certificates only'.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Markdown}.
@@ -4407,10 +4039,8 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -4424,15 +4054,12 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -4446,15 +4073,12 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -4468,21 +4092,17 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -4496,21 +4116,17 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -4524,9 +4140,9 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Coded identifier of the operation, supported by the system resource.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param code
                      *     read | vread | update | patch | delete | history-instance | history-type | create | search-type
@@ -4540,10 +4156,8 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Guidance specific to the implementation of this operation, such as 'delete is a logical delete' or 'updates are only 
                      * allowed with version id' or 'creates permitted from pre-authorized certificates only'.
-                     * </p>
                      * 
                      * @param documentation
                      *     Anything special about operation behavior
@@ -4556,6 +4170,17 @@ public class CapabilityStatement extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link Interaction}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>code</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link Interaction}
+                     */
                     @Override
                     public Interaction build() {
                         return new Interaction(this);
@@ -4571,14 +4196,14 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Search parameters for implementations to support and/or make use of - either references to ones defined in the 
              * specification, or additional ones defined for/by the implementation.
-             * </p>
              */
             public static class SearchParam extends BackboneElement {
+                @Required
                 private final String name;
                 private final Canonical definition;
+                @Required
                 private final SearchParamType type;
                 private final Markdown documentation;
 
@@ -4594,9 +4219,7 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The name of the search parameter used in the interface.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -4606,12 +4229,10 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * An absolute URI that is a formal reference to where this parameter was first defined, so that a client can be 
                  * confident of the meaning of the search parameter (a reference to [SearchParameter.url](searchparameter-definitions.
                  * html#SearchParameter.url)). This element SHALL be populated if the search parameter refers to a SearchParameter 
                  * defined by the FHIR core specification or externally defined IGs.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Canonical}.
@@ -4621,9 +4242,7 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The type of value a search parameter refers to, and how the content is interpreted.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link SearchParamType}.
@@ -4633,10 +4252,8 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * This allows documentation of any distinct behaviors about how the search parameter is used. For example, text matching 
                  * algorithms.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Markdown}.
@@ -4730,10 +4347,8 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -4747,15 +4362,12 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -4769,15 +4381,12 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -4791,21 +4400,17 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -4819,21 +4424,17 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -4847,9 +4448,9 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The name of the search parameter used in the interface.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param name
                      *     Name of search parameter
@@ -4863,12 +4464,10 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * An absolute URI that is a formal reference to where this parameter was first defined, so that a client can be 
                      * confident of the meaning of the search parameter (a reference to [SearchParameter.url](searchparameter-definitions.
                      * html#SearchParameter.url)). This element SHALL be populated if the search parameter refers to a SearchParameter 
                      * defined by the FHIR core specification or externally defined IGs.
-                     * </p>
                      * 
                      * @param definition
                      *     Source of definition for parameter
@@ -4882,9 +4481,9 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The type of value a search parameter refers to, and how the content is interpreted.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param type
                      *     number | date | string | token | reference | composite | quantity | uri | special
@@ -4898,10 +4497,8 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * This allows documentation of any distinct behaviors about how the search parameter is used. For example, text matching 
                      * algorithms.
-                     * </p>
                      * 
                      * @param documentation
                      *     Server-specific usage
@@ -4914,6 +4511,18 @@ public class CapabilityStatement extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link SearchParam}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>name</li>
+                     * <li>type</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link SearchParam}
+                     */
                     @Override
                     public SearchParam build() {
                         return new SearchParam(this);
@@ -4931,13 +4540,13 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Definition of an operation or a named query together with its parameters and their meaning and type. Consult the 
              * definition of the operation for details about how to invoke the operation, and the parameters.
-             * </p>
              */
             public static class Operation extends BackboneElement {
+                @Required
                 private final String name;
+                @Required
                 private final Canonical definition;
                 private final Markdown documentation;
 
@@ -4952,10 +4561,8 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The name of the operation or query. For an operation, this is the name prefixed with $ and used in the URL. For a 
                  * query, this is the name used in the _query parameter when the query is called.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -4965,13 +4572,11 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Where the formal definition can be found. If a server references the base definition of an Operation (i.e. from the 
                  * specification itself such as ```http://hl7.org/fhir/OperationDefinition/ValueSet-expand```), that means it supports 
                  * the full capabilities of the operation - e.g. both GET and POST invocation. If it only supports a subset, it must 
                  * define its own custom [OperationDefinition](operationdefinition.html#) with a 'base' of the original 
                  * OperationDefinition. The custom definition would describe the specific subset of functionality supported.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Canonical}.
@@ -4981,10 +4586,8 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Documentation that describes anything special about the operation behavior, possibly detailing different behavior for 
                  * system, type and instance-level invocation of the operation.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Markdown}.
@@ -5073,10 +4676,8 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -5090,15 +4691,12 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -5112,15 +4710,12 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -5134,21 +4729,17 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -5162,21 +4753,17 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -5190,10 +4777,10 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The name of the operation or query. For an operation, this is the name prefixed with $ and used in the URL. For a 
                      * query, this is the name used in the _query parameter when the query is called.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param name
                      *     Name by which the operation/query is invoked
@@ -5207,13 +4794,13 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Where the formal definition can be found. If a server references the base definition of an Operation (i.e. from the 
                      * specification itself such as ```http://hl7.org/fhir/OperationDefinition/ValueSet-expand```), that means it supports 
                      * the full capabilities of the operation - e.g. both GET and POST invocation. If it only supports a subset, it must 
                      * define its own custom [OperationDefinition](operationdefinition.html#) with a 'base' of the original 
                      * OperationDefinition. The custom definition would describe the specific subset of functionality supported.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param definition
                      *     The defined operation/query
@@ -5227,10 +4814,8 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Documentation that describes anything special about the operation behavior, possibly detailing different behavior for 
                      * system, type and instance-level invocation of the operation.
-                     * </p>
                      * 
                      * @param documentation
                      *     Specific details about operation behavior
@@ -5243,6 +4828,18 @@ public class CapabilityStatement extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link Operation}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>name</li>
+                     * <li>definition</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link Operation}
+                     */
                     @Override
                     public Operation build() {
                         return new Operation(this);
@@ -5260,11 +4857,10 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A specification of restful operations supported by the system.
-         * </p>
          */
         public static class Interaction extends BackboneElement {
+            @Required
             private final SystemRestfulInteraction code;
             private final Markdown documentation;
 
@@ -5278,9 +4874,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A coded identifier of the operation, supported by the system.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link SystemRestfulInteraction}.
@@ -5290,10 +4884,8 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Guidance specific to the implementation of this operation, such as limitations on the kind of transactions allowed, or 
              * information about system wide search is implemented.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Markdown}.
@@ -5377,10 +4969,8 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -5394,15 +4984,12 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -5416,15 +5003,12 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -5438,21 +5022,17 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -5466,21 +5046,17 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -5494,9 +5070,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A coded identifier of the operation, supported by the system.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param code
                  *     transaction | batch | search-system | history-system
@@ -5510,10 +5086,8 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Guidance specific to the implementation of this operation, such as limitations on the kind of transactions allowed, or 
                  * information about system wide search is implemented.
-                 * </p>
                  * 
                  * @param documentation
                  *     Anything special about operation behavior
@@ -5526,6 +5100,17 @@ public class CapabilityStatement extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Interaction}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>code</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Interaction}
+                 */
                 @Override
                 public Interaction build() {
                     return new Interaction(this);
@@ -5542,9 +5127,7 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * A description of the messaging capabilities of the solution.
-     * </p>
      */
     public static class Messaging extends BackboneElement {
         private final List<Endpoint> endpoint;
@@ -5564,9 +5147,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * An endpoint (network accessible address) to which messages and/or replies are to be sent.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Endpoint}.
@@ -5576,10 +5157,8 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Length if the receiver's reliable messaging cache in minutes (if a receiver) or how long the cache length on the 
          * receiver should be (if a sender).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link UnsignedInt}.
@@ -5589,10 +5168,8 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Documentation about the system's messaging capabilities for this endpoint not otherwise documented by the capability 
          * statement. For example, the process for becoming an authorized messaging exchange partner.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Markdown}.
@@ -5602,9 +5179,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * References to message definitions for messages this system can send or receive.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link SupportedMessage}.
@@ -5698,10 +5273,8 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -5715,15 +5288,12 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -5737,15 +5307,12 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -5759,21 +5326,17 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -5787,21 +5350,17 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -5815,12 +5374,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * An endpoint (network accessible address) to which messages and/or replies are to be sent.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param endpoint
              *     Where messages should be sent
@@ -5836,12 +5392,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * An endpoint (network accessible address) to which messages and/or replies are to be sent.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param endpoint
              *     Where messages should be sent
@@ -5855,10 +5408,8 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Length if the receiver's reliable messaging cache in minutes (if a receiver) or how long the cache length on the 
              * receiver should be (if a sender).
-             * </p>
              * 
              * @param reliableCache
              *     Reliable Message Cache Length (min)
@@ -5872,10 +5423,8 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Documentation about the system's messaging capabilities for this endpoint not otherwise documented by the capability 
              * statement. For example, the process for becoming an authorized messaging exchange partner.
-             * </p>
              * 
              * @param documentation
              *     Messaging interface behavior details
@@ -5889,12 +5438,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * References to message definitions for messages this system can send or receive.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param supportedMessage
              *     Messages supported by this system
@@ -5910,12 +5456,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * References to message definitions for messages this system can send or receive.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param supportedMessage
              *     Messages supported by this system
@@ -5928,6 +5471,12 @@ public class CapabilityStatement extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Messaging}
+             * 
+             * @return
+             *     An immutable object of type {@link Messaging}
+             */
             @Override
             public Messaging build() {
                 return new Messaging(this);
@@ -5944,12 +5493,12 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * An endpoint (network accessible address) to which messages and/or replies are to be sent.
-         * </p>
          */
         public static class Endpoint extends BackboneElement {
+            @Required
             private final Coding protocol;
+            @Required
             private final Url address;
 
             private volatile int hashCode;
@@ -5962,9 +5511,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A list of the messaging transport protocol(s) identifiers, supported by this endpoint.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Coding}.
@@ -5974,10 +5521,8 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * The network address of the endpoint. For solutions that do not use network addresses for routing, it can be just an 
              * identifier.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Url}.
@@ -6061,10 +5606,8 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -6078,15 +5621,12 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -6100,15 +5640,12 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -6122,21 +5659,17 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -6150,21 +5683,17 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -6178,9 +5707,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A list of the messaging transport protocol(s) identifiers, supported by this endpoint.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param protocol
                  *     http | ftp | mllp +
@@ -6194,10 +5723,10 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The network address of the endpoint. For solutions that do not use network addresses for routing, it can be just an 
                  * identifier.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param address
                  *     Network address or identifier of the end-point
@@ -6210,6 +5739,18 @@ public class CapabilityStatement extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Endpoint}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>protocol</li>
+                 * <li>address</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Endpoint}
+                 */
                 @Override
                 public Endpoint build() {
                     return new Endpoint(this);
@@ -6225,12 +5766,12 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * References to message definitions for messages this system can send or receive.
-         * </p>
          */
         public static class SupportedMessage extends BackboneElement {
+            @Required
             private final EventCapabilityMode mode;
+            @Required
             private final Canonical definition;
 
             private volatile int hashCode;
@@ -6243,9 +5784,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * The mode of this event declaration - whether application is sender or receiver.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link EventCapabilityMode}.
@@ -6255,9 +5794,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Canonical}.
@@ -6341,10 +5878,8 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -6358,15 +5893,12 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -6380,15 +5912,12 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -6402,21 +5931,17 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -6430,21 +5955,17 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -6458,9 +5979,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The mode of this event declaration - whether application is sender or receiver.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param mode
                  *     sender | receiver
@@ -6474,9 +5995,9 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Points to a message definition that identifies the messaging event, message structure, allowed responses, etc.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param definition
                  *     Message supported by this system
@@ -6489,6 +6010,18 @@ public class CapabilityStatement extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link SupportedMessage}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>mode</li>
+                 * <li>definition</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link SupportedMessage}
+                 */
                 @Override
                 public SupportedMessage build() {
                     return new SupportedMessage(this);
@@ -6505,13 +6038,13 @@ public class CapabilityStatement extends DomainResource {
     }
 
     /**
-     * <p>
      * A document definition.
-     * </p>
      */
     public static class Document extends BackboneElement {
+        @Required
         private final DocumentMode mode;
         private final Markdown documentation;
+        @Required
         private final Canonical profile;
 
         private volatile int hashCode;
@@ -6525,9 +6058,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * Mode of this document declaration - whether an application is a producer or consumer.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DocumentMode}.
@@ -6537,10 +6068,8 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A description of how the application supports or uses the specified document profile. For example, when documents are 
          * created, what action is taken with consumed documents, etc.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Markdown}.
@@ -6550,9 +6079,7 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * <p>
          * A profile on the document Bundle that constrains which resources are present, and their contents.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Canonical}.
@@ -6641,10 +6168,8 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -6658,15 +6183,12 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -6680,15 +6202,12 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -6702,21 +6221,17 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -6730,21 +6245,17 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -6758,9 +6269,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * Mode of this document declaration - whether an application is a producer or consumer.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param mode
              *     producer | consumer
@@ -6774,10 +6285,8 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A description of how the application supports or uses the specified document profile. For example, when documents are 
              * created, what action is taken with consumed documents, etc.
-             * </p>
              * 
              * @param documentation
              *     Description of document support
@@ -6791,9 +6300,9 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * <p>
              * A profile on the document Bundle that constrains which resources are present, and their contents.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param profile
              *     Constraint on the resources used in the document
@@ -6806,6 +6315,18 @@ public class CapabilityStatement extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Document}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>mode</li>
+             * <li>profile</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Document}
+             */
             @Override
             public Document build() {
                 return new Document(this);

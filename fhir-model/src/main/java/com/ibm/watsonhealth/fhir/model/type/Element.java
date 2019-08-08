@@ -19,9 +19,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.AbstractVisitable;
 
 /**
- * <p>
  * Base definition for all elements in a resource.
- * </p>
  */
 @Constraint(
     id = "ele-1",
@@ -42,10 +40,8 @@ public abstract class Element extends AbstractVisitable {
     }
 
     /**
-     * <p>
      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
      * contain spaces.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link java.lang.String}.
@@ -55,12 +51,10 @@ public abstract class Element extends AbstractVisitable {
     }
 
     /**
-     * <p>
      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
      * of the definition of the extension.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Extension}.
@@ -96,10 +90,8 @@ public abstract class Element extends AbstractVisitable {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -113,15 +105,12 @@ public abstract class Element extends AbstractVisitable {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -137,15 +126,12 @@ public abstract class Element extends AbstractVisitable {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations

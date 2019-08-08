@@ -10,6 +10,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Base64Binary;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.Id;
@@ -20,13 +21,12 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A resource that represents the data of a single raw artifact as digital content accessible in its native format. A 
  * Binary resource can contain any content, whether text, image, pdf, zip archive, etc.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Binary extends Resource {
+    @Required
     private final Code contentType;
     private final Reference securityContext;
     private final Base64Binary data;
@@ -41,9 +41,7 @@ public class Binary extends Resource {
     }
 
     /**
-     * <p>
      * MimeType of the binary content represented as a standard MimeType (BCP 13).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Code}.
@@ -53,14 +51,12 @@ public class Binary extends Resource {
     }
 
     /**
-     * <p>
      * This element identifies another resource that can be used as a proxy of the security sensitivity to use when deciding 
      * and enforcing access control rules for the Binary resource. Given that the Binary resource contains very few elements 
      * that can be used to determine the sensitivity of the data and relationships to individuals, the referenced resource 
      * stands in as a proxy equivalent for this purpose. This referenced resource may be related to the Binary (e.g. Media, 
      * DocumentReference), or may be some non-related Resource purely as a security proxy. E.g. to identify that the binary 
      * resource relates to a patient, and access should only be granted to applications that have access to the patient.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -70,9 +66,7 @@ public class Binary extends Resource {
     }
 
     /**
-     * <p>
      * The actual content, base64 encoded.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Base64Binary}.
@@ -156,9 +150,7 @@ public class Binary extends Resource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -172,10 +164,8 @@ public class Binary extends Resource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -189,11 +179,9 @@ public class Binary extends Resource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -207,9 +195,7 @@ public class Binary extends Resource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -223,9 +209,9 @@ public class Binary extends Resource {
         }
 
         /**
-         * <p>
          * MimeType of the binary content represented as a standard MimeType (BCP 13).
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param contentType
          *     MimeType of the binary content
@@ -239,14 +225,12 @@ public class Binary extends Resource {
         }
 
         /**
-         * <p>
          * This element identifies another resource that can be used as a proxy of the security sensitivity to use when deciding 
          * and enforcing access control rules for the Binary resource. Given that the Binary resource contains very few elements 
          * that can be used to determine the sensitivity of the data and relationships to individuals, the referenced resource 
          * stands in as a proxy equivalent for this purpose. This referenced resource may be related to the Binary (e.g. Media, 
          * DocumentReference), or may be some non-related Resource purely as a security proxy. E.g. to identify that the binary 
          * resource relates to a patient, and access should only be granted to applications that have access to the patient.
-         * </p>
          * 
          * @param securityContext
          *     Identifies another resource to use as proxy when enforcing access control
@@ -260,9 +244,7 @@ public class Binary extends Resource {
         }
 
         /**
-         * <p>
          * The actual content, base64 encoded.
-         * </p>
          * 
          * @param data
          *     The actual content
@@ -275,6 +257,17 @@ public class Binary extends Resource {
             return this;
         }
 
+        /**
+         * Build the {@link Binary}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>contentType</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Binary}
+         */
         @Override
         public Binary build() {
             return new Binary(this);

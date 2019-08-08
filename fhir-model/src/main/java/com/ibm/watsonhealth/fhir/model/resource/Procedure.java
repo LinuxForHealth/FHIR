@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Age;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
@@ -37,10 +39,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * An action that is or was performed on or for a patient. This can be a physical intervention like an operation, or less 
  * invasive like long term services, counseling, or hypnotherapy.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Procedure extends DomainResource {
@@ -49,12 +49,15 @@ public class Procedure extends DomainResource {
     private final List<Uri> instantiatesUri;
     private final List<Reference> basedOn;
     private final List<Reference> partOf;
+    @Required
     private final ProcedureStatus status;
     private final CodeableConcept statusReason;
     private final CodeableConcept category;
     private final CodeableConcept code;
+    @Required
     private final Reference subject;
     private final Reference encounter;
+    @Choice({DateTime.class, Period.class, String.class, Age.class, Range.class})
     private final Element performed;
     private final Reference recorder;
     private final Reference asserter;
@@ -108,10 +111,8 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * Business identifiers assigned to this procedure by the performer or other systems which remain constant as the 
      * resource is updated and is propagated from server to server.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -121,10 +122,8 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * The URL pointing to a FHIR-defined protocol, guideline, order set or other definition that is adhered to in whole or 
      * in part by this Procedure.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -134,10 +133,8 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * The URL pointing to an externally maintained protocol, guideline, order set or other definition that is adhered to in 
      * whole or in part by this Procedure.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Uri}.
@@ -147,9 +144,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * A reference to a resource that contains details of the request for this procedure.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -159,9 +154,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * A larger event of which this particular procedure is a component or step.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -171,9 +164,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * A code specifying the state of the procedure. Generally, this will be the in-progress or completed state.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ProcedureStatus}.
@@ -183,9 +174,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * Captures the reason for the current state of the procedure.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -195,9 +184,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * A code that classifies the procedure for searching, sorting and display purposes (e.g. "Surgical Procedure").
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -207,10 +194,8 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * The specific procedure that is performed. Use text if the exact nature of the procedure cannot be coded (e.g. 
      * "Laparoscopic Appendectomy").
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -220,9 +205,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * The person, animal or group on which the procedure was performed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -232,10 +215,8 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * The Encounter during which this Procedure was created or performed or to which the creation of this record is tightly 
      * associated.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -245,10 +226,8 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * Estimated or actual date, date-time, period, or age when the procedure was performed. Allows a period to support 
      * complex procedures that span more than one date, and also allows for the length of the procedure to be captured.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -258,9 +237,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * Individual who recorded the record and takes responsibility for its content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -270,9 +247,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * Individual who is making the procedure statement.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -282,9 +257,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * Limited to "real" people rather than equipment.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Performer}.
@@ -294,9 +267,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * The location where the procedure actually happened. E.g. a newborn at home, a tracheostomy at a restaurant.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -306,10 +277,8 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * The coded reason why the procedure was performed. This may be a coded entity of some type, or may simply be present as 
      * text.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -319,9 +288,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * The justification of why the procedure was performed.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -331,10 +298,8 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * Detailed and structured anatomical location information. Multiple locations are allowed - e.g. multiple punch biopsies 
      * of a lesion.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -344,9 +309,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * The outcome of the procedure - did it resolve the reasons for the procedure being performed?
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -356,9 +319,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * This could be a histology result, pathology report, surgical report, etc.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -368,11 +329,9 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * Any complications that occurred during the procedure, or in the immediate post-performance period. These are generally 
      * tracked separately from the notes, which will typically describe the procedure itself rather than any 'post procedure' 
      * issues.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -382,9 +341,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * Any complications that occurred during the procedure, or in the immediate post-performance period.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -394,10 +351,8 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * If the procedure required specific follow up - e.g. removal of sutures. The follow up may be represented as a simple 
      * note or could potentially be more complex, in which case the CarePlan resource can be used.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -407,9 +362,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * Any other notes and comments about the procedure.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -419,10 +372,8 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * A device that is implanted, removed or otherwise manipulated (calibration, battery replacement, fitting a prosthesis, 
      * attaching a wound-vac, etc.) as a focal portion of the Procedure.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link FocalDevice}.
@@ -432,9 +383,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies medications, devices and any other substance used as part of the procedure.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -444,9 +393,7 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies coded items that were used as part of the procedure.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -642,9 +589,7 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -658,10 +603,8 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -675,11 +618,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -693,9 +634,7 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -709,12 +648,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -728,13 +665,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -748,13 +682,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -768,15 +699,12 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -790,15 +718,12 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -812,21 +737,17 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -840,21 +761,17 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -868,13 +785,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifiers assigned to this procedure by the performer or other systems which remain constant as the 
          * resource is updated and is propagated from server to server.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     External Identifiers for this procedure
@@ -890,13 +804,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifiers assigned to this procedure by the performer or other systems which remain constant as the 
          * resource is updated and is propagated from server to server.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     External Identifiers for this procedure
@@ -910,13 +821,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to a FHIR-defined protocol, guideline, order set or other definition that is adhered to in whole or 
          * in part by this Procedure.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -932,13 +840,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to a FHIR-defined protocol, guideline, order set or other definition that is adhered to in whole or 
          * in part by this Procedure.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -952,13 +857,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to an externally maintained protocol, guideline, order set or other definition that is adhered to in 
          * whole or in part by this Procedure.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -974,13 +876,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to an externally maintained protocol, guideline, order set or other definition that is adhered to in 
          * whole or in part by this Procedure.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -994,12 +893,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a resource that contains details of the request for this procedure.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param basedOn
          *     A request for this procedure
@@ -1015,12 +911,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a resource that contains details of the request for this procedure.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param basedOn
          *     A request for this procedure
@@ -1034,12 +927,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * A larger event of which this particular procedure is a component or step.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param partOf
          *     Part of referenced event
@@ -1055,12 +945,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * A larger event of which this particular procedure is a component or step.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param partOf
          *     Part of referenced event
@@ -1074,9 +961,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * A code specifying the state of the procedure. Generally, this will be the in-progress or completed state.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     preparation | in-progress | not-done | suspended | aborted | completed | entered-in-error | unknown
@@ -1090,9 +977,7 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Captures the reason for the current state of the procedure.
-         * </p>
          * 
          * @param statusReason
          *     Reason for current status
@@ -1106,9 +991,7 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * A code that classifies the procedure for searching, sorting and display purposes (e.g. "Surgical Procedure").
-         * </p>
          * 
          * @param category
          *     Classification of the procedure
@@ -1122,10 +1005,8 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The specific procedure that is performed. Use text if the exact nature of the procedure cannot be coded (e.g. 
          * "Laparoscopic Appendectomy").
-         * </p>
          * 
          * @param code
          *     Identification of the procedure
@@ -1139,9 +1020,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The person, animal or group on which the procedure was performed.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param subject
          *     Who the procedure was performed on
@@ -1155,10 +1036,8 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The Encounter during which this Procedure was created or performed or to which the creation of this record is tightly 
          * associated.
-         * </p>
          * 
          * @param encounter
          *     Encounter created as part of
@@ -1172,10 +1051,17 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Estimated or actual date, date-time, period, or age when the procedure was performed. Allows a period to support 
          * complex procedures that span more than one date, and also allows for the length of the procedure to be captured.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link DateTime}</li>
+         * <li>{@link Period}</li>
+         * <li>{@link String}</li>
+         * <li>{@link Age}</li>
+         * <li>{@link Range}</li>
+         * </ul>
          * 
          * @param performed
          *     When the procedure was performed
@@ -1189,9 +1075,7 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Individual who recorded the record and takes responsibility for its content.
-         * </p>
          * 
          * @param recorder
          *     Who recorded the procedure
@@ -1205,9 +1089,7 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Individual who is making the procedure statement.
-         * </p>
          * 
          * @param asserter
          *     Person who asserts this procedure
@@ -1221,12 +1103,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Limited to "real" people rather than equipment.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param performer
          *     The people who performed the procedure
@@ -1242,12 +1121,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Limited to "real" people rather than equipment.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param performer
          *     The people who performed the procedure
@@ -1261,9 +1137,7 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The location where the procedure actually happened. E.g. a newborn at home, a tracheostomy at a restaurant.
-         * </p>
          * 
          * @param location
          *     Where the procedure happened
@@ -1277,13 +1151,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The coded reason why the procedure was performed. This may be a coded entity of some type, or may simply be present as 
          * text.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonCode
          *     Coded reason procedure performed
@@ -1299,13 +1170,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The coded reason why the procedure was performed. This may be a coded entity of some type, or may simply be present as 
          * text.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonCode
          *     Coded reason procedure performed
@@ -1319,12 +1187,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The justification of why the procedure was performed.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonReference
          *     The justification that the procedure was performed
@@ -1340,12 +1205,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The justification of why the procedure was performed.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonReference
          *     The justification that the procedure was performed
@@ -1359,13 +1221,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Detailed and structured anatomical location information. Multiple locations are allowed - e.g. multiple punch biopsies 
          * of a lesion.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param bodySite
          *     Target body sites
@@ -1381,13 +1240,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Detailed and structured anatomical location information. Multiple locations are allowed - e.g. multiple punch biopsies 
          * of a lesion.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param bodySite
          *     Target body sites
@@ -1401,9 +1257,7 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The outcome of the procedure - did it resolve the reasons for the procedure being performed?
-         * </p>
          * 
          * @param outcome
          *     The result of procedure
@@ -1417,12 +1271,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * This could be a histology result, pathology report, surgical report, etc.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param report
          *     Any report resulting from the procedure
@@ -1438,12 +1289,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * This could be a histology result, pathology report, surgical report, etc.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param report
          *     Any report resulting from the procedure
@@ -1457,14 +1305,11 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Any complications that occurred during the procedure, or in the immediate post-performance period. These are generally 
          * tracked separately from the notes, which will typically describe the procedure itself rather than any 'post procedure' 
          * issues.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param complication
          *     Complication following the procedure
@@ -1480,14 +1325,11 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Any complications that occurred during the procedure, or in the immediate post-performance period. These are generally 
          * tracked separately from the notes, which will typically describe the procedure itself rather than any 'post procedure' 
          * issues.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param complication
          *     Complication following the procedure
@@ -1501,12 +1343,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Any complications that occurred during the procedure, or in the immediate post-performance period.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param complicationDetail
          *     A condition that is a result of the procedure
@@ -1522,12 +1361,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Any complications that occurred during the procedure, or in the immediate post-performance period.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param complicationDetail
          *     A condition that is a result of the procedure
@@ -1541,13 +1377,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * If the procedure required specific follow up - e.g. removal of sutures. The follow up may be represented as a simple 
          * note or could potentially be more complex, in which case the CarePlan resource can be used.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param followUp
          *     Instructions for follow up
@@ -1563,13 +1396,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * If the procedure required specific follow up - e.g. removal of sutures. The follow up may be represented as a simple 
          * note or could potentially be more complex, in which case the CarePlan resource can be used.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param followUp
          *     Instructions for follow up
@@ -1583,12 +1413,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Any other notes and comments about the procedure.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     Additional information about the procedure
@@ -1604,12 +1431,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Any other notes and comments about the procedure.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     Additional information about the procedure
@@ -1623,13 +1447,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * A device that is implanted, removed or otherwise manipulated (calibration, battery replacement, fitting a prosthesis, 
          * attaching a wound-vac, etc.) as a focal portion of the Procedure.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param focalDevice
          *     Manipulated, implanted, or removed device
@@ -1645,13 +1466,10 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * A device that is implanted, removed or otherwise manipulated (calibration, battery replacement, fitting a prosthesis, 
          * attaching a wound-vac, etc.) as a focal portion of the Procedure.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param focalDevice
          *     Manipulated, implanted, or removed device
@@ -1665,12 +1483,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies medications, devices and any other substance used as part of the procedure.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param usedReference
          *     Items used during procedure
@@ -1686,12 +1501,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies medications, devices and any other substance used as part of the procedure.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param usedReference
          *     Items used during procedure
@@ -1705,12 +1517,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies coded items that were used as part of the procedure.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param usedCode
          *     Coded items used during the procedure
@@ -1726,12 +1535,9 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies coded items that were used as part of the procedure.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param usedCode
          *     Coded items used during the procedure
@@ -1744,6 +1550,18 @@ public class Procedure extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link Procedure}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>subject</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Procedure}
+         */
         @Override
         public Procedure build() {
             return new Procedure(this);
@@ -1784,12 +1602,11 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * Limited to "real" people rather than equipment.
-     * </p>
      */
     public static class Performer extends BackboneElement {
         private final CodeableConcept function;
+        @Required
         private final Reference actor;
         private final Reference onBehalfOf;
 
@@ -1804,10 +1621,8 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * Distinguishes the type of involvement of the performer in the procedure. For example, surgeon, anaesthetist, 
          * endoscopist.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1817,9 +1632,7 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The practitioner who was involved in the procedure.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1829,9 +1642,7 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The organization the device or practitioner was acting on behalf of.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1920,10 +1731,8 @@ public class Procedure extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1937,15 +1746,12 @@ public class Procedure extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1959,15 +1765,12 @@ public class Procedure extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1981,21 +1784,17 @@ public class Procedure extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2009,21 +1808,17 @@ public class Procedure extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2037,10 +1832,8 @@ public class Procedure extends DomainResource {
             }
 
             /**
-             * <p>
              * Distinguishes the type of involvement of the performer in the procedure. For example, surgeon, anaesthetist, 
              * endoscopist.
-             * </p>
              * 
              * @param function
              *     Type of performance
@@ -2054,9 +1847,9 @@ public class Procedure extends DomainResource {
             }
 
             /**
-             * <p>
              * The practitioner who was involved in the procedure.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param actor
              *     The reference to the practitioner
@@ -2070,9 +1863,7 @@ public class Procedure extends DomainResource {
             }
 
             /**
-             * <p>
              * The organization the device or practitioner was acting on behalf of.
-             * </p>
              * 
              * @param onBehalfOf
              *     Organization the device or practitioner was acting for
@@ -2085,6 +1876,17 @@ public class Procedure extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Performer}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>actor</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Performer}
+             */
             @Override
             public Performer build() {
                 return new Performer(this);
@@ -2101,13 +1903,12 @@ public class Procedure extends DomainResource {
     }
 
     /**
-     * <p>
      * A device that is implanted, removed or otherwise manipulated (calibration, battery replacement, fitting a prosthesis, 
      * attaching a wound-vac, etc.) as a focal portion of the Procedure.
-     * </p>
      */
     public static class FocalDevice extends BackboneElement {
         private final CodeableConcept action;
+        @Required
         private final Reference manipulated;
 
         private volatile int hashCode;
@@ -2120,9 +1921,7 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The kind of change that happened to the device during the procedure.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2132,9 +1931,7 @@ public class Procedure extends DomainResource {
         }
 
         /**
-         * <p>
          * The device that was manipulated (changed) during the procedure.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -2218,10 +2015,8 @@ public class Procedure extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2235,15 +2030,12 @@ public class Procedure extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2257,15 +2049,12 @@ public class Procedure extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2279,21 +2068,17 @@ public class Procedure extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2307,21 +2092,17 @@ public class Procedure extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2335,9 +2116,7 @@ public class Procedure extends DomainResource {
             }
 
             /**
-             * <p>
              * The kind of change that happened to the device during the procedure.
-             * </p>
              * 
              * @param action
              *     Kind of change to device
@@ -2351,9 +2130,9 @@ public class Procedure extends DomainResource {
             }
 
             /**
-             * <p>
              * The device that was manipulated (changed) during the procedure.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param manipulated
              *     Device that was changed
@@ -2366,6 +2145,17 @@ public class Procedure extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link FocalDevice}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>manipulated</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link FocalDevice}
+             */
             @Override
             public FocalDevice build() {
                 return new FocalDevice(this);

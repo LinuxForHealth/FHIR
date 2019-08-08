@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.AggregationMode;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.BindingStrength;
@@ -27,9 +29,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Captures constraints on each element within the resource, profile, or extension.
- * </p>
  */
 @Constraint(
     id = "eld-1",
@@ -173,6 +173,7 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ElementDefinition extends BackboneElement {
+    @Required
     private final String path;
     private final List<PropertyRepresentation> representation;
     private final String sliceName;
@@ -190,13 +191,18 @@ public class ElementDefinition extends BackboneElement {
     private final Base base;
     private final Uri contentReference;
     private final List<Type> type;
+    @Choice({Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class})
     private final Element defaultValue;
     private final Markdown meaningWhenMissing;
     private final String orderMeaning;
+    @Choice({Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class})
     private final Element fixed;
+    @Choice({Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class})
     private final Element pattern;
     private final List<Example> example;
+    @Choice({Date.class, DateTime.class, Instant.class, Time.class, Decimal.class, Integer.class, PositiveInt.class, UnsignedInt.class, Quantity.class})
     private final Element minValue;
+    @Choice({Date.class, DateTime.class, Instant.class, Time.class, Decimal.class, Integer.class, PositiveInt.class, UnsignedInt.class, Quantity.class})
     private final Element maxValue;
     private final Integer maxLength;
     private final List<Id> condition;
@@ -250,10 +256,8 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * The path identifies the element and is expressed as a "."-separated list of ancestor elements, beginning with the name 
      * of the resource or extension.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -263,9 +267,7 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Codes that define how this element is represented in instances, when the deviation varies from the normal case.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link PropertyRepresentation}.
@@ -275,11 +277,9 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * The name of this element definition slice, when slicing is working. The name must be a token with no dots or spaces. 
      * This is a unique name referring to a specific set of constraints applied to this element, used to provide a name to 
      * different slices of the same element.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -289,11 +289,9 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * If true, indicates that this slice definition is constraining a slice definition with the same name in an inherited 
      * profile. If false, the slice is not overriding any slice in an inherited profile. If missing, the slice might or might 
      * not be overriding a slice in an inherited profile, depending on the sliceName.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -303,10 +301,8 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * A single preferred label which is the text to display beside the element indicating its meaning or to use to prompt 
      * for the element in a user display or form.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -316,9 +312,7 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * A code that has the same meaning as the element in a particular terminology.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -328,13 +322,11 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Indicates that the element is sliced into a set of alternative definitions (i.e. in a structure definition, there are 
      * multiple different constraints on a single element in the base resource). Slicing can be used in any resource that has 
      * cardinality ..* on the base resource, or any resource with a choice of types. The set of slices is any elements that 
      * come after this in the element sequence that have the same path, until a shorter path occurs (the shorter path 
      * terminates the set).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Slicing}.
@@ -344,9 +336,7 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * A concise description of what this element means (e.g. for use in autogenerated summaries).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -356,12 +346,10 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Provides a complete explanation of the meaning of the data element for human readability. For the case of elements 
      * derived from existing elements (e.g. constraints), the definition SHALL be consistent with the base definition, but 
      * convey the meaning of the element in the particular context of use of the resource. (Note: The text you are reading is 
      * specified in ElementDefinition.definition).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -371,10 +359,8 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Explanatory notes and implementation guidance about the data element, including notes about how to use the data 
      * properly, exceptions to proper use, etc. (Note: The text you are reading is specified in ElementDefinition.comment).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -384,10 +370,8 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * This element is for traceability of why the element was created and why the constraints exist as they do. This may be 
      * used to point to source materials or specifications that drove the structure of this element.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -397,9 +381,7 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Identifies additional names by which this element might also be known.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -409,9 +391,7 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * The minimum number of times this element SHALL appear in the instance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link UnsignedInt}.
@@ -421,9 +401,7 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * The maximum number of times this element is permitted to appear in the instance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -433,13 +411,11 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Information about the base definition of the element, provided to make it unnecessary for tools to trace the deviation 
      * of the element through the derived and related profiles. When the element definition is not the original definition of 
      * an element - i.g. either in a constraint on another type, or for elements from a super type in a snap shot - then the 
      * information in provided in the element definition may be different to the base definition. On the original definition 
      * of the element, it will be same.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Base}.
@@ -449,11 +425,9 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Identifies an element defined elsewhere in the definition whose content rules should be applied to the current 
      * element. ContentReferences bring across all the rules that are in the ElementDefinition for the element, including 
      * definitions, cardinality constraints, bindings, invariants etc.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -463,9 +437,7 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * The data type or resource that the value of this element is permitted to be.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Type}.
@@ -475,10 +447,8 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * The value that should be used if there is no value stated in the instance (e.g. 'if not otherwise specified, the 
      * abstract is false').
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -488,10 +458,8 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * The Implicit meaning that is to be understood when this element is missing (e.g. 'when this element is missing, the 
      * period is ongoing').
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -501,10 +469,8 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * If present, indicates that the order of the repeating element has meaning and describes what that meaning is. If 
      * absent, it means that the order of the element has no meaning.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -514,11 +480,9 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Specifies a value that SHALL be exactly the value for this element in the instance. For purposes of comparison, non-
      * significant whitespace is ignored, and all values must be an exact match (case and accent sensitive). Missing 
      * elements/attributes must also be missing.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -528,27 +492,21 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Specifies a value that the value in the instance SHALL follow - that is, any value in the pattern must be found in the 
      * instance. Other additional values may be found too. This is effectively constraint by example. 
-     * </p>
-     * <p>
-     * When pattern[x] is used to constrain a primitive, it means that the value provided in the pattern[x] must match the 
+     * 
+     * <p>When pattern[x] is used to constrain a primitive, it means that the value provided in the pattern[x] must match the 
      * instance value exactly.
-     * </p>
-     * <p>
-     * When pattern[x] is used to constrain an array, it means that each element provided in the pattern[x] array must 
+     * 
+     * <p>When pattern[x] is used to constrain an array, it means that each element provided in the pattern[x] array must 
      * (recursively) match at least one element from the instance array.
-     * </p>
-     * <p>
-     * When pattern[x] is used to constrain a complex object, it means that each property in the pattern must be present in 
-     * the complex object, and its value must recursively match -- i.e.,
-     * </p>
-     * <p>
-     * 1. If primitive: it must match exactly the pattern value
-     * 2. If a complex object: it must match (recursively) the pattern value
-     * 3. If an array: it must match (recursively) the pattern value.
-     * </p>
+     * 
+     * <p>When pattern[x] is used to constrain a complex object, it means that each property in the pattern must be present 
+     * in the complex object, and its value must recursively match -- i.e.,
+     * 
+     * <p>1. If primitive: it must match exactly the pattern value
+     * <p>2. If a complex object: it must match (recursively) the pattern value
+     * <p>3. If an array: it must match (recursively) the pattern value.
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -558,9 +516,7 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * A sample value for this element demonstrating the type of information that would typically be found in the element.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Example}.
@@ -570,10 +526,8 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * The minimum allowed value for the element. The value is inclusive. This is allowed for the types date, dateTime, 
      * instant, time, decimal, integer, and Quantity.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -583,10 +537,8 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * The maximum allowed value for the element. The value is inclusive. This is allowed for the types date, dateTime, 
      * instant, time, decimal, integer, and Quantity.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -596,10 +548,8 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Indicates the maximum length in characters that is permitted to be present in conformant instances and which is 
      * expected to be supported by conformant consumers that support the element.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Integer}.
@@ -609,9 +559,7 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * A reference to an invariant that may make additional statements about the cardinality or value in the instance.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Id}.
@@ -621,10 +569,8 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Formal constraints such as co-occurrence and other constraints that can be computationally evaluated within the 
      * context of the instance.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Constraint}.
@@ -634,11 +580,9 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * If true, implementations that produce or consume resources SHALL provide "support" for the element in some meaningful 
      * way. If false, the element may be ignored and not supported. If false, whether to populate or use the data element in 
      * any way is at the discretion of the implementation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -648,12 +592,10 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * If true, the value of this element affects the interpretation of the element or resource that contains it, and the 
      * value of the element cannot be ignored. Typically, this is used for status, negation and qualification codes. The 
      * effect of this is that the element cannot be ignored by systems: they SHALL either recognize the element and process 
      * it, and/or a pre-determination has been made that it is not relevant to their particular system.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -663,9 +605,7 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Explains how that element affects the interpretation of the resource or element that contains it.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -675,9 +615,7 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Whether the element should be included if a client requests a search with the parameter _summary=true.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -687,10 +625,8 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Binds to a value set if this element is coded (code, Coding, CodeableConcept, Quantity), or the data types (string, 
      * uri).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Binding}.
@@ -700,9 +636,7 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Identifies a concept from an external specification that roughly corresponds to this element.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Mapping}.
@@ -946,10 +880,8 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -963,15 +895,12 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -985,15 +914,12 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -1007,21 +933,17 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element and that 
          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
          * extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
@@ -1035,21 +957,17 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element and that 
          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
          * extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
@@ -1063,10 +981,10 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * The path identifies the element and is expressed as a "."-separated list of ancestor elements, beginning with the name 
          * of the resource or extension.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param path
          *     Path of the element in the hierarchy of elements
@@ -1080,12 +998,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Codes that define how this element is represented in instances, when the deviation varies from the normal case.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param representation
          *     xmlAttr | xmlText | typeAttr | cdaText | xhtml
@@ -1101,12 +1016,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Codes that define how this element is represented in instances, when the deviation varies from the normal case.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param representation
          *     xmlAttr | xmlText | typeAttr | cdaText | xhtml
@@ -1120,11 +1032,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * The name of this element definition slice, when slicing is working. The name must be a token with no dots or spaces. 
          * This is a unique name referring to a specific set of constraints applied to this element, used to provide a name to 
          * different slices of the same element.
-         * </p>
          * 
          * @param sliceName
          *     Name for this particular element (in a set of slices)
@@ -1138,11 +1048,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * If true, indicates that this slice definition is constraining a slice definition with the same name in an inherited 
          * profile. If false, the slice is not overriding any slice in an inherited profile. If missing, the slice might or might 
          * not be overriding a slice in an inherited profile, depending on the sliceName.
-         * </p>
          * 
          * @param sliceIsConstraining
          *     If this slice definition constrains an inherited slice definition (or not)
@@ -1156,10 +1064,8 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * A single preferred label which is the text to display beside the element indicating its meaning or to use to prompt 
          * for the element in a user display or form.
-         * </p>
          * 
          * @param label
          *     Name for element to display with or prompt for element
@@ -1173,12 +1079,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * A code that has the same meaning as the element in a particular terminology.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param code
          *     Corresponding codes in terminologies
@@ -1194,12 +1097,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * A code that has the same meaning as the element in a particular terminology.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param code
          *     Corresponding codes in terminologies
@@ -1213,13 +1113,11 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Indicates that the element is sliced into a set of alternative definitions (i.e. in a structure definition, there are 
          * multiple different constraints on a single element in the base resource). Slicing can be used in any resource that has 
          * cardinality ..* on the base resource, or any resource with a choice of types. The set of slices is any elements that 
          * come after this in the element sequence that have the same path, until a shorter path occurs (the shorter path 
          * terminates the set).
-         * </p>
          * 
          * @param slicing
          *     This element is sliced - slices follow
@@ -1233,9 +1131,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * A concise description of what this element means (e.g. for use in autogenerated summaries).
-         * </p>
          * 
          * @param _short
          *     Concise definition for space-constrained presentation
@@ -1249,12 +1145,10 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Provides a complete explanation of the meaning of the data element for human readability. For the case of elements 
          * derived from existing elements (e.g. constraints), the definition SHALL be consistent with the base definition, but 
          * convey the meaning of the element in the particular context of use of the resource. (Note: The text you are reading is 
          * specified in ElementDefinition.definition).
-         * </p>
          * 
          * @param definition
          *     Full formal definition as narrative text
@@ -1268,10 +1162,8 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Explanatory notes and implementation guidance about the data element, including notes about how to use the data 
          * properly, exceptions to proper use, etc. (Note: The text you are reading is specified in ElementDefinition.comment).
-         * </p>
          * 
          * @param comment
          *     Comments about the use of this element
@@ -1285,10 +1177,8 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * This element is for traceability of why the element was created and why the constraints exist as they do. This may be 
          * used to point to source materials or specifications that drove the structure of this element.
-         * </p>
          * 
          * @param requirements
          *     Why this resource has been created
@@ -1302,12 +1192,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Identifies additional names by which this element might also be known.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param alias
          *     Other names
@@ -1323,12 +1210,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Identifies additional names by which this element might also be known.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param alias
          *     Other names
@@ -1342,9 +1226,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * The minimum number of times this element SHALL appear in the instance.
-         * </p>
          * 
          * @param min
          *     Minimum Cardinality
@@ -1358,9 +1240,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * The maximum number of times this element is permitted to appear in the instance.
-         * </p>
          * 
          * @param max
          *     Maximum Cardinality (a number or *)
@@ -1374,13 +1254,11 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Information about the base definition of the element, provided to make it unnecessary for tools to trace the deviation 
          * of the element through the derived and related profiles. When the element definition is not the original definition of 
          * an element - i.g. either in a constraint on another type, or for elements from a super type in a snap shot - then the 
          * information in provided in the element definition may be different to the base definition. On the original definition 
          * of the element, it will be same.
-         * </p>
          * 
          * @param base
          *     Base definition information for tools
@@ -1394,11 +1272,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Identifies an element defined elsewhere in the definition whose content rules should be applied to the current 
          * element. ContentReferences bring across all the rules that are in the ElementDefinition for the element, including 
          * definitions, cardinality constraints, bindings, invariants etc.
-         * </p>
          * 
          * @param contentReference
          *     Reference to definition of content for the element
@@ -1412,12 +1288,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * The data type or resource that the value of this element is permitted to be.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param type
          *     Data type and Profile for this element
@@ -1433,12 +1306,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * The data type or resource that the value of this element is permitted to be.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param type
          *     Data type and Profile for this element
@@ -1452,10 +1322,61 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * The value that should be used if there is no value stated in the instance (e.g. 'if not otherwise specified, the 
          * abstract is false').
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Base64Binary}</li>
+         * <li>{@link Boolean}</li>
+         * <li>{@link Canonical}</li>
+         * <li>{@link Code}</li>
+         * <li>{@link Date}</li>
+         * <li>{@link DateTime}</li>
+         * <li>{@link Decimal}</li>
+         * <li>{@link Id}</li>
+         * <li>{@link Instant}</li>
+         * <li>{@link Integer}</li>
+         * <li>{@link Markdown}</li>
+         * <li>{@link Oid}</li>
+         * <li>{@link PositiveInt}</li>
+         * <li>{@link String}</li>
+         * <li>{@link Time}</li>
+         * <li>{@link UnsignedInt}</li>
+         * <li>{@link Uri}</li>
+         * <li>{@link Url}</li>
+         * <li>{@link Uuid}</li>
+         * <li>{@link Address}</li>
+         * <li>{@link Age}</li>
+         * <li>{@link Annotation}</li>
+         * <li>{@link Attachment}</li>
+         * <li>{@link CodeableConcept}</li>
+         * <li>{@link Coding}</li>
+         * <li>{@link ContactPoint}</li>
+         * <li>{@link Count}</li>
+         * <li>{@link Distance}</li>
+         * <li>{@link Duration}</li>
+         * <li>{@link HumanName}</li>
+         * <li>{@link Identifier}</li>
+         * <li>{@link Money}</li>
+         * <li>{@link Period}</li>
+         * <li>{@link Quantity}</li>
+         * <li>{@link Range}</li>
+         * <li>{@link Ratio}</li>
+         * <li>{@link Reference}</li>
+         * <li>{@link SampledData}</li>
+         * <li>{@link Signature}</li>
+         * <li>{@link Timing}</li>
+         * <li>{@link ContactDetail}</li>
+         * <li>{@link Contributor}</li>
+         * <li>{@link DataRequirement}</li>
+         * <li>{@link Expression}</li>
+         * <li>{@link ParameterDefinition}</li>
+         * <li>{@link RelatedArtifact}</li>
+         * <li>{@link TriggerDefinition}</li>
+         * <li>{@link UsageContext}</li>
+         * <li>{@link Dosage}</li>
+         * </ul>
          * 
          * @param defaultValue
          *     Specified value if missing from instance
@@ -1469,10 +1390,8 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * The Implicit meaning that is to be understood when this element is missing (e.g. 'when this element is missing, the 
          * period is ongoing').
-         * </p>
          * 
          * @param meaningWhenMissing
          *     Implicit meaning when this element is missing
@@ -1486,10 +1405,8 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * If present, indicates that the order of the repeating element has meaning and describes what that meaning is. If 
          * absent, it means that the order of the element has no meaning.
-         * </p>
          * 
          * @param orderMeaning
          *     What the order of the elements means
@@ -1503,11 +1420,62 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Specifies a value that SHALL be exactly the value for this element in the instance. For purposes of comparison, non-
          * significant whitespace is ignored, and all values must be an exact match (case and accent sensitive). Missing 
          * elements/attributes must also be missing.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Base64Binary}</li>
+         * <li>{@link Boolean}</li>
+         * <li>{@link Canonical}</li>
+         * <li>{@link Code}</li>
+         * <li>{@link Date}</li>
+         * <li>{@link DateTime}</li>
+         * <li>{@link Decimal}</li>
+         * <li>{@link Id}</li>
+         * <li>{@link Instant}</li>
+         * <li>{@link Integer}</li>
+         * <li>{@link Markdown}</li>
+         * <li>{@link Oid}</li>
+         * <li>{@link PositiveInt}</li>
+         * <li>{@link String}</li>
+         * <li>{@link Time}</li>
+         * <li>{@link UnsignedInt}</li>
+         * <li>{@link Uri}</li>
+         * <li>{@link Url}</li>
+         * <li>{@link Uuid}</li>
+         * <li>{@link Address}</li>
+         * <li>{@link Age}</li>
+         * <li>{@link Annotation}</li>
+         * <li>{@link Attachment}</li>
+         * <li>{@link CodeableConcept}</li>
+         * <li>{@link Coding}</li>
+         * <li>{@link ContactPoint}</li>
+         * <li>{@link Count}</li>
+         * <li>{@link Distance}</li>
+         * <li>{@link Duration}</li>
+         * <li>{@link HumanName}</li>
+         * <li>{@link Identifier}</li>
+         * <li>{@link Money}</li>
+         * <li>{@link Period}</li>
+         * <li>{@link Quantity}</li>
+         * <li>{@link Range}</li>
+         * <li>{@link Ratio}</li>
+         * <li>{@link Reference}</li>
+         * <li>{@link SampledData}</li>
+         * <li>{@link Signature}</li>
+         * <li>{@link Timing}</li>
+         * <li>{@link ContactDetail}</li>
+         * <li>{@link Contributor}</li>
+         * <li>{@link DataRequirement}</li>
+         * <li>{@link Expression}</li>
+         * <li>{@link ParameterDefinition}</li>
+         * <li>{@link RelatedArtifact}</li>
+         * <li>{@link TriggerDefinition}</li>
+         * <li>{@link UsageContext}</li>
+         * <li>{@link Dosage}</li>
+         * </ul>
          * 
          * @param fixed
          *     Value must be exactly this
@@ -1521,27 +1489,74 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Specifies a value that the value in the instance SHALL follow - that is, any value in the pattern must be found in the 
          * instance. Other additional values may be found too. This is effectively constraint by example. 
-         * </p>
-         * <p>
-         * When pattern[x] is used to constrain a primitive, it means that the value provided in the pattern[x] must match the 
+         * 
+         * <p>When pattern[x] is used to constrain a primitive, it means that the value provided in the pattern[x] must match the 
          * instance value exactly.
-         * </p>
-         * <p>
-         * When pattern[x] is used to constrain an array, it means that each element provided in the pattern[x] array must 
+         * 
+         * <p>When pattern[x] is used to constrain an array, it means that each element provided in the pattern[x] array must 
          * (recursively) match at least one element from the instance array.
-         * </p>
-         * <p>
-         * When pattern[x] is used to constrain a complex object, it means that each property in the pattern must be present in 
-         * the complex object, and its value must recursively match -- i.e.,
-         * </p>
-         * <p>
-         * 1. If primitive: it must match exactly the pattern value
-         * 2. If a complex object: it must match (recursively) the pattern value
-         * 3. If an array: it must match (recursively) the pattern value.
-         * </p>
+         * 
+         * <p>When pattern[x] is used to constrain a complex object, it means that each property in the pattern must be present 
+         * in the complex object, and its value must recursively match -- i.e.,
+         * 
+         * <p>1. If primitive: it must match exactly the pattern value
+         * <p>2. If a complex object: it must match (recursively) the pattern value
+         * <p>3. If an array: it must match (recursively) the pattern value.
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Base64Binary}</li>
+         * <li>{@link Boolean}</li>
+         * <li>{@link Canonical}</li>
+         * <li>{@link Code}</li>
+         * <li>{@link Date}</li>
+         * <li>{@link DateTime}</li>
+         * <li>{@link Decimal}</li>
+         * <li>{@link Id}</li>
+         * <li>{@link Instant}</li>
+         * <li>{@link Integer}</li>
+         * <li>{@link Markdown}</li>
+         * <li>{@link Oid}</li>
+         * <li>{@link PositiveInt}</li>
+         * <li>{@link String}</li>
+         * <li>{@link Time}</li>
+         * <li>{@link UnsignedInt}</li>
+         * <li>{@link Uri}</li>
+         * <li>{@link Url}</li>
+         * <li>{@link Uuid}</li>
+         * <li>{@link Address}</li>
+         * <li>{@link Age}</li>
+         * <li>{@link Annotation}</li>
+         * <li>{@link Attachment}</li>
+         * <li>{@link CodeableConcept}</li>
+         * <li>{@link Coding}</li>
+         * <li>{@link ContactPoint}</li>
+         * <li>{@link Count}</li>
+         * <li>{@link Distance}</li>
+         * <li>{@link Duration}</li>
+         * <li>{@link HumanName}</li>
+         * <li>{@link Identifier}</li>
+         * <li>{@link Money}</li>
+         * <li>{@link Period}</li>
+         * <li>{@link Quantity}</li>
+         * <li>{@link Range}</li>
+         * <li>{@link Ratio}</li>
+         * <li>{@link Reference}</li>
+         * <li>{@link SampledData}</li>
+         * <li>{@link Signature}</li>
+         * <li>{@link Timing}</li>
+         * <li>{@link ContactDetail}</li>
+         * <li>{@link Contributor}</li>
+         * <li>{@link DataRequirement}</li>
+         * <li>{@link Expression}</li>
+         * <li>{@link ParameterDefinition}</li>
+         * <li>{@link RelatedArtifact}</li>
+         * <li>{@link TriggerDefinition}</li>
+         * <li>{@link UsageContext}</li>
+         * <li>{@link Dosage}</li>
+         * </ul>
          * 
          * @param pattern
          *     Value must have at least these property values
@@ -1555,12 +1570,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * A sample value for this element demonstrating the type of information that would typically be found in the element.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param example
          *     Example value (as defined for type)
@@ -1576,12 +1588,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * A sample value for this element demonstrating the type of information that would typically be found in the element.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param example
          *     Example value (as defined for type)
@@ -1595,10 +1604,21 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * The minimum allowed value for the element. The value is inclusive. This is allowed for the types date, dateTime, 
          * instant, time, decimal, integer, and Quantity.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Date}</li>
+         * <li>{@link DateTime}</li>
+         * <li>{@link Instant}</li>
+         * <li>{@link Time}</li>
+         * <li>{@link Decimal}</li>
+         * <li>{@link Integer}</li>
+         * <li>{@link PositiveInt}</li>
+         * <li>{@link UnsignedInt}</li>
+         * <li>{@link Quantity}</li>
+         * </ul>
          * 
          * @param minValue
          *     Minimum Allowed Value (for some types)
@@ -1612,10 +1632,21 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * The maximum allowed value for the element. The value is inclusive. This is allowed for the types date, dateTime, 
          * instant, time, decimal, integer, and Quantity.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Date}</li>
+         * <li>{@link DateTime}</li>
+         * <li>{@link Instant}</li>
+         * <li>{@link Time}</li>
+         * <li>{@link Decimal}</li>
+         * <li>{@link Integer}</li>
+         * <li>{@link PositiveInt}</li>
+         * <li>{@link UnsignedInt}</li>
+         * <li>{@link Quantity}</li>
+         * </ul>
          * 
          * @param maxValue
          *     Maximum Allowed Value (for some types)
@@ -1629,10 +1660,8 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Indicates the maximum length in characters that is permitted to be present in conformant instances and which is 
          * expected to be supported by conformant consumers that support the element.
-         * </p>
          * 
          * @param maxLength
          *     Max length for strings
@@ -1646,12 +1675,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * A reference to an invariant that may make additional statements about the cardinality or value in the instance.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param condition
          *     Reference to invariant about presence
@@ -1667,12 +1693,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * A reference to an invariant that may make additional statements about the cardinality or value in the instance.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param condition
          *     Reference to invariant about presence
@@ -1686,13 +1709,10 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Formal constraints such as co-occurrence and other constraints that can be computationally evaluated within the 
          * context of the instance.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param constraint
          *     Condition that must evaluate to true
@@ -1708,13 +1728,10 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Formal constraints such as co-occurrence and other constraints that can be computationally evaluated within the 
          * context of the instance.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param constraint
          *     Condition that must evaluate to true
@@ -1728,11 +1745,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * If true, implementations that produce or consume resources SHALL provide "support" for the element in some meaningful 
          * way. If false, the element may be ignored and not supported. If false, whether to populate or use the data element in 
          * any way is at the discretion of the implementation.
-         * </p>
          * 
          * @param mustSupport
          *     If the element must be supported
@@ -1746,12 +1761,10 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * If true, the value of this element affects the interpretation of the element or resource that contains it, and the 
          * value of the element cannot be ignored. Typically, this is used for status, negation and qualification codes. The 
          * effect of this is that the element cannot be ignored by systems: they SHALL either recognize the element and process 
          * it, and/or a pre-determination has been made that it is not relevant to their particular system.
-         * </p>
          * 
          * @param isModifier
          *     If this modifies the meaning of other elements
@@ -1765,9 +1778,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Explains how that element affects the interpretation of the resource or element that contains it.
-         * </p>
          * 
          * @param isModifierReason
          *     Reason that this element is marked as a modifier
@@ -1781,9 +1792,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Whether the element should be included if a client requests a search with the parameter _summary=true.
-         * </p>
          * 
          * @param isSummary
          *     Include when _summary = true?
@@ -1797,10 +1806,8 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Binds to a value set if this element is coded (code, Coding, CodeableConcept, Quantity), or the data types (string, 
          * uri).
-         * </p>
          * 
          * @param binding
          *     ValueSet details if this is coded
@@ -1814,12 +1821,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Identifies a concept from an external specification that roughly corresponds to this element.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param mapping
          *     Map element to another set of definitions
@@ -1835,12 +1839,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Identifies a concept from an external specification that roughly corresponds to this element.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param mapping
          *     Map element to another set of definitions
@@ -1853,6 +1854,17 @@ public class ElementDefinition extends BackboneElement {
             return this;
         }
 
+        /**
+         * Build the {@link ElementDefinition}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>path</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link ElementDefinition}
+         */
         @Override
         public ElementDefinition build() {
             return new ElementDefinition(this);
@@ -1899,18 +1911,17 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Indicates that the element is sliced into a set of alternative definitions (i.e. in a structure definition, there are 
      * multiple different constraints on a single element in the base resource). Slicing can be used in any resource that has 
      * cardinality ..* on the base resource, or any resource with a choice of types. The set of slices is any elements that 
      * come after this in the element sequence that have the same path, until a shorter path occurs (the shorter path 
      * terminates the set).
-     * </p>
      */
     public static class Slicing extends BackboneElement {
         private final List<Discriminator> discriminator;
         private final String description;
         private final Boolean ordered;
+        @Required
         private final SlicingRules rules;
 
         private volatile int hashCode;
@@ -1925,11 +1936,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Designates which child elements are used to discriminate between the slices when processing an instance. If one or 
          * more discriminators are provided, the value of the child elements in the instance data SHALL completely distinguish 
          * which slice the element in the resource matches based on the allowed values for those elements in each of the slices.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Discriminator}.
@@ -1939,10 +1948,8 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * A human-readable text description of how the slicing works. If there is no discriminator, this is required to be 
          * present to provide whatever information is possible about how the slices can be differentiated.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1952,9 +1959,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * If the matching elements have to occur in the same order as defined in the profile.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -1964,10 +1969,8 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Whether additional slices are allowed or not. When the slices are ordered, profile authors can also say that 
          * additional slices are only allowed at the end.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link SlicingRules}.
@@ -2061,10 +2064,8 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2078,15 +2079,12 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2100,15 +2098,12 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2122,7 +2117,6 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -2131,10 +2125,8 @@ public class ElementDefinition extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2148,7 +2140,6 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -2157,10 +2148,8 @@ public class ElementDefinition extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2174,14 +2163,11 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Designates which child elements are used to discriminate between the slices when processing an instance. If one or 
              * more discriminators are provided, the value of the child elements in the instance data SHALL completely distinguish 
              * which slice the element in the resource matches based on the allowed values for those elements in each of the slices.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param discriminator
              *     Element values that are used to distinguish the slices
@@ -2197,14 +2183,11 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Designates which child elements are used to discriminate between the slices when processing an instance. If one or 
              * more discriminators are provided, the value of the child elements in the instance data SHALL completely distinguish 
              * which slice the element in the resource matches based on the allowed values for those elements in each of the slices.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param discriminator
              *     Element values that are used to distinguish the slices
@@ -2218,10 +2201,8 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * A human-readable text description of how the slicing works. If there is no discriminator, this is required to be 
              * present to provide whatever information is possible about how the slices can be differentiated.
-             * </p>
              * 
              * @param description
              *     Text description of how slicing works (or not)
@@ -2235,9 +2216,7 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * If the matching elements have to occur in the same order as defined in the profile.
-             * </p>
              * 
              * @param ordered
              *     If elements must be in same order as slices
@@ -2251,10 +2230,10 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Whether additional slices are allowed or not. When the slices are ordered, profile authors can also say that 
              * additional slices are only allowed at the end.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param rules
              *     closed | open | openAtEnd
@@ -2267,6 +2246,17 @@ public class ElementDefinition extends BackboneElement {
                 return this;
             }
 
+            /**
+             * Build the {@link Slicing}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>rules</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Slicing}
+             */
             @Override
             public Slicing build() {
                 return new Slicing(this);
@@ -2283,14 +2273,14 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Designates which child elements are used to discriminate between the slices when processing an instance. If one or 
          * more discriminators are provided, the value of the child elements in the instance data SHALL completely distinguish 
          * which slice the element in the resource matches based on the allowed values for those elements in each of the slices.
-         * </p>
          */
         public static class Discriminator extends BackboneElement {
+            @Required
             private final DiscriminatorType type;
+            @Required
             private final String path;
 
             private volatile int hashCode;
@@ -2303,9 +2293,7 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * How the element value is interpreted when discrimination is evaluated.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link DiscriminatorType}.
@@ -2315,10 +2303,8 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * A FHIRPath expression, using [the simple subset of FHIRPath](fhirpath.html#simple), that is used to identify the 
              * element on which discrimination is based.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2402,10 +2388,8 @@ public class ElementDefinition extends BackboneElement {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2419,15 +2403,12 @@ public class ElementDefinition extends BackboneElement {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2441,15 +2422,12 @@ public class ElementDefinition extends BackboneElement {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2463,7 +2441,6 @@ public class ElementDefinition extends BackboneElement {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -2472,10 +2449,8 @@ public class ElementDefinition extends BackboneElement {
                  * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
                  * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
                  * modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2489,7 +2464,6 @@ public class ElementDefinition extends BackboneElement {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -2498,10 +2472,8 @@ public class ElementDefinition extends BackboneElement {
                  * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
                  * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
                  * modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2515,9 +2487,9 @@ public class ElementDefinition extends BackboneElement {
                 }
 
                 /**
-                 * <p>
                  * How the element value is interpreted when discrimination is evaluated.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param type
                  *     value | exists | pattern | type | profile
@@ -2531,10 +2503,10 @@ public class ElementDefinition extends BackboneElement {
                 }
 
                 /**
-                 * <p>
                  * A FHIRPath expression, using [the simple subset of FHIRPath](fhirpath.html#simple), that is used to identify the 
                  * element on which discrimination is based.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param path
                  *     Path to element value
@@ -2547,6 +2519,18 @@ public class ElementDefinition extends BackboneElement {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Discriminator}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>type</li>
+                 * <li>path</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Discriminator}
+                 */
                 @Override
                 public Discriminator build() {
                     return new Discriminator(this);
@@ -2563,17 +2547,18 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Information about the base definition of the element, provided to make it unnecessary for tools to trace the deviation 
      * of the element through the derived and related profiles. When the element definition is not the original definition of 
      * an element - i.g. either in a constraint on another type, or for elements from a super type in a snap shot - then the 
      * information in provided in the element definition may be different to the base definition. On the original definition 
      * of the element, it will be same.
-     * </p>
      */
     public static class Base extends BackboneElement {
+        @Required
         private final String path;
+        @Required
         private final UnsignedInt min;
+        @Required
         private final String max;
 
         private volatile int hashCode;
@@ -2587,11 +2572,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * The Path that identifies the base element - this matches the ElementDefinition.path for that element. Across FHIR, 
          * there is only one base definition of any element - that is, an element definition on a [StructureDefinition]
          * (structuredefinition.html#) without a StructureDefinition.base.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2601,9 +2584,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Minimum cardinality of the base element identified by the path.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link UnsignedInt}.
@@ -2613,9 +2594,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Maximum cardinality of the base element identified by the path.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2704,10 +2683,8 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2721,15 +2698,12 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2743,15 +2717,12 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2765,7 +2736,6 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -2774,10 +2744,8 @@ public class ElementDefinition extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2791,7 +2759,6 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -2800,10 +2767,8 @@ public class ElementDefinition extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2817,11 +2782,11 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * The Path that identifies the base element - this matches the ElementDefinition.path for that element. Across FHIR, 
              * there is only one base definition of any element - that is, an element definition on a [StructureDefinition]
              * (structuredefinition.html#) without a StructureDefinition.base.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param path
              *     Path that identifies the base element
@@ -2835,9 +2800,9 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Minimum cardinality of the base element identified by the path.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param min
              *     Min cardinality of the base element
@@ -2851,9 +2816,9 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Maximum cardinality of the base element identified by the path.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param max
              *     Max cardinality of the base element
@@ -2866,6 +2831,19 @@ public class ElementDefinition extends BackboneElement {
                 return this;
             }
 
+            /**
+             * Build the {@link Base}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>path</li>
+             * <li>min</li>
+             * <li>max</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Base}
+             */
             @Override
             public Base build() {
                 return new Base(this);
@@ -2882,11 +2860,10 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * The data type or resource that the value of this element is permitted to be.
-     * </p>
      */
     public static class Type extends BackboneElement {
+        @Required
         private final Uri code;
         private final List<Canonical> profile;
         private final List<Canonical> targetProfile;
@@ -2906,11 +2883,9 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * URL of Data type or Resource that is a(or the) type used for this element. References are URLs that are relative to 
          * http://hl7.org/fhir/StructureDefinition e.g. "string" is a reference to http://hl7.
          * org/fhir/StructureDefinition/string. Absolute URLs are only allowed in logical models.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Uri}.
@@ -2920,13 +2895,11 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Identifies a profile structure or implementation Guide that applies to the datatype this element refers to. If any 
          * profiles are specified, then the content must conform to at least one of them. The URL can be a local reference - to a 
          * contained StructureDefinition, or a reference to another StructureDefinition or Implementation Guide by a canonical 
          * URL. When an implementation guide is specified, the type SHALL conform to at least one profile defined in the 
          * implementation guide.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -2936,13 +2909,11 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Used when the type is "Reference" or "canonical", and identifies a profile structure or implementation Guide that 
          * applies to the target of the reference this element refers to. If any profiles are specified, then the content must 
          * conform to at least one of them. The URL can be a local reference - to a contained StructureDefinition, or a reference 
          * to another StructureDefinition or Implementation Guide by a canonical URL. When an implementation guide is specified, 
          * the target resource SHALL conform to at least one profile defined in the implementation guide.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -2952,10 +2923,8 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * If the type is a reference to another resource, how the resource is or can be aggregated - is it a contained resource, 
          * or a reference, and if the context is a bundle, is it included in the bundle.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link AggregationMode}.
@@ -2965,9 +2934,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Whether this reference needs to be version specific or version independent, or whether either can be used.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ReferenceVersionRules}.
@@ -3066,10 +3033,8 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3083,15 +3048,12 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3105,15 +3067,12 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3127,7 +3086,6 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -3136,10 +3094,8 @@ public class ElementDefinition extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3153,7 +3109,6 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -3162,10 +3117,8 @@ public class ElementDefinition extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3179,11 +3132,11 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * URL of Data type or Resource that is a(or the) type used for this element. References are URLs that are relative to 
              * http://hl7.org/fhir/StructureDefinition e.g. "string" is a reference to http://hl7.
              * org/fhir/StructureDefinition/string. Absolute URLs are only allowed in logical models.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param code
              *     Data type or Resource (reference to definition)
@@ -3197,16 +3150,13 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Identifies a profile structure or implementation Guide that applies to the datatype this element refers to. If any 
              * profiles are specified, then the content must conform to at least one of them. The URL can be a local reference - to a 
              * contained StructureDefinition, or a reference to another StructureDefinition or Implementation Guide by a canonical 
              * URL. When an implementation guide is specified, the type SHALL conform to at least one profile defined in the 
              * implementation guide.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param profile
              *     Profiles (StructureDefinition or IG) - one must apply
@@ -3222,16 +3172,13 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Identifies a profile structure or implementation Guide that applies to the datatype this element refers to. If any 
              * profiles are specified, then the content must conform to at least one of them. The URL can be a local reference - to a 
              * contained StructureDefinition, or a reference to another StructureDefinition or Implementation Guide by a canonical 
              * URL. When an implementation guide is specified, the type SHALL conform to at least one profile defined in the 
              * implementation guide.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param profile
              *     Profiles (StructureDefinition or IG) - one must apply
@@ -3245,16 +3192,13 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Used when the type is "Reference" or "canonical", and identifies a profile structure or implementation Guide that 
              * applies to the target of the reference this element refers to. If any profiles are specified, then the content must 
              * conform to at least one of them. The URL can be a local reference - to a contained StructureDefinition, or a reference 
              * to another StructureDefinition or Implementation Guide by a canonical URL. When an implementation guide is specified, 
              * the target resource SHALL conform to at least one profile defined in the implementation guide.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param targetProfile
              *     Profile (StructureDefinition or IG) on the Reference/canonical target - one must apply
@@ -3270,16 +3214,13 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Used when the type is "Reference" or "canonical", and identifies a profile structure or implementation Guide that 
              * applies to the target of the reference this element refers to. If any profiles are specified, then the content must 
              * conform to at least one of them. The URL can be a local reference - to a contained StructureDefinition, or a reference 
              * to another StructureDefinition or Implementation Guide by a canonical URL. When an implementation guide is specified, 
              * the target resource SHALL conform to at least one profile defined in the implementation guide.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param targetProfile
              *     Profile (StructureDefinition or IG) on the Reference/canonical target - one must apply
@@ -3293,13 +3234,10 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * If the type is a reference to another resource, how the resource is or can be aggregated - is it a contained resource, 
              * or a reference, and if the context is a bundle, is it included in the bundle.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param aggregation
              *     contained | referenced | bundled - how aggregated
@@ -3315,13 +3253,10 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * If the type is a reference to another resource, how the resource is or can be aggregated - is it a contained resource, 
              * or a reference, and if the context is a bundle, is it included in the bundle.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param aggregation
              *     contained | referenced | bundled - how aggregated
@@ -3335,9 +3270,7 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Whether this reference needs to be version specific or version independent, or whether either can be used.
-             * </p>
              * 
              * @param versioning
              *     either | independent | specific
@@ -3350,6 +3283,17 @@ public class ElementDefinition extends BackboneElement {
                 return this;
             }
 
+            /**
+             * Build the {@link Type}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>code</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Type}
+             */
             @Override
             public Type build() {
                 return new Type(this);
@@ -3368,12 +3312,13 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * A sample value for this element demonstrating the type of information that would typically be found in the element.
-     * </p>
      */
     public static class Example extends BackboneElement {
+        @Required
         private final String label;
+        @Required
+        @Choice({Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class})
         private final Element value;
 
         private volatile int hashCode;
@@ -3386,9 +3331,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Describes the purpose of this example amoung the set of examples.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3398,9 +3341,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * The actual value for the element, which must be one of the types allowed for this element.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -3484,10 +3425,8 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3501,15 +3440,12 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3523,15 +3459,12 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3545,7 +3478,6 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -3554,10 +3486,8 @@ public class ElementDefinition extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3571,7 +3501,6 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -3580,10 +3509,8 @@ public class ElementDefinition extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3597,9 +3524,9 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Describes the purpose of this example amoung the set of examples.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param label
              *     Describes the purpose of this example
@@ -3613,9 +3540,62 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * The actual value for the element, which must be one of the types allowed for this element.
-             * </p>
+             * 
+             * <p>This element is required.
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Base64Binary}</li>
+             * <li>{@link Boolean}</li>
+             * <li>{@link Canonical}</li>
+             * <li>{@link Code}</li>
+             * <li>{@link Date}</li>
+             * <li>{@link DateTime}</li>
+             * <li>{@link Decimal}</li>
+             * <li>{@link Id}</li>
+             * <li>{@link Instant}</li>
+             * <li>{@link Integer}</li>
+             * <li>{@link Markdown}</li>
+             * <li>{@link Oid}</li>
+             * <li>{@link PositiveInt}</li>
+             * <li>{@link String}</li>
+             * <li>{@link Time}</li>
+             * <li>{@link UnsignedInt}</li>
+             * <li>{@link Uri}</li>
+             * <li>{@link Url}</li>
+             * <li>{@link Uuid}</li>
+             * <li>{@link Address}</li>
+             * <li>{@link Age}</li>
+             * <li>{@link Annotation}</li>
+             * <li>{@link Attachment}</li>
+             * <li>{@link CodeableConcept}</li>
+             * <li>{@link Coding}</li>
+             * <li>{@link ContactPoint}</li>
+             * <li>{@link Count}</li>
+             * <li>{@link Distance}</li>
+             * <li>{@link Duration}</li>
+             * <li>{@link HumanName}</li>
+             * <li>{@link Identifier}</li>
+             * <li>{@link Money}</li>
+             * <li>{@link Period}</li>
+             * <li>{@link Quantity}</li>
+             * <li>{@link Range}</li>
+             * <li>{@link Ratio}</li>
+             * <li>{@link Reference}</li>
+             * <li>{@link SampledData}</li>
+             * <li>{@link Signature}</li>
+             * <li>{@link Timing}</li>
+             * <li>{@link ContactDetail}</li>
+             * <li>{@link Contributor}</li>
+             * <li>{@link DataRequirement}</li>
+             * <li>{@link Expression}</li>
+             * <li>{@link ParameterDefinition}</li>
+             * <li>{@link RelatedArtifact}</li>
+             * <li>{@link TriggerDefinition}</li>
+             * <li>{@link UsageContext}</li>
+             * <li>{@link Dosage}</li>
+             * </ul>
              * 
              * @param value
              *     Value of Example (one of allowed types)
@@ -3628,6 +3608,18 @@ public class ElementDefinition extends BackboneElement {
                 return this;
             }
 
+            /**
+             * Build the {@link Example}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>label</li>
+             * <li>value</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Example}
+             */
             @Override
             public Example build() {
                 return new Example(this);
@@ -3643,15 +3635,16 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Formal constraints such as co-occurrence and other constraints that can be computationally evaluated within the 
      * context of the instance.
-     * </p>
      */
     public static class Constraint extends BackboneElement {
+        @Required
         private final Id key;
         private final String requirements;
+        @Required
         private final ConstraintSeverity severity;
+        @Required
         private final String human;
         private final String expression;
         private final String xpath;
@@ -3672,10 +3665,8 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Allows identification of which elements have their cardinalities impacted by the constraint. Will not be referenced 
          * for constraints that do not affect cardinality.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Id}.
@@ -3685,9 +3676,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Description of why this constraint is necessary or appropriate.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3697,9 +3686,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Identifies the impact constraint violation has on the conformance of the instance.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ConstraintSeverity}.
@@ -3709,9 +3696,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Text that can be used to describe the constraint in messages identifying that the constraint has been violated.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3721,9 +3706,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * A [FHIRPath](fhirpath.html) expression of constraint that can be executed to see if this constraint is met.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3733,9 +3716,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * An XPath expression of constraint that can be executed to see if this constraint is met.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3745,9 +3726,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * A reference to the original source of the constraint, for traceability purposes.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Canonical}.
@@ -3856,10 +3835,8 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3873,15 +3850,12 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3895,15 +3869,12 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3917,7 +3888,6 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -3926,10 +3896,8 @@ public class ElementDefinition extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3943,7 +3911,6 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -3952,10 +3919,8 @@ public class ElementDefinition extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3969,10 +3934,10 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Allows identification of which elements have their cardinalities impacted by the constraint. Will not be referenced 
              * for constraints that do not affect cardinality.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param key
              *     Target of 'condition' reference above
@@ -3986,9 +3951,7 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Description of why this constraint is necessary or appropriate.
-             * </p>
              * 
              * @param requirements
              *     Why this constraint is necessary or appropriate
@@ -4002,9 +3965,9 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Identifies the impact constraint violation has on the conformance of the instance.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param severity
              *     error | warning
@@ -4018,9 +3981,9 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Text that can be used to describe the constraint in messages identifying that the constraint has been violated.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param human
              *     Human description of constraint
@@ -4034,9 +3997,7 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * A [FHIRPath](fhirpath.html) expression of constraint that can be executed to see if this constraint is met.
-             * </p>
              * 
              * @param expression
              *     FHIRPath expression of constraint
@@ -4050,9 +4011,7 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * An XPath expression of constraint that can be executed to see if this constraint is met.
-             * </p>
              * 
              * @param xpath
              *     XPath expression of constraint
@@ -4066,9 +4025,7 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * A reference to the original source of the constraint, for traceability purposes.
-             * </p>
              * 
              * @param source
              *     Reference to original source of constraint
@@ -4081,6 +4038,19 @@ public class ElementDefinition extends BackboneElement {
                 return this;
             }
 
+            /**
+             * Build the {@link Constraint}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>key</li>
+             * <li>severity</li>
+             * <li>human</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Constraint}
+             */
             @Override
             public Constraint build() {
                 return new Constraint(this);
@@ -4101,12 +4071,11 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Binds to a value set if this element is coded (code, Coding, CodeableConcept, Quantity), or the data types (string, 
      * uri).
-     * </p>
      */
     public static class Binding extends BackboneElement {
+        @Required
         private final BindingStrength strength;
         private final String description;
         private final Canonical valueSet;
@@ -4122,10 +4091,8 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Indicates the degree of conformance expectations associated with this binding - that is, the degree to which the 
          * provided value set must be adhered to in the instances.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link BindingStrength}.
@@ -4135,9 +4102,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Describes the intended use of this particular set of codes.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -4147,9 +4112,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Refers to the value set that identifies the set of codes the binding refers to.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Canonical}.
@@ -4238,10 +4201,8 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -4255,15 +4216,12 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4277,15 +4235,12 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4299,7 +4254,6 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -4308,10 +4262,8 @@ public class ElementDefinition extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4325,7 +4277,6 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -4334,10 +4285,8 @@ public class ElementDefinition extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4351,10 +4300,10 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Indicates the degree of conformance expectations associated with this binding - that is, the degree to which the 
              * provided value set must be adhered to in the instances.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param strength
              *     required | extensible | preferred | example
@@ -4368,9 +4317,7 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Describes the intended use of this particular set of codes.
-             * </p>
              * 
              * @param description
              *     Human explanation of the value set
@@ -4384,9 +4331,7 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Refers to the value set that identifies the set of codes the binding refers to.
-             * </p>
              * 
              * @param valueSet
              *     Source of value set
@@ -4399,6 +4344,17 @@ public class ElementDefinition extends BackboneElement {
                 return this;
             }
 
+            /**
+             * Build the {@link Binding}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>strength</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Binding}
+             */
             @Override
             public Binding build() {
                 return new Binding(this);
@@ -4415,13 +4371,13 @@ public class ElementDefinition extends BackboneElement {
     }
 
     /**
-     * <p>
      * Identifies a concept from an external specification that roughly corresponds to this element.
-     * </p>
      */
     public static class Mapping extends BackboneElement {
+        @Required
         private final Id identity;
         private final Code language;
+        @Required
         private final String map;
         private final String comment;
 
@@ -4437,9 +4393,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * An internal reference to the definition of a mapping.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Id}.
@@ -4449,9 +4403,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Identifies the computable language in which mapping.map is expressed.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Code}.
@@ -4461,9 +4413,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Expresses what part of the target specification corresponds to this element.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -4473,9 +4423,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * <p>
          * Comments that provide information about the mapping or its use.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -4569,10 +4517,8 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -4586,15 +4532,12 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4608,15 +4551,12 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4630,7 +4570,6 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -4639,10 +4578,8 @@ public class ElementDefinition extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4656,7 +4593,6 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -4665,10 +4601,8 @@ public class ElementDefinition extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4682,9 +4616,9 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * An internal reference to the definition of a mapping.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param identity
              *     Reference to mapping declaration
@@ -4698,9 +4632,7 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Identifies the computable language in which mapping.map is expressed.
-             * </p>
              * 
              * @param language
              *     Computable language of mapping
@@ -4714,9 +4646,9 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Expresses what part of the target specification corresponds to this element.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param map
              *     Details of the mapping
@@ -4730,9 +4662,7 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * <p>
              * Comments that provide information about the mapping or its use.
-             * </p>
              * 
              * @param comment
              *     Comments about the mapping or its use
@@ -4745,6 +4675,18 @@ public class ElementDefinition extends BackboneElement {
                 return this;
             }
 
+            /**
+             * Build the {@link Mapping}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>identity</li>
+             * <li>map</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Mapping}
+             */
             @Override
             public Mapping build() {
                 return new Mapping(this);

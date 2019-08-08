@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
@@ -33,15 +34,14 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Describes validation requirements, source(s), status and dates for one or more elements.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class VerificationResult extends DomainResource {
     private final List<Reference> target;
     private final List<String> targetLocation;
     private final CodeableConcept need;
+    @Required
     private final Status status;
     private final DateTime statusDate;
     private final CodeableConcept validationType;
@@ -75,9 +75,7 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * A resource that was validated.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -87,9 +85,7 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * The fhirpath location(s) within the resource that was validated.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -99,9 +95,7 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * The frequency with which the target must be validated (none; initial; periodic).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -111,10 +105,8 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * The validation status of the target (attested; validated; in process; requires revalidation; validation failed; 
      * revalidation failed).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Status}.
@@ -124,9 +116,7 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * When the validation status was updated.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -136,9 +126,7 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * What the target is validated against (nothing; primary source; multiple sources).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -148,10 +136,8 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * The primary process by which the target is validated (edit check; value set; primary source; multiple sources; 
      * standalone; in context).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -161,9 +147,7 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * Frequency of revalidation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Timing}.
@@ -173,9 +157,7 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * The date/time validation was last completed (including failed validations).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -185,9 +167,7 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * The date when target is next validated, if appropriate.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Date}.
@@ -197,9 +177,7 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * The result if validation fails (fatal; warning; record only; none).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -209,9 +187,7 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about the primary source(s) involved in validation.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link PrimarySource}.
@@ -221,9 +197,7 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about the entity attesting to information.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Attestation}.
@@ -233,9 +207,7 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about the entity validating information.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Validator}.
@@ -375,9 +347,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -391,10 +361,8 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -408,11 +376,9 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -426,9 +392,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -442,12 +406,10 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -461,13 +423,10 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -481,13 +440,10 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -501,15 +457,12 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -523,15 +476,12 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -545,21 +495,17 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -573,21 +519,17 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -601,12 +543,9 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * A resource that was validated.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param target
          *     A resource that was validated
@@ -622,12 +561,9 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * A resource that was validated.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param target
          *     A resource that was validated
@@ -641,12 +577,9 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * The fhirpath location(s) within the resource that was validated.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param targetLocation
          *     The fhirpath location(s) within the resource that was validated
@@ -662,12 +595,9 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * The fhirpath location(s) within the resource that was validated.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param targetLocation
          *     The fhirpath location(s) within the resource that was validated
@@ -681,9 +611,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * The frequency with which the target must be validated (none; initial; periodic).
-         * </p>
          * 
          * @param need
          *     none | initial | periodic
@@ -697,10 +625,10 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * The validation status of the target (attested; validated; in process; requires revalidation; validation failed; 
          * revalidation failed).
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     attested | validated | in-process | req-revalid | val-fail | reval-fail
@@ -714,9 +642,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * When the validation status was updated.
-         * </p>
          * 
          * @param statusDate
          *     When the validation status was updated
@@ -730,9 +656,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * What the target is validated against (nothing; primary source; multiple sources).
-         * </p>
          * 
          * @param validationType
          *     nothing | primary | multiple
@@ -746,13 +670,10 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * The primary process by which the target is validated (edit check; value set; primary source; multiple sources; 
          * standalone; in context).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param validationProcess
          *     The primary process by which the target is validated (edit check; value set; primary source; multiple sources; 
@@ -769,13 +690,10 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * The primary process by which the target is validated (edit check; value set; primary source; multiple sources; 
          * standalone; in context).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param validationProcess
          *     The primary process by which the target is validated (edit check; value set; primary source; multiple sources; 
@@ -790,9 +708,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * Frequency of revalidation.
-         * </p>
          * 
          * @param frequency
          *     Frequency of revalidation
@@ -806,9 +722,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * The date/time validation was last completed (including failed validations).
-         * </p>
          * 
          * @param lastPerformed
          *     The date/time validation was last completed (including failed validations)
@@ -822,9 +736,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * The date when target is next validated, if appropriate.
-         * </p>
          * 
          * @param nextScheduled
          *     The date when target is next validated, if appropriate
@@ -838,9 +750,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * The result if validation fails (fatal; warning; record only; none).
-         * </p>
          * 
          * @param failureAction
          *     fatal | warn | rec-only | none
@@ -854,12 +764,9 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about the primary source(s) involved in validation.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param primarySource
          *     Information about the primary source(s) involved in validation
@@ -875,12 +782,9 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about the primary source(s) involved in validation.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param primarySource
          *     Information about the primary source(s) involved in validation
@@ -894,9 +798,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about the entity attesting to information.
-         * </p>
          * 
          * @param attestation
          *     Information about the entity attesting to information
@@ -910,12 +812,9 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about the entity validating information.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param validator
          *     Information about the entity validating information
@@ -931,12 +830,9 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about the entity validating information.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param validator
          *     Information about the entity validating information
@@ -949,6 +845,17 @@ public class VerificationResult extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link VerificationResult}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link VerificationResult}
+         */
         @Override
         public VerificationResult build() {
             return new VerificationResult(this);
@@ -975,9 +882,7 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about the primary source(s) involved in validation.
-     * </p>
      */
     public static class PrimarySource extends BackboneElement {
         private final Reference who;
@@ -1003,9 +908,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to the primary source.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1015,10 +918,8 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * Type of primary source (License Board; Primary Education; Continuing Education; Postal Service; Relationship owner; 
          * Registration Authority; legal source; issuing source; authoritative source).
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1028,9 +929,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * Method for communicating with the primary source (manual; API; Push).
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1040,9 +939,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * Status of the validation of the target against the primary source (successful; failed; unknown).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1052,9 +949,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * When the target was validated against the primary source.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DateTime}.
@@ -1064,9 +959,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * Ability of the primary source to push updates/alerts (yes; no; undetermined).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1076,9 +969,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * Type of alerts/updates the primary source can send (specific requested changes; any changes; as defined by source).
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1187,10 +1078,8 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1204,15 +1093,12 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1226,15 +1112,12 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1248,21 +1131,17 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1276,21 +1155,17 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1304,9 +1179,7 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference to the primary source.
-             * </p>
              * 
              * @param who
              *     Reference to the primary source
@@ -1320,13 +1193,10 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * Type of primary source (License Board; Primary Education; Continuing Education; Postal Service; Relationship owner; 
              * Registration Authority; legal source; issuing source; authoritative source).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param type
              *     Type of primary source (License Board; Primary Education; Continuing Education; Postal Service; Relationship owner; 
@@ -1343,13 +1213,10 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * Type of primary source (License Board; Primary Education; Continuing Education; Postal Service; Relationship owner; 
              * Registration Authority; legal source; issuing source; authoritative source).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param type
              *     Type of primary source (License Board; Primary Education; Continuing Education; Postal Service; Relationship owner; 
@@ -1364,12 +1231,9 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * Method for communicating with the primary source (manual; API; Push).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param communicationMethod
              *     Method for exchanging information with the primary source
@@ -1385,12 +1249,9 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * Method for communicating with the primary source (manual; API; Push).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param communicationMethod
              *     Method for exchanging information with the primary source
@@ -1404,9 +1265,7 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * Status of the validation of the target against the primary source (successful; failed; unknown).
-             * </p>
              * 
              * @param validationStatus
              *     successful | failed | unknown
@@ -1420,9 +1279,7 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * When the target was validated against the primary source.
-             * </p>
              * 
              * @param validationDate
              *     When the target was validated against the primary source
@@ -1436,9 +1293,7 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * Ability of the primary source to push updates/alerts (yes; no; undetermined).
-             * </p>
              * 
              * @param canPushUpdates
              *     yes | no | undetermined
@@ -1452,12 +1307,9 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * Type of alerts/updates the primary source can send (specific requested changes; any changes; as defined by source).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param pushTypeAvailable
              *     specific | any | source
@@ -1473,12 +1325,9 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * Type of alerts/updates the primary source can send (specific requested changes; any changes; as defined by source).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param pushTypeAvailable
              *     specific | any | source
@@ -1491,6 +1340,12 @@ public class VerificationResult extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link PrimarySource}
+             * 
+             * @return
+             *     An immutable object of type {@link PrimarySource}
+             */
             @Override
             public PrimarySource build() {
                 return new PrimarySource(this);
@@ -1511,9 +1366,7 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about the entity attesting to information.
-     * </p>
      */
     public static class Attestation extends BackboneElement {
         private final Reference who;
@@ -1541,9 +1394,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * The individual or organization attesting to information.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1553,9 +1404,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * When the who is asserting on behalf of another (organization or individual).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1565,9 +1414,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * The method by which attested information was submitted/retrieved (manual; API; Push).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1577,9 +1424,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * The date the information was attested to.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Date}.
@@ -1589,9 +1434,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * A digital identity certificate associated with the attestation source.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1601,10 +1444,8 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * A digital identity certificate associated with the proxy entity submitting attested information on behalf of the 
          * attestation source.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1614,10 +1455,8 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * Signed assertion by the proxy entity indicating that they have the right to submit attested information on behalf of 
          * the attestation source.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Signature}.
@@ -1627,9 +1466,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * Signed assertion by the attestation source that they have attested to the information.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Signature}.
@@ -1743,10 +1580,8 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1760,15 +1595,12 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1782,15 +1614,12 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1804,21 +1633,17 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1832,21 +1657,17 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1860,9 +1681,7 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * The individual or organization attesting to information.
-             * </p>
              * 
              * @param who
              *     The individual or organization attesting to information
@@ -1876,9 +1695,7 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * When the who is asserting on behalf of another (organization or individual).
-             * </p>
              * 
              * @param onBehalfOf
              *     When the who is asserting on behalf of another (organization or individual)
@@ -1892,9 +1709,7 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * The method by which attested information was submitted/retrieved (manual; API; Push).
-             * </p>
              * 
              * @param communicationMethod
              *     The method by which attested information was submitted/retrieved
@@ -1908,9 +1723,7 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * The date the information was attested to.
-             * </p>
              * 
              * @param date
              *     The date the information was attested to
@@ -1924,9 +1737,7 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * A digital identity certificate associated with the attestation source.
-             * </p>
              * 
              * @param sourceIdentityCertificate
              *     A digital identity certificate associated with the attestation source
@@ -1940,10 +1751,8 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * A digital identity certificate associated with the proxy entity submitting attested information on behalf of the 
              * attestation source.
-             * </p>
              * 
              * @param proxyIdentityCertificate
              *     A digital identity certificate associated with the proxy entity submitting attested information on behalf of the 
@@ -1958,10 +1767,8 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * Signed assertion by the proxy entity indicating that they have the right to submit attested information on behalf of 
              * the attestation source.
-             * </p>
              * 
              * @param proxySignature
              *     Proxy signature
@@ -1975,9 +1782,7 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * Signed assertion by the attestation source that they have attested to the information.
-             * </p>
              * 
              * @param sourceSignature
              *     Attester signature
@@ -1990,6 +1795,12 @@ public class VerificationResult extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Attestation}
+             * 
+             * @return
+             *     An immutable object of type {@link Attestation}
+             */
             @Override
             public Attestation build() {
                 return new Attestation(this);
@@ -2011,11 +1822,10 @@ public class VerificationResult extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about the entity validating information.
-     * </p>
      */
     public static class Validator extends BackboneElement {
+        @Required
         private final Reference organization;
         private final String identityCertificate;
         private final Signature attestationSignature;
@@ -2031,9 +1841,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to the organization validating information.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -2043,9 +1851,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * A digital identity certificate associated with the validator.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2055,9 +1861,7 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
-         * <p>
          * Signed assertion by the validator that they have validated the information.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Signature}.
@@ -2146,10 +1950,8 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2163,15 +1965,12 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2185,15 +1984,12 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2207,21 +2003,17 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2235,21 +2027,17 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2263,9 +2051,9 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference to the organization validating information.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param organization
              *     Reference to the organization validating information
@@ -2279,9 +2067,7 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * A digital identity certificate associated with the validator.
-             * </p>
              * 
              * @param identityCertificate
              *     A digital identity certificate associated with the validator
@@ -2295,9 +2081,7 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
-             * <p>
              * Signed assertion by the validator that they have validated the information.
-             * </p>
              * 
              * @param attestationSignature
              *     Validator signature
@@ -2310,6 +2094,17 @@ public class VerificationResult extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Validator}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>organization</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Validator}
+             */
             @Override
             public Validator build() {
                 return new Validator(this);

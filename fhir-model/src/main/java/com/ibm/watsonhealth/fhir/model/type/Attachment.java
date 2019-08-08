@@ -16,9 +16,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * For referring to data content defined in other formats.
- * </p>
  */
 @Constraint(
     id = "att-1",
@@ -54,10 +52,8 @@ public class Attachment extends Element {
     }
 
     /**
-     * <p>
      * Identifies the type of the data in the attachment and allows a method to be chosen to interpret or render the data. 
      * Includes mime type parameters such as charset where appropriate.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Code}.
@@ -67,9 +63,7 @@ public class Attachment extends Element {
     }
 
     /**
-     * <p>
      * The human language of the content. The value can be any valid value according to BCP 47.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Code}.
@@ -79,9 +73,7 @@ public class Attachment extends Element {
     }
 
     /**
-     * <p>
      * The actual data of the attachment - a sequence of bytes, base64 encoded.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Base64Binary}.
@@ -91,9 +83,7 @@ public class Attachment extends Element {
     }
 
     /**
-     * <p>
      * A location where the data can be accessed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Url}.
@@ -103,9 +93,7 @@ public class Attachment extends Element {
     }
 
     /**
-     * <p>
      * The number of bytes of data that make up this attachment (before base64 encoding, if that is done).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link UnsignedInt}.
@@ -115,9 +103,7 @@ public class Attachment extends Element {
     }
 
     /**
-     * <p>
      * The calculated hash of the data using SHA-1. Represented using base64.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Base64Binary}.
@@ -127,9 +113,7 @@ public class Attachment extends Element {
     }
 
     /**
-     * <p>
      * A label or set of text to display in place of the data.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -139,9 +123,7 @@ public class Attachment extends Element {
     }
 
     /**
-     * <p>
      * The date that the attachment was first created.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -252,10 +234,8 @@ public class Attachment extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -269,15 +249,12 @@ public class Attachment extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -291,15 +268,12 @@ public class Attachment extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -313,10 +287,8 @@ public class Attachment extends Element {
         }
 
         /**
-         * <p>
          * Identifies the type of the data in the attachment and allows a method to be chosen to interpret or render the data. 
          * Includes mime type parameters such as charset where appropriate.
-         * </p>
          * 
          * @param contentType
          *     Mime type of the content, with charset etc.
@@ -330,9 +302,7 @@ public class Attachment extends Element {
         }
 
         /**
-         * <p>
          * The human language of the content. The value can be any valid value according to BCP 47.
-         * </p>
          * 
          * @param language
          *     Human language of the content (BCP-47)
@@ -346,9 +316,7 @@ public class Attachment extends Element {
         }
 
         /**
-         * <p>
          * The actual data of the attachment - a sequence of bytes, base64 encoded.
-         * </p>
          * 
          * @param data
          *     Data inline, base64ed
@@ -362,9 +330,7 @@ public class Attachment extends Element {
         }
 
         /**
-         * <p>
          * A location where the data can be accessed.
-         * </p>
          * 
          * @param url
          *     Uri where the data can be found
@@ -378,9 +344,7 @@ public class Attachment extends Element {
         }
 
         /**
-         * <p>
          * The number of bytes of data that make up this attachment (before base64 encoding, if that is done).
-         * </p>
          * 
          * @param size
          *     Number of bytes of content (if url provided)
@@ -394,9 +358,7 @@ public class Attachment extends Element {
         }
 
         /**
-         * <p>
          * The calculated hash of the data using SHA-1. Represented using base64.
-         * </p>
          * 
          * @param hash
          *     Hash of the data (sha-1, base64ed)
@@ -410,9 +372,7 @@ public class Attachment extends Element {
         }
 
         /**
-         * <p>
          * A label or set of text to display in place of the data.
-         * </p>
          * 
          * @param title
          *     Label to display in place of the data
@@ -426,9 +386,7 @@ public class Attachment extends Element {
         }
 
         /**
-         * <p>
          * The date that the attachment was first created.
-         * </p>
          * 
          * @param creation
          *     Date attachment was first created
@@ -441,6 +399,12 @@ public class Attachment extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link Attachment}
+         * 
+         * @return
+         *     An immutable object of type {@link Attachment}
+         */
         @Override
         public Attachment build() {
             return new Attachment(this);

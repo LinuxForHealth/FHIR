@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -39,23 +41,25 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * The resource ChargeItem describes the provision of healthcare provider products for a certain patient, therefore 
  * referring not only to the product, but containing in addition details of the provision, like date, time, amounts and 
  * participating organizations and persons. Main Usage of the ChargeItem is to enable the billing process and internal 
  * cost allocation.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ChargeItem extends DomainResource {
     private final List<Identifier> identifier;
     private final List<Uri> definitionUri;
     private final List<Canonical> definitionCanonical;
+    @Required
     private final ChargeItemStatus status;
     private final List<Reference> partOf;
+    @Required
     private final CodeableConcept code;
+    @Required
     private final Reference subject;
     private final Reference context;
+    @Choice({DateTime.class, Period.class, Timing.class})
     private final Element occurrence;
     private final List<Performer> performer;
     private final Reference performingOrganization;
@@ -70,6 +74,7 @@ public class ChargeItem extends DomainResource {
     private final DateTime enteredDate;
     private final List<CodeableConcept> reason;
     private final List<Reference> service;
+    @Choice({Reference.class, CodeableConcept.class})
     private final Element product;
     private final List<Reference> account;
     private final List<Annotation> note;
@@ -108,9 +113,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifiers assigned to this event performer or other systems.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -120,9 +123,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * References the (external) source of pricing information, rules of application for the code this ChargeItem uses.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Uri}.
@@ -132,9 +133,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * References the source of pricing information, rules of application for the code this ChargeItem uses.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -144,9 +143,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * The current state of the ChargeItem.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ChargeItemStatus}.
@@ -156,9 +153,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * ChargeItems can be grouped to larger ChargeItems covering the whole set.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -168,9 +163,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * A code that identifies the charge, like a billing code.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -180,9 +173,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * The individual or set of individuals the action is being or was performed on.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -192,9 +183,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * The encounter or episode of care that establishes the context for this event.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -204,9 +193,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * Date/time(s) or duration when the charged service was applied.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -216,9 +203,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates who or what performed or participated in the charged service.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Performer}.
@@ -228,9 +213,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * The organization requesting the service.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -240,9 +223,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * The organization performing the service.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -252,9 +233,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * The financial cost center permits the tracking of charge attribution.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -264,9 +243,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * Quantity of which the charge item has been serviced.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Quantity}.
@@ -276,9 +253,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * The anatomical location where the related service has been applied.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -288,9 +263,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * Factor overriding the factor determined by the rules associated with the code.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Decimal}.
@@ -300,9 +273,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * Total price of the charge overriding the list price associated with the code.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Money}.
@@ -312,10 +283,8 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * If the list price or the rule-based factor associated with the code is overridden, this attribute can capture a text 
      * to indicate the reason for this action.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -325,9 +294,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * The device, practitioner, etc. who entered the charge item.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -337,9 +304,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * Date the charge item was entered.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -349,9 +314,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes why the event occurred in coded or textual form.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -361,9 +324,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicated the rendered service that caused this charge.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -373,9 +334,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the device, food, drug or other product being charged either by type code or reference to an instance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -385,9 +344,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * Account into which this ChargeItems belongs.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -397,9 +354,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * Comments made about the event by the performer, subject or other participants.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -409,9 +364,7 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * Further information supporting this charge.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -599,9 +552,7 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -615,10 +566,8 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -632,11 +581,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -650,9 +597,7 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -666,12 +611,10 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -685,13 +628,10 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -705,13 +645,10 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -725,15 +662,12 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -747,15 +681,12 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -769,21 +700,17 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -797,21 +724,17 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -825,12 +748,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifiers assigned to this event performer or other systems.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Business Identifier for item
@@ -846,12 +766,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifiers assigned to this event performer or other systems.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Business Identifier for item
@@ -865,12 +782,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * References the (external) source of pricing information, rules of application for the code this ChargeItem uses.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param definitionUri
          *     Defining information about the code of this charge item
@@ -886,12 +800,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * References the (external) source of pricing information, rules of application for the code this ChargeItem uses.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param definitionUri
          *     Defining information about the code of this charge item
@@ -905,12 +816,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * References the source of pricing information, rules of application for the code this ChargeItem uses.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param definitionCanonical
          *     Resource defining the code of this ChargeItem
@@ -926,12 +834,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * References the source of pricing information, rules of application for the code this ChargeItem uses.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param definitionCanonical
          *     Resource defining the code of this ChargeItem
@@ -945,9 +850,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * The current state of the ChargeItem.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     planned | billable | not-billable | aborted | billed | entered-in-error | unknown
@@ -961,12 +866,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * ChargeItems can be grouped to larger ChargeItems covering the whole set.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param partOf
          *     Part of referenced ChargeItem
@@ -982,12 +884,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * ChargeItems can be grouped to larger ChargeItems covering the whole set.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param partOf
          *     Part of referenced ChargeItem
@@ -1001,9 +900,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * A code that identifies the charge, like a billing code.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param code
          *     A code that identifies the charge, like a billing code
@@ -1017,9 +916,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * The individual or set of individuals the action is being or was performed on.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param subject
          *     Individual service was done for/to
@@ -1033,9 +932,7 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * The encounter or episode of care that establishes the context for this event.
-         * </p>
          * 
          * @param context
          *     Encounter / Episode associated with event
@@ -1049,9 +946,14 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Date/time(s) or duration when the charged service was applied.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link DateTime}</li>
+         * <li>{@link Period}</li>
+         * <li>{@link Timing}</li>
+         * </ul>
          * 
          * @param occurrence
          *     When the charged service was applied
@@ -1065,12 +967,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates who or what performed or participated in the charged service.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param performer
          *     Who performed charged service
@@ -1086,12 +985,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates who or what performed or participated in the charged service.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param performer
          *     Who performed charged service
@@ -1105,9 +1001,7 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * The organization requesting the service.
-         * </p>
          * 
          * @param performingOrganization
          *     Organization providing the charged service
@@ -1121,9 +1015,7 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * The organization performing the service.
-         * </p>
          * 
          * @param requestingOrganization
          *     Organization requesting the charged service
@@ -1137,9 +1029,7 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * The financial cost center permits the tracking of charge attribution.
-         * </p>
          * 
          * @param costCenter
          *     Organization that has ownership of the (potential, future) revenue
@@ -1153,9 +1043,7 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Quantity of which the charge item has been serviced.
-         * </p>
          * 
          * @param quantity
          *     Quantity of which the charge item has been serviced
@@ -1169,12 +1057,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * The anatomical location where the related service has been applied.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param bodysite
          *     Anatomical location, if relevant
@@ -1190,12 +1075,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * The anatomical location where the related service has been applied.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param bodysite
          *     Anatomical location, if relevant
@@ -1209,9 +1091,7 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Factor overriding the factor determined by the rules associated with the code.
-         * </p>
          * 
          * @param factorOverride
          *     Factor overriding the associated rules
@@ -1225,9 +1105,7 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Total price of the charge overriding the list price associated with the code.
-         * </p>
          * 
          * @param priceOverride
          *     Price overriding the associated rules
@@ -1241,10 +1119,8 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * If the list price or the rule-based factor associated with the code is overridden, this attribute can capture a text 
          * to indicate the reason for this action.
-         * </p>
          * 
          * @param overrideReason
          *     Reason for overriding the list price/factor
@@ -1258,9 +1134,7 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * The device, practitioner, etc. who entered the charge item.
-         * </p>
          * 
          * @param enterer
          *     Individual who was entering
@@ -1274,9 +1148,7 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Date the charge item was entered.
-         * </p>
          * 
          * @param enteredDate
          *     Date the charge item was entered
@@ -1290,12 +1162,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes why the event occurred in coded or textual form.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reason
          *     Why was the charged service rendered?
@@ -1311,12 +1180,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes why the event occurred in coded or textual form.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reason
          *     Why was the charged service rendered?
@@ -1330,12 +1196,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicated the rendered service that caused this charge.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param service
          *     Which rendered service is being charged?
@@ -1351,12 +1214,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicated the rendered service that caused this charge.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param service
          *     Which rendered service is being charged?
@@ -1370,9 +1230,13 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the device, food, drug or other product being charged either by type code or reference to an instance.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Reference}</li>
+         * <li>{@link CodeableConcept}</li>
+         * </ul>
          * 
          * @param product
          *     Product charged
@@ -1386,12 +1250,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Account into which this ChargeItems belongs.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param account
          *     Account to place this charge
@@ -1407,12 +1268,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Account into which this ChargeItems belongs.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param account
          *     Account to place this charge
@@ -1426,12 +1284,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Comments made about the event by the performer, subject or other participants.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     Comments made about the ChargeItem
@@ -1447,12 +1302,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Comments made about the event by the performer, subject or other participants.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     Comments made about the ChargeItem
@@ -1466,12 +1318,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Further information supporting this charge.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param supportingInformation
          *     Further information supporting this charge
@@ -1487,12 +1336,9 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Further information supporting this charge.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param supportingInformation
          *     Further information supporting this charge
@@ -1505,6 +1351,19 @@ public class ChargeItem extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link ChargeItem}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>code</li>
+         * <li>subject</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link ChargeItem}
+         */
         @Override
         public ChargeItem build() {
             return new ChargeItem(this);
@@ -1543,12 +1402,11 @@ public class ChargeItem extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates who or what performed or participated in the charged service.
-     * </p>
      */
     public static class Performer extends BackboneElement {
         private final CodeableConcept function;
+        @Required
         private final Reference actor;
 
         private volatile int hashCode;
@@ -1561,9 +1419,7 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the type of performance or participation(e.g. primary surgeon, anesthesiologiest, etc.).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1573,9 +1429,7 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * <p>
          * The device, practitioner, etc. who performed or participated in the service.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1659,10 +1513,8 @@ public class ChargeItem extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1676,15 +1528,12 @@ public class ChargeItem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1698,15 +1547,12 @@ public class ChargeItem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1720,21 +1566,17 @@ public class ChargeItem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1748,21 +1590,17 @@ public class ChargeItem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1776,9 +1614,7 @@ public class ChargeItem extends DomainResource {
             }
 
             /**
-             * <p>
              * Describes the type of performance or participation(e.g. primary surgeon, anesthesiologiest, etc.).
-             * </p>
              * 
              * @param function
              *     What type of performance was done
@@ -1792,9 +1628,9 @@ public class ChargeItem extends DomainResource {
             }
 
             /**
-             * <p>
              * The device, practitioner, etc. who performed or participated in the service.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param actor
              *     Individual who was performing
@@ -1807,6 +1643,17 @@ public class ChargeItem extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Performer}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>actor</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Performer}
+             */
             @Override
             public Performer build() {
                 return new Performer(this);

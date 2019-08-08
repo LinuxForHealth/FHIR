@@ -28,9 +28,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * This resource provides the insurance enrollment details to the insurer regarding a specified coverage.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class EnrollmentRequest extends DomainResource {
@@ -56,9 +54,7 @@ public class EnrollmentRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The Response business identifier.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -68,9 +64,7 @@ public class EnrollmentRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of the resource instance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link EnrollmentRequestStatus}.
@@ -80,9 +74,7 @@ public class EnrollmentRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The date when this resource was created.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -92,9 +84,7 @@ public class EnrollmentRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The Insurer who is target of the request.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -104,9 +94,7 @@ public class EnrollmentRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The practitioner who is responsible for the services rendered to the patient.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -116,9 +104,7 @@ public class EnrollmentRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Patient Resource.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -128,9 +114,7 @@ public class EnrollmentRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Reference to the program or plan identification, underwriter or payor.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -242,9 +226,7 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -258,10 +240,8 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -275,11 +255,9 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -293,9 +271,7 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -309,12 +285,10 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -328,13 +302,10 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -348,13 +319,10 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -368,15 +336,12 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -390,15 +355,12 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -412,21 +374,17 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -440,21 +398,17 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -468,12 +422,9 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The Response business identifier.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Business Identifier
@@ -489,12 +440,9 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The Response business identifier.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Business Identifier
@@ -508,9 +456,7 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of the resource instance.
-         * </p>
          * 
          * @param status
          *     active | cancelled | draft | entered-in-error
@@ -524,9 +470,7 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The date when this resource was created.
-         * </p>
          * 
          * @param created
          *     Creation date
@@ -540,9 +484,7 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The Insurer who is target of the request.
-         * </p>
          * 
          * @param insurer
          *     Target
@@ -556,9 +498,7 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The practitioner who is responsible for the services rendered to the patient.
-         * </p>
          * 
          * @param provider
          *     Responsible practitioner
@@ -572,9 +512,7 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Patient Resource.
-         * </p>
          * 
          * @param candidate
          *     The subject to be enrolled
@@ -588,9 +526,7 @@ public class EnrollmentRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to the program or plan identification, underwriter or payor.
-         * </p>
          * 
          * @param coverage
          *     Insurance information
@@ -603,6 +539,12 @@ public class EnrollmentRequest extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link EnrollmentRequest}
+         * 
+         * @return
+         *     An immutable object of type {@link EnrollmentRequest}
+         */
         @Override
         public EnrollmentRequest build() {
             return new EnrollmentRequest(this);

@@ -19,9 +19,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A human's name with the ability to identify parts and usage.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class HumanName extends Element {
@@ -48,9 +46,7 @@ public class HumanName extends Element {
     }
 
     /**
-     * <p>
      * Identifies the purpose for this name.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link NameUse}.
@@ -60,10 +56,8 @@ public class HumanName extends Element {
     }
 
     /**
-     * <p>
      * Specifies the entire name as it should be displayed e.g. on an application UI. This may be provided instead of or as 
      * well as the specific parts.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -73,10 +67,8 @@ public class HumanName extends Element {
     }
 
     /**
-     * <p>
      * The part of a name that links to the genealogy. In some cultures (e.g. Eritrea) the family name of a son is the first 
      * name of his father.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -86,9 +78,7 @@ public class HumanName extends Element {
     }
 
     /**
-     * <p>
      * Given name.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -98,10 +88,8 @@ public class HumanName extends Element {
     }
 
     /**
-     * <p>
      * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
      * appears at the start of the name.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -111,10 +99,8 @@ public class HumanName extends Element {
     }
 
     /**
-     * <p>
      * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
      * appears at the end of the name.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -124,9 +110,7 @@ public class HumanName extends Element {
     }
 
     /**
-     * <p>
      * Indicates the period of time when this name was valid for the named person.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -232,10 +216,8 @@ public class HumanName extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -249,15 +231,12 @@ public class HumanName extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -271,15 +250,12 @@ public class HumanName extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -293,9 +269,7 @@ public class HumanName extends Element {
         }
 
         /**
-         * <p>
          * Identifies the purpose for this name.
-         * </p>
          * 
          * @param use
          *     usual | official | temp | nickname | anonymous | old | maiden
@@ -309,10 +283,8 @@ public class HumanName extends Element {
         }
 
         /**
-         * <p>
          * Specifies the entire name as it should be displayed e.g. on an application UI. This may be provided instead of or as 
          * well as the specific parts.
-         * </p>
          * 
          * @param text
          *     Text representation of the full name
@@ -326,10 +298,8 @@ public class HumanName extends Element {
         }
 
         /**
-         * <p>
          * The part of a name that links to the genealogy. In some cultures (e.g. Eritrea) the family name of a son is the first 
          * name of his father.
-         * </p>
          * 
          * @param family
          *     Family name (often called 'Surname')
@@ -343,12 +313,9 @@ public class HumanName extends Element {
         }
 
         /**
-         * <p>
          * Given name.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param given
          *     Given names (not always 'first'). Includes middle names
@@ -364,12 +331,9 @@ public class HumanName extends Element {
         }
 
         /**
-         * <p>
          * Given name.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param given
          *     Given names (not always 'first'). Includes middle names
@@ -383,13 +347,10 @@ public class HumanName extends Element {
         }
 
         /**
-         * <p>
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the start of the name.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param prefix
          *     Parts that come before the name
@@ -405,13 +366,10 @@ public class HumanName extends Element {
         }
 
         /**
-         * <p>
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the start of the name.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param prefix
          *     Parts that come before the name
@@ -425,13 +383,10 @@ public class HumanName extends Element {
         }
 
         /**
-         * <p>
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the end of the name.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param suffix
          *     Parts that come after the name
@@ -447,13 +402,10 @@ public class HumanName extends Element {
         }
 
         /**
-         * <p>
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the end of the name.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param suffix
          *     Parts that come after the name
@@ -467,9 +419,7 @@ public class HumanName extends Element {
         }
 
         /**
-         * <p>
          * Indicates the period of time when this name was valid for the named person.
-         * </p>
          * 
          * @param period
          *     Time period when name was/is in use
@@ -482,6 +432,12 @@ public class HumanName extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link HumanName}
+         * 
+         * @return
+         *     An immutable object of type {@link HumanName}
+         */
         @Override
         public HumanName build() {
             return new HumanName(this);

@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -36,11 +38,9 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Indicates that a medication product is to be or has been dispensed for a named person/patient. This includes a 
  * description of the medication product (supply) provided and the instructions for administering the medication. The 
  * medication dispense is the result of a pharmacy system responding to a medication order.
- * </p>
  */
 @Constraint(
     id = "mdd-1",
@@ -53,9 +53,13 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 public class MedicationDispense extends DomainResource {
     private final List<Identifier> identifier;
     private final List<Reference> partOf;
+    @Required
     private final MedicationDispenseStatus status;
+    @Choice({CodeableConcept.class, Reference.class})
     private final Element statusReason;
     private final CodeableConcept category;
+    @Required
+    @Choice({CodeableConcept.class, Reference.class})
     private final Element medication;
     private final Reference subject;
     private final Reference context;
@@ -107,12 +111,10 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifiers associated with this Medication Dispense that are defined by business processes and/or used to refer to it 
      * when a direct URL reference to the resource itself is not appropriate. They are business identifiers assigned to this 
      * resource by the performer or other systems and remain constant as the resource is updated and propagates from server 
      * to server.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -122,9 +124,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * The procedure that trigger the dispense.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -134,9 +134,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * A code specifying the state of the set of dispense events.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link MedicationDispenseStatus}.
@@ -146,9 +144,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the reason why a dispense was not performed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -158,10 +154,8 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the type of medication dispense (for example, where the medication is expected to be consumed or 
      * administered (i.e. inpatient or outpatient)).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -171,10 +165,8 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the medication being administered. This is either a link to a resource representing the details of the 
      * medication or a simple attribute carrying a code that identifies the medication from a known list of medications.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -184,9 +176,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * A link to a resource representing the person or the group to whom the medication will be given.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -196,9 +186,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * The encounter or episode of care that establishes the context for this event.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -208,9 +196,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * Additional information that supports the medication being dispensed.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -220,9 +206,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates who or what performed the event.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Performer}.
@@ -232,9 +216,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * The principal physical location where the dispense was performed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -244,9 +226,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the medication order that is being dispensed against.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -256,10 +236,8 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the type of dispensing event that is performed. For example, Trial Fill, Completion of Trial, Partial Fill, 
      * Emergency Fill, Samples, etc.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -269,9 +247,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * The amount of medication that has been dispensed. Includes unit of measure.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link SimpleQuantity}.
@@ -281,9 +257,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * The amount of medication expressed as a timing amount.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link SimpleQuantity}.
@@ -293,9 +267,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * The time when the dispensed product was packaged and reviewed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -305,9 +277,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * The time the dispensed product was provided to the patient or their representative.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -317,9 +287,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * Identification of the facility/location where the medication was shipped to, as part of the dispense event.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -329,10 +297,8 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the person who picked up the medication. This will usually be a patient or their caregiver, but some cases 
      * exist where it can be a healthcare professional.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -342,9 +308,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * Extra information about the dispense that could not be conveyed in the other attributes.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -354,9 +318,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates how the medication is to be used by the patient.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Dosage}.
@@ -366,11 +328,9 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates whether or not substitution was made as part of the dispense. In some cases, substitution will be expected 
      * but does not happen, in other cases substitution is not expected but does happen. This block explains what 
      * substitution did or did not happen and why. If nothing is specified, substitution was not done.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Substitution}.
@@ -380,10 +340,8 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates an actual or potential clinical issue with or between one or more active or proposed clinical actions for a 
      * patient; e.g. drug-drug interaction, duplicate therapy, dosage alert etc.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -393,9 +351,7 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * A summary of the events of interest that have occurred, such as when the dispense was verified.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -575,9 +531,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -591,10 +545,8 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -608,11 +560,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -626,9 +576,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -642,12 +590,10 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -661,13 +607,10 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -681,13 +624,10 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -701,15 +641,12 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -723,15 +660,12 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -745,21 +679,17 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -773,21 +703,17 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -801,15 +727,12 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifiers associated with this Medication Dispense that are defined by business processes and/or used to refer to it 
          * when a direct URL reference to the resource itself is not appropriate. They are business identifiers assigned to this 
          * resource by the performer or other systems and remain constant as the resource is updated and propagates from server 
          * to server.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     External identifier
@@ -825,15 +748,12 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifiers associated with this Medication Dispense that are defined by business processes and/or used to refer to it 
          * when a direct URL reference to the resource itself is not appropriate. They are business identifiers assigned to this 
          * resource by the performer or other systems and remain constant as the resource is updated and propagates from server 
          * to server.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     External identifier
@@ -847,12 +767,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * The procedure that trigger the dispense.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param partOf
          *     Event that dispense is part of
@@ -868,12 +785,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * The procedure that trigger the dispense.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param partOf
          *     Event that dispense is part of
@@ -887,9 +801,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * A code specifying the state of the set of dispense events.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     preparation | in-progress | cancelled | on-hold | completed | entered-in-error | stopped | unknown
@@ -903,9 +817,13 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the reason why a dispense was not performed.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link CodeableConcept}</li>
+         * <li>{@link Reference}</li>
+         * </ul>
          * 
          * @param statusReason
          *     Why a dispense was not performed
@@ -919,10 +837,8 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the type of medication dispense (for example, where the medication is expected to be consumed or 
          * administered (i.e. inpatient or outpatient)).
-         * </p>
          * 
          * @param category
          *     Type of medication dispense
@@ -936,10 +852,16 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the medication being administered. This is either a link to a resource representing the details of the 
          * medication or a simple attribute carrying a code that identifies the medication from a known list of medications.
-         * </p>
+         * 
+         * <p>This element is required.
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link CodeableConcept}</li>
+         * <li>{@link Reference}</li>
+         * </ul>
          * 
          * @param medication
          *     What medication was supplied
@@ -953,9 +875,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * A link to a resource representing the person or the group to whom the medication will be given.
-         * </p>
          * 
          * @param subject
          *     Who the dispense is for
@@ -969,9 +889,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * The encounter or episode of care that establishes the context for this event.
-         * </p>
          * 
          * @param context
          *     Encounter / Episode associated with event
@@ -985,12 +903,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional information that supports the medication being dispensed.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param supportingInformation
          *     Information that supports the dispensing of the medication
@@ -1006,12 +921,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional information that supports the medication being dispensed.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param supportingInformation
          *     Information that supports the dispensing of the medication
@@ -1025,12 +937,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates who or what performed the event.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param performer
          *     Who performed event
@@ -1046,12 +955,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates who or what performed the event.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param performer
          *     Who performed event
@@ -1065,9 +971,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * The principal physical location where the dispense was performed.
-         * </p>
          * 
          * @param location
          *     Where the dispense occurred
@@ -1081,12 +985,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the medication order that is being dispensed against.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param authorizingPrescription
          *     Medication order that authorizes the dispense
@@ -1102,12 +1003,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the medication order that is being dispensed against.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param authorizingPrescription
          *     Medication order that authorizes the dispense
@@ -1121,10 +1019,8 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the type of dispensing event that is performed. For example, Trial Fill, Completion of Trial, Partial Fill, 
          * Emergency Fill, Samples, etc.
-         * </p>
          * 
          * @param type
          *     Trial fill, partial fill, emergency fill, etc.
@@ -1138,9 +1034,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * The amount of medication that has been dispensed. Includes unit of measure.
-         * </p>
          * 
          * @param quantity
          *     Amount dispensed
@@ -1154,9 +1048,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * The amount of medication expressed as a timing amount.
-         * </p>
          * 
          * @param daysSupply
          *     Amount of medication expressed as a timing amount
@@ -1170,9 +1062,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * The time when the dispensed product was packaged and reviewed.
-         * </p>
          * 
          * @param whenPrepared
          *     When product was packaged and reviewed
@@ -1186,9 +1076,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * The time the dispensed product was provided to the patient or their representative.
-         * </p>
          * 
          * @param whenHandedOver
          *     When product was given out
@@ -1202,9 +1090,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Identification of the facility/location where the medication was shipped to, as part of the dispense event.
-         * </p>
          * 
          * @param destination
          *     Where the medication was sent
@@ -1218,13 +1104,10 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the person who picked up the medication. This will usually be a patient or their caregiver, but some cases 
          * exist where it can be a healthcare professional.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param receiver
          *     Who collected the medication
@@ -1240,13 +1123,10 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the person who picked up the medication. This will usually be a patient or their caregiver, but some cases 
          * exist where it can be a healthcare professional.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param receiver
          *     Who collected the medication
@@ -1260,12 +1140,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Extra information about the dispense that could not be conveyed in the other attributes.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     Information about the dispense
@@ -1281,12 +1158,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Extra information about the dispense that could not be conveyed in the other attributes.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     Information about the dispense
@@ -1300,12 +1174,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates how the medication is to be used by the patient.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param dosageInstruction
          *     How the medication is to be used by the patient or administered by the caregiver
@@ -1321,12 +1192,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates how the medication is to be used by the patient.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param dosageInstruction
          *     How the medication is to be used by the patient or administered by the caregiver
@@ -1340,11 +1208,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates whether or not substitution was made as part of the dispense. In some cases, substitution will be expected 
          * but does not happen, in other cases substitution is not expected but does happen. This block explains what 
          * substitution did or did not happen and why. If nothing is specified, substitution was not done.
-         * </p>
          * 
          * @param substitution
          *     Whether a substitution was performed on the dispense
@@ -1358,13 +1224,10 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates an actual or potential clinical issue with or between one or more active or proposed clinical actions for a 
          * patient; e.g. drug-drug interaction, duplicate therapy, dosage alert etc.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param detectedIssue
          *     Clinical issue with action
@@ -1380,13 +1243,10 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates an actual or potential clinical issue with or between one or more active or proposed clinical actions for a 
          * patient; e.g. drug-drug interaction, duplicate therapy, dosage alert etc.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param detectedIssue
          *     Clinical issue with action
@@ -1400,12 +1260,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * A summary of the events of interest that have occurred, such as when the dispense was verified.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param eventHistory
          *     A list of relevant lifecycle events
@@ -1421,12 +1278,9 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * A summary of the events of interest that have occurred, such as when the dispense was verified.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param eventHistory
          *     A list of relevant lifecycle events
@@ -1439,6 +1293,18 @@ public class MedicationDispense extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link MedicationDispense}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>medication</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link MedicationDispense}
+         */
         @Override
         public MedicationDispense build() {
             return new MedicationDispense(this);
@@ -1475,12 +1341,11 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates who or what performed the event.
-     * </p>
      */
     public static class Performer extends BackboneElement {
         private final CodeableConcept function;
+        @Required
         private final Reference actor;
 
         private volatile int hashCode;
@@ -1493,9 +1358,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Distinguishes the type of performer in the dispense. For example, date enterer, packager, final checker.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1505,10 +1368,8 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * The device, practitioner, etc. who performed the action. It should be assumed that the actor is the dispenser of the 
          * medication.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1592,10 +1453,8 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1609,15 +1468,12 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1631,15 +1487,12 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1653,21 +1506,17 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1681,21 +1530,17 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1709,9 +1554,7 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * Distinguishes the type of performer in the dispense. For example, date enterer, packager, final checker.
-             * </p>
              * 
              * @param function
              *     Who performed the dispense and what they did
@@ -1725,10 +1568,10 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * The device, practitioner, etc. who performed the action. It should be assumed that the actor is the dispenser of the 
              * medication.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param actor
              *     Individual who was performing
@@ -1741,6 +1584,17 @@ public class MedicationDispense extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Performer}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>actor</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Performer}
+             */
             @Override
             public Performer build() {
                 return new Performer(this);
@@ -1756,13 +1610,12 @@ public class MedicationDispense extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates whether or not substitution was made as part of the dispense. In some cases, substitution will be expected 
      * but does not happen, in other cases substitution is not expected but does happen. This block explains what 
      * substitution did or did not happen and why. If nothing is specified, substitution was not done.
-     * </p>
      */
     public static class Substitution extends BackboneElement {
+        @Required
         private final Boolean wasSubstituted;
         private final CodeableConcept type;
         private final List<CodeableConcept> reason;
@@ -1780,9 +1633,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * True if the dispenser dispensed a different drug or product from what was prescribed.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -1792,9 +1643,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * A code signifying whether a different drug was dispensed from what was prescribed.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1804,9 +1653,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the reason for the substitution (or lack of substitution) from what was prescribed.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1816,9 +1663,7 @@ public class MedicationDispense extends DomainResource {
         }
 
         /**
-         * <p>
          * The person or organization that has primary responsibility for the substitution.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -1912,10 +1757,8 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1929,15 +1772,12 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1951,15 +1791,12 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1973,21 +1810,17 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2001,21 +1834,17 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2029,9 +1858,9 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * True if the dispenser dispensed a different drug or product from what was prescribed.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param wasSubstituted
              *     Whether a substitution was or was not performed on the dispense
@@ -2045,9 +1874,7 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * A code signifying whether a different drug was dispensed from what was prescribed.
-             * </p>
              * 
              * @param type
              *     Code signifying whether a different drug was dispensed from what was prescribed
@@ -2061,12 +1888,9 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates the reason for the substitution (or lack of substitution) from what was prescribed.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param reason
              *     Why was substitution made
@@ -2082,12 +1906,9 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates the reason for the substitution (or lack of substitution) from what was prescribed.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param reason
              *     Why was substitution made
@@ -2101,12 +1922,9 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * The person or organization that has primary responsibility for the substitution.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param responsibleParty
              *     Who is responsible for the substitution
@@ -2122,12 +1940,9 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * <p>
              * The person or organization that has primary responsibility for the substitution.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param responsibleParty
              *     Who is responsible for the substitution
@@ -2140,6 +1955,17 @@ public class MedicationDispense extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Substitution}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>wasSubstituted</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Substitution}
+             */
             @Override
             public Substitution build() {
                 return new Substitution(this);

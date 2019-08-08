@@ -16,9 +16,7 @@ import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.visitor.AbstractVisitable;
 
 /**
- * <p>
  * This is the base resource type for everything.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public abstract class Resource extends AbstractVisitable {
@@ -35,9 +33,7 @@ public abstract class Resource extends AbstractVisitable {
     }
 
     /**
-     * <p>
      * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Id}.
@@ -47,10 +43,8 @@ public abstract class Resource extends AbstractVisitable {
     }
 
     /**
-     * <p>
      * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
      * might not always be associated with version changes to the resource.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Meta}.
@@ -60,11 +54,9 @@ public abstract class Resource extends AbstractVisitable {
     }
 
     /**
-     * <p>
      * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
      * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
      * with other profiles etc.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -74,9 +66,7 @@ public abstract class Resource extends AbstractVisitable {
     }
 
     /**
-     * <p>
      * The base language in which the resource is written.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Code}.
@@ -106,9 +96,7 @@ public abstract class Resource extends AbstractVisitable {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -122,10 +110,8 @@ public abstract class Resource extends AbstractVisitable {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -139,11 +125,9 @@ public abstract class Resource extends AbstractVisitable {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -157,9 +141,7 @@ public abstract class Resource extends AbstractVisitable {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content

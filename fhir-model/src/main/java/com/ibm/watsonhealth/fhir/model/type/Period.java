@@ -16,9 +16,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A time period defined by a start and end date and optionally time.
- * </p>
  */
 @Constraint(
     id = "per-1",
@@ -42,9 +40,7 @@ public class Period extends Element {
     }
 
     /**
-     * <p>
      * The start of the period. The boundary is inclusive.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -54,11 +50,9 @@ public class Period extends Element {
     }
 
     /**
-     * <p>
      * The end of the period. If the end of the period is missing, it means no end was known or planned at the time the 
      * instance was created. The start may be in the past, and the end date in the future, which means that period is 
      * expected/planned to end at that time.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -139,10 +133,8 @@ public class Period extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -156,15 +148,12 @@ public class Period extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -178,15 +167,12 @@ public class Period extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -200,9 +186,7 @@ public class Period extends Element {
         }
 
         /**
-         * <p>
          * The start of the period. The boundary is inclusive.
-         * </p>
          * 
          * @param start
          *     Starting time with inclusive boundary
@@ -216,11 +200,9 @@ public class Period extends Element {
         }
 
         /**
-         * <p>
          * The end of the period. If the end of the period is missing, it means no end was known or planned at the time the 
          * instance was created. The start may be in the past, and the end date in the future, which means that period is 
          * expected/planned to end at that time.
-         * </p>
          * 
          * @param end
          *     End time with inclusive boundary, if not ongoing
@@ -233,6 +215,12 @@ public class Period extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link Period}
+         * 
+         * @return
+         *     An immutable object of type {@link Period}
+         */
         @Override
         public Period build() {
             return new Period(this);

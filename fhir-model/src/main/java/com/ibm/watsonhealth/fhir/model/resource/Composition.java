@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
@@ -38,14 +40,12 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A set of healthcare-related information that is assembled together into a single logical package that provides a 
  * single coherent statement of meaning, establishes its own context and that has clinical attestation with regard to who 
  * is making the statement. A Composition defines the structure and narrative content necessary for a document. However, 
  * a Composition alone does not constitute a document. Rather, the Composition must be the first entry in a Bundle where 
  * Bundle.type=document, and any other resources referenced from Composition must be included as subsequent entries in 
  * the Bundle (for example Patient, Practitioner, Encounter, etc.).
- * </p>
  */
 @Constraint(
     id = "cmp-1",
@@ -64,13 +64,18 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Composition extends DomainResource {
     private final Identifier identifier;
+    @Required
     private final CompositionStatus status;
+    @Required
     private final CodeableConcept type;
     private final List<CodeableConcept> category;
     private final Reference subject;
     private final Reference encounter;
+    @Required
     private final DateTime date;
+    @Required
     private final List<Reference> author;
+    @Required
     private final String title;
     private final DocumentConfidentiality confidentiality;
     private final List<Attester> attester;
@@ -101,10 +106,8 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * A version-independent identifier for the Composition. This identifier stays constant as the composition is changed 
      * over time.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Identifier}.
@@ -114,9 +117,7 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * The workflow/clinical status of this composition. The status is a marker for the clinical standing of the document.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CompositionStatus}.
@@ -126,10 +127,8 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * Specifies the particular kind of composition (e.g. History and Physical, Discharge Summary, Progress Note). This 
      * usually equates to the purpose of making the composition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -139,10 +138,8 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * A categorization for the type of the composition - helps for indexing and searching. This may be implied by or derived 
      * from the code specified in the Composition Type.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -152,11 +149,9 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * Who or what the composition is about. The composition can be about a person, (patient or healthcare practitioner), a 
      * device (e.g. a machine) or even a group of subjects (such as a document about a herd of livestock, or a set of 
      * patients that share a common exposure).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -166,9 +161,7 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes the clinical encounter or type of care this documentation is associated with.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -178,9 +171,7 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * The composition editing time, when the composition was last logically changed by the author.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -190,9 +181,7 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies who is responsible for the information in the composition, not necessarily who typed it in.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -202,9 +191,7 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * Official human-readable label for the composition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -214,9 +201,7 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * The code specifying the level of confidentiality of the Composition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DocumentConfidentiality}.
@@ -226,9 +211,7 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * A participant who has attested to the accuracy of the composition/document.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Attester}.
@@ -238,10 +221,8 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the organization or group who is responsible for ongoing maintenance of and access to the 
      * composition/document information.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -251,9 +232,7 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * Relationships that this composition has with other compositions or documents that already exist.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link RelatesTo}.
@@ -263,9 +242,7 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * The clinical service, such as a colonoscopy or an appendectomy, being documented.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Event}.
@@ -275,9 +252,7 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * The root of the sections that make up the composition.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Section}.
@@ -421,9 +396,7 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -437,10 +410,8 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -454,11 +425,9 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -472,9 +441,7 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -488,12 +455,10 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -507,13 +472,10 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -527,13 +489,10 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -547,15 +506,12 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -569,15 +525,12 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -591,21 +544,17 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -619,21 +568,17 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -647,10 +592,8 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * A version-independent identifier for the Composition. This identifier stays constant as the composition is changed 
          * over time.
-         * </p>
          * 
          * @param identifier
          *     Version-independent identifier for the Composition
@@ -664,9 +607,9 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The workflow/clinical status of this composition. The status is a marker for the clinical standing of the document.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     preliminary | final | amended | entered-in-error
@@ -680,10 +623,10 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * Specifies the particular kind of composition (e.g. History and Physical, Discharge Summary, Progress Note). This 
          * usually equates to the purpose of making the composition.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     Kind of composition (LOINC if possible)
@@ -697,13 +640,10 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * A categorization for the type of the composition - helps for indexing and searching. This may be implied by or derived 
          * from the code specified in the Composition Type.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param category
          *     Categorization of Composition
@@ -719,13 +659,10 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * A categorization for the type of the composition - helps for indexing and searching. This may be implied by or derived 
          * from the code specified in the Composition Type.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param category
          *     Categorization of Composition
@@ -739,11 +676,9 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * Who or what the composition is about. The composition can be about a person, (patient or healthcare practitioner), a 
          * device (e.g. a machine) or even a group of subjects (such as a document about a herd of livestock, or a set of 
          * patients that share a common exposure).
-         * </p>
          * 
          * @param subject
          *     Who and/or what the composition is about
@@ -757,9 +692,7 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the clinical encounter or type of care this documentation is associated with.
-         * </p>
          * 
          * @param encounter
          *     Context of the Composition
@@ -773,9 +706,9 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The composition editing time, when the composition was last logically changed by the author.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param date
          *     Composition editing time
@@ -789,12 +722,11 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies who is responsible for the information in the composition, not necessarily who typed it in.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is required.
          * 
          * @param author
          *     Who and/or what authored the composition
@@ -810,12 +742,11 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies who is responsible for the information in the composition, not necessarily who typed it in.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is required.
          * 
          * @param author
          *     Who and/or what authored the composition
@@ -829,9 +760,9 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * Official human-readable label for the composition.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param title
          *     Human Readable name/title
@@ -845,9 +776,7 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The code specifying the level of confidentiality of the Composition.
-         * </p>
          * 
          * @param confidentiality
          *     As defined by affinity domain
@@ -861,12 +790,9 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * A participant who has attested to the accuracy of the composition/document.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param attester
          *     Attests to accuracy of composition
@@ -882,12 +808,9 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * A participant who has attested to the accuracy of the composition/document.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param attester
          *     Attests to accuracy of composition
@@ -901,10 +824,8 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the organization or group who is responsible for ongoing maintenance of and access to the 
          * composition/document information.
-         * </p>
          * 
          * @param custodian
          *     Organization which maintains the composition
@@ -918,12 +839,9 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * Relationships that this composition has with other compositions or documents that already exist.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param relatesTo
          *     Relationships to other compositions/documents
@@ -939,12 +857,9 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * Relationships that this composition has with other compositions or documents that already exist.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param relatesTo
          *     Relationships to other compositions/documents
@@ -958,12 +873,9 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The clinical service, such as a colonoscopy or an appendectomy, being documented.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param event
          *     The clinical service(s) being documented
@@ -979,12 +891,9 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The clinical service, such as a colonoscopy or an appendectomy, being documented.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param event
          *     The clinical service(s) being documented
@@ -998,12 +907,9 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The root of the sections that make up the composition.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param section
          *     Composition is broken into sections
@@ -1019,12 +925,9 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The root of the sections that make up the composition.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param section
          *     Composition is broken into sections
@@ -1037,6 +940,21 @@ public class Composition extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link Composition}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>type</li>
+         * <li>date</li>
+         * <li>author</li>
+         * <li>title</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Composition}
+         */
         @Override
         public Composition build() {
             return new Composition(this);
@@ -1064,11 +982,10 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * A participant who has attested to the accuracy of the composition/document.
-     * </p>
      */
     public static class Attester extends BackboneElement {
+        @Required
         private final CompositionAttestationMode mode;
         private final DateTime time;
         private final Reference party;
@@ -1084,9 +1001,7 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of attestation the authenticator offers.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CompositionAttestationMode}.
@@ -1096,9 +1011,7 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * When the composition was attested by the party.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DateTime}.
@@ -1108,9 +1021,7 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * Who attested the composition in the specified way.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1199,10 +1110,8 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1216,15 +1125,12 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1238,15 +1144,12 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1260,21 +1163,17 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1288,21 +1187,17 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1316,9 +1211,9 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of attestation the authenticator offers.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param mode
              *     personal | professional | legal | official
@@ -1332,9 +1227,7 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * When the composition was attested by the party.
-             * </p>
              * 
              * @param time
              *     When the composition was attested
@@ -1348,9 +1241,7 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * Who attested the composition in the specified way.
-             * </p>
              * 
              * @param party
              *     Who attested the composition
@@ -1363,6 +1254,17 @@ public class Composition extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Attester}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>mode</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Attester}
+             */
             @Override
             public Attester build() {
                 return new Attester(this);
@@ -1379,12 +1281,13 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * Relationships that this composition has with other compositions or documents that already exist.
-     * </p>
      */
     public static class RelatesTo extends BackboneElement {
+        @Required
         private final DocumentRelationshipType code;
+        @Required
+        @Choice({Identifier.class, Reference.class})
         private final Element target;
 
         private volatile int hashCode;
@@ -1397,9 +1300,7 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of relationship that this composition has with anther composition or document.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DocumentRelationshipType}.
@@ -1409,9 +1310,7 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The target composition/document of this relationship.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -1495,10 +1394,8 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1512,15 +1409,12 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1534,15 +1428,12 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1556,21 +1447,17 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1584,21 +1471,17 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1612,9 +1495,9 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of relationship that this composition has with anther composition or document.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param code
              *     replaces | transforms | signs | appends
@@ -1628,9 +1511,15 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * The target composition/document of this relationship.
-             * </p>
+             * 
+             * <p>This element is required.
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Identifier}</li>
+             * <li>{@link Reference}</li>
+             * </ul>
              * 
              * @param target
              *     Target of the relationship
@@ -1643,6 +1532,18 @@ public class Composition extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link RelatesTo}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>code</li>
+             * <li>target</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link RelatesTo}
+             */
             @Override
             public RelatesTo build() {
                 return new RelatesTo(this);
@@ -1658,9 +1559,7 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * The clinical service, such as a colonoscopy or an appendectomy, being documented.
-     * </p>
      */
     public static class Event extends BackboneElement {
         private final List<CodeableConcept> code;
@@ -1678,11 +1577,9 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * This list of codes represents the main clinical acts, such as a colonoscopy or an appendectomy, being documented. In 
          * some cases, the event is inherent in the typeCode, such as a "History and Physical Report" in which the procedure 
          * being documented is necessarily a "History and Physical" act.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1692,10 +1589,8 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The period of time covered by the documentation. There is no assertion that the documentation is a complete 
          * representation for this period, only that it documents events during this time.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Period}.
@@ -1705,10 +1600,8 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The description and/or reference of the event(s) being documented. For example, this could be used to document such a 
          * colonoscopy or an appendectomy.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -1797,10 +1690,8 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1814,15 +1705,12 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1836,15 +1724,12 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1858,21 +1743,17 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1886,21 +1767,17 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1914,14 +1791,11 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * This list of codes represents the main clinical acts, such as a colonoscopy or an appendectomy, being documented. In 
              * some cases, the event is inherent in the typeCode, such as a "History and Physical Report" in which the procedure 
              * being documented is necessarily a "History and Physical" act.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param code
              *     Code(s) that apply to the event being documented
@@ -1937,14 +1811,11 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * This list of codes represents the main clinical acts, such as a colonoscopy or an appendectomy, being documented. In 
              * some cases, the event is inherent in the typeCode, such as a "History and Physical Report" in which the procedure 
              * being documented is necessarily a "History and Physical" act.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param code
              *     Code(s) that apply to the event being documented
@@ -1958,10 +1829,8 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * The period of time covered by the documentation. There is no assertion that the documentation is a complete 
              * representation for this period, only that it documents events during this time.
-             * </p>
              * 
              * @param period
              *     The period covered by the documentation
@@ -1975,13 +1844,10 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * The description and/or reference of the event(s) being documented. For example, this could be used to document such a 
              * colonoscopy or an appendectomy.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param detail
              *     The event(s) being documented
@@ -1997,13 +1863,10 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * The description and/or reference of the event(s) being documented. For example, this could be used to document such a 
              * colonoscopy or an appendectomy.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param detail
              *     The event(s) being documented
@@ -2016,6 +1879,12 @@ public class Composition extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Event}
+             * 
+             * @return
+             *     An immutable object of type {@link Event}
+             */
             @Override
             public Event build() {
                 return new Event(this);
@@ -2032,9 +1901,7 @@ public class Composition extends DomainResource {
     }
 
     /**
-     * <p>
      * The root of the sections that make up the composition.
-     * </p>
      */
     public static class Section extends BackboneElement {
         private final String title;
@@ -2066,10 +1933,8 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The label for this particular section. This will be part of the rendered content for the document, and is often used 
          * to build a table of contents.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2079,9 +1944,7 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * A code identifying the kind of content contained within the section. This must be consistent with the section title.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2091,9 +1954,7 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies who is responsible for the information in this section, not necessarily who typed it in.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -2103,13 +1964,11 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * The actual focus of the section when it is not the subject of the composition, but instead represents something or 
          * someone associated with the subject such as (for a patient subject) a spouse, parent, fetus, or donor. If not focus is 
          * specified, the focus is assumed to be focus of the parent section, or, for a section in the Composition itself, the 
          * subject of the composition. Sections with a focus SHALL only include resources where the logical subject (patient, 
          * subject, focus, etc.) matches the section focus, or the resources have no logical subject (few resources).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -2119,11 +1978,9 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains the attested content of the section, used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Narrative}.
@@ -2133,11 +1990,9 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * How the entry list was prepared - whether it is a working list that is suitable for being maintained on an ongoing 
          * basis, or if it represents a snapshot of a list of items from another source, or whether it is a prepared list where 
          * items may be marked as added, modified or deleted.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link SectionMode}.
@@ -2147,9 +2002,7 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * Specifies the order applied to the items in the section entries.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2159,9 +2012,7 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to the actual resource from which the narrative in the section is derived.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -2171,9 +2022,7 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * If the section is empty, why the list is empty. An empty section typically has some text explaining the empty reason.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2183,9 +2032,7 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * <p>
          * A nested sub-section within this section.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Section}.
@@ -2309,10 +2156,8 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2326,15 +2171,12 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2348,15 +2190,12 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2370,21 +2209,17 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2398,21 +2233,17 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2426,10 +2257,8 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * The label for this particular section. This will be part of the rendered content for the document, and is often used 
              * to build a table of contents.
-             * </p>
              * 
              * @param title
              *     Label for section (e.g. for ToC)
@@ -2443,9 +2272,7 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * A code identifying the kind of content contained within the section. This must be consistent with the section title.
-             * </p>
              * 
              * @param code
              *     Classification of section (recommended)
@@ -2459,12 +2286,9 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies who is responsible for the information in this section, not necessarily who typed it in.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param author
              *     Who and/or what authored the section
@@ -2480,12 +2304,9 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies who is responsible for the information in this section, not necessarily who typed it in.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param author
              *     Who and/or what authored the section
@@ -2499,13 +2320,11 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * The actual focus of the section when it is not the subject of the composition, but instead represents something or 
              * someone associated with the subject such as (for a patient subject) a spouse, parent, fetus, or donor. If not focus is 
              * specified, the focus is assumed to be focus of the parent section, or, for a section in the Composition itself, the 
              * subject of the composition. Sections with a focus SHALL only include resources where the logical subject (patient, 
              * subject, focus, etc.) matches the section focus, or the resources have no logical subject (few resources).
-             * </p>
              * 
              * @param focus
              *     Who/what the section is about, when it is not about the subject of composition
@@ -2519,11 +2338,9 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * A human-readable narrative that contains the attested content of the section, used to represent the content of the 
              * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
              * detail to make it "clinically safe" for a human to just read the narrative.
-             * </p>
              * 
              * @param text
              *     Text summary of the section, for human interpretation
@@ -2537,11 +2354,9 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * How the entry list was prepared - whether it is a working list that is suitable for being maintained on an ongoing 
              * basis, or if it represents a snapshot of a list of items from another source, or whether it is a prepared list where 
              * items may be marked as added, modified or deleted.
-             * </p>
              * 
              * @param mode
              *     working | snapshot | changes
@@ -2555,9 +2370,7 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * Specifies the order applied to the items in the section entries.
-             * </p>
              * 
              * @param orderedBy
              *     Order of section entries
@@ -2571,12 +2384,9 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * A reference to the actual resource from which the narrative in the section is derived.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param entry
              *     A reference to data that supports this section
@@ -2592,12 +2402,9 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * A reference to the actual resource from which the narrative in the section is derived.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param entry
              *     A reference to data that supports this section
@@ -2611,9 +2418,7 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * If the section is empty, why the list is empty. An empty section typically has some text explaining the empty reason.
-             * </p>
              * 
              * @param emptyReason
              *     Why the section is empty
@@ -2627,12 +2432,9 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * A nested sub-section within this section.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param section
              *     Nested Section
@@ -2648,12 +2450,9 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * <p>
              * A nested sub-section within this section.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param section
              *     Nested Section
@@ -2666,6 +2465,12 @@ public class Composition extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Section}
+             * 
+             * @return
+             *     An immutable object of type {@link Section}
+             */
             @Override
             public Section build() {
                 return new Section(this);

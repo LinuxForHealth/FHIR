@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Address;
 import com.ibm.watsonhealth.fhir.model.type.Age;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
@@ -72,10 +74,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * This resource is a non-persisted resource used to pass information into and back from an [operation](operations.html). 
  * It has no other use, and there is no RESTful endpoint associated with it.
- * </p>
  */
 @Constraint(
     id = "inv-1",
@@ -96,9 +96,7 @@ public class Parameters extends Resource {
     }
 
     /**
-     * <p>
      * A parameter passed to or received from the operation.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Parameter}.
@@ -174,9 +172,7 @@ public class Parameters extends Resource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -190,10 +186,8 @@ public class Parameters extends Resource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -207,11 +201,9 @@ public class Parameters extends Resource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -225,9 +217,7 @@ public class Parameters extends Resource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -241,12 +231,9 @@ public class Parameters extends Resource {
         }
 
         /**
-         * <p>
          * A parameter passed to or received from the operation.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param parameter
          *     Operation Parameter
@@ -262,12 +249,9 @@ public class Parameters extends Resource {
         }
 
         /**
-         * <p>
          * A parameter passed to or received from the operation.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param parameter
          *     Operation Parameter
@@ -280,6 +264,12 @@ public class Parameters extends Resource {
             return this;
         }
 
+        /**
+         * Build the {@link Parameters}
+         * 
+         * @return
+         *     An immutable object of type {@link Parameters}
+         */
         @Override
         public Parameters build() {
             return new Parameters(this);
@@ -293,12 +283,12 @@ public class Parameters extends Resource {
     }
 
     /**
-     * <p>
      * A parameter passed to or received from the operation.
-     * </p>
      */
     public static class Parameter extends BackboneElement {
+        @Required
         private final String name;
+        @Choice({Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class})
         private final Element value;
         private final Resource resource;
         private final List<Parameters.Parameter> part;
@@ -315,9 +305,7 @@ public class Parameters extends Resource {
         }
 
         /**
-         * <p>
          * The name of the parameter (reference to the operation definition).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -327,9 +315,7 @@ public class Parameters extends Resource {
         }
 
         /**
-         * <p>
          * If the parameter is a data type.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -339,9 +325,7 @@ public class Parameters extends Resource {
         }
 
         /**
-         * <p>
          * If the parameter is a whole resource.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Resource}.
@@ -351,9 +335,7 @@ public class Parameters extends Resource {
         }
 
         /**
-         * <p>
          * A named part of a multi-part parameter.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Parameter}.
@@ -447,10 +429,8 @@ public class Parameters extends Resource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -464,15 +444,12 @@ public class Parameters extends Resource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -486,15 +463,12 @@ public class Parameters extends Resource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -508,21 +482,17 @@ public class Parameters extends Resource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -536,21 +506,17 @@ public class Parameters extends Resource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -564,9 +530,9 @@ public class Parameters extends Resource {
             }
 
             /**
-             * <p>
              * The name of the parameter (reference to the operation definition).
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param name
              *     Name from the definition
@@ -580,9 +546,60 @@ public class Parameters extends Resource {
             }
 
             /**
-             * <p>
              * If the parameter is a data type.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Base64Binary}</li>
+             * <li>{@link Boolean}</li>
+             * <li>{@link Canonical}</li>
+             * <li>{@link Code}</li>
+             * <li>{@link Date}</li>
+             * <li>{@link DateTime}</li>
+             * <li>{@link Decimal}</li>
+             * <li>{@link Id}</li>
+             * <li>{@link Instant}</li>
+             * <li>{@link Integer}</li>
+             * <li>{@link Markdown}</li>
+             * <li>{@link Oid}</li>
+             * <li>{@link PositiveInt}</li>
+             * <li>{@link String}</li>
+             * <li>{@link Time}</li>
+             * <li>{@link UnsignedInt}</li>
+             * <li>{@link Uri}</li>
+             * <li>{@link Url}</li>
+             * <li>{@link Uuid}</li>
+             * <li>{@link Address}</li>
+             * <li>{@link Age}</li>
+             * <li>{@link Annotation}</li>
+             * <li>{@link Attachment}</li>
+             * <li>{@link CodeableConcept}</li>
+             * <li>{@link Coding}</li>
+             * <li>{@link ContactPoint}</li>
+             * <li>{@link Count}</li>
+             * <li>{@link Distance}</li>
+             * <li>{@link Duration}</li>
+             * <li>{@link HumanName}</li>
+             * <li>{@link Identifier}</li>
+             * <li>{@link Money}</li>
+             * <li>{@link Period}</li>
+             * <li>{@link Quantity}</li>
+             * <li>{@link Range}</li>
+             * <li>{@link Ratio}</li>
+             * <li>{@link Reference}</li>
+             * <li>{@link SampledData}</li>
+             * <li>{@link Signature}</li>
+             * <li>{@link Timing}</li>
+             * <li>{@link ContactDetail}</li>
+             * <li>{@link Contributor}</li>
+             * <li>{@link DataRequirement}</li>
+             * <li>{@link Expression}</li>
+             * <li>{@link ParameterDefinition}</li>
+             * <li>{@link RelatedArtifact}</li>
+             * <li>{@link TriggerDefinition}</li>
+             * <li>{@link UsageContext}</li>
+             * <li>{@link Dosage}</li>
+             * </ul>
              * 
              * @param value
              *     If parameter is a data type
@@ -596,9 +613,7 @@ public class Parameters extends Resource {
             }
 
             /**
-             * <p>
              * If the parameter is a whole resource.
-             * </p>
              * 
              * @param resource
              *     If parameter is a whole resource
@@ -612,12 +627,9 @@ public class Parameters extends Resource {
             }
 
             /**
-             * <p>
              * A named part of a multi-part parameter.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param part
              *     Named part of a multi-part parameter
@@ -633,12 +645,9 @@ public class Parameters extends Resource {
             }
 
             /**
-             * <p>
              * A named part of a multi-part parameter.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param part
              *     Named part of a multi-part parameter
@@ -651,6 +660,17 @@ public class Parameters extends Resource {
                 return this;
             }
 
+            /**
+             * Build the {@link Parameter}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>name</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Parameter}
+             */
             @Override
             public Parameter build() {
                 return new Parameter(this);

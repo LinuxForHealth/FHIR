@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -38,10 +39,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A TerminologyCapabilities resource documents a set of capabilities (behaviors) of a FHIR Terminology Server that may 
  * be used as a statement of actual server functionality or a statement of required or desired server implementation.
- * </p>
  */
 @Constraint(
     id = "tcp-0",
@@ -91,8 +90,10 @@ public class TerminologyCapabilities extends DomainResource {
     private final String version;
     private final String name;
     private final String title;
+    @Required
     private final PublicationStatus status;
     private final Boolean experimental;
+    @Required
     private final DateTime date;
     private final String publisher;
     private final List<ContactDetail> contact;
@@ -101,6 +102,7 @@ public class TerminologyCapabilities extends DomainResource {
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
+    @Required
     private final CapabilityStatementKind kind;
     private final Software software;
     private final Implementation implementation;
@@ -143,13 +145,11 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * An absolute URI that is used to identify this terminology capabilities when it is referenced in a specification, 
      * model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a 
      * literal address at which at which an authoritative instance of this terminology capabilities is (or will be) 
      * published. This URL can be the target of a canonical reference. It SHALL remain the same when the terminology 
      * capabilities is stored on different servers.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -159,12 +159,10 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * The identifier that is used to identify this version of the terminology capabilities when it is referenced in a 
      * specification, model, design or instance. This is an arbitrary value managed by the terminology capabilities author 
      * and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version 
      * is not available. There is also no expectation that versions can be placed in a lexicographical sequence.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -174,10 +172,8 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * A natural language name identifying the terminology capabilities. This name should be usable as an identifier for the 
      * module by machine processing applications such as code generation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -187,9 +183,7 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * A short, descriptive, user-friendly title for the terminology capabilities.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -199,9 +193,7 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of this terminology capabilities. Enables tracking the life-cycle of the content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PublicationStatus}.
@@ -211,10 +203,8 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * A Boolean value to indicate that this terminology capabilities is authored for testing purposes (or 
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -224,11 +214,9 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and optionally time) when the terminology capabilities was published. The date must change when the business 
      * version changes and it must change if the status code changes. In addition, it should change when the substantive 
      * content of the terminology capabilities changes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -238,9 +226,7 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the organization or individual that published the terminology capabilities.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -250,9 +236,7 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Contact details to assist a user in finding and communicating with the publisher.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -262,11 +246,9 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * A free text natural language description of the terminology capabilities from a consumer's perspective. Typically, 
      * this is used when the capability statement describes a desired rather than an actual solution, for example as a formal 
      * expression of requirements as part of an RFP.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -276,11 +258,9 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
      * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
      * may be used to assist with indexing and searching for appropriate terminology capabilities instances.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
@@ -290,9 +270,7 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * A legal or geographic region in which the terminology capabilities is intended to be used.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -302,9 +280,7 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Explanation of why this terminology capabilities is needed and why it has been designed as it has.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -314,10 +290,8 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * A copyright statement relating to the terminology capabilities and/or its contents. Copyright statements are generally 
      * legal restrictions on the use and publishing of the terminology capabilities.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -327,10 +301,8 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * The way that this statement is intended to be used, to describe an actual running instance of software, a particular 
      * product (kind, not instance of software) or a class of implementation (e.g. a desired purchase).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CapabilityStatementKind}.
@@ -340,10 +312,8 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Software that is covered by this terminology capability statement. It is used when the statement describes the 
      * capabilities of a particular software version, independent of an installation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Software}.
@@ -353,10 +323,8 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies a specific implementation instance that is described by the terminology capability statement - i.e. a 
      * particular installation, rather than the capabilities of a software program.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Implementation}.
@@ -366,9 +334,7 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether the server supports lockedDate.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -378,10 +344,8 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies a code system that is supported by the server. If there is a no code system URL, then this declares the 
      * general assumptions a client can make about support for any CodeSystem resource.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeSystem}.
@@ -391,9 +355,7 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about the [ValueSet/$expand](valueset-operation-expand.html) operation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Expansion}.
@@ -403,9 +365,7 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * The degree to which the server supports the code search parameter on ValueSet, if it is supported.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeSearchSupport}.
@@ -415,9 +375,7 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about the [ValueSet/$validate-code](valueset-operation-validate-code.html) operation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ValidateCode}.
@@ -427,9 +385,7 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about the [ConceptMap/$translate](conceptmap-operation-translate.html) operation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Translation}.
@@ -439,9 +395,7 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether the $closure operation is supported.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Closure}.
@@ -621,9 +575,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -637,10 +589,8 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -654,11 +604,9 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -672,9 +620,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -688,12 +634,10 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -707,13 +651,10 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -727,13 +668,10 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -747,15 +685,12 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -769,15 +704,12 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -791,21 +723,17 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -819,21 +747,17 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -847,13 +771,11 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that is used to identify this terminology capabilities when it is referenced in a specification, 
          * model, design or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a 
          * literal address at which at which an authoritative instance of this terminology capabilities is (or will be) 
          * published. This URL can be the target of a canonical reference. It SHALL remain the same when the terminology 
          * capabilities is stored on different servers.
-         * </p>
          * 
          * @param url
          *     Canonical identifier for this terminology capabilities, represented as a URI (globally unique)
@@ -867,12 +789,10 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * The identifier that is used to identify this version of the terminology capabilities when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the terminology capabilities author 
          * and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version 
          * is not available. There is also no expectation that versions can be placed in a lexicographical sequence.
-         * </p>
          * 
          * @param version
          *     Business version of the terminology capabilities
@@ -886,10 +806,8 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * A natural language name identifying the terminology capabilities. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
-         * </p>
          * 
          * @param name
          *     Name for this terminology capabilities (computer friendly)
@@ -903,9 +821,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * A short, descriptive, user-friendly title for the terminology capabilities.
-         * </p>
          * 
          * @param title
          *     Name for this terminology capabilities (human friendly)
@@ -919,9 +835,9 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of this terminology capabilities. Enables tracking the life-cycle of the content.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | retired | unknown
@@ -935,10 +851,8 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * A Boolean value to indicate that this terminology capabilities is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
-         * </p>
          * 
          * @param experimental
          *     For testing purposes, not real usage
@@ -952,11 +866,11 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and optionally time) when the terminology capabilities was published. The date must change when the business 
          * version changes and it must change if the status code changes. In addition, it should change when the substantive 
          * content of the terminology capabilities changes.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param date
          *     Date last changed
@@ -970,9 +884,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the organization or individual that published the terminology capabilities.
-         * </p>
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
@@ -986,12 +898,9 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1007,12 +916,9 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1026,11 +932,9 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * A free text natural language description of the terminology capabilities from a consumer's perspective. Typically, 
          * this is used when the capability statement describes a desired rather than an actual solution, for example as a formal 
          * expression of requirements as part of an RFP.
-         * </p>
          * 
          * @param description
          *     Natural language description of the terminology capabilities
@@ -1044,14 +948,11 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate terminology capabilities instances.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1067,14 +968,11 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate terminology capabilities instances.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1088,12 +986,9 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the terminology capabilities is intended to be used.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param jurisdiction
          *     Intended jurisdiction for terminology capabilities (if applicable)
@@ -1109,12 +1004,9 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the terminology capabilities is intended to be used.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param jurisdiction
          *     Intended jurisdiction for terminology capabilities (if applicable)
@@ -1128,9 +1020,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Explanation of why this terminology capabilities is needed and why it has been designed as it has.
-         * </p>
          * 
          * @param purpose
          *     Why this terminology capabilities is defined
@@ -1144,10 +1034,8 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * A copyright statement relating to the terminology capabilities and/or its contents. Copyright statements are generally 
          * legal restrictions on the use and publishing of the terminology capabilities.
-         * </p>
          * 
          * @param copyright
          *     Use and/or publishing restrictions
@@ -1161,10 +1049,10 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * The way that this statement is intended to be used, to describe an actual running instance of software, a particular 
          * product (kind, not instance of software) or a class of implementation (e.g. a desired purchase).
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param kind
          *     instance | capability | requirements
@@ -1178,10 +1066,8 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Software that is covered by this terminology capability statement. It is used when the statement describes the 
          * capabilities of a particular software version, independent of an installation.
-         * </p>
          * 
          * @param software
          *     Software that is covered by this terminology capability statement
@@ -1195,10 +1081,8 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies a specific implementation instance that is described by the terminology capability statement - i.e. a 
          * particular installation, rather than the capabilities of a software program.
-         * </p>
          * 
          * @param implementation
          *     If this describes a specific instance
@@ -1212,9 +1096,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether the server supports lockedDate.
-         * </p>
          * 
          * @param lockedDate
          *     Whether lockedDate is supported
@@ -1228,13 +1110,10 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies a code system that is supported by the server. If there is a no code system URL, then this declares the 
          * general assumptions a client can make about support for any CodeSystem resource.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param codeSystem
          *     A code system supported by the server
@@ -1250,13 +1129,10 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies a code system that is supported by the server. If there is a no code system URL, then this declares the 
          * general assumptions a client can make about support for any CodeSystem resource.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param codeSystem
          *     A code system supported by the server
@@ -1270,9 +1146,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about the [ValueSet/$expand](valueset-operation-expand.html) operation.
-         * </p>
          * 
          * @param expansion
          *     Information about the [ValueSet/$expand](valueset-operation-expand.html) operation
@@ -1286,9 +1160,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * The degree to which the server supports the code search parameter on ValueSet, if it is supported.
-         * </p>
          * 
          * @param codeSearch
          *     explicit | all
@@ -1302,9 +1174,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about the [ValueSet/$validate-code](valueset-operation-validate-code.html) operation.
-         * </p>
          * 
          * @param validateCode
          *     Information about the [ValueSet/$validate-code](valueset-operation-validate-code.html) operation
@@ -1318,9 +1188,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about the [ConceptMap/$translate](conceptmap-operation-translate.html) operation.
-         * </p>
          * 
          * @param translation
          *     Information about the [ConceptMap/$translate](conceptmap-operation-translate.html) operation
@@ -1334,9 +1202,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether the $closure operation is supported.
-         * </p>
          * 
          * @param closure
          *     Information about the [ConceptMap/$closure](conceptmap-operation-closure.html) operation
@@ -1349,6 +1215,19 @@ public class TerminologyCapabilities extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link TerminologyCapabilities}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>date</li>
+         * <li>kind</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link TerminologyCapabilities}
+         */
         @Override
         public TerminologyCapabilities build() {
             return new TerminologyCapabilities(this);
@@ -1385,12 +1264,11 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Software that is covered by this terminology capability statement. It is used when the statement describes the 
      * capabilities of a particular software version, independent of an installation.
-     * </p>
      */
     public static class Software extends BackboneElement {
+        @Required
         private final String name;
         private final String version;
 
@@ -1404,9 +1282,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Name the software is known by.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1416,9 +1292,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * The version identifier for the software covered by this statement.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1502,10 +1376,8 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1519,15 +1391,12 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1541,15 +1410,12 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1563,21 +1429,17 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1591,21 +1453,17 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1619,9 +1477,9 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Name the software is known by.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param name
              *     A name the software is known by
@@ -1635,9 +1493,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * The version identifier for the software covered by this statement.
-             * </p>
              * 
              * @param version
              *     Version covered by this statement
@@ -1650,6 +1506,17 @@ public class TerminologyCapabilities extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Software}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>name</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Software}
+             */
             @Override
             public Software build() {
                 return new Software(this);
@@ -1665,12 +1532,11 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies a specific implementation instance that is described by the terminology capability statement - i.e. a 
      * particular installation, rather than the capabilities of a software program.
-     * </p>
      */
     public static class Implementation extends BackboneElement {
+        @Required
         private final String description;
         private final Url url;
 
@@ -1684,9 +1550,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about the specific installation that this terminology capability statement relates to.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1696,9 +1560,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute base URL for the implementation.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Url}.
@@ -1782,10 +1644,8 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1799,15 +1659,12 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1821,15 +1678,12 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1843,21 +1697,17 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1871,21 +1721,17 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1899,9 +1745,9 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Information about the specific installation that this terminology capability statement relates to.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param description
              *     Describes this specific instance
@@ -1915,9 +1761,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * An absolute base URL for the implementation.
-             * </p>
              * 
              * @param url
              *     Base URL for the implementation
@@ -1930,6 +1774,17 @@ public class TerminologyCapabilities extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Implementation}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>description</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Implementation}
+             */
             @Override
             public Implementation build() {
                 return new Implementation(this);
@@ -1945,10 +1800,8 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies a code system that is supported by the server. If there is a no code system URL, then this declares the 
      * general assumptions a client can make about support for any CodeSystem resource.
-     * </p>
      */
     public static class CodeSystem extends BackboneElement {
         private final Canonical uri;
@@ -1966,9 +1819,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * URI for the Code System.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Canonical}.
@@ -1978,9 +1829,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * For the code system, a list of versions that are supported by the server.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Version}.
@@ -1990,9 +1839,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * True if subsumption is supported for this version of the code system.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -2081,10 +1928,8 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2098,15 +1943,12 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2120,15 +1962,12 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2142,21 +1981,17 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2170,21 +2005,17 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2198,9 +2029,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * URI for the Code System.
-             * </p>
              * 
              * @param uri
              *     URI for the Code System
@@ -2214,12 +2043,9 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * For the code system, a list of versions that are supported by the server.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param version
              *     Version of Code System supported
@@ -2235,12 +2061,9 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * For the code system, a list of versions that are supported by the server.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param version
              *     Version of Code System supported
@@ -2254,9 +2077,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * True if subsumption is supported for this version of the code system.
-             * </p>
              * 
              * @param subsumption
              *     Whether subsumption is supported
@@ -2269,6 +2090,12 @@ public class TerminologyCapabilities extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link CodeSystem}
+             * 
+             * @return
+             *     An immutable object of type {@link CodeSystem}
+             */
             @Override
             public CodeSystem build() {
                 return new CodeSystem(this);
@@ -2284,9 +2111,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * For the code system, a list of versions that are supported by the server.
-         * </p>
          */
         public static class Version extends BackboneElement {
             private final String code;
@@ -2310,9 +2135,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * For version-less code systems, there should be a single version with no identifier.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2322,9 +2145,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * If this is the default version for this code system.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Boolean}.
@@ -2334,9 +2155,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * If the compositional grammar defined by the code system is supported.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Boolean}.
@@ -2346,9 +2165,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Language Displays supported.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Code}.
@@ -2358,9 +2175,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Filter Properties supported.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Filter}.
@@ -2370,9 +2185,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Properties supported for $lookup.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Code}.
@@ -2476,10 +2289,8 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2493,15 +2304,12 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2515,15 +2323,12 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2537,21 +2342,17 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2565,21 +2366,17 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2593,9 +2390,7 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * For version-less code systems, there should be a single version with no identifier.
-                 * </p>
                  * 
                  * @param code
                  *     Version identifier for this version
@@ -2609,9 +2404,7 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * If this is the default version for this code system.
-                 * </p>
                  * 
                  * @param isDefault
                  *     If this is the default version for this code system
@@ -2625,9 +2418,7 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * If the compositional grammar defined by the code system is supported.
-                 * </p>
                  * 
                  * @param compositional
                  *     If compositional grammar is supported
@@ -2641,12 +2432,9 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Language Displays supported.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param language
                  *     Language Displays supported
@@ -2662,12 +2450,9 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Language Displays supported.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param language
                  *     Language Displays supported
@@ -2681,12 +2466,9 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Filter Properties supported.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param filter
                  *     Filter Properties supported
@@ -2702,12 +2484,9 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Filter Properties supported.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param filter
                  *     Filter Properties supported
@@ -2721,12 +2500,9 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Properties supported for $lookup.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param property
                  *     Properties supported for $lookup
@@ -2742,12 +2518,9 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Properties supported for $lookup.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param property
                  *     Properties supported for $lookup
@@ -2760,6 +2533,12 @@ public class TerminologyCapabilities extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Version}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Version}
+                 */
                 @Override
                 public Version build() {
                     return new Version(this);
@@ -2778,12 +2557,12 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Filter Properties supported.
-             * </p>
              */
             public static class Filter extends BackboneElement {
+                @Required
                 private final Code code;
+                @Required
                 private final List<Code> op;
 
                 private volatile int hashCode;
@@ -2796,9 +2575,7 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Code of the property supported.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Code}.
@@ -2808,9 +2585,7 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Operations supported for the property.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link Code}.
@@ -2894,10 +2669,8 @@ public class TerminologyCapabilities extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -2911,15 +2684,12 @@ public class TerminologyCapabilities extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2933,15 +2703,12 @@ public class TerminologyCapabilities extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2955,21 +2722,17 @@ public class TerminologyCapabilities extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -2983,21 +2746,17 @@ public class TerminologyCapabilities extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -3011,9 +2770,9 @@ public class TerminologyCapabilities extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Code of the property supported.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param code
                      *     Code of the property supported
@@ -3027,12 +2786,11 @@ public class TerminologyCapabilities extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Operations supported for the property.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param op
                      *     Operations supported for the property
@@ -3048,12 +2806,11 @@ public class TerminologyCapabilities extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Operations supported for the property.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param op
                      *     Operations supported for the property
@@ -3066,6 +2823,18 @@ public class TerminologyCapabilities extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link Filter}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>code</li>
+                     * <li>op</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link Filter}
+                     */
                     @Override
                     public Filter build() {
                         return new Filter(this);
@@ -3083,9 +2852,7 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about the [ValueSet/$expand](valueset-operation-expand.html) operation.
-     * </p>
      */
     public static class Expansion extends BackboneElement {
         private final Boolean hierarchical;
@@ -3107,9 +2874,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether the server can return nested value sets.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -3119,9 +2884,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether the server supports paging on expansion.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -3131,9 +2894,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Allow request for incomplete expansions?
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -3143,9 +2904,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Supported expansion parameter.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Parameter}.
@@ -3155,9 +2914,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Documentation about text searching works.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Markdown}.
@@ -3256,10 +3013,8 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3273,15 +3028,12 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3295,15 +3047,12 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3317,21 +3066,17 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3345,21 +3090,17 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3373,9 +3114,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Whether the server can return nested value sets.
-             * </p>
              * 
              * @param hierarchical
              *     Whether the server can return nested value sets
@@ -3389,9 +3128,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Whether the server supports paging on expansion.
-             * </p>
              * 
              * @param paging
              *     Whether the server supports paging on expansion
@@ -3405,9 +3142,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Allow request for incomplete expansions?
-             * </p>
              * 
              * @param incomplete
              *     Allow request for incomplete expansions?
@@ -3421,12 +3156,9 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Supported expansion parameter.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param parameter
              *     Supported expansion parameter
@@ -3442,12 +3174,9 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Supported expansion parameter.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param parameter
              *     Supported expansion parameter
@@ -3461,9 +3190,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Documentation about text searching works.
-             * </p>
              * 
              * @param textFilter
              *     Documentation about text searching works
@@ -3476,6 +3203,12 @@ public class TerminologyCapabilities extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Expansion}
+             * 
+             * @return
+             *     An immutable object of type {@link Expansion}
+             */
             @Override
             public Expansion build() {
                 return new Expansion(this);
@@ -3493,11 +3226,10 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Supported expansion parameter.
-         * </p>
          */
         public static class Parameter extends BackboneElement {
+            @Required
             private final Code name;
             private final String documentation;
 
@@ -3511,9 +3243,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Expansion Parameter name.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Code}.
@@ -3523,9 +3253,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Description of support for parameter.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -3609,10 +3337,8 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -3626,15 +3352,12 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3648,15 +3371,12 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3670,21 +3390,17 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3698,21 +3414,17 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3726,9 +3438,9 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Expansion Parameter name.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param name
                  *     Expansion Parameter name
@@ -3742,9 +3454,7 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Description of support for parameter.
-                 * </p>
                  * 
                  * @param documentation
                  *     Description of support for parameter
@@ -3757,6 +3467,17 @@ public class TerminologyCapabilities extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Parameter}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>name</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Parameter}
+                 */
                 @Override
                 public Parameter build() {
                     return new Parameter(this);
@@ -3773,11 +3494,10 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about the [ValueSet/$validate-code](valueset-operation-validate-code.html) operation.
-     * </p>
      */
     public static class ValidateCode extends BackboneElement {
+        @Required
         private final Boolean translations;
 
         private volatile int hashCode;
@@ -3789,9 +3509,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether translations are validated.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -3870,10 +3588,8 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3887,15 +3603,12 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3909,15 +3622,12 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3931,21 +3641,17 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3959,21 +3665,17 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3987,9 +3689,9 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Whether translations are validated.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param translations
              *     Whether translations are validated
@@ -4002,6 +3704,17 @@ public class TerminologyCapabilities extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link ValidateCode}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>translations</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link ValidateCode}
+             */
             @Override
             public ValidateCode build() {
                 return new ValidateCode(this);
@@ -4016,11 +3729,10 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about the [ConceptMap/$translate](conceptmap-operation-translate.html) operation.
-     * </p>
      */
     public static class Translation extends BackboneElement {
+        @Required
         private final Boolean needsMap;
 
         private volatile int hashCode;
@@ -4032,9 +3744,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether the client must identify the map.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -4113,10 +3823,8 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -4130,15 +3838,12 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4152,15 +3857,12 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4174,21 +3876,17 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4202,21 +3900,17 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4230,9 +3924,9 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Whether the client must identify the map.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param needsMap
              *     Whether the client must identify the map
@@ -4245,6 +3939,17 @@ public class TerminologyCapabilities extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Translation}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>needsMap</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Translation}
+             */
             @Override
             public Translation build() {
                 return new Translation(this);
@@ -4259,9 +3964,7 @@ public class TerminologyCapabilities extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether the $closure operation is supported.
-     * </p>
      */
     public static class Closure extends BackboneElement {
         private final Boolean translation;
@@ -4275,9 +3978,7 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * <p>
          * If cross-system closure is supported.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -4356,10 +4057,8 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -4373,15 +4072,12 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4395,15 +4091,12 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4417,21 +4110,17 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4445,21 +4134,17 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4473,9 +4158,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * <p>
              * If cross-system closure is supported.
-             * </p>
              * 
              * @param translation
              *     If cross-system closure is supported
@@ -4488,6 +4171,12 @@ public class TerminologyCapabilities extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Closure}
+             * 
+             * @return
+             *     An immutable object of type {@link Closure}
+             */
             @Override
             public Closure build() {
                 return new Closure(this);

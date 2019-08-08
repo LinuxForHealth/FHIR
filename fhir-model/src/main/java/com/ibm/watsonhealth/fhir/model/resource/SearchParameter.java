@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -40,9 +41,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A search parameter that defines a named search item that can be used to search/filter on a resource.
- * </p>
  */
 @Constraint(
     id = "spd-0",
@@ -67,21 +66,28 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class SearchParameter extends DomainResource {
+    @Required
     private final Uri url;
     private final String version;
+    @Required
     private final String name;
     private final Canonical derivedFrom;
+    @Required
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
     private final String publisher;
     private final List<ContactDetail> contact;
+    @Required
     private final Markdown description;
     private final List<UsageContext> useContext;
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
+    @Required
     private final Code code;
+    @Required
     private final List<ResourceType> base;
+    @Required
     private final SearchParamType type;
     private final String expression;
     private final String xpath;
@@ -127,12 +133,10 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * An absolute URI that is used to identify this search parameter when it is referenced in a specification, model, design 
      * or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address 
      * at which at which an authoritative instance of this search parameter is (or will be) published. This URL can be the 
      * target of a canonical reference. It SHALL remain the same when the search parameter is stored on different servers.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -142,12 +146,10 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * The identifier that is used to identify this version of the search parameter when it is referenced in a specification, 
      * model, design or instance. This is an arbitrary value managed by the search parameter author and is not expected to be 
      * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
      * also no expectation that versions can be placed in a lexicographical sequence.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -157,10 +159,8 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * A natural language name identifying the search parameter. This name should be usable as an identifier for the module 
      * by machine processing applications such as code generation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -170,11 +170,9 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * Where this search parameter is originally defined. If a derivedFrom is provided, then the details in the search 
      * parameter must be consistent with the definition from which it is defined. i.e. the parameter should have the same 
      * meaning, and (usually) the functionality should be a proper subset of the underlying search parameter.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Canonical}.
@@ -184,9 +182,7 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of this search parameter. Enables tracking the life-cycle of the content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PublicationStatus}.
@@ -196,10 +192,8 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * A Boolean value to indicate that this search parameter is authored for testing purposes (or 
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -209,11 +203,9 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and optionally time) when the search parameter was published. The date must change when the business version 
      * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
      * the search parameter changes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -223,9 +215,7 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the organization or individual that published the search parameter.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -235,9 +225,7 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * Contact details to assist a user in finding and communicating with the publisher.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -247,9 +235,7 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * And how it used.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -259,11 +245,9 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
      * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
      * may be used to assist with indexing and searching for appropriate search parameter instances.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
@@ -273,9 +257,7 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * A legal or geographic region in which the search parameter is intended to be used.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -285,9 +267,7 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * Explanation of why this search parameter is needed and why it has been designed as it has.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -297,9 +277,7 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * The code used in the URL or the parameter name in a parameters resource for this search parameter.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Code}.
@@ -309,9 +287,7 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * The base resource type(s) that this search parameter can be used against.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ResourceType}.
@@ -321,9 +297,7 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * The type of value that a search parameter may contain, and how the content is interpreted.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link SearchParamType}.
@@ -333,9 +307,7 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * A FHIRPath expression that returns a set of elements for the search parameter.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -345,9 +317,7 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * An XPath expression that returns a set of elements for the search parameter.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -357,9 +327,7 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * How the search parameter relates to the set of elements returned by evaluating the xpath query.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link XPathUsageType}.
@@ -369,9 +337,7 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * Types of resource (if a resource is referenced).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ResourceType}.
@@ -381,10 +347,8 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether multiple values are allowed for each time the parameter exists. Values are separated by commas, and the 
      * parameter matches if any of the values match.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -394,10 +358,8 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether multiple parameters are allowed - e.g. more than one parameter with the same name. The search matches if all 
      * the parameters match.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -407,9 +369,7 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * Comparators supported for the search parameter.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link SearchComparator}.
@@ -419,9 +379,7 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * A modifier supported for the search parameter.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link SearchModifierCode}.
@@ -431,12 +389,10 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * Contains the names of any search parameters which may be chained to the containing search parameter. Chained 
      * parameters may be added to search parameters of type reference and specify that resources will only be returned if 
      * they contain a reference to a resource which matches the chained parameter value. Values for this field should be 
      * drawn from SearchParameter.code for a parameter on the target resource type.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -446,9 +402,7 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * Used to define the parts of a composite search parameter.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Component}.
@@ -636,9 +590,7 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -652,10 +604,8 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -669,11 +619,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -687,9 +635,7 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -703,12 +649,10 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -722,13 +666,10 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -742,13 +683,10 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -762,15 +700,12 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -784,15 +719,12 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -806,21 +738,17 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -834,21 +762,17 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -862,12 +786,12 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that is used to identify this search parameter when it is referenced in a specification, model, design 
          * or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address 
          * at which at which an authoritative instance of this search parameter is (or will be) published. This URL can be the 
          * target of a canonical reference. It SHALL remain the same when the search parameter is stored on different servers.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param url
          *     Canonical identifier for this search parameter, represented as a URI (globally unique)
@@ -881,12 +805,10 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * The identifier that is used to identify this version of the search parameter when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the search parameter author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
          * also no expectation that versions can be placed in a lexicographical sequence.
-         * </p>
          * 
          * @param version
          *     Business version of the search parameter
@@ -900,10 +822,10 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * A natural language name identifying the search parameter. This name should be usable as an identifier for the module 
          * by machine processing applications such as code generation.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param name
          *     Name for this search parameter (computer friendly)
@@ -917,11 +839,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * Where this search parameter is originally defined. If a derivedFrom is provided, then the details in the search 
          * parameter must be consistent with the definition from which it is defined. i.e. the parameter should have the same 
          * meaning, and (usually) the functionality should be a proper subset of the underlying search parameter.
-         * </p>
          * 
          * @param derivedFrom
          *     Original definition for the search parameter
@@ -935,9 +855,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of this search parameter. Enables tracking the life-cycle of the content.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | retired | unknown
@@ -951,10 +871,8 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * A Boolean value to indicate that this search parameter is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
-         * </p>
          * 
          * @param experimental
          *     For testing purposes, not real usage
@@ -968,11 +886,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and optionally time) when the search parameter was published. The date must change when the business version 
          * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
          * the search parameter changes.
-         * </p>
          * 
          * @param date
          *     Date last changed
@@ -986,9 +902,7 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the organization or individual that published the search parameter.
-         * </p>
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
@@ -1002,12 +916,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1023,12 +934,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1042,9 +950,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * And how it used.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param description
          *     Natural language description of the search parameter
@@ -1058,14 +966,11 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate search parameter instances.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1081,14 +986,11 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate search parameter instances.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1102,12 +1004,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the search parameter is intended to be used.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param jurisdiction
          *     Intended jurisdiction for search parameter (if applicable)
@@ -1123,12 +1022,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the search parameter is intended to be used.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param jurisdiction
          *     Intended jurisdiction for search parameter (if applicable)
@@ -1142,9 +1038,7 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * Explanation of why this search parameter is needed and why it has been designed as it has.
-         * </p>
          * 
          * @param purpose
          *     Why this search parameter is defined
@@ -1158,9 +1052,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * The code used in the URL or the parameter name in a parameters resource for this search parameter.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param code
          *     Code used in URL
@@ -1174,12 +1068,11 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * The base resource type(s) that this search parameter can be used against.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is required.
          * 
          * @param base
          *     The resource type(s) this search parameter applies to
@@ -1195,12 +1088,11 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * The base resource type(s) that this search parameter can be used against.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is required.
          * 
          * @param base
          *     The resource type(s) this search parameter applies to
@@ -1214,9 +1106,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of value that a search parameter may contain, and how the content is interpreted.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     number | date | string | token | reference | composite | quantity | uri | special
@@ -1230,9 +1122,7 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * A FHIRPath expression that returns a set of elements for the search parameter.
-         * </p>
          * 
          * @param expression
          *     FHIRPath expression that extracts the values
@@ -1246,9 +1136,7 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * An XPath expression that returns a set of elements for the search parameter.
-         * </p>
          * 
          * @param xpath
          *     XPath that extracts the values
@@ -1262,9 +1150,7 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * How the search parameter relates to the set of elements returned by evaluating the xpath query.
-         * </p>
          * 
          * @param xpathUsage
          *     normal | phonetic | nearby | distance | other
@@ -1278,12 +1164,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * Types of resource (if a resource is referenced).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param target
          *     Types of resource (if a resource reference)
@@ -1299,12 +1182,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * Types of resource (if a resource is referenced).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param target
          *     Types of resource (if a resource reference)
@@ -1318,10 +1198,8 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether multiple values are allowed for each time the parameter exists. Values are separated by commas, and the 
          * parameter matches if any of the values match.
-         * </p>
          * 
          * @param multipleOr
          *     Allow multiple values per parameter (or)
@@ -1335,10 +1213,8 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether multiple parameters are allowed - e.g. more than one parameter with the same name. The search matches if all 
          * the parameters match.
-         * </p>
          * 
          * @param multipleAnd
          *     Allow multiple parameters (and)
@@ -1352,12 +1228,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * Comparators supported for the search parameter.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param comparator
          *     eq | ne | gt | lt | ge | le | sa | eb | ap
@@ -1373,12 +1246,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * Comparators supported for the search parameter.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param comparator
          *     eq | ne | gt | lt | ge | le | sa | eb | ap
@@ -1392,12 +1262,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * A modifier supported for the search parameter.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifier
          *     missing | exact | contains | not | text | in | not-in | below | above | type | identifier | ofType
@@ -1413,12 +1280,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * A modifier supported for the search parameter.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifier
          *     missing | exact | contains | not | text | in | not-in | below | above | type | identifier | ofType
@@ -1432,15 +1296,12 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * Contains the names of any search parameters which may be chained to the containing search parameter. Chained 
          * parameters may be added to search parameters of type reference and specify that resources will only be returned if 
          * they contain a reference to a resource which matches the chained parameter value. Values for this field should be 
          * drawn from SearchParameter.code for a parameter on the target resource type.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param chain
          *     Chained names supported
@@ -1456,15 +1317,12 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * Contains the names of any search parameters which may be chained to the containing search parameter. Chained 
          * parameters may be added to search parameters of type reference and specify that resources will only be returned if 
          * they contain a reference to a resource which matches the chained parameter value. Values for this field should be 
          * drawn from SearchParameter.code for a parameter on the target resource type.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param chain
          *     Chained names supported
@@ -1478,12 +1336,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * Used to define the parts of a composite search parameter.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param component
          *     For Composite resources to define the parts
@@ -1499,12 +1354,9 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * Used to define the parts of a composite search parameter.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param component
          *     For Composite resources to define the parts
@@ -1517,6 +1369,23 @@ public class SearchParameter extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link SearchParameter}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>url</li>
+         * <li>name</li>
+         * <li>status</li>
+         * <li>description</li>
+         * <li>code</li>
+         * <li>base</li>
+         * <li>type</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link SearchParameter}
+         */
         @Override
         public SearchParameter build() {
             return new SearchParameter(this);
@@ -1555,12 +1424,12 @@ public class SearchParameter extends DomainResource {
     }
 
     /**
-     * <p>
      * Used to define the parts of a composite search parameter.
-     * </p>
      */
     public static class Component extends BackboneElement {
+        @Required
         private final Canonical definition;
+        @Required
         private final String expression;
 
         private volatile int hashCode;
@@ -1573,9 +1442,7 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * The definition of the search parameter that describes this part.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Canonical}.
@@ -1585,10 +1452,8 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * <p>
          * A sub-expression that defines how to extract values for this component from the output of the main SearchParameter.
          * expression.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1672,10 +1537,8 @@ public class SearchParameter extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1689,15 +1552,12 @@ public class SearchParameter extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1711,15 +1571,12 @@ public class SearchParameter extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1733,21 +1590,17 @@ public class SearchParameter extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1761,21 +1614,17 @@ public class SearchParameter extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1789,9 +1638,9 @@ public class SearchParameter extends DomainResource {
             }
 
             /**
-             * <p>
              * The definition of the search parameter that describes this part.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param definition
              *     Defines how the part works
@@ -1805,10 +1654,10 @@ public class SearchParameter extends DomainResource {
             }
 
             /**
-             * <p>
              * A sub-expression that defines how to extract values for this component from the output of the main SearchParameter.
              * expression.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param expression
              *     Subexpression relative to main expression
@@ -1821,6 +1670,18 @@ public class SearchParameter extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Component}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>definition</li>
+             * <li>expression</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Component}
+             */
             @Override
             public Component build() {
                 return new Component(this);

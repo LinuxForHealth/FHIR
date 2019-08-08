@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.AdministrativeGender;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -36,14 +37,13 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Set of definitional characteristics for a kind of observation or measurement produced or consumed by an orderable 
  * health care service.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ObservationDefinition extends DomainResource {
     private final List<CodeableConcept> category;
+    @Required
     private final CodeableConcept code;
     private final List<Identifier> identifier;
     private final List<ObservationDataType> permittedDataType;
@@ -77,9 +77,7 @@ public class ObservationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A code that classifies the general type of observation.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -89,9 +87,7 @@ public class ObservationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes what will be observed. Sometimes this is called the observation "name".
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -101,9 +97,7 @@ public class ObservationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A unique identifier assigned to this ObservationDefinition artifact.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -113,9 +107,7 @@ public class ObservationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The data types allowed for the value element of the instance observations conforming to this ObservationDefinition.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ObservationDataType}.
@@ -125,9 +117,7 @@ public class ObservationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Multiple results allowed for observations conforming to this ObservationDefinition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -137,9 +127,7 @@ public class ObservationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The method or technique used to perform the observation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -149,9 +137,7 @@ public class ObservationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The preferred name to be used when reporting the results of observations conforming to this ObservationDefinition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -161,9 +147,7 @@ public class ObservationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Characteristics for quantitative results of this observation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link QuantitativeDetails}.
@@ -173,10 +157,8 @@ public class ObservationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Multiple ranges of results qualified by different contexts for ordinal or continuous observations conforming to this 
      * ObservationDefinition.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link QualifiedInterval}.
@@ -186,9 +168,7 @@ public class ObservationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The set of valid coded results for the observations conforming to this ObservationDefinition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -198,9 +178,7 @@ public class ObservationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The set of normal coded results for the observations conforming to this ObservationDefinition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -210,9 +188,7 @@ public class ObservationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The set of abnormal coded results for the observation conforming to this ObservationDefinition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -222,9 +198,7 @@ public class ObservationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The set of critical coded results for the observation conforming to this ObservationDefinition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -360,9 +334,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -376,10 +348,8 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -393,11 +363,9 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -411,9 +379,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -427,12 +393,10 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -446,13 +410,10 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -466,13 +427,10 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -486,15 +444,12 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -508,15 +463,12 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -530,21 +482,17 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -558,21 +506,17 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -586,12 +530,9 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A code that classifies the general type of observation.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param category
          *     Category of observation
@@ -607,12 +548,9 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A code that classifies the general type of observation.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param category
          *     Category of observation
@@ -626,9 +564,9 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes what will be observed. Sometimes this is called the observation "name".
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param code
          *     Type of observation (code / type)
@@ -642,12 +580,9 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A unique identifier assigned to this ObservationDefinition artifact.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Business identifier for this ObservationDefinition instance
@@ -663,12 +598,9 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A unique identifier assigned to this ObservationDefinition artifact.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Business identifier for this ObservationDefinition instance
@@ -682,12 +614,9 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The data types allowed for the value element of the instance observations conforming to this ObservationDefinition.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param permittedDataType
          *     Quantity | CodeableConcept | string | boolean | integer | Range | Ratio | SampledData | time | dateTime | Period
@@ -703,12 +632,9 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The data types allowed for the value element of the instance observations conforming to this ObservationDefinition.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param permittedDataType
          *     Quantity | CodeableConcept | string | boolean | integer | Range | Ratio | SampledData | time | dateTime | Period
@@ -722,9 +648,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Multiple results allowed for observations conforming to this ObservationDefinition.
-         * </p>
          * 
          * @param multipleResultsAllowed
          *     Multiple results allowed
@@ -738,9 +662,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The method or technique used to perform the observation.
-         * </p>
          * 
          * @param method
          *     Method used to produce the observation
@@ -754,9 +676,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The preferred name to be used when reporting the results of observations conforming to this ObservationDefinition.
-         * </p>
          * 
          * @param preferredReportName
          *     Preferred report name
@@ -770,9 +690,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Characteristics for quantitative results of this observation.
-         * </p>
          * 
          * @param quantitativeDetails
          *     Characteristics of quantitative results
@@ -786,13 +704,10 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Multiple ranges of results qualified by different contexts for ordinal or continuous observations conforming to this 
          * ObservationDefinition.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param qualifiedInterval
          *     Qualified range for continuous and ordinal observation results
@@ -808,13 +723,10 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Multiple ranges of results qualified by different contexts for ordinal or continuous observations conforming to this 
          * ObservationDefinition.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param qualifiedInterval
          *     Qualified range for continuous and ordinal observation results
@@ -828,9 +740,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The set of valid coded results for the observations conforming to this ObservationDefinition.
-         * </p>
          * 
          * @param validCodedValueSet
          *     Value set of valid coded values for the observations conforming to this ObservationDefinition
@@ -844,9 +754,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The set of normal coded results for the observations conforming to this ObservationDefinition.
-         * </p>
          * 
          * @param normalCodedValueSet
          *     Value set of normal coded values for the observations conforming to this ObservationDefinition
@@ -860,9 +768,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The set of abnormal coded results for the observation conforming to this ObservationDefinition.
-         * </p>
          * 
          * @param abnormalCodedValueSet
          *     Value set of abnormal coded values for the observations conforming to this ObservationDefinition
@@ -876,9 +782,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The set of critical coded results for the observation conforming to this ObservationDefinition.
-         * </p>
          * 
          * @param criticalCodedValueSet
          *     Value set of critical coded values for the observations conforming to this ObservationDefinition
@@ -891,6 +795,17 @@ public class ObservationDefinition extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link ObservationDefinition}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>code</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link ObservationDefinition}
+         */
         @Override
         public ObservationDefinition build() {
             return new ObservationDefinition(this);
@@ -916,9 +831,7 @@ public class ObservationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Characteristics for quantitative results of this observation.
-     * </p>
      */
     public static class QuantitativeDetails extends BackboneElement {
         private final CodeableConcept customaryUnit;
@@ -938,9 +851,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Customary unit used to report quantitative results of observations conforming to this ObservationDefinition.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -950,9 +861,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * SI unit used to report quantitative results of observations conforming to this ObservationDefinition.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -962,9 +871,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Factor for converting value expressed with SI unit to value expressed with customary unit.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -974,9 +881,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Number of digits after decimal separator when the results of such observations are of type Quantity.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Integer}.
@@ -1070,10 +975,8 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1087,15 +990,12 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1109,15 +1009,12 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1131,21 +1028,17 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1159,21 +1052,17 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1187,9 +1076,7 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Customary unit used to report quantitative results of observations conforming to this ObservationDefinition.
-             * </p>
              * 
              * @param customaryUnit
              *     Customary unit for quantitative results
@@ -1203,9 +1090,7 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * SI unit used to report quantitative results of observations conforming to this ObservationDefinition.
-             * </p>
              * 
              * @param unit
              *     SI unit for quantitative results
@@ -1219,9 +1104,7 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Factor for converting value expressed with SI unit to value expressed with customary unit.
-             * </p>
              * 
              * @param conversionFactor
              *     SI to Customary unit conversion factor
@@ -1235,9 +1118,7 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Number of digits after decimal separator when the results of such observations are of type Quantity.
-             * </p>
              * 
              * @param decimalPrecision
              *     Decimal precision of observation quantitative results
@@ -1250,6 +1131,12 @@ public class ObservationDefinition extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link QuantitativeDetails}
+             * 
+             * @return
+             *     An immutable object of type {@link QuantitativeDetails}
+             */
             @Override
             public QuantitativeDetails build() {
                 return new QuantitativeDetails(this);
@@ -1267,10 +1154,8 @@ public class ObservationDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Multiple ranges of results qualified by different contexts for ordinal or continuous observations conforming to this 
      * ObservationDefinition.
-     * </p>
      */
     public static class QualifiedInterval extends BackboneElement {
         private final ObservationRangeCategory category;
@@ -1298,9 +1183,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The category of interval of values for continuous or ordinal observations conforming to this ObservationDefinition.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ObservationRangeCategory}.
@@ -1310,9 +1193,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The low and high values determining the interval. There may be only one of the two.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Range}.
@@ -1322,9 +1203,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Codes to indicate the health context the range applies to. For example, the normal or therapeutic range.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1334,9 +1213,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Codes to indicate the target population this reference range applies to.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1346,9 +1223,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Sex of the population the range applies to.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link AdministrativeGender}.
@@ -1358,10 +1233,8 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The age at which this reference range is applicable. This is a neonatal age (e.g. number of weeks at term) if the 
          * meaning says so.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Range}.
@@ -1371,9 +1244,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The gestational age to which this reference range is applicable, in the context of pregnancy.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Range}.
@@ -1383,9 +1254,7 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Text based condition for which the reference range is valid.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1499,10 +1368,8 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1516,15 +1383,12 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1538,15 +1402,12 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1560,21 +1421,17 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1588,21 +1445,17 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1616,9 +1469,7 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The category of interval of values for continuous or ordinal observations conforming to this ObservationDefinition.
-             * </p>
              * 
              * @param category
              *     reference | critical | absolute
@@ -1632,9 +1483,7 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The low and high values determining the interval. There may be only one of the two.
-             * </p>
              * 
              * @param range
              *     The interval itself, for continuous or ordinal observations
@@ -1648,9 +1497,7 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Codes to indicate the health context the range applies to. For example, the normal or therapeutic range.
-             * </p>
              * 
              * @param context
              *     Range context qualifier
@@ -1664,12 +1511,9 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Codes to indicate the target population this reference range applies to.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param appliesTo
              *     Targetted population of the range
@@ -1685,12 +1529,9 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Codes to indicate the target population this reference range applies to.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param appliesTo
              *     Targetted population of the range
@@ -1704,9 +1545,7 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Sex of the population the range applies to.
-             * </p>
              * 
              * @param gender
              *     male | female | other | unknown
@@ -1720,10 +1559,8 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The age at which this reference range is applicable. This is a neonatal age (e.g. number of weeks at term) if the 
              * meaning says so.
-             * </p>
              * 
              * @param age
              *     Applicable age range, if relevant
@@ -1737,9 +1574,7 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The gestational age to which this reference range is applicable, in the context of pregnancy.
-             * </p>
              * 
              * @param gestationalAge
              *     Applicable gestational age range, if relevant
@@ -1753,9 +1588,7 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Text based condition for which the reference range is valid.
-             * </p>
              * 
              * @param condition
              *     Condition associated with the reference range
@@ -1768,6 +1601,12 @@ public class ObservationDefinition extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link QualifiedInterval}
+             * 
+             * @return
+             *     An immutable object of type {@link QualifiedInterval}
+             */
             @Override
             public QualifiedInterval build() {
                 return new QualifiedInterval(this);

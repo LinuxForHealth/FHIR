@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Attachment;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -36,16 +37,15 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A reference to a document of any kind for any purpose. Provides metadata about the document so that the document can 
  * be discovered and managed. The scope of a document is any seralized object with a mime-type, so includes formal 
  * patient centric documents (CDA), cliical notes, scanned paper, and non-patient specific documents like policy text.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class DocumentReference extends DomainResource {
     private final Identifier masterIdentifier;
     private final List<Identifier> identifier;
+    @Required
     private final DocumentReferenceStatus status;
     private final ReferredDocumentStatus docStatus;
     private final CodeableConcept type;
@@ -58,6 +58,7 @@ public class DocumentReference extends DomainResource {
     private final List<RelatesTo> relatesTo;
     private final String description;
     private final List<CodeableConcept> securityLabel;
+    @Required
     private final List<Content> content;
     private final Context context;
 
@@ -84,10 +85,8 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * Document identifier as assigned by the source of the document. This identifier is specific to this version of the 
      * document. This unique identifier may be used elsewhere to identify this version of the document.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Identifier}.
@@ -97,9 +96,7 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * Other identifiers associated with the document, including version independent identifiers.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -109,9 +106,7 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of this document reference.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DocumentReferenceStatus}.
@@ -121,9 +116,7 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of the underlying document.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ReferredDocumentStatus}.
@@ -133,10 +126,8 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * Specifies the particular kind of document referenced (e.g. History and Physical, Discharge Summary, Progress Note). 
      * This usually equates to the purpose of making the document referenced.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -146,10 +137,8 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * A categorization for the type of document referenced - helps for indexing and searching. This may be implied by or 
      * derived from the code specified in the DocumentReference.type.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -159,11 +148,9 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * Who or what the document is about. The document can be about a person, (patient or healthcare practitioner), a device 
      * (e.g. a machine) or even a group of subjects (such as a document about a herd of farm animals, or a set of patients 
      * that share a common exposure).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -173,9 +160,7 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * When the document reference was created.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Instant}.
@@ -185,9 +170,7 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies who is responsible for adding the information to the document.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -197,9 +180,7 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * Which person or organization authenticates that this document is valid.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -209,9 +190,7 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the organization or group who is responsible for ongoing maintenance of and access to the document.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -221,9 +200,7 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * Relationships that this document has with other document references that already exist.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link RelatesTo}.
@@ -233,9 +210,7 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * Human-readable description of the source document.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -245,11 +220,9 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * A set of Security-Tag codes specifying the level of privacy/security of the Document. Note that DocumentReference.meta.
      * security contains the security labels of the "reference" to the document, while DocumentReference.securityLabel 
      * contains a snapshot of the security labels on the document the reference refers to.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -259,9 +232,7 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * The document and format referenced. There may be multiple content element repetitions, each with a different format.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Content}.
@@ -271,9 +242,7 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * The clinical context in which the document was prepared.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Context}.
@@ -421,9 +390,7 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -437,10 +404,8 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -454,11 +419,9 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -472,9 +435,7 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -488,12 +449,10 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -507,13 +466,10 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -527,13 +483,10 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -547,15 +500,12 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -569,15 +519,12 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -591,21 +538,17 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -619,21 +562,17 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -647,10 +586,8 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * Document identifier as assigned by the source of the document. This identifier is specific to this version of the 
          * document. This unique identifier may be used elsewhere to identify this version of the document.
-         * </p>
          * 
          * @param masterIdentifier
          *     Master Version Specific Identifier
@@ -664,12 +601,9 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * Other identifiers associated with the document, including version independent identifiers.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Other identifiers for the document
@@ -685,12 +619,9 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * Other identifiers associated with the document, including version independent identifiers.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Other identifiers for the document
@@ -704,9 +635,9 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of this document reference.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     current | superseded | entered-in-error
@@ -720,9 +651,7 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of the underlying document.
-         * </p>
          * 
          * @param docStatus
          *     preliminary | final | appended | amended | entered-in-error
@@ -736,10 +665,8 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * Specifies the particular kind of document referenced (e.g. History and Physical, Discharge Summary, Progress Note). 
          * This usually equates to the purpose of making the document referenced.
-         * </p>
          * 
          * @param type
          *     Kind of document (LOINC if possible)
@@ -753,13 +680,10 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * A categorization for the type of document referenced - helps for indexing and searching. This may be implied by or 
          * derived from the code specified in the DocumentReference.type.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param category
          *     Categorization of document
@@ -775,13 +699,10 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * A categorization for the type of document referenced - helps for indexing and searching. This may be implied by or 
          * derived from the code specified in the DocumentReference.type.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param category
          *     Categorization of document
@@ -795,11 +716,9 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * Who or what the document is about. The document can be about a person, (patient or healthcare practitioner), a device 
          * (e.g. a machine) or even a group of subjects (such as a document about a herd of farm animals, or a set of patients 
          * that share a common exposure).
-         * </p>
          * 
          * @param subject
          *     Who/what is the subject of the document
@@ -813,9 +732,7 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * When the document reference was created.
-         * </p>
          * 
          * @param date
          *     When this document reference was created
@@ -829,12 +746,9 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies who is responsible for adding the information to the document.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param author
          *     Who and/or what authored the document
@@ -850,12 +764,9 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies who is responsible for adding the information to the document.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param author
          *     Who and/or what authored the document
@@ -869,9 +780,7 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * Which person or organization authenticates that this document is valid.
-         * </p>
          * 
          * @param authenticator
          *     Who/what authenticated the document
@@ -885,9 +794,7 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the organization or group who is responsible for ongoing maintenance of and access to the document.
-         * </p>
          * 
          * @param custodian
          *     Organization which maintains the document
@@ -901,12 +808,9 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * Relationships that this document has with other document references that already exist.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param relatesTo
          *     Relationships to other documents
@@ -922,12 +826,9 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * Relationships that this document has with other document references that already exist.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param relatesTo
          *     Relationships to other documents
@@ -941,9 +842,7 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * Human-readable description of the source document.
-         * </p>
          * 
          * @param description
          *     Human-readable description
@@ -957,14 +856,11 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * A set of Security-Tag codes specifying the level of privacy/security of the Document. Note that DocumentReference.meta.
          * security contains the security labels of the "reference" to the document, while DocumentReference.securityLabel 
          * contains a snapshot of the security labels on the document the reference refers to.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param securityLabel
          *     Document security-tags
@@ -980,14 +876,11 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * A set of Security-Tag codes specifying the level of privacy/security of the Document. Note that DocumentReference.meta.
          * security contains the security labels of the "reference" to the document, while DocumentReference.securityLabel 
          * contains a snapshot of the security labels on the document the reference refers to.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param securityLabel
          *     Document security-tags
@@ -1001,12 +894,11 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * The document and format referenced. There may be multiple content element repetitions, each with a different format.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is required.
          * 
          * @param content
          *     Document referenced
@@ -1022,12 +914,11 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * The document and format referenced. There may be multiple content element repetitions, each with a different format.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is required.
          * 
          * @param content
          *     Document referenced
@@ -1041,9 +932,7 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * The clinical context in which the document was prepared.
-         * </p>
          * 
          * @param context
          *     Clinical context of document
@@ -1056,6 +945,18 @@ public class DocumentReference extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link DocumentReference}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>content</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link DocumentReference}
+         */
         @Override
         public DocumentReference build() {
             return new DocumentReference(this);
@@ -1084,12 +985,12 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * Relationships that this document has with other document references that already exist.
-     * </p>
      */
     public static class RelatesTo extends BackboneElement {
+        @Required
         private final DocumentRelationshipType code;
+        @Required
         private final Reference target;
 
         private volatile int hashCode;
@@ -1102,9 +1003,7 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of relationship that this document has with anther document.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DocumentRelationshipType}.
@@ -1114,9 +1013,7 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * The target document of this relationship.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1200,10 +1097,8 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1217,15 +1112,12 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1239,15 +1131,12 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1261,21 +1150,17 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1289,21 +1174,17 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1317,9 +1198,9 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of relationship that this document has with anther document.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param code
              *     replaces | transforms | signs | appends
@@ -1333,9 +1214,9 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * The target document of this relationship.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param target
              *     Target of the relationship
@@ -1348,6 +1229,18 @@ public class DocumentReference extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link RelatesTo}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>code</li>
+             * <li>target</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link RelatesTo}
+             */
             @Override
             public RelatesTo build() {
                 return new RelatesTo(this);
@@ -1363,11 +1256,10 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * The document and format referenced. There may be multiple content element repetitions, each with a different format.
-     * </p>
      */
     public static class Content extends BackboneElement {
+        @Required
         private final Attachment attachment;
         private final Coding format;
 
@@ -1381,9 +1273,7 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * The document or URL of the document along with critical metadata to prove content has integrity.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Attachment}.
@@ -1393,10 +1283,8 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * An identifier of the document encoding, structure, and template that the document conforms to beyond the base format 
          * indicated in the mimeType.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Coding}.
@@ -1480,10 +1368,8 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1497,15 +1383,12 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1519,15 +1402,12 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1541,21 +1421,17 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1569,21 +1445,17 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1597,9 +1469,9 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * The document or URL of the document along with critical metadata to prove content has integrity.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param attachment
              *     Where to access the document
@@ -1613,10 +1485,8 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * An identifier of the document encoding, structure, and template that the document conforms to beyond the base format 
              * indicated in the mimeType.
-             * </p>
              * 
              * @param format
              *     Format/content rules for the document
@@ -1629,6 +1499,17 @@ public class DocumentReference extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Content}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>attachment</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Content}
+             */
             @Override
             public Content build() {
                 return new Content(this);
@@ -1644,9 +1525,7 @@ public class DocumentReference extends DomainResource {
     }
 
     /**
-     * <p>
      * The clinical context in which the document was prepared.
-     * </p>
      */
     public static class Context extends BackboneElement {
         private final List<Reference> encounter;
@@ -1672,9 +1551,7 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the clinical encounter or type of care that the document content is associated with.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -1684,11 +1561,9 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * This list of codes represents the main clinical acts, such as a colonoscopy or an appendectomy, being documented. In 
          * some cases, the event is inherent in the type Code, such as a "History and Physical Report" in which the procedure 
          * being documented is necessarily a "History and Physical" act.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1698,9 +1573,7 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * The time period over which the service that is described by the document was provided.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Period}.
@@ -1710,9 +1583,7 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * The kind of facility where the patient was seen.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1722,10 +1593,8 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * This property may convey specifics about the practice setting where the content was created, often reflecting the 
          * clinical specialty.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1735,10 +1604,8 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * The Patient Information as known when the document was published. May be a reference to a version specific, or 
          * contained.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1748,9 +1615,7 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * <p>
          * Related identifiers or resources associated with the DocumentReference.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -1859,10 +1724,8 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1876,15 +1739,12 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1898,15 +1758,12 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1920,21 +1777,17 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1948,21 +1801,17 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1976,12 +1825,9 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * Describes the clinical encounter or type of care that the document content is associated with.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param encounter
              *     Context of the document content
@@ -1997,12 +1843,9 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * Describes the clinical encounter or type of care that the document content is associated with.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param encounter
              *     Context of the document content
@@ -2016,14 +1859,11 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * This list of codes represents the main clinical acts, such as a colonoscopy or an appendectomy, being documented. In 
              * some cases, the event is inherent in the type Code, such as a "History and Physical Report" in which the procedure 
              * being documented is necessarily a "History and Physical" act.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param event
              *     Main clinical acts documented
@@ -2039,14 +1879,11 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * This list of codes represents the main clinical acts, such as a colonoscopy or an appendectomy, being documented. In 
              * some cases, the event is inherent in the type Code, such as a "History and Physical Report" in which the procedure 
              * being documented is necessarily a "History and Physical" act.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param event
              *     Main clinical acts documented
@@ -2060,9 +1897,7 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * The time period over which the service that is described by the document was provided.
-             * </p>
              * 
              * @param period
              *     Time of service that is being documented
@@ -2076,9 +1911,7 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * The kind of facility where the patient was seen.
-             * </p>
              * 
              * @param facilityType
              *     Kind of facility where patient was seen
@@ -2092,10 +1925,8 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * This property may convey specifics about the practice setting where the content was created, often reflecting the 
              * clinical specialty.
-             * </p>
              * 
              * @param practiceSetting
              *     Additional details about where the content was created (e.g. clinical specialty)
@@ -2109,10 +1940,8 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * The Patient Information as known when the document was published. May be a reference to a version specific, or 
              * contained.
-             * </p>
              * 
              * @param sourcePatientInfo
              *     Patient demographics from source
@@ -2126,12 +1955,9 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * Related identifiers or resources associated with the DocumentReference.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param related
              *     Related identifiers or resources
@@ -2147,12 +1973,9 @@ public class DocumentReference extends DomainResource {
             }
 
             /**
-             * <p>
              * Related identifiers or resources associated with the DocumentReference.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param related
              *     Related identifiers or resources
@@ -2165,6 +1988,12 @@ public class DocumentReference extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Context}
+             * 
+             * @return
+             *     An immutable object of type {@link Context}
+             */
             @Override
             public Context build() {
                 return new Context(this);

@@ -11,17 +11,17 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.RelatedArtifactType;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Related artifacts such as additional documentation, justification, or bibliographic references.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class RelatedArtifact extends Element {
+    @Required
     private final RelatedArtifactType type;
     private final String label;
     private final String display;
@@ -45,9 +45,7 @@ public class RelatedArtifact extends Element {
     }
 
     /**
-     * <p>
      * The type of relationship to the related artifact.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link RelatedArtifactType}.
@@ -57,10 +55,8 @@ public class RelatedArtifact extends Element {
     }
 
     /**
-     * <p>
      * A short label that can be used to reference the citation from elsewhere in the containing artifact, such as a footnote 
      * index.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -70,9 +66,7 @@ public class RelatedArtifact extends Element {
     }
 
     /**
-     * <p>
      * A brief description of the document or knowledge resource being referenced, suitable for display to a consumer.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -82,10 +76,8 @@ public class RelatedArtifact extends Element {
     }
 
     /**
-     * <p>
      * A bibliographic citation for the related artifact. This text SHOULD be formatted according to an accepted citation 
      * format.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -95,9 +87,7 @@ public class RelatedArtifact extends Element {
     }
 
     /**
-     * <p>
      * A url for the artifact that can be followed to access the actual content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Url}.
@@ -107,9 +97,7 @@ public class RelatedArtifact extends Element {
     }
 
     /**
-     * <p>
      * The document being referenced, represented as an attachment. This is exclusive with the resource element.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Attachment}.
@@ -119,9 +107,7 @@ public class RelatedArtifact extends Element {
     }
 
     /**
-     * <p>
      * The related resource, such as a library, value set, profile, or other knowledge resource.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Canonical}.
@@ -227,10 +213,8 @@ public class RelatedArtifact extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -244,15 +228,12 @@ public class RelatedArtifact extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -266,15 +247,12 @@ public class RelatedArtifact extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -288,9 +266,9 @@ public class RelatedArtifact extends Element {
         }
 
         /**
-         * <p>
          * The type of relationship to the related artifact.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     documentation | justification | citation | predecessor | successor | derived-from | depends-on | composed-of
@@ -304,10 +282,8 @@ public class RelatedArtifact extends Element {
         }
 
         /**
-         * <p>
          * A short label that can be used to reference the citation from elsewhere in the containing artifact, such as a footnote 
          * index.
-         * </p>
          * 
          * @param label
          *     Short label
@@ -321,9 +297,7 @@ public class RelatedArtifact extends Element {
         }
 
         /**
-         * <p>
          * A brief description of the document or knowledge resource being referenced, suitable for display to a consumer.
-         * </p>
          * 
          * @param display
          *     Brief description of the related artifact
@@ -337,10 +311,8 @@ public class RelatedArtifact extends Element {
         }
 
         /**
-         * <p>
          * A bibliographic citation for the related artifact. This text SHOULD be formatted according to an accepted citation 
          * format.
-         * </p>
          * 
          * @param citation
          *     Bibliographic citation for the artifact
@@ -354,9 +326,7 @@ public class RelatedArtifact extends Element {
         }
 
         /**
-         * <p>
          * A url for the artifact that can be followed to access the actual content.
-         * </p>
          * 
          * @param url
          *     Where the artifact can be accessed
@@ -370,9 +340,7 @@ public class RelatedArtifact extends Element {
         }
 
         /**
-         * <p>
          * The document being referenced, represented as an attachment. This is exclusive with the resource element.
-         * </p>
          * 
          * @param document
          *     What document is being referenced
@@ -386,9 +354,7 @@ public class RelatedArtifact extends Element {
         }
 
         /**
-         * <p>
          * The related resource, such as a library, value set, profile, or other knowledge resource.
-         * </p>
          * 
          * @param resource
          *     What resource is being referenced
@@ -401,6 +367,17 @@ public class RelatedArtifact extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link RelatedArtifact}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>type</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link RelatedArtifact}
+         */
         @Override
         public RelatedArtifact build() {
             return new RelatedArtifact(this);

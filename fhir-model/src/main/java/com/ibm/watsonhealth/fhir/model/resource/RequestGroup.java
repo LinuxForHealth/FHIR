@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.ActionCardinalityBehavior;
 import com.ibm.watsonhealth.fhir.model.type.ActionConditionKind;
 import com.ibm.watsonhealth.fhir.model.type.ActionGroupingBehavior;
@@ -51,10 +53,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A group of related requests that can be used to capture intended activities that have inter-dependencies such as "give 
  * this medication after that one".
- * </p>
  */
 @Constraint(
     id = "rqg-1",
@@ -71,7 +71,9 @@ public class RequestGroup extends DomainResource {
     private final List<Reference> basedOn;
     private final List<Reference> replaces;
     private final Identifier groupIdentifier;
+    @Required
     private final RequestStatus status;
+    @Required
     private final RequestIntent intent;
     private final RequestPriority priority;
     private final CodeableConcept code;
@@ -109,9 +111,7 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * Allows a service to provide a unique, business identifier for the request.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -121,10 +121,8 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * A canonical URL referencing a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in 
      * whole or in part by this request.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -134,10 +132,8 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * A URL referencing an externally defined protocol, guideline, orderset or other definition that is adhered to in whole 
      * or in part by this request.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Uri}.
@@ -147,9 +143,7 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * A plan, proposal or order that is fulfilled in whole or in part by this request.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -159,9 +153,7 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * Completed or terminated request(s) whose function is taken by this new request.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -171,10 +163,8 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * A shared identifier common to all requests that were authorized more or less simultaneously by a single author, 
      * representing the identifier of the requisition, prescription or similar form.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Identifier}.
@@ -184,9 +174,7 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * The current state of the request. For request groups, the status reflects the status of all the requests in the group.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link RequestStatus}.
@@ -196,10 +184,8 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the level of authority/intentionality associated with the request and where the request fits into the 
      * workflow chain.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link RequestIntent}.
@@ -209,9 +195,7 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates how quickly the request should be addressed with respect to other requests.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link RequestPriority}.
@@ -221,9 +205,7 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * A code that identifies what the overall request group is.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -233,9 +215,7 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * The subject for which the request group was created.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -245,9 +225,7 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes the context of the request group, if any.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -257,9 +235,7 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates when the request group was created.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -269,9 +245,7 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * Provides a reference to the author of the request group.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -281,9 +255,7 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes the reason for the request group in coded or textual form.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -293,9 +265,7 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates another resource whose existence justifies this request group.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -305,9 +275,7 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * Provides a mechanism to communicate additional information about the response.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -317,9 +285,7 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * The actions, if any, produced by the evaluation of the artifact.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Action}.
@@ -475,9 +441,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -491,10 +455,8 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -508,11 +470,9 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -526,9 +486,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -542,12 +500,10 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -561,13 +517,10 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -581,13 +534,10 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -601,15 +551,12 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -623,15 +570,12 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -645,21 +589,17 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -673,21 +613,17 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -701,12 +637,9 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Allows a service to provide a unique, business identifier for the request.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Business identifier
@@ -722,12 +655,9 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Allows a service to provide a unique, business identifier for the request.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Business identifier
@@ -741,13 +671,10 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * A canonical URL referencing a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this request.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -763,13 +690,10 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * A canonical URL referencing a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this request.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -783,13 +707,10 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * A URL referencing an externally defined protocol, guideline, orderset or other definition that is adhered to in whole 
          * or in part by this request.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -805,13 +726,10 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * A URL referencing an externally defined protocol, guideline, orderset or other definition that is adhered to in whole 
          * or in part by this request.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -825,12 +743,9 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * A plan, proposal or order that is fulfilled in whole or in part by this request.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param basedOn
          *     Fulfills plan, proposal, or order
@@ -846,12 +761,9 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * A plan, proposal or order that is fulfilled in whole or in part by this request.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param basedOn
          *     Fulfills plan, proposal, or order
@@ -865,12 +777,9 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Completed or terminated request(s) whose function is taken by this new request.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param replaces
          *     Request(s) replaced by this request
@@ -886,12 +795,9 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Completed or terminated request(s) whose function is taken by this new request.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param replaces
          *     Request(s) replaced by this request
@@ -905,10 +811,8 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * A shared identifier common to all requests that were authorized more or less simultaneously by a single author, 
          * representing the identifier of the requisition, prescription or similar form.
-         * </p>
          * 
          * @param groupIdentifier
          *     Composite request this is part of
@@ -922,9 +826,9 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * The current state of the request. For request groups, the status reflects the status of all the requests in the group.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | suspended | cancelled | completed | entered-in-error | unknown
@@ -938,10 +842,10 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the level of authority/intentionality associated with the request and where the request fits into the 
          * workflow chain.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param intent
          *     proposal | plan | order
@@ -955,9 +859,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates how quickly the request should be addressed with respect to other requests.
-         * </p>
          * 
          * @param priority
          *     routine | urgent | asap | stat
@@ -971,9 +873,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * A code that identifies what the overall request group is.
-         * </p>
          * 
          * @param code
          *     What's being requested/ordered
@@ -987,9 +887,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * The subject for which the request group was created.
-         * </p>
          * 
          * @param subject
          *     Who the request group is about
@@ -1003,9 +901,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the context of the request group, if any.
-         * </p>
          * 
          * @param encounter
          *     Created as part of
@@ -1019,9 +915,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates when the request group was created.
-         * </p>
          * 
          * @param authoredOn
          *     When the request group was authored
@@ -1035,9 +929,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Provides a reference to the author of the request group.
-         * </p>
          * 
          * @param author
          *     Device or practitioner that authored the request group
@@ -1051,12 +943,9 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the reason for the request group in coded or textual form.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonCode
          *     Why the request group is needed
@@ -1072,12 +961,9 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the reason for the request group in coded or textual form.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonCode
          *     Why the request group is needed
@@ -1091,12 +977,9 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates another resource whose existence justifies this request group.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonReference
          *     Why the request group is needed
@@ -1112,12 +995,9 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates another resource whose existence justifies this request group.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonReference
          *     Why the request group is needed
@@ -1131,12 +1011,9 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Provides a mechanism to communicate additional information about the response.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     Additional notes about the response
@@ -1152,12 +1029,9 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Provides a mechanism to communicate additional information about the response.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     Additional notes about the response
@@ -1171,12 +1045,9 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * The actions, if any, produced by the evaluation of the artifact.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param action
          *     Proposed actions, if any
@@ -1192,12 +1063,9 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * The actions, if any, produced by the evaluation of the artifact.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param action
          *     Proposed actions, if any
@@ -1210,6 +1078,18 @@ public class RequestGroup extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link RequestGroup}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>intent</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link RequestGroup}
+         */
         @Override
         public RequestGroup build() {
             return new RequestGroup(this);
@@ -1240,9 +1120,7 @@ public class RequestGroup extends DomainResource {
     }
 
     /**
-     * <p>
      * The actions, if any, produced by the evaluation of the artifact.
-     * </p>
      */
     public static class Action extends BackboneElement {
         private final String prefix;
@@ -1254,6 +1132,7 @@ public class RequestGroup extends DomainResource {
         private final List<RelatedArtifact> documentation;
         private final List<Condition> condition;
         private final List<RelatedAction> relatedAction;
+        @Choice({DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class})
         private final Element timing;
         private final List<Reference> participant;
         private final CodeableConcept type;
@@ -1292,9 +1171,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * A user-visible prefix for the action.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1304,9 +1181,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * The title of the action displayed to a user.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1316,9 +1191,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * A short description of the action used to provide a summary to display to the user.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1328,10 +1201,8 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * A text equivalent of the action to be performed. This provides a human-interpretable description of the action when 
          * the definition is consumed by a system that might not be capable of interpreting it dynamically.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1341,9 +1212,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates how quickly the action should be addressed with respect to other actions.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link RequestPriority}.
@@ -1353,10 +1222,8 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * A code that provides meaning for the action or action group. For example, a section may have a LOINC code for a 
          * section of a documentation template.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1366,10 +1233,8 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Didactic or other informational resources associated with the action that can be provided to the CDS recipient. 
          * Information resources can include inline text commentary and links to web resources.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
@@ -1379,9 +1244,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * An expression that describes applicability criteria, or start/stop conditions for the action.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Condition}.
@@ -1391,9 +1254,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * A relationship to another action such as "before" or "30-60 minutes after start of".
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link RelatedAction}.
@@ -1403,9 +1264,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * An optional value describing when the action should be performed.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -1415,9 +1274,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * The participant that should perform or be responsible for this action.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -1427,9 +1284,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of action to perform (create, update, remove).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1439,9 +1294,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines the grouping behavior for the action and its children.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ActionGroupingBehavior}.
@@ -1451,9 +1304,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines the selection behavior for the action and its children.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ActionSelectionBehavior}.
@@ -1463,9 +1314,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines expectations around whether an action is required.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ActionRequiredBehavior}.
@@ -1475,9 +1324,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines whether the action should usually be preselected.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ActionPrecheckBehavior}.
@@ -1487,9 +1334,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines whether the action can be selected multiple times.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ActionCardinalityBehavior}.
@@ -1499,9 +1344,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * The resource that is the target of the action (e.g. CommunicationRequest).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1511,9 +1354,7 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * Sub actions.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Action}.
@@ -1682,10 +1523,8 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1699,15 +1538,12 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1721,15 +1557,12 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1743,21 +1576,17 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1771,21 +1600,17 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1799,9 +1624,7 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * A user-visible prefix for the action.
-             * </p>
              * 
              * @param prefix
              *     User-visible prefix for the action (e.g. 1. or A.)
@@ -1815,9 +1638,7 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * The title of the action displayed to a user.
-             * </p>
              * 
              * @param title
              *     User-visible title
@@ -1831,9 +1652,7 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * A short description of the action used to provide a summary to display to the user.
-             * </p>
              * 
              * @param description
              *     Short description of the action
@@ -1847,10 +1666,8 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * A text equivalent of the action to be performed. This provides a human-interpretable description of the action when 
              * the definition is consumed by a system that might not be capable of interpreting it dynamically.
-             * </p>
              * 
              * @param textEquivalent
              *     Static text equivalent of the action, used if the dynamic aspects cannot be interpreted by the receiving system
@@ -1864,9 +1681,7 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates how quickly the action should be addressed with respect to other actions.
-             * </p>
              * 
              * @param priority
              *     routine | urgent | asap | stat
@@ -1880,13 +1695,10 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * A code that provides meaning for the action or action group. For example, a section may have a LOINC code for a 
              * section of a documentation template.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param code
              *     Code representing the meaning of the action or sub-actions
@@ -1902,13 +1714,10 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * A code that provides meaning for the action or action group. For example, a section may have a LOINC code for a 
              * section of a documentation template.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param code
              *     Code representing the meaning of the action or sub-actions
@@ -1922,13 +1731,10 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * Didactic or other informational resources associated with the action that can be provided to the CDS recipient. 
              * Information resources can include inline text commentary and links to web resources.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param documentation
              *     Supporting documentation for the intended performer of the action
@@ -1944,13 +1750,10 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * Didactic or other informational resources associated with the action that can be provided to the CDS recipient. 
              * Information resources can include inline text commentary and links to web resources.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param documentation
              *     Supporting documentation for the intended performer of the action
@@ -1964,12 +1767,9 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * An expression that describes applicability criteria, or start/stop conditions for the action.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param condition
              *     Whether or not the action is applicable
@@ -1985,12 +1785,9 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * An expression that describes applicability criteria, or start/stop conditions for the action.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param condition
              *     Whether or not the action is applicable
@@ -2004,12 +1801,9 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * A relationship to another action such as "before" or "30-60 minutes after start of".
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param relatedAction
              *     Relationship to another action
@@ -2025,12 +1819,9 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * A relationship to another action such as "before" or "30-60 minutes after start of".
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param relatedAction
              *     Relationship to another action
@@ -2044,9 +1835,17 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * An optional value describing when the action should be performed.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link DateTime}</li>
+             * <li>{@link Age}</li>
+             * <li>{@link Period}</li>
+             * <li>{@link Duration}</li>
+             * <li>{@link Range}</li>
+             * <li>{@link Timing}</li>
+             * </ul>
              * 
              * @param timing
              *     When the action should take place
@@ -2060,12 +1859,9 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * The participant that should perform or be responsible for this action.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param participant
              *     Who should perform the action
@@ -2081,12 +1877,9 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * The participant that should perform or be responsible for this action.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param participant
              *     Who should perform the action
@@ -2100,9 +1893,7 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of action to perform (create, update, remove).
-             * </p>
              * 
              * @param type
              *     create | update | remove | fire-event
@@ -2116,9 +1907,7 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines the grouping behavior for the action and its children.
-             * </p>
              * 
              * @param groupingBehavior
              *     visual-group | logical-group | sentence-group
@@ -2132,9 +1921,7 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines the selection behavior for the action and its children.
-             * </p>
              * 
              * @param selectionBehavior
              *     any | all | all-or-none | exactly-one | at-most-one | one-or-more
@@ -2148,9 +1935,7 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines expectations around whether an action is required.
-             * </p>
              * 
              * @param requiredBehavior
              *     must | could | must-unless-documented
@@ -2164,9 +1949,7 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines whether the action should usually be preselected.
-             * </p>
              * 
              * @param precheckBehavior
              *     yes | no
@@ -2180,9 +1963,7 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines whether the action can be selected multiple times.
-             * </p>
              * 
              * @param cardinalityBehavior
              *     single | multiple
@@ -2196,9 +1977,7 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * The resource that is the target of the action (e.g. CommunicationRequest).
-             * </p>
              * 
              * @param resource
              *     The target of the action
@@ -2212,12 +1991,9 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * Sub actions.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param action
              *     Sub action
@@ -2233,12 +2009,9 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * Sub actions.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param action
              *     Sub action
@@ -2251,6 +2024,12 @@ public class RequestGroup extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Action}
+             * 
+             * @return
+             *     An immutable object of type {@link Action}
+             */
             @Override
             public Action build() {
                 return new Action(this);
@@ -2282,11 +2061,10 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * An expression that describes applicability criteria, or start/stop conditions for the action.
-         * </p>
          */
         public static class Condition extends BackboneElement {
+            @Required
             private final ActionConditionKind kind;
             private final Expression expression;
 
@@ -2300,9 +2078,7 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * The kind of condition.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link ActionConditionKind}.
@@ -2312,9 +2088,7 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * An expression that returns true or false, indicating whether or not the condition is satisfied.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Expression}.
@@ -2398,10 +2172,8 @@ public class RequestGroup extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2415,15 +2187,12 @@ public class RequestGroup extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2437,15 +2206,12 @@ public class RequestGroup extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2459,21 +2225,17 @@ public class RequestGroup extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2487,21 +2249,17 @@ public class RequestGroup extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2515,9 +2273,9 @@ public class RequestGroup extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The kind of condition.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param kind
                  *     applicability | start | stop
@@ -2531,9 +2289,7 @@ public class RequestGroup extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * An expression that returns true or false, indicating whether or not the condition is satisfied.
-                 * </p>
                  * 
                  * @param expression
                  *     Boolean-valued expression
@@ -2546,6 +2302,17 @@ public class RequestGroup extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Condition}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>kind</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Condition}
+                 */
                 @Override
                 public Condition build() {
                     return new Condition(this);
@@ -2561,13 +2328,14 @@ public class RequestGroup extends DomainResource {
         }
 
         /**
-         * <p>
          * A relationship to another action such as "before" or "30-60 minutes after start of".
-         * </p>
          */
         public static class RelatedAction extends BackboneElement {
+            @Required
             private final Id actionId;
+            @Required
             private final ActionRelationshipType relationship;
+            @Choice({Duration.class, Range.class})
             private final Element offset;
 
             private volatile int hashCode;
@@ -2581,9 +2349,7 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * The element id of the action this is related to.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Id}.
@@ -2593,9 +2359,7 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * The relationship of this action to the related action.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link ActionRelationshipType}.
@@ -2605,9 +2369,7 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * <p>
              * A duration or range of durations to apply to the relationship. For example, 30-60 minutes before.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -2696,10 +2458,8 @@ public class RequestGroup extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2713,15 +2473,12 @@ public class RequestGroup extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2735,15 +2492,12 @@ public class RequestGroup extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2757,21 +2511,17 @@ public class RequestGroup extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2785,21 +2535,17 @@ public class RequestGroup extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2813,9 +2559,9 @@ public class RequestGroup extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The element id of the action this is related to.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param actionId
                  *     What action this is related to
@@ -2829,9 +2575,9 @@ public class RequestGroup extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The relationship of this action to the related action.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param relationship
                  *     before-start | before | before-end | concurrent-with-start | concurrent | concurrent-with-end | after-start | after | 
@@ -2846,9 +2592,13 @@ public class RequestGroup extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A duration or range of durations to apply to the relationship. For example, 30-60 minutes before.
-                 * </p>
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link Duration}</li>
+                 * <li>{@link Range}</li>
+                 * </ul>
                  * 
                  * @param offset
                  *     Time offset for the relationship
@@ -2861,6 +2611,18 @@ public class RequestGroup extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link RelatedAction}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>actionId</li>
+                 * <li>relationship</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link RelatedAction}
+                 */
                 @Override
                 public RelatedAction build() {
                     return new RelatedAction(this);

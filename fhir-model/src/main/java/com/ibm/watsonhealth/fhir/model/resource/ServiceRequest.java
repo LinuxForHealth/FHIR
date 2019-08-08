@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -42,9 +44,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A record of a request for service such as diagnostic investigations, treatments, or operations to be performed.
- * </p>
  */
 @Constraint(
     id = "prr-1",
@@ -61,17 +61,23 @@ public class ServiceRequest extends DomainResource {
     private final List<Reference> basedOn;
     private final List<Reference> replaces;
     private final Identifier requisition;
+    @Required
     private final ServiceRequestStatus status;
+    @Required
     private final ServiceRequestIntent intent;
     private final List<CodeableConcept> category;
     private final ServiceRequestPriority priority;
     private final Boolean doNotPerform;
     private final CodeableConcept code;
     private final List<CodeableConcept> orderDetail;
+    @Choice({Quantity.class, Ratio.class, Range.class})
     private final Element quantity;
+    @Required
     private final Reference subject;
     private final Reference encounter;
+    @Choice({DateTime.class, Period.class, Timing.class})
     private final Element occurrence;
+    @Choice({Boolean.class, CodeableConcept.class})
     private final Element asNeeded;
     private final DateTime authoredOn;
     private final Reference requester;
@@ -129,9 +135,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifiers assigned to this order instance by the orderer and/or the receiver and/or order fulfiller.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -141,10 +145,8 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
      * part by this ServiceRequest.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -154,10 +156,8 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
      * whole or in part by this ServiceRequest.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Uri}.
@@ -167,9 +167,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Plan/proposal/order fulfilled by this request.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -179,9 +177,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The request takes the place of the referenced completed or terminated request(s).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -191,10 +187,8 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * A shared identifier common to all service requests that were authorized more or less simultaneously by a single 
      * author, representing the composite or group identifier.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Identifier}.
@@ -204,9 +198,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of the order.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ServiceRequestStatus}.
@@ -216,9 +208,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether the request is a proposal, plan, an original order or a reflex order.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ServiceRequestIntent}.
@@ -228,9 +218,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * A code that classifies the service for searching, sorting and display purposes (e.g. "Surgical Procedure").
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -240,9 +228,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates how quickly the ServiceRequest should be addressed with respect to other requests.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ServiceRequestPriority}.
@@ -252,9 +238,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Set this to true if the record is saying that the service/procedure should NOT be performed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -264,10 +248,8 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * A code that identifies a particular service (i.e., procedure, diagnostic investigation, or panel of investigations) 
      * that have been requested.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -277,11 +259,9 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Additional details and instructions about the how the services are to be delivered. For example, and order for a 
      * urinary catheter may have an order detail for an external or indwelling catheter, or an order for a bandage may 
      * require additional instructions specifying how the bandage should be applied.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -291,10 +271,8 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * An amount of service being requested which can be a quantity ( for example $1,500 home modification), a ratio ( for 
      * example, 20 half day visits per month), or a range (2.0 to 1.8 Gy per fraction).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -304,10 +282,8 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * On whom or what the service is to be performed. This is usually a human patient, but can also be requested on animals, 
      * groups of humans or animals, devices such as dialysis machines, or even locations (typically for environmental scans).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -317,9 +293,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * An encounter that provides additional information about the healthcare context in which this request is made.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -329,9 +303,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The date/time at which the requested service should occur.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -341,10 +313,8 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * If a CodeableConcept is present, it indicates the pre-condition for performing the service. For example "pain", "on 
      * flare-up", etc.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -354,9 +324,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * When the request transitioned to being actionable.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -366,9 +334,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The individual who initiated the request and has responsibility for its activation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -378,9 +344,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Desired type of performer for doing the requested service.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -390,9 +354,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The desired performer for doing the requested service. For example, the surgeon, dermatopathologist, endoscopist, etc.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -402,10 +364,8 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The preferred location(s) where the procedure should actually happen in coded or free text form. E.g. at home or 
      * nursing day care center.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -415,10 +375,8 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * A reference to the the preferred location(s) where the procedure should actually happen. E.g. at home or nursing day 
      * care center.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -428,10 +386,8 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * An explanation or justification for why this service is being requested in coded or textual form. This is often for 
      * billing purposes. May relate to the resources referred to in `supportingInfo`.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -441,10 +397,8 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates another resource that provides a justification for why this service is being requested. May relate to the 
      * resources referred to in `supportingInfo`.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -454,10 +408,8 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be needed for delivering 
      * the requested service.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -467,13 +419,11 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Additional clinical information about the patient or specimen that may influence the services or their 
      * interpretations. This information includes diagnosis, clinical findings and other observations. In laboratory ordering 
      * these are typically referred to as "ask at order entry questions (AOEs)". This includes observations explicitly 
      * requested by the producer (filler) to provide context or supporting information needed to complete the order. For 
      * example, reporting the amount of inspired oxygen for blood gas measurements.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -483,9 +433,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * One or more specimens that the laboratory procedure will use.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -495,9 +443,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Anatomic location where the procedure should be performed. This is the target site.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -507,9 +453,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Any other notes and comments made about the service request. For example, internal billing notes.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -519,9 +463,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Instructions in terms that are understood by the patient or consumer.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -531,9 +473,7 @@ public class ServiceRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Key events in the history of the request.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -749,9 +689,7 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -765,10 +703,8 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -782,11 +718,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -800,9 +734,7 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -816,12 +748,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -835,13 +765,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -855,13 +782,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -875,15 +799,12 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -897,15 +818,12 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -919,21 +837,17 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -947,21 +861,17 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -975,12 +885,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifiers assigned to this order instance by the orderer and/or the receiver and/or order fulfiller.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Identifiers assigned to this order
@@ -996,12 +903,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifiers assigned to this order instance by the orderer and/or the receiver and/or order fulfiller.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Identifiers assigned to this order
@@ -1015,13 +919,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
          * part by this ServiceRequest.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -1037,13 +938,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
          * part by this ServiceRequest.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -1057,13 +955,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this ServiceRequest.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -1079,13 +974,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this ServiceRequest.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -1099,12 +991,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Plan/proposal/order fulfilled by this request.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param basedOn
          *     What request fulfills
@@ -1120,12 +1009,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Plan/proposal/order fulfilled by this request.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param basedOn
          *     What request fulfills
@@ -1139,12 +1025,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The request takes the place of the referenced completed or terminated request(s).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param replaces
          *     What request replaces
@@ -1160,12 +1043,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The request takes the place of the referenced completed or terminated request(s).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param replaces
          *     What request replaces
@@ -1179,10 +1059,8 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A shared identifier common to all service requests that were authorized more or less simultaneously by a single 
          * author, representing the composite or group identifier.
-         * </p>
          * 
          * @param requisition
          *     Composite Request ID
@@ -1196,9 +1074,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of the order.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | suspended | completed | entered-in-error | cancelled
@@ -1212,9 +1090,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether the request is a proposal, plan, an original order or a reflex order.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param intent
          *     proposal | plan | order +
@@ -1228,12 +1106,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A code that classifies the service for searching, sorting and display purposes (e.g. "Surgical Procedure").
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param category
          *     Classification of service
@@ -1249,12 +1124,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A code that classifies the service for searching, sorting and display purposes (e.g. "Surgical Procedure").
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param category
          *     Classification of service
@@ -1268,9 +1140,7 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates how quickly the ServiceRequest should be addressed with respect to other requests.
-         * </p>
          * 
          * @param priority
          *     routine | urgent | asap | stat
@@ -1284,9 +1154,7 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Set this to true if the record is saying that the service/procedure should NOT be performed.
-         * </p>
          * 
          * @param doNotPerform
          *     True if service/procedure should not be performed
@@ -1300,10 +1168,8 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A code that identifies a particular service (i.e., procedure, diagnostic investigation, or panel of investigations) 
          * that have been requested.
-         * </p>
          * 
          * @param code
          *     What is being requested/ordered
@@ -1317,14 +1183,11 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional details and instructions about the how the services are to be delivered. For example, and order for a 
          * urinary catheter may have an order detail for an external or indwelling catheter, or an order for a bandage may 
          * require additional instructions specifying how the bandage should be applied.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param orderDetail
          *     Additional order information
@@ -1340,14 +1203,11 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional details and instructions about the how the services are to be delivered. For example, and order for a 
          * urinary catheter may have an order detail for an external or indwelling catheter, or an order for a bandage may 
          * require additional instructions specifying how the bandage should be applied.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param orderDetail
          *     Additional order information
@@ -1361,10 +1221,15 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * An amount of service being requested which can be a quantity ( for example $1,500 home modification), a ratio ( for 
          * example, 20 half day visits per month), or a range (2.0 to 1.8 Gy per fraction).
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Quantity}</li>
+         * <li>{@link Ratio}</li>
+         * <li>{@link Range}</li>
+         * </ul>
          * 
          * @param quantity
          *     Service amount
@@ -1378,10 +1243,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * On whom or what the service is to be performed. This is usually a human patient, but can also be requested on animals, 
          * groups of humans or animals, devices such as dialysis machines, or even locations (typically for environmental scans).
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param subject
          *     Individual or Entity the service is ordered for
@@ -1395,9 +1260,7 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * An encounter that provides additional information about the healthcare context in which this request is made.
-         * </p>
          * 
          * @param encounter
          *     Encounter in which the request was created
@@ -1411,9 +1274,14 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The date/time at which the requested service should occur.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link DateTime}</li>
+         * <li>{@link Period}</li>
+         * <li>{@link Timing}</li>
+         * </ul>
          * 
          * @param occurrence
          *     When service should occur
@@ -1427,10 +1295,14 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * If a CodeableConcept is present, it indicates the pre-condition for performing the service. For example "pain", "on 
          * flare-up", etc.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Boolean}</li>
+         * <li>{@link CodeableConcept}</li>
+         * </ul>
          * 
          * @param asNeeded
          *     Preconditions for service
@@ -1444,9 +1316,7 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * When the request transitioned to being actionable.
-         * </p>
          * 
          * @param authoredOn
          *     Date request signed
@@ -1460,9 +1330,7 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The individual who initiated the request and has responsibility for its activation.
-         * </p>
          * 
          * @param requester
          *     Who/what is requesting service
@@ -1476,9 +1344,7 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Desired type of performer for doing the requested service.
-         * </p>
          * 
          * @param performerType
          *     Performer role
@@ -1492,12 +1358,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The desired performer for doing the requested service. For example, the surgeon, dermatopathologist, endoscopist, etc.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param performer
          *     Requested performer
@@ -1513,12 +1376,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The desired performer for doing the requested service. For example, the surgeon, dermatopathologist, endoscopist, etc.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param performer
          *     Requested performer
@@ -1532,13 +1392,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The preferred location(s) where the procedure should actually happen in coded or free text form. E.g. at home or 
          * nursing day care center.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param locationCode
          *     Requested location
@@ -1554,13 +1411,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The preferred location(s) where the procedure should actually happen in coded or free text form. E.g. at home or 
          * nursing day care center.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param locationCode
          *     Requested location
@@ -1574,13 +1428,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to the the preferred location(s) where the procedure should actually happen. E.g. at home or nursing day 
          * care center.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param locationReference
          *     Requested location
@@ -1596,13 +1447,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to the the preferred location(s) where the procedure should actually happen. E.g. at home or nursing day 
          * care center.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param locationReference
          *     Requested location
@@ -1616,13 +1464,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * An explanation or justification for why this service is being requested in coded or textual form. This is often for 
          * billing purposes. May relate to the resources referred to in `supportingInfo`.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonCode
          *     Explanation/Justification for procedure or service
@@ -1638,13 +1483,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * An explanation or justification for why this service is being requested in coded or textual form. This is often for 
          * billing purposes. May relate to the resources referred to in `supportingInfo`.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonCode
          *     Explanation/Justification for procedure or service
@@ -1658,13 +1500,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates another resource that provides a justification for why this service is being requested. May relate to the 
          * resources referred to in `supportingInfo`.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonReference
          *     Explanation/Justification for service or service
@@ -1680,13 +1519,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates another resource that provides a justification for why this service is being requested. May relate to the 
          * resources referred to in `supportingInfo`.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonReference
          *     Explanation/Justification for service or service
@@ -1700,13 +1536,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be needed for delivering 
          * the requested service.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param insurance
          *     Associated insurance coverage
@@ -1722,13 +1555,10 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Insurance plans, coverage extensions, pre-authorizations and/or pre-determinations that may be needed for delivering 
          * the requested service.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param insurance
          *     Associated insurance coverage
@@ -1742,16 +1572,13 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional clinical information about the patient or specimen that may influence the services or their 
          * interpretations. This information includes diagnosis, clinical findings and other observations. In laboratory ordering 
          * these are typically referred to as "ask at order entry questions (AOEs)". This includes observations explicitly 
          * requested by the producer (filler) to provide context or supporting information needed to complete the order. For 
          * example, reporting the amount of inspired oxygen for blood gas measurements.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param supportingInfo
          *     Additional clinical information
@@ -1767,16 +1594,13 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional clinical information about the patient or specimen that may influence the services or their 
          * interpretations. This information includes diagnosis, clinical findings and other observations. In laboratory ordering 
          * these are typically referred to as "ask at order entry questions (AOEs)". This includes observations explicitly 
          * requested by the producer (filler) to provide context or supporting information needed to complete the order. For 
          * example, reporting the amount of inspired oxygen for blood gas measurements.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param supportingInfo
          *     Additional clinical information
@@ -1790,12 +1614,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * One or more specimens that the laboratory procedure will use.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param specimen
          *     Procedure Samples
@@ -1811,12 +1632,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * One or more specimens that the laboratory procedure will use.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param specimen
          *     Procedure Samples
@@ -1830,12 +1648,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Anatomic location where the procedure should be performed. This is the target site.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param bodySite
          *     Location on Body
@@ -1851,12 +1666,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Anatomic location where the procedure should be performed. This is the target site.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param bodySite
          *     Location on Body
@@ -1870,12 +1682,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Any other notes and comments made about the service request. For example, internal billing notes.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     Comments
@@ -1891,12 +1700,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Any other notes and comments made about the service request. For example, internal billing notes.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     Comments
@@ -1910,9 +1716,7 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Instructions in terms that are understood by the patient or consumer.
-         * </p>
          * 
          * @param patientInstruction
          *     Patient or consumer-oriented instructions
@@ -1926,12 +1730,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Key events in the history of the request.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param relevantHistory
          *     Request provenance
@@ -1947,12 +1748,9 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Key events in the history of the request.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param relevantHistory
          *     Request provenance
@@ -1965,6 +1763,19 @@ public class ServiceRequest extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link ServiceRequest}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>intent</li>
+         * <li>subject</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link ServiceRequest}
+         */
         @Override
         public ServiceRequest build() {
             return new ServiceRequest(this);

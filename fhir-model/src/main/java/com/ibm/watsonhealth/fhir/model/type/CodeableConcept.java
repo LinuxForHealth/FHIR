@@ -18,9 +18,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A concept that may be defined by a formal reference to a terminology or ontology or may be provided by text.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class CodeableConcept extends Element {
@@ -37,9 +35,7 @@ public class CodeableConcept extends Element {
     }
 
     /**
-     * <p>
      * A reference to a code defined by a terminology system.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -49,10 +45,8 @@ public class CodeableConcept extends Element {
     }
 
     /**
-     * <p>
      * A human language representation of the concept as seen/selected/uttered by the user who entered the data and/or which 
      * represents the intended meaning of the user.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -133,10 +127,8 @@ public class CodeableConcept extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -150,15 +142,12 @@ public class CodeableConcept extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -172,15 +161,12 @@ public class CodeableConcept extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -194,12 +180,9 @@ public class CodeableConcept extends Element {
         }
 
         /**
-         * <p>
          * A reference to a code defined by a terminology system.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param coding
          *     Code defined by a terminology system
@@ -215,12 +198,9 @@ public class CodeableConcept extends Element {
         }
 
         /**
-         * <p>
          * A reference to a code defined by a terminology system.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param coding
          *     Code defined by a terminology system
@@ -234,10 +214,8 @@ public class CodeableConcept extends Element {
         }
 
         /**
-         * <p>
          * A human language representation of the concept as seen/selected/uttered by the user who entered the data and/or which 
          * represents the intended meaning of the user.
-         * </p>
          * 
          * @param text
          *     Plain text representation of the concept
@@ -250,6 +228,12 @@ public class CodeableConcept extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link CodeableConcept}
+         * 
+         * @return
+         *     An immutable object of type {@link CodeableConcept}
+         */
         @Override
         public CodeableConcept build() {
             return new CodeableConcept(this);

@@ -11,16 +11,16 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A populatioof people with some set of grouping criteria.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Population extends BackboneElement {
+    @Choice({Range.class, CodeableConcept.class})
     private final Element age;
     private final CodeableConcept gender;
     private final CodeableConcept race;
@@ -38,9 +38,7 @@ public class Population extends BackboneElement {
     }
 
     /**
-     * <p>
      * The age of the specific population.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -50,9 +48,7 @@ public class Population extends BackboneElement {
     }
 
     /**
-     * <p>
      * The gender of the specific population.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -62,9 +58,7 @@ public class Population extends BackboneElement {
     }
 
     /**
-     * <p>
      * Race of the specific population.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -74,9 +68,7 @@ public class Population extends BackboneElement {
     }
 
     /**
-     * <p>
      * The existing physiological conditions of the specific population to which this applies.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -170,10 +162,8 @@ public class Population extends BackboneElement {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -187,15 +177,12 @@ public class Population extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -209,15 +196,12 @@ public class Population extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -231,21 +215,17 @@ public class Population extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element and that 
          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
          * extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
@@ -259,21 +239,17 @@ public class Population extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element and that 
          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
          * extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
@@ -287,9 +263,13 @@ public class Population extends BackboneElement {
         }
 
         /**
-         * <p>
          * The age of the specific population.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Range}</li>
+         * <li>{@link CodeableConcept}</li>
+         * </ul>
          * 
          * @param age
          *     The age of the specific population
@@ -303,9 +283,7 @@ public class Population extends BackboneElement {
         }
 
         /**
-         * <p>
          * The gender of the specific population.
-         * </p>
          * 
          * @param gender
          *     The gender of the specific population
@@ -319,9 +297,7 @@ public class Population extends BackboneElement {
         }
 
         /**
-         * <p>
          * Race of the specific population.
-         * </p>
          * 
          * @param race
          *     Race of the specific population
@@ -335,9 +311,7 @@ public class Population extends BackboneElement {
         }
 
         /**
-         * <p>
          * The existing physiological conditions of the specific population to which this applies.
-         * </p>
          * 
          * @param physiologicalCondition
          *     The existing physiological conditions of the specific population to which this applies
@@ -350,6 +324,12 @@ public class Population extends BackboneElement {
             return this;
         }
 
+        /**
+         * Build the {@link Population}
+         * 
+         * @return
+         *     An immutable object of type {@link Population}
+         */
         @Override
         public Population build() {
             return new Population(this);

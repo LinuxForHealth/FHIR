@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.AccountStatus;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -33,14 +34,13 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A financial tool for tracking value accrued for a particular purpose. In the healthcare field, used to track charges 
  * for a patient, cost centers, etc.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Account extends DomainResource {
     private final List<Identifier> identifier;
+    @Required
     private final AccountStatus status;
     private final CodeableConcept type;
     private final String name;
@@ -70,10 +70,8 @@ public class Account extends DomainResource {
     }
 
     /**
-     * <p>
      * Unique identifier used to reference the account. Might or might not be intended for human use (e.g. credit card 
      * number).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -83,9 +81,7 @@ public class Account extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates whether the account is presently used/usable or not.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link AccountStatus}.
@@ -95,9 +91,7 @@ public class Account extends DomainResource {
     }
 
     /**
-     * <p>
      * Categorizes the account for reporting and searching purposes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -107,9 +101,7 @@ public class Account extends DomainResource {
     }
 
     /**
-     * <p>
      * Name used for the account when displaying it to humans in reports, etc.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -119,10 +111,8 @@ public class Account extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the entity which incurs the expenses. While the immediate recipients of services or goods might be entities 
      * related to the subject, the expenses were ultimately incurred by the subject of the Account.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -132,9 +122,7 @@ public class Account extends DomainResource {
     }
 
     /**
-     * <p>
      * The date range of services associated with this account.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -144,10 +132,8 @@ public class Account extends DomainResource {
     }
 
     /**
-     * <p>
      * The party(s) that are responsible for covering the payment of this account, and what order should they be applied to 
      * the account.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Coverage}.
@@ -157,9 +143,7 @@ public class Account extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the service area, hospital, department, etc. with responsibility for managing the Account.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -169,9 +153,7 @@ public class Account extends DomainResource {
     }
 
     /**
-     * <p>
      * Provides additional information about what the account tracks and how it is used.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -181,9 +163,7 @@ public class Account extends DomainResource {
     }
 
     /**
-     * <p>
      * The parties responsible for balancing the account if other payment options fall short.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Guarantor}.
@@ -193,9 +173,7 @@ public class Account extends DomainResource {
     }
 
     /**
-     * <p>
      * Reference to a parent Account.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -323,9 +301,7 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -339,10 +315,8 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -356,11 +330,9 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -374,9 +346,7 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -390,12 +360,10 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -409,13 +377,10 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -429,13 +394,10 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -449,15 +411,12 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -471,15 +430,12 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -493,21 +449,17 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -521,21 +473,17 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -549,13 +497,10 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * Unique identifier used to reference the account. Might or might not be intended for human use (e.g. credit card 
          * number).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Account number
@@ -571,13 +516,10 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * Unique identifier used to reference the account. Might or might not be intended for human use (e.g. credit card 
          * number).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Account number
@@ -591,9 +533,9 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates whether the account is presently used/usable or not.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     active | inactive | entered-in-error | on-hold | unknown
@@ -607,9 +549,7 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * Categorizes the account for reporting and searching purposes.
-         * </p>
          * 
          * @param type
          *     E.g. patient, expense, depreciation
@@ -623,9 +563,7 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * Name used for the account when displaying it to humans in reports, etc.
-         * </p>
          * 
          * @param name
          *     Human-readable label
@@ -639,13 +577,10 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the entity which incurs the expenses. While the immediate recipients of services or goods might be entities 
          * related to the subject, the expenses were ultimately incurred by the subject of the Account.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param subject
          *     The entity that caused the expenses
@@ -661,13 +596,10 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the entity which incurs the expenses. While the immediate recipients of services or goods might be entities 
          * related to the subject, the expenses were ultimately incurred by the subject of the Account.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param subject
          *     The entity that caused the expenses
@@ -681,9 +613,7 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * The date range of services associated with this account.
-         * </p>
          * 
          * @param servicePeriod
          *     Transaction window
@@ -697,13 +627,10 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * The party(s) that are responsible for covering the payment of this account, and what order should they be applied to 
          * the account.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param coverage
          *     The party(s) that are responsible for covering the payment of this account, and what order should they be applied to 
@@ -720,13 +647,10 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * The party(s) that are responsible for covering the payment of this account, and what order should they be applied to 
          * the account.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param coverage
          *     The party(s) that are responsible for covering the payment of this account, and what order should they be applied to 
@@ -741,9 +665,7 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the service area, hospital, department, etc. with responsibility for managing the Account.
-         * </p>
          * 
          * @param owner
          *     Entity managing the Account
@@ -757,9 +679,7 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * Provides additional information about what the account tracks and how it is used.
-         * </p>
          * 
          * @param description
          *     Explanation of purpose/use
@@ -773,12 +693,9 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * The parties responsible for balancing the account if other payment options fall short.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param guarantor
          *     The parties ultimately responsible for balancing the Account
@@ -794,12 +711,9 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * The parties responsible for balancing the account if other payment options fall short.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param guarantor
          *     The parties ultimately responsible for balancing the Account
@@ -813,9 +727,7 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to a parent Account.
-         * </p>
          * 
          * @param partOf
          *     Reference to a parent Account
@@ -828,6 +740,17 @@ public class Account extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link Account}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Account}
+         */
         @Override
         public Account build() {
             return new Account(this);
@@ -851,12 +774,11 @@ public class Account extends DomainResource {
     }
 
     /**
-     * <p>
      * The party(s) that are responsible for covering the payment of this account, and what order should they be applied to 
      * the account.
-     * </p>
      */
     public static class Coverage extends BackboneElement {
+        @Required
         private final Reference coverage;
         private final PositiveInt priority;
 
@@ -870,13 +792,10 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * The party(s) that contribute to payment (or part of) of the charges applied to this account (including self-pay).
-         * </p>
-         * <p>
-         * A coverage may only be responsible for specific types of charges, and the sequence of the coverages in the account 
+         * 
+         * <p>A coverage may only be responsible for specific types of charges, and the sequence of the coverages in the account 
          * could be important when processing billing.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -886,9 +805,7 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * The priority of the coverage in the context of this account.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}.
@@ -972,10 +889,8 @@ public class Account extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -989,15 +904,12 @@ public class Account extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1011,15 +923,12 @@ public class Account extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1033,21 +942,17 @@ public class Account extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1061,21 +966,17 @@ public class Account extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1089,13 +990,12 @@ public class Account extends DomainResource {
             }
 
             /**
-             * <p>
              * The party(s) that contribute to payment (or part of) of the charges applied to this account (including self-pay).
-             * </p>
-             * <p>
-             * A coverage may only be responsible for specific types of charges, and the sequence of the coverages in the account 
+             * 
+             * <p>A coverage may only be responsible for specific types of charges, and the sequence of the coverages in the account 
              * could be important when processing billing.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param coverage
              *     The party(s), such as insurances, that may contribute to the payment of this account
@@ -1109,9 +1009,7 @@ public class Account extends DomainResource {
             }
 
             /**
-             * <p>
              * The priority of the coverage in the context of this account.
-             * </p>
              * 
              * @param priority
              *     The priority of the coverage in the context of this account
@@ -1124,6 +1022,17 @@ public class Account extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Coverage}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>coverage</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Coverage}
+             */
             @Override
             public Coverage build() {
                 return new Coverage(this);
@@ -1139,11 +1048,10 @@ public class Account extends DomainResource {
     }
 
     /**
-     * <p>
      * The parties responsible for balancing the account if other payment options fall short.
-     * </p>
      */
     public static class Guarantor extends BackboneElement {
+        @Required
         private final Reference party;
         private final Boolean onHold;
         private final Period period;
@@ -1159,9 +1067,7 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * The entity who is responsible.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1171,9 +1077,7 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * A guarantor may be placed on credit hold or otherwise have their role temporarily suspended.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -1183,9 +1087,7 @@ public class Account extends DomainResource {
         }
 
         /**
-         * <p>
          * The timeframe during which the guarantor accepts responsibility for the account.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Period}.
@@ -1274,10 +1176,8 @@ public class Account extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1291,15 +1191,12 @@ public class Account extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1313,15 +1210,12 @@ public class Account extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1335,21 +1229,17 @@ public class Account extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1363,21 +1253,17 @@ public class Account extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1391,9 +1277,9 @@ public class Account extends DomainResource {
             }
 
             /**
-             * <p>
              * The entity who is responsible.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param party
              *     Responsible entity
@@ -1407,9 +1293,7 @@ public class Account extends DomainResource {
             }
 
             /**
-             * <p>
              * A guarantor may be placed on credit hold or otherwise have their role temporarily suspended.
-             * </p>
              * 
              * @param onHold
              *     Credit or other hold applied
@@ -1423,9 +1307,7 @@ public class Account extends DomainResource {
             }
 
             /**
-             * <p>
              * The timeframe during which the guarantor accepts responsibility for the account.
-             * </p>
              * 
              * @param period
              *     Guarantee account during
@@ -1438,6 +1320,17 @@ public class Account extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Guarantor}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>party</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Guarantor}
+             */
             @Override
             public Guarantor build() {
                 return new Guarantor(this);

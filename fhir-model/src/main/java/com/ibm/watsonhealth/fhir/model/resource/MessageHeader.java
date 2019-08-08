@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -34,19 +36,20 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * The header for a message exchange that is either requesting or responding to an action. The reference(s) that are the 
  * subject of the action as well as other information related to the action are typically transmitted in a bundle in 
  * which the MessageHeader resource instance is the first resource in the bundle.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class MessageHeader extends DomainResource {
+    @Required
+    @Choice({Coding.class, Uri.class})
     private final Element event;
     private final List<Destination> destination;
     private final Reference sender;
     private final Reference enterer;
     private final Reference author;
+    @Required
     private final Source source;
     private final Reference responsible;
     private final CodeableConcept reason;
@@ -72,11 +75,9 @@ public class MessageHeader extends DomainResource {
     }
 
     /**
-     * <p>
      * Code that identifies the event this message represents and connects it with its definition. Events defined as part of 
      * the FHIR specification have the system value "http://terminology.hl7.org/CodeSystem/message-events". Alternatively uri 
      * to the EventDefinition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -86,9 +87,7 @@ public class MessageHeader extends DomainResource {
     }
 
     /**
-     * <p>
      * The destination application which the message is intended for.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Destination}.
@@ -98,9 +97,7 @@ public class MessageHeader extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the sending system to allow the use of a trust relationship.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -110,10 +107,8 @@ public class MessageHeader extends DomainResource {
     }
 
     /**
-     * <p>
      * The person or device that performed the data entry leading to this message. When there is more than one candidate, 
      * pick the most proximal to the message. Can provide other enterers in extensions.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -123,10 +118,8 @@ public class MessageHeader extends DomainResource {
     }
 
     /**
-     * <p>
      * The logical author of the message - the person or device that decided the described event should happen. When there is 
      * more than one candidate, pick the most proximal to the MessageHeader. Can provide other authors in extensions.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -136,9 +129,7 @@ public class MessageHeader extends DomainResource {
     }
 
     /**
-     * <p>
      * The source application from which this message originated.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Source}.
@@ -148,10 +139,8 @@ public class MessageHeader extends DomainResource {
     }
 
     /**
-     * <p>
      * The person or organization that accepts overall responsibility for the contents of the message. The implication is 
      * that the message event happened under the policies of the responsible party.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -161,10 +150,8 @@ public class MessageHeader extends DomainResource {
     }
 
     /**
-     * <p>
      * Coded indication of the cause for the event - indicates a reason for the occurrence of the event that is a focus of 
      * this message.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -174,9 +161,7 @@ public class MessageHeader extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about the message that this message is a response to. Only present if this message is a response.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Response}.
@@ -186,9 +171,7 @@ public class MessageHeader extends DomainResource {
     }
 
     /**
-     * <p>
      * The actual data of the message - a reference to the root/focus class of the event.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -198,9 +181,7 @@ public class MessageHeader extends DomainResource {
     }
 
     /**
-     * <p>
      * Permanent link to the MessageDefinition for this message.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Canonical}.
@@ -328,9 +309,7 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -344,10 +323,8 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -361,11 +338,9 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -379,9 +354,7 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -395,12 +368,10 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -414,13 +385,10 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -434,13 +402,10 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -454,15 +419,12 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -476,15 +438,12 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -498,21 +457,17 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -526,21 +481,17 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -554,11 +505,17 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * Code that identifies the event this message represents and connects it with its definition. Events defined as part of 
          * the FHIR specification have the system value "http://terminology.hl7.org/CodeSystem/message-events". Alternatively uri 
          * to the EventDefinition.
-         * </p>
+         * 
+         * <p>This element is required.
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Coding}</li>
+         * <li>{@link Uri}</li>
+         * </ul>
          * 
          * @param event
          *     Code for the event this message represents or link to event definition
@@ -572,12 +529,9 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * The destination application which the message is intended for.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param destination
          *     Message destination application(s)
@@ -593,12 +547,9 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * The destination application which the message is intended for.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param destination
          *     Message destination application(s)
@@ -612,9 +563,7 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the sending system to allow the use of a trust relationship.
-         * </p>
          * 
          * @param sender
          *     Real world sender of the message
@@ -628,10 +577,8 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * The person or device that performed the data entry leading to this message. When there is more than one candidate, 
          * pick the most proximal to the message. Can provide other enterers in extensions.
-         * </p>
          * 
          * @param enterer
          *     The source of the data entry
@@ -645,10 +592,8 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical author of the message - the person or device that decided the described event should happen. When there is 
          * more than one candidate, pick the most proximal to the MessageHeader. Can provide other authors in extensions.
-         * </p>
          * 
          * @param author
          *     The source of the decision
@@ -662,9 +607,9 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * The source application from which this message originated.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param source
          *     Message source application
@@ -678,10 +623,8 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * The person or organization that accepts overall responsibility for the contents of the message. The implication is 
          * that the message event happened under the policies of the responsible party.
-         * </p>
          * 
          * @param responsible
          *     Final responsibility for event
@@ -695,10 +638,8 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * Coded indication of the cause for the event - indicates a reason for the occurrence of the event that is a focus of 
          * this message.
-         * </p>
          * 
          * @param reason
          *     Cause of event
@@ -712,9 +653,7 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about the message that this message is a response to. Only present if this message is a response.
-         * </p>
          * 
          * @param response
          *     If this is a reply to prior message
@@ -728,12 +667,9 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * The actual data of the message - a reference to the root/focus class of the event.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param focus
          *     The actual content of the message
@@ -749,12 +685,9 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * The actual data of the message - a reference to the root/focus class of the event.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param focus
          *     The actual content of the message
@@ -768,9 +701,7 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * Permanent link to the MessageDefinition for this message.
-         * </p>
          * 
          * @param definition
          *     Link to the definition for this message
@@ -783,6 +714,18 @@ public class MessageHeader extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link MessageHeader}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>event</li>
+         * <li>source</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link MessageHeader}
+         */
         @Override
         public MessageHeader build() {
             return new MessageHeader(this);
@@ -806,13 +749,12 @@ public class MessageHeader extends DomainResource {
     }
 
     /**
-     * <p>
      * The destination application which the message is intended for.
-     * </p>
      */
     public static class Destination extends BackboneElement {
         private final String name;
         private final Reference target;
+        @Required
         private final Url endpoint;
         private final Reference receiver;
 
@@ -828,9 +770,7 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * Human-readable name for the target system.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -840,9 +780,7 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the target end system in situations where the initial message transmission is to an intermediary system.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -852,9 +790,7 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates where the message should be routed to.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Url}.
@@ -864,10 +800,8 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * Allows data conveyed by a message to be addressed to a particular person or department when routing to a specific 
          * application isn't sufficient.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -961,10 +895,8 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -978,15 +910,12 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1000,15 +929,12 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1022,21 +948,17 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1050,21 +972,17 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1078,9 +996,7 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * Human-readable name for the target system.
-             * </p>
              * 
              * @param name
              *     Name of system
@@ -1094,9 +1010,7 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the target end system in situations where the initial message transmission is to an intermediary system.
-             * </p>
              * 
              * @param target
              *     Particular delivery destination within the destination
@@ -1110,9 +1024,9 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates where the message should be routed to.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param endpoint
              *     Actual destination address or id
@@ -1126,10 +1040,8 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * Allows data conveyed by a message to be addressed to a particular person or department when routing to a specific 
              * application isn't sufficient.
-             * </p>
              * 
              * @param receiver
              *     Intended "real-world" recipient for the data
@@ -1142,6 +1054,17 @@ public class MessageHeader extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Destination}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>endpoint</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Destination}
+             */
             @Override
             public Destination build() {
                 return new Destination(this);
@@ -1159,15 +1082,14 @@ public class MessageHeader extends DomainResource {
     }
 
     /**
-     * <p>
      * The source application from which this message originated.
-     * </p>
      */
     public static class Source extends BackboneElement {
         private final String name;
         private final String software;
         private final String version;
         private final ContactPoint contact;
+        @Required
         private final Url endpoint;
 
         private volatile int hashCode;
@@ -1183,9 +1105,7 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * Human-readable name for the source system.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1195,9 +1115,7 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * May include configuration or other information useful in debugging.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1207,9 +1125,7 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * Can convey versions of multiple systems in situations where a message passes through multiple hands.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1219,9 +1135,7 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * An e-mail, phone, website or other contact point to use to resolve issues with message communications.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ContactPoint}.
@@ -1231,9 +1145,7 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the routing target to send acknowledgements to.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Url}.
@@ -1332,10 +1244,8 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1349,15 +1259,12 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1371,15 +1278,12 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1393,21 +1297,17 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1421,21 +1321,17 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1449,9 +1345,7 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * Human-readable name for the source system.
-             * </p>
              * 
              * @param name
              *     Name of system
@@ -1465,9 +1359,7 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * May include configuration or other information useful in debugging.
-             * </p>
              * 
              * @param software
              *     Name of software running the system
@@ -1481,9 +1373,7 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * Can convey versions of multiple systems in situations where a message passes through multiple hands.
-             * </p>
              * 
              * @param version
              *     Version of software running
@@ -1497,9 +1387,7 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * An e-mail, phone, website or other contact point to use to resolve issues with message communications.
-             * </p>
              * 
              * @param contact
              *     Human contact for problems
@@ -1513,9 +1401,9 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the routing target to send acknowledgements to.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param endpoint
              *     Actual message source address or id
@@ -1528,6 +1416,17 @@ public class MessageHeader extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Source}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>endpoint</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Source}
+             */
             @Override
             public Source build() {
                 return new Source(this);
@@ -1546,12 +1445,12 @@ public class MessageHeader extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about the message that this message is a response to. Only present if this message is a response.
-     * </p>
      */
     public static class Response extends BackboneElement {
+        @Required
         private final Id identifier;
+        @Required
         private final ResponseType code;
         private final Reference details;
 
@@ -1566,9 +1465,7 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * The MessageHeader.id of the message to which this message is a response.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Id}.
@@ -1578,10 +1475,8 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * Code that identifies the type of response to the message - whether it was successful or not, and whether it should be 
          * resent or not.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ResponseType}.
@@ -1591,9 +1486,7 @@ public class MessageHeader extends DomainResource {
         }
 
         /**
-         * <p>
          * Full details of any issues found in the message.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1682,10 +1575,8 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1699,15 +1590,12 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1721,15 +1609,12 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1743,21 +1628,17 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1771,21 +1652,17 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1799,9 +1676,9 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * The MessageHeader.id of the message to which this message is a response.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param identifier
              *     Id of original message
@@ -1815,10 +1692,10 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * Code that identifies the type of response to the message - whether it was successful or not, and whether it should be 
              * resent or not.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param code
              *     ok | transient-error | fatal-error
@@ -1832,9 +1709,7 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * <p>
              * Full details of any issues found in the message.
-             * </p>
              * 
              * @param details
              *     Specific list of hints/warnings/errors
@@ -1847,6 +1722,18 @@ public class MessageHeader extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Response}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>identifier</li>
+             * <li>code</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Response}
+             */
             @Override
             public Response build() {
                 return new Response(this);

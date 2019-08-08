@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Attachment;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -36,9 +37,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * The details of a healthcare service available at a location.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class HealthcareService extends DomainResource {
@@ -98,9 +97,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * External identifiers for this item.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -110,10 +107,8 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * This flag is used to mark the record to not be used. This is not used when a center is closed for maintenance, or for 
      * holidays, the notAvailable period is to be used for this.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -123,9 +118,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * The organization that provides this healthcare service.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -135,9 +128,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the broad category of service being performed or delivered.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -147,9 +138,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * The specific type of service that may be delivered or performed.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -159,9 +148,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * Collection of specialties handled by the service site. This is more of a medical term.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -171,9 +158,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * The location(s) where this healthcare service may be provided.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -183,9 +168,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * Further description of the service as it would be presented to a consumer while searching.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -195,10 +178,8 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * Any additional description of the service and/or any specific issues not covered by the other attributes, which can be 
      * displayed as further detail under the serviceName.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -208,9 +189,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * Extra details about the service that can't be placed in the other fields.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -220,10 +199,8 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * If there is a photo/symbol associated with this HealthcareService, it may be included here to facilitate quick 
      * identification of the service in a list.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Attachment}.
@@ -233,9 +210,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * List of contacts related to this specific healthcare service.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
@@ -245,9 +220,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * The location(s) that this service is available to (not where the service is provided).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -257,9 +230,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * The code(s) that detail the conditions under which the healthcare service is available/offered.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -269,9 +240,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * Does this service have specific eligibility requirements that need to be met in order to use the service?
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Eligibility}.
@@ -281,9 +250,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * Programs that this service is applicable to.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -293,9 +260,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * Collection of characteristics (attributes).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -305,11 +270,9 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * Some services are specifically made available in multiple languages, this property permits a directory to declare the 
      * languages this is offered in. Typically this is only provided where a service operates in communities with mixed 
      * languages used.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -319,9 +282,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * Ways that the service accepts referrals, if this is not provided then it is implied that no referral is required.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -331,10 +292,8 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates whether or not a prospective consumer will require an appointment for a particular service at a site to be 
      * provided by the Organization. Indicates if an appointment is required for access to this service.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -344,9 +303,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * A collection of times that the Service Site is available.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link AvailableTime}.
@@ -356,9 +313,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * The HealthcareService is not available during this period of time due to the provided reason.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link NotAvailable}.
@@ -368,10 +323,8 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * A description of site availability exceptions, e.g. public holiday availability. Succinctly describing all possible 
      * exceptions to normal site availability as details in the available Times and not available Times.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -381,10 +334,8 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * Technical endpoints providing access to services operated for the specific healthcare services defined at this 
      * resource.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -564,9 +515,7 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -580,10 +529,8 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -597,11 +544,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -615,9 +560,7 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -631,12 +574,10 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -650,13 +591,10 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -670,13 +608,10 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -690,15 +625,12 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -712,15 +644,12 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -734,21 +663,17 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -762,21 +687,17 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -790,12 +711,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * External identifiers for this item.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     External identifiers for this item
@@ -811,12 +729,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * External identifiers for this item.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     External identifiers for this item
@@ -830,10 +745,8 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * This flag is used to mark the record to not be used. This is not used when a center is closed for maintenance, or for 
          * holidays, the notAvailable period is to be used for this.
-         * </p>
          * 
          * @param active
          *     Whether this HealthcareService record is in active use
@@ -847,9 +760,7 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The organization that provides this healthcare service.
-         * </p>
          * 
          * @param providedBy
          *     Organization that provides this service
@@ -863,12 +774,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the broad category of service being performed or delivered.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param category
          *     Broad category of service being performed or delivered
@@ -884,12 +792,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the broad category of service being performed or delivered.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param category
          *     Broad category of service being performed or delivered
@@ -903,12 +808,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The specific type of service that may be delivered or performed.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param type
          *     Type of service that may be delivered or performed
@@ -924,12 +826,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The specific type of service that may be delivered or performed.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param type
          *     Type of service that may be delivered or performed
@@ -943,12 +842,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Collection of specialties handled by the service site. This is more of a medical term.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param specialty
          *     Specialties handled by the HealthcareService
@@ -964,12 +860,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Collection of specialties handled by the service site. This is more of a medical term.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param specialty
          *     Specialties handled by the HealthcareService
@@ -983,12 +876,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The location(s) where this healthcare service may be provided.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param location
          *     Location(s) where service may be provided
@@ -1004,12 +894,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The location(s) where this healthcare service may be provided.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param location
          *     Location(s) where service may be provided
@@ -1023,9 +910,7 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Further description of the service as it would be presented to a consumer while searching.
-         * </p>
          * 
          * @param name
          *     Description of service as presented to a consumer while searching
@@ -1039,10 +924,8 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Any additional description of the service and/or any specific issues not covered by the other attributes, which can be 
          * displayed as further detail under the serviceName.
-         * </p>
          * 
          * @param comment
          *     Additional description and/or any specific issues not covered elsewhere
@@ -1056,9 +939,7 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Extra details about the service that can't be placed in the other fields.
-         * </p>
          * 
          * @param extraDetails
          *     Extra details about the service that can't be placed in the other fields
@@ -1072,10 +953,8 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * If there is a photo/symbol associated with this HealthcareService, it may be included here to facilitate quick 
          * identification of the service in a list.
-         * </p>
          * 
          * @param photo
          *     Facilitates quick identification of the service
@@ -1089,12 +968,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * List of contacts related to this specific healthcare service.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param telecom
          *     Contacts related to the healthcare service
@@ -1110,12 +986,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * List of contacts related to this specific healthcare service.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param telecom
          *     Contacts related to the healthcare service
@@ -1129,12 +1002,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The location(s) that this service is available to (not where the service is provided).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param coverageArea
          *     Location(s) service is intended for/available to
@@ -1150,12 +1020,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The location(s) that this service is available to (not where the service is provided).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param coverageArea
          *     Location(s) service is intended for/available to
@@ -1169,12 +1036,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The code(s) that detail the conditions under which the healthcare service is available/offered.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param serviceProvisionCode
          *     Conditions under which service is available/offered
@@ -1190,12 +1054,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The code(s) that detail the conditions under which the healthcare service is available/offered.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param serviceProvisionCode
          *     Conditions under which service is available/offered
@@ -1209,12 +1070,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Does this service have specific eligibility requirements that need to be met in order to use the service?
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param eligibility
          *     Specific eligibility requirements required to use the service
@@ -1230,12 +1088,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Does this service have specific eligibility requirements that need to be met in order to use the service?
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param eligibility
          *     Specific eligibility requirements required to use the service
@@ -1249,12 +1104,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Programs that this service is applicable to.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param program
          *     Programs that this service is applicable to
@@ -1270,12 +1122,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Programs that this service is applicable to.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param program
          *     Programs that this service is applicable to
@@ -1289,12 +1138,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Collection of characteristics (attributes).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param characteristic
          *     Collection of characteristics (attributes)
@@ -1310,12 +1156,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Collection of characteristics (attributes).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param characteristic
          *     Collection of characteristics (attributes)
@@ -1329,14 +1172,11 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Some services are specifically made available in multiple languages, this property permits a directory to declare the 
          * languages this is offered in. Typically this is only provided where a service operates in communities with mixed 
          * languages used.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param communication
          *     The language that this service is offered in
@@ -1352,14 +1192,11 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Some services are specifically made available in multiple languages, this property permits a directory to declare the 
          * languages this is offered in. Typically this is only provided where a service operates in communities with mixed 
          * languages used.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param communication
          *     The language that this service is offered in
@@ -1373,12 +1210,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Ways that the service accepts referrals, if this is not provided then it is implied that no referral is required.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param referralMethod
          *     Ways that the service accepts referrals
@@ -1394,12 +1228,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Ways that the service accepts referrals, if this is not provided then it is implied that no referral is required.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param referralMethod
          *     Ways that the service accepts referrals
@@ -1413,10 +1244,8 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates whether or not a prospective consumer will require an appointment for a particular service at a site to be 
          * provided by the Organization. Indicates if an appointment is required for access to this service.
-         * </p>
          * 
          * @param appointmentRequired
          *     If an appointment is required for access to this service
@@ -1430,12 +1259,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * A collection of times that the Service Site is available.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param availableTime
          *     Times the Service Site is available
@@ -1451,12 +1277,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * A collection of times that the Service Site is available.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param availableTime
          *     Times the Service Site is available
@@ -1470,12 +1293,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The HealthcareService is not available during this period of time due to the provided reason.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param notAvailable
          *     Not available during this time due to provided reason
@@ -1491,12 +1311,9 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The HealthcareService is not available during this period of time due to the provided reason.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param notAvailable
          *     Not available during this time due to provided reason
@@ -1510,10 +1327,8 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * A description of site availability exceptions, e.g. public holiday availability. Succinctly describing all possible 
          * exceptions to normal site availability as details in the available Times and not available Times.
-         * </p>
          * 
          * @param availabilityExceptions
          *     Description of availability exceptions
@@ -1527,13 +1342,10 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Technical endpoints providing access to services operated for the specific healthcare services defined at this 
          * resource.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param endpoint
          *     Technical endpoints providing access to electronic services operated for the healthcare service
@@ -1549,13 +1361,10 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Technical endpoints providing access to services operated for the specific healthcare services defined at this 
          * resource.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param endpoint
          *     Technical endpoints providing access to electronic services operated for the healthcare service
@@ -1568,6 +1377,12 @@ public class HealthcareService extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link HealthcareService}
+         * 
+         * @return
+         *     An immutable object of type {@link HealthcareService}
+         */
         @Override
         public HealthcareService build() {
             return new HealthcareService(this);
@@ -1604,9 +1419,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * Does this service have specific eligibility requirements that need to be met in order to use the service?
-     * </p>
      */
     public static class Eligibility extends BackboneElement {
         private final CodeableConcept code;
@@ -1622,9 +1435,7 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Coded value for the eligibility.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1634,9 +1445,7 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the eligibility conditions for the service.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Markdown}.
@@ -1720,10 +1529,8 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1737,15 +1544,12 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1759,15 +1563,12 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1781,21 +1582,17 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1809,21 +1606,17 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1837,9 +1630,7 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * Coded value for the eligibility.
-             * </p>
              * 
              * @param code
              *     Coded value for the eligibility
@@ -1853,9 +1644,7 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * Describes the eligibility conditions for the service.
-             * </p>
              * 
              * @param comment
              *     Describes the eligibility conditions for the service
@@ -1868,6 +1657,12 @@ public class HealthcareService extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Eligibility}
+             * 
+             * @return
+             *     An immutable object of type {@link Eligibility}
+             */
             @Override
             public Eligibility build() {
                 return new Eligibility(this);
@@ -1883,9 +1678,7 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * A collection of times that the Service Site is available.
-     * </p>
      */
     public static class AvailableTime extends BackboneElement {
         private final List<DaysOfWeek> daysOfWeek;
@@ -1905,9 +1698,7 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates which days of the week are available between the start and end Times.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link DaysOfWeek}.
@@ -1917,9 +1708,7 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Is this always available? (hence times are irrelevant) e.g. 24 hour service.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -1929,9 +1718,7 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The opening time of day. Note: If the AllDay flag is set, then this time is ignored.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Time}.
@@ -1941,9 +1728,7 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The closing time of day. Note: If the AllDay flag is set, then this time is ignored.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Time}.
@@ -2037,10 +1822,8 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2054,15 +1837,12 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2076,15 +1856,12 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2098,21 +1875,17 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2126,21 +1899,17 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2154,12 +1923,9 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates which days of the week are available between the start and end Times.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param daysOfWeek
              *     mon | tue | wed | thu | fri | sat | sun
@@ -2175,12 +1941,9 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates which days of the week are available between the start and end Times.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param daysOfWeek
              *     mon | tue | wed | thu | fri | sat | sun
@@ -2194,9 +1957,7 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * Is this always available? (hence times are irrelevant) e.g. 24 hour service.
-             * </p>
              * 
              * @param allDay
              *     Always available? e.g. 24 hour service
@@ -2210,9 +1971,7 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * The opening time of day. Note: If the AllDay flag is set, then this time is ignored.
-             * </p>
              * 
              * @param availableStartTime
              *     Opening time of day (ignored if allDay = true)
@@ -2226,9 +1985,7 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * The closing time of day. Note: If the AllDay flag is set, then this time is ignored.
-             * </p>
              * 
              * @param availableEndTime
              *     Closing time of day (ignored if allDay = true)
@@ -2241,6 +1998,12 @@ public class HealthcareService extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link AvailableTime}
+             * 
+             * @return
+             *     An immutable object of type {@link AvailableTime}
+             */
             @Override
             public AvailableTime build() {
                 return new AvailableTime(this);
@@ -2258,11 +2021,10 @@ public class HealthcareService extends DomainResource {
     }
 
     /**
-     * <p>
      * The HealthcareService is not available during this period of time due to the provided reason.
-     * </p>
      */
     public static class NotAvailable extends BackboneElement {
+        @Required
         private final String description;
         private final Period during;
 
@@ -2276,9 +2038,7 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * The reason that can be presented to the user as to why this time is not available.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2288,9 +2048,7 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
-         * <p>
          * Service is not available (seasonally or for a public holiday) from this date.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Period}.
@@ -2374,10 +2132,8 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2391,15 +2147,12 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2413,15 +2166,12 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2435,21 +2185,17 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2463,21 +2209,17 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2491,9 +2233,9 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * The reason that can be presented to the user as to why this time is not available.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param description
              *     Reason presented to the user explaining why time not available
@@ -2507,9 +2249,7 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
-             * <p>
              * Service is not available (seasonally or for a public holiday) from this date.
-             * </p>
              * 
              * @param during
              *     Service not available from this date
@@ -2522,6 +2262,17 @@ public class HealthcareService extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link NotAvailable}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>description</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link NotAvailable}
+             */
             @Override
             public NotAvailable build() {
                 return new NotAvailable(this);

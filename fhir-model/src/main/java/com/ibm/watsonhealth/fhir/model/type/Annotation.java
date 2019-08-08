@@ -11,18 +11,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A text note which also contains information about who made the statement and when.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Annotation extends Element {
+    @Choice({Reference.class, String.class})
     private final Element author;
     private final DateTime time;
+    @Required
     private final Markdown text;
 
     private volatile int hashCode;
@@ -36,9 +38,7 @@ public class Annotation extends Element {
     }
 
     /**
-     * <p>
      * The individual responsible for making the annotation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -48,9 +48,7 @@ public class Annotation extends Element {
     }
 
     /**
-     * <p>
      * Indicates when this particular annotation was made.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -60,9 +58,7 @@ public class Annotation extends Element {
     }
 
     /**
-     * <p>
      * The text of the annotation in markdown format.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -148,10 +144,8 @@ public class Annotation extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -165,15 +159,12 @@ public class Annotation extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -187,15 +178,12 @@ public class Annotation extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -209,9 +197,13 @@ public class Annotation extends Element {
         }
 
         /**
-         * <p>
          * The individual responsible for making the annotation.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Reference}</li>
+         * <li>{@link String}</li>
+         * </ul>
          * 
          * @param author
          *     Individual responsible for the annotation
@@ -225,9 +217,7 @@ public class Annotation extends Element {
         }
 
         /**
-         * <p>
          * Indicates when this particular annotation was made.
-         * </p>
          * 
          * @param time
          *     When the annotation was made
@@ -241,9 +231,9 @@ public class Annotation extends Element {
         }
 
         /**
-         * <p>
          * The text of the annotation in markdown format.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param text
          *     The annotation - text content (as markdown)
@@ -256,6 +246,17 @@ public class Annotation extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link Annotation}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>text</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Annotation}
+         */
         @Override
         public Annotation build() {
             return new Annotation(this);

@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.FHIRAllTypes;
 import com.ibm.watsonhealth.fhir.model.type.SortDirection;
@@ -22,10 +24,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Describes a required data item for evaluation in terms of the type of data, and optional code or date-based filters of 
  * the data.
- * </p>
  */
 @Constraint(
     id = "drq-1",
@@ -43,8 +43,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class DataRequirement extends Element {
+    @Required
     private final FHIRAllTypes type;
     private final List<Canonical> profile;
+    @Choice({CodeableConcept.class, Reference.class})
     private final Element subject;
     private final List<String> mustSupport;
     private final List<CodeFilter> codeFilter;
@@ -68,10 +70,8 @@ public class DataRequirement extends Element {
     }
 
     /**
-     * <p>
      * The type of the required data, specified as the type name of a resource. For profiles, this value is set to the type 
      * of the base resource of the profile.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link FHIRAllTypes}.
@@ -81,9 +81,7 @@ public class DataRequirement extends Element {
     }
 
     /**
-     * <p>
      * The profile of the required data, specified as the uri of the profile definition.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -93,9 +91,7 @@ public class DataRequirement extends Element {
     }
 
     /**
-     * <p>
      * The intended subjects of the data requirement. If this element is not provided, a Patient subject is assumed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -105,16 +101,13 @@ public class DataRequirement extends Element {
     }
 
     /**
-     * <p>
      * Indicates that specific elements of the type are referenced by the knowledge module and must be supported by the 
      * consumer in order to obtain an effective evaluation. This does not mean that a value is required for this element, 
      * only that the consuming system must understand the element and be able to provide values for it if they are available. 
-     * </p>
-     * <p>
-     * The value of mustSupport SHALL be a FHIRPath resolveable on the type of the DataRequirement. The path SHALL consist 
+     * 
+     * <p>The value of mustSupport SHALL be a FHIRPath resolveable on the type of the DataRequirement. The path SHALL consist 
      * only of identifiers, constant indexers, and .resolve() (see the [Simple FHIRPath Profile](fhirpath.html#simple) for 
      * full details).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -124,10 +117,8 @@ public class DataRequirement extends Element {
     }
 
     /**
-     * <p>
      * Code filters specify additional constraints on the data, specifying the value set of interest for a particular element 
      * of the data. Each code filter defines an additional constraint on the data, i.e. code filters are AND'ed, not OR'ed.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeFilter}.
@@ -137,10 +128,8 @@ public class DataRequirement extends Element {
     }
 
     /**
-     * <p>
      * Date filters specify additional constraints on the data in terms of the applicable date range for specific elements. 
      * Each date filter specifies an additional constraint on the data, i.e. date filters are AND'ed, not OR'ed.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link DateFilter}.
@@ -150,9 +139,7 @@ public class DataRequirement extends Element {
     }
 
     /**
-     * <p>
      * Specifies a maximum number of results that are required (uses the _count search parameter).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PositiveInt}.
@@ -162,9 +149,7 @@ public class DataRequirement extends Element {
     }
 
     /**
-     * <p>
      * Specifies the order of the results to be returned.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Sort}.
@@ -275,10 +260,8 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -292,15 +275,12 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -314,15 +294,12 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -336,10 +313,10 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * The type of the required data, specified as the type name of a resource. For profiles, this value is set to the type 
          * of the base resource of the profile.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     The type of the required data
@@ -353,12 +330,9 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * The profile of the required data, specified as the uri of the profile definition.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param profile
          *     The profile of the required data
@@ -374,12 +348,9 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * The profile of the required data, specified as the uri of the profile definition.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param profile
          *     The profile of the required data
@@ -393,9 +364,13 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * The intended subjects of the data requirement. If this element is not provided, a Patient subject is assumed.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link CodeableConcept}</li>
+         * <li>{@link Reference}</li>
+         * </ul>
          * 
          * @param subject
          *     E.g. Patient, Practitioner, RelatedPerson, Organization, Location, Device
@@ -409,19 +384,15 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * Indicates that specific elements of the type are referenced by the knowledge module and must be supported by the 
          * consumer in order to obtain an effective evaluation. This does not mean that a value is required for this element, 
          * only that the consuming system must understand the element and be able to provide values for it if they are available. 
-         * </p>
-         * <p>
-         * The value of mustSupport SHALL be a FHIRPath resolveable on the type of the DataRequirement. The path SHALL consist 
+         * 
+         * <p>The value of mustSupport SHALL be a FHIRPath resolveable on the type of the DataRequirement. The path SHALL consist 
          * only of identifiers, constant indexers, and .resolve() (see the [Simple FHIRPath Profile](fhirpath.html#simple) for 
          * full details).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param mustSupport
          *     Indicates specific structure elements that are referenced by the knowledge module
@@ -437,19 +408,15 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * Indicates that specific elements of the type are referenced by the knowledge module and must be supported by the 
          * consumer in order to obtain an effective evaluation. This does not mean that a value is required for this element, 
          * only that the consuming system must understand the element and be able to provide values for it if they are available. 
-         * </p>
-         * <p>
-         * The value of mustSupport SHALL be a FHIRPath resolveable on the type of the DataRequirement. The path SHALL consist 
+         * 
+         * <p>The value of mustSupport SHALL be a FHIRPath resolveable on the type of the DataRequirement. The path SHALL consist 
          * only of identifiers, constant indexers, and .resolve() (see the [Simple FHIRPath Profile](fhirpath.html#simple) for 
          * full details).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param mustSupport
          *     Indicates specific structure elements that are referenced by the knowledge module
@@ -463,13 +430,10 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * Code filters specify additional constraints on the data, specifying the value set of interest for a particular element 
          * of the data. Each code filter defines an additional constraint on the data, i.e. code filters are AND'ed, not OR'ed.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param codeFilter
          *     What codes are expected
@@ -485,13 +449,10 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * Code filters specify additional constraints on the data, specifying the value set of interest for a particular element 
          * of the data. Each code filter defines an additional constraint on the data, i.e. code filters are AND'ed, not OR'ed.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param codeFilter
          *     What codes are expected
@@ -505,13 +466,10 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * Date filters specify additional constraints on the data in terms of the applicable date range for specific elements. 
          * Each date filter specifies an additional constraint on the data, i.e. date filters are AND'ed, not OR'ed.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param dateFilter
          *     What dates/date ranges are expected
@@ -527,13 +485,10 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * Date filters specify additional constraints on the data in terms of the applicable date range for specific elements. 
          * Each date filter specifies an additional constraint on the data, i.e. date filters are AND'ed, not OR'ed.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param dateFilter
          *     What dates/date ranges are expected
@@ -547,9 +502,7 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * Specifies a maximum number of results that are required (uses the _count search parameter).
-         * </p>
          * 
          * @param limit
          *     Number of results
@@ -563,12 +516,9 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * Specifies the order of the results to be returned.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param sort
          *     Order of the results
@@ -584,12 +534,9 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * Specifies the order of the results to be returned.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param sort
          *     Order of the results
@@ -602,6 +549,17 @@ public class DataRequirement extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link DataRequirement}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>type</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link DataRequirement}
+         */
         @Override
         public DataRequirement build() {
             return new DataRequirement(this);
@@ -622,10 +580,8 @@ public class DataRequirement extends Element {
     }
 
     /**
-     * <p>
      * Code filters specify additional constraints on the data, specifying the value set of interest for a particular element 
      * of the data. Each code filter defines an additional constraint on the data, i.e. code filters are AND'ed, not OR'ed.
-     * </p>
      */
     public static class CodeFilter extends BackboneElement {
         private final String path;
@@ -645,13 +601,11 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * The code-valued attribute of the filter. The specified path SHALL be a FHIRPath resolveable on the specified type of 
          * the DataRequirement, and SHALL consist only of identifiers, constant indexers, and .resolve(). The path is allowed to 
          * contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-
          * elements (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details). Note that the index must be an 
          * integer constant. The path must resolve to an element of type code, Coding, or CodeableConcept.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -661,10 +615,8 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * A token parameter that refers to a search parameter defined on the specified type of the DataRequirement, and which 
          * searches on elements of type code, Coding, or CodeableConcept.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -674,11 +626,9 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * The valueset for the code filter. The valueSet and code elements are additive. If valueSet is specified, the filter 
          * will return only those data items for which the value of the code-valued element specified in the path is a member of 
          * the specified valueset.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Canonical}.
@@ -688,11 +638,9 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * The codes for the code filter. If values are given, the filter will return only those data items for which the code-
          * valued attribute specified by the path has a value that is one of the specified codes. If codes are specified in 
          * addition to a value set, the filter returns items matching a code in the value set or one of the specified codes.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -786,10 +734,8 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -803,15 +749,12 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -825,15 +768,12 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -847,7 +787,6 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -856,10 +795,8 @@ public class DataRequirement extends Element {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -873,7 +810,6 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -882,10 +818,8 @@ public class DataRequirement extends Element {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -899,13 +833,11 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * The code-valued attribute of the filter. The specified path SHALL be a FHIRPath resolveable on the specified type of 
              * the DataRequirement, and SHALL consist only of identifiers, constant indexers, and .resolve(). The path is allowed to 
              * contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-
              * elements (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details). Note that the index must be an 
              * integer constant. The path must resolve to an element of type code, Coding, or CodeableConcept.
-             * </p>
              * 
              * @param path
              *     A code-valued attribute to filter on
@@ -919,10 +851,8 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * A token parameter that refers to a search parameter defined on the specified type of the DataRequirement, and which 
              * searches on elements of type code, Coding, or CodeableConcept.
-             * </p>
              * 
              * @param searchParam
              *     A coded (token) parameter to search on
@@ -936,11 +866,9 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * The valueset for the code filter. The valueSet and code elements are additive. If valueSet is specified, the filter 
              * will return only those data items for which the value of the code-valued element specified in the path is a member of 
              * the specified valueset.
-             * </p>
              * 
              * @param valueSet
              *     Valueset for the filter
@@ -954,14 +882,11 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * The codes for the code filter. If values are given, the filter will return only those data items for which the code-
              * valued attribute specified by the path has a value that is one of the specified codes. If codes are specified in 
              * addition to a value set, the filter returns items matching a code in the value set or one of the specified codes.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param code
              *     What code is expected
@@ -977,14 +902,11 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * The codes for the code filter. If values are given, the filter will return only those data items for which the code-
              * valued attribute specified by the path has a value that is one of the specified codes. If codes are specified in 
              * addition to a value set, the filter returns items matching a code in the value set or one of the specified codes.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param code
              *     What code is expected
@@ -997,6 +919,12 @@ public class DataRequirement extends Element {
                 return this;
             }
 
+            /**
+             * Build the {@link CodeFilter}
+             * 
+             * @return
+             *     An immutable object of type {@link CodeFilter}
+             */
             @Override
             public CodeFilter build() {
                 return new CodeFilter(this);
@@ -1014,14 +942,13 @@ public class DataRequirement extends Element {
     }
 
     /**
-     * <p>
      * Date filters specify additional constraints on the data in terms of the applicable date range for specific elements. 
      * Each date filter specifies an additional constraint on the data, i.e. date filters are AND'ed, not OR'ed.
-     * </p>
      */
     public static class DateFilter extends BackboneElement {
         private final String path;
         private final String searchParam;
+        @Choice({DateTime.class, Period.class, Duration.class})
         private final Element value;
 
         private volatile int hashCode;
@@ -1035,13 +962,11 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * The date-valued attribute of the filter. The specified path SHALL be a FHIRPath resolveable on the specified type of 
          * the DataRequirement, and SHALL consist only of identifiers, constant indexers, and .resolve(). The path is allowed to 
          * contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-
          * elements (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details). Note that the index must be an 
          * integer constant. The path must resolve to an element of type date, dateTime, Period, Schedule, or Timing.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1051,10 +976,8 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * A date parameter that refers to a search parameter defined on the specified type of the DataRequirement, and which 
          * searches on elements of type date, dateTime, Period, Schedule, or Timing.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1064,12 +987,10 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * The value of the filter. If period is specified, the filter will return only those data items that fall within the 
          * bounds determined by the Period, inclusive of the period boundaries. If dateTime is specified, the filter will return 
          * only those data items that are equal to the specified dateTime. If a Duration is specified, the filter will return 
          * only those data items that fall within Duration before now.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -1158,10 +1079,8 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1175,15 +1094,12 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1197,15 +1113,12 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1219,7 +1132,6 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -1228,10 +1140,8 @@ public class DataRequirement extends Element {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1245,7 +1155,6 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -1254,10 +1163,8 @@ public class DataRequirement extends Element {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1271,13 +1178,11 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * The date-valued attribute of the filter. The specified path SHALL be a FHIRPath resolveable on the specified type of 
              * the DataRequirement, and SHALL consist only of identifiers, constant indexers, and .resolve(). The path is allowed to 
              * contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-
              * elements (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details). Note that the index must be an 
              * integer constant. The path must resolve to an element of type date, dateTime, Period, Schedule, or Timing.
-             * </p>
              * 
              * @param path
              *     A date-valued attribute to filter on
@@ -1291,10 +1196,8 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * A date parameter that refers to a search parameter defined on the specified type of the DataRequirement, and which 
              * searches on elements of type date, dateTime, Period, Schedule, or Timing.
-             * </p>
              * 
              * @param searchParam
              *     A date valued parameter to search on
@@ -1308,12 +1211,17 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * The value of the filter. If period is specified, the filter will return only those data items that fall within the 
              * bounds determined by the Period, inclusive of the period boundaries. If dateTime is specified, the filter will return 
              * only those data items that are equal to the specified dateTime. If a Duration is specified, the filter will return 
              * only those data items that fall within Duration before now.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link DateTime}</li>
+             * <li>{@link Period}</li>
+             * <li>{@link Duration}</li>
+             * </ul>
              * 
              * @param value
              *     The value of the filter, as a Period, DateTime, or Duration value
@@ -1326,6 +1234,12 @@ public class DataRequirement extends Element {
                 return this;
             }
 
+            /**
+             * Build the {@link DateFilter}
+             * 
+             * @return
+             *     An immutable object of type {@link DateFilter}
+             */
             @Override
             public DateFilter build() {
                 return new DateFilter(this);
@@ -1342,12 +1256,12 @@ public class DataRequirement extends Element {
     }
 
     /**
-     * <p>
      * Specifies the order of the results to be returned.
-     * </p>
      */
     public static class Sort extends BackboneElement {
+        @Required
         private final String path;
+        @Required
         private final SortDirection direction;
 
         private volatile int hashCode;
@@ -1360,11 +1274,9 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * The attribute of the sort. The specified path must be resolvable from the type of the required data. The path is 
          * allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality 
          * sub-elements. Note that the index must be an integer constant.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1374,9 +1286,7 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * <p>
          * The direction of the sort, ascending or descending.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link SortDirection}.
@@ -1460,10 +1370,8 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1477,15 +1385,12 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1499,15 +1404,12 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1521,7 +1423,6 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -1530,10 +1431,8 @@ public class DataRequirement extends Element {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1547,7 +1446,6 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -1556,10 +1454,8 @@ public class DataRequirement extends Element {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1573,11 +1469,11 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * The attribute of the sort. The specified path must be resolvable from the type of the required data. The path is 
              * allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality 
              * sub-elements. Note that the index must be an integer constant.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param path
              *     The name of the attribute to perform the sort
@@ -1591,9 +1487,9 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * <p>
              * The direction of the sort, ascending or descending.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param direction
              *     ascending | descending
@@ -1606,6 +1502,18 @@ public class DataRequirement extends Element {
                 return this;
             }
 
+            /**
+             * Build the {@link Sort}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>path</li>
+             * <li>direction</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Sort}
+             */
             @Override
             public Sort build() {
                 return new Sort(this);

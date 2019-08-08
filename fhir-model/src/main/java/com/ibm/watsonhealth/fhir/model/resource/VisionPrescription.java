@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -37,19 +38,23 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * An authorization for the provision of glasses and/or contact lenses to a patient.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class VisionPrescription extends DomainResource {
     private final List<Identifier> identifier;
+    @Required
     private final VisionStatus status;
+    @Required
     private final DateTime created;
+    @Required
     private final Reference patient;
     private final Reference encounter;
+    @Required
     private final DateTime dateWritten;
+    @Required
     private final Reference prescriber;
+    @Required
     private final List<LensSpecification> lensSpecification;
 
     private volatile int hashCode;
@@ -67,9 +72,7 @@ public class VisionPrescription extends DomainResource {
     }
 
     /**
-     * <p>
      * A unique identifier assigned to this vision prescription.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -79,9 +82,7 @@ public class VisionPrescription extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of the resource instance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link VisionStatus}.
@@ -91,9 +92,7 @@ public class VisionPrescription extends DomainResource {
     }
 
     /**
-     * <p>
      * The date this resource was created.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -103,9 +102,7 @@ public class VisionPrescription extends DomainResource {
     }
 
     /**
-     * <p>
      * A resource reference to the person to whom the vision prescription applies.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -115,10 +112,8 @@ public class VisionPrescription extends DomainResource {
     }
 
     /**
-     * <p>
      * A reference to a resource that identifies the particular occurrence of contact between patient and health care 
      * provider during which the prescription was issued.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -128,9 +123,7 @@ public class VisionPrescription extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and perhaps time) when the prescription was written.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -140,9 +133,7 @@ public class VisionPrescription extends DomainResource {
     }
 
     /**
-     * <p>
      * The healthcare professional responsible for authorizing the prescription.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -152,10 +143,8 @@ public class VisionPrescription extends DomainResource {
     }
 
     /**
-     * <p>
      * Contain the details of the individual lens specifications and serves as the authorization for the fullfillment by 
      * certified professionals.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link LensSpecification}.
@@ -271,9 +260,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -287,10 +274,8 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -304,11 +289,9 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -322,9 +305,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -338,12 +319,10 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -357,13 +336,10 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -377,13 +353,10 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -397,15 +370,12 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -419,15 +389,12 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -441,21 +408,17 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -469,21 +432,17 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -497,12 +456,9 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * A unique identifier assigned to this vision prescription.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Business Identifier for vision prescription
@@ -518,12 +474,9 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * A unique identifier assigned to this vision prescription.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Business Identifier for vision prescription
@@ -537,9 +490,9 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of the resource instance.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     active | cancelled | draft | entered-in-error
@@ -553,9 +506,9 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * The date this resource was created.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param created
          *     Response creation date
@@ -569,9 +522,9 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * A resource reference to the person to whom the vision prescription applies.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param patient
          *     Who prescription is for
@@ -585,10 +538,8 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a resource that identifies the particular occurrence of contact between patient and health care 
          * provider during which the prescription was issued.
-         * </p>
          * 
          * @param encounter
          *     Created during encounter / admission / stay
@@ -602,9 +553,9 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and perhaps time) when the prescription was written.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param dateWritten
          *     When prescription was authorized
@@ -618,9 +569,9 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * The healthcare professional responsible for authorizing the prescription.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param prescriber
          *     Who authorized the vision prescription
@@ -634,13 +585,12 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * Contain the details of the individual lens specifications and serves as the authorization for the fullfillment by 
          * certified professionals.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is required.
          * 
          * @param lensSpecification
          *     Vision lens authorization
@@ -656,13 +606,12 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * Contain the details of the individual lens specifications and serves as the authorization for the fullfillment by 
          * certified professionals.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is required.
          * 
          * @param lensSpecification
          *     Vision lens authorization
@@ -675,6 +624,22 @@ public class VisionPrescription extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link VisionPrescription}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>created</li>
+         * <li>patient</li>
+         * <li>dateWritten</li>
+         * <li>prescriber</li>
+         * <li>lensSpecification</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link VisionPrescription}
+         */
         @Override
         public VisionPrescription build() {
             return new VisionPrescription(this);
@@ -695,13 +660,13 @@ public class VisionPrescription extends DomainResource {
     }
 
     /**
-     * <p>
      * Contain the details of the individual lens specifications and serves as the authorization for the fullfillment by 
      * certified professionals.
-     * </p>
      */
     public static class LensSpecification extends BackboneElement {
+        @Required
         private final CodeableConcept product;
+        @Required
         private final VisionEyes eye;
         private final Decimal sphere;
         private final Decimal cylinder;
@@ -738,9 +703,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the type of vision correction product which is required for the patient.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -750,9 +713,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * The eye for which the lens specification applies.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link VisionEyes}.
@@ -762,9 +723,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * Lens power measured in dioptres (0.25 units).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -774,9 +733,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * Power adjustment for astigmatism measured in dioptres (0.25 units).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -786,9 +743,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * Adjustment for astigmatism measured in integer degrees.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Integer}.
@@ -798,9 +753,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * Allows for adjustment on two axis.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Prism}.
@@ -810,9 +763,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * Power adjustment for multifocal lenses measured in dioptres (0.25 units).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -822,9 +773,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact lens power measured in dioptres (0.25 units).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -834,9 +783,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * Back curvature measured in millimetres.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -846,9 +793,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact lens diameter measured in millimetres.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -858,9 +803,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * The recommended maximum wear period for the lens.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link SimpleQuantity}.
@@ -870,9 +813,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * Special color or pattern.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -882,9 +823,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * Brand recommendations or restrictions.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -894,9 +833,7 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * Notes for special requirements such as coatings and lens materials.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -1040,10 +977,8 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1057,15 +992,12 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1079,15 +1011,12 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1101,21 +1030,17 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1129,21 +1054,17 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1157,9 +1078,9 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the type of vision correction product which is required for the patient.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param product
              *     Product to be supplied
@@ -1173,9 +1094,9 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * The eye for which the lens specification applies.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param eye
              *     right | left
@@ -1189,9 +1110,7 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * Lens power measured in dioptres (0.25 units).
-             * </p>
              * 
              * @param sphere
              *     Power of the lens
@@ -1205,9 +1124,7 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * Power adjustment for astigmatism measured in dioptres (0.25 units).
-             * </p>
              * 
              * @param cylinder
              *     Lens power for astigmatism
@@ -1221,9 +1138,7 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * Adjustment for astigmatism measured in integer degrees.
-             * </p>
              * 
              * @param axis
              *     Lens meridian which contain no power for astigmatism
@@ -1237,12 +1152,9 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * Allows for adjustment on two axis.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param prism
              *     Eye alignment compensation
@@ -1258,12 +1170,9 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * Allows for adjustment on two axis.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param prism
              *     Eye alignment compensation
@@ -1277,9 +1186,7 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * Power adjustment for multifocal lenses measured in dioptres (0.25 units).
-             * </p>
              * 
              * @param add
              *     Added power for multifocal levels
@@ -1293,9 +1200,7 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * Contact lens power measured in dioptres (0.25 units).
-             * </p>
              * 
              * @param power
              *     Contact lens power
@@ -1309,9 +1214,7 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * Back curvature measured in millimetres.
-             * </p>
              * 
              * @param backCurve
              *     Contact lens back curvature
@@ -1325,9 +1228,7 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * Contact lens diameter measured in millimetres.
-             * </p>
              * 
              * @param diameter
              *     Contact lens diameter
@@ -1341,9 +1242,7 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * The recommended maximum wear period for the lens.
-             * </p>
              * 
              * @param duration
              *     Lens wear duration
@@ -1357,9 +1256,7 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * Special color or pattern.
-             * </p>
              * 
              * @param color
              *     Color required
@@ -1373,9 +1270,7 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * Brand recommendations or restrictions.
-             * </p>
              * 
              * @param brand
              *     Brand required
@@ -1389,12 +1284,9 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * Notes for special requirements such as coatings and lens materials.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param note
              *     Notes for coatings
@@ -1410,12 +1302,9 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * Notes for special requirements such as coatings and lens materials.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param note
              *     Notes for coatings
@@ -1428,6 +1317,18 @@ public class VisionPrescription extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link LensSpecification}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>product</li>
+             * <li>eye</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link LensSpecification}
+             */
             @Override
             public LensSpecification build() {
                 return new LensSpecification(this);
@@ -1454,12 +1355,12 @@ public class VisionPrescription extends DomainResource {
         }
 
         /**
-         * <p>
          * Allows for adjustment on two axis.
-         * </p>
          */
         public static class Prism extends BackboneElement {
+            @Required
             private final Decimal amount;
+            @Required
             private final VisionBase base;
 
             private volatile int hashCode;
@@ -1472,9 +1373,7 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * Amount of prism to compensate for eye alignment in fractional units.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Decimal}.
@@ -1484,9 +1383,7 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * <p>
              * The relative base, or reference lens edge, for the prism.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link VisionBase}.
@@ -1570,10 +1467,8 @@ public class VisionPrescription extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -1587,15 +1482,12 @@ public class VisionPrescription extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1609,15 +1501,12 @@ public class VisionPrescription extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1631,21 +1520,17 @@ public class VisionPrescription extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1659,21 +1544,17 @@ public class VisionPrescription extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1687,9 +1568,9 @@ public class VisionPrescription extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Amount of prism to compensate for eye alignment in fractional units.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param amount
                  *     Amount of adjustment
@@ -1703,9 +1584,9 @@ public class VisionPrescription extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The relative base, or reference lens edge, for the prism.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param base
                  *     up | down | in | out
@@ -1718,6 +1599,18 @@ public class VisionPrescription extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Prism}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>amount</li>
+                 * <li>base</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Prism}
+                 */
                 @Override
                 public Prism build() {
                     return new Prism(this);

@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Attachment;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -35,9 +37,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * The detailed description of a substance, typically at a level beyond what is used for prescribing.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class SubstanceSpecification extends DomainResource {
@@ -87,9 +87,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifier by which this substance is known.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Identifier}.
@@ -99,9 +97,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * High level categorization, e.g. polymer or nucleic acid.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -111,9 +107,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Status of substance within the catalogue e.g. approved.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -123,9 +117,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * If the substance applies to only human or veterinary use.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -135,9 +127,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Textual description of the substance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -147,9 +137,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Supporting literature.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -159,9 +147,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Textual comment about this record of a substance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -171,9 +157,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Moiety, for structural modifications.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Moiety}.
@@ -183,9 +167,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * General specifications for this substance, including how it is related to other substances.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Property}.
@@ -195,9 +177,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * General information detailing this substance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -207,9 +187,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Structural information.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Structure}.
@@ -219,9 +197,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Codes associated with the substance.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Code}.
@@ -231,9 +207,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Names applicable to this substance.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Name}.
@@ -243,9 +217,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * The molecular weight or weight range (for proteins, polymers or nucleic acids).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link MolecularWeight}.
@@ -255,9 +227,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * A link between this substance and another, with details of the relationship.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Relationship}.
@@ -267,9 +237,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Data items specific to nucleic acids.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -279,9 +247,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Data items specific to polymers.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -291,9 +257,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Data items specific to proteins.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -303,9 +267,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Material or taxonomic/anatomical source for the substance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -465,9 +427,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -481,10 +441,8 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -498,11 +456,9 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -516,9 +472,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -532,12 +486,10 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -551,13 +503,10 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -571,13 +520,10 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -591,15 +537,12 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -613,15 +556,12 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -635,21 +575,17 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -663,21 +599,17 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -691,9 +623,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifier by which this substance is known.
-         * </p>
          * 
          * @param identifier
          *     Identifier by which this substance is known
@@ -707,9 +637,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * High level categorization, e.g. polymer or nucleic acid.
-         * </p>
          * 
          * @param type
          *     High level categorization, e.g. polymer or nucleic acid
@@ -723,9 +651,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Status of substance within the catalogue e.g. approved.
-         * </p>
          * 
          * @param status
          *     Status of substance within the catalogue e.g. approved
@@ -739,9 +665,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * If the substance applies to only human or veterinary use.
-         * </p>
          * 
          * @param domain
          *     If the substance applies to only human or veterinary use
@@ -755,9 +679,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Textual description of the substance.
-         * </p>
          * 
          * @param description
          *     Textual description of the substance
@@ -771,12 +693,9 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Supporting literature.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param source
          *     Supporting literature
@@ -792,12 +711,9 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Supporting literature.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param source
          *     Supporting literature
@@ -811,9 +727,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Textual comment about this record of a substance.
-         * </p>
          * 
          * @param comment
          *     Textual comment about this record of a substance
@@ -827,12 +741,9 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Moiety, for structural modifications.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param moiety
          *     Moiety, for structural modifications
@@ -848,12 +759,9 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Moiety, for structural modifications.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param moiety
          *     Moiety, for structural modifications
@@ -867,12 +775,9 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * General specifications for this substance, including how it is related to other substances.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param property
          *     General specifications for this substance, including how it is related to other substances
@@ -888,12 +793,9 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * General specifications for this substance, including how it is related to other substances.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param property
          *     General specifications for this substance, including how it is related to other substances
@@ -907,9 +809,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * General information detailing this substance.
-         * </p>
          * 
          * @param referenceInformation
          *     General information detailing this substance
@@ -923,9 +823,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Structural information.
-         * </p>
          * 
          * @param structure
          *     Structural information
@@ -939,12 +837,9 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Codes associated with the substance.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param code
          *     Codes associated with the substance
@@ -960,12 +855,9 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Codes associated with the substance.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param code
          *     Codes associated with the substance
@@ -979,12 +871,9 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Names applicable to this substance.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param name
          *     Names applicable to this substance
@@ -1000,12 +889,9 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Names applicable to this substance.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param name
          *     Names applicable to this substance
@@ -1019,12 +905,9 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * The molecular weight or weight range (for proteins, polymers or nucleic acids).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param molecularWeight
          *     The molecular weight or weight range (for proteins, polymers or nucleic acids)
@@ -1040,12 +923,9 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * The molecular weight or weight range (for proteins, polymers or nucleic acids).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param molecularWeight
          *     The molecular weight or weight range (for proteins, polymers or nucleic acids)
@@ -1059,12 +939,9 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * A link between this substance and another, with details of the relationship.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param relationship
          *     A link between this substance and another, with details of the relationship
@@ -1080,12 +957,9 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * A link between this substance and another, with details of the relationship.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param relationship
          *     A link between this substance and another, with details of the relationship
@@ -1099,9 +973,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Data items specific to nucleic acids.
-         * </p>
          * 
          * @param nucleicAcid
          *     Data items specific to nucleic acids
@@ -1115,9 +987,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Data items specific to polymers.
-         * </p>
          * 
          * @param polymer
          *     Data items specific to polymers
@@ -1131,9 +1001,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Data items specific to proteins.
-         * </p>
          * 
          * @param protein
          *     Data items specific to proteins
@@ -1147,9 +1015,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Material or taxonomic/anatomical source for the substance.
-         * </p>
          * 
          * @param sourceMaterial
          *     Material or taxonomic/anatomical source for the substance
@@ -1162,6 +1028,12 @@ public class SubstanceSpecification extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link SubstanceSpecification}
+         * 
+         * @return
+         *     An immutable object of type {@link SubstanceSpecification}
+         */
         @Override
         public SubstanceSpecification build() {
             return new SubstanceSpecification(this);
@@ -1193,9 +1065,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Moiety, for structural modifications.
-     * </p>
      */
     public static class Moiety extends BackboneElement {
         private final CodeableConcept role;
@@ -1204,6 +1074,7 @@ public class SubstanceSpecification extends DomainResource {
         private final CodeableConcept stereochemistry;
         private final CodeableConcept opticalActivity;
         private final String molecularFormula;
+        @Choice({Quantity.class, String.class})
         private final Element amount;
 
         private volatile int hashCode;
@@ -1221,9 +1092,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Role that the moiety is playing.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1233,9 +1102,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifier by which this moiety substance is known.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Identifier}.
@@ -1245,9 +1112,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Textual name for this moiety substance.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1257,9 +1122,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Stereochemistry type.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1269,9 +1132,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Optical activity type.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1281,9 +1142,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Molecular formula.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1293,9 +1152,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Quantitative value for this moiety.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -1404,10 +1261,8 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1421,15 +1276,12 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1443,15 +1295,12 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1465,21 +1314,17 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1493,21 +1338,17 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1521,9 +1362,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Role that the moiety is playing.
-             * </p>
              * 
              * @param role
              *     Role that the moiety is playing
@@ -1537,9 +1376,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifier by which this moiety substance is known.
-             * </p>
              * 
              * @param identifier
              *     Identifier by which this moiety substance is known
@@ -1553,9 +1390,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Textual name for this moiety substance.
-             * </p>
              * 
              * @param name
              *     Textual name for this moiety substance
@@ -1569,9 +1404,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Stereochemistry type.
-             * </p>
              * 
              * @param stereochemistry
              *     Stereochemistry type
@@ -1585,9 +1418,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Optical activity type.
-             * </p>
              * 
              * @param opticalActivity
              *     Optical activity type
@@ -1601,9 +1432,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Molecular formula.
-             * </p>
              * 
              * @param molecularFormula
              *     Molecular formula
@@ -1617,9 +1446,13 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Quantitative value for this moiety.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Quantity}</li>
+             * <li>{@link String}</li>
+             * </ul>
              * 
              * @param amount
              *     Quantitative value for this moiety
@@ -1632,6 +1465,12 @@ public class SubstanceSpecification extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Moiety}
+             * 
+             * @return
+             *     An immutable object of type {@link Moiety}
+             */
             @Override
             public Moiety build() {
                 return new Moiety(this);
@@ -1652,15 +1491,15 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * General specifications for this substance, including how it is related to other substances.
-     * </p>
      */
     public static class Property extends BackboneElement {
         private final CodeableConcept category;
         private final CodeableConcept code;
         private final String parameters;
+        @Choice({Reference.class, CodeableConcept.class})
         private final Element definingSubstance;
+        @Choice({Quantity.class, String.class})
         private final Element amount;
 
         private volatile int hashCode;
@@ -1676,9 +1515,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * A category for this property, e.g. Physical, Chemical, Enzymatic.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1688,9 +1525,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Property type e.g. viscosity, pH, isoelectric point.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1700,9 +1535,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Parameters that were used in the measurement of a property (e.g. for viscosity: measured at 20C with a pH of 7.1).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1712,9 +1545,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * A substance upon which a defining property depends (e.g. for solubility: in water, in alcohol).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -1724,9 +1555,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Quantitative value for this property.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -1825,10 +1654,8 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1842,15 +1669,12 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1864,15 +1688,12 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1886,21 +1707,17 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1914,21 +1731,17 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1942,9 +1755,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * A category for this property, e.g. Physical, Chemical, Enzymatic.
-             * </p>
              * 
              * @param category
              *     A category for this property, e.g. Physical, Chemical, Enzymatic
@@ -1958,9 +1769,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Property type e.g. viscosity, pH, isoelectric point.
-             * </p>
              * 
              * @param code
              *     Property type e.g. viscosity, pH, isoelectric point
@@ -1974,9 +1783,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Parameters that were used in the measurement of a property (e.g. for viscosity: measured at 20C with a pH of 7.1).
-             * </p>
              * 
              * @param parameters
              *     Parameters that were used in the measurement of a property (e.g. for viscosity: measured at 20C with a pH of 7.1)
@@ -1990,9 +1797,13 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * A substance upon which a defining property depends (e.g. for solubility: in water, in alcohol).
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Reference}</li>
+             * <li>{@link CodeableConcept}</li>
+             * </ul>
              * 
              * @param definingSubstance
              *     A substance upon which a defining property depends (e.g. for solubility: in water, in alcohol)
@@ -2006,9 +1817,13 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Quantitative value for this property.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Quantity}</li>
+             * <li>{@link String}</li>
+             * </ul>
              * 
              * @param amount
              *     Quantitative value for this property
@@ -2021,6 +1836,12 @@ public class SubstanceSpecification extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Property}
+             * 
+             * @return
+             *     An immutable object of type {@link Property}
+             */
             @Override
             public Property build() {
                 return new Property(this);
@@ -2039,9 +1860,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Structural information.
-     * </p>
      */
     public static class Structure extends BackboneElement {
         private final CodeableConcept stereochemistry;
@@ -2069,9 +1888,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Stereochemistry type.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2081,9 +1898,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Optical activity type.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2093,9 +1908,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Molecular formula.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2105,10 +1918,8 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Specified per moiety according to the Hill system, i.e. first C, then H, then alphabetical, each moiety separated by a 
          * dot.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2118,9 +1929,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Applicable for single substances that contain a radionuclide or a non-natural isotopic ratio.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Isotope}.
@@ -2130,9 +1939,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * The molecular weight or weight range (for proteins, polymers or nucleic acids).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link MolecularWeight}.
@@ -2142,9 +1949,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Supporting literature.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -2154,9 +1959,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Molecular structural representation.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Representation}.
@@ -2270,10 +2073,8 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2287,15 +2088,12 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2309,15 +2107,12 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2331,21 +2126,17 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2359,21 +2150,17 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2387,9 +2174,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Stereochemistry type.
-             * </p>
              * 
              * @param stereochemistry
              *     Stereochemistry type
@@ -2403,9 +2188,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Optical activity type.
-             * </p>
              * 
              * @param opticalActivity
              *     Optical activity type
@@ -2419,9 +2202,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Molecular formula.
-             * </p>
              * 
              * @param molecularFormula
              *     Molecular formula
@@ -2435,10 +2216,8 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Specified per moiety according to the Hill system, i.e. first C, then H, then alphabetical, each moiety separated by a 
              * dot.
-             * </p>
              * 
              * @param molecularFormulaByMoiety
              *     Specified per moiety according to the Hill system, i.e. first C, then H, then alphabetical, each moiety separated by a 
@@ -2453,12 +2232,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Applicable for single substances that contain a radionuclide or a non-natural isotopic ratio.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param isotope
              *     Applicable for single substances that contain a radionuclide or a non-natural isotopic ratio
@@ -2474,12 +2250,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Applicable for single substances that contain a radionuclide or a non-natural isotopic ratio.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param isotope
              *     Applicable for single substances that contain a radionuclide or a non-natural isotopic ratio
@@ -2493,9 +2266,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * The molecular weight or weight range (for proteins, polymers or nucleic acids).
-             * </p>
              * 
              * @param molecularWeight
              *     The molecular weight or weight range (for proteins, polymers or nucleic acids)
@@ -2509,12 +2280,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Supporting literature.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param source
              *     Supporting literature
@@ -2530,12 +2298,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Supporting literature.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param source
              *     Supporting literature
@@ -2549,12 +2314,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Molecular structural representation.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param representation
              *     Molecular structural representation
@@ -2570,12 +2332,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Molecular structural representation.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param representation
              *     Molecular structural representation
@@ -2588,6 +2347,12 @@ public class SubstanceSpecification extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Structure}
+             * 
+             * @return
+             *     An immutable object of type {@link Structure}
+             */
             @Override
             public Structure build() {
                 return new Structure(this);
@@ -2608,9 +2373,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Applicable for single substances that contain a radionuclide or a non-natural isotopic ratio.
-         * </p>
          */
         public static class Isotope extends BackboneElement {
             private final Identifier identifier;
@@ -2632,9 +2395,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Substance identifier for each non-natural or radioisotope.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Identifier}.
@@ -2644,9 +2405,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Substance name for each non-natural or radioisotope.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2656,9 +2415,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of isotopic substitution present in a single substance.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2668,9 +2425,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Half life - for a non-natural nuclide.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Quantity}.
@@ -2680,9 +2435,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * The molecular weight or weight range (for proteins, polymers or nucleic acids).
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link MolecularWeight}.
@@ -2781,10 +2534,8 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2798,15 +2549,12 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2820,15 +2568,12 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2842,21 +2587,17 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2870,21 +2611,17 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2898,9 +2635,7 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Substance identifier for each non-natural or radioisotope.
-                 * </p>
                  * 
                  * @param identifier
                  *     Substance identifier for each non-natural or radioisotope
@@ -2914,9 +2649,7 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Substance name for each non-natural or radioisotope.
-                 * </p>
                  * 
                  * @param name
                  *     Substance name for each non-natural or radioisotope
@@ -2930,9 +2663,7 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The type of isotopic substitution present in a single substance.
-                 * </p>
                  * 
                  * @param substitution
                  *     The type of isotopic substitution present in a single substance
@@ -2946,9 +2677,7 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Half life - for a non-natural nuclide.
-                 * </p>
                  * 
                  * @param halfLife
                  *     Half life - for a non-natural nuclide
@@ -2962,9 +2691,7 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The molecular weight or weight range (for proteins, polymers or nucleic acids).
-                 * </p>
                  * 
                  * @param molecularWeight
                  *     The molecular weight or weight range (for proteins, polymers or nucleic acids)
@@ -2977,6 +2704,12 @@ public class SubstanceSpecification extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Isotope}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Isotope}
+                 */
                 @Override
                 public Isotope build() {
                     return new Isotope(this);
@@ -2994,9 +2727,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * The molecular weight or weight range (for proteins, polymers or nucleic acids).
-             * </p>
              */
             public static class MolecularWeight extends BackboneElement {
                 private final CodeableConcept method;
@@ -3014,9 +2745,7 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The method by which the molecular weight was determined.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link CodeableConcept}.
@@ -3026,9 +2755,7 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Type of molecular weight such as exact, average (also known as. number average), weight average.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link CodeableConcept}.
@@ -3038,10 +2765,8 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Used to capture quantitative values for a variety of elements. If only limits are given, the arithmetic mean would be 
                  * the average. If only a single definite value for a given element is given, it would be captured in this field.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Quantity}.
@@ -3130,10 +2855,8 @@ public class SubstanceSpecification extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -3147,15 +2870,12 @@ public class SubstanceSpecification extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -3169,15 +2889,12 @@ public class SubstanceSpecification extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -3191,21 +2908,17 @@ public class SubstanceSpecification extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -3219,21 +2932,17 @@ public class SubstanceSpecification extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -3247,9 +2956,7 @@ public class SubstanceSpecification extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The method by which the molecular weight was determined.
-                     * </p>
                      * 
                      * @param method
                      *     The method by which the molecular weight was determined
@@ -3263,9 +2970,7 @@ public class SubstanceSpecification extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Type of molecular weight such as exact, average (also known as. number average), weight average.
-                     * </p>
                      * 
                      * @param type
                      *     Type of molecular weight such as exact, average (also known as. number average), weight average
@@ -3279,10 +2984,8 @@ public class SubstanceSpecification extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Used to capture quantitative values for a variety of elements. If only limits are given, the arithmetic mean would be 
                      * the average. If only a single definite value for a given element is given, it would be captured in this field.
-                     * </p>
                      * 
                      * @param amount
                      *     Used to capture quantitative values for a variety of elements. If only limits are given, the arithmetic mean would be 
@@ -3296,6 +2999,12 @@ public class SubstanceSpecification extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link MolecularWeight}
+                     * 
+                     * @return
+                     *     An immutable object of type {@link MolecularWeight}
+                     */
                     @Override
                     public MolecularWeight build() {
                         return new MolecularWeight(this);
@@ -3313,9 +3022,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Molecular structural representation.
-         * </p>
          */
         public static class Representation extends BackboneElement {
             private final CodeableConcept type;
@@ -3333,9 +3040,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of structure (e.g. Full, Partial, Representative).
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -3345,9 +3050,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * The structural representation as text string in a format e.g. InChI, SMILES, MOLFILE, CDX.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -3357,9 +3060,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * An attached file with the structural representation.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Attachment}.
@@ -3448,10 +3149,8 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -3465,15 +3164,12 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3487,15 +3183,12 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3509,21 +3202,17 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3537,21 +3226,17 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3565,9 +3250,7 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The type of structure (e.g. Full, Partial, Representative).
-                 * </p>
                  * 
                  * @param type
                  *     The type of structure (e.g. Full, Partial, Representative)
@@ -3581,9 +3264,7 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The structural representation as text string in a format e.g. InChI, SMILES, MOLFILE, CDX.
-                 * </p>
                  * 
                  * @param representation
                  *     The structural representation as text string in a format e.g. InChI, SMILES, MOLFILE, CDX
@@ -3597,9 +3278,7 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * An attached file with the structural representation.
-                 * </p>
                  * 
                  * @param attachment
                  *     An attached file with the structural representation
@@ -3612,6 +3291,12 @@ public class SubstanceSpecification extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Representation}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Representation}
+                 */
                 @Override
                 public Representation build() {
                     return new Representation(this);
@@ -3629,9 +3314,7 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Codes associated with the substance.
-     * </p>
      */
     public static class Code extends BackboneElement {
         private final CodeableConcept code;
@@ -3653,9 +3336,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * The specific code.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -3665,9 +3346,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Status of the code assignment.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -3677,9 +3356,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * The date at which the code status is changed as part of the terminology maintenance.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DateTime}.
@@ -3689,9 +3366,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Any comment can be provided in this field, if necessary.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3701,9 +3376,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Supporting literature.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -3802,10 +3475,8 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3819,15 +3490,12 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3841,15 +3509,12 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3863,21 +3528,17 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3891,21 +3552,17 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3919,9 +3576,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * The specific code.
-             * </p>
              * 
              * @param code
              *     The specific code
@@ -3935,9 +3590,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Status of the code assignment.
-             * </p>
              * 
              * @param status
              *     Status of the code assignment
@@ -3951,9 +3604,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * The date at which the code status is changed as part of the terminology maintenance.
-             * </p>
              * 
              * @param statusDate
              *     The date at which the code status is changed as part of the terminology maintenance
@@ -3967,9 +3618,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Any comment can be provided in this field, if necessary.
-             * </p>
              * 
              * @param comment
              *     Any comment can be provided in this field, if necessary
@@ -3983,12 +3632,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Supporting literature.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param source
              *     Supporting literature
@@ -4004,12 +3650,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Supporting literature.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param source
              *     Supporting literature
@@ -4022,6 +3665,12 @@ public class SubstanceSpecification extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Code}
+             * 
+             * @return
+             *     An immutable object of type {@link Code}
+             */
             @Override
             public Code build() {
                 return new Code(this);
@@ -4040,11 +3689,10 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * Names applicable to this substance.
-     * </p>
      */
     public static class Name extends BackboneElement {
+        @Required
         private final String name;
         private final CodeableConcept type;
         private final CodeableConcept status;
@@ -4076,9 +3724,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * The actual name.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -4088,9 +3734,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Name type.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -4100,9 +3744,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of the name.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -4112,9 +3754,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * If this is the preferred name for this substance.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -4124,9 +3764,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Language of the name.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -4136,10 +3774,8 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * The use context of this name for example if there is a different name a drug active ingredient as opposed to a food 
          * colour additive.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -4149,9 +3785,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * The jurisdiction where this name applies.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -4161,9 +3795,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * A synonym of this name.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Name}.
@@ -4173,9 +3805,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * A translation for this name.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Name}.
@@ -4185,9 +3815,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Details of the official nature of this name.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Official}.
@@ -4197,9 +3825,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Supporting literature.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -4328,10 +3954,8 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -4345,15 +3969,12 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4367,15 +3988,12 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4389,21 +4007,17 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4417,21 +4031,17 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4445,9 +4055,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * The actual name.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param name
              *     The actual name
@@ -4461,9 +4071,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Name type.
-             * </p>
              * 
              * @param type
              *     Name type
@@ -4477,9 +4085,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * The status of the name.
-             * </p>
              * 
              * @param status
              *     The status of the name
@@ -4493,9 +4099,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * If this is the preferred name for this substance.
-             * </p>
              * 
              * @param preferred
              *     If this is the preferred name for this substance
@@ -4509,12 +4113,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Language of the name.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param language
              *     Language of the name
@@ -4530,12 +4131,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Language of the name.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param language
              *     Language of the name
@@ -4549,13 +4147,10 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * The use context of this name for example if there is a different name a drug active ingredient as opposed to a food 
              * colour additive.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param domain
              *     The use context of this name for example if there is a different name a drug active ingredient as opposed to a food 
@@ -4572,13 +4167,10 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * The use context of this name for example if there is a different name a drug active ingredient as opposed to a food 
              * colour additive.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param domain
              *     The use context of this name for example if there is a different name a drug active ingredient as opposed to a food 
@@ -4593,12 +4185,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * The jurisdiction where this name applies.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param jurisdiction
              *     The jurisdiction where this name applies
@@ -4614,12 +4203,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * The jurisdiction where this name applies.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param jurisdiction
              *     The jurisdiction where this name applies
@@ -4633,12 +4219,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * A synonym of this name.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param synonym
              *     A synonym of this name
@@ -4654,12 +4237,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * A synonym of this name.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param synonym
              *     A synonym of this name
@@ -4673,12 +4253,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * A translation for this name.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param translation
              *     A translation for this name
@@ -4694,12 +4271,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * A translation for this name.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param translation
              *     A translation for this name
@@ -4713,12 +4287,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Details of the official nature of this name.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param official
              *     Details of the official nature of this name
@@ -4734,12 +4305,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Details of the official nature of this name.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param official
              *     Details of the official nature of this name
@@ -4753,12 +4321,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Supporting literature.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param source
              *     Supporting literature
@@ -4774,12 +4339,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Supporting literature.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param source
              *     Supporting literature
@@ -4792,6 +4354,17 @@ public class SubstanceSpecification extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Name}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>name</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Name}
+             */
             @Override
             public Name build() {
                 return new Name(this);
@@ -4815,9 +4388,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Details of the official nature of this name.
-         * </p>
          */
         public static class Official extends BackboneElement {
             private final CodeableConcept authority;
@@ -4835,9 +4406,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Which authority uses this official name.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -4847,9 +4416,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * The status of the official name.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -4859,9 +4426,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Date of official name change.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link DateTime}.
@@ -4950,10 +4515,8 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -4967,15 +4530,12 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4989,15 +4549,12 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -5011,21 +4568,17 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -5039,21 +4592,17 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -5067,9 +4616,7 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Which authority uses this official name.
-                 * </p>
                  * 
                  * @param authority
                  *     Which authority uses this official name
@@ -5083,9 +4630,7 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The status of the official name.
-                 * </p>
                  * 
                  * @param status
                  *     The status of the official name
@@ -5099,9 +4644,7 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Date of official name change.
-                 * </p>
                  * 
                  * @param date
                  *     Date of official name change
@@ -5114,6 +4657,12 @@ public class SubstanceSpecification extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Official}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Official}
+                 */
                 @Override
                 public Official build() {
                     return new Official(this);
@@ -5131,14 +4680,14 @@ public class SubstanceSpecification extends DomainResource {
     }
 
     /**
-     * <p>
      * A link between this substance and another, with details of the relationship.
-     * </p>
      */
     public static class Relationship extends BackboneElement {
+        @Choice({Reference.class, CodeableConcept.class})
         private final Element substance;
         private final CodeableConcept relationship;
         private final Boolean isDefining;
+        @Choice({Quantity.class, Range.class, Ratio.class, String.class})
         private final Element amount;
         private final Ratio amountRatioLowLimit;
         private final CodeableConcept amountType;
@@ -5159,9 +4708,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * A pointer to another substance, as a resource or just a representational code.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -5171,9 +4718,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * For example "salt to parent", "active moiety", "starting material".
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -5183,10 +4728,8 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * For example where an enzyme strongly bonds with a particular substance, this is a defining relationship for that 
          * enzyme, out of several possible substance relationships.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -5196,10 +4739,8 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * A numeric factor for the relationship, for instance to express that the salt of a substance has some percentage of the 
          * active substance in relation to some other.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -5209,9 +4750,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * For use when the numeric.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Ratio}.
@@ -5221,9 +4760,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * An operator for the amount, for example "average", "approximately", "less than".
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -5233,9 +4770,7 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * <p>
          * Supporting literature.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -5344,10 +4879,8 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -5361,15 +4894,12 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -5383,15 +4913,12 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -5405,21 +4932,17 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -5433,21 +4956,17 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -5461,9 +4980,13 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * A pointer to another substance, as a resource or just a representational code.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Reference}</li>
+             * <li>{@link CodeableConcept}</li>
+             * </ul>
              * 
              * @param substance
              *     A pointer to another substance, as a resource or just a representational code
@@ -5477,9 +5000,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * For example "salt to parent", "active moiety", "starting material".
-             * </p>
              * 
              * @param relationship
              *     For example "salt to parent", "active moiety", "starting material"
@@ -5493,10 +5014,8 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * For example where an enzyme strongly bonds with a particular substance, this is a defining relationship for that 
              * enzyme, out of several possible substance relationships.
-             * </p>
              * 
              * @param isDefining
              *     For example where an enzyme strongly bonds with a particular substance, this is a defining relationship for that 
@@ -5511,10 +5030,16 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * A numeric factor for the relationship, for instance to express that the salt of a substance has some percentage of the 
              * active substance in relation to some other.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Quantity}</li>
+             * <li>{@link Range}</li>
+             * <li>{@link Ratio}</li>
+             * <li>{@link String}</li>
+             * </ul>
              * 
              * @param amount
              *     A numeric factor for the relationship, for instance to express that the salt of a substance has some percentage of the 
@@ -5529,9 +5054,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * For use when the numeric.
-             * </p>
              * 
              * @param amountRatioLowLimit
              *     For use when the numeric
@@ -5545,9 +5068,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * An operator for the amount, for example "average", "approximately", "less than".
-             * </p>
              * 
              * @param amountType
              *     An operator for the amount, for example "average", "approximately", "less than"
@@ -5561,12 +5082,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Supporting literature.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param source
              *     Supporting literature
@@ -5582,12 +5100,9 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * <p>
              * Supporting literature.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param source
              *     Supporting literature
@@ -5600,6 +5115,12 @@ public class SubstanceSpecification extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Relationship}
+             * 
+             * @return
+             *     An immutable object of type {@link Relationship}
+             */
             @Override
             public Relationship build() {
                 return new Relationship(this);

@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
@@ -33,9 +35,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use).
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class MedicinalProduct extends DomainResource {
@@ -55,6 +55,7 @@ public class MedicinalProduct extends DomainResource {
     private final List<Reference> masterFile;
     private final List<Reference> contact;
     private final List<Reference> clinicalTrial;
+    @Required
     private final List<Name> name;
     private final List<Identifier> crossReference;
     private final List<ManufacturingBusinessOperation> manufacturingBusinessOperation;
@@ -87,9 +88,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * Business identifier for this product. Could be an MPID.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -99,9 +98,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * Regulatory type, e.g. Investigational or Authorized.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -111,9 +108,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * If this medicine applies to human or veterinary uses.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Coding}.
@@ -123,9 +118,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * The dose form for a single part product, or combined form of a multiple part product.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -135,9 +128,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * The legal status of supply of the medicinal product as classified by the regulator.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -147,9 +138,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether the Medicinal Product is subject to additional monitoring for regulatory reasons.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -159,9 +148,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether the Medicinal Product is subject to special measures for regulatory reasons.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -171,9 +158,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * If authorised for use in children.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -183,9 +168,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * Allows the product to be classified by various systems.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -195,9 +178,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * Marketing status of the medicinal product, in contrast to marketing authorizaton.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link MarketingStatus}.
@@ -207,9 +188,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * Pharmaceutical aspects of product.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -219,9 +198,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * Package representation for the product.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -231,9 +208,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * Supporting documentation, typically for regulatory submission.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -243,9 +218,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * A master file for to the medicinal product (e.g. Pharmacovigilance System Master File).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -255,9 +228,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * A product specific contact, person (in a role), or an organization.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -267,9 +238,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * Clinical trials or studies that this product is involved in.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -279,9 +248,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * The product's name, including full name and possibly coded parts.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Name}.
@@ -291,9 +258,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * Reference to another product, e.g. for linking authorised to investigational product.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -303,9 +268,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * An operation applied to the product, for manufacturing or adminsitrative purpose.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ManufacturingBusinessOperation}.
@@ -315,9 +278,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates if the medicinal product has an orphan designation for the treatment of a rare disease.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link SpecialDesignation}.
@@ -481,9 +442,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -497,10 +456,8 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -514,11 +471,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -532,9 +487,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -548,12 +501,10 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -567,13 +518,10 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -587,13 +535,10 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -607,15 +552,12 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -629,15 +571,12 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -651,21 +590,17 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -679,21 +614,17 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -707,12 +638,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifier for this product. Could be an MPID.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Business identifier for this product. Could be an MPID
@@ -728,12 +656,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifier for this product. Could be an MPID.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Business identifier for this product. Could be an MPID
@@ -747,9 +672,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Regulatory type, e.g. Investigational or Authorized.
-         * </p>
          * 
          * @param type
          *     Regulatory type, e.g. Investigational or Authorized
@@ -763,9 +686,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * If this medicine applies to human or veterinary uses.
-         * </p>
          * 
          * @param domain
          *     If this medicine applies to human or veterinary uses
@@ -779,9 +700,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * The dose form for a single part product, or combined form of a multiple part product.
-         * </p>
          * 
          * @param combinedPharmaceuticalDoseForm
          *     The dose form for a single part product, or combined form of a multiple part product
@@ -795,9 +714,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * The legal status of supply of the medicinal product as classified by the regulator.
-         * </p>
          * 
          * @param legalStatusOfSupply
          *     The legal status of supply of the medicinal product as classified by the regulator
@@ -811,9 +728,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether the Medicinal Product is subject to additional monitoring for regulatory reasons.
-         * </p>
          * 
          * @param additionalMonitoringIndicator
          *     Whether the Medicinal Product is subject to additional monitoring for regulatory reasons
@@ -827,12 +742,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether the Medicinal Product is subject to special measures for regulatory reasons.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param specialMeasures
          *     Whether the Medicinal Product is subject to special measures for regulatory reasons
@@ -848,12 +760,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether the Medicinal Product is subject to special measures for regulatory reasons.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param specialMeasures
          *     Whether the Medicinal Product is subject to special measures for regulatory reasons
@@ -867,9 +776,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * If authorised for use in children.
-         * </p>
          * 
          * @param paediatricUseIndicator
          *     If authorised for use in children
@@ -883,12 +790,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Allows the product to be classified by various systems.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param productClassification
          *     Allows the product to be classified by various systems
@@ -904,12 +808,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Allows the product to be classified by various systems.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param productClassification
          *     Allows the product to be classified by various systems
@@ -923,12 +824,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Marketing status of the medicinal product, in contrast to marketing authorizaton.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param marketingStatus
          *     Marketing status of the medicinal product, in contrast to marketing authorizaton
@@ -944,12 +842,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Marketing status of the medicinal product, in contrast to marketing authorizaton.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param marketingStatus
          *     Marketing status of the medicinal product, in contrast to marketing authorizaton
@@ -963,12 +858,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Pharmaceutical aspects of product.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param pharmaceuticalProduct
          *     Pharmaceutical aspects of product
@@ -984,12 +876,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Pharmaceutical aspects of product.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param pharmaceuticalProduct
          *     Pharmaceutical aspects of product
@@ -1003,12 +892,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Package representation for the product.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param packagedMedicinalProduct
          *     Package representation for the product
@@ -1024,12 +910,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Package representation for the product.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param packagedMedicinalProduct
          *     Package representation for the product
@@ -1043,12 +926,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Supporting documentation, typically for regulatory submission.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param attachedDocument
          *     Supporting documentation, typically for regulatory submission
@@ -1064,12 +944,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Supporting documentation, typically for regulatory submission.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param attachedDocument
          *     Supporting documentation, typically for regulatory submission
@@ -1083,12 +960,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * A master file for to the medicinal product (e.g. Pharmacovigilance System Master File).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param masterFile
          *     A master file for to the medicinal product (e.g. Pharmacovigilance System Master File)
@@ -1104,12 +978,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * A master file for to the medicinal product (e.g. Pharmacovigilance System Master File).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param masterFile
          *     A master file for to the medicinal product (e.g. Pharmacovigilance System Master File)
@@ -1123,12 +994,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * A product specific contact, person (in a role), or an organization.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     A product specific contact, person (in a role), or an organization
@@ -1144,12 +1012,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * A product specific contact, person (in a role), or an organization.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     A product specific contact, person (in a role), or an organization
@@ -1163,12 +1028,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Clinical trials or studies that this product is involved in.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param clinicalTrial
          *     Clinical trials or studies that this product is involved in
@@ -1184,12 +1046,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Clinical trials or studies that this product is involved in.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param clinicalTrial
          *     Clinical trials or studies that this product is involved in
@@ -1203,12 +1062,11 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * The product's name, including full name and possibly coded parts.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is required.
          * 
          * @param name
          *     The product's name, including full name and possibly coded parts
@@ -1224,12 +1082,11 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * The product's name, including full name and possibly coded parts.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is required.
          * 
          * @param name
          *     The product's name, including full name and possibly coded parts
@@ -1243,12 +1100,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to another product, e.g. for linking authorised to investigational product.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param crossReference
          *     Reference to another product, e.g. for linking authorised to investigational product
@@ -1264,12 +1118,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to another product, e.g. for linking authorised to investigational product.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param crossReference
          *     Reference to another product, e.g. for linking authorised to investigational product
@@ -1283,12 +1134,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * An operation applied to the product, for manufacturing or adminsitrative purpose.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param manufacturingBusinessOperation
          *     An operation applied to the product, for manufacturing or adminsitrative purpose
@@ -1304,12 +1152,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * An operation applied to the product, for manufacturing or adminsitrative purpose.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param manufacturingBusinessOperation
          *     An operation applied to the product, for manufacturing or adminsitrative purpose
@@ -1323,12 +1168,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates if the medicinal product has an orphan designation for the treatment of a rare disease.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param specialDesignation
          *     Indicates if the medicinal product has an orphan designation for the treatment of a rare disease
@@ -1344,12 +1186,9 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates if the medicinal product has an orphan designation for the treatment of a rare disease.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param specialDesignation
          *     Indicates if the medicinal product has an orphan designation for the treatment of a rare disease
@@ -1362,6 +1201,17 @@ public class MedicinalProduct extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link MedicinalProduct}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>name</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link MedicinalProduct}
+         */
         @Override
         public MedicinalProduct build() {
             return new MedicinalProduct(this);
@@ -1394,11 +1244,10 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * The product's name, including full name and possibly coded parts.
-     * </p>
      */
     public static class Name extends BackboneElement {
+        @Required
         private final String productName;
         private final List<NamePart> namePart;
         private final List<CountryLanguage> countryLanguage;
@@ -1414,9 +1263,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * The full product name.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1426,9 +1273,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Coding words or phrases of the name.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link NamePart}.
@@ -1438,9 +1283,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Country where the name applies.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CountryLanguage}.
@@ -1529,10 +1372,8 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1546,15 +1387,12 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1568,15 +1406,12 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1590,21 +1425,17 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1618,21 +1449,17 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1646,9 +1473,9 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * The full product name.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param productName
              *     The full product name
@@ -1662,12 +1489,9 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Coding words or phrases of the name.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param namePart
              *     Coding words or phrases of the name
@@ -1683,12 +1507,9 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Coding words or phrases of the name.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param namePart
              *     Coding words or phrases of the name
@@ -1702,12 +1523,9 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Country where the name applies.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param countryLanguage
              *     Country where the name applies
@@ -1723,12 +1541,9 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Country where the name applies.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param countryLanguage
              *     Country where the name applies
@@ -1741,6 +1556,17 @@ public class MedicinalProduct extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Name}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>productName</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Name}
+             */
             @Override
             public Name build() {
                 return new Name(this);
@@ -1756,12 +1582,12 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Coding words or phrases of the name.
-         * </p>
          */
         public static class NamePart extends BackboneElement {
+            @Required
             private final String part;
+            @Required
             private final Coding type;
 
             private volatile int hashCode;
@@ -1774,9 +1600,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * A fragment of a product name.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -1786,9 +1610,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Idenifying type for this part of the name (e.g. strength part).
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Coding}.
@@ -1872,10 +1694,8 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -1889,15 +1709,12 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1911,15 +1728,12 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1933,21 +1747,17 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1961,21 +1771,17 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1989,9 +1795,9 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A fragment of a product name.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param part
                  *     A fragment of a product name
@@ -2005,9 +1811,9 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Idenifying type for this part of the name (e.g. strength part).
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param type
                  *     Idenifying type for this part of the name (e.g. strength part)
@@ -2020,6 +1826,18 @@ public class MedicinalProduct extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link NamePart}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>part</li>
+                 * <li>type</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link NamePart}
+                 */
                 @Override
                 public NamePart build() {
                     return new NamePart(this);
@@ -2035,13 +1853,13 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Country where the name applies.
-         * </p>
          */
         public static class CountryLanguage extends BackboneElement {
+            @Required
             private final CodeableConcept country;
             private final CodeableConcept jurisdiction;
+            @Required
             private final CodeableConcept language;
 
             private volatile int hashCode;
@@ -2055,9 +1873,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Country code for where this name applies.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2067,9 +1883,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Jurisdiction code for where this name applies.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2079,9 +1893,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Language code for this name.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2170,10 +1982,8 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2187,15 +1997,12 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2209,15 +2016,12 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2231,21 +2035,17 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2259,21 +2059,17 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2287,9 +2083,9 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Country code for where this name applies.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param country
                  *     Country code for where this name applies
@@ -2303,9 +2099,7 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Jurisdiction code for where this name applies.
-                 * </p>
                  * 
                  * @param jurisdiction
                  *     Jurisdiction code for where this name applies
@@ -2319,9 +2113,9 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Language code for this name.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param language
                  *     Language code for this name
@@ -2334,6 +2128,18 @@ public class MedicinalProduct extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link CountryLanguage}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>country</li>
+                 * <li>language</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link CountryLanguage}
+                 */
                 @Override
                 public CountryLanguage build() {
                     return new CountryLanguage(this);
@@ -2351,9 +2157,7 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * An operation applied to the product, for manufacturing or adminsitrative purpose.
-     * </p>
      */
     public static class ManufacturingBusinessOperation extends BackboneElement {
         private final CodeableConcept operationType;
@@ -2377,9 +2181,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of manufacturing operation.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2389,9 +2191,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Regulatory authorization reference number.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Identifier}.
@@ -2401,9 +2201,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Regulatory authorization date.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DateTime}.
@@ -2413,9 +2211,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * To indicate if this proces is commercially confidential.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2425,9 +2221,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * The manufacturer or establishment associated with the process.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -2437,9 +2231,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * A regulator which oversees the operation.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -2543,10 +2335,8 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2560,15 +2350,12 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2582,15 +2369,12 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2604,21 +2388,17 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2632,21 +2412,17 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2660,9 +2436,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of manufacturing operation.
-             * </p>
              * 
              * @param operationType
              *     The type of manufacturing operation
@@ -2676,9 +2450,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Regulatory authorization reference number.
-             * </p>
              * 
              * @param authorisationReferenceNumber
              *     Regulatory authorization reference number
@@ -2692,9 +2464,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Regulatory authorization date.
-             * </p>
              * 
              * @param effectiveDate
              *     Regulatory authorization date
@@ -2708,9 +2478,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * To indicate if this proces is commercially confidential.
-             * </p>
              * 
              * @param confidentialityIndicator
              *     To indicate if this proces is commercially confidential
@@ -2724,12 +2492,9 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * The manufacturer or establishment associated with the process.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param manufacturer
              *     The manufacturer or establishment associated with the process
@@ -2745,12 +2510,9 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * The manufacturer or establishment associated with the process.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param manufacturer
              *     The manufacturer or establishment associated with the process
@@ -2764,9 +2526,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * A regulator which oversees the operation.
-             * </p>
              * 
              * @param regulator
              *     A regulator which oversees the operation
@@ -2779,6 +2539,12 @@ public class MedicinalProduct extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link ManufacturingBusinessOperation}
+             * 
+             * @return
+             *     An immutable object of type {@link ManufacturingBusinessOperation}
+             */
             @Override
             public ManufacturingBusinessOperation build() {
                 return new ManufacturingBusinessOperation(this);
@@ -2798,14 +2564,13 @@ public class MedicinalProduct extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates if the medicinal product has an orphan designation for the treatment of a rare disease.
-     * </p>
      */
     public static class SpecialDesignation extends BackboneElement {
         private final List<Identifier> identifier;
         private final CodeableConcept type;
         private final CodeableConcept intendedUse;
+        @Choice({CodeableConcept.class, Reference.class})
         private final Element indication;
         private final CodeableConcept status;
         private final DateTime date;
@@ -2826,9 +2591,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifier for the designation, or procedure number.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -2838,9 +2601,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of special designation, e.g. orphan drug, minor use.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2850,9 +2611,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * The intended use of the product, e.g. prevention, treatment.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2862,9 +2621,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Condition for which the medicinal use applies.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -2874,9 +2631,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * For example granted, pending, expired or withdrawn.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2886,9 +2641,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Date when the designation was granted.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DateTime}.
@@ -2898,9 +2651,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * <p>
          * Animal species for which this applies.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -3009,10 +2760,8 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3026,15 +2775,12 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3048,15 +2794,12 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3070,21 +2813,17 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3098,21 +2837,17 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3126,12 +2861,9 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifier for the designation, or procedure number.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param identifier
              *     Identifier for the designation, or procedure number
@@ -3147,12 +2879,9 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifier for the designation, or procedure number.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param identifier
              *     Identifier for the designation, or procedure number
@@ -3166,9 +2895,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of special designation, e.g. orphan drug, minor use.
-             * </p>
              * 
              * @param type
              *     The type of special designation, e.g. orphan drug, minor use
@@ -3182,9 +2909,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * The intended use of the product, e.g. prevention, treatment.
-             * </p>
              * 
              * @param intendedUse
              *     The intended use of the product, e.g. prevention, treatment
@@ -3198,9 +2923,13 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Condition for which the medicinal use applies.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link CodeableConcept}</li>
+             * <li>{@link Reference}</li>
+             * </ul>
              * 
              * @param indication
              *     Condition for which the medicinal use applies
@@ -3214,9 +2943,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * For example granted, pending, expired or withdrawn.
-             * </p>
              * 
              * @param status
              *     For example granted, pending, expired or withdrawn
@@ -3230,9 +2957,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Date when the designation was granted.
-             * </p>
              * 
              * @param date
              *     Date when the designation was granted
@@ -3246,9 +2971,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * <p>
              * Animal species for which this applies.
-             * </p>
              * 
              * @param species
              *     Animal species for which this applies
@@ -3261,6 +2984,12 @@ public class MedicinalProduct extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link SpecialDesignation}
+             * 
+             * @return
+             *     An immutable object of type {@link SpecialDesignation}
+             */
             @Override
             public SpecialDesignation build() {
                 return new SpecialDesignation(this);

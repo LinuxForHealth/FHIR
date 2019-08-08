@@ -11,14 +11,14 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Optional Extension Element - found in all resources.
- * </p>
  */
 @Constraint(
     id = "ext-1",
@@ -29,7 +29,9 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Extension extends Element {
+    @Required
     private final java.lang.String url;
+    @Choice({Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class})
     private final Element value;
 
     private volatile int hashCode;
@@ -42,9 +44,7 @@ public class Extension extends Element {
     }
 
     /**
-     * <p>
      * Source of the definition for the extension code - a logical name or a URL.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link java.lang.String}.
@@ -54,10 +54,8 @@ public class Extension extends Element {
     }
 
     /**
-     * <p>
      * Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a 
      * list).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -138,10 +136,8 @@ public class Extension extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -155,15 +151,12 @@ public class Extension extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -177,15 +170,12 @@ public class Extension extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -199,9 +189,9 @@ public class Extension extends Element {
         }
 
         /**
-         * <p>
          * Source of the definition for the extension code - a logical name or a URL.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param url
          *     identifies the meaning of the extension
@@ -215,10 +205,61 @@ public class Extension extends Element {
         }
 
         /**
-         * <p>
          * Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a 
          * list).
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Base64Binary}</li>
+         * <li>{@link Boolean}</li>
+         * <li>{@link Canonical}</li>
+         * <li>{@link Code}</li>
+         * <li>{@link Date}</li>
+         * <li>{@link DateTime}</li>
+         * <li>{@link Decimal}</li>
+         * <li>{@link Id}</li>
+         * <li>{@link Instant}</li>
+         * <li>{@link Integer}</li>
+         * <li>{@link Markdown}</li>
+         * <li>{@link Oid}</li>
+         * <li>{@link PositiveInt}</li>
+         * <li>{@link String}</li>
+         * <li>{@link Time}</li>
+         * <li>{@link UnsignedInt}</li>
+         * <li>{@link Uri}</li>
+         * <li>{@link Url}</li>
+         * <li>{@link Uuid}</li>
+         * <li>{@link Address}</li>
+         * <li>{@link Age}</li>
+         * <li>{@link Annotation}</li>
+         * <li>{@link Attachment}</li>
+         * <li>{@link CodeableConcept}</li>
+         * <li>{@link Coding}</li>
+         * <li>{@link ContactPoint}</li>
+         * <li>{@link Count}</li>
+         * <li>{@link Distance}</li>
+         * <li>{@link Duration}</li>
+         * <li>{@link HumanName}</li>
+         * <li>{@link Identifier}</li>
+         * <li>{@link Money}</li>
+         * <li>{@link Period}</li>
+         * <li>{@link Quantity}</li>
+         * <li>{@link Range}</li>
+         * <li>{@link Ratio}</li>
+         * <li>{@link Reference}</li>
+         * <li>{@link SampledData}</li>
+         * <li>{@link Signature}</li>
+         * <li>{@link Timing}</li>
+         * <li>{@link ContactDetail}</li>
+         * <li>{@link Contributor}</li>
+         * <li>{@link DataRequirement}</li>
+         * <li>{@link Expression}</li>
+         * <li>{@link ParameterDefinition}</li>
+         * <li>{@link RelatedArtifact}</li>
+         * <li>{@link TriggerDefinition}</li>
+         * <li>{@link UsageContext}</li>
+         * <li>{@link Dosage}</li>
+         * </ul>
          * 
          * @param value
          *     Value of extension
@@ -231,6 +272,17 @@ public class Extension extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link Extension}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>url</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Extension}
+         */
         @Override
         public Extension build() {
             return new Extension(this);

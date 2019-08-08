@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.AdverseEventActuality;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -31,18 +32,18 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Actual or potential/avoided event causing unintended physical injury resulting from or contributed to by medical care, 
  * a research study or other healthcare setting factors that requires additional monitoring, treatment, or 
  * hospitalization, or that results in death.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class AdverseEvent extends DomainResource {
     private final Identifier identifier;
+    @Required
     private final AdverseEventActuality actuality;
     private final List<CodeableConcept> category;
     private final CodeableConcept event;
+    @Required
     private final Reference subject;
     private final Reference encounter;
     private final DateTime date;
@@ -87,10 +88,8 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Business identifiers assigned to this adverse event by the performer or other systems which remain constant as the 
      * resource is updated and propagates from server to server.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Identifier}.
@@ -100,10 +99,8 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether the event actually happened, or just had the potential to. Note that this is independent of whether anyone was 
      * affected or harmed or how severely.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link AdverseEventActuality}.
@@ -113,9 +110,7 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * The overall type of event, intended for search and filtering purposes.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -125,9 +120,7 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * This element defines the specific type of event that occurred or that was prevented from occurring.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -137,9 +130,7 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * This subject or group impacted by the event.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -149,9 +140,7 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * The Encounter during which AdverseEvent was created or to which the creation of this record is tightly associated.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -161,9 +150,7 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and perhaps time) when the adverse event occurred.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -173,9 +160,7 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Estimated or actual date the AdverseEvent began, in the opinion of the reporter.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -185,9 +170,7 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * The date on which the existence of the AdverseEvent was first recorded.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -197,10 +180,8 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Includes information about the reaction that occurred as a result of exposure to a substance (for example, a drug or a 
      * chemical).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -210,9 +191,7 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * The information about where the adverse event occurred.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -222,9 +201,7 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Assessment whether this event was of real importance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -234,10 +211,8 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes the severity of the adverse event, in relation to the subject. Contrast to AdverseEvent.seriousness - a 
      * severe rash might not be serious, but a mild heart problem is.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -247,9 +222,7 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes the type of outcome from the adverse event.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -259,9 +232,7 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Information on who recorded the adverse event. May be the patient or a practitioner.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -271,12 +242,10 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Parties that may or should contribute or have contributed information to the adverse event, which can consist of one 
      * or more activities. Such information includes information leading to the decision to perform the activity and how to 
      * perform the activity (e.g. consultant), information that the activity itself seeks to reveal (e.g. informant of 
      * clinical history), or information about what activity was performed (e.g. informant witness).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -286,9 +255,7 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes the entity that is suspected to have caused the adverse event.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link SuspectEntity}.
@@ -298,9 +265,7 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * AdverseEvent.subjectMedicalHistory.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -310,9 +275,7 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * AdverseEvent.referenceDocument.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -322,9 +285,7 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * AdverseEvent.study.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -488,9 +449,7 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -504,10 +463,8 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -521,11 +478,9 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -539,9 +494,7 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -555,12 +508,10 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -574,13 +525,10 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -594,13 +542,10 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -614,15 +559,12 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -636,15 +578,12 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -658,21 +597,17 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -686,21 +621,17 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -714,10 +645,8 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifiers assigned to this adverse event by the performer or other systems which remain constant as the 
          * resource is updated and propagates from server to server.
-         * </p>
          * 
          * @param identifier
          *     Business identifier for the event
@@ -731,10 +660,10 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether the event actually happened, or just had the potential to. Note that this is independent of whether anyone was 
          * affected or harmed or how severely.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param actuality
          *     actual | potential
@@ -748,12 +677,9 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The overall type of event, intended for search and filtering purposes.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param category
          *     product-problem | product-quality | product-use-error | wrong-dose | incorrect-prescribing-information | wrong-
@@ -771,12 +697,9 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The overall type of event, intended for search and filtering purposes.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param category
          *     product-problem | product-quality | product-use-error | wrong-dose | incorrect-prescribing-information | wrong-
@@ -792,9 +715,7 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * This element defines the specific type of event that occurred or that was prevented from occurring.
-         * </p>
          * 
          * @param event
          *     Type of the event itself in relation to the subject
@@ -808,9 +729,9 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * This subject or group impacted by the event.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param subject
          *     Subject impacted by event
@@ -824,9 +745,7 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The Encounter during which AdverseEvent was created or to which the creation of this record is tightly associated.
-         * </p>
          * 
          * @param encounter
          *     Encounter created as part of
@@ -840,9 +759,7 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and perhaps time) when the adverse event occurred.
-         * </p>
          * 
          * @param date
          *     When the event occurred
@@ -856,9 +773,7 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Estimated or actual date the AdverseEvent began, in the opinion of the reporter.
-         * </p>
          * 
          * @param detected
          *     When the event was detected
@@ -872,9 +787,7 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The date on which the existence of the AdverseEvent was first recorded.
-         * </p>
          * 
          * @param recordedDate
          *     When the event was recorded
@@ -888,13 +801,10 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Includes information about the reaction that occurred as a result of exposure to a substance (for example, a drug or a 
          * chemical).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param resultingCondition
          *     Effect on the subject due to this event
@@ -910,13 +820,10 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Includes information about the reaction that occurred as a result of exposure to a substance (for example, a drug or a 
          * chemical).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param resultingCondition
          *     Effect on the subject due to this event
@@ -930,9 +837,7 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The information about where the adverse event occurred.
-         * </p>
          * 
          * @param location
          *     Location where adverse event occurred
@@ -946,9 +851,7 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Assessment whether this event was of real importance.
-         * </p>
          * 
          * @param seriousness
          *     Seriousness of the event
@@ -962,10 +865,8 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the severity of the adverse event, in relation to the subject. Contrast to AdverseEvent.seriousness - a 
          * severe rash might not be serious, but a mild heart problem is.
-         * </p>
          * 
          * @param severity
          *     mild | moderate | severe
@@ -979,9 +880,7 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the type of outcome from the adverse event.
-         * </p>
          * 
          * @param outcome
          *     resolved | recovering | ongoing | resolvedWithSequelae | fatal | unknown
@@ -995,9 +894,7 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Information on who recorded the adverse event. May be the patient or a practitioner.
-         * </p>
          * 
          * @param recorder
          *     Who recorded the adverse event
@@ -1011,15 +908,12 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Parties that may or should contribute or have contributed information to the adverse event, which can consist of one 
          * or more activities. Such information includes information leading to the decision to perform the activity and how to 
          * perform the activity (e.g. consultant), information that the activity itself seeks to reveal (e.g. informant of 
          * clinical history), or information about what activity was performed (e.g. informant witness).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contributor
          *     Who was involved in the adverse event or the potential adverse event
@@ -1035,15 +929,12 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Parties that may or should contribute or have contributed information to the adverse event, which can consist of one 
          * or more activities. Such information includes information leading to the decision to perform the activity and how to 
          * perform the activity (e.g. consultant), information that the activity itself seeks to reveal (e.g. informant of 
          * clinical history), or information about what activity was performed (e.g. informant witness).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contributor
          *     Who was involved in the adverse event or the potential adverse event
@@ -1057,12 +948,9 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the entity that is suspected to have caused the adverse event.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param suspectEntity
          *     The suspected agent causing the adverse event
@@ -1078,12 +966,9 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the entity that is suspected to have caused the adverse event.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param suspectEntity
          *     The suspected agent causing the adverse event
@@ -1097,12 +982,9 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * AdverseEvent.subjectMedicalHistory.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param subjectMedicalHistory
          *     AdverseEvent.subjectMedicalHistory
@@ -1118,12 +1000,9 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * AdverseEvent.subjectMedicalHistory.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param subjectMedicalHistory
          *     AdverseEvent.subjectMedicalHistory
@@ -1137,12 +1016,9 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * AdverseEvent.referenceDocument.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param referenceDocument
          *     AdverseEvent.referenceDocument
@@ -1158,12 +1034,9 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * AdverseEvent.referenceDocument.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param referenceDocument
          *     AdverseEvent.referenceDocument
@@ -1177,12 +1050,9 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * AdverseEvent.study.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param study
          *     AdverseEvent.study
@@ -1198,12 +1068,9 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * AdverseEvent.study.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param study
          *     AdverseEvent.study
@@ -1216,6 +1083,18 @@ public class AdverseEvent extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link AdverseEvent}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>actuality</li>
+         * <li>subject</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link AdverseEvent}
+         */
         @Override
         public AdverseEvent build() {
             return new AdverseEvent(this);
@@ -1248,11 +1127,10 @@ public class AdverseEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes the entity that is suspected to have caused the adverse event.
-     * </p>
      */
     public static class SuspectEntity extends BackboneElement {
+        @Required
         private final Reference instance;
         private final List<Causality> causality;
 
@@ -1266,10 +1144,8 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the actual instance of what caused the adverse event. May be a substance, medication, medication 
          * administration, medication statement or a device.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1279,9 +1155,7 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Information on the possible cause of the event.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Causality}.
@@ -1365,10 +1239,8 @@ public class AdverseEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1382,15 +1254,12 @@ public class AdverseEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1404,15 +1273,12 @@ public class AdverseEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1426,21 +1292,17 @@ public class AdverseEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1454,21 +1316,17 @@ public class AdverseEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1482,10 +1340,10 @@ public class AdverseEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the actual instance of what caused the adverse event. May be a substance, medication, medication 
              * administration, medication statement or a device.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param instance
              *     Refers to the specific entity that caused the adverse event
@@ -1499,12 +1357,9 @@ public class AdverseEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Information on the possible cause of the event.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param causality
              *     Information on the possible cause of the event
@@ -1520,12 +1375,9 @@ public class AdverseEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Information on the possible cause of the event.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param causality
              *     Information on the possible cause of the event
@@ -1538,6 +1390,17 @@ public class AdverseEvent extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link SuspectEntity}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>instance</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link SuspectEntity}
+             */
             @Override
             public SuspectEntity build() {
                 return new SuspectEntity(this);
@@ -1552,9 +1415,7 @@ public class AdverseEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Information on the possible cause of the event.
-         * </p>
          */
         public static class Causality extends BackboneElement {
             private final CodeableConcept assessment;
@@ -1574,9 +1435,7 @@ public class AdverseEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Assessment of if the entity caused the event.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -1586,9 +1445,7 @@ public class AdverseEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * AdverseEvent.suspectEntity.causalityProductRelatedness.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -1598,9 +1455,7 @@ public class AdverseEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * AdverseEvent.suspectEntity.causalityAuthor.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Reference}.
@@ -1610,9 +1465,7 @@ public class AdverseEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * ProbabilityScale | Bayesian | Checklist.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -1706,10 +1559,8 @@ public class AdverseEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -1723,15 +1574,12 @@ public class AdverseEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1745,15 +1593,12 @@ public class AdverseEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1767,21 +1612,17 @@ public class AdverseEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1795,21 +1636,17 @@ public class AdverseEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1823,9 +1660,7 @@ public class AdverseEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Assessment of if the entity caused the event.
-                 * </p>
                  * 
                  * @param assessment
                  *     Assessment of if the entity caused the event
@@ -1839,9 +1674,7 @@ public class AdverseEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * AdverseEvent.suspectEntity.causalityProductRelatedness.
-                 * </p>
                  * 
                  * @param productRelatedness
                  *     AdverseEvent.suspectEntity.causalityProductRelatedness
@@ -1855,9 +1688,7 @@ public class AdverseEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * AdverseEvent.suspectEntity.causalityAuthor.
-                 * </p>
                  * 
                  * @param author
                  *     AdverseEvent.suspectEntity.causalityAuthor
@@ -1871,9 +1702,7 @@ public class AdverseEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * ProbabilityScale | Bayesian | Checklist.
-                 * </p>
                  * 
                  * @param method
                  *     ProbabilityScale | Bayesian | Checklist
@@ -1886,6 +1715,12 @@ public class AdverseEvent extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Causality}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Causality}
+                 */
                 @Override
                 public Causality build() {
                     return new Causality(this);

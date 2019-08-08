@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -39,23 +41,27 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * The CoverageEligibilityRequest provides patient and insurance coverage information to an insurer for them to respond, 
  * in the form of an CoverageEligibilityResponse, with information regarding whether the stated coverage is valid and in-
  * force and optionally to provide the insurance details of the policy.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class CoverageEligibilityRequest extends DomainResource {
     private final List<Identifier> identifier;
+    @Required
     private final EligibilityRequestStatus status;
     private final CodeableConcept priority;
+    @Required
     private final List<EligibilityRequestPurpose> purpose;
+    @Required
     private final Reference patient;
+    @Choice({Date.class, Period.class})
     private final Element serviced;
+    @Required
     private final DateTime created;
     private final Reference enterer;
     private final Reference provider;
+    @Required
     private final Reference insurer;
     private final Reference facility;
     private final List<SupportingInfo> supportingInfo;
@@ -83,9 +89,7 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * A unique identifier assigned to this coverage eligiblity request.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -95,9 +99,7 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of the resource instance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link EligibilityRequestStatus}.
@@ -107,9 +109,7 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * When the requestor expects the processor to complete processing.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -119,11 +119,9 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Code to specify whether requesting: prior authorization requirements for some service categories or billing codes; 
      * benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or validation 
      * that the specified coverage is in-force at the date/period specified or 'now' if not specified.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link EligibilityRequestPurpose}.
@@ -133,9 +131,7 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The party who is the beneficiary of the supplied coverage and for whom eligibility is sought.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -145,9 +141,7 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The date or dates when the enclosed suite of services were performed or completed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -157,9 +151,7 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The date when this resource was created.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -169,9 +161,7 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Person who created the request.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -181,9 +171,7 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The provider which is responsible for the request.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -193,9 +181,7 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * The Insurer who issued the coverage in question and is the recipient of the request.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -205,9 +191,7 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Facility where the services are intended to be provided.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -217,10 +201,8 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Additional information codes regarding exceptions, special considerations, the condition, situation, prior or 
      * concurrent issues.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link SupportingInfo}.
@@ -230,9 +212,7 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Financial instruments for reimbursement for the health care products and services.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Insurance}.
@@ -242,10 +222,8 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Service categories or billable services for which benefit details and/or an authorization prior to service delivery 
      * may be required by the payor.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Item}.
@@ -385,9 +363,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -401,10 +377,8 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -418,11 +392,9 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -436,9 +408,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -452,12 +422,10 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -471,13 +439,10 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -491,13 +456,10 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -511,15 +473,12 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -533,15 +492,12 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -555,21 +511,17 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -583,21 +535,17 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -611,12 +559,9 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A unique identifier assigned to this coverage eligiblity request.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Business Identifier for coverage eligiblity request
@@ -632,12 +577,9 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A unique identifier assigned to this coverage eligiblity request.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Business Identifier for coverage eligiblity request
@@ -651,9 +593,9 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of the resource instance.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     active | cancelled | draft | entered-in-error
@@ -667,9 +609,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * When the requestor expects the processor to complete processing.
-         * </p>
          * 
          * @param priority
          *     Desired processing priority
@@ -683,14 +623,13 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Code to specify whether requesting: prior authorization requirements for some service categories or billing codes; 
          * benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or validation 
          * that the specified coverage is in-force at the date/period specified or 'now' if not specified.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is required.
          * 
          * @param purpose
          *     auth-requirements | benefits | discovery | validation
@@ -706,14 +645,13 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Code to specify whether requesting: prior authorization requirements for some service categories or billing codes; 
          * benefits for coverages specified or discovered; discovery and return of coverages for the patient; and/or validation 
          * that the specified coverage is in-force at the date/period specified or 'now' if not specified.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is required.
          * 
          * @param purpose
          *     auth-requirements | benefits | discovery | validation
@@ -727,9 +665,9 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The party who is the beneficiary of the supplied coverage and for whom eligibility is sought.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param patient
          *     Intended recipient of products and services
@@ -743,9 +681,13 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The date or dates when the enclosed suite of services were performed or completed.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Date}</li>
+         * <li>{@link Period}</li>
+         * </ul>
          * 
          * @param serviced
          *     Estimated date or dates of service
@@ -759,9 +701,9 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The date when this resource was created.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param created
          *     Creation date
@@ -775,9 +717,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Person who created the request.
-         * </p>
          * 
          * @param enterer
          *     Author
@@ -791,9 +731,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The provider which is responsible for the request.
-         * </p>
          * 
          * @param provider
          *     Party responsible for the request
@@ -807,9 +745,9 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The Insurer who issued the coverage in question and is the recipient of the request.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param insurer
          *     Coverage issuer
@@ -823,9 +761,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Facility where the services are intended to be provided.
-         * </p>
          * 
          * @param facility
          *     Servicing facility
@@ -839,13 +775,10 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional information codes regarding exceptions, special considerations, the condition, situation, prior or 
          * concurrent issues.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param supportingInfo
          *     Supporting information
@@ -861,13 +794,10 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional information codes regarding exceptions, special considerations, the condition, situation, prior or 
          * concurrent issues.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param supportingInfo
          *     Supporting information
@@ -881,12 +811,9 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Financial instruments for reimbursement for the health care products and services.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param insurance
          *     Patient insurance information
@@ -902,12 +829,9 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Financial instruments for reimbursement for the health care products and services.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param insurance
          *     Patient insurance information
@@ -921,13 +845,10 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Service categories or billable services for which benefit details and/or an authorization prior to service delivery 
          * may be required by the payor.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param item
          *     Item to be evaluated for eligibiity
@@ -943,13 +864,10 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Service categories or billable services for which benefit details and/or an authorization prior to service delivery 
          * may be required by the payor.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param item
          *     Item to be evaluated for eligibiity
@@ -962,6 +880,21 @@ public class CoverageEligibilityRequest extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link CoverageEligibilityRequest}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>purpose</li>
+         * <li>patient</li>
+         * <li>created</li>
+         * <li>insurer</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link CoverageEligibilityRequest}
+         */
         @Override
         public CoverageEligibilityRequest build() {
             return new CoverageEligibilityRequest(this);
@@ -988,13 +921,13 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Additional information codes regarding exceptions, special considerations, the condition, situation, prior or 
      * concurrent issues.
-     * </p>
      */
     public static class SupportingInfo extends BackboneElement {
+        @Required
         private final PositiveInt sequence;
+        @Required
         private final Reference information;
         private final Boolean appliesToAll;
 
@@ -1009,9 +942,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A number to uniquely identify supporting information entries.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}.
@@ -1021,10 +952,8 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional data or information such as resources, documents, images etc. including references to the data or the 
          * actual inclusion of the data.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1034,9 +963,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The supporting materials are applicable for all detail items, product/servce categories and specific billing codes.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -1125,10 +1052,8 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1142,15 +1067,12 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1164,15 +1086,12 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1186,21 +1105,17 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1214,21 +1129,17 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1242,9 +1153,9 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * A number to uniquely identify supporting information entries.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param sequence
              *     Information instance identifier
@@ -1258,10 +1169,10 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * Additional data or information such as resources, documents, images etc. including references to the data or the 
              * actual inclusion of the data.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param information
              *     Data to be provided
@@ -1275,9 +1186,7 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * The supporting materials are applicable for all detail items, product/servce categories and specific billing codes.
-             * </p>
              * 
              * @param appliesToAll
              *     Applies to all items
@@ -1290,6 +1199,18 @@ public class CoverageEligibilityRequest extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link SupportingInfo}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>sequence</li>
+             * <li>information</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link SupportingInfo}
+             */
             @Override
             public SupportingInfo build() {
                 return new SupportingInfo(this);
@@ -1306,12 +1227,11 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Financial instruments for reimbursement for the health care products and services.
-     * </p>
      */
     public static class Insurance extends BackboneElement {
         private final Boolean focal;
+        @Required
         private final Reference coverage;
         private final String businessArrangement;
 
@@ -1326,9 +1246,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A flag to indicate that this Coverage is to be used for evaluation of this request when set to true.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -1338,10 +1256,8 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to the insurance card level information contained in the Coverage resource. The coverage issuing insurer 
          * will use these details to locate the patient's actual coverage within the insurer's information system.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1351,9 +1267,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * A business agreement number established between the provider and the insurer for special business processing purposes.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1442,10 +1356,8 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1459,15 +1371,12 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1481,15 +1390,12 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1503,21 +1409,17 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1531,21 +1433,17 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1559,9 +1457,7 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * A flag to indicate that this Coverage is to be used for evaluation of this request when set to true.
-             * </p>
              * 
              * @param focal
              *     Applicable coverage
@@ -1575,10 +1471,10 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference to the insurance card level information contained in the Coverage resource. The coverage issuing insurer 
              * will use these details to locate the patient's actual coverage within the insurer's information system.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param coverage
              *     Insurance information
@@ -1592,9 +1488,7 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * A business agreement number established between the provider and the insurer for special business processing purposes.
-             * </p>
              * 
              * @param businessArrangement
              *     Additional provider contract number
@@ -1607,6 +1501,17 @@ public class CoverageEligibilityRequest extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Insurance}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>coverage</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Insurance}
+             */
             @Override
             public Insurance build() {
                 return new Insurance(this);
@@ -1623,10 +1528,8 @@ public class CoverageEligibilityRequest extends DomainResource {
     }
 
     /**
-     * <p>
      * Service categories or billable services for which benefit details and/or an authorization prior to service delivery 
      * may be required by the payor.
-     * </p>
      */
     public static class Item extends BackboneElement {
         private final List<PositiveInt> supportingInfoSequence;
@@ -1658,9 +1561,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Exceptions, special conditions and supporting information applicable for this service or product line.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -1670,9 +1571,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Code to identify the general type of benefits under which products and services are provided.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1682,9 +1581,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * This contains the product, service, drug or other billing code for the item.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1694,9 +1591,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Item typification or modifiers codes to convey additional context for the product or service.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1706,9 +1601,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The practitioner who is responsible for the product or service to be rendered to the patient.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1718,9 +1611,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The number of repetitions of a service or product.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link SimpleQuantity}.
@@ -1730,9 +1621,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The amount charged to the patient by the provider for a single unit.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Money}.
@@ -1742,9 +1631,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Facility where the services will be provided.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1754,9 +1641,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Patient diagnosis for which care is sought.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Diagnosis}.
@@ -1766,9 +1651,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * The plan/proposal/order describing the proposed service in detail.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -1892,10 +1775,8 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1909,15 +1790,12 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1931,15 +1809,12 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1953,21 +1828,17 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1981,21 +1852,17 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2009,12 +1876,9 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * Exceptions, special conditions and supporting information applicable for this service or product line.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param supportingInfoSequence
              *     Applicable exception or supporting information
@@ -2030,12 +1894,9 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * Exceptions, special conditions and supporting information applicable for this service or product line.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param supportingInfoSequence
              *     Applicable exception or supporting information
@@ -2049,9 +1910,7 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * Code to identify the general type of benefits under which products and services are provided.
-             * </p>
              * 
              * @param category
              *     Benefit classification
@@ -2065,9 +1924,7 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * This contains the product, service, drug or other billing code for the item.
-             * </p>
              * 
              * @param productOrService
              *     Billing, service, product, or drug code
@@ -2081,12 +1938,9 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifier
              *     Product or service billing modifiers
@@ -2102,12 +1956,9 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifier
              *     Product or service billing modifiers
@@ -2121,9 +1972,7 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * The practitioner who is responsible for the product or service to be rendered to the patient.
-             * </p>
              * 
              * @param provider
              *     Perfoming practitioner
@@ -2137,9 +1986,7 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * The number of repetitions of a service or product.
-             * </p>
              * 
              * @param quantity
              *     Count of products or services
@@ -2153,9 +2000,7 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * The amount charged to the patient by the provider for a single unit.
-             * </p>
              * 
              * @param unitPrice
              *     Fee, charge or cost per item
@@ -2169,9 +2014,7 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * Facility where the services will be provided.
-             * </p>
              * 
              * @param facility
              *     Servicing facility
@@ -2185,12 +2028,9 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * Patient diagnosis for which care is sought.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param diagnosis
              *     Applicable diagnosis
@@ -2206,12 +2046,9 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * Patient diagnosis for which care is sought.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param diagnosis
              *     Applicable diagnosis
@@ -2225,12 +2062,9 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * The plan/proposal/order describing the proposed service in detail.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param detail
              *     Product or service details
@@ -2246,12 +2080,9 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * The plan/proposal/order describing the proposed service in detail.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param detail
              *     Product or service details
@@ -2264,6 +2095,12 @@ public class CoverageEligibilityRequest extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Item}
+             * 
+             * @return
+             *     An immutable object of type {@link Item}
+             */
             @Override
             public Item build() {
                 return new Item(this);
@@ -2286,11 +2123,10 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
-         * <p>
          * Patient diagnosis for which care is sought.
-         * </p>
          */
         public static class Diagnosis extends BackboneElement {
+            @Choice({CodeableConcept.class, Reference.class})
             private final Element diagnosis;
 
             private volatile int hashCode;
@@ -2302,9 +2138,7 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * <p>
              * The nature of illness or problem in a coded form or as a reference to an external defined Condition.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -2383,10 +2217,8 @@ public class CoverageEligibilityRequest extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2400,15 +2232,12 @@ public class CoverageEligibilityRequest extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2422,15 +2251,12 @@ public class CoverageEligibilityRequest extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2444,21 +2270,17 @@ public class CoverageEligibilityRequest extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2472,21 +2294,17 @@ public class CoverageEligibilityRequest extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2500,9 +2318,13 @@ public class CoverageEligibilityRequest extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The nature of illness or problem in a coded form or as a reference to an external defined Condition.
-                 * </p>
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link CodeableConcept}</li>
+                 * <li>{@link Reference}</li>
+                 * </ul>
                  * 
                  * @param diagnosis
                  *     Nature of illness or problem
@@ -2515,6 +2337,12 @@ public class CoverageEligibilityRequest extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Diagnosis}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Diagnosis}
+                 */
                 @Override
                 public Diagnosis build() {
                     return new Diagnosis(this);

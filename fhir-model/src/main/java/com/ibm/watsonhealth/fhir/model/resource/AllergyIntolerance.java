@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Age;
 import com.ibm.watsonhealth.fhir.model.type.AllergyIntoleranceCategory;
 import com.ibm.watsonhealth.fhir.model.type.AllergyIntoleranceCriticality;
@@ -40,10 +42,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Risk of harmful or undesirable, physiological response which is unique to an individual and associated with exposure 
  * to a substance.
- * </p>
  */
 @Constraint(
     id = "ait-1",
@@ -68,8 +68,10 @@ public class AllergyIntolerance extends DomainResource {
     private final List<AllergyIntoleranceCategory> category;
     private final AllergyIntoleranceCriticality criticality;
     private final CodeableConcept code;
+    @Required
     private final Reference patient;
     private final Reference encounter;
+    @Choice({DateTime.class, Age.class, Period.class, Range.class, String.class})
     private final Element onset;
     private final DateTime recordedDate;
     private final Reference recorder;
@@ -101,10 +103,8 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * Business identifiers assigned to this AllergyIntolerance by the performer or other systems which remain constant as 
      * the resource is updated and propagates from server to server.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -114,9 +114,7 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * The clinical status of the allergy or intolerance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -126,10 +124,8 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * Assertion about certainty associated with the propensity, or potential risk, of a reaction to the identified substance 
      * (including pharmaceutical product).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -139,9 +135,7 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * Identification of the underlying physiological mechanism for the reaction risk.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link AllergyIntoleranceType}.
@@ -151,9 +145,7 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * Category of the identified substance.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link AllergyIntoleranceCategory}.
@@ -163,9 +155,7 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * Estimate of the potential clinical harm, or seriousness, of the reaction to the identified substance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link AllergyIntoleranceCriticality}.
@@ -175,7 +165,6 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * Code for an allergy or intolerance statement (either a positive or a negated/excluded statement). This may be a code 
      * for a substance or pharmaceutical product that is considered to be responsible for the adverse reaction risk (e.g., 
      * "Latex"), an allergy or intolerance condition (e.g., "Latex allergy"), or a negated/excluded code for a specific 
@@ -186,7 +175,6 @@ public class AllergyIntolerance extends DomainResource {
      * process the 'code' and ignore the 'reaction.substance'. If a receiving system is unable to confirm that 
      * AllergyIntolerance.reaction.substance falls within the semantic scope of AllergyIntolerance.code, then the receiving 
      * system should ignore AllergyIntolerance.reaction.substance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -196,9 +184,7 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * The patient who has the allergy or intolerance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -208,9 +194,7 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * The encounter when the allergy or intolerance was asserted.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -220,9 +204,7 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * Estimated or actual date, date-time, or age when allergy or intolerance was identified.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -232,10 +214,8 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * The recordedDate represents when this particular AllergyIntolerance record was created in the system, which is often a 
      * system-generated date.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -245,9 +225,7 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * Individual who recorded the record and takes responsibility for its content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -257,9 +235,7 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * The source of the information about the allergy that is recorded.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -269,9 +245,7 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * Represents the date and/or time of the last known occurrence of a reaction event.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -281,9 +255,7 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * Additional narrative about the propensity for the Adverse Reaction, not captured in other fields.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -293,9 +265,7 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * Details about each adverse reaction event linked to exposure to the identified substance.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reaction}.
@@ -443,9 +413,7 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -459,10 +427,8 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -476,11 +442,9 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -494,9 +458,7 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -510,12 +472,10 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -529,13 +489,10 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -549,13 +506,10 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -569,15 +523,12 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -591,15 +542,12 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -613,21 +561,17 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -641,21 +585,17 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -669,13 +609,10 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifiers assigned to this AllergyIntolerance by the performer or other systems which remain constant as 
          * the resource is updated and propagates from server to server.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     External ids for this item
@@ -691,13 +628,10 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifiers assigned to this AllergyIntolerance by the performer or other systems which remain constant as 
          * the resource is updated and propagates from server to server.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     External ids for this item
@@ -711,9 +645,7 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * The clinical status of the allergy or intolerance.
-         * </p>
          * 
          * @param clinicalStatus
          *     active | inactive | resolved
@@ -727,10 +659,8 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Assertion about certainty associated with the propensity, or potential risk, of a reaction to the identified substance 
          * (including pharmaceutical product).
-         * </p>
          * 
          * @param verificationStatus
          *     unconfirmed | confirmed | refuted | entered-in-error
@@ -744,9 +674,7 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Identification of the underlying physiological mechanism for the reaction risk.
-         * </p>
          * 
          * @param type
          *     allergy | intolerance - Underlying mechanism (if known)
@@ -760,12 +688,9 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Category of the identified substance.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param category
          *     food | medication | environment | biologic
@@ -781,12 +706,9 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Category of the identified substance.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param category
          *     food | medication | environment | biologic
@@ -800,9 +722,7 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Estimate of the potential clinical harm, or seriousness, of the reaction to the identified substance.
-         * </p>
          * 
          * @param criticality
          *     low | high | unable-to-assess
@@ -816,7 +736,6 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Code for an allergy or intolerance statement (either a positive or a negated/excluded statement). This may be a code 
          * for a substance or pharmaceutical product that is considered to be responsible for the adverse reaction risk (e.g., 
          * "Latex"), an allergy or intolerance condition (e.g., "Latex allergy"), or a negated/excluded code for a specific 
@@ -827,7 +746,6 @@ public class AllergyIntolerance extends DomainResource {
          * process the 'code' and ignore the 'reaction.substance'. If a receiving system is unable to confirm that 
          * AllergyIntolerance.reaction.substance falls within the semantic scope of AllergyIntolerance.code, then the receiving 
          * system should ignore AllergyIntolerance.reaction.substance.
-         * </p>
          * 
          * @param code
          *     Code that identifies the allergy or intolerance
@@ -841,9 +759,9 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * The patient who has the allergy or intolerance.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param patient
          *     Who the sensitivity is for
@@ -857,9 +775,7 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * The encounter when the allergy or intolerance was asserted.
-         * </p>
          * 
          * @param encounter
          *     Encounter when the allergy or intolerance was asserted
@@ -873,9 +789,16 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Estimated or actual date, date-time, or age when allergy or intolerance was identified.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link DateTime}</li>
+         * <li>{@link Age}</li>
+         * <li>{@link Period}</li>
+         * <li>{@link Range}</li>
+         * <li>{@link String}</li>
+         * </ul>
          * 
          * @param onset
          *     When allergy or intolerance was identified
@@ -889,10 +812,8 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * The recordedDate represents when this particular AllergyIntolerance record was created in the system, which is often a 
          * system-generated date.
-         * </p>
          * 
          * @param recordedDate
          *     Date first version of the resource instance was recorded
@@ -906,9 +827,7 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Individual who recorded the record and takes responsibility for its content.
-         * </p>
          * 
          * @param recorder
          *     Who recorded the sensitivity
@@ -922,9 +841,7 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * The source of the information about the allergy that is recorded.
-         * </p>
          * 
          * @param asserter
          *     Source of the information about the allergy
@@ -938,9 +855,7 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Represents the date and/or time of the last known occurrence of a reaction event.
-         * </p>
          * 
          * @param lastOccurrence
          *     Date(/time) of last known occurrence of a reaction
@@ -954,12 +869,9 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional narrative about the propensity for the Adverse Reaction, not captured in other fields.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     Additional text not captured in other fields
@@ -975,12 +887,9 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional narrative about the propensity for the Adverse Reaction, not captured in other fields.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     Additional text not captured in other fields
@@ -994,12 +903,9 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Details about each adverse reaction event linked to exposure to the identified substance.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reaction
          *     Adverse Reaction Events linked to exposure to substance
@@ -1015,12 +921,9 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Details about each adverse reaction event linked to exposure to the identified substance.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reaction
          *     Adverse Reaction Events linked to exposure to substance
@@ -1033,6 +936,17 @@ public class AllergyIntolerance extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link AllergyIntolerance}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>patient</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link AllergyIntolerance}
+         */
         @Override
         public AllergyIntolerance build() {
             return new AllergyIntolerance(this);
@@ -1061,12 +975,11 @@ public class AllergyIntolerance extends DomainResource {
     }
 
     /**
-     * <p>
      * Details about each adverse reaction event linked to exposure to the identified substance.
-     * </p>
      */
     public static class Reaction extends BackboneElement {
         private final CodeableConcept substance;
+        @Required
         private final List<CodeableConcept> manifestation;
         private final String description;
         private final DateTime onset;
@@ -1089,7 +1002,6 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Identification of the specific substance (or pharmaceutical product) considered to be responsible for the Adverse 
          * Reaction event. Note: the substance for a specific reaction may be different from the substance identified as the 
          * cause of the risk, but it must be consistent with it. For instance, it may be a more specific substance (e.g. a brand 
@@ -1097,7 +1009,6 @@ public class AllergyIntolerance extends DomainResource {
          * the 'code' and ignore the 'reaction.substance'. If a receiving system is unable to confirm that AllergyIntolerance.
          * reaction.substance falls within the semantic scope of AllergyIntolerance.code, then the receiving system should ignore 
          * AllergyIntolerance.reaction.substance.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1107,9 +1018,7 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Clinical symptoms and/or signs that are observed or associated with the adverse reaction event.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1119,9 +1028,7 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Text description about the reaction as a whole, including details of the manifestation if required.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1131,9 +1038,7 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Record of the date and/or time of the onset of the Reaction.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DateTime}.
@@ -1143,10 +1048,8 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Clinical assessment of the severity of the reaction event as a whole, potentially considering multiple different 
          * manifestations.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link AllergyIntoleranceSeverity}.
@@ -1156,9 +1059,7 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Identification of the route by which the subject was exposed to the substance.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1168,9 +1069,7 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional text about the adverse reaction event not captured in other fields.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -1279,10 +1178,8 @@ public class AllergyIntolerance extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1296,15 +1193,12 @@ public class AllergyIntolerance extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1318,15 +1212,12 @@ public class AllergyIntolerance extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1340,21 +1231,17 @@ public class AllergyIntolerance extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1368,21 +1255,17 @@ public class AllergyIntolerance extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1396,7 +1279,6 @@ public class AllergyIntolerance extends DomainResource {
             }
 
             /**
-             * <p>
              * Identification of the specific substance (or pharmaceutical product) considered to be responsible for the Adverse 
              * Reaction event. Note: the substance for a specific reaction may be different from the substance identified as the 
              * cause of the risk, but it must be consistent with it. For instance, it may be a more specific substance (e.g. a brand 
@@ -1404,7 +1286,6 @@ public class AllergyIntolerance extends DomainResource {
              * the 'code' and ignore the 'reaction.substance'. If a receiving system is unable to confirm that AllergyIntolerance.
              * reaction.substance falls within the semantic scope of AllergyIntolerance.code, then the receiving system should ignore 
              * AllergyIntolerance.reaction.substance.
-             * </p>
              * 
              * @param substance
              *     Specific substance or pharmaceutical product considered to be responsible for event
@@ -1418,12 +1299,11 @@ public class AllergyIntolerance extends DomainResource {
             }
 
             /**
-             * <p>
              * Clinical symptoms and/or signs that are observed or associated with the adverse reaction event.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * <p>This element is required.
              * 
              * @param manifestation
              *     Clinical symptoms/signs associated with the Event
@@ -1439,12 +1319,11 @@ public class AllergyIntolerance extends DomainResource {
             }
 
             /**
-             * <p>
              * Clinical symptoms and/or signs that are observed or associated with the adverse reaction event.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>This element is required.
              * 
              * @param manifestation
              *     Clinical symptoms/signs associated with the Event
@@ -1458,9 +1337,7 @@ public class AllergyIntolerance extends DomainResource {
             }
 
             /**
-             * <p>
              * Text description about the reaction as a whole, including details of the manifestation if required.
-             * </p>
              * 
              * @param description
              *     Description of the event as a whole
@@ -1474,9 +1351,7 @@ public class AllergyIntolerance extends DomainResource {
             }
 
             /**
-             * <p>
              * Record of the date and/or time of the onset of the Reaction.
-             * </p>
              * 
              * @param onset
              *     Date(/time) when manifestations showed
@@ -1490,10 +1365,8 @@ public class AllergyIntolerance extends DomainResource {
             }
 
             /**
-             * <p>
              * Clinical assessment of the severity of the reaction event as a whole, potentially considering multiple different 
              * manifestations.
-             * </p>
              * 
              * @param severity
              *     mild | moderate | severe (of event as a whole)
@@ -1507,9 +1380,7 @@ public class AllergyIntolerance extends DomainResource {
             }
 
             /**
-             * <p>
              * Identification of the route by which the subject was exposed to the substance.
-             * </p>
              * 
              * @param exposureRoute
              *     How the subject was exposed to the substance
@@ -1523,12 +1394,9 @@ public class AllergyIntolerance extends DomainResource {
             }
 
             /**
-             * <p>
              * Additional text about the adverse reaction event not captured in other fields.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param note
              *     Text about event not captured in other fields
@@ -1544,12 +1412,9 @@ public class AllergyIntolerance extends DomainResource {
             }
 
             /**
-             * <p>
              * Additional text about the adverse reaction event not captured in other fields.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param note
              *     Text about event not captured in other fields
@@ -1562,6 +1427,17 @@ public class AllergyIntolerance extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Reaction}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>manifestation</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Reaction}
+             */
             @Override
             public Reaction build() {
                 return new Reaction(this);

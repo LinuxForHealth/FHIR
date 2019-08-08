@@ -24,11 +24,9 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A date, date-time or partial date (e.g. just year or year + month). If hours and minutes are specified, a time zone 
  * SHALL be populated. The format is a union of the schema types gYear, gYearMonth, date and dateTime. Seconds must be 
  * provided due to schema type constraints but may be zero-filled and may be ignored. Dates SHALL be valid dates.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class DateTime extends Element {
@@ -46,9 +44,7 @@ public class DateTime extends Element {
     }
 
     /**
-     * <p>
      * The actual value
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link TemporalAccessor}.
@@ -159,9 +155,7 @@ public class DateTime extends Element {
         }
 
         /**
-         * <p>
          * unique id for the element within a resource (for internal references)
-         * </p>
          * 
          * @param id
          *     xml:id (or equivalent in JSON)
@@ -175,15 +169,12 @@ public class DateTime extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -197,15 +188,12 @@ public class DateTime extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -219,9 +207,7 @@ public class DateTime extends Element {
         }
 
         /**
-         * <p>
          * The actual value
-         * </p>
          * 
          * @param value
          *     Primitive value for dateTime
@@ -239,6 +225,12 @@ public class DateTime extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link DateTime}
+         * 
+         * @return
+         *     An immutable object of type {@link DateTime}
+         */
         @Override
         public DateTime build() {
             return new DateTime(this);

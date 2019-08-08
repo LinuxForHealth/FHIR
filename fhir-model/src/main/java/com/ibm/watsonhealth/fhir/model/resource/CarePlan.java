@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -42,10 +44,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Describes the intention of how one or more practitioners intend to deliver care for a particular patient, group or 
  * community for a period of time, possibly limited to care for a specific condition or set of conditions.
- * </p>
  */
 @Constraint(
     id = "cpl-3",
@@ -62,11 +62,14 @@ public class CarePlan extends DomainResource {
     private final List<Reference> basedOn;
     private final List<Reference> replaces;
     private final List<Reference> partOf;
+    @Required
     private final CarePlanStatus status;
+    @Required
     private final CarePlanIntent intent;
     private final List<CodeableConcept> category;
     private final String title;
     private final String description;
+    @Required
     private final Reference subject;
     private final Reference encounter;
     private final Period period;
@@ -110,10 +113,8 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Business identifiers assigned to this care plan by the performer or other systems which remain constant as the 
      * resource is updated and propagates from server to server.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -123,10 +124,8 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * The URL pointing to a FHIR-defined protocol, guideline, questionnaire or other definition that is adhered to in whole 
      * or in part by this CarePlan.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -136,10 +135,8 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * The URL pointing to an externally maintained protocol, guideline, questionnaire or other definition that is adhered to 
      * in whole or in part by this CarePlan.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Uri}.
@@ -149,9 +146,7 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * A care plan that is fulfilled in whole or in part by this care plan.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -161,9 +156,7 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Completed or terminated care plan whose function is taken by this new care plan.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -173,9 +166,7 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * A larger care plan of which this particular care plan is a component or step.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -185,9 +176,7 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates whether the plan is currently being acted upon, represents future intentions or is now a historical record.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CarePlanStatus}.
@@ -197,10 +186,8 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the level of authority/intentionality associated with the care plan and where the care plan fits into the 
      * workflow chain.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CarePlanIntent}.
@@ -210,10 +197,8 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies what "kind" of plan this is to support differentiation between multiple co-existing plans; e.g. "Home 
      * health", "psychiatric", "asthma", "disease management", "wellness plan", etc.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -223,9 +208,7 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Human-friendly name for the care plan.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -235,9 +218,7 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * A description of the scope and nature of the plan.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -247,9 +228,7 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the patient or group whose intended care is described by the plan.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -259,9 +238,7 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * The Encounter during which this CarePlan was created or to which the creation of this record is tightly associated.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -271,9 +248,7 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates when the plan did (or is intended to) come into effect and end.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -283,9 +258,7 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Represents when this particular CarePlan record was created in the system, which is often a system-generated date.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -295,9 +268,7 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * When populated, the author is responsible for the care plan. The care plan is attributed to the author.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -307,9 +278,7 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the individual(s) or organization who provided the contents of the care plan.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -319,9 +288,7 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies all people and organizations who are expected to be involved in the care envisioned by this plan.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -331,9 +298,7 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the conditions/problems/concerns/diagnoses/etc. whose management and/or mitigation are handled by this plan.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -343,10 +308,8 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies portions of the patient's record that specifically influenced the formation of the plan. These might 
      * include comorbidities, recent procedures, limitations, recent assessments, etc.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -356,9 +319,7 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes the intended objective(s) of carrying out the care plan.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -368,10 +329,8 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies a planned action to occur as part of the plan. For example, a medication to be used, lab tests to perform, 
      * self-monitoring, education, etc.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Activity}.
@@ -381,9 +340,7 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * General notes about the care plan not covered elsewhere.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -559,9 +516,7 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -575,10 +530,8 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -592,11 +545,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -610,9 +561,7 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -626,12 +575,10 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -645,13 +592,10 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -665,13 +609,10 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -685,15 +626,12 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -707,15 +645,12 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -729,21 +664,17 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -757,21 +688,17 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -785,13 +712,10 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifiers assigned to this care plan by the performer or other systems which remain constant as the 
          * resource is updated and propagates from server to server.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     External Ids for this plan
@@ -807,13 +731,10 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifiers assigned to this care plan by the performer or other systems which remain constant as the 
          * resource is updated and propagates from server to server.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     External Ids for this plan
@@ -827,13 +748,10 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to a FHIR-defined protocol, guideline, questionnaire or other definition that is adhered to in whole 
          * or in part by this CarePlan.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -849,13 +767,10 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to a FHIR-defined protocol, guideline, questionnaire or other definition that is adhered to in whole 
          * or in part by this CarePlan.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -869,13 +784,10 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to an externally maintained protocol, guideline, questionnaire or other definition that is adhered to 
          * in whole or in part by this CarePlan.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -891,13 +803,10 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to an externally maintained protocol, guideline, questionnaire or other definition that is adhered to 
          * in whole or in part by this CarePlan.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -911,12 +820,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * A care plan that is fulfilled in whole or in part by this care plan.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param basedOn
          *     Fulfills CarePlan
@@ -932,12 +838,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * A care plan that is fulfilled in whole or in part by this care plan.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param basedOn
          *     Fulfills CarePlan
@@ -951,12 +854,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Completed or terminated care plan whose function is taken by this new care plan.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param replaces
          *     CarePlan replaced by this CarePlan
@@ -972,12 +872,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Completed or terminated care plan whose function is taken by this new care plan.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param replaces
          *     CarePlan replaced by this CarePlan
@@ -991,12 +888,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * A larger care plan of which this particular care plan is a component or step.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param partOf
          *     Part of referenced CarePlan
@@ -1012,12 +906,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * A larger care plan of which this particular care plan is a component or step.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param partOf
          *     Part of referenced CarePlan
@@ -1031,9 +922,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates whether the plan is currently being acted upon, represents future intentions or is now a historical record.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | suspended | completed | entered-in-error | cancelled | unknown
@@ -1047,10 +938,10 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the level of authority/intentionality associated with the care plan and where the care plan fits into the 
          * workflow chain.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param intent
          *     proposal | plan | order | option
@@ -1064,13 +955,10 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies what "kind" of plan this is to support differentiation between multiple co-existing plans; e.g. "Home 
          * health", "psychiatric", "asthma", "disease management", "wellness plan", etc.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param category
          *     Type of plan
@@ -1086,13 +974,10 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies what "kind" of plan this is to support differentiation between multiple co-existing plans; e.g. "Home 
          * health", "psychiatric", "asthma", "disease management", "wellness plan", etc.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param category
          *     Type of plan
@@ -1106,9 +991,7 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Human-friendly name for the care plan.
-         * </p>
          * 
          * @param title
          *     Human-friendly name for the care plan
@@ -1122,9 +1005,7 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * A description of the scope and nature of the plan.
-         * </p>
          * 
          * @param description
          *     Summary of nature of plan
@@ -1138,9 +1019,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the patient or group whose intended care is described by the plan.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param subject
          *     Who the care plan is for
@@ -1154,9 +1035,7 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The Encounter during which this CarePlan was created or to which the creation of this record is tightly associated.
-         * </p>
          * 
          * @param encounter
          *     Encounter created as part of
@@ -1170,9 +1049,7 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates when the plan did (or is intended to) come into effect and end.
-         * </p>
          * 
          * @param period
          *     Time period plan covers
@@ -1186,9 +1063,7 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Represents when this particular CarePlan record was created in the system, which is often a system-generated date.
-         * </p>
          * 
          * @param created
          *     Date record was first recorded
@@ -1202,9 +1077,7 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * When populated, the author is responsible for the care plan. The care plan is attributed to the author.
-         * </p>
          * 
          * @param author
          *     Who is the designated responsible party
@@ -1218,12 +1091,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the individual(s) or organization who provided the contents of the care plan.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contributor
          *     Who provided the content of the care plan
@@ -1239,12 +1109,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the individual(s) or organization who provided the contents of the care plan.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contributor
          *     Who provided the content of the care plan
@@ -1258,12 +1125,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies all people and organizations who are expected to be involved in the care envisioned by this plan.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param careTeam
          *     Who's involved in plan?
@@ -1279,12 +1143,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies all people and organizations who are expected to be involved in the care envisioned by this plan.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param careTeam
          *     Who's involved in plan?
@@ -1298,12 +1159,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the conditions/problems/concerns/diagnoses/etc. whose management and/or mitigation are handled by this plan.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param addresses
          *     Health issues this plan addresses
@@ -1319,12 +1177,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the conditions/problems/concerns/diagnoses/etc. whose management and/or mitigation are handled by this plan.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param addresses
          *     Health issues this plan addresses
@@ -1338,13 +1193,10 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies portions of the patient's record that specifically influenced the formation of the plan. These might 
          * include comorbidities, recent procedures, limitations, recent assessments, etc.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param supportingInfo
          *     Information considered as part of plan
@@ -1360,13 +1212,10 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies portions of the patient's record that specifically influenced the formation of the plan. These might 
          * include comorbidities, recent procedures, limitations, recent assessments, etc.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param supportingInfo
          *     Information considered as part of plan
@@ -1380,12 +1229,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the intended objective(s) of carrying out the care plan.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param goal
          *     Desired outcome of plan
@@ -1401,12 +1247,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the intended objective(s) of carrying out the care plan.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param goal
          *     Desired outcome of plan
@@ -1420,13 +1263,10 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies a planned action to occur as part of the plan. For example, a medication to be used, lab tests to perform, 
          * self-monitoring, education, etc.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param activity
          *     Action to occur as part of plan
@@ -1442,13 +1282,10 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies a planned action to occur as part of the plan. For example, a medication to be used, lab tests to perform, 
          * self-monitoring, education, etc.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param activity
          *     Action to occur as part of plan
@@ -1462,12 +1299,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * General notes about the care plan not covered elsewhere.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     Comments about the plan
@@ -1483,12 +1317,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * General notes about the care plan not covered elsewhere.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     Comments about the plan
@@ -1501,6 +1332,19 @@ public class CarePlan extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link CarePlan}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>intent</li>
+         * <li>subject</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link CarePlan}
+         */
         @Override
         public CarePlan build() {
             return new CarePlan(this);
@@ -1536,10 +1380,8 @@ public class CarePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies a planned action to occur as part of the plan. For example, a medication to be used, lab tests to perform, 
      * self-monitoring, education, etc.
-     * </p>
      */
     public static class Activity extends BackboneElement {
         private final List<CodeableConcept> outcomeCodeableConcept;
@@ -1561,10 +1403,8 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the outcome at the point when the status of the activity is assessed. For example, the outcome of an 
          * education activity could be patient understands (or not).
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1574,11 +1414,9 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Details of the outcome or action resulting from the activity. The reference to an "event" resource, such as Procedure 
          * or Encounter or Observation, is the result/outcome of the activity itself. The activity can be conveyed using CarePlan.
          * activity.detail OR using the CarePlan.activity.reference (a reference to a “request” resource).
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -1588,9 +1426,7 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Notes about the adherence/status/progress of the activity.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -1600,9 +1436,7 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The details of the proposed activity represented in a specific resource.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1612,10 +1446,8 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * A simple summary of a planned activity suitable for a general care plan system (e.g. form driven) that doesn't know 
          * about specific resources such as procedure etc.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Detail}.
@@ -1714,10 +1546,8 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1731,15 +1561,12 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1753,15 +1580,12 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1775,21 +1599,17 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1803,21 +1623,17 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1831,13 +1647,10 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the outcome at the point when the status of the activity is assessed. For example, the outcome of an 
              * education activity could be patient understands (or not).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param outcomeCodeableConcept
              *     Results of the activity
@@ -1853,13 +1666,10 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the outcome at the point when the status of the activity is assessed. For example, the outcome of an 
              * education activity could be patient understands (or not).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param outcomeCodeableConcept
              *     Results of the activity
@@ -1873,14 +1683,11 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Details of the outcome or action resulting from the activity. The reference to an "event" resource, such as Procedure 
              * or Encounter or Observation, is the result/outcome of the activity itself. The activity can be conveyed using CarePlan.
              * activity.detail OR using the CarePlan.activity.reference (a reference to a “request” resource).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param outcomeReference
              *     Appointment, Encounter, Procedure, etc.
@@ -1896,14 +1703,11 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Details of the outcome or action resulting from the activity. The reference to an "event" resource, such as Procedure 
              * or Encounter or Observation, is the result/outcome of the activity itself. The activity can be conveyed using CarePlan.
              * activity.detail OR using the CarePlan.activity.reference (a reference to a “request” resource).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param outcomeReference
              *     Appointment, Encounter, Procedure, etc.
@@ -1917,12 +1721,9 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Notes about the adherence/status/progress of the activity.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param progress
              *     Comments about the activity status/progress
@@ -1938,12 +1739,9 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Notes about the adherence/status/progress of the activity.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param progress
              *     Comments about the activity status/progress
@@ -1957,9 +1755,7 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * The details of the proposed activity represented in a specific resource.
-             * </p>
              * 
              * @param reference
              *     Activity details defined in specific resource
@@ -1973,10 +1769,8 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * A simple summary of a planned activity suitable for a general care plan system (e.g. form driven) that doesn't know 
              * about specific resources such as procedure etc.
-             * </p>
              * 
              * @param detail
              *     In-line definition of activity
@@ -1989,6 +1783,12 @@ public class CarePlan extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Activity}
+             * 
+             * @return
+             *     An immutable object of type {@link Activity}
+             */
             @Override
             public Activity build() {
                 return new Activity(this);
@@ -2006,10 +1806,8 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * A simple summary of a planned activity suitable for a general care plan system (e.g. form driven) that doesn't know 
          * about specific resources such as procedure etc.
-         * </p>
          */
         public static class Detail extends BackboneElement {
             private final CarePlanActivityKind kind;
@@ -2019,12 +1817,15 @@ public class CarePlan extends DomainResource {
             private final List<CodeableConcept> reasonCode;
             private final List<Reference> reasonReference;
             private final List<Reference> goal;
+            @Required
             private final CarePlanActivityStatus status;
             private final CodeableConcept statusReason;
             private final Boolean doNotPerform;
+            @Choice({Timing.class, Period.class, String.class})
             private final Element scheduled;
             private final Reference location;
             private final List<Reference> performer;
+            @Choice({CodeableConcept.class, Reference.class})
             private final Element product;
             private final SimpleQuantity dailyAmount;
             private final SimpleQuantity quantity;
@@ -2055,11 +1856,9 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * A description of the kind of resource the in-line definition of a care plan activity is representing. The CarePlan.
              * activity.detail is an in-line definition when a resource is not referenced using CarePlan.activity.reference. For 
              * example, a MedicationRequest, a ServiceRequest, or a CommunicationRequest.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CarePlanActivityKind}.
@@ -2069,10 +1868,8 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * The URL pointing to a FHIR-defined protocol, guideline, questionnaire or other definition that is adhered to in whole 
              * or in part by this CarePlan activity.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -2082,10 +1879,8 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * The URL pointing to an externally maintained protocol, guideline, questionnaire or other definition that is adhered to 
              * in whole or in part by this CarePlan activity.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Uri}.
@@ -2095,9 +1890,7 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Detailed description of the type of planned activity; e.g. what lab test, what procedure, what kind of encounter.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2107,10 +1900,8 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Provides the rationale that drove the inclusion of this particular activity as part of the plan or the reason why the 
              * activity was prohibited.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -2120,10 +1911,8 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates another resource, such as the health condition(s), whose existence justifies this request and drove the 
              * inclusion of this particular activity as part of the plan.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -2133,9 +1922,7 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Internal reference that identifies the goals that this activity is intended to contribute towards meeting.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -2145,9 +1932,7 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies what progress is being made for the specific activity.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CarePlanActivityStatus}.
@@ -2157,9 +1942,7 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Provides reason why the activity isn't yet started, is on hold, was cancelled, etc.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2169,10 +1952,8 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * If true, indicates that the described activity is one that must NOT be engaged in when following the plan. If false, 
              * or missing, indicates that the described activity is one that should be engaged in when following the plan.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Boolean}.
@@ -2182,9 +1963,7 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * The period, timing or frequency upon which the described activity is to occur.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -2194,9 +1973,7 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the facility where the activity will occur; e.g. home, hospital, specific clinic, etc.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Reference}.
@@ -2206,9 +1983,7 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies who's expected to be involved in the activity.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -2218,9 +1993,7 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the food, drug or other product to be consumed or supplied in the activity.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -2230,9 +2003,7 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the quantity expected to be consumed in a given day.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link SimpleQuantity}.
@@ -2242,9 +2013,7 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the quantity expected to be supplied, administered or consumed by the subject.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link SimpleQuantity}.
@@ -2254,11 +2023,9 @@ public class CarePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * This provides a textual description of constraints on the intended activity occurrence, including relation to other 
              * activities. It may also include objectives, pre-conditions and end-conditions. Finally, it may convey specifics about 
              * the activity such as body site, method, route, etc.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2417,10 +2184,8 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2434,15 +2199,12 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2456,15 +2218,12 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2478,21 +2237,17 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2506,21 +2261,17 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2534,11 +2285,9 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A description of the kind of resource the in-line definition of a care plan activity is representing. The CarePlan.
                  * activity.detail is an in-line definition when a resource is not referenced using CarePlan.activity.reference. For 
                  * example, a MedicationRequest, a ServiceRequest, or a CommunicationRequest.
-                 * </p>
                  * 
                  * @param kind
                  *     Kind of resource
@@ -2552,13 +2301,10 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The URL pointing to a FHIR-defined protocol, guideline, questionnaire or other definition that is adhered to in whole 
                  * or in part by this CarePlan activity.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param instantiatesCanonical
                  *     Instantiates FHIR protocol or definition
@@ -2574,13 +2320,10 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The URL pointing to a FHIR-defined protocol, guideline, questionnaire or other definition that is adhered to in whole 
                  * or in part by this CarePlan activity.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param instantiatesCanonical
                  *     Instantiates FHIR protocol or definition
@@ -2594,13 +2337,10 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The URL pointing to an externally maintained protocol, guideline, questionnaire or other definition that is adhered to 
                  * in whole or in part by this CarePlan activity.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param instantiatesUri
                  *     Instantiates external protocol or definition
@@ -2616,13 +2356,10 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The URL pointing to an externally maintained protocol, guideline, questionnaire or other definition that is adhered to 
                  * in whole or in part by this CarePlan activity.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param instantiatesUri
                  *     Instantiates external protocol or definition
@@ -2636,9 +2373,7 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Detailed description of the type of planned activity; e.g. what lab test, what procedure, what kind of encounter.
-                 * </p>
                  * 
                  * @param code
                  *     Detail type of activity
@@ -2652,13 +2387,10 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Provides the rationale that drove the inclusion of this particular activity as part of the plan or the reason why the 
                  * activity was prohibited.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param reasonCode
                  *     Why activity should be done or why activity was prohibited
@@ -2674,13 +2406,10 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Provides the rationale that drove the inclusion of this particular activity as part of the plan or the reason why the 
                  * activity was prohibited.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param reasonCode
                  *     Why activity should be done or why activity was prohibited
@@ -2694,13 +2423,10 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Indicates another resource, such as the health condition(s), whose existence justifies this request and drove the 
                  * inclusion of this particular activity as part of the plan.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param reasonReference
                  *     Why activity is needed
@@ -2716,13 +2442,10 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Indicates another resource, such as the health condition(s), whose existence justifies this request and drove the 
                  * inclusion of this particular activity as part of the plan.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param reasonReference
                  *     Why activity is needed
@@ -2736,12 +2459,9 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Internal reference that identifies the goals that this activity is intended to contribute towards meeting.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param goal
                  *     Goals this activity relates to
@@ -2757,12 +2477,9 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Internal reference that identifies the goals that this activity is intended to contribute towards meeting.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param goal
                  *     Goals this activity relates to
@@ -2776,9 +2493,9 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Identifies what progress is being made for the specific activity.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param status
                  *     not-started | scheduled | in-progress | on-hold | completed | cancelled | stopped | unknown | entered-in-error
@@ -2792,9 +2509,7 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Provides reason why the activity isn't yet started, is on hold, was cancelled, etc.
-                 * </p>
                  * 
                  * @param statusReason
                  *     Reason for current status
@@ -2808,10 +2523,8 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * If true, indicates that the described activity is one that must NOT be engaged in when following the plan. If false, 
                  * or missing, indicates that the described activity is one that should be engaged in when following the plan.
-                 * </p>
                  * 
                  * @param doNotPerform
                  *     If true, activity is prohibiting action
@@ -2825,9 +2538,14 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The period, timing or frequency upon which the described activity is to occur.
-                 * </p>
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link Timing}</li>
+                 * <li>{@link Period}</li>
+                 * <li>{@link String}</li>
+                 * </ul>
                  * 
                  * @param scheduled
                  *     When activity is to occur
@@ -2841,9 +2559,7 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Identifies the facility where the activity will occur; e.g. home, hospital, specific clinic, etc.
-                 * </p>
                  * 
                  * @param location
                  *     Where it should happen
@@ -2857,12 +2573,9 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Identifies who's expected to be involved in the activity.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param performer
                  *     Who will be responsible?
@@ -2878,12 +2591,9 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Identifies who's expected to be involved in the activity.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param performer
                  *     Who will be responsible?
@@ -2897,9 +2607,13 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Identifies the food, drug or other product to be consumed or supplied in the activity.
-                 * </p>
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link CodeableConcept}</li>
+                 * <li>{@link Reference}</li>
+                 * </ul>
                  * 
                  * @param product
                  *     What is to be administered/supplied
@@ -2913,9 +2627,7 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Identifies the quantity expected to be consumed in a given day.
-                 * </p>
                  * 
                  * @param dailyAmount
                  *     How to consume/day?
@@ -2929,9 +2641,7 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Identifies the quantity expected to be supplied, administered or consumed by the subject.
-                 * </p>
                  * 
                  * @param quantity
                  *     How much to administer/supply/consume
@@ -2945,11 +2655,9 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * This provides a textual description of constraints on the intended activity occurrence, including relation to other 
                  * activities. It may also include objectives, pre-conditions and end-conditions. Finally, it may convey specifics about 
                  * the activity such as body site, method, route, etc.
-                 * </p>
                  * 
                  * @param description
                  *     Extra info describing activity to perform
@@ -2962,6 +2670,17 @@ public class CarePlan extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Detail}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>status</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Detail}
+                 */
                 @Override
                 public Detail build() {
                     return new Detail(this);

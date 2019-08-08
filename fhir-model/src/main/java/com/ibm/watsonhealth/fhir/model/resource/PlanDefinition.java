@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.ActionCardinalityBehavior;
 import com.ibm.watsonhealth.fhir.model.type.ActionConditionKind;
 import com.ibm.watsonhealth.fhir.model.type.ActionGroupingBehavior;
@@ -58,11 +60,9 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * This resource allows for the definition of various types of plans as a sharable, consumable, and executable artifact. 
  * The resource is general enough to support the description of a broad range of clinical artifacts such as clinical 
  * decision support rules, order sets and protocols.
- * </p>
  */
 @Constraint(
     id = "pdf-0",
@@ -80,8 +80,10 @@ public class PlanDefinition extends DomainResource {
     private final String title;
     private final String subtitle;
     private final CodeableConcept type;
+    @Required
     private final PublicationStatus status;
     private final Boolean experimental;
+    @Choice({CodeableConcept.class, Reference.class})
     private final Element subject;
     private final DateTime date;
     private final String publisher;
@@ -143,12 +145,10 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * An absolute URI that is used to identify this plan definition when it is referenced in a specification, model, design 
      * or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address 
      * at which at which an authoritative instance of this plan definition is (or will be) published. This URL can be the 
      * target of a canonical reference. It SHALL remain the same when the plan definition is stored on different servers.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -158,10 +158,8 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A formal identifier that is used to identify this plan definition when it is represented in other formats, or 
      * referenced in a specification, model, design or an instance.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -171,7 +169,6 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The identifier that is used to identify this version of the plan definition when it is referenced in a specification, 
      * model, design or instance. This is an arbitrary value managed by the plan definition author and is not expected to be 
      * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
@@ -179,7 +176,6 @@ public class PlanDefinition extends DomainResource {
      * the Decision Support Service specification, use the format Major.Minor.Revision (e.g. 1.0.0). For more information on 
      * versioning knowledge assets, refer to the Decision Support Service specification. Note that a version is required for 
      * non-experimental active artifacts.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -189,10 +185,8 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A natural language name identifying the plan definition. This name should be usable as an identifier for the module by 
      * machine processing applications such as code generation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -202,9 +196,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A short, descriptive, user-friendly title for the plan definition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -214,9 +206,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * An explanatory or alternate title for the plan definition giving additional information about its content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -226,10 +216,8 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A high-level category for the plan definition that distinguishes the kinds of systems that would be interested in the 
      * plan definition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -239,9 +227,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of this plan definition. Enables tracking the life-cycle of the content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PublicationStatus}.
@@ -251,10 +237,8 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A Boolean value to indicate that this plan definition is authored for testing purposes (or 
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -264,9 +248,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A code or group definition that describes the intended subject of the plan definition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -276,11 +258,9 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and optionally time) when the plan definition was published. The date must change when the business version 
      * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
      * the plan definition changes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -290,9 +270,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the organization or individual that published the plan definition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -302,9 +280,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Contact details to assist a user in finding and communicating with the publisher.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -314,9 +290,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A free text natural language description of the plan definition from a consumer's perspective.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -326,11 +300,9 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
      * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
      * may be used to assist with indexing and searching for appropriate plan definition instances.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
@@ -340,9 +312,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A legal or geographic region in which the plan definition is intended to be used.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -352,9 +322,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Explanation of why this plan definition is needed and why it has been designed as it has.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -364,9 +332,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A detailed description of how the plan definition is used from a clinical perspective.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -376,10 +342,8 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A copyright statement relating to the plan definition and/or its contents. Copyright statements are generally legal 
      * restrictions on the use and publishing of the plan definition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -389,10 +353,8 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The date on which the resource content was approved by the publisher. Approval happens once when the content is 
      * officially approved for usage.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Date}.
@@ -402,10 +364,8 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The date on which the resource content was last reviewed. Review happens periodically after approval but does not 
      * change the original approval date.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Date}.
@@ -415,9 +375,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The period during which the plan definition content was or is planned to be in active use.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -427,10 +385,8 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Descriptive topics related to the content of the plan definition. Topics provide a high-level categorization of the 
      * definition that can be useful for filtering and searching.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -440,9 +396,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * An individiual or organization primarily involved in the creation and maintenance of the content.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -452,9 +406,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * An individual or organization primarily responsible for internal coherence of the content.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -464,9 +416,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * An individual or organization primarily responsible for review of some aspect of the content.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -476,9 +426,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * An individual or organization responsible for officially endorsing the content for use in some setting.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -488,9 +436,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Related artifacts such as additional documentation, justification, or bibliographic references.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
@@ -500,9 +446,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A reference to a Library resource containing any formal logic used by the plan definition.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -512,10 +456,8 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Goals that describe what the activities within the plan are intended to achieve. For example, weight loss, restoring 
      * an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Goal}.
@@ -525,9 +467,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * An action or group of actions to be taken as part of the plan.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Action}.
@@ -735,9 +675,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -751,10 +689,8 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -768,11 +704,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -786,9 +720,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -802,12 +734,10 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -821,13 +751,10 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -841,13 +768,10 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -861,15 +785,12 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -883,15 +804,12 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -905,21 +823,17 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -933,21 +847,17 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -961,12 +871,10 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that is used to identify this plan definition when it is referenced in a specification, model, design 
          * or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address 
          * at which at which an authoritative instance of this plan definition is (or will be) published. This URL can be the 
          * target of a canonical reference. It SHALL remain the same when the plan definition is stored on different servers.
-         * </p>
          * 
          * @param url
          *     Canonical identifier for this plan definition, represented as a URI (globally unique)
@@ -980,13 +888,10 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A formal identifier that is used to identify this plan definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Additional identifier for the plan definition
@@ -1002,13 +907,10 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A formal identifier that is used to identify this plan definition when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Additional identifier for the plan definition
@@ -1022,7 +924,6 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The identifier that is used to identify this version of the plan definition when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the plan definition author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
@@ -1030,7 +931,6 @@ public class PlanDefinition extends DomainResource {
          * the Decision Support Service specification, use the format Major.Minor.Revision (e.g. 1.0.0). For more information on 
          * versioning knowledge assets, refer to the Decision Support Service specification. Note that a version is required for 
          * non-experimental active artifacts.
-         * </p>
          * 
          * @param version
          *     Business version of the plan definition
@@ -1044,10 +944,8 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A natural language name identifying the plan definition. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
-         * </p>
          * 
          * @param name
          *     Name for this plan definition (computer friendly)
@@ -1061,9 +959,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A short, descriptive, user-friendly title for the plan definition.
-         * </p>
          * 
          * @param title
          *     Name for this plan definition (human friendly)
@@ -1077,9 +973,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An explanatory or alternate title for the plan definition giving additional information about its content.
-         * </p>
          * 
          * @param subtitle
          *     Subordinate title of the plan definition
@@ -1093,10 +987,8 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A high-level category for the plan definition that distinguishes the kinds of systems that would be interested in the 
          * plan definition.
-         * </p>
          * 
          * @param type
          *     order-set | clinical-protocol | eca-rule | workflow-definition
@@ -1110,9 +1002,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of this plan definition. Enables tracking the life-cycle of the content.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | retired | unknown
@@ -1126,10 +1018,8 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A Boolean value to indicate that this plan definition is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
-         * </p>
          * 
          * @param experimental
          *     For testing purposes, not real usage
@@ -1143,9 +1033,13 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A code or group definition that describes the intended subject of the plan definition.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link CodeableConcept}</li>
+         * <li>{@link Reference}</li>
+         * </ul>
          * 
          * @param subject
          *     Type of individual the plan definition is focused on
@@ -1159,11 +1053,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and optionally time) when the plan definition was published. The date must change when the business version 
          * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
          * the plan definition changes.
-         * </p>
          * 
          * @param date
          *     Date last changed
@@ -1177,9 +1069,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the organization or individual that published the plan definition.
-         * </p>
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
@@ -1193,12 +1083,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1214,12 +1101,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1233,9 +1117,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A free text natural language description of the plan definition from a consumer's perspective.
-         * </p>
          * 
          * @param description
          *     Natural language description of the plan definition
@@ -1249,14 +1131,11 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate plan definition instances.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1272,14 +1151,11 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate plan definition instances.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1293,12 +1169,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the plan definition is intended to be used.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param jurisdiction
          *     Intended jurisdiction for plan definition (if applicable)
@@ -1314,12 +1187,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the plan definition is intended to be used.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param jurisdiction
          *     Intended jurisdiction for plan definition (if applicable)
@@ -1333,9 +1203,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Explanation of why this plan definition is needed and why it has been designed as it has.
-         * </p>
          * 
          * @param purpose
          *     Why this plan definition is defined
@@ -1349,9 +1217,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A detailed description of how the plan definition is used from a clinical perspective.
-         * </p>
          * 
          * @param usage
          *     Describes the clinical usage of the plan
@@ -1365,10 +1231,8 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A copyright statement relating to the plan definition and/or its contents. Copyright statements are generally legal 
          * restrictions on the use and publishing of the plan definition.
-         * </p>
          * 
          * @param copyright
          *     Use and/or publishing restrictions
@@ -1382,10 +1246,8 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The date on which the resource content was approved by the publisher. Approval happens once when the content is 
          * officially approved for usage.
-         * </p>
          * 
          * @param approvalDate
          *     When the plan definition was approved by publisher
@@ -1399,10 +1261,8 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The date on which the resource content was last reviewed. Review happens periodically after approval but does not 
          * change the original approval date.
-         * </p>
          * 
          * @param lastReviewDate
          *     When the plan definition was last reviewed
@@ -1416,9 +1276,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The period during which the plan definition content was or is planned to be in active use.
-         * </p>
          * 
          * @param effectivePeriod
          *     When the plan definition is expected to be used
@@ -1432,13 +1290,10 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Descriptive topics related to the content of the plan definition. Topics provide a high-level categorization of the 
          * definition that can be useful for filtering and searching.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param topic
          *     E.g. Education, Treatment, Assessment
@@ -1454,13 +1309,10 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Descriptive topics related to the content of the plan definition. Topics provide a high-level categorization of the 
          * definition that can be useful for filtering and searching.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param topic
          *     E.g. Education, Treatment, Assessment
@@ -1474,12 +1326,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An individiual or organization primarily involved in the creation and maintenance of the content.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param author
          *     Who authored the content
@@ -1495,12 +1344,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An individiual or organization primarily involved in the creation and maintenance of the content.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param author
          *     Who authored the content
@@ -1514,12 +1360,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An individual or organization primarily responsible for internal coherence of the content.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param editor
          *     Who edited the content
@@ -1535,12 +1378,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An individual or organization primarily responsible for internal coherence of the content.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param editor
          *     Who edited the content
@@ -1554,12 +1394,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An individual or organization primarily responsible for review of some aspect of the content.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reviewer
          *     Who reviewed the content
@@ -1575,12 +1412,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An individual or organization primarily responsible for review of some aspect of the content.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reviewer
          *     Who reviewed the content
@@ -1594,12 +1428,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An individual or organization responsible for officially endorsing the content for use in some setting.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param endorser
          *     Who endorsed the content
@@ -1615,12 +1446,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An individual or organization responsible for officially endorsing the content for use in some setting.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param endorser
          *     Who endorsed the content
@@ -1634,12 +1462,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Related artifacts such as additional documentation, justification, or bibliographic references.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param relatedArtifact
          *     Additional documentation, citations
@@ -1655,12 +1480,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Related artifacts such as additional documentation, justification, or bibliographic references.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param relatedArtifact
          *     Additional documentation, citations
@@ -1674,12 +1496,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a Library resource containing any formal logic used by the plan definition.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param library
          *     Logic used by the plan definition
@@ -1695,12 +1514,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a Library resource containing any formal logic used by the plan definition.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param library
          *     Logic used by the plan definition
@@ -1714,13 +1530,10 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Goals that describe what the activities within the plan are intended to achieve. For example, weight loss, restoring 
          * an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param goal
          *     What the plan is trying to accomplish
@@ -1736,13 +1549,10 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Goals that describe what the activities within the plan are intended to achieve. For example, weight loss, restoring 
          * an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param goal
          *     What the plan is trying to accomplish
@@ -1756,12 +1566,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An action or group of actions to be taken as part of the plan.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param action
          *     Action defined by the plan
@@ -1777,12 +1584,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An action or group of actions to be taken as part of the plan.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param action
          *     Action defined by the plan
@@ -1795,6 +1599,17 @@ public class PlanDefinition extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link PlanDefinition}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link PlanDefinition}
+         */
         @Override
         public PlanDefinition build() {
             return new PlanDefinition(this);
@@ -1838,13 +1653,12 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Goals that describe what the activities within the plan are intended to achieve. For example, weight loss, restoring 
      * an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
-     * </p>
      */
     public static class Goal extends BackboneElement {
         private final CodeableConcept category;
+        @Required
         private final CodeableConcept description;
         private final CodeableConcept priority;
         private final CodeableConcept start;
@@ -1867,9 +1681,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates a category the goal falls within.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1879,10 +1691,8 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Human-readable and/or coded description of a specific desired objective of care, such as "control blood pressure" or 
          * "negotiate an obstacle course" or "dance with child at wedding".
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1892,9 +1702,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the expected level of importance associated with reaching/sustaining the defined goal.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1904,9 +1712,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The event after which the goal should begin being pursued.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1916,9 +1722,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies problems, conditions, issues, or concerns the goal is intended to address.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1928,10 +1732,8 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Didactic or other informational resources associated with the goal that provide further supporting information about 
          * the goal. Information resources can include inline text commentary and links to web resources.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
@@ -1941,9 +1743,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates what should be done and within what timeframe.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Target}.
@@ -2052,10 +1852,8 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2069,15 +1867,12 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2091,15 +1886,12 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2113,21 +1905,17 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2141,21 +1929,17 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2169,9 +1953,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates a category the goal falls within.
-             * </p>
              * 
              * @param category
              *     E.g. Treatment, dietary, behavioral
@@ -2185,10 +1967,10 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Human-readable and/or coded description of a specific desired objective of care, such as "control blood pressure" or 
              * "negotiate an obstacle course" or "dance with child at wedding".
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param description
              *     Code or text describing the goal
@@ -2202,9 +1984,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the expected level of importance associated with reaching/sustaining the defined goal.
-             * </p>
              * 
              * @param priority
              *     high-priority | medium-priority | low-priority
@@ -2218,9 +1998,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The event after which the goal should begin being pursued.
-             * </p>
              * 
              * @param start
              *     When goal pursuit begins
@@ -2234,12 +2012,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies problems, conditions, issues, or concerns the goal is intended to address.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param addresses
              *     What does the goal address
@@ -2255,12 +2030,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies problems, conditions, issues, or concerns the goal is intended to address.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param addresses
              *     What does the goal address
@@ -2274,13 +2046,10 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Didactic or other informational resources associated with the goal that provide further supporting information about 
              * the goal. Information resources can include inline text commentary and links to web resources.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param documentation
              *     Supporting documentation for the goal
@@ -2296,13 +2065,10 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Didactic or other informational resources associated with the goal that provide further supporting information about 
              * the goal. Information resources can include inline text commentary and links to web resources.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param documentation
              *     Supporting documentation for the goal
@@ -2316,12 +2082,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates what should be done and within what timeframe.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param target
              *     Target outcome for the goal
@@ -2337,12 +2100,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates what should be done and within what timeframe.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param target
              *     Target outcome for the goal
@@ -2355,6 +2115,17 @@ public class PlanDefinition extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Goal}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>description</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Goal}
+             */
             @Override
             public Goal build() {
                 return new Goal(this);
@@ -2374,12 +2145,11 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates what should be done and within what timeframe.
-         * </p>
          */
         public static class Target extends BackboneElement {
             private final CodeableConcept measure;
+            @Choice({Quantity.class, Range.class, CodeableConcept.class})
             private final Element detail;
             private final Duration due;
 
@@ -2394,9 +2164,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The parameter whose value is to be tracked, e.g. body weight, blood pressure, or hemoglobin A1c level.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2406,12 +2174,10 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The target value of the measure to be achieved to signify fulfillment of the goal, e.g. 150 pounds or 7.0%. Either the 
              * high or low or both values of the range can be specified. When a low value is missing, it indicates that the goal is 
              * achieved at any value at or below the high value. Similarly, if the high value is missing, it indicates that the goal 
              * is achieved at any value at or above the low value.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -2421,9 +2187,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates the timeframe after the start of the goal in which the goal should be met.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Duration}.
@@ -2512,10 +2276,8 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2529,15 +2291,12 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2551,15 +2310,12 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2573,21 +2329,17 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2601,21 +2353,17 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2629,9 +2377,7 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The parameter whose value is to be tracked, e.g. body weight, blood pressure, or hemoglobin A1c level.
-                 * </p>
                  * 
                  * @param measure
                  *     The parameter whose value is to be tracked
@@ -2645,12 +2391,17 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The target value of the measure to be achieved to signify fulfillment of the goal, e.g. 150 pounds or 7.0%. Either the 
                  * high or low or both values of the range can be specified. When a low value is missing, it indicates that the goal is 
                  * achieved at any value at or below the high value. Similarly, if the high value is missing, it indicates that the goal 
                  * is achieved at any value at or above the low value.
-                 * </p>
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link Quantity}</li>
+                 * <li>{@link Range}</li>
+                 * <li>{@link CodeableConcept}</li>
+                 * </ul>
                  * 
                  * @param detail
                  *     The target value to be achieved
@@ -2664,9 +2415,7 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Indicates the timeframe after the start of the goal in which the goal should be met.
-                 * </p>
                  * 
                  * @param due
                  *     Reach goal within
@@ -2679,6 +2428,12 @@ public class PlanDefinition extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Target}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Target}
+                 */
                 @Override
                 public Target build() {
                     return new Target(this);
@@ -2696,9 +2451,7 @@ public class PlanDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * An action or group of actions to be taken as part of the plan.
-     * </p>
      */
     public static class Action extends BackboneElement {
         private final String prefix;
@@ -2710,12 +2463,14 @@ public class PlanDefinition extends DomainResource {
         private final List<CodeableConcept> reason;
         private final List<RelatedArtifact> documentation;
         private final List<Id> goalId;
+        @Choice({CodeableConcept.class, Reference.class})
         private final Element subject;
         private final List<TriggerDefinition> trigger;
         private final List<Condition> condition;
         private final List<DataRequirement> input;
         private final List<DataRequirement> output;
         private final List<RelatedAction> relatedAction;
+        @Choice({DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class})
         private final Element timing;
         private final List<Participant> participant;
         private final CodeableConcept type;
@@ -2724,6 +2479,7 @@ public class PlanDefinition extends DomainResource {
         private final ActionRequiredBehavior requiredBehavior;
         private final ActionPrecheckBehavior precheckBehavior;
         private final ActionCardinalityBehavior cardinalityBehavior;
+        @Choice({Canonical.class, Uri.class})
         private final Element definition;
         private final Canonical transform;
         private final List<DynamicValue> dynamicValue;
@@ -2764,9 +2520,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A user-visible prefix for the action.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2776,9 +2530,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The title of the action displayed to a user.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2788,9 +2540,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A brief description of the action used to provide a summary to display to the user.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2800,10 +2550,8 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A text equivalent of the action to be performed. This provides a human-interpretable description of the action when 
          * the definition is consumed by a system that might not be capable of interpreting it dynamically.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2813,9 +2561,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates how quickly the action should be addressed with respect to other actions.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link RequestPriority}.
@@ -2825,10 +2571,8 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A code that provides meaning for the action or action group. For example, a section may have a LOINC code for the 
          * section of a documentation template.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -2838,9 +2582,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A description of why this action is necessary or appropriate.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -2850,10 +2592,8 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Didactic or other informational resources associated with the action that can be provided to the CDS recipient. 
          * Information resources can include inline text commentary and links to web resources.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link RelatedArtifact}.
@@ -2863,10 +2603,8 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies goals that this action supports. The reference must be to a goal element defined within this plan 
          * definition.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Id}.
@@ -2876,9 +2614,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A code or group definition that describes the intended subject of the action and its children, if any.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -2888,9 +2624,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A description of when the action should be triggered.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link TriggerDefinition}.
@@ -2900,9 +2634,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An expression that describes applicability criteria or start/stop conditions for the action.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Condition}.
@@ -2912,9 +2644,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines input data requirements for the action.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link DataRequirement}.
@@ -2924,9 +2654,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines the outputs of the action, if any.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link DataRequirement}.
@@ -2936,9 +2664,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A relationship to another action such as "before" or "30-60 minutes after start of".
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link RelatedAction}.
@@ -2948,9 +2674,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An optional value describing when the action should be performed.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -2960,9 +2684,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates who should participate in performing the action described.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Participant}.
@@ -2972,9 +2694,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of action to perform (create, update, remove).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2984,9 +2704,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines the grouping behavior for the action and its children.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ActionGroupingBehavior}.
@@ -2996,9 +2714,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines the selection behavior for the action and its children.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ActionSelectionBehavior}.
@@ -3008,9 +2724,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines the required behavior for the action.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ActionRequiredBehavior}.
@@ -3020,9 +2734,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines whether the action should usually be preselected.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ActionPrecheckBehavior}.
@@ -3032,9 +2744,7 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines whether the action can be selected multiple times.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ActionCardinalityBehavior}.
@@ -3044,10 +2754,8 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to an ActivityDefinition that describes the action to be taken in detail, or a PlanDefinition that 
          * describes a series of actions to be taken.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -3057,10 +2765,8 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a StructureMap resource that defines a transform that can be executed to produce the intent resource 
          * using the ActivityDefinition instance as the input.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Canonical}.
@@ -3070,11 +2776,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Customizations that should be applied to the statically defined resource. For example, if the dosage of a medication 
          * must be computed based on the patient's weight, a customization would be used to specify an expression that calculated 
          * the weight, and the path on the resource that would contain the result.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link DynamicValue}.
@@ -3084,11 +2788,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Sub actions that are contained within the action. The behavior of this action determines the functionality of the sub-
          * actions. For example, a selection behavior of at-most-one indicates that of the sub-actions, at most one may be chosen 
          * as part of realizing the action definition.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Action}.
@@ -3297,10 +2999,8 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3314,15 +3014,12 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3336,15 +3033,12 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3358,21 +3052,17 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3386,21 +3076,17 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3414,9 +3100,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A user-visible prefix for the action.
-             * </p>
              * 
              * @param prefix
              *     User-visible prefix for the action (e.g. 1. or A.)
@@ -3430,9 +3114,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The title of the action displayed to a user.
-             * </p>
              * 
              * @param title
              *     User-visible title
@@ -3446,9 +3128,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A brief description of the action used to provide a summary to display to the user.
-             * </p>
              * 
              * @param description
              *     Brief description of the action
@@ -3462,10 +3142,8 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A text equivalent of the action to be performed. This provides a human-interpretable description of the action when 
              * the definition is consumed by a system that might not be capable of interpreting it dynamically.
-             * </p>
              * 
              * @param textEquivalent
              *     Static text equivalent of the action, used if the dynamic aspects cannot be interpreted by the receiving system
@@ -3479,9 +3157,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates how quickly the action should be addressed with respect to other actions.
-             * </p>
              * 
              * @param priority
              *     routine | urgent | asap | stat
@@ -3495,13 +3171,10 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A code that provides meaning for the action or action group. For example, a section may have a LOINC code for the 
              * section of a documentation template.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param code
              *     Code representing the meaning of the action or sub-actions
@@ -3517,13 +3190,10 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A code that provides meaning for the action or action group. For example, a section may have a LOINC code for the 
              * section of a documentation template.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param code
              *     Code representing the meaning of the action or sub-actions
@@ -3537,12 +3207,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A description of why this action is necessary or appropriate.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param reason
              *     Why the action should be performed
@@ -3558,12 +3225,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A description of why this action is necessary or appropriate.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param reason
              *     Why the action should be performed
@@ -3577,13 +3241,10 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Didactic or other informational resources associated with the action that can be provided to the CDS recipient. 
              * Information resources can include inline text commentary and links to web resources.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param documentation
              *     Supporting documentation for the intended performer of the action
@@ -3599,13 +3260,10 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Didactic or other informational resources associated with the action that can be provided to the CDS recipient. 
              * Information resources can include inline text commentary and links to web resources.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param documentation
              *     Supporting documentation for the intended performer of the action
@@ -3619,13 +3277,10 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies goals that this action supports. The reference must be to a goal element defined within this plan 
              * definition.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param goalId
              *     What goals this action supports
@@ -3641,13 +3296,10 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies goals that this action supports. The reference must be to a goal element defined within this plan 
              * definition.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param goalId
              *     What goals this action supports
@@ -3661,9 +3313,13 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A code or group definition that describes the intended subject of the action and its children, if any.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link CodeableConcept}</li>
+             * <li>{@link Reference}</li>
+             * </ul>
              * 
              * @param subject
              *     Type of individual the action is focused on
@@ -3677,12 +3333,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A description of when the action should be triggered.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param trigger
              *     When the action should be triggered
@@ -3698,12 +3351,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A description of when the action should be triggered.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param trigger
              *     When the action should be triggered
@@ -3717,12 +3367,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * An expression that describes applicability criteria or start/stop conditions for the action.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param condition
              *     Whether or not the action is applicable
@@ -3738,12 +3385,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * An expression that describes applicability criteria or start/stop conditions for the action.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param condition
              *     Whether or not the action is applicable
@@ -3757,12 +3401,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines input data requirements for the action.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param input
              *     Input data requirements
@@ -3778,12 +3419,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines input data requirements for the action.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param input
              *     Input data requirements
@@ -3797,12 +3435,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines the outputs of the action, if any.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param output
              *     Output data definition
@@ -3818,12 +3453,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines the outputs of the action, if any.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param output
              *     Output data definition
@@ -3837,12 +3469,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A relationship to another action such as "before" or "30-60 minutes after start of".
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param relatedAction
              *     Relationship to another action
@@ -3858,12 +3487,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A relationship to another action such as "before" or "30-60 minutes after start of".
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param relatedAction
              *     Relationship to another action
@@ -3877,9 +3503,17 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * An optional value describing when the action should be performed.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link DateTime}</li>
+             * <li>{@link Age}</li>
+             * <li>{@link Period}</li>
+             * <li>{@link Duration}</li>
+             * <li>{@link Range}</li>
+             * <li>{@link Timing}</li>
+             * </ul>
              * 
              * @param timing
              *     When the action should take place
@@ -3893,12 +3527,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates who should participate in performing the action described.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param participant
              *     Who should participate in the action
@@ -3914,12 +3545,9 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates who should participate in performing the action described.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param participant
              *     Who should participate in the action
@@ -3933,9 +3561,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of action to perform (create, update, remove).
-             * </p>
              * 
              * @param type
              *     create | update | remove | fire-event
@@ -3949,9 +3575,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines the grouping behavior for the action and its children.
-             * </p>
              * 
              * @param groupingBehavior
              *     visual-group | logical-group | sentence-group
@@ -3965,9 +3589,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines the selection behavior for the action and its children.
-             * </p>
              * 
              * @param selectionBehavior
              *     any | all | all-or-none | exactly-one | at-most-one | one-or-more
@@ -3981,9 +3603,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines the required behavior for the action.
-             * </p>
              * 
              * @param requiredBehavior
              *     must | could | must-unless-documented
@@ -3997,9 +3617,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines whether the action should usually be preselected.
-             * </p>
              * 
              * @param precheckBehavior
              *     yes | no
@@ -4013,9 +3631,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines whether the action can be selected multiple times.
-             * </p>
              * 
              * @param cardinalityBehavior
              *     single | multiple
@@ -4029,10 +3645,14 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A reference to an ActivityDefinition that describes the action to be taken in detail, or a PlanDefinition that 
              * describes a series of actions to be taken.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Canonical}</li>
+             * <li>{@link Uri}</li>
+             * </ul>
              * 
              * @param definition
              *     Description of the activity to be performed
@@ -4046,10 +3666,8 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A reference to a StructureMap resource that defines a transform that can be executed to produce the intent resource 
              * using the ActivityDefinition instance as the input.
-             * </p>
              * 
              * @param transform
              *     Transform to apply the template
@@ -4063,14 +3681,11 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Customizations that should be applied to the statically defined resource. For example, if the dosage of a medication 
              * must be computed based on the patient's weight, a customization would be used to specify an expression that calculated 
              * the weight, and the path on the resource that would contain the result.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param dynamicValue
              *     Dynamic aspects of the definition
@@ -4086,14 +3701,11 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Customizations that should be applied to the statically defined resource. For example, if the dosage of a medication 
              * must be computed based on the patient's weight, a customization would be used to specify an expression that calculated 
              * the weight, and the path on the resource that would contain the result.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param dynamicValue
              *     Dynamic aspects of the definition
@@ -4107,14 +3719,11 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Sub actions that are contained within the action. The behavior of this action determines the functionality of the sub-
              * actions. For example, a selection behavior of at-most-one indicates that of the sub-actions, at most one may be chosen 
              * as part of realizing the action definition.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param action
              *     A sub-action
@@ -4130,14 +3739,11 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Sub actions that are contained within the action. The behavior of this action determines the functionality of the sub-
              * actions. For example, a selection behavior of at-most-one indicates that of the sub-actions, at most one may be chosen 
              * as part of realizing the action definition.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param action
              *     A sub-action
@@ -4150,6 +3756,12 @@ public class PlanDefinition extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Action}
+             * 
+             * @return
+             *     An immutable object of type {@link Action}
+             */
             @Override
             public Action build() {
                 return new Action(this);
@@ -4189,11 +3801,10 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An expression that describes applicability criteria or start/stop conditions for the action.
-         * </p>
          */
         public static class Condition extends BackboneElement {
+            @Required
             private final ActionConditionKind kind;
             private final Expression expression;
 
@@ -4207,9 +3818,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The kind of condition.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link ActionConditionKind}.
@@ -4219,9 +3828,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * An expression that returns true or false, indicating whether the condition is satisfied.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Expression}.
@@ -4305,10 +3912,8 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -4322,15 +3927,12 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4344,15 +3946,12 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4366,21 +3965,17 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4394,21 +3989,17 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4422,9 +4013,9 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The kind of condition.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param kind
                  *     applicability | start | stop
@@ -4438,9 +4029,7 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * An expression that returns true or false, indicating whether the condition is satisfied.
-                 * </p>
                  * 
                  * @param expression
                  *     Boolean-valued expression
@@ -4453,6 +4042,17 @@ public class PlanDefinition extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Condition}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>kind</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Condition}
+                 */
                 @Override
                 public Condition build() {
                     return new Condition(this);
@@ -4468,13 +4068,14 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A relationship to another action such as "before" or "30-60 minutes after start of".
-         * </p>
          */
         public static class RelatedAction extends BackboneElement {
+            @Required
             private final Id actionId;
+            @Required
             private final ActionRelationshipType relationship;
+            @Choice({Duration.class, Range.class})
             private final Element offset;
 
             private volatile int hashCode;
@@ -4488,9 +4089,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The element id of the related action.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Id}.
@@ -4500,9 +4099,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The relationship of this action to the related action.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link ActionRelationshipType}.
@@ -4512,9 +4109,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A duration or range of durations to apply to the relationship. For example, 30-60 minutes before.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -4603,10 +4198,8 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -4620,15 +4213,12 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4642,15 +4232,12 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4664,21 +4251,17 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4692,21 +4275,17 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4720,9 +4299,9 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The element id of the related action.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param actionId
                  *     What action is this related to
@@ -4736,9 +4315,9 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The relationship of this action to the related action.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param relationship
                  *     before-start | before | before-end | concurrent-with-start | concurrent | concurrent-with-end | after-start | after | 
@@ -4753,9 +4332,13 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A duration or range of durations to apply to the relationship. For example, 30-60 minutes before.
-                 * </p>
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link Duration}</li>
+                 * <li>{@link Range}</li>
+                 * </ul>
                  * 
                  * @param offset
                  *     Time offset for the relationship
@@ -4768,6 +4351,18 @@ public class PlanDefinition extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link RelatedAction}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>actionId</li>
+                 * <li>relationship</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link RelatedAction}
+                 */
                 @Override
                 public RelatedAction build() {
                     return new RelatedAction(this);
@@ -4784,11 +4379,10 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates who should participate in performing the action described.
-         * </p>
          */
         public static class Participant extends BackboneElement {
+            @Required
             private final ActionParticipantType type;
             private final CodeableConcept role;
 
@@ -4802,9 +4396,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of participant in the action.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link ActionParticipantType}.
@@ -4814,9 +4406,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The role the participant should play in performing the described action.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -4900,10 +4490,8 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -4917,15 +4505,12 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4939,15 +4524,12 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4961,21 +4543,17 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4989,21 +4567,17 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -5017,9 +4591,9 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The type of participant in the action.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param type
                  *     patient | practitioner | related-person | device
@@ -5033,9 +4607,7 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The role the participant should play in performing the described action.
-                 * </p>
                  * 
                  * @param role
                  *     E.g. Nurse, Surgeon, Parent
@@ -5048,6 +4620,17 @@ public class PlanDefinition extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Participant}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>type</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Participant}
+                 */
                 @Override
                 public Participant build() {
                     return new Participant(this);
@@ -5063,11 +4646,9 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Customizations that should be applied to the statically defined resource. For example, if the dosage of a medication 
          * must be computed based on the patient's weight, a customization would be used to specify an expression that calculated 
          * the weight, and the path on the resource that would contain the result.
-         * </p>
          */
         public static class DynamicValue extends BackboneElement {
             private final String path;
@@ -5083,13 +4664,11 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * The path to the element to be customized. This is the path on the resource that will hold the result of the 
              * calculation defined by the expression. The specified path SHALL be a FHIRPath resolveable on the specified target type 
              * of the ActivityDefinition, and SHALL consist only of identifiers, constant indexers, and a restricted subset of 
              * functions. The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to 
              * traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details).
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -5099,9 +4678,7 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * An expression specifying the value of the customized element.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Expression}.
@@ -5185,10 +4762,8 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -5202,15 +4777,12 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -5224,15 +4796,12 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -5246,21 +4815,17 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -5274,21 +4839,17 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -5302,13 +4863,11 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The path to the element to be customized. This is the path on the resource that will hold the result of the 
                  * calculation defined by the expression. The specified path SHALL be a FHIRPath resolveable on the specified target type 
                  * of the ActivityDefinition, and SHALL consist only of identifiers, constant indexers, and a restricted subset of 
                  * functions. The path is allowed to contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to 
                  * traverse multiple-cardinality sub-elements (see the [Simple FHIRPath Profile](fhirpath.html#simple) for full details).
-                 * </p>
                  * 
                  * @param path
                  *     The path to the element to be set dynamically
@@ -5322,9 +4881,7 @@ public class PlanDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * An expression specifying the value of the customized element.
-                 * </p>
                  * 
                  * @param expression
                  *     An expression that provides the dynamic value for the customization
@@ -5337,6 +4894,12 @@ public class PlanDefinition extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link DynamicValue}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link DynamicValue}
+                 */
                 @Override
                 public DynamicValue build() {
                     return new DynamicValue(this);

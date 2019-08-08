@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -40,10 +41,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A formal computable definition of a graph of resources - that is, a coherent set of resources that form a graph by 
  * following references. The Graph Definition resource defines a set and makes rules about the set.
- * </p>
  */
 @Constraint(
     id = "gdf-0",
@@ -56,7 +55,9 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 public class GraphDefinition extends DomainResource {
     private final Uri url;
     private final String version;
+    @Required
     private final String name;
+    @Required
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -66,6 +67,7 @@ public class GraphDefinition extends DomainResource {
     private final List<UsageContext> useContext;
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
+    @Required
     private final ResourceType start;
     private final Canonical profile;
     private final List<Link> link;
@@ -92,12 +94,10 @@ public class GraphDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * An absolute URI that is used to identify this graph definition when it is referenced in a specification, model, design 
      * or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address 
      * at which at which an authoritative instance of this graph definition is (or will be) published. This URL can be the 
      * target of a canonical reference. It SHALL remain the same when the graph definition is stored on different servers.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -107,12 +107,10 @@ public class GraphDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The identifier that is used to identify this version of the graph definition when it is referenced in a specification, 
      * model, design or instance. This is an arbitrary value managed by the graph definition author and is not expected to be 
      * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
      * also no expectation that versions can be placed in a lexicographical sequence.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -122,10 +120,8 @@ public class GraphDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A natural language name identifying the graph definition. This name should be usable as an identifier for the module 
      * by machine processing applications such as code generation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -135,9 +131,7 @@ public class GraphDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of this graph definition. Enables tracking the life-cycle of the content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PublicationStatus}.
@@ -147,10 +141,8 @@ public class GraphDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A Boolean value to indicate that this graph definition is authored for testing purposes (or 
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -160,11 +152,9 @@ public class GraphDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and optionally time) when the graph definition was published. The date must change when the business version 
      * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
      * the graph definition changes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -174,9 +164,7 @@ public class GraphDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the organization or individual that published the graph definition.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -186,9 +174,7 @@ public class GraphDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Contact details to assist a user in finding and communicating with the publisher.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -198,9 +184,7 @@ public class GraphDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A free text natural language description of the graph definition from a consumer's perspective.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -210,11 +194,9 @@ public class GraphDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
      * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
      * may be used to assist with indexing and searching for appropriate graph definition instances.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
@@ -224,9 +206,7 @@ public class GraphDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * A legal or geographic region in which the graph definition is intended to be used.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -236,9 +216,7 @@ public class GraphDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Explanation of why this graph definition is needed and why it has been designed as it has.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -248,9 +226,7 @@ public class GraphDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The type of FHIR resource at which instances of this graph start.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ResourceType}.
@@ -260,9 +236,7 @@ public class GraphDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * The profile that describes the use of the base resource.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Canonical}.
@@ -272,9 +246,7 @@ public class GraphDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Links this graph makes rules about.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Link}.
@@ -418,9 +390,7 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -434,10 +404,8 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -451,11 +419,9 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -469,9 +435,7 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -485,12 +449,10 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -504,13 +466,10 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -524,13 +483,10 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -544,15 +500,12 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -566,15 +519,12 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -588,21 +538,17 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -616,21 +562,17 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -644,12 +586,10 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that is used to identify this graph definition when it is referenced in a specification, model, design 
          * or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address 
          * at which at which an authoritative instance of this graph definition is (or will be) published. This URL can be the 
          * target of a canonical reference. It SHALL remain the same when the graph definition is stored on different servers.
-         * </p>
          * 
          * @param url
          *     Canonical identifier for this graph definition, represented as a URI (globally unique)
@@ -663,12 +603,10 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The identifier that is used to identify this version of the graph definition when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the graph definition author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
          * also no expectation that versions can be placed in a lexicographical sequence.
-         * </p>
          * 
          * @param version
          *     Business version of the graph definition
@@ -682,10 +620,10 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A natural language name identifying the graph definition. This name should be usable as an identifier for the module 
          * by machine processing applications such as code generation.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param name
          *     Name for this graph definition (computer friendly)
@@ -699,9 +637,9 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of this graph definition. Enables tracking the life-cycle of the content.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | retired | unknown
@@ -715,10 +653,8 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A Boolean value to indicate that this graph definition is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
-         * </p>
          * 
          * @param experimental
          *     For testing purposes, not real usage
@@ -732,11 +668,9 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and optionally time) when the graph definition was published. The date must change when the business version 
          * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
          * the graph definition changes.
-         * </p>
          * 
          * @param date
          *     Date last changed
@@ -750,9 +684,7 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the organization or individual that published the graph definition.
-         * </p>
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
@@ -766,12 +698,9 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Contact details for the publisher
@@ -787,12 +716,9 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Contact details for the publisher
@@ -806,9 +732,7 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A free text natural language description of the graph definition from a consumer's perspective.
-         * </p>
          * 
          * @param description
          *     Natural language description of the graph definition
@@ -822,14 +746,11 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate graph definition instances.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -845,14 +766,11 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate graph definition instances.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -866,12 +784,9 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the graph definition is intended to be used.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param jurisdiction
          *     Intended jurisdiction for graph definition (if applicable)
@@ -887,12 +802,9 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the graph definition is intended to be used.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param jurisdiction
          *     Intended jurisdiction for graph definition (if applicable)
@@ -906,9 +818,7 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Explanation of why this graph definition is needed and why it has been designed as it has.
-         * </p>
          * 
          * @param purpose
          *     Why this graph definition is defined
@@ -922,9 +832,9 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of FHIR resource at which instances of this graph start.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param start
          *     Type of resource at which the graph starts
@@ -938,9 +848,7 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * The profile that describes the use of the base resource.
-         * </p>
          * 
          * @param profile
          *     Profile on base resource
@@ -954,12 +862,9 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Links this graph makes rules about.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param link
          *     Links this graph makes rules about
@@ -975,12 +880,9 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Links this graph makes rules about.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param link
          *     Links this graph makes rules about
@@ -993,6 +895,19 @@ public class GraphDefinition extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link GraphDefinition}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>name</li>
+         * <li>status</li>
+         * <li>start</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link GraphDefinition}
+         */
         @Override
         public GraphDefinition build() {
             return new GraphDefinition(this);
@@ -1020,9 +935,7 @@ public class GraphDefinition extends DomainResource {
     }
 
     /**
-     * <p>
      * Links this graph makes rules about.
-     * </p>
      */
     public static class Link extends BackboneElement {
         private final String path;
@@ -1046,9 +959,7 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * A FHIR expression that identifies one of FHIR References to other resources.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1058,9 +969,7 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Which slice (if profiled).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1070,9 +979,7 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Minimum occurrences for this link.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Integer}.
@@ -1082,9 +989,7 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Maximum occurrences for this link.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1094,9 +999,7 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about why this link is of interest in this graph definition.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1106,9 +1009,7 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Potential target for the link.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Target}.
@@ -1212,10 +1113,8 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1229,15 +1128,12 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1251,15 +1147,12 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1273,21 +1166,17 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1301,21 +1190,17 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1329,9 +1214,7 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A FHIR expression that identifies one of FHIR References to other resources.
-             * </p>
              * 
              * @param path
              *     Path in the resource that contains the link
@@ -1345,9 +1228,7 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Which slice (if profiled).
-             * </p>
              * 
              * @param sliceName
              *     Which slice (if profiled)
@@ -1361,9 +1242,7 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Minimum occurrences for this link.
-             * </p>
              * 
              * @param min
              *     Minimum occurrences for this link
@@ -1377,9 +1256,7 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Maximum occurrences for this link.
-             * </p>
              * 
              * @param max
              *     Maximum occurrences for this link
@@ -1393,9 +1270,7 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Information about why this link is of interest in this graph definition.
-             * </p>
              * 
              * @param description
              *     Why this link is specified
@@ -1409,12 +1284,9 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Potential target for the link.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param target
              *     Potential target for the link
@@ -1430,12 +1302,9 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Potential target for the link.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param target
              *     Potential target for the link
@@ -1448,6 +1317,12 @@ public class GraphDefinition extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Link}
+             * 
+             * @return
+             *     An immutable object of type {@link Link}
+             */
             @Override
             public Link build() {
                 return new Link(this);
@@ -1466,11 +1341,10 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * <p>
          * Potential target for the link.
-         * </p>
          */
         public static class Target extends BackboneElement {
+            @Required
             private final ResourceType type;
             private final String params;
             private final Canonical profile;
@@ -1490,9 +1364,7 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Type of resource this link refers to.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link ResourceType}.
@@ -1502,9 +1374,7 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * A set of parameters to look up.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -1514,9 +1384,7 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Profile for the target resource.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Canonical}.
@@ -1526,9 +1394,7 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Compartment Consistency Rules.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Compartment}.
@@ -1538,9 +1404,7 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Additional links from target resource.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Link}.
@@ -1639,10 +1503,8 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -1656,15 +1518,12 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1678,15 +1537,12 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1700,21 +1556,17 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1728,21 +1580,17 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1756,9 +1604,9 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Type of resource this link refers to.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param type
                  *     Type of resource this link refers to
@@ -1772,9 +1620,7 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A set of parameters to look up.
-                 * </p>
                  * 
                  * @param params
                  *     Criteria for reverse lookup
@@ -1788,9 +1634,7 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Profile for the target resource.
-                 * </p>
                  * 
                  * @param profile
                  *     Profile for the target resource
@@ -1804,12 +1648,9 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Compartment Consistency Rules.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param compartment
                  *     Compartment Consistency Rules
@@ -1825,12 +1666,9 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Compartment Consistency Rules.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param compartment
                  *     Compartment Consistency Rules
@@ -1844,12 +1682,9 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Additional links from target resource.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param link
                  *     Additional links from target resource
@@ -1865,12 +1700,9 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Additional links from target resource.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param link
                  *     Additional links from target resource
@@ -1883,6 +1715,17 @@ public class GraphDefinition extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Target}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>type</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Target}
+                 */
                 @Override
                 public Target build() {
                     return new Target(this);
@@ -1900,13 +1743,14 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * <p>
              * Compartment Consistency Rules.
-             * </p>
              */
             public static class Compartment extends BackboneElement {
+                @Required
                 private final GraphCompartmentUse use;
+                @Required
                 private final CompartmentCode code;
+                @Required
                 private final GraphCompartmentRule rule;
                 private final String expression;
                 private final String description;
@@ -1924,10 +1768,8 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Defines how the compartment rule is used - whether it it is used to test whether resources are subject to the rule, or 
                  * whether it is a rule that must be followed.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link GraphCompartmentUse}.
@@ -1937,9 +1779,7 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Identifies the compartment.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link CompartmentCode}.
@@ -1949,9 +1789,7 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * identical | matching | different | no-rule | custom.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link GraphCompartmentRule}.
@@ -1961,9 +1799,7 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Custom rule, as a FHIRPath expression.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -1973,9 +1809,7 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Documentation for FHIRPath expression.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -2074,10 +1908,8 @@ public class GraphDefinition extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -2091,15 +1923,12 @@ public class GraphDefinition extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2113,15 +1942,12 @@ public class GraphDefinition extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2135,21 +1961,17 @@ public class GraphDefinition extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -2163,21 +1985,17 @@ public class GraphDefinition extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -2191,10 +2009,10 @@ public class GraphDefinition extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Defines how the compartment rule is used - whether it it is used to test whether resources are subject to the rule, or 
                      * whether it is a rule that must be followed.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param use
                      *     condition | requirement
@@ -2208,9 +2026,9 @@ public class GraphDefinition extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Identifies the compartment.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param code
                      *     Identifies the compartment
@@ -2224,9 +2042,9 @@ public class GraphDefinition extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * identical | matching | different | no-rule | custom.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param rule
                      *     identical | matching | different | custom
@@ -2240,9 +2058,7 @@ public class GraphDefinition extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Custom rule, as a FHIRPath expression.
-                     * </p>
                      * 
                      * @param expression
                      *     Custom rule, as a FHIRPath expression
@@ -2256,9 +2072,7 @@ public class GraphDefinition extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Documentation for FHIRPath expression.
-                     * </p>
                      * 
                      * @param description
                      *     Documentation for FHIRPath expression
@@ -2271,6 +2085,19 @@ public class GraphDefinition extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link Compartment}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>use</li>
+                     * <li>code</li>
+                     * <li>rule</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link Compartment}
+                     */
                     @Override
                     public Compartment build() {
                         return new Compartment(this);

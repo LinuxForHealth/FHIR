@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -37,10 +38,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A curated namespace that issues unique symbols within that namespace for the identification of concepts, people, 
  * devices, etc. Represents a "System" used within the Identifier and Coding data types.
- * </p>
  */
 @Constraint(
     id = "nsd-0",
@@ -65,9 +64,13 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class NamingSystem extends DomainResource {
+    @Required
     private final String name;
+    @Required
     private final PublicationStatus status;
+    @Required
     private final NamingSystemType kind;
+    @Required
     private final DateTime date;
     private final String publisher;
     private final List<ContactDetail> contact;
@@ -77,6 +80,7 @@ public class NamingSystem extends DomainResource {
     private final List<UsageContext> useContext;
     private final List<CodeableConcept> jurisdiction;
     private final String usage;
+    @Required
     private final List<UniqueId> uniqueId;
 
     private volatile int hashCode;
@@ -99,10 +103,8 @@ public class NamingSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * A natural language name identifying the naming system. This name should be usable as an identifier for the module by 
      * machine processing applications such as code generation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -112,9 +114,7 @@ public class NamingSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of this naming system. Enables tracking the life-cycle of the content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PublicationStatus}.
@@ -124,9 +124,7 @@ public class NamingSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the purpose for the naming system - what kinds of things does it make unique?
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link NamingSystemType}.
@@ -136,11 +134,9 @@ public class NamingSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and optionally time) when the naming system was published. The date must change when the business version 
      * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
      * the naming system changes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -150,9 +146,7 @@ public class NamingSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the organization or individual that published the naming system.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -162,9 +156,7 @@ public class NamingSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * Contact details to assist a user in finding and communicating with the publisher.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -174,10 +166,8 @@ public class NamingSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the organization that is responsible for issuing identifiers or codes for this namespace and ensuring 
      * their non-collision.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -187,9 +177,7 @@ public class NamingSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * Categorizes a naming system for easier search by grouping related naming systems.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -199,10 +187,8 @@ public class NamingSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * A free text natural language description of the naming system from a consumer's perspective. Details about what the 
      * namespace identifies including scope, granularity, version labeling, etc.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -212,11 +198,9 @@ public class NamingSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
      * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
      * may be used to assist with indexing and searching for appropriate naming system instances.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
@@ -226,9 +210,7 @@ public class NamingSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * A legal or geographic region in which the naming system is intended to be used.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -238,10 +220,8 @@ public class NamingSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * Provides guidance on the use of the namespace, including the handling of formatting characters, use of upper vs. lower 
      * case, etc.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -251,9 +231,7 @@ public class NamingSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates how the system may be identified when referenced in electronic exchange.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link UniqueId}.
@@ -389,9 +367,7 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -405,10 +381,8 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -422,11 +396,9 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -440,9 +412,7 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -456,12 +426,10 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -475,13 +443,10 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -495,13 +460,10 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -515,15 +477,12 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -537,15 +496,12 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -559,21 +515,17 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -587,21 +539,17 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -615,10 +563,10 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A natural language name identifying the naming system. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param name
          *     Name for this naming system (computer friendly)
@@ -632,9 +580,9 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of this naming system. Enables tracking the life-cycle of the content.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | retired | unknown
@@ -648,9 +596,9 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the purpose for the naming system - what kinds of things does it make unique?
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param kind
          *     codesystem | identifier | root
@@ -664,11 +612,11 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and optionally time) when the naming system was published. The date must change when the business version 
          * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
          * the naming system changes.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param date
          *     Date last changed
@@ -682,9 +630,7 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the organization or individual that published the naming system.
-         * </p>
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
@@ -698,12 +644,9 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Contact details for the publisher
@@ -719,12 +662,9 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Contact details for the publisher
@@ -738,10 +678,8 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the organization that is responsible for issuing identifiers or codes for this namespace and ensuring 
          * their non-collision.
-         * </p>
          * 
          * @param responsible
          *     Who maintains system namespace?
@@ -755,9 +693,7 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Categorizes a naming system for easier search by grouping related naming systems.
-         * </p>
          * 
          * @param type
          *     e.g. driver, provider, patient, bank etc.
@@ -771,10 +707,8 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A free text natural language description of the naming system from a consumer's perspective. Details about what the 
          * namespace identifies including scope, granularity, version labeling, etc.
-         * </p>
          * 
          * @param description
          *     Natural language description of the naming system
@@ -788,14 +722,11 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate naming system instances.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -811,14 +742,11 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate naming system instances.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -832,12 +760,9 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the naming system is intended to be used.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param jurisdiction
          *     Intended jurisdiction for naming system (if applicable)
@@ -853,12 +778,9 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the naming system is intended to be used.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param jurisdiction
          *     Intended jurisdiction for naming system (if applicable)
@@ -872,10 +794,8 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Provides guidance on the use of the namespace, including the handling of formatting characters, use of upper vs. lower 
          * case, etc.
-         * </p>
          * 
          * @param usage
          *     How/where is it used
@@ -889,12 +809,11 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates how the system may be identified when referenced in electronic exchange.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is required.
          * 
          * @param uniqueId
          *     Unique identifiers used for system
@@ -910,12 +829,11 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates how the system may be identified when referenced in electronic exchange.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is required.
          * 
          * @param uniqueId
          *     Unique identifiers used for system
@@ -928,6 +846,21 @@ public class NamingSystem extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link NamingSystem}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>name</li>
+         * <li>status</li>
+         * <li>kind</li>
+         * <li>date</li>
+         * <li>uniqueId</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link NamingSystem}
+         */
         @Override
         public NamingSystem build() {
             return new NamingSystem(this);
@@ -953,12 +886,12 @@ public class NamingSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates how the system may be identified when referenced in electronic exchange.
-     * </p>
      */
     public static class UniqueId extends BackboneElement {
+        @Required
         private final NamingSystemIdentifierType type;
+        @Required
         private final String value;
         private final Boolean preferred;
         private final String comment;
@@ -977,9 +910,7 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the unique identifier scheme used for this particular identifier.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link NamingSystemIdentifierType}.
@@ -989,9 +920,7 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The string that should be sent over the wire to identify the code system or identifier system.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1001,9 +930,7 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates whether this identifier is the "preferred" identifier of this type.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -1013,9 +940,7 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Notes about the past or intended usage of this identifier.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1025,10 +950,8 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the period of time over which this identifier is considered appropriate to refer to the naming system. 
          * Outside of this window, the identifier might be non-deterministic.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Period}.
@@ -1127,10 +1050,8 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1144,15 +1065,12 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1166,15 +1084,12 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1188,21 +1103,17 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1216,21 +1127,17 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1244,9 +1151,9 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the unique identifier scheme used for this particular identifier.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     oid | uuid | uri | other
@@ -1260,9 +1167,9 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * The string that should be sent over the wire to identify the code system or identifier system.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param value
              *     The unique identifier
@@ -1276,9 +1183,7 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates whether this identifier is the "preferred" identifier of this type.
-             * </p>
              * 
              * @param preferred
              *     Is this the id that should be used for this type
@@ -1292,9 +1197,7 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * Notes about the past or intended usage of this identifier.
-             * </p>
              * 
              * @param comment
              *     Notes about identifier usage
@@ -1308,10 +1211,8 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the period of time over which this identifier is considered appropriate to refer to the naming system. 
              * Outside of this window, the identifier might be non-deterministic.
-             * </p>
              * 
              * @param period
              *     When is identifier valid?
@@ -1324,6 +1225,18 @@ public class NamingSystem extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link UniqueId}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>type</li>
+             * <li>value</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link UniqueId}
+             */
             @Override
             public UniqueId build() {
                 return new UniqueId(this);

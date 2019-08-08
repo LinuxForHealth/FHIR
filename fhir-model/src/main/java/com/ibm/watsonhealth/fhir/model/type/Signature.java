@@ -14,20 +14,22 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A signature along with supporting context. The signature may be a digital signature that is cryptographic in nature, 
  * or some other signature acceptable to the domain. This other signature may be as simple as a graphical image 
  * representing a hand-written signature, or a signature ceremony Different signature approaches have different utilities.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Signature extends Element {
+    @Required
     private final List<Coding> type;
+    @Required
     private final Instant when;
+    @Required
     private final Reference who;
     private final Reference onBehalfOf;
     private final Code targetFormat;
@@ -49,10 +51,8 @@ public class Signature extends Element {
     }
 
     /**
-     * <p>
      * An indication of the reason that the entity signed this document. This may be explicitly included as part of the 
      * signature information and can be used when determining accountability for various actions concerning the document.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -62,9 +62,7 @@ public class Signature extends Element {
     }
 
     /**
-     * <p>
      * When the digital signature was signed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Instant}.
@@ -74,10 +72,8 @@ public class Signature extends Element {
     }
 
     /**
-     * <p>
      * A reference to an application-usable description of the identity that signed (e.g. the signature used their private 
      * key).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -87,9 +83,7 @@ public class Signature extends Element {
     }
 
     /**
-     * <p>
      * A reference to an application-usable description of the identity that is represented by the signature.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -99,9 +93,7 @@ public class Signature extends Element {
     }
 
     /**
-     * <p>
      * A mime type that indicates the technical format of the target resources signed by the signature.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Code}.
@@ -111,10 +103,8 @@ public class Signature extends Element {
     }
 
     /**
-     * <p>
      * A mime type that indicates the technical format of the signature. Important mime types are application/signature+xml 
      * for X ML DigSig, application/jose for JWS, and image/* for a graphical image of a signature, etc.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Code}.
@@ -124,10 +114,8 @@ public class Signature extends Element {
     }
 
     /**
-     * <p>
      * The base64 encoding of the Signature content. When signature is not recorded electronically this element would be 
      * empty.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Base64Binary}.
@@ -233,10 +221,8 @@ public class Signature extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -250,15 +236,12 @@ public class Signature extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -272,15 +255,12 @@ public class Signature extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -294,13 +274,12 @@ public class Signature extends Element {
         }
 
         /**
-         * <p>
          * An indication of the reason that the entity signed this document. This may be explicitly included as part of the 
          * signature information and can be used when determining accountability for various actions concerning the document.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     Indication of the reason the entity signed the object(s)
@@ -316,13 +295,12 @@ public class Signature extends Element {
         }
 
         /**
-         * <p>
          * An indication of the reason that the entity signed this document. This may be explicitly included as part of the 
          * signature information and can be used when determining accountability for various actions concerning the document.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     Indication of the reason the entity signed the object(s)
@@ -336,9 +314,9 @@ public class Signature extends Element {
         }
 
         /**
-         * <p>
          * When the digital signature was signed.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param when
          *     When the signature was created
@@ -352,10 +330,10 @@ public class Signature extends Element {
         }
 
         /**
-         * <p>
          * A reference to an application-usable description of the identity that signed (e.g. the signature used their private 
          * key).
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param who
          *     Who signed
@@ -369,9 +347,7 @@ public class Signature extends Element {
         }
 
         /**
-         * <p>
          * A reference to an application-usable description of the identity that is represented by the signature.
-         * </p>
          * 
          * @param onBehalfOf
          *     The party represented
@@ -385,9 +361,7 @@ public class Signature extends Element {
         }
 
         /**
-         * <p>
          * A mime type that indicates the technical format of the target resources signed by the signature.
-         * </p>
          * 
          * @param targetFormat
          *     The technical format of the signed resources
@@ -401,10 +375,8 @@ public class Signature extends Element {
         }
 
         /**
-         * <p>
          * A mime type that indicates the technical format of the signature. Important mime types are application/signature+xml 
          * for X ML DigSig, application/jose for JWS, and image/* for a graphical image of a signature, etc.
-         * </p>
          * 
          * @param sigFormat
          *     The technical format of the signature
@@ -418,10 +390,8 @@ public class Signature extends Element {
         }
 
         /**
-         * <p>
          * The base64 encoding of the Signature content. When signature is not recorded electronically this element would be 
          * empty.
-         * </p>
          * 
          * @param data
          *     The actual signature content (XML DigSig. JWS, picture, etc.)
@@ -434,6 +404,19 @@ public class Signature extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link Signature}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>type</li>
+         * <li>when</li>
+         * <li>who</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Signature}
+         */
         @Override
         public Signature build() {
             return new Signature(this);

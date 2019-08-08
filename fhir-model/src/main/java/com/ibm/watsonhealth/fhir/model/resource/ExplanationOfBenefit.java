@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Address;
 import com.ibm.watsonhealth.fhir.model.type.Attachment;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
@@ -47,23 +49,28 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * This resource provides: the claim details; adjudication details from the processing of a Claim; and optionally account 
  * balance information, for informing the subscriber of the benefits provided.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ExplanationOfBenefit extends DomainResource {
     private final List<Identifier> identifier;
+    @Required
     private final ExplanationOfBenefitStatus status;
+    @Required
     private final CodeableConcept type;
     private final CodeableConcept subType;
+    @Required
     private final Use use;
+    @Required
     private final Reference patient;
     private final Period billablePeriod;
+    @Required
     private final DateTime created;
     private final Reference enterer;
+    @Required
     private final Reference insurer;
+    @Required
     private final Reference provider;
     private final CodeableConcept priority;
     private final CodeableConcept fundsReserveRequested;
@@ -76,6 +83,7 @@ public class ExplanationOfBenefit extends DomainResource {
     private final Reference facility;
     private final Reference claim;
     private final Reference claimResponse;
+    @Required
     private final RemittanceOutcome outcome;
     private final String disposition;
     private final List<String> preAuthRef;
@@ -85,6 +93,7 @@ public class ExplanationOfBenefit extends DomainResource {
     private final List<Diagnosis> diagnosis;
     private final List<Procedure> procedure;
     private final PositiveInt precedence;
+    @Required
     private final List<Insurance> insurance;
     private final Accident accident;
     private final List<Item> item;
@@ -148,9 +157,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * A unique identifier assigned to this explanation of benefit.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -160,9 +167,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of the resource instance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ExplanationOfBenefitStatus}.
@@ -172,9 +177,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The category of claim, e.g. oral, pharmacy, vision, institutional, professional.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -184,10 +187,8 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * A finer grained suite of claim type codes which may convey additional information such as Inpatient vs Outpatient 
      * and/or a specialty service.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -197,11 +198,9 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * A code to indicate whether the nature of the request is: to request adjudication of products and services previously 
      * rendered; or requesting authorization and adjudication for provision in the future; or requesting the non-binding 
      * adjudication of the listed products and services which could be provided in the future.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Use}.
@@ -211,10 +210,8 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The party to whom the professional services and/or products have been supplied or are being considered and for whom 
      * actual for forecast reimbursement is sought.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -224,9 +221,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The period for which charges are being submitted.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -236,9 +231,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The date this resource was created.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -248,9 +241,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Individual who created the claim, predetermination or preauthorization.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -260,9 +251,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The party responsible for authorization, adjudication and reimbursement.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -272,9 +261,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The provider which is responsible for the claim, predetermination or preauthorization.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -284,9 +271,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The provider-required urgency of processing the request. Typical values include: stat, routine deferred.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -296,9 +281,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * A code to indicate whether and for whom funds are to be reserved for future claims.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -308,10 +291,8 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * A code, used only on a response to a preauthorization, to indicate whether the benefits payable have been reserved and 
      * for whom.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -321,10 +302,8 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Other claims which are related to this claim such as prior submissions or claims for related services or for the same 
      * event.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Related}.
@@ -334,9 +313,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Prescription to support the dispensing of pharmacy, device or vision products.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -346,10 +323,8 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Original prescription which has been superseded by this prescription to support the dispensing of pharmacy services, 
      * medications or products.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -359,9 +334,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The party to be reimbursed for cost of the products and services according to the terms of the policy.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Payee}.
@@ -371,9 +344,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * A reference to a referral resource.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -383,9 +354,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Facility where the services were provided.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -395,9 +364,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The business identifier for the instance of the adjudication request: claim predetermination or preauthorization.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -407,10 +374,8 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The business identifier for the instance of the adjudication response: claim, predetermination or preauthorization 
      * response.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -420,9 +385,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The outcome of the claim, predetermination, or preauthorization processing.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link RemittanceOutcome}.
@@ -432,9 +395,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * A human readable description of the status of the adjudication.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -444,9 +405,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Reference from the Insurer which is used in later communications which refers to this adjudication.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -456,10 +415,8 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The timeframe during which the supplied preauthorization reference may be quoted on claims to obtain the adjudication 
      * as provided.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Period}.
@@ -469,9 +426,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The members of the team who provided the products and services.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CareTeam}.
@@ -481,10 +436,8 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Additional information codes regarding exceptions, special considerations, the condition, situation, prior or 
      * concurrent issues.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link SupportingInfo}.
@@ -494,9 +447,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about diagnoses relevant to the claim items.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Diagnosis}.
@@ -506,9 +457,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Procedures performed on the patient relevant to the billing items with the claim.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Procedure}.
@@ -518,9 +467,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * This indicates the relative order of a series of EOBs related to different coverages for the same suite of services.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PositiveInt}.
@@ -530,9 +477,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Financial instruments for reimbursement for the health care products and services specified on the claim.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Insurance}.
@@ -542,9 +487,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Details of a accident which resulted in injuries which required the products and services listed in the claim.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Accident}.
@@ -554,10 +497,8 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * A claim line. Either a simple (a product or service) or a 'group' of details which can also be a simple items or 
      * groups of sub-details.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Item}.
@@ -567,9 +508,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The first-tier service adjudications for payor added product or service lines.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link AddItem}.
@@ -579,9 +518,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The adjudication results which are presented at the header level rather than at the line-item or add-item levels.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
@@ -591,9 +528,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Categorized monetary totals for the adjudication.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Total}.
@@ -603,9 +538,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Payment details for the adjudication of the claim.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Payment}.
@@ -615,9 +548,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * A code for the form to be used for printing the content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -627,9 +558,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The actual form, by reference or inclusion, for printing the content or an EOB.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Attachment}.
@@ -639,9 +568,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * A note that describes or explains adjudication results in a human readable form.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ProcessNote}.
@@ -651,9 +578,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The term of the benefits documented in this response.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -663,9 +588,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Balance by Benefit Category.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link BenefitBalance}.
@@ -921,9 +844,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -937,10 +858,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -954,11 +873,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -972,9 +889,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -988,12 +903,10 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -1007,13 +920,10 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -1027,13 +937,10 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -1047,15 +954,12 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -1069,15 +973,12 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -1091,21 +992,17 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -1119,21 +1016,17 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -1147,12 +1040,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A unique identifier assigned to this explanation of benefit.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Business Identifier for the resource
@@ -1168,12 +1058,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A unique identifier assigned to this explanation of benefit.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Business Identifier for the resource
@@ -1187,9 +1074,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of the resource instance.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     active | cancelled | draft | entered-in-error
@@ -1203,9 +1090,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The category of claim, e.g. oral, pharmacy, vision, institutional, professional.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     Category or discipline
@@ -1219,10 +1106,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A finer grained suite of claim type codes which may convey additional information such as Inpatient vs Outpatient 
          * and/or a specialty service.
-         * </p>
          * 
          * @param subType
          *     More granular claim type
@@ -1236,11 +1121,11 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A code to indicate whether the nature of the request is: to request adjudication of products and services previously 
          * rendered; or requesting authorization and adjudication for provision in the future; or requesting the non-binding 
          * adjudication of the listed products and services which could be provided in the future.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param use
          *     claim | preauthorization | predetermination
@@ -1254,10 +1139,10 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The party to whom the professional services and/or products have been supplied or are being considered and for whom 
          * actual for forecast reimbursement is sought.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param patient
          *     The recipient of the products and services
@@ -1271,9 +1156,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The period for which charges are being submitted.
-         * </p>
          * 
          * @param billablePeriod
          *     Relevant time frame for the claim
@@ -1287,9 +1170,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The date this resource was created.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param created
          *     Response creation date
@@ -1303,9 +1186,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Individual who created the claim, predetermination or preauthorization.
-         * </p>
          * 
          * @param enterer
          *     Author of the claim
@@ -1319,9 +1200,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The party responsible for authorization, adjudication and reimbursement.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param insurer
          *     Party responsible for reimbursement
@@ -1335,9 +1216,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The provider which is responsible for the claim, predetermination or preauthorization.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param provider
          *     Party responsible for the claim
@@ -1351,9 +1232,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The provider-required urgency of processing the request. Typical values include: stat, routine deferred.
-         * </p>
          * 
          * @param priority
          *     Desired processing urgency
@@ -1367,9 +1246,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A code to indicate whether and for whom funds are to be reserved for future claims.
-         * </p>
          * 
          * @param fundsReserveRequested
          *     For whom to reserve funds
@@ -1383,10 +1260,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A code, used only on a response to a preauthorization, to indicate whether the benefits payable have been reserved and 
          * for whom.
-         * </p>
          * 
          * @param fundsReserve
          *     Funds reserved status
@@ -1400,13 +1275,10 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Other claims which are related to this claim such as prior submissions or claims for related services or for the same 
          * event.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param related
          *     Prior or corollary claims
@@ -1422,13 +1294,10 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Other claims which are related to this claim such as prior submissions or claims for related services or for the same 
          * event.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param related
          *     Prior or corollary claims
@@ -1442,9 +1311,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Prescription to support the dispensing of pharmacy, device or vision products.
-         * </p>
          * 
          * @param prescription
          *     Prescription authorizing services or products
@@ -1458,10 +1325,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Original prescription which has been superseded by this prescription to support the dispensing of pharmacy services, 
          * medications or products.
-         * </p>
          * 
          * @param originalPrescription
          *     Original prescription if superceded by fulfiller
@@ -1475,9 +1340,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The party to be reimbursed for cost of the products and services according to the terms of the policy.
-         * </p>
          * 
          * @param payee
          *     Recipient of benefits payable
@@ -1491,9 +1354,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a referral resource.
-         * </p>
          * 
          * @param referral
          *     Treatment Referral
@@ -1507,9 +1368,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Facility where the services were provided.
-         * </p>
          * 
          * @param facility
          *     Servicing Facility
@@ -1523,9 +1382,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The business identifier for the instance of the adjudication request: claim predetermination or preauthorization.
-         * </p>
          * 
          * @param claim
          *     Claim reference
@@ -1539,10 +1396,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The business identifier for the instance of the adjudication response: claim, predetermination or preauthorization 
          * response.
-         * </p>
          * 
          * @param claimResponse
          *     Claim response reference
@@ -1556,9 +1411,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The outcome of the claim, predetermination, or preauthorization processing.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param outcome
          *     queued | complete | error | partial
@@ -1572,9 +1427,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A human readable description of the status of the adjudication.
-         * </p>
          * 
          * @param disposition
          *     Disposition Message
@@ -1588,12 +1441,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference from the Insurer which is used in later communications which refers to this adjudication.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param preAuthRef
          *     Preauthorization reference
@@ -1609,12 +1459,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference from the Insurer which is used in later communications which refers to this adjudication.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param preAuthRef
          *     Preauthorization reference
@@ -1628,13 +1475,10 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The timeframe during which the supplied preauthorization reference may be quoted on claims to obtain the adjudication 
          * as provided.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param preAuthRefPeriod
          *     Preauthorization in-effect period
@@ -1650,13 +1494,10 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The timeframe during which the supplied preauthorization reference may be quoted on claims to obtain the adjudication 
          * as provided.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param preAuthRefPeriod
          *     Preauthorization in-effect period
@@ -1670,12 +1511,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The members of the team who provided the products and services.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param careTeam
          *     Care Team members
@@ -1691,12 +1529,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The members of the team who provided the products and services.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param careTeam
          *     Care Team members
@@ -1710,13 +1545,10 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional information codes regarding exceptions, special considerations, the condition, situation, prior or 
          * concurrent issues.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param supportingInfo
          *     Supporting information
@@ -1732,13 +1564,10 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional information codes regarding exceptions, special considerations, the condition, situation, prior or 
          * concurrent issues.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param supportingInfo
          *     Supporting information
@@ -1752,12 +1581,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about diagnoses relevant to the claim items.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param diagnosis
          *     Pertinent diagnosis information
@@ -1773,12 +1599,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about diagnoses relevant to the claim items.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param diagnosis
          *     Pertinent diagnosis information
@@ -1792,12 +1615,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Procedures performed on the patient relevant to the billing items with the claim.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param procedure
          *     Clinical procedures performed
@@ -1813,12 +1633,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Procedures performed on the patient relevant to the billing items with the claim.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param procedure
          *     Clinical procedures performed
@@ -1832,9 +1649,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * This indicates the relative order of a series of EOBs related to different coverages for the same suite of services.
-         * </p>
          * 
          * @param precedence
          *     Precedence (primary, secondary, etc.)
@@ -1848,12 +1663,11 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Financial instruments for reimbursement for the health care products and services specified on the claim.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is required.
          * 
          * @param insurance
          *     Patient insurance information
@@ -1869,12 +1683,11 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Financial instruments for reimbursement for the health care products and services specified on the claim.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is required.
          * 
          * @param insurance
          *     Patient insurance information
@@ -1888,9 +1701,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Details of a accident which resulted in injuries which required the products and services listed in the claim.
-         * </p>
          * 
          * @param accident
          *     Details of the event
@@ -1904,13 +1715,10 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A claim line. Either a simple (a product or service) or a 'group' of details which can also be a simple items or 
          * groups of sub-details.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param item
          *     Product or service provided
@@ -1926,13 +1734,10 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A claim line. Either a simple (a product or service) or a 'group' of details which can also be a simple items or 
          * groups of sub-details.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param item
          *     Product or service provided
@@ -1946,12 +1751,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The first-tier service adjudications for payor added product or service lines.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param addItem
          *     Insurer added line items
@@ -1967,12 +1769,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The first-tier service adjudications for payor added product or service lines.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param addItem
          *     Insurer added line items
@@ -1986,12 +1785,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The adjudication results which are presented at the header level rather than at the line-item or add-item levels.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param adjudication
          *     Header-level adjudication
@@ -2007,12 +1803,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The adjudication results which are presented at the header level rather than at the line-item or add-item levels.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param adjudication
          *     Header-level adjudication
@@ -2026,12 +1819,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Categorized monetary totals for the adjudication.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param total
          *     Adjudication totals
@@ -2047,12 +1837,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Categorized monetary totals for the adjudication.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param total
          *     Adjudication totals
@@ -2066,9 +1853,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Payment details for the adjudication of the claim.
-         * </p>
          * 
          * @param payment
          *     Payment Details
@@ -2082,9 +1867,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A code for the form to be used for printing the content.
-         * </p>
          * 
          * @param formCode
          *     Printed form identifier
@@ -2098,9 +1881,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The actual form, by reference or inclusion, for printing the content or an EOB.
-         * </p>
          * 
          * @param form
          *     Printed reference or actual form
@@ -2114,12 +1895,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A note that describes or explains adjudication results in a human readable form.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param processNote
          *     Note concerning adjudication
@@ -2135,12 +1913,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A note that describes or explains adjudication results in a human readable form.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param processNote
          *     Note concerning adjudication
@@ -2154,9 +1929,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The term of the benefits documented in this response.
-         * </p>
          * 
          * @param benefitPeriod
          *     When the benefits are applicable
@@ -2170,12 +1943,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Balance by Benefit Category.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param benefitBalance
          *     Balance by Benefit Category
@@ -2191,12 +1961,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Balance by Benefit Category.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param benefitBalance
          *     Balance by Benefit Category
@@ -2209,6 +1976,25 @@ public class ExplanationOfBenefit extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link ExplanationOfBenefit}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>type</li>
+         * <li>use</li>
+         * <li>patient</li>
+         * <li>created</li>
+         * <li>insurer</li>
+         * <li>provider</li>
+         * <li>outcome</li>
+         * <li>insurance</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link ExplanationOfBenefit}
+         */
         @Override
         public ExplanationOfBenefit build() {
             return new ExplanationOfBenefit(this);
@@ -2264,10 +2050,8 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Other claims which are related to this claim such as prior submissions or claims for related services or for the same 
      * event.
-     * </p>
      */
     public static class Related extends BackboneElement {
         private final Reference claim;
@@ -2285,9 +2069,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to a related claim.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -2297,9 +2079,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A code to convey how the claims are related.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2309,9 +2089,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * An alternate organizational reference to the case or file to which this particular claim pertains.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Identifier}.
@@ -2400,10 +2178,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2417,15 +2193,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2439,15 +2212,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2461,21 +2231,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2489,21 +2255,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2517,9 +2279,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference to a related claim.
-             * </p>
              * 
              * @param claim
              *     Reference to the related claim
@@ -2533,9 +2293,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A code to convey how the claims are related.
-             * </p>
              * 
              * @param relationship
              *     How the reference claim is related
@@ -2549,9 +2307,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * An alternate organizational reference to the case or file to which this particular claim pertains.
-             * </p>
              * 
              * @param reference
              *     File or case reference
@@ -2564,6 +2320,12 @@ public class ExplanationOfBenefit extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Related}
+             * 
+             * @return
+             *     An immutable object of type {@link Related}
+             */
             @Override
             public Related build() {
                 return new Related(this);
@@ -2580,9 +2342,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The party to be reimbursed for cost of the products and services according to the terms of the policy.
-     * </p>
      */
     public static class Payee extends BackboneElement {
         private final CodeableConcept type;
@@ -2598,9 +2358,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Type of Party to be reimbursed: Subscriber, provider, other.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2610,9 +2368,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to the individual or organization to whom any payment will be made.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -2696,10 +2452,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2713,15 +2467,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2735,15 +2486,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2757,21 +2505,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2785,21 +2529,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2813,9 +2553,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Type of Party to be reimbursed: Subscriber, provider, other.
-             * </p>
              * 
              * @param type
              *     Category of recipient
@@ -2829,9 +2567,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference to the individual or organization to whom any payment will be made.
-             * </p>
              * 
              * @param party
              *     Recipient reference
@@ -2844,6 +2580,12 @@ public class ExplanationOfBenefit extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Payee}
+             * 
+             * @return
+             *     An immutable object of type {@link Payee}
+             */
             @Override
             public Payee build() {
                 return new Payee(this);
@@ -2859,12 +2601,12 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The members of the team who provided the products and services.
-     * </p>
      */
     public static class CareTeam extends BackboneElement {
+        @Required
         private final PositiveInt sequence;
+        @Required
         private final Reference provider;
         private final Boolean responsible;
         private final CodeableConcept role;
@@ -2883,9 +2625,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A number to uniquely identify care team entries.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}.
@@ -2895,9 +2635,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Member of the team who provided the product or service.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -2907,9 +2645,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The party who is billing and/or responsible for the claimed products or services.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -2919,9 +2655,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The lead, assisting or supervising practitioner and their discipline if a multidisciplinary team.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2931,9 +2665,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The qualification of the practitioner which is applicable for this service.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -3032,10 +2764,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3049,15 +2779,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3071,15 +2798,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3093,21 +2817,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3121,21 +2841,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3149,9 +2865,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A number to uniquely identify care team entries.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param sequence
              *     Order of care team
@@ -3165,9 +2881,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Member of the team who provided the product or service.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param provider
              *     Practitioner or organization
@@ -3181,9 +2897,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The party who is billing and/or responsible for the claimed products or services.
-             * </p>
              * 
              * @param responsible
              *     Indicator of the lead practitioner
@@ -3197,9 +2911,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The lead, assisting or supervising practitioner and their discipline if a multidisciplinary team.
-             * </p>
              * 
              * @param role
              *     Function within the team
@@ -3213,9 +2925,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The qualification of the practitioner which is applicable for this service.
-             * </p>
              * 
              * @param qualification
              *     Practitioner credential or specialization
@@ -3228,6 +2938,18 @@ public class ExplanationOfBenefit extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link CareTeam}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>sequence</li>
+             * <li>provider</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link CareTeam}
+             */
             @Override
             public CareTeam build() {
                 return new CareTeam(this);
@@ -3246,16 +2968,18 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Additional information codes regarding exceptions, special considerations, the condition, situation, prior or 
      * concurrent issues.
-     * </p>
      */
     public static class SupportingInfo extends BackboneElement {
+        @Required
         private final PositiveInt sequence;
+        @Required
         private final CodeableConcept category;
         private final CodeableConcept code;
+        @Choice({Date.class, Period.class})
         private final Element timing;
+        @Choice({Boolean.class, String.class, Quantity.class, Attachment.class, Reference.class})
         private final Element value;
         private final Coding reason;
 
@@ -3273,9 +2997,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A number to uniquely identify supporting information entries.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}.
@@ -3285,9 +3007,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The general class of the information supplied: information; exception; accident, employment; onset, etc.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -3297,10 +3017,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * System and code pertaining to the specific information regarding special conditions relating to the setting, treatment 
          * or patient for which care is sought.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -3310,9 +3028,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The date when or period to which this information refers.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -3322,10 +3038,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional data or information such as resources, documents, images etc. including references to the data or the 
          * actual inclusion of the data.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -3335,9 +3049,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Provides the reason in the situation where a reason code is required in addition to the content.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Coding}.
@@ -3441,10 +3153,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3458,15 +3168,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3480,15 +3187,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3502,21 +3206,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3530,21 +3230,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3558,9 +3254,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A number to uniquely identify supporting information entries.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param sequence
              *     Information instance identifier
@@ -3574,9 +3270,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The general class of the information supplied: information; exception; accident, employment; onset, etc.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param category
              *     Classification of the supplied information
@@ -3590,10 +3286,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * System and code pertaining to the specific information regarding special conditions relating to the setting, treatment 
              * or patient for which care is sought.
-             * </p>
              * 
              * @param code
              *     Type of information
@@ -3607,9 +3301,13 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The date when or period to which this information refers.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Date}</li>
+             * <li>{@link Period}</li>
+             * </ul>
              * 
              * @param timing
              *     When it occurred
@@ -3623,10 +3321,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Additional data or information such as resources, documents, images etc. including references to the data or the 
              * actual inclusion of the data.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Boolean}</li>
+             * <li>{@link String}</li>
+             * <li>{@link Quantity}</li>
+             * <li>{@link Attachment}</li>
+             * <li>{@link Reference}</li>
+             * </ul>
              * 
              * @param value
              *     Data to be provided
@@ -3640,9 +3345,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Provides the reason in the situation where a reason code is required in addition to the content.
-             * </p>
              * 
              * @param reason
              *     Explanation for the information
@@ -3655,6 +3358,18 @@ public class ExplanationOfBenefit extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link SupportingInfo}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>sequence</li>
+             * <li>category</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link SupportingInfo}
+             */
             @Override
             public SupportingInfo build() {
                 return new SupportingInfo(this);
@@ -3674,12 +3389,13 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about diagnoses relevant to the claim items.
-     * </p>
      */
     public static class Diagnosis extends BackboneElement {
+        @Required
         private final PositiveInt sequence;
+        @Required
+        @Choice({CodeableConcept.class, Reference.class})
         private final Element diagnosis;
         private final List<CodeableConcept> type;
         private final CodeableConcept onAdmission;
@@ -3698,9 +3414,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A number to uniquely identify diagnosis entries.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}.
@@ -3710,9 +3424,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The nature of illness or problem in a coded form or as a reference to an external defined Condition.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -3722,9 +3434,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * When the condition was observed or the relative ranking.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -3734,9 +3444,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Indication of whether the diagnosis was present on admission to a facility.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -3746,10 +3454,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A package billing code or bundle code used to group products and services to a particular health condition (such as 
          * heart attack) which is based on a predetermined grouping code system.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -3848,10 +3554,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3865,15 +3569,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3887,15 +3588,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3909,21 +3607,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3937,21 +3631,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3965,9 +3655,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A number to uniquely identify diagnosis entries.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param sequence
              *     Diagnosis instance identifier
@@ -3981,9 +3671,15 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The nature of illness or problem in a coded form or as a reference to an external defined Condition.
-             * </p>
+             * 
+             * <p>This element is required.
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link CodeableConcept}</li>
+             * <li>{@link Reference}</li>
+             * </ul>
              * 
              * @param diagnosis
              *     Nature of illness or problem
@@ -3997,12 +3693,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * When the condition was observed or the relative ranking.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param type
              *     Timing or nature of the diagnosis
@@ -4018,12 +3711,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * When the condition was observed or the relative ranking.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param type
              *     Timing or nature of the diagnosis
@@ -4037,9 +3727,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Indication of whether the diagnosis was present on admission to a facility.
-             * </p>
              * 
              * @param onAdmission
              *     Present on admission
@@ -4053,10 +3741,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A package billing code or bundle code used to group products and services to a particular health condition (such as 
              * heart attack) which is based on a predetermined grouping code system.
-             * </p>
              * 
              * @param packageCode
              *     Package billing code
@@ -4069,6 +3755,18 @@ public class ExplanationOfBenefit extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Diagnosis}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>sequence</li>
+             * <li>diagnosis</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Diagnosis}
+             */
             @Override
             public Diagnosis build() {
                 return new Diagnosis(this);
@@ -4087,14 +3785,15 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Procedures performed on the patient relevant to the billing items with the claim.
-     * </p>
      */
     public static class Procedure extends BackboneElement {
+        @Required
         private final PositiveInt sequence;
         private final List<CodeableConcept> type;
         private final DateTime date;
+        @Required
+        @Choice({CodeableConcept.class, Reference.class})
         private final Element procedure;
         private final List<Reference> udi;
 
@@ -4111,9 +3810,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A number to uniquely identify procedure entries.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}.
@@ -4123,9 +3820,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * When the condition was observed or the relative ranking.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -4135,9 +3830,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Date and optionally time the procedure was performed.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DateTime}.
@@ -4147,9 +3840,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The code or reference to a Procedure resource which identifies the clinical intervention performed.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -4159,9 +3850,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Unique Device Identifiers associated with this line item.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -4260,10 +3949,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -4277,15 +3964,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4299,15 +3983,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4321,21 +4002,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4349,21 +4026,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4377,9 +4050,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A number to uniquely identify procedure entries.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param sequence
              *     Procedure instance identifier
@@ -4393,12 +4066,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * When the condition was observed or the relative ranking.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param type
              *     Category of Procedure
@@ -4414,12 +4084,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * When the condition was observed or the relative ranking.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param type
              *     Category of Procedure
@@ -4433,9 +4100,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Date and optionally time the procedure was performed.
-             * </p>
              * 
              * @param date
              *     When the procedure was performed
@@ -4449,9 +4114,15 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The code or reference to a Procedure resource which identifies the clinical intervention performed.
-             * </p>
+             * 
+             * <p>This element is required.
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link CodeableConcept}</li>
+             * <li>{@link Reference}</li>
+             * </ul>
              * 
              * @param procedure
              *     Specific clinical procedure
@@ -4465,12 +4136,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique Device Identifiers associated with this line item.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param udi
              *     Unique device identifier
@@ -4486,12 +4154,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique Device Identifiers associated with this line item.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param udi
              *     Unique device identifier
@@ -4504,6 +4169,18 @@ public class ExplanationOfBenefit extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Procedure}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>sequence</li>
+             * <li>procedure</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Procedure}
+             */
             @Override
             public Procedure build() {
                 return new Procedure(this);
@@ -4522,12 +4199,12 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Financial instruments for reimbursement for the health care products and services specified on the claim.
-     * </p>
      */
     public static class Insurance extends BackboneElement {
+        @Required
         private final Boolean focal;
+        @Required
         private final Reference coverage;
         private final List<String> preAuthRef;
 
@@ -4542,9 +4219,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A flag to indicate that this Coverage is to be used for adjudication of this claim when set to true.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -4554,10 +4229,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to the insurance card level information contained in the Coverage resource. The coverage issuing insurer 
          * will use these details to locate the patient's actual coverage within the insurer's information system.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -4567,10 +4240,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference numbers previously provided by the insurer to the provider to be quoted on subsequent claims containing 
          * services or products related to the prior authorization.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -4659,10 +4330,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -4676,15 +4345,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4698,15 +4364,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4720,21 +4383,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4748,21 +4407,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4776,9 +4431,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A flag to indicate that this Coverage is to be used for adjudication of this claim when set to true.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param focal
              *     Coverage to be used for adjudication
@@ -4792,10 +4447,10 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference to the insurance card level information contained in the Coverage resource. The coverage issuing insurer 
              * will use these details to locate the patient's actual coverage within the insurer's information system.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param coverage
              *     Insurance information
@@ -4809,13 +4464,10 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference numbers previously provided by the insurer to the provider to be quoted on subsequent claims containing 
              * services or products related to the prior authorization.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param preAuthRef
              *     Prior authorization reference number
@@ -4831,13 +4483,10 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference numbers previously provided by the insurer to the provider to be quoted on subsequent claims containing 
              * services or products related to the prior authorization.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param preAuthRef
              *     Prior authorization reference number
@@ -4850,6 +4499,18 @@ public class ExplanationOfBenefit extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Insurance}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>focal</li>
+             * <li>coverage</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Insurance}
+             */
             @Override
             public Insurance build() {
                 return new Insurance(this);
@@ -4866,13 +4527,12 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Details of a accident which resulted in injuries which required the products and services listed in the claim.
-     * </p>
      */
     public static class Accident extends BackboneElement {
         private final Date date;
         private final CodeableConcept type;
+        @Choice({Address.class, Reference.class})
         private final Element location;
 
         private volatile int hashCode;
@@ -4886,9 +4546,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Date of an accident event related to the products and services contained in the claim.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Date}.
@@ -4898,10 +4556,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The type or context of the accident event for the purposes of selection of potential insurance coverages and 
          * determination of coordination between insurers.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -4911,9 +4567,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The physical location of the accident event.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -5002,10 +4656,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -5019,15 +4671,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -5041,15 +4690,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -5063,21 +4709,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -5091,21 +4733,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -5119,9 +4757,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Date of an accident event related to the products and services contained in the claim.
-             * </p>
              * 
              * @param date
              *     When the incident occurred
@@ -5135,10 +4771,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The type or context of the accident event for the purposes of selection of potential insurance coverages and 
              * determination of coordination between insurers.
-             * </p>
              * 
              * @param type
              *     The nature of the accident
@@ -5152,9 +4786,13 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The physical location of the accident event.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Address}</li>
+             * <li>{@link Reference}</li>
+             * </ul>
              * 
              * @param location
              *     Where the event occurred
@@ -5167,6 +4805,12 @@ public class ExplanationOfBenefit extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Accident}
+             * 
+             * @return
+             *     An immutable object of type {@link Accident}
+             */
             @Override
             public Accident build() {
                 return new Accident(this);
@@ -5183,12 +4827,11 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * A claim line. Either a simple (a product or service) or a 'group' of details which can also be a simple items or 
      * groups of sub-details.
-     * </p>
      */
     public static class Item extends BackboneElement {
+        @Required
         private final PositiveInt sequence;
         private final List<PositiveInt> careTeamSequence;
         private final List<PositiveInt> diagnosisSequence;
@@ -5196,10 +4839,13 @@ public class ExplanationOfBenefit extends DomainResource {
         private final List<PositiveInt> informationSequence;
         private final CodeableConcept revenue;
         private final CodeableConcept category;
+        @Required
         private final CodeableConcept productOrService;
         private final List<CodeableConcept> modifier;
         private final List<CodeableConcept> programCode;
+        @Choice({Date.class, Period.class})
         private final Element serviced;
+        @Choice({CodeableConcept.class, Address.class, Reference.class})
         private final Element location;
         private final SimpleQuantity quantity;
         private final Money unitPrice;
@@ -5244,9 +4890,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A number to uniquely identify item entries.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}.
@@ -5256,9 +4900,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Care team members related to this service or product.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -5268,9 +4910,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Diagnoses applicable for this service or product.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -5280,9 +4920,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Procedures applicable for this service or product.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -5292,9 +4930,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Exceptions, special conditions and supporting information applicable for this service or product.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -5304,9 +4940,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of revenue or cost center providing the product and/or service.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -5316,9 +4950,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Code to identify the general type of benefits under which products and services are provided.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -5328,10 +4960,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
          * product, service, drug or other billing code for the item.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -5341,9 +4971,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Item typification or modifiers codes to convey additional context for the product or service.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -5353,9 +4981,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the program under which this may be recovered.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -5365,9 +4991,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The date or dates when the service or product was supplied, performed or completed.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -5377,9 +5001,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Where the product or service was provided.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -5389,9 +5011,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The number of repetitions of a service or product.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link SimpleQuantity}.
@@ -5401,10 +5021,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
          * for the details of the group.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Money}.
@@ -5414,10 +5032,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
          * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -5427,9 +5043,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The quantity times the unit price for an additional service or product or charge.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Money}.
@@ -5439,9 +5053,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Unique Device Identifiers associated with this line item.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -5451,9 +5063,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Physical service site on the patient (limb, tooth, etc.).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -5463,9 +5073,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -5475,9 +5083,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A billed item may include goods or services provided in multiple encounters.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -5487,9 +5093,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The numbers associated with notes below which apply to the adjudication of this item.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -5499,10 +5103,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * If this item is a group then the values here are a summary of the adjudication of the detail items. If this item is a 
          * simple product or service then this is the result of the adjudication of this item.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
@@ -5512,9 +5114,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Second-tier of goods and services.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Detail}.
@@ -5703,10 +5303,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -5720,15 +5318,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -5742,15 +5337,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -5764,21 +5356,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -5792,21 +5380,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -5820,9 +5404,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A number to uniquely identify item entries.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param sequence
              *     Item instance identifier
@@ -5836,12 +5420,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Care team members related to this service or product.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param careTeamSequence
              *     Applicable care team members
@@ -5857,12 +5438,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Care team members related to this service or product.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param careTeamSequence
              *     Applicable care team members
@@ -5876,12 +5454,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Diagnoses applicable for this service or product.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param diagnosisSequence
              *     Applicable diagnoses
@@ -5897,12 +5472,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Diagnoses applicable for this service or product.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param diagnosisSequence
              *     Applicable diagnoses
@@ -5916,12 +5488,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Procedures applicable for this service or product.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param procedureSequence
              *     Applicable procedures
@@ -5937,12 +5506,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Procedures applicable for this service or product.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param procedureSequence
              *     Applicable procedures
@@ -5956,12 +5522,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Exceptions, special conditions and supporting information applicable for this service or product.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param informationSequence
              *     Applicable exception and supporting information
@@ -5977,12 +5540,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Exceptions, special conditions and supporting information applicable for this service or product.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param informationSequence
              *     Applicable exception and supporting information
@@ -5996,9 +5556,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of revenue or cost center providing the product and/or service.
-             * </p>
              * 
              * @param revenue
              *     Revenue or cost center code
@@ -6012,9 +5570,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Code to identify the general type of benefits under which products and services are provided.
-             * </p>
              * 
              * @param category
              *     Benefit classification
@@ -6028,10 +5584,10 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
              * product, service, drug or other billing code for the item.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param productOrService
              *     Billing, service, product, or drug code
@@ -6045,12 +5601,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifier
              *     Product or service billing modifiers
@@ -6066,12 +5619,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifier
              *     Product or service billing modifiers
@@ -6085,12 +5635,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the program under which this may be recovered.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param programCode
              *     Program the product or service is provided under
@@ -6106,12 +5653,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the program under which this may be recovered.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param programCode
              *     Program the product or service is provided under
@@ -6125,9 +5669,13 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The date or dates when the service or product was supplied, performed or completed.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Date}</li>
+             * <li>{@link Period}</li>
+             * </ul>
              * 
              * @param serviced
              *     Date or dates of service or product delivery
@@ -6141,9 +5689,14 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Where the product or service was provided.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link CodeableConcept}</li>
+             * <li>{@link Address}</li>
+             * <li>{@link Reference}</li>
+             * </ul>
              * 
              * @param location
              *     Place of service or where product was supplied
@@ -6157,9 +5710,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The number of repetitions of a service or product.
-             * </p>
              * 
              * @param quantity
              *     Count of products or services
@@ -6173,10 +5724,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
              * for the details of the group.
-             * </p>
              * 
              * @param unitPrice
              *     Fee, charge or cost per item
@@ -6190,10 +5739,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
              * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-             * </p>
              * 
              * @param factor
              *     Price scaling factor
@@ -6207,9 +5754,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The quantity times the unit price for an additional service or product or charge.
-             * </p>
              * 
              * @param net
              *     Total item cost
@@ -6223,12 +5768,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique Device Identifiers associated with this line item.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param udi
              *     Unique device identifier
@@ -6244,12 +5786,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique Device Identifiers associated with this line item.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param udi
              *     Unique device identifier
@@ -6263,9 +5802,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Physical service site on the patient (limb, tooth, etc.).
-             * </p>
              * 
              * @param bodySite
              *     Anatomical location
@@ -6279,12 +5816,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param subSite
              *     Anatomical sub-location
@@ -6300,12 +5834,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param subSite
              *     Anatomical sub-location
@@ -6319,12 +5850,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A billed item may include goods or services provided in multiple encounters.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param encounter
              *     Encounters related to this billed item
@@ -6340,12 +5868,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A billed item may include goods or services provided in multiple encounters.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param encounter
              *     Encounters related to this billed item
@@ -6359,12 +5884,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param noteNumber
              *     Applicable note numbers
@@ -6380,12 +5902,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param noteNumber
              *     Applicable note numbers
@@ -6399,13 +5918,10 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * If this item is a group then the values here are a summary of the adjudication of the detail items. If this item is a 
              * simple product or service then this is the result of the adjudication of this item.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param adjudication
              *     Adjudication details
@@ -6421,13 +5937,10 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * If this item is a group then the values here are a summary of the adjudication of the detail items. If this item is a 
              * simple product or service then this is the result of the adjudication of this item.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param adjudication
              *     Adjudication details
@@ -6441,12 +5954,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Second-tier of goods and services.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param detail
              *     Additional items
@@ -6462,12 +5972,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Second-tier of goods and services.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param detail
              *     Additional items
@@ -6480,6 +5987,18 @@ public class ExplanationOfBenefit extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Item}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>sequence</li>
+             * <li>productOrService</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Item}
+             */
             @Override
             public Item build() {
                 return new Item(this);
@@ -6515,12 +6034,11 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * If this item is a group then the values here are a summary of the adjudication of the detail items. If this item is a 
          * simple product or service then this is the result of the adjudication of this item.
-         * </p>
          */
         public static class Adjudication extends BackboneElement {
+            @Required
             private final CodeableConcept category;
             private final CodeableConcept reason;
             private final Money amount;
@@ -6538,11 +6056,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A code to indicate the information type of this adjudication record. Information types may include: the value 
              * submitted, maximum values or percentages allowed or payable under the plan, amounts that the patient is responsible 
              * for in-aggregate or pertaining to this item, amounts paid by other coverages, and the benefit payable for this item.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -6552,9 +6068,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A code supporting the understanding of the adjudication result and explaining variance from expected amount.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -6564,9 +6078,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Monetary amount associated with the category.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Money}.
@@ -6576,9 +6088,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A non-monetary value associated with the category. Mutually exclusive to the amount element above.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Decimal}.
@@ -6672,10 +6182,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -6689,15 +6197,12 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -6711,15 +6216,12 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -6733,21 +6235,17 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -6761,21 +6259,17 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -6789,11 +6283,11 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A code to indicate the information type of this adjudication record. Information types may include: the value 
                  * submitted, maximum values or percentages allowed or payable under the plan, amounts that the patient is responsible 
                  * for in-aggregate or pertaining to this item, amounts paid by other coverages, and the benefit payable for this item.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param category
                  *     Type of adjudication information
@@ -6807,9 +6301,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A code supporting the understanding of the adjudication result and explaining variance from expected amount.
-                 * </p>
                  * 
                  * @param reason
                  *     Explanation of adjudication outcome
@@ -6823,9 +6315,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Monetary amount associated with the category.
-                 * </p>
                  * 
                  * @param amount
                  *     Monetary amount
@@ -6839,9 +6329,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A non-monetary value associated with the category. Mutually exclusive to the amount element above.
-                 * </p>
                  * 
                  * @param value
                  *     Non-monitary value
@@ -6854,6 +6342,17 @@ public class ExplanationOfBenefit extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Adjudication}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>category</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Adjudication}
+                 */
                 @Override
                 public Adjudication build() {
                     return new Adjudication(this);
@@ -6871,14 +6370,14 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Second-tier of goods and services.
-         * </p>
          */
         public static class Detail extends BackboneElement {
+            @Required
             private final PositiveInt sequence;
             private final CodeableConcept revenue;
             private final CodeableConcept category;
+            @Required
             private final CodeableConcept productOrService;
             private final List<CodeableConcept> modifier;
             private final List<CodeableConcept> programCode;
@@ -6913,9 +6412,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A claim detail line. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link PositiveInt}.
@@ -6925,9 +6422,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of revenue or cost center providing the product and/or service.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -6937,9 +6432,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Code to identify the general type of benefits under which products and services are provided.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -6949,10 +6442,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
              * product, service, drug or other billing code for the item.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -6962,9 +6453,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -6974,9 +6463,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the program under which this may be recovered.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -6986,9 +6473,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The number of repetitions of a service or product.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link SimpleQuantity}.
@@ -6998,10 +6483,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
              * for the details of the group.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Money}.
@@ -7011,10 +6494,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
              * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Decimal}.
@@ -7024,9 +6505,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The quantity times the unit price for an additional service or product or charge.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Money}.
@@ -7036,9 +6515,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique Device Identifiers associated with this line item.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -7048,9 +6525,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -7060,9 +6535,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The adjudication results.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
@@ -7072,9 +6545,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Third-tier of goods and services.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link SubDetail}.
@@ -7218,10 +6689,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -7235,15 +6704,12 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -7257,15 +6723,12 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -7279,21 +6742,17 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -7307,21 +6766,17 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -7335,9 +6790,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A claim detail line. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param sequence
                  *     Product or service provided
@@ -7351,9 +6806,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The type of revenue or cost center providing the product and/or service.
-                 * </p>
                  * 
                  * @param revenue
                  *     Revenue or cost center code
@@ -7367,9 +6820,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Code to identify the general type of benefits under which products and services are provided.
-                 * </p>
                  * 
                  * @param category
                  *     Benefit classification
@@ -7383,10 +6834,10 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
                  * product, service, drug or other billing code for the item.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param productOrService
                  *     Billing, service, product, or drug code
@@ -7400,12 +6851,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Item typification or modifiers codes to convey additional context for the product or service.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifier
                  *     Service/Product billing modifiers
@@ -7421,12 +6869,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Item typification or modifiers codes to convey additional context for the product or service.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifier
                  *     Service/Product billing modifiers
@@ -7440,12 +6885,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Identifies the program under which this may be recovered.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param programCode
                  *     Program the product or service is provided under
@@ -7461,12 +6903,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Identifies the program under which this may be recovered.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param programCode
                  *     Program the product or service is provided under
@@ -7480,9 +6919,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The number of repetitions of a service or product.
-                 * </p>
                  * 
                  * @param quantity
                  *     Count of products or services
@@ -7496,10 +6933,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
                  * for the details of the group.
-                 * </p>
                  * 
                  * @param unitPrice
                  *     Fee, charge or cost per item
@@ -7513,10 +6948,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
                  * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-                 * </p>
                  * 
                  * @param factor
                  *     Price scaling factor
@@ -7530,9 +6963,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The quantity times the unit price for an additional service or product or charge.
-                 * </p>
                  * 
                  * @param net
                  *     Total item cost
@@ -7546,12 +6977,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique Device Identifiers associated with this line item.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param udi
                  *     Unique device identifier
@@ -7567,12 +6995,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique Device Identifiers associated with this line item.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param udi
                  *     Unique device identifier
@@ -7586,12 +7011,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param noteNumber
                  *     Applicable note numbers
@@ -7607,12 +7029,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param noteNumber
                  *     Applicable note numbers
@@ -7626,12 +7045,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The adjudication results.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param adjudication
                  *     Detail level adjudication details
@@ -7647,12 +7063,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The adjudication results.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param adjudication
                  *     Detail level adjudication details
@@ -7666,12 +7079,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Third-tier of goods and services.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param subDetail
                  *     Additional items
@@ -7687,12 +7097,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Third-tier of goods and services.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param subDetail
                  *     Additional items
@@ -7705,6 +7112,18 @@ public class ExplanationOfBenefit extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Detail}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>sequence</li>
+                 * <li>productOrService</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Detail}
+                 */
                 @Override
                 public Detail build() {
                     return new Detail(this);
@@ -7731,14 +7150,14 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Third-tier of goods and services.
-             * </p>
              */
             public static class SubDetail extends BackboneElement {
+                @Required
                 private final PositiveInt sequence;
                 private final CodeableConcept revenue;
                 private final CodeableConcept category;
+                @Required
                 private final CodeableConcept productOrService;
                 private final List<CodeableConcept> modifier;
                 private final List<CodeableConcept> programCode;
@@ -7771,9 +7190,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A claim detail line. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link PositiveInt}.
@@ -7783,9 +7200,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The type of revenue or cost center providing the product and/or service.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link CodeableConcept}.
@@ -7795,9 +7210,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Code to identify the general type of benefits under which products and services are provided.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link CodeableConcept}.
@@ -7807,10 +7220,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
                  * product, service, drug or other billing code for the item.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link CodeableConcept}.
@@ -7820,9 +7231,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Item typification or modifiers codes to convey additional context for the product or service.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -7832,9 +7241,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Identifies the program under which this may be recovered.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -7844,9 +7251,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The number of repetitions of a service or product.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link SimpleQuantity}.
@@ -7856,10 +7261,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
                  * for the details of the group.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Money}.
@@ -7869,10 +7272,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
                  * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Decimal}.
@@ -7882,9 +7283,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The quantity times the unit price for an additional service or product or charge.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Money}.
@@ -7894,9 +7293,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique Device Identifiers associated with this line item.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -7906,9 +7303,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -7918,9 +7313,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The adjudication results.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
@@ -8059,10 +7452,8 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -8076,15 +7467,12 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -8098,15 +7486,12 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -8120,21 +7505,17 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -8148,21 +7529,17 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -8176,9 +7553,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A claim detail line. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param sequence
                      *     Product or service provided
@@ -8192,9 +7569,7 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The type of revenue or cost center providing the product and/or service.
-                     * </p>
                      * 
                      * @param revenue
                      *     Revenue or cost center code
@@ -8208,9 +7583,7 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Code to identify the general type of benefits under which products and services are provided.
-                     * </p>
                      * 
                      * @param category
                      *     Benefit classification
@@ -8224,10 +7597,10 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
                      * product, service, drug or other billing code for the item.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param productOrService
                      *     Billing, service, product, or drug code
@@ -8241,12 +7614,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Item typification or modifiers codes to convey additional context for the product or service.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifier
                      *     Service/Product billing modifiers
@@ -8262,12 +7632,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Item typification or modifiers codes to convey additional context for the product or service.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifier
                      *     Service/Product billing modifiers
@@ -8281,12 +7648,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Identifies the program under which this may be recovered.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param programCode
                      *     Program the product or service is provided under
@@ -8302,12 +7666,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Identifies the program under which this may be recovered.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param programCode
                      *     Program the product or service is provided under
@@ -8321,9 +7682,7 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The number of repetitions of a service or product.
-                     * </p>
                      * 
                      * @param quantity
                      *     Count of products or services
@@ -8337,10 +7696,8 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
                      * for the details of the group.
-                     * </p>
                      * 
                      * @param unitPrice
                      *     Fee, charge or cost per item
@@ -8354,10 +7711,8 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
                      * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-                     * </p>
                      * 
                      * @param factor
                      *     Price scaling factor
@@ -8371,9 +7726,7 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The quantity times the unit price for an additional service or product or charge.
-                     * </p>
                      * 
                      * @param net
                      *     Total item cost
@@ -8387,12 +7740,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique Device Identifiers associated with this line item.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param udi
                      *     Unique device identifier
@@ -8408,12 +7758,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique Device Identifiers associated with this line item.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param udi
                      *     Unique device identifier
@@ -8427,12 +7774,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param noteNumber
                      *     Applicable note numbers
@@ -8448,12 +7792,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param noteNumber
                      *     Applicable note numbers
@@ -8467,12 +7808,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The adjudication results.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param adjudication
                      *     Subdetail level adjudication details
@@ -8488,12 +7826,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The adjudication results.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param adjudication
                      *     Subdetail level adjudication details
@@ -8506,6 +7841,18 @@ public class ExplanationOfBenefit extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link SubDetail}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>sequence</li>
+                     * <li>productOrService</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link SubDetail}
+                     */
                     @Override
                     public SubDetail build() {
                         return new SubDetail(this);
@@ -8534,19 +7881,20 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * The first-tier service adjudications for payor added product or service lines.
-     * </p>
      */
     public static class AddItem extends BackboneElement {
         private final List<PositiveInt> itemSequence;
         private final List<PositiveInt> detailSequence;
         private final List<PositiveInt> subDetailSequence;
         private final List<Reference> provider;
+        @Required
         private final CodeableConcept productOrService;
         private final List<CodeableConcept> modifier;
         private final List<CodeableConcept> programCode;
+        @Choice({Date.class, Period.class})
         private final Element serviced;
+        @Choice({CodeableConcept.class, Address.class, Reference.class})
         private final Element location;
         private final SimpleQuantity quantity;
         private final Money unitPrice;
@@ -8584,9 +7932,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Claim items which this service line is intended to replace.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -8596,9 +7942,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The sequence number of the details within the claim item which this line is intended to replace.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -8608,10 +7952,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The sequence number of the sub-details woithin the details within the claim item which this line is intended to 
          * replace.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -8621,9 +7963,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The providers who are authorized for the services rendered to the patient.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -8633,10 +7973,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
          * product, service, drug or other billing code for the item.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -8646,9 +7984,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Item typification or modifiers codes to convey additional context for the product or service.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -8658,9 +7994,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the program under which this may be recovered.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -8670,9 +8004,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The date or dates when the service or product was supplied, performed or completed.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -8682,9 +8014,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Where the product or service was provided.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -8694,9 +8024,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The number of repetitions of a service or product.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link SimpleQuantity}.
@@ -8706,10 +8034,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
          * for the details of the group.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Money}.
@@ -8719,10 +8045,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
          * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -8732,9 +8056,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The quantity times the unit price for an additional service or product or charge.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Money}.
@@ -8744,9 +8066,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Physical service site on the patient (limb, tooth, etc.).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -8756,9 +8076,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -8768,9 +8086,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The numbers associated with notes below which apply to the adjudication of this item.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -8780,9 +8096,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The adjudication results.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
@@ -8792,9 +8106,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The second-tier service adjudications for payor added services.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Detail}.
@@ -8958,10 +8270,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -8975,15 +8285,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -8997,15 +8304,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -9019,21 +8323,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -9047,21 +8347,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -9075,12 +8371,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Claim items which this service line is intended to replace.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param itemSequence
              *     Item sequence number
@@ -9096,12 +8389,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Claim items which this service line is intended to replace.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param itemSequence
              *     Item sequence number
@@ -9115,12 +8405,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The sequence number of the details within the claim item which this line is intended to replace.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param detailSequence
              *     Detail sequence number
@@ -9136,12 +8423,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The sequence number of the details within the claim item which this line is intended to replace.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param detailSequence
              *     Detail sequence number
@@ -9155,13 +8439,10 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The sequence number of the sub-details woithin the details within the claim item which this line is intended to 
              * replace.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param subDetailSequence
              *     Subdetail sequence number
@@ -9177,13 +8458,10 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The sequence number of the sub-details woithin the details within the claim item which this line is intended to 
              * replace.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param subDetailSequence
              *     Subdetail sequence number
@@ -9197,12 +8475,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The providers who are authorized for the services rendered to the patient.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param provider
              *     Authorized providers
@@ -9218,12 +8493,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The providers who are authorized for the services rendered to the patient.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param provider
              *     Authorized providers
@@ -9237,10 +8509,10 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
              * product, service, drug or other billing code for the item.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param productOrService
              *     Billing, service, product, or drug code
@@ -9254,12 +8526,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifier
              *     Service/Product billing modifiers
@@ -9275,12 +8544,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifier
              *     Service/Product billing modifiers
@@ -9294,12 +8560,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the program under which this may be recovered.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param programCode
              *     Program the product or service is provided under
@@ -9315,12 +8578,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the program under which this may be recovered.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param programCode
              *     Program the product or service is provided under
@@ -9334,9 +8594,13 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The date or dates when the service or product was supplied, performed or completed.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Date}</li>
+             * <li>{@link Period}</li>
+             * </ul>
              * 
              * @param serviced
              *     Date or dates of service or product delivery
@@ -9350,9 +8614,14 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Where the product or service was provided.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link CodeableConcept}</li>
+             * <li>{@link Address}</li>
+             * <li>{@link Reference}</li>
+             * </ul>
              * 
              * @param location
              *     Place of service or where product was supplied
@@ -9366,9 +8635,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The number of repetitions of a service or product.
-             * </p>
              * 
              * @param quantity
              *     Count of products or services
@@ -9382,10 +8649,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
              * for the details of the group.
-             * </p>
              * 
              * @param unitPrice
              *     Fee, charge or cost per item
@@ -9399,10 +8664,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
              * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-             * </p>
              * 
              * @param factor
              *     Price scaling factor
@@ -9416,9 +8679,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The quantity times the unit price for an additional service or product or charge.
-             * </p>
              * 
              * @param net
              *     Total item cost
@@ -9432,9 +8693,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Physical service site on the patient (limb, tooth, etc.).
-             * </p>
              * 
              * @param bodySite
              *     Anatomical location
@@ -9448,12 +8707,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param subSite
              *     Anatomical sub-location
@@ -9469,12 +8725,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param subSite
              *     Anatomical sub-location
@@ -9488,12 +8741,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param noteNumber
              *     Applicable note numbers
@@ -9509,12 +8759,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param noteNumber
              *     Applicable note numbers
@@ -9528,12 +8775,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The adjudication results.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param adjudication
              *     Added items adjudication
@@ -9549,12 +8793,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The adjudication results.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param adjudication
              *     Added items adjudication
@@ -9568,12 +8809,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The second-tier service adjudications for payor added services.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param detail
              *     Insurer added line items
@@ -9589,12 +8827,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The second-tier service adjudications for payor added services.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param detail
              *     Insurer added line items
@@ -9607,6 +8842,17 @@ public class ExplanationOfBenefit extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link AddItem}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>productOrService</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link AddItem}
+             */
             @Override
             public AddItem build() {
                 return new AddItem(this);
@@ -9637,11 +8883,10 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The second-tier service adjudications for payor added services.
-         * </p>
          */
         public static class Detail extends BackboneElement {
+            @Required
             private final CodeableConcept productOrService;
             private final List<CodeableConcept> modifier;
             private final SimpleQuantity quantity;
@@ -9669,10 +8914,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
              * product, service, drug or other billing code for the item.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -9682,9 +8925,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -9694,9 +8935,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The number of repetitions of a service or product.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link SimpleQuantity}.
@@ -9706,10 +8945,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
              * for the details of the group.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Money}.
@@ -9719,10 +8956,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
              * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Decimal}.
@@ -9732,9 +8967,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The quantity times the unit price for an additional service or product or charge.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Money}.
@@ -9744,9 +8977,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -9756,9 +8987,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The adjudication results.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
@@ -9768,9 +8997,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The third-tier service adjudications for payor added services.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link SubDetail}.
@@ -9889,10 +9116,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -9906,15 +9131,12 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -9928,15 +9150,12 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -9950,21 +9169,17 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -9978,21 +9193,17 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -10006,10 +9217,10 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
                  * product, service, drug or other billing code for the item.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param productOrService
                  *     Billing, service, product, or drug code
@@ -10023,12 +9234,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Item typification or modifiers codes to convey additional context for the product or service.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifier
                  *     Service/Product billing modifiers
@@ -10044,12 +9252,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Item typification or modifiers codes to convey additional context for the product or service.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifier
                  *     Service/Product billing modifiers
@@ -10063,9 +9268,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The number of repetitions of a service or product.
-                 * </p>
                  * 
                  * @param quantity
                  *     Count of products or services
@@ -10079,10 +9282,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
                  * for the details of the group.
-                 * </p>
                  * 
                  * @param unitPrice
                  *     Fee, charge or cost per item
@@ -10096,10 +9297,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
                  * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-                 * </p>
                  * 
                  * @param factor
                  *     Price scaling factor
@@ -10113,9 +9312,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The quantity times the unit price for an additional service or product or charge.
-                 * </p>
                  * 
                  * @param net
                  *     Total item cost
@@ -10129,12 +9326,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param noteNumber
                  *     Applicable note numbers
@@ -10150,12 +9344,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param noteNumber
                  *     Applicable note numbers
@@ -10169,12 +9360,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The adjudication results.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param adjudication
                  *     Added items adjudication
@@ -10190,12 +9378,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The adjudication results.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param adjudication
                  *     Added items adjudication
@@ -10209,12 +9394,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The third-tier service adjudications for payor added services.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param subDetail
                  *     Insurer added line items
@@ -10230,12 +9412,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The third-tier service adjudications for payor added services.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param subDetail
                  *     Insurer added line items
@@ -10248,6 +9427,17 @@ public class ExplanationOfBenefit extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Detail}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>productOrService</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Detail}
+                 */
                 @Override
                 public Detail build() {
                     return new Detail(this);
@@ -10269,11 +9459,10 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The third-tier service adjudications for payor added services.
-             * </p>
              */
             public static class SubDetail extends BackboneElement {
+                @Required
                 private final CodeableConcept productOrService;
                 private final List<CodeableConcept> modifier;
                 private final SimpleQuantity quantity;
@@ -10299,10 +9488,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
                  * product, service, drug or other billing code for the item.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link CodeableConcept}.
@@ -10312,9 +9499,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Item typification or modifiers codes to convey additional context for the product or service.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -10324,9 +9509,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The number of repetitions of a service or product.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link SimpleQuantity}.
@@ -10336,10 +9519,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
                  * for the details of the group.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Money}.
@@ -10349,10 +9530,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
                  * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Decimal}.
@@ -10362,9 +9541,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The quantity times the unit price for an additional service or product or charge.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Money}.
@@ -10374,9 +9551,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -10386,9 +9561,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The adjudication results.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
@@ -10502,10 +9675,8 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -10519,15 +9690,12 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -10541,15 +9709,12 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -10563,21 +9728,17 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -10591,21 +9752,17 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -10619,10 +9776,10 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
                      * product, service, drug or other billing code for the item.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param productOrService
                      *     Billing, service, product, or drug code
@@ -10636,12 +9793,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Item typification or modifiers codes to convey additional context for the product or service.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifier
                      *     Service/Product billing modifiers
@@ -10657,12 +9811,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Item typification or modifiers codes to convey additional context for the product or service.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifier
                      *     Service/Product billing modifiers
@@ -10676,9 +9827,7 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The number of repetitions of a service or product.
-                     * </p>
                      * 
                      * @param quantity
                      *     Count of products or services
@@ -10692,10 +9841,8 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
                      * for the details of the group.
-                     * </p>
                      * 
                      * @param unitPrice
                      *     Fee, charge or cost per item
@@ -10709,10 +9856,8 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
                      * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-                     * </p>
                      * 
                      * @param factor
                      *     Price scaling factor
@@ -10726,9 +9871,7 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The quantity times the unit price for an additional service or product or charge.
-                     * </p>
                      * 
                      * @param net
                      *     Total item cost
@@ -10742,12 +9885,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param noteNumber
                      *     Applicable note numbers
@@ -10763,12 +9903,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param noteNumber
                      *     Applicable note numbers
@@ -10782,12 +9919,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The adjudication results.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param adjudication
                      *     Added items adjudication
@@ -10803,12 +9937,9 @@ public class ExplanationOfBenefit extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The adjudication results.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param adjudication
                      *     Added items adjudication
@@ -10821,6 +9952,17 @@ public class ExplanationOfBenefit extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link SubDetail}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>productOrService</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link SubDetail}
+                     */
                     @Override
                     public SubDetail build() {
                         return new SubDetail(this);
@@ -10844,12 +9986,12 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Categorized monetary totals for the adjudication.
-     * </p>
      */
     public static class Total extends BackboneElement {
+        @Required
         private final CodeableConcept category;
+        @Required
         private final Money amount;
 
         private volatile int hashCode;
@@ -10862,11 +10004,9 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A code to indicate the information type of this adjudication record. Information types may include: the value 
          * submitted, maximum values or percentages allowed or payable under the plan, amounts that the patient is responsible 
          * for in aggregate or pertaining to this item, amounts paid by other coverages, and the benefit payable for this item.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -10876,9 +10016,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Monetary total amount associated with the category.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Money}.
@@ -10962,10 +10100,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -10979,15 +10115,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -11001,15 +10134,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -11023,21 +10153,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -11051,21 +10177,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -11079,11 +10201,11 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A code to indicate the information type of this adjudication record. Information types may include: the value 
              * submitted, maximum values or percentages allowed or payable under the plan, amounts that the patient is responsible 
              * for in aggregate or pertaining to this item, amounts paid by other coverages, and the benefit payable for this item.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param category
              *     Type of adjudication information
@@ -11097,9 +10219,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Monetary total amount associated with the category.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param amount
              *     Financial total for the category
@@ -11112,6 +10234,18 @@ public class ExplanationOfBenefit extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Total}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>category</li>
+             * <li>amount</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Total}
+             */
             @Override
             public Total build() {
                 return new Total(this);
@@ -11127,9 +10261,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Payment details for the adjudication of the claim.
-     * </p>
      */
     public static class Payment extends BackboneElement {
         private final CodeableConcept type;
@@ -11153,9 +10285,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether this represents partial or complete payment of the benefits payable.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -11165,10 +10295,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Total amount of all adjustments to this payment included in this transaction which are not related to this claim's 
          * adjudication.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Money}.
@@ -11178,9 +10306,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Reason for the payment adjustment.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -11190,9 +10316,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Estimated date the payment will be issued or the actual issue date of payment.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Date}.
@@ -11202,9 +10326,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Benefits payable less any payment adjustment.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Money}.
@@ -11214,9 +10336,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Issuer's unique identifier for the payment instrument.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Identifier}.
@@ -11320,10 +10440,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -11337,15 +10455,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -11359,15 +10474,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -11381,21 +10493,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -11409,21 +10517,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -11437,9 +10541,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Whether this represents partial or complete payment of the benefits payable.
-             * </p>
              * 
              * @param type
              *     Partial or complete payment
@@ -11453,10 +10555,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Total amount of all adjustments to this payment included in this transaction which are not related to this claim's 
              * adjudication.
-             * </p>
              * 
              * @param adjustment
              *     Payment adjustment for non-claim issues
@@ -11470,9 +10570,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Reason for the payment adjustment.
-             * </p>
              * 
              * @param adjustmentReason
              *     Explanation for the variance
@@ -11486,9 +10584,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Estimated date the payment will be issued or the actual issue date of payment.
-             * </p>
              * 
              * @param date
              *     Expected date of payment
@@ -11502,9 +10598,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Benefits payable less any payment adjustment.
-             * </p>
              * 
              * @param amount
              *     Payable amount after adjustment
@@ -11518,9 +10612,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Issuer's unique identifier for the payment instrument.
-             * </p>
              * 
              * @param identifier
              *     Business identifier for the payment
@@ -11533,6 +10625,12 @@ public class ExplanationOfBenefit extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Payment}
+             * 
+             * @return
+             *     An immutable object of type {@link Payment}
+             */
             @Override
             public Payment build() {
                 return new Payment(this);
@@ -11552,9 +10650,7 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * A note that describes or explains adjudication results in a human readable form.
-     * </p>
      */
     public static class ProcessNote extends BackboneElement {
         private final PositiveInt number;
@@ -11574,9 +10670,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A number to uniquely identify a note entry.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}.
@@ -11586,9 +10680,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The business purpose of the note text.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link NoteType}.
@@ -11598,9 +10690,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The explanation or description associated with the processing.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -11610,9 +10700,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A code to define the language used in the text of the note.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -11706,10 +10794,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -11723,15 +10809,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -11745,15 +10828,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -11767,21 +10847,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -11795,21 +10871,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -11823,9 +10895,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A number to uniquely identify a note entry.
-             * </p>
              * 
              * @param number
              *     Note instance identifier
@@ -11839,9 +10909,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The business purpose of the note text.
-             * </p>
              * 
              * @param type
              *     display | print | printoper
@@ -11855,9 +10923,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The explanation or description associated with the processing.
-             * </p>
              * 
              * @param text
              *     Note explanatory text
@@ -11871,9 +10937,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A code to define the language used in the text of the note.
-             * </p>
              * 
              * @param language
              *     Language of the text
@@ -11886,6 +10950,12 @@ public class ExplanationOfBenefit extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link ProcessNote}
+             * 
+             * @return
+             *     An immutable object of type {@link ProcessNote}
+             */
             @Override
             public ProcessNote build() {
                 return new ProcessNote(this);
@@ -11903,11 +10973,10 @@ public class ExplanationOfBenefit extends DomainResource {
     }
 
     /**
-     * <p>
      * Balance by Benefit Category.
-     * </p>
      */
     public static class BenefitBalance extends BackboneElement {
+        @Required
         private final CodeableConcept category;
         private final Boolean excluded;
         private final String name;
@@ -11933,9 +11002,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Code to identify the general type of benefits under which products and services are provided.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -11945,10 +11012,8 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * True if the indicated class of service is excluded from the plan, missing or False indicates the product or service is 
          * included in the coverage.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -11958,9 +11023,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A short name or tag for the benefit.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -11970,9 +11033,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * A richer description of the benefit or services covered.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -11982,9 +11043,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Is a flag to indicate whether the benefits refer to in-network providers or out-of-network providers.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -11994,9 +11053,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates if the benefits apply to an individual or to the family.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -12006,9 +11063,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * The term or period of the values such as 'maximum lifetime benefit' or 'maximum annual visits'.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -12018,9 +11073,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Benefits Used to date.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Financial}.
@@ -12134,10 +11187,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -12151,15 +11202,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -12173,15 +11221,12 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -12195,21 +11240,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -12223,21 +11264,17 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -12251,9 +11288,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Code to identify the general type of benefits under which products and services are provided.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param category
              *     Benefit classification
@@ -12267,10 +11304,8 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * True if the indicated class of service is excluded from the plan, missing or False indicates the product or service is 
              * included in the coverage.
-             * </p>
              * 
              * @param excluded
              *     Excluded from the plan
@@ -12284,9 +11319,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A short name or tag for the benefit.
-             * </p>
              * 
              * @param name
              *     Short name for the benefit
@@ -12300,9 +11333,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * A richer description of the benefit or services covered.
-             * </p>
              * 
              * @param description
              *     Description of the benefit or services covered
@@ -12316,9 +11347,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Is a flag to indicate whether the benefits refer to in-network providers or out-of-network providers.
-             * </p>
              * 
              * @param network
              *     In or out of network
@@ -12332,9 +11361,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates if the benefits apply to an individual or to the family.
-             * </p>
              * 
              * @param unit
              *     Individual or family
@@ -12348,9 +11375,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The term or period of the values such as 'maximum lifetime benefit' or 'maximum annual visits'.
-             * </p>
              * 
              * @param term
              *     Annual or lifetime
@@ -12364,12 +11389,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Benefits Used to date.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param financial
              *     Benefit Summary
@@ -12385,12 +11407,9 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Benefits Used to date.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param financial
              *     Benefit Summary
@@ -12403,6 +11422,17 @@ public class ExplanationOfBenefit extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link BenefitBalance}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>category</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link BenefitBalance}
+             */
             @Override
             public BenefitBalance build() {
                 return new BenefitBalance(this);
@@ -12423,13 +11453,14 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * <p>
          * Benefits Used to date.
-         * </p>
          */
         public static class Financial extends BackboneElement {
+            @Required
             private final CodeableConcept type;
+            @Choice({UnsignedInt.class, String.class, Money.class})
             private final Element allowed;
+            @Choice({UnsignedInt.class, Money.class})
             private final Element used;
 
             private volatile int hashCode;
@@ -12443,9 +11474,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * Classification of benefit being provided.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -12455,9 +11484,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The quantity of the benefit which is permitted under the coverage.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -12467,9 +11494,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * <p>
              * The quantity of the benefit which have been consumed to date.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -12558,10 +11583,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -12575,15 +11598,12 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -12597,15 +11617,12 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -12619,21 +11636,17 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -12647,21 +11660,17 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -12675,9 +11684,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Classification of benefit being provided.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param type
                  *     Benefit classification
@@ -12691,9 +11700,14 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The quantity of the benefit which is permitted under the coverage.
-                 * </p>
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link UnsignedInt}</li>
+                 * <li>{@link String}</li>
+                 * <li>{@link Money}</li>
+                 * </ul>
                  * 
                  * @param allowed
                  *     Benefits allowed
@@ -12707,9 +11721,13 @@ public class ExplanationOfBenefit extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The quantity of the benefit which have been consumed to date.
-                 * </p>
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link UnsignedInt}</li>
+                 * <li>{@link Money}</li>
+                 * </ul>
                  * 
                  * @param used
                  *     Benefits used
@@ -12722,6 +11740,17 @@ public class ExplanationOfBenefit extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Financial}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>type</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Financial}
+                 */
                 @Override
                 public Financial build() {
                     return new Financial(this);

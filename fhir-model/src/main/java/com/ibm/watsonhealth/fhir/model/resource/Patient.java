@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Address;
 import com.ibm.watsonhealth.fhir.model.type.AdministrativeGender;
 import com.ibm.watsonhealth.fhir.model.type.Attachment;
@@ -41,10 +43,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Demographics and other administrative information about an individual or animal receiving care or other health-related 
  * services.
- * </p>
  */
 @Constraint(
     id = "pat-1",
@@ -61,9 +61,11 @@ public class Patient extends DomainResource {
     private final List<ContactPoint> telecom;
     private final AdministrativeGender gender;
     private final Date birthDate;
+    @Choice({Boolean.class, DateTime.class})
     private final Element deceased;
     private final List<Address> address;
     private final CodeableConcept maritalStatus;
+    @Choice({Boolean.class, Integer.class})
     private final Element multipleBirth;
     private final List<Attachment> photo;
     private final List<Contact> contact;
@@ -95,9 +97,7 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * An identifier for this patient.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -107,17 +107,13 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether this patient record is in active use. 
      * Many systems use this property to mark as non-current patients, such as those that have not been seen for a period of 
      * time based on an organization's business rules.
-     * </p>
-     * <p>
-     * It is often used to filter patient lists to exclude inactive patients
-     * </p>
-     * <p>
-     * Deceased patients may also be marked as inactive for the same reasons, but may be active for some time after death.
-     * </p>
+     * 
+     * <p>It is often used to filter patient lists to exclude inactive patients
+     * 
+     * <p>Deceased patients may also be marked as inactive for the same reasons, but may be active for some time after death.
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -127,9 +123,7 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * A name associated with the individual.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link HumanName}.
@@ -139,9 +133,7 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * A contact detail (e.g. a telephone number or an email address) by which the individual may be contacted.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
@@ -151,10 +143,8 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * Administrative Gender - the gender that the patient is considered to have for administration and record keeping 
      * purposes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link AdministrativeGender}.
@@ -164,9 +154,7 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * The date of birth for the individual.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Date}.
@@ -176,9 +164,7 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates if the individual is deceased or not.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -188,9 +174,7 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * An address for the individual.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Address}.
@@ -200,9 +184,7 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * This field contains a patient's most recent marital (civil) status.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -212,9 +194,7 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates whether the patient is part of a multiple (boolean) or indicates the actual birth order (integer).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -224,9 +204,7 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * Image of the patient.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Attachment}.
@@ -236,9 +214,7 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * A contact party (e.g. guardian, partner, friend) for the patient.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Contact}.
@@ -248,9 +224,7 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * A language which may be used to communicate with the patient about his or her health.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Communication}.
@@ -260,9 +234,7 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * Patient's nominated care provider.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -272,9 +244,7 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * Organization that is the custodian of the patient record.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -284,9 +254,7 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * Link to another patient resource that concerns the same actual patient.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Link}.
@@ -434,9 +402,7 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -450,10 +416,8 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -467,11 +431,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -485,9 +447,7 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -501,12 +461,10 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -520,13 +478,10 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -540,13 +495,10 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -560,15 +512,12 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -582,15 +531,12 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -604,21 +550,17 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -632,21 +574,17 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -660,12 +598,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * An identifier for this patient.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     An identifier for this patient
@@ -681,12 +616,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * An identifier for this patient.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     An identifier for this patient
@@ -700,17 +632,13 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether this patient record is in active use. 
          * Many systems use this property to mark as non-current patients, such as those that have not been seen for a period of 
          * time based on an organization's business rules.
-         * </p>
-         * <p>
-         * It is often used to filter patient lists to exclude inactive patients
-         * </p>
-         * <p>
-         * Deceased patients may also be marked as inactive for the same reasons, but may be active for some time after death.
-         * </p>
+         * 
+         * <p>It is often used to filter patient lists to exclude inactive patients
+         * 
+         * <p>Deceased patients may also be marked as inactive for the same reasons, but may be active for some time after death.
          * 
          * @param active
          *     Whether this patient's record is in active use
@@ -724,12 +652,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * A name associated with the individual.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param name
          *     A name associated with the patient
@@ -745,12 +670,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * A name associated with the individual.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param name
          *     A name associated with the patient
@@ -764,12 +686,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * A contact detail (e.g. a telephone number or an email address) by which the individual may be contacted.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param telecom
          *     A contact detail for the individual
@@ -785,12 +704,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * A contact detail (e.g. a telephone number or an email address) by which the individual may be contacted.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param telecom
          *     A contact detail for the individual
@@ -804,10 +720,8 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * Administrative Gender - the gender that the patient is considered to have for administration and record keeping 
          * purposes.
-         * </p>
          * 
          * @param gender
          *     male | female | other | unknown
@@ -821,9 +735,7 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * The date of birth for the individual.
-         * </p>
          * 
          * @param birthDate
          *     The date of birth for the individual
@@ -837,9 +749,13 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates if the individual is deceased or not.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Boolean}</li>
+         * <li>{@link DateTime}</li>
+         * </ul>
          * 
          * @param deceased
          *     Indicates if the individual is deceased or not
@@ -853,12 +769,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * An address for the individual.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param address
          *     An address for the individual
@@ -874,12 +787,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * An address for the individual.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param address
          *     An address for the individual
@@ -893,9 +803,7 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * This field contains a patient's most recent marital (civil) status.
-         * </p>
          * 
          * @param maritalStatus
          *     Marital (civil) status of a patient
@@ -909,9 +817,13 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates whether the patient is part of a multiple (boolean) or indicates the actual birth order (integer).
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Boolean}</li>
+         * <li>{@link Integer}</li>
+         * </ul>
          * 
          * @param multipleBirth
          *     Whether patient is part of a multiple birth
@@ -925,12 +837,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * Image of the patient.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param photo
          *     Image of the patient
@@ -946,12 +855,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * Image of the patient.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param photo
          *     Image of the patient
@@ -965,12 +871,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * A contact party (e.g. guardian, partner, friend) for the patient.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     A contact party (e.g. guardian, partner, friend) for the patient
@@ -986,12 +889,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * A contact party (e.g. guardian, partner, friend) for the patient.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     A contact party (e.g. guardian, partner, friend) for the patient
@@ -1005,12 +905,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * A language which may be used to communicate with the patient about his or her health.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param communication
          *     A language which may be used to communicate with the patient about his or her health
@@ -1026,12 +923,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * A language which may be used to communicate with the patient about his or her health.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param communication
          *     A language which may be used to communicate with the patient about his or her health
@@ -1045,12 +939,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * Patient's nominated care provider.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param generalPractitioner
          *     Patient's nominated primary care provider
@@ -1066,12 +957,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * Patient's nominated care provider.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param generalPractitioner
          *     Patient's nominated primary care provider
@@ -1085,9 +973,7 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * Organization that is the custodian of the patient record.
-         * </p>
          * 
          * @param managingOrganization
          *     Organization that is the custodian of the patient record
@@ -1101,12 +987,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * Link to another patient resource that concerns the same actual patient.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param link
          *     Link to another patient resource that concerns the same actual person
@@ -1122,12 +1005,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * Link to another patient resource that concerns the same actual patient.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param link
          *     Link to another patient resource that concerns the same actual person
@@ -1140,6 +1020,12 @@ public class Patient extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link Patient}
+         * 
+         * @return
+         *     An immutable object of type {@link Patient}
+         */
         @Override
         public Patient build() {
             return new Patient(this);
@@ -1168,9 +1054,7 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * A contact party (e.g. guardian, partner, friend) for the patient.
-     * </p>
      */
     public static class Contact extends BackboneElement {
         private final List<CodeableConcept> relationship;
@@ -1196,9 +1080,7 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * The nature of the relationship between the patient and the contact person.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1208,9 +1090,7 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * A name associated with the contact person.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link HumanName}.
@@ -1220,9 +1100,7 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * A contact detail for the person, e.g. a telephone number or an email address.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
@@ -1232,9 +1110,7 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * Address for the contact person.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Address}.
@@ -1244,10 +1120,8 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * Administrative Gender - the gender that the contact person is considered to have for administration and record keeping 
          * purposes.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link AdministrativeGender}.
@@ -1257,9 +1131,7 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * Organization on behalf of which the contact is acting or for which the contact is working.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1269,9 +1141,7 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * The period during which this contact person or organization is valid to be contacted relating to this patient.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Period}.
@@ -1380,10 +1250,8 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1397,15 +1265,12 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1419,15 +1284,12 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1441,21 +1303,17 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1469,21 +1327,17 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1497,12 +1351,9 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * The nature of the relationship between the patient and the contact person.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param relationship
              *     The kind of relationship
@@ -1518,12 +1369,9 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * The nature of the relationship between the patient and the contact person.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param relationship
              *     The kind of relationship
@@ -1537,9 +1385,7 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * A name associated with the contact person.
-             * </p>
              * 
              * @param name
              *     A name associated with the contact person
@@ -1553,12 +1399,9 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * A contact detail for the person, e.g. a telephone number or an email address.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param telecom
              *     A contact detail for the person
@@ -1574,12 +1417,9 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * A contact detail for the person, e.g. a telephone number or an email address.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param telecom
              *     A contact detail for the person
@@ -1593,9 +1433,7 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * Address for the contact person.
-             * </p>
              * 
              * @param address
              *     Address for the contact person
@@ -1609,10 +1447,8 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * Administrative Gender - the gender that the contact person is considered to have for administration and record keeping 
              * purposes.
-             * </p>
              * 
              * @param gender
              *     male | female | other | unknown
@@ -1626,9 +1462,7 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * Organization on behalf of which the contact is acting or for which the contact is working.
-             * </p>
              * 
              * @param organization
              *     Organization that is associated with the contact
@@ -1642,9 +1476,7 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * The period during which this contact person or organization is valid to be contacted relating to this patient.
-             * </p>
              * 
              * @param period
              *     The period during which this contact person or organization is valid to be contacted relating to this patient
@@ -1657,6 +1489,12 @@ public class Patient extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Contact}
+             * 
+             * @return
+             *     An immutable object of type {@link Contact}
+             */
             @Override
             public Contact build() {
                 return new Contact(this);
@@ -1677,11 +1515,10 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * A language which may be used to communicate with the patient about his or her health.
-     * </p>
      */
     public static class Communication extends BackboneElement {
+        @Required
         private final CodeableConcept language;
         private final Boolean preferred;
 
@@ -1695,11 +1532,9 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * The ISO-639-1 alpha 2 code in lower case for the language, optionally followed by a hyphen and the ISO-3166-1 alpha 2 
          * code for the region in upper case; e.g. "en" for English, or "en-US" for American English versus "en-EN" for England 
          * English.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1709,9 +1544,7 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates whether or not the patient prefers this language (over other languages he masters up a certain level).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -1795,10 +1628,8 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1812,15 +1643,12 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1834,15 +1662,12 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1856,21 +1681,17 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1884,21 +1705,17 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1912,11 +1729,11 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * The ISO-639-1 alpha 2 code in lower case for the language, optionally followed by a hyphen and the ISO-3166-1 alpha 2 
              * code for the region in upper case; e.g. "en" for English, or "en-US" for American English versus "en-EN" for England 
              * English.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param language
              *     The language which can be used to communicate with the patient about his or her health
@@ -1930,9 +1747,7 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates whether or not the patient prefers this language (over other languages he masters up a certain level).
-             * </p>
              * 
              * @param preferred
              *     Language preference indicator
@@ -1945,6 +1760,17 @@ public class Patient extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Communication}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>language</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Communication}
+             */
             @Override
             public Communication build() {
                 return new Communication(this);
@@ -1960,12 +1786,12 @@ public class Patient extends DomainResource {
     }
 
     /**
-     * <p>
      * Link to another patient resource that concerns the same actual patient.
-     * </p>
      */
     public static class Link extends BackboneElement {
+        @Required
         private final Reference other;
+        @Required
         private final LinkType type;
 
         private volatile int hashCode;
@@ -1978,9 +1804,7 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * The other patient resource that the link refers to.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1990,9 +1814,7 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of link between this patient resource and another patient resource.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link LinkType}.
@@ -2076,10 +1898,8 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2093,15 +1913,12 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2115,15 +1932,12 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2137,21 +1951,17 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2165,21 +1975,17 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2193,9 +1999,9 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * The other patient resource that the link refers to.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param other
              *     The other patient or related person resource that the link refers to
@@ -2209,9 +2015,9 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of link between this patient resource and another patient resource.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     replaced-by | replaces | refer | seealso
@@ -2224,6 +2030,18 @@ public class Patient extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Link}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>other</li>
+             * <li>type</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Link}
+             */
             @Override
             public Link build() {
                 return new Link(this);

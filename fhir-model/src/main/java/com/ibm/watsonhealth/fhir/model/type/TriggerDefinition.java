@@ -14,16 +14,16 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.TriggerType;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A description of a triggering event. Triggering events can be named events, data events, or periodic, as determined by 
  * the type element.
- * </p>
  */
 @Constraint(
     id = "trd-1",
@@ -48,8 +48,10 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class TriggerDefinition extends Element {
+    @Required
     private final TriggerType type;
     private final String name;
+    @Choice({Timing.class, Reference.class, Date.class, DateTime.class})
     private final Element timing;
     private final List<DataRequirement> data;
     private final Expression condition;
@@ -67,9 +69,7 @@ public class TriggerDefinition extends Element {
     }
 
     /**
-     * <p>
      * The type of triggering event.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link TriggerType}.
@@ -79,10 +79,8 @@ public class TriggerDefinition extends Element {
     }
 
     /**
-     * <p>
      * A formal name for the event. This may be an absolute URI that identifies the event formally (e.g. from a trigger 
      * registry), or a simple relative URI that identifies the event in a local context.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -92,9 +90,7 @@ public class TriggerDefinition extends Element {
     }
 
     /**
-     * <p>
      * The timing of the event (if this is a periodic trigger).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -104,10 +100,8 @@ public class TriggerDefinition extends Element {
     }
 
     /**
-     * <p>
      * The triggering data of the event (if this is a data trigger). If more than one data is requirement is specified, then 
      * all the data requirements must be true.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link DataRequirement}.
@@ -117,10 +111,8 @@ public class TriggerDefinition extends Element {
     }
 
     /**
-     * <p>
      * A boolean-valued expression that is evaluated in the context of the container of the trigger definition and returns 
      * whether or not the trigger fires.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Expression}.
@@ -216,10 +208,8 @@ public class TriggerDefinition extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -233,15 +223,12 @@ public class TriggerDefinition extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -255,15 +242,12 @@ public class TriggerDefinition extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -277,9 +261,9 @@ public class TriggerDefinition extends Element {
         }
 
         /**
-         * <p>
          * The type of triggering event.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     named-event | periodic | data-changed | data-added | data-modified | data-removed | data-accessed | data-access-ended
@@ -293,10 +277,8 @@ public class TriggerDefinition extends Element {
         }
 
         /**
-         * <p>
          * A formal name for the event. This may be an absolute URI that identifies the event formally (e.g. from a trigger 
          * registry), or a simple relative URI that identifies the event in a local context.
-         * </p>
          * 
          * @param name
          *     Name or URI that identifies the event
@@ -310,9 +292,15 @@ public class TriggerDefinition extends Element {
         }
 
         /**
-         * <p>
          * The timing of the event (if this is a periodic trigger).
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Timing}</li>
+         * <li>{@link Reference}</li>
+         * <li>{@link Date}</li>
+         * <li>{@link DateTime}</li>
+         * </ul>
          * 
          * @param timing
          *     Timing of the event
@@ -326,13 +314,10 @@ public class TriggerDefinition extends Element {
         }
 
         /**
-         * <p>
          * The triggering data of the event (if this is a data trigger). If more than one data is requirement is specified, then 
          * all the data requirements must be true.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param data
          *     Triggering data of the event (multiple = 'and')
@@ -348,13 +333,10 @@ public class TriggerDefinition extends Element {
         }
 
         /**
-         * <p>
          * The triggering data of the event (if this is a data trigger). If more than one data is requirement is specified, then 
          * all the data requirements must be true.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param data
          *     Triggering data of the event (multiple = 'and')
@@ -368,10 +350,8 @@ public class TriggerDefinition extends Element {
         }
 
         /**
-         * <p>
          * A boolean-valued expression that is evaluated in the context of the container of the trigger definition and returns 
          * whether or not the trigger fires.
-         * </p>
          * 
          * @param condition
          *     Whether the event triggers (boolean expression)
@@ -384,6 +364,17 @@ public class TriggerDefinition extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link TriggerDefinition}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>type</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link TriggerDefinition}
+         */
         @Override
         public TriggerDefinition build() {
             return new TriggerDefinition(this);

@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
@@ -32,9 +33,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Todo.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class SubstanceReferenceInformation extends DomainResource {
@@ -56,9 +55,7 @@ public class SubstanceReferenceInformation extends DomainResource {
     }
 
     /**
-     * <p>
      * Todo.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -68,9 +65,7 @@ public class SubstanceReferenceInformation extends DomainResource {
     }
 
     /**
-     * <p>
      * Todo.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Gene}.
@@ -80,9 +75,7 @@ public class SubstanceReferenceInformation extends DomainResource {
     }
 
     /**
-     * <p>
      * Todo.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link GeneElement}.
@@ -92,9 +85,7 @@ public class SubstanceReferenceInformation extends DomainResource {
     }
 
     /**
-     * <p>
      * Todo.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Classification}.
@@ -104,9 +95,7 @@ public class SubstanceReferenceInformation extends DomainResource {
     }
 
     /**
-     * <p>
      * Todo.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Target}.
@@ -210,9 +199,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -226,10 +213,8 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -243,11 +228,9 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -261,9 +244,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -277,12 +258,10 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -296,13 +275,10 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -316,13 +292,10 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -336,15 +309,12 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -358,15 +328,12 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -380,21 +347,17 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -408,21 +371,17 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -436,9 +395,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @param comment
          *     Todo
@@ -452,12 +409,9 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param gene
          *     Todo
@@ -473,12 +427,9 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param gene
          *     Todo
@@ -492,12 +443,9 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param geneElement
          *     Todo
@@ -513,12 +461,9 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param geneElement
          *     Todo
@@ -532,12 +477,9 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param classification
          *     Todo
@@ -553,12 +495,9 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param classification
          *     Todo
@@ -572,12 +511,9 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param target
          *     Todo
@@ -593,12 +529,9 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param target
          *     Todo
@@ -611,6 +544,12 @@ public class SubstanceReferenceInformation extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link SubstanceReferenceInformation}
+         * 
+         * @return
+         *     An immutable object of type {@link SubstanceReferenceInformation}
+         */
         @Override
         public SubstanceReferenceInformation build() {
             return new SubstanceReferenceInformation(this);
@@ -628,9 +567,7 @@ public class SubstanceReferenceInformation extends DomainResource {
     }
 
     /**
-     * <p>
      * Todo.
-     * </p>
      */
     public static class Gene extends BackboneElement {
         private final CodeableConcept geneSequenceOrigin;
@@ -648,9 +585,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -660,9 +595,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -672,9 +605,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -763,10 +694,8 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -780,15 +709,12 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -802,15 +728,12 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -824,21 +747,17 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -852,21 +771,17 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -880,9 +795,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
              * 
              * @param geneSequenceOrigin
              *     Todo
@@ -896,9 +809,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
              * 
              * @param gene
              *     Todo
@@ -912,12 +823,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param source
              *     Todo
@@ -933,12 +841,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param source
              *     Todo
@@ -951,6 +856,12 @@ public class SubstanceReferenceInformation extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Gene}
+             * 
+             * @return
+             *     An immutable object of type {@link Gene}
+             */
             @Override
             public Gene build() {
                 return new Gene(this);
@@ -967,9 +878,7 @@ public class SubstanceReferenceInformation extends DomainResource {
     }
 
     /**
-     * <p>
      * Todo.
-     * </p>
      */
     public static class GeneElement extends BackboneElement {
         private final CodeableConcept type;
@@ -987,9 +896,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -999,9 +906,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Identifier}.
@@ -1011,9 +916,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -1102,10 +1005,8 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1119,15 +1020,12 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1141,15 +1039,12 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1163,21 +1058,17 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1191,21 +1082,17 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1219,9 +1106,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
              * 
              * @param type
              *     Todo
@@ -1235,9 +1120,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
              * 
              * @param element
              *     Todo
@@ -1251,12 +1134,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param source
              *     Todo
@@ -1272,12 +1152,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param source
              *     Todo
@@ -1290,6 +1167,12 @@ public class SubstanceReferenceInformation extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link GeneElement}
+             * 
+             * @return
+             *     An immutable object of type {@link GeneElement}
+             */
             @Override
             public GeneElement build() {
                 return new GeneElement(this);
@@ -1306,9 +1189,7 @@ public class SubstanceReferenceInformation extends DomainResource {
     }
 
     /**
-     * <p>
      * Todo.
-     * </p>
      */
     public static class Classification extends BackboneElement {
         private final CodeableConcept domain;
@@ -1328,9 +1209,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1340,9 +1219,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1352,9 +1229,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1364,9 +1239,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -1460,10 +1333,8 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1477,15 +1348,12 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1499,15 +1367,12 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1521,21 +1386,17 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1549,21 +1410,17 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1577,9 +1434,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
              * 
              * @param domain
              *     Todo
@@ -1593,9 +1448,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
              * 
              * @param classification
              *     Todo
@@ -1609,12 +1462,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param subtype
              *     Todo
@@ -1630,12 +1480,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param subtype
              *     Todo
@@ -1649,12 +1496,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param source
              *     Todo
@@ -1670,12 +1514,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param source
              *     Todo
@@ -1688,6 +1529,12 @@ public class SubstanceReferenceInformation extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Classification}
+             * 
+             * @return
+             *     An immutable object of type {@link Classification}
+             */
             @Override
             public Classification build() {
                 return new Classification(this);
@@ -1705,9 +1552,7 @@ public class SubstanceReferenceInformation extends DomainResource {
     }
 
     /**
-     * <p>
      * Todo.
-     * </p>
      */
     public static class Target extends BackboneElement {
         private final Identifier target;
@@ -1715,6 +1560,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         private final CodeableConcept interaction;
         private final CodeableConcept organism;
         private final CodeableConcept organismType;
+        @Choice({Quantity.class, Range.class, String.class})
         private final Element amount;
         private final CodeableConcept amountType;
         private final List<Reference> source;
@@ -1735,9 +1581,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Identifier}.
@@ -1747,9 +1591,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1759,9 +1601,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1771,9 +1611,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1783,9 +1621,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1795,9 +1631,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -1807,9 +1641,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1819,9 +1651,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * <p>
          * Todo.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -1935,10 +1765,8 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1952,15 +1780,12 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1974,15 +1799,12 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1996,21 +1818,17 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2024,21 +1842,17 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2052,9 +1866,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
              * 
              * @param target
              *     Todo
@@ -2068,9 +1880,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
              * 
              * @param type
              *     Todo
@@ -2084,9 +1894,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
              * 
              * @param interaction
              *     Todo
@@ -2100,9 +1908,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
              * 
              * @param organism
              *     Todo
@@ -2116,9 +1922,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
              * 
              * @param organismType
              *     Todo
@@ -2132,9 +1936,14 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Quantity}</li>
+             * <li>{@link Range}</li>
+             * <li>{@link String}</li>
+             * </ul>
              * 
              * @param amount
              *     Todo
@@ -2148,9 +1957,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
              * 
              * @param amountType
              *     Todo
@@ -2164,12 +1971,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param source
              *     Todo
@@ -2185,12 +1989,9 @@ public class SubstanceReferenceInformation extends DomainResource {
             }
 
             /**
-             * <p>
              * Todo.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param source
              *     Todo
@@ -2203,6 +2004,12 @@ public class SubstanceReferenceInformation extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Target}
+             * 
+             * @return
+             *     An immutable object of type {@link Target}
+             */
             @Override
             public Target build() {
                 return new Target(this);

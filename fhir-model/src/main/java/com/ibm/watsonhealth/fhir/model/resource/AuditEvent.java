@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.AuditEventAction;
 import com.ibm.watsonhealth.fhir.model.type.AuditEventAgentNetworkType;
 import com.ibm.watsonhealth.fhir.model.type.AuditEventOutcome;
@@ -38,10 +40,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A record of an event made for purposes of maintaining a security log. Typical uses include detection of intrusion 
  * attempts and monitoring for inappropriate usage.
- * </p>
  */
 @Constraint(
     id = "sev-1",
@@ -52,15 +52,19 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class AuditEvent extends DomainResource {
+    @Required
     private final Coding type;
     private final List<Coding> subtype;
     private final AuditEventAction action;
     private final Period period;
+    @Required
     private final Instant recorded;
     private final AuditEventOutcome outcome;
     private final String outcomeDesc;
     private final List<CodeableConcept> purposeOfEvent;
+    @Required
     private final List<Agent> agent;
+    @Required
     private final Source source;
     private final List<Entity> entity;
 
@@ -82,10 +86,8 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifier for a family of the event. For example, a menu item, program, rule, policy, function code, application name 
      * or URL. It identifies the performed function.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Coding}.
@@ -95,9 +97,7 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifier for the category of event.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -107,9 +107,7 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicator for type of action performed during the event that generated the audit.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link AuditEventAction}.
@@ -119,9 +117,7 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * The period during which the activity occurred.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -131,9 +127,7 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * The time when the event was recorded.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Instant}.
@@ -143,9 +137,7 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates whether the event succeeded or failed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link AuditEventOutcome}.
@@ -155,9 +147,7 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * A free text description of the outcome of the event.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -167,9 +157,7 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * The purposeOfUse (reason) that was used during the event being recorded.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -179,9 +167,7 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * An actor taking an active role in the event or activity that is logged.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Agent}.
@@ -191,9 +177,7 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * The system that is reporting the event.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Source}.
@@ -203,9 +187,7 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Specific instances of data or objects that have been accessed.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Entity}.
@@ -333,9 +315,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -349,10 +329,8 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -366,11 +344,9 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -384,9 +360,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -400,12 +374,10 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -419,13 +391,10 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -439,13 +408,10 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -459,15 +425,12 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -481,15 +444,12 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -503,21 +463,17 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -531,21 +487,17 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -559,10 +511,10 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifier for a family of the event. For example, a menu item, program, rule, policy, function code, application name 
          * or URL. It identifies the performed function.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     Type/identifier of event
@@ -576,12 +528,9 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifier for the category of event.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param subtype
          *     More specific type/id for the event
@@ -597,12 +546,9 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifier for the category of event.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param subtype
          *     More specific type/id for the event
@@ -616,9 +562,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicator for type of action performed during the event that generated the audit.
-         * </p>
          * 
          * @param action
          *     Type of action performed during the event
@@ -632,9 +576,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The period during which the activity occurred.
-         * </p>
          * 
          * @param period
          *     When the activity occurred
@@ -648,9 +590,9 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The time when the event was recorded.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param recorded
          *     Time when the event was recorded
@@ -664,9 +606,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates whether the event succeeded or failed.
-         * </p>
          * 
          * @param outcome
          *     Whether the event succeeded or failed
@@ -680,9 +620,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * A free text description of the outcome of the event.
-         * </p>
          * 
          * @param outcomeDesc
          *     Description of the event outcome
@@ -696,12 +634,9 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The purposeOfUse (reason) that was used during the event being recorded.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param purposeOfEvent
          *     The purposeOfUse of the event
@@ -717,12 +652,9 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The purposeOfUse (reason) that was used during the event being recorded.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param purposeOfEvent
          *     The purposeOfUse of the event
@@ -736,12 +668,11 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * An actor taking an active role in the event or activity that is logged.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is required.
          * 
          * @param agent
          *     Actor involved in the event
@@ -757,12 +688,11 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * An actor taking an active role in the event or activity that is logged.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is required.
          * 
          * @param agent
          *     Actor involved in the event
@@ -776,9 +706,9 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The system that is reporting the event.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param source
          *     Audit Event Reporter
@@ -792,12 +722,9 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Specific instances of data or objects that have been accessed.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param entity
          *     Data or objects used
@@ -813,12 +740,9 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Specific instances of data or objects that have been accessed.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param entity
          *     Data or objects used
@@ -831,6 +755,20 @@ public class AuditEvent extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link AuditEvent}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>type</li>
+         * <li>recorded</li>
+         * <li>agent</li>
+         * <li>source</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link AuditEvent}
+         */
         @Override
         public AuditEvent build() {
             return new AuditEvent(this);
@@ -854,9 +792,7 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * An actor taking an active role in the event or activity that is logged.
-     * </p>
      */
     public static class Agent extends BackboneElement {
         private final CodeableConcept type;
@@ -864,6 +800,7 @@ public class AuditEvent extends DomainResource {
         private final Reference who;
         private final String altId;
         private final String name;
+        @Required
         private final Boolean requestor;
         private final Reference location;
         private final List<Uri> policy;
@@ -890,9 +827,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Specification of the participation type the user plays when performing the event.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -902,10 +837,8 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The security role that the user was acting under, that come from local codes defined by the access control security 
          * system (e.g. RBAC, ABAC) used in the local context.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -915,9 +848,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to who this agent is that was involved in the event.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -927,10 +858,8 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Alternative agent Identifier. For a human, this should be a user identifier text string from authentication system. 
          * This identifier would be one known to a common authentication system (e.g. single sign-on), if available.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -940,9 +869,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Human-meaningful name for the agent.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -952,9 +879,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicator that the user is or is not the requestor, or initiator, for the event being audited.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -964,9 +889,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Where the event occurred.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -976,11 +899,9 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The policy or plan that authorized the activity being recorded. Typically, a single activity may have multiple 
          * applicable policies, such as patient consent, guarantor funding, etc. The policy would also indicate the security 
          * token used.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Uri}.
@@ -990,9 +911,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Type of media involved. Used when the event is about exporting/importing onto media.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Coding}.
@@ -1002,9 +921,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Logical network location for application activity, if the activity has a network location.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Network}.
@@ -1014,9 +931,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The reason (purpose of use), specific to this agent, that was used during the event being recorded.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1145,10 +1060,8 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1162,15 +1075,12 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1184,15 +1094,12 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1206,21 +1113,17 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1234,21 +1137,17 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1262,9 +1161,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Specification of the participation type the user plays when performing the event.
-             * </p>
              * 
              * @param type
              *     How agent participated
@@ -1278,13 +1175,10 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * The security role that the user was acting under, that come from local codes defined by the access control security 
              * system (e.g. RBAC, ABAC) used in the local context.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param role
              *     Agent role in the event
@@ -1300,13 +1194,10 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * The security role that the user was acting under, that come from local codes defined by the access control security 
              * system (e.g. RBAC, ABAC) used in the local context.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param role
              *     Agent role in the event
@@ -1320,9 +1211,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference to who this agent is that was involved in the event.
-             * </p>
              * 
              * @param who
              *     Identifier of who
@@ -1336,10 +1225,8 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Alternative agent Identifier. For a human, this should be a user identifier text string from authentication system. 
              * This identifier would be one known to a common authentication system (e.g. single sign-on), if available.
-             * </p>
              * 
              * @param altId
              *     Alternative User identity
@@ -1353,9 +1240,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Human-meaningful name for the agent.
-             * </p>
              * 
              * @param name
              *     Human friendly name for the agent
@@ -1369,9 +1254,9 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicator that the user is or is not the requestor, or initiator, for the event being audited.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param requestor
              *     Whether user is initiator
@@ -1385,9 +1270,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Where the event occurred.
-             * </p>
              * 
              * @param location
              *     Where
@@ -1401,14 +1284,11 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * The policy or plan that authorized the activity being recorded. Typically, a single activity may have multiple 
              * applicable policies, such as patient consent, guarantor funding, etc. The policy would also indicate the security 
              * token used.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param policy
              *     Policy that authorized event
@@ -1424,14 +1304,11 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * The policy or plan that authorized the activity being recorded. Typically, a single activity may have multiple 
              * applicable policies, such as patient consent, guarantor funding, etc. The policy would also indicate the security 
              * token used.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param policy
              *     Policy that authorized event
@@ -1445,9 +1322,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Type of media involved. Used when the event is about exporting/importing onto media.
-             * </p>
              * 
              * @param media
              *     Type of media
@@ -1461,9 +1336,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Logical network location for application activity, if the activity has a network location.
-             * </p>
              * 
              * @param network
              *     Logical network location for application activity
@@ -1477,12 +1350,9 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * The reason (purpose of use), specific to this agent, that was used during the event being recorded.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param purposeOfUse
              *     Reason given for this user
@@ -1498,12 +1368,9 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * The reason (purpose of use), specific to this agent, that was used during the event being recorded.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param purposeOfUse
              *     Reason given for this user
@@ -1516,6 +1383,17 @@ public class AuditEvent extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Agent}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>requestor</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Agent}
+             */
             @Override
             public Agent build() {
                 return new Agent(this);
@@ -1539,9 +1417,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Logical network location for application activity, if the activity has a network location.
-         * </p>
          */
         public static class Network extends BackboneElement {
             private final String address;
@@ -1557,9 +1433,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * An identifier for the network access point of the user device for the audit event.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -1569,9 +1443,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * An identifier for the type of network access point that originated the audit event.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link AuditEventAgentNetworkType}.
@@ -1655,10 +1527,8 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -1672,15 +1542,12 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1694,15 +1561,12 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1716,21 +1580,17 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1744,21 +1604,17 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1772,9 +1628,7 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * An identifier for the network access point of the user device for the audit event.
-                 * </p>
                  * 
                  * @param address
                  *     Identifier for the network access point of the user device
@@ -1788,9 +1642,7 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * An identifier for the type of network access point that originated the audit event.
-                 * </p>
                  * 
                  * @param type
                  *     The type of network access point
@@ -1803,6 +1655,12 @@ public class AuditEvent extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Network}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Network}
+                 */
                 @Override
                 public Network build() {
                     return new Network(this);
@@ -1819,12 +1677,11 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * The system that is reporting the event.
-     * </p>
      */
     public static class Source extends BackboneElement {
         private final String site;
+        @Required
         private final Reference observer;
         private final List<Coding> type;
 
@@ -1839,10 +1696,8 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Logical source location within the healthcare enterprise network. For example, a hospital or other provider location 
          * within a multi-entity provider group.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1852,9 +1707,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifier of the source where the event was detected.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1864,9 +1717,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Code specifying the type of source where event originated.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -1955,10 +1806,8 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1972,15 +1821,12 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1994,15 +1840,12 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2016,21 +1859,17 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2044,21 +1883,17 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2072,10 +1907,8 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Logical source location within the healthcare enterprise network. For example, a hospital or other provider location 
              * within a multi-entity provider group.
-             * </p>
              * 
              * @param site
              *     Logical source location within the enterprise
@@ -2089,9 +1922,9 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifier of the source where the event was detected.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param observer
              *     The identity of source detecting the event
@@ -2105,12 +1938,9 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Code specifying the type of source where event originated.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param type
              *     The type of source where event originated
@@ -2126,12 +1956,9 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Code specifying the type of source where event originated.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param type
              *     The type of source where event originated
@@ -2144,6 +1971,17 @@ public class AuditEvent extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Source}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>observer</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Source}
+             */
             @Override
             public Source build() {
                 return new Source(this);
@@ -2160,9 +1998,7 @@ public class AuditEvent extends DomainResource {
     }
 
     /**
-     * <p>
      * Specific instances of data or objects that have been accessed.
-     * </p>
      */
     public static class Entity extends BackboneElement {
         private final Reference what;
@@ -2192,9 +2028,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies a specific instance of the entity. The reference should be version specific.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -2204,9 +2038,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of the object that was involved in this audit event.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Coding}.
@@ -2216,9 +2048,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Code representing the role the entity played in the event being audited.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Coding}.
@@ -2228,9 +2058,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifier for the data life-cycle stage for the entity.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Coding}.
@@ -2240,9 +2068,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Security labels for the identified entity.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -2252,9 +2078,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * A name of the entity in the audit event.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2264,9 +2088,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Text that describes the entity in more detail.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2276,9 +2098,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * The query parameters for a query-type entities.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Base64Binary}.
@@ -2288,9 +2108,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Tagged value pairs for conveying additional information about the entity.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Detail}.
@@ -2409,10 +2227,8 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2426,15 +2242,12 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2448,15 +2261,12 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2470,21 +2280,17 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2498,21 +2304,17 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2526,9 +2328,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies a specific instance of the entity. The reference should be version specific.
-             * </p>
              * 
              * @param what
              *     Specific instance of resource
@@ -2542,9 +2342,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of the object that was involved in this audit event.
-             * </p>
              * 
              * @param type
              *     Type of entity involved
@@ -2558,9 +2356,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Code representing the role the entity played in the event being audited.
-             * </p>
              * 
              * @param role
              *     What role the entity played
@@ -2574,9 +2370,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifier for the data life-cycle stage for the entity.
-             * </p>
              * 
              * @param lifecycle
              *     Life-cycle stage for the entity
@@ -2590,12 +2384,9 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Security labels for the identified entity.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param securityLabel
              *     Security labels on the entity
@@ -2611,12 +2402,9 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Security labels for the identified entity.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param securityLabel
              *     Security labels on the entity
@@ -2630,9 +2418,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * A name of the entity in the audit event.
-             * </p>
              * 
              * @param name
              *     Descriptor for entity
@@ -2646,9 +2432,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Text that describes the entity in more detail.
-             * </p>
              * 
              * @param description
              *     Descriptive text
@@ -2662,9 +2446,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * The query parameters for a query-type entities.
-             * </p>
              * 
              * @param query
              *     Query parameters
@@ -2678,12 +2460,9 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Tagged value pairs for conveying additional information about the entity.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param detail
              *     Additional Information about the entity
@@ -2699,12 +2478,9 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * Tagged value pairs for conveying additional information about the entity.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param detail
              *     Additional Information about the entity
@@ -2717,6 +2493,12 @@ public class AuditEvent extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Entity}
+             * 
+             * @return
+             *     An immutable object of type {@link Entity}
+             */
             @Override
             public Entity build() {
                 return new Entity(this);
@@ -2738,12 +2520,13 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * <p>
          * Tagged value pairs for conveying additional information about the entity.
-         * </p>
          */
         public static class Detail extends BackboneElement {
+            @Required
             private final String type;
+            @Required
+            @Choice({String.class, Base64Binary.class})
             private final Element value;
 
             private volatile int hashCode;
@@ -2756,9 +2539,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of extra detail provided in the value.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2768,9 +2549,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * <p>
              * The value of the extra detail.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -2854,10 +2633,8 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2871,15 +2648,12 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2893,15 +2667,12 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2915,21 +2686,17 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2943,21 +2710,17 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2971,9 +2734,9 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The type of extra detail provided in the value.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param type
                  *     Name of the property
@@ -2987,9 +2750,15 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The value of the extra detail.
-                 * </p>
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link String}</li>
+                 * <li>{@link Base64Binary}</li>
+                 * </ul>
                  * 
                  * @param value
                  *     Property value
@@ -3002,6 +2771,18 @@ public class AuditEvent extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Detail}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>type</li>
+                 * <li>value</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Detail}
+                 */
                 @Override
                 public Detail build() {
                     return new Detail(this);

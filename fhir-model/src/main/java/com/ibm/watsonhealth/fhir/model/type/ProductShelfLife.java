@@ -14,18 +14,19 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * The shelf-life and storage information for a medicinal product item or container can be described using this class.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ProductShelfLife extends BackboneElement {
     private final Identifier identifier;
+    @Required
     private final CodeableConcept type;
+    @Required
     private final Quantity period;
     private final List<CodeableConcept> specialPrecautionsForStorage;
 
@@ -41,9 +42,7 @@ public class ProductShelfLife extends BackboneElement {
     }
 
     /**
-     * <p>
      * Unique identifier for the packaged Medicinal Product.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Identifier}.
@@ -53,12 +52,10 @@ public class ProductShelfLife extends BackboneElement {
     }
 
     /**
-     * <p>
      * This describes the shelf life, taking into account various scenarios such as shelf life of the packaged Medicinal 
      * Product itself, shelf life after transformation where necessary and shelf life after the first opening of a bottle, 
      * etc. The shelf life type shall be specified using an appropriate controlled vocabulary The controlled term and the 
      * controlled term identifier shall be specified.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -68,11 +65,9 @@ public class ProductShelfLife extends BackboneElement {
     }
 
     /**
-     * <p>
      * The shelf life time period can be specified using a numerical value for the period of time and its unit of time 
      * measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting terminology The 
      * symbol and the symbol identifier shall be used.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Quantity}.
@@ -82,10 +77,8 @@ public class ProductShelfLife extends BackboneElement {
     }
 
     /**
-     * <p>
      * Special precautions for storage, if any, can be specified using an appropriate controlled vocabulary The controlled 
      * term and the controlled term identifier shall be specified.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -179,10 +172,8 @@ public class ProductShelfLife extends BackboneElement {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -196,15 +187,12 @@ public class ProductShelfLife extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -218,15 +206,12 @@ public class ProductShelfLife extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -240,21 +225,17 @@ public class ProductShelfLife extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element and that 
          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
          * extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
@@ -268,21 +249,17 @@ public class ProductShelfLife extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element and that 
          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
          * extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
@@ -296,9 +273,7 @@ public class ProductShelfLife extends BackboneElement {
         }
 
         /**
-         * <p>
          * Unique identifier for the packaged Medicinal Product.
-         * </p>
          * 
          * @param identifier
          *     Unique identifier for the packaged Medicinal Product
@@ -312,12 +287,12 @@ public class ProductShelfLife extends BackboneElement {
         }
 
         /**
-         * <p>
          * This describes the shelf life, taking into account various scenarios such as shelf life of the packaged Medicinal 
          * Product itself, shelf life after transformation where necessary and shelf life after the first opening of a bottle, 
          * etc. The shelf life type shall be specified using an appropriate controlled vocabulary The controlled term and the 
          * controlled term identifier shall be specified.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     This describes the shelf life, taking into account various scenarios such as shelf life of the packaged Medicinal 
@@ -334,11 +309,11 @@ public class ProductShelfLife extends BackboneElement {
         }
 
         /**
-         * <p>
          * The shelf life time period can be specified using a numerical value for the period of time and its unit of time 
          * measurement The unit of measurement shall be specified in accordance with ISO 11240 and the resulting terminology The 
          * symbol and the symbol identifier shall be used.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param period
          *     The shelf life time period can be specified using a numerical value for the period of time and its unit of time 
@@ -354,13 +329,10 @@ public class ProductShelfLife extends BackboneElement {
         }
 
         /**
-         * <p>
          * Special precautions for storage, if any, can be specified using an appropriate controlled vocabulary The controlled 
          * term and the controlled term identifier shall be specified.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param specialPrecautionsForStorage
          *     Special precautions for storage, if any, can be specified using an appropriate controlled vocabulary The controlled 
@@ -377,13 +349,10 @@ public class ProductShelfLife extends BackboneElement {
         }
 
         /**
-         * <p>
          * Special precautions for storage, if any, can be specified using an appropriate controlled vocabulary The controlled 
          * term and the controlled term identifier shall be specified.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param specialPrecautionsForStorage
          *     Special precautions for storage, if any, can be specified using an appropriate controlled vocabulary The controlled 
@@ -397,6 +366,18 @@ public class ProductShelfLife extends BackboneElement {
             return this;
         }
 
+        /**
+         * Build the {@link ProductShelfLife}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>type</li>
+         * <li>period</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link ProductShelfLife}
+         */
         @Override
         public ProductShelfLife build() {
             return new ProductShelfLife(this);

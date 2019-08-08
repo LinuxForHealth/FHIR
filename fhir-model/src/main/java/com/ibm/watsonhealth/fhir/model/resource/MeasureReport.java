@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -36,10 +37,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * The MeasureReport resource contains the results of the calculation of a measure; and optionally a reference to the 
  * resources involved in that calculation.
- * </p>
  */
 @Constraint(
     id = "mrp-1",
@@ -58,12 +57,16 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class MeasureReport extends DomainResource {
     private final List<Identifier> identifier;
+    @Required
     private final MeasureReportStatus status;
+    @Required
     private final MeasureReportType type;
+    @Required
     private final Canonical measure;
     private final Reference subject;
     private final DateTime date;
     private final Reference reporter;
+    @Required
     private final Period period;
     private final CodeableConcept improvementNotation;
     private final List<Group> group;
@@ -87,10 +90,8 @@ public class MeasureReport extends DomainResource {
     }
 
     /**
-     * <p>
      * A formal identifier that is used to identify this MeasureReport when it is represented in other formats or referenced 
      * in a specification, model, design or an instance.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -100,9 +101,7 @@ public class MeasureReport extends DomainResource {
     }
 
     /**
-     * <p>
      * The MeasureReport status. No data will be available until the MeasureReport status is complete.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link MeasureReportStatus}.
@@ -112,13 +111,11 @@ public class MeasureReport extends DomainResource {
     }
 
     /**
-     * <p>
      * The type of measure report. This may be an individual report, which provides the score for the measure for an 
      * individual member of the population; a subject-listing, which returns the list of members that meet the various 
      * criteria in the measure; a summary report, which returns a population count for each of the criteria in the measure; 
      * or a data-collection, which enables the MeasureReport to be used to exchange the data-of-interest for a quality 
      * measure.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link MeasureReportType}.
@@ -128,9 +125,7 @@ public class MeasureReport extends DomainResource {
     }
 
     /**
-     * <p>
      * A reference to the Measure that was calculated to produce this report.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Canonical}.
@@ -140,9 +135,7 @@ public class MeasureReport extends DomainResource {
     }
 
     /**
-     * <p>
      * Optional subject identifying the individual or individuals the report is for.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -152,9 +145,7 @@ public class MeasureReport extends DomainResource {
     }
 
     /**
-     * <p>
      * The date this measure report was generated.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -164,9 +155,7 @@ public class MeasureReport extends DomainResource {
     }
 
     /**
-     * <p>
      * The individual, location, or organization that is reporting the data.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -176,9 +165,7 @@ public class MeasureReport extends DomainResource {
     }
 
     /**
-     * <p>
      * The reporting period for which the report was calculated.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -188,9 +175,7 @@ public class MeasureReport extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether improvement in the measure is noted by an increase or decrease in the measure score.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -200,9 +185,7 @@ public class MeasureReport extends DomainResource {
     }
 
     /**
-     * <p>
      * The results of the calculation, one for each population group in the measure.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Group}.
@@ -212,9 +195,7 @@ public class MeasureReport extends DomainResource {
     }
 
     /**
-     * <p>
      * A reference to a Bundle containing the Resources that were used in the calculation of this measure.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -342,9 +323,7 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -358,10 +337,8 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -375,11 +352,9 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -393,9 +368,7 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -409,12 +382,10 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -428,13 +399,10 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -448,13 +416,10 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -468,15 +433,12 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -490,15 +452,12 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -512,21 +471,17 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -540,21 +495,17 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -568,13 +519,10 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * A formal identifier that is used to identify this MeasureReport when it is represented in other formats or referenced 
          * in a specification, model, design or an instance.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Additional identifier for the MeasureReport
@@ -590,13 +538,10 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * A formal identifier that is used to identify this MeasureReport when it is represented in other formats or referenced 
          * in a specification, model, design or an instance.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Additional identifier for the MeasureReport
@@ -610,9 +555,9 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The MeasureReport status. No data will be available until the MeasureReport status is complete.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     complete | pending | error
@@ -626,13 +571,13 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of measure report. This may be an individual report, which provides the score for the measure for an 
          * individual member of the population; a subject-listing, which returns the list of members that meet the various 
          * criteria in the measure; a summary report, which returns a population count for each of the criteria in the measure; 
          * or a data-collection, which enables the MeasureReport to be used to exchange the data-of-interest for a quality 
          * measure.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     individual | subject-list | summary | data-collection
@@ -646,9 +591,9 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to the Measure that was calculated to produce this report.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param measure
          *     What measure was calculated
@@ -662,9 +607,7 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * Optional subject identifying the individual or individuals the report is for.
-         * </p>
          * 
          * @param subject
          *     What individual(s) the report is for
@@ -678,9 +621,7 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The date this measure report was generated.
-         * </p>
          * 
          * @param date
          *     When the report was generated
@@ -694,9 +635,7 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The individual, location, or organization that is reporting the data.
-         * </p>
          * 
          * @param reporter
          *     Who is reporting the data
@@ -710,9 +649,9 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The reporting period for which the report was calculated.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param period
          *     What period the report covers
@@ -726,9 +665,7 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether improvement in the measure is noted by an increase or decrease in the measure score.
-         * </p>
          * 
          * @param improvementNotation
          *     increase | decrease
@@ -742,12 +679,9 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The results of the calculation, one for each population group in the measure.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param group
          *     Measure results for each group
@@ -763,12 +697,9 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The results of the calculation, one for each population group in the measure.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param group
          *     Measure results for each group
@@ -782,12 +713,9 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a Bundle containing the Resources that were used in the calculation of this measure.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param evaluatedResource
          *     What data was used to calculate the measure score
@@ -803,12 +731,9 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a Bundle containing the Resources that were used in the calculation of this measure.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param evaluatedResource
          *     What data was used to calculate the measure score
@@ -821,6 +746,20 @@ public class MeasureReport extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link MeasureReport}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>type</li>
+         * <li>measure</li>
+         * <li>period</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link MeasureReport}
+         */
         @Override
         public MeasureReport build() {
             return new MeasureReport(this);
@@ -844,9 +783,7 @@ public class MeasureReport extends DomainResource {
     }
 
     /**
-     * <p>
      * The results of the calculation, one for each population group in the measure.
-     * </p>
      */
     public static class Group extends BackboneElement {
         private final CodeableConcept code;
@@ -866,9 +803,7 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The meaning of the population group as defined in the measure definition.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -878,9 +813,7 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The populations that make up the population group, one for each type of population appropriate for the measure.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Population}.
@@ -890,10 +823,8 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The measure score for this population group, calculated as appropriate for the measure type and scoring method, and 
          * based on the contents of the populations defined in the group.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Quantity}.
@@ -903,10 +834,8 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * When a measure includes multiple stratifiers, there will be a stratifier group for each stratifier defined by the 
          * measure.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Stratifier}.
@@ -1000,10 +929,8 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1017,15 +944,12 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1039,15 +963,12 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1061,21 +982,17 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1089,21 +1006,17 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1117,9 +1030,7 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * The meaning of the population group as defined in the measure definition.
-             * </p>
              * 
              * @param code
              *     Meaning of the group
@@ -1133,12 +1044,9 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * The populations that make up the population group, one for each type of population appropriate for the measure.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param population
              *     The populations in the group
@@ -1154,12 +1062,9 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * The populations that make up the population group, one for each type of population appropriate for the measure.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param population
              *     The populations in the group
@@ -1173,10 +1078,8 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * The measure score for this population group, calculated as appropriate for the measure type and scoring method, and 
              * based on the contents of the populations defined in the group.
-             * </p>
              * 
              * @param measureScore
              *     What score this group achieved
@@ -1190,13 +1093,10 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * When a measure includes multiple stratifiers, there will be a stratifier group for each stratifier defined by the 
              * measure.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param stratifier
              *     Stratification results
@@ -1212,13 +1112,10 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * When a measure includes multiple stratifiers, there will be a stratifier group for each stratifier defined by the 
              * measure.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param stratifier
              *     Stratification results
@@ -1231,6 +1128,12 @@ public class MeasureReport extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Group}
+             * 
+             * @return
+             *     An immutable object of type {@link Group}
+             */
             @Override
             public Group build() {
                 return new Group(this);
@@ -1247,9 +1150,7 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * The populations that make up the population group, one for each type of population appropriate for the measure.
-         * </p>
          */
         public static class Population extends BackboneElement {
             private final CodeableConcept code;
@@ -1267,9 +1168,7 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of the population.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -1279,9 +1178,7 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * The number of members of the population.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Integer}.
@@ -1291,9 +1188,7 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * This element refers to a List of subject level MeasureReport resources, one for each subject in this population.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Reference}.
@@ -1382,10 +1277,8 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -1399,15 +1292,12 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1421,15 +1311,12 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1443,21 +1330,17 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1471,21 +1354,17 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1499,9 +1378,7 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The type of the population.
-                 * </p>
                  * 
                  * @param code
                  *     initial-population | numerator | numerator-exclusion | denominator | denominator-exclusion | denominator-exception | 
@@ -1516,9 +1393,7 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The number of members of the population.
-                 * </p>
                  * 
                  * @param count
                  *     Size of the population
@@ -1532,9 +1407,7 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * This element refers to a List of subject level MeasureReport resources, one for each subject in this population.
-                 * </p>
                  * 
                  * @param subjectResults
                  *     For subject-list reports, the subject results in this population
@@ -1547,6 +1420,12 @@ public class MeasureReport extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Population}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Population}
+                 */
                 @Override
                 public Population build() {
                     return new Population(this);
@@ -1563,10 +1442,8 @@ public class MeasureReport extends DomainResource {
         }
 
         /**
-         * <p>
          * When a measure includes multiple stratifiers, there will be a stratifier group for each stratifier defined by the 
          * measure.
-         * </p>
          */
         public static class Stratifier extends BackboneElement {
             private final List<CodeableConcept> code;
@@ -1582,9 +1459,7 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * The meaning of this stratifier, as defined in the measure definition.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1594,10 +1469,8 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * This element contains the results for a single stratum within the stratifier. For example, when stratifying on 
              * administrative gender, there will be four strata, one for each possible gender value.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Stratum}.
@@ -1681,10 +1554,8 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -1698,15 +1569,12 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1720,15 +1588,12 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1742,21 +1607,17 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1770,21 +1631,17 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1798,12 +1655,9 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The meaning of this stratifier, as defined in the measure definition.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param code
                  *     What stratifier of the group
@@ -1819,12 +1673,9 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The meaning of this stratifier, as defined in the measure definition.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param code
                  *     What stratifier of the group
@@ -1838,13 +1689,10 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * This element contains the results for a single stratum within the stratifier. For example, when stratifying on 
                  * administrative gender, there will be four strata, one for each possible gender value.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param stratum
                  *     Stratum results, one for each unique value, or set of values, in the stratifier, or stratifier components
@@ -1860,13 +1708,10 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * This element contains the results for a single stratum within the stratifier. For example, when stratifying on 
                  * administrative gender, there will be four strata, one for each possible gender value.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param stratum
                  *     Stratum results, one for each unique value, or set of values, in the stratifier, or stratifier components
@@ -1879,6 +1724,12 @@ public class MeasureReport extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Stratifier}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Stratifier}
+                 */
                 @Override
                 public Stratifier build() {
                     return new Stratifier(this);
@@ -1893,10 +1744,8 @@ public class MeasureReport extends DomainResource {
             }
 
             /**
-             * <p>
              * This element contains the results for a single stratum within the stratifier. For example, when stratifying on 
              * administrative gender, there will be four strata, one for each possible gender value.
-             * </p>
              */
             public static class Stratum extends BackboneElement {
                 private final CodeableConcept value;
@@ -1916,10 +1765,8 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The value for this stratum, expressed as a CodeableConcept. When defining stratifiers on complex values, the value 
                  * must be rendered such that the value for each stratum within the stratifier is unique.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link CodeableConcept}.
@@ -1929,9 +1776,7 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A stratifier component value.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link Component}.
@@ -1941,9 +1786,7 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The populations that make up the stratum, one for each type of population appropriate to the measure.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link Population}.
@@ -1953,10 +1796,8 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The measure score for this stratum, calculated as appropriate for the measure type and scoring method, and based on 
                  * only the members of this stratum.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Quantity}.
@@ -2050,10 +1891,8 @@ public class MeasureReport extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -2067,15 +1906,12 @@ public class MeasureReport extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2089,15 +1925,12 @@ public class MeasureReport extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2111,21 +1944,17 @@ public class MeasureReport extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -2139,21 +1968,17 @@ public class MeasureReport extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -2167,10 +1992,8 @@ public class MeasureReport extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The value for this stratum, expressed as a CodeableConcept. When defining stratifiers on complex values, the value 
                      * must be rendered such that the value for each stratum within the stratifier is unique.
-                     * </p>
                      * 
                      * @param value
                      *     The stratum value, e.g. male
@@ -2184,12 +2007,9 @@ public class MeasureReport extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A stratifier component value.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param component
                      *     Stratifier component values
@@ -2205,12 +2025,9 @@ public class MeasureReport extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A stratifier component value.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param component
                      *     Stratifier component values
@@ -2224,12 +2041,9 @@ public class MeasureReport extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The populations that make up the stratum, one for each type of population appropriate to the measure.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param population
                      *     Population results in this stratum
@@ -2245,12 +2059,9 @@ public class MeasureReport extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The populations that make up the stratum, one for each type of population appropriate to the measure.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param population
                      *     Population results in this stratum
@@ -2264,10 +2075,8 @@ public class MeasureReport extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The measure score for this stratum, calculated as appropriate for the measure type and scoring method, and based on 
                      * only the members of this stratum.
-                     * </p>
                      * 
                      * @param measureScore
                      *     What score this stratum achieved
@@ -2280,6 +2089,12 @@ public class MeasureReport extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link Stratum}
+                     * 
+                     * @return
+                     *     An immutable object of type {@link Stratum}
+                     */
                     @Override
                     public Stratum build() {
                         return new Stratum(this);
@@ -2296,12 +2111,12 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A stratifier component value.
-                 * </p>
                  */
                 public static class Component extends BackboneElement {
+                    @Required
                     private final CodeableConcept code;
+                    @Required
                     private final CodeableConcept value;
 
                     private volatile int hashCode;
@@ -2314,9 +2129,7 @@ public class MeasureReport extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The code for the stratum component value.
-                     * </p>
                      * 
                      * @return
                      *     An immutable object of type {@link CodeableConcept}.
@@ -2326,9 +2139,7 @@ public class MeasureReport extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The stratum component value.
-                     * </p>
                      * 
                      * @return
                      *     An immutable object of type {@link CodeableConcept}.
@@ -2412,10 +2223,8 @@ public class MeasureReport extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                          * contain spaces.
-                         * </p>
                          * 
                          * @param id
                          *     Unique id for inter-element referencing
@@ -2429,15 +2238,12 @@ public class MeasureReport extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
-                         * </p>
-                         * <p>
-                         * Adds new element(s) to existing list
-                         * </p>
+                         * 
+                         * <p>Adds new element(s) to the existing list
                          * 
                          * @param extension
                          *     Additional content defined by implementations
@@ -2451,15 +2257,12 @@ public class MeasureReport extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
-                         * </p>
-                         * <p>
-                         * Replaces existing list with a new one containing elements from the Collection
-                         * </p>
+                         * 
+                         * <p>Replaces the existing list with a new one containing elements from the Collection
                          * 
                          * @param extension
                          *     Additional content defined by implementations
@@ -2473,21 +2276,17 @@ public class MeasureReport extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element and that 
                          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                          * extension. Applications processing a resource are required to check for modifier extensions.
-                         * </p>
-                         * <p>
-                         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                         * 
+                         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
-                         * </p>
-                         * <p>
-                         * Adds new element(s) to existing list
-                         * </p>
+                         * 
+                         * <p>Adds new element(s) to the existing list
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
@@ -2501,21 +2300,17 @@ public class MeasureReport extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element and that 
                          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                          * extension. Applications processing a resource are required to check for modifier extensions.
-                         * </p>
-                         * <p>
-                         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                         * 
+                         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
-                         * </p>
-                         * <p>
-                         * Replaces existing list with a new one containing elements from the Collection
-                         * </p>
+                         * 
+                         * <p>Replaces the existing list with a new one containing elements from the Collection
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
@@ -2529,9 +2324,9 @@ public class MeasureReport extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * The code for the stratum component value.
-                         * </p>
+                         * 
+                         * <p>This element is required.
                          * 
                          * @param code
                          *     What stratifier component of the group
@@ -2545,9 +2340,9 @@ public class MeasureReport extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * The stratum component value.
-                         * </p>
+                         * 
+                         * <p>This element is required.
                          * 
                          * @param value
                          *     The stratum component value, e.g. male
@@ -2560,6 +2355,18 @@ public class MeasureReport extends DomainResource {
                             return this;
                         }
 
+                        /**
+                         * Build the {@link Component}
+                         * 
+                         * <p>Required elements:
+                         * <ul>
+                         * <li>code</li>
+                         * <li>value</li>
+                         * </ul>
+                         * 
+                         * @return
+                         *     An immutable object of type {@link Component}
+                         */
                         @Override
                         public Component build() {
                             return new Component(this);
@@ -2575,9 +2382,7 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The populations that make up the stratum, one for each type of population appropriate to the measure.
-                 * </p>
                  */
                 public static class Population extends BackboneElement {
                     private final CodeableConcept code;
@@ -2595,9 +2400,7 @@ public class MeasureReport extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The type of the population.
-                     * </p>
                      * 
                      * @return
                      *     An immutable object of type {@link CodeableConcept}.
@@ -2607,9 +2410,7 @@ public class MeasureReport extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The number of members of the population in this stratum.
-                     * </p>
                      * 
                      * @return
                      *     An immutable object of type {@link Integer}.
@@ -2619,10 +2420,8 @@ public class MeasureReport extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * This element refers to a List of subject level MeasureReport resources, one for each subject in this population in 
                      * this stratum.
-                     * </p>
                      * 
                      * @return
                      *     An immutable object of type {@link Reference}.
@@ -2711,10 +2510,8 @@ public class MeasureReport extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                          * contain spaces.
-                         * </p>
                          * 
                          * @param id
                          *     Unique id for inter-element referencing
@@ -2728,15 +2525,12 @@ public class MeasureReport extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
-                         * </p>
-                         * <p>
-                         * Adds new element(s) to existing list
-                         * </p>
+                         * 
+                         * <p>Adds new element(s) to the existing list
                          * 
                          * @param extension
                          *     Additional content defined by implementations
@@ -2750,15 +2544,12 @@ public class MeasureReport extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
-                         * </p>
-                         * <p>
-                         * Replaces existing list with a new one containing elements from the Collection
-                         * </p>
+                         * 
+                         * <p>Replaces the existing list with a new one containing elements from the Collection
                          * 
                          * @param extension
                          *     Additional content defined by implementations
@@ -2772,21 +2563,17 @@ public class MeasureReport extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element and that 
                          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                          * extension. Applications processing a resource are required to check for modifier extensions.
-                         * </p>
-                         * <p>
-                         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                         * 
+                         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
-                         * </p>
-                         * <p>
-                         * Adds new element(s) to existing list
-                         * </p>
+                         * 
+                         * <p>Adds new element(s) to the existing list
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
@@ -2800,21 +2587,17 @@ public class MeasureReport extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element and that 
                          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                          * extension. Applications processing a resource are required to check for modifier extensions.
-                         * </p>
-                         * <p>
-                         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                         * 
+                         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
-                         * </p>
-                         * <p>
-                         * Replaces existing list with a new one containing elements from the Collection
-                         * </p>
+                         * 
+                         * <p>Replaces the existing list with a new one containing elements from the Collection
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
@@ -2828,9 +2611,7 @@ public class MeasureReport extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * The type of the population.
-                         * </p>
                          * 
                          * @param code
                          *     initial-population | numerator | numerator-exclusion | denominator | denominator-exclusion | denominator-exception | 
@@ -2845,9 +2626,7 @@ public class MeasureReport extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * The number of members of the population in this stratum.
-                         * </p>
                          * 
                          * @param count
                          *     Size of the population
@@ -2861,10 +2640,8 @@ public class MeasureReport extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * This element refers to a List of subject level MeasureReport resources, one for each subject in this population in 
                          * this stratum.
-                         * </p>
                          * 
                          * @param subjectResults
                          *     For subject-list reports, the subject results in this population
@@ -2877,6 +2654,12 @@ public class MeasureReport extends DomainResource {
                             return this;
                         }
 
+                        /**
+                         * Build the {@link Population}
+                         * 
+                         * @return
+                         *     An immutable object of type {@link Population}
+                         */
                         @Override
                         public Population build() {
                             return new Population(this);

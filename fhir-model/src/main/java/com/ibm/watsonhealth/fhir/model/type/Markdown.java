@@ -15,9 +15,7 @@ import javax.annotation.Generated;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 
 /**
- * <p>
  * A string that may contain Github Flavored Markdown syntax for optional processing by a mark down presentation engine
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Markdown extends String {
@@ -87,9 +85,7 @@ public class Markdown extends String {
         }
 
         /**
-         * <p>
          * unique id for the element within a resource (for internal references)
-         * </p>
          * 
          * @param id
          *     xml:id (or equivalent in JSON)
@@ -103,15 +99,12 @@ public class Markdown extends String {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -125,15 +118,12 @@ public class Markdown extends String {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -147,9 +137,7 @@ public class Markdown extends String {
         }
 
         /**
-         * <p>
          * Primitive value for markdown
-         * </p>
          * 
          * @param value
          *     Primitive value for markdown
@@ -162,6 +150,12 @@ public class Markdown extends String {
             return (Builder) super.value(value);
         }
 
+        /**
+         * Build the {@link Markdown}
+         * 
+         * @return
+         *     An immutable object of type {@link Markdown}
+         */
         @Override
         public Markdown build() {
             return new Markdown(this);

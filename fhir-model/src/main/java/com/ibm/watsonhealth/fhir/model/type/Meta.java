@@ -18,10 +18,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * The metadata about a resource. This is content in the resource that is maintained by the infrastructure. Changes to 
  * the content might not always be associated with version changes to the resource.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Meta extends Element {
@@ -46,10 +44,8 @@ public class Meta extends Element {
     }
 
     /**
-     * <p>
      * The version specific identifier, as it appears in the version portion of the URL. This value changes when the resource 
      * is created, updated, or deleted.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Id}.
@@ -59,9 +55,7 @@ public class Meta extends Element {
     }
 
     /**
-     * <p>
      * When the resource last changed - e.g. when the version changed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Instant}.
@@ -71,11 +65,9 @@ public class Meta extends Element {
     }
 
     /**
-     * <p>
      * A uri that identifies the source system of the resource. This provides a minimal amount of [Provenance](provenance.
      * html#) information that can be used to track or differentiate the source of information in the resource. The source 
      * may identify another FHIR server, document, message, database, etc.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -85,11 +77,9 @@ public class Meta extends Element {
     }
 
     /**
-     * <p>
      * A list of profiles (references to [StructureDefinition](structuredefinition.html#) resources) that this resource 
      * claims to conform to. The URL is a reference to [StructureDefinition.url](structuredefinition-definitions.
      * html#StructureDefinition.url).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -99,10 +89,8 @@ public class Meta extends Element {
     }
 
     /**
-     * <p>
      * Security labels applied to this resource. These tags connect specific resources to the overall security policy and 
      * infrastructure.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -112,10 +100,8 @@ public class Meta extends Element {
     }
 
     /**
-     * <p>
      * Tags applied to this resource. Tags are intended to be used to identify and relate resources to process and workflow, 
      * and applications are not required to consider the tags when interpreting the meaning of a resource.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -216,10 +202,8 @@ public class Meta extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -233,15 +217,12 @@ public class Meta extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -255,15 +236,12 @@ public class Meta extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -277,10 +255,8 @@ public class Meta extends Element {
         }
 
         /**
-         * <p>
          * The version specific identifier, as it appears in the version portion of the URL. This value changes when the resource 
          * is created, updated, or deleted.
-         * </p>
          * 
          * @param versionId
          *     Version specific identifier
@@ -294,9 +270,7 @@ public class Meta extends Element {
         }
 
         /**
-         * <p>
          * When the resource last changed - e.g. when the version changed.
-         * </p>
          * 
          * @param lastUpdated
          *     When the resource version last changed
@@ -310,11 +284,9 @@ public class Meta extends Element {
         }
 
         /**
-         * <p>
          * A uri that identifies the source system of the resource. This provides a minimal amount of [Provenance](provenance.
          * html#) information that can be used to track or differentiate the source of information in the resource. The source 
          * may identify another FHIR server, document, message, database, etc.
-         * </p>
          * 
          * @param source
          *     Identifies where the resource comes from
@@ -328,14 +300,11 @@ public class Meta extends Element {
         }
 
         /**
-         * <p>
          * A list of profiles (references to [StructureDefinition](structuredefinition.html#) resources) that this resource 
          * claims to conform to. The URL is a reference to [StructureDefinition.url](structuredefinition-definitions.
          * html#StructureDefinition.url).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param profile
          *     Profiles this resource claims to conform to
@@ -351,14 +320,11 @@ public class Meta extends Element {
         }
 
         /**
-         * <p>
          * A list of profiles (references to [StructureDefinition](structuredefinition.html#) resources) that this resource 
          * claims to conform to. The URL is a reference to [StructureDefinition.url](structuredefinition-definitions.
          * html#StructureDefinition.url).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param profile
          *     Profiles this resource claims to conform to
@@ -372,13 +338,10 @@ public class Meta extends Element {
         }
 
         /**
-         * <p>
          * Security labels applied to this resource. These tags connect specific resources to the overall security policy and 
          * infrastructure.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param security
          *     Security Labels applied to this resource
@@ -394,13 +357,10 @@ public class Meta extends Element {
         }
 
         /**
-         * <p>
          * Security labels applied to this resource. These tags connect specific resources to the overall security policy and 
          * infrastructure.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param security
          *     Security Labels applied to this resource
@@ -414,13 +374,10 @@ public class Meta extends Element {
         }
 
         /**
-         * <p>
          * Tags applied to this resource. Tags are intended to be used to identify and relate resources to process and workflow, 
          * and applications are not required to consider the tags when interpreting the meaning of a resource.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param tag
          *     Tags applied to this resource
@@ -436,13 +393,10 @@ public class Meta extends Element {
         }
 
         /**
-         * <p>
          * Tags applied to this resource. Tags are intended to be used to identify and relate resources to process and workflow, 
          * and applications are not required to consider the tags when interpreting the meaning of a resource.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param tag
          *     Tags applied to this resource
@@ -455,6 +409,12 @@ public class Meta extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link Meta}
+         * 
+         * @return
+         *     An immutable object of type {@link Meta}
+         */
         @Override
         public Meta build() {
             return new Meta(this);

@@ -11,20 +11,22 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * The marketing status describes the date when a medicinal product is actually put on the market or the date as of which 
  * it is no longer available.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class MarketingStatus extends BackboneElement {
+    @Required
     private final CodeableConcept country;
     private final CodeableConcept jurisdiction;
+    @Required
     private final CodeableConcept status;
+    @Required
     private final Period dateRange;
     private final DateTime restoreDate;
 
@@ -41,10 +43,8 @@ public class MarketingStatus extends BackboneElement {
     }
 
     /**
-     * <p>
      * The country in which the marketing authorisation has been granted shall be specified It should be specified using the 
      * ISO 3166 ‑ 1 alpha-2 code elements.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -54,11 +54,9 @@ public class MarketingStatus extends BackboneElement {
     }
 
     /**
-     * <p>
      * Where a Medicines Regulatory Agency has granted a marketing authorisation for which specific provisions within a 
      * jurisdiction apply, the jurisdiction can be specified using an appropriate controlled terminology The controlled term 
      * and the controlled term identifier shall be specified.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -68,10 +66,8 @@ public class MarketingStatus extends BackboneElement {
     }
 
     /**
-     * <p>
      * This attribute provides information on the status of the marketing of the medicinal product See ISO/TS 20443 for more 
      * information and examples.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -81,12 +77,10 @@ public class MarketingStatus extends BackboneElement {
     }
 
     /**
-     * <p>
      * The date when the Medicinal Product is placed on the market by the Marketing Authorisation Holder (or where 
      * applicable, the manufacturer/distributor) in a country and/or jurisdiction shall be provided A complete date 
      * consisting of day, month and year shall be specified using the ISO 8601 date format NOTE “Placed on the market” refers 
      * to the release of the Medicinal Product into the distribution chain.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -96,12 +90,10 @@ public class MarketingStatus extends BackboneElement {
     }
 
     /**
-     * <p>
      * The date when the Medicinal Product is placed on the market by the Marketing Authorisation Holder (or where 
      * applicable, the manufacturer/distributor) in a country and/or jurisdiction shall be provided A complete date 
      * consisting of day, month and year shall be specified using the ISO 8601 date format NOTE “Placed on the market” refers 
      * to the release of the Medicinal Product into the distribution chain.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -200,10 +192,8 @@ public class MarketingStatus extends BackboneElement {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -217,15 +207,12 @@ public class MarketingStatus extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -239,15 +226,12 @@ public class MarketingStatus extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -261,21 +245,17 @@ public class MarketingStatus extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element and that 
          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
          * extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
@@ -289,21 +269,17 @@ public class MarketingStatus extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element and that 
          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
          * extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
@@ -317,10 +293,10 @@ public class MarketingStatus extends BackboneElement {
         }
 
         /**
-         * <p>
          * The country in which the marketing authorisation has been granted shall be specified It should be specified using the 
          * ISO 3166 ‑ 1 alpha-2 code elements.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param country
          *     The country in which the marketing authorisation has been granted shall be specified It should be specified using the 
@@ -335,11 +311,9 @@ public class MarketingStatus extends BackboneElement {
         }
 
         /**
-         * <p>
          * Where a Medicines Regulatory Agency has granted a marketing authorisation for which specific provisions within a 
          * jurisdiction apply, the jurisdiction can be specified using an appropriate controlled terminology The controlled term 
          * and the controlled term identifier shall be specified.
-         * </p>
          * 
          * @param jurisdiction
          *     Where a Medicines Regulatory Agency has granted a marketing authorisation for which specific provisions within a 
@@ -355,10 +329,10 @@ public class MarketingStatus extends BackboneElement {
         }
 
         /**
-         * <p>
          * This attribute provides information on the status of the marketing of the medicinal product See ISO/TS 20443 for more 
          * information and examples.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     This attribute provides information on the status of the marketing of the medicinal product See ISO/TS 20443 for more 
@@ -373,12 +347,12 @@ public class MarketingStatus extends BackboneElement {
         }
 
         /**
-         * <p>
          * The date when the Medicinal Product is placed on the market by the Marketing Authorisation Holder (or where 
          * applicable, the manufacturer/distributor) in a country and/or jurisdiction shall be provided A complete date 
          * consisting of day, month and year shall be specified using the ISO 8601 date format NOTE “Placed on the market” refers 
          * to the release of the Medicinal Product into the distribution chain.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param dateRange
          *     The date when the Medicinal Product is placed on the market by the Marketing Authorisation Holder (or where 
@@ -395,12 +369,10 @@ public class MarketingStatus extends BackboneElement {
         }
 
         /**
-         * <p>
          * The date when the Medicinal Product is placed on the market by the Marketing Authorisation Holder (or where 
          * applicable, the manufacturer/distributor) in a country and/or jurisdiction shall be provided A complete date 
          * consisting of day, month and year shall be specified using the ISO 8601 date format NOTE “Placed on the market” refers 
          * to the release of the Medicinal Product into the distribution chain.
-         * </p>
          * 
          * @param restoreDate
          *     The date when the Medicinal Product is placed on the market by the Marketing Authorisation Holder (or where 
@@ -416,6 +388,19 @@ public class MarketingStatus extends BackboneElement {
             return this;
         }
 
+        /**
+         * Build the {@link MarketingStatus}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>country</li>
+         * <li>status</li>
+         * <li>dateRange</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link MarketingStatus}
+         */
         @Override
         public MarketingStatus build() {
             return new MarketingStatus(this);

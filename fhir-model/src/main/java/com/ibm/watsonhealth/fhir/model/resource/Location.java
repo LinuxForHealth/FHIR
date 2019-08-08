@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Address;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -38,10 +39,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Details and position information for a physical place where services are provided and resources and participants may 
  * be stored, found, contained, or accommodated.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Location extends DomainResource {
@@ -87,9 +86,7 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * Unique code or number identifying the location to its users.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -99,10 +96,8 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * The status property covers the general availability of the resource, not the current value which may be covered by the 
      * operationStatus, or by a schedule/slots if they are configured for the location.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link LocationStatus}.
@@ -112,11 +107,9 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * The operational status covers operation values most relevant to beds (but can also apply to rooms/units/chairs/etc. 
      * such as an isolation unit/dialysis chair). This typically covers concepts such as contamination, housekeeping, and 
      * other activities like maintenance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Coding}.
@@ -126,9 +119,7 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * Name of the location as used by humans. Does not need to be unique.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -138,9 +129,7 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * A list of alternate names that the location is known as, or was known as, in the past.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -150,9 +139,7 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * Description of the Location, which helps in finding or referencing the place.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -162,9 +149,7 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates whether a resource instance represents a specific location or a class of locations.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link LocationMode}.
@@ -174,9 +159,7 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the type of function performed at the location.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -186,10 +169,8 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * The contact details of communication devices available at the location. This can include phone numbers, fax numbers, 
      * mobile numbers, email addresses and web sites.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
@@ -199,9 +180,7 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * Physical location.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Address}.
@@ -211,9 +190,7 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * Physical form of the location, e.g. building, room, vehicle, road.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -223,10 +200,8 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * The absolute geographic location of the Location, expressed using the WGS84 datum (This is the same co-ordinate system 
      * used in KML).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Position}.
@@ -236,9 +211,7 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * The organization responsible for the provisioning and upkeep of the location.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -248,9 +221,7 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * Another Location of which this Location is physically a part of.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -260,9 +231,7 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * What days/times during a week is this location usually open.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link HoursOfOperation}.
@@ -272,10 +241,8 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * A description of when the locations opening ours are different to normal, e.g. public holiday availability. Succinctly 
      * describing all possible exceptions to normal site availability as detailed in the opening hours Times.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -285,9 +252,7 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * Technical endpoints providing access to services operated for the location.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -439,9 +404,7 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -455,10 +418,8 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -472,11 +433,9 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -490,9 +449,7 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -506,12 +463,10 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -525,13 +480,10 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -545,13 +497,10 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -565,15 +514,12 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -587,15 +533,12 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -609,21 +552,17 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -637,21 +576,17 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -665,12 +600,9 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Unique code or number identifying the location to its users.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Unique code or number identifying the location to its users
@@ -686,12 +618,9 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Unique code or number identifying the location to its users.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Unique code or number identifying the location to its users
@@ -705,10 +634,8 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * The status property covers the general availability of the resource, not the current value which may be covered by the 
          * operationStatus, or by a schedule/slots if they are configured for the location.
-         * </p>
          * 
          * @param status
          *     active | suspended | inactive
@@ -722,11 +649,9 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * The operational status covers operation values most relevant to beds (but can also apply to rooms/units/chairs/etc. 
          * such as an isolation unit/dialysis chair). This typically covers concepts such as contamination, housekeeping, and 
          * other activities like maintenance.
-         * </p>
          * 
          * @param operationalStatus
          *     The operational status of the location (typically only for a bed/room)
@@ -740,9 +665,7 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Name of the location as used by humans. Does not need to be unique.
-         * </p>
          * 
          * @param name
          *     Name of the location as used by humans
@@ -756,12 +679,9 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of alternate names that the location is known as, or was known as, in the past.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param alias
          *     A list of alternate names that the location is known as, or was known as, in the past
@@ -777,12 +697,9 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of alternate names that the location is known as, or was known as, in the past.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param alias
          *     A list of alternate names that the location is known as, or was known as, in the past
@@ -796,9 +713,7 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Description of the Location, which helps in finding or referencing the place.
-         * </p>
          * 
          * @param description
          *     Additional details about the location that could be displayed as further information to identify the location beyond 
@@ -813,9 +728,7 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates whether a resource instance represents a specific location or a class of locations.
-         * </p>
          * 
          * @param mode
          *     instance | kind
@@ -829,12 +742,9 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the type of function performed at the location.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param type
          *     Type of function performed
@@ -850,12 +760,9 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the type of function performed at the location.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param type
          *     Type of function performed
@@ -869,13 +776,10 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * The contact details of communication devices available at the location. This can include phone numbers, fax numbers, 
          * mobile numbers, email addresses and web sites.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param telecom
          *     Contact details of the location
@@ -891,13 +795,10 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * The contact details of communication devices available at the location. This can include phone numbers, fax numbers, 
          * mobile numbers, email addresses and web sites.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param telecom
          *     Contact details of the location
@@ -911,9 +812,7 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Physical location.
-         * </p>
          * 
          * @param address
          *     Physical location
@@ -927,9 +826,7 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Physical form of the location, e.g. building, room, vehicle, road.
-         * </p>
          * 
          * @param physicalType
          *     Physical form of the location
@@ -943,10 +840,8 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * The absolute geographic location of the Location, expressed using the WGS84 datum (This is the same co-ordinate system 
          * used in KML).
-         * </p>
          * 
          * @param position
          *     The absolute geographic location
@@ -960,9 +855,7 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * The organization responsible for the provisioning and upkeep of the location.
-         * </p>
          * 
          * @param managingOrganization
          *     Organization responsible for provisioning and upkeep
@@ -976,9 +869,7 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Another Location of which this Location is physically a part of.
-         * </p>
          * 
          * @param partOf
          *     Another Location this one is physically a part of
@@ -992,12 +883,9 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * What days/times during a week is this location usually open.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param hoursOfOperation
          *     What days/times during a week is this location usually open
@@ -1013,12 +901,9 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * What days/times during a week is this location usually open.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param hoursOfOperation
          *     What days/times during a week is this location usually open
@@ -1032,10 +917,8 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * A description of when the locations opening ours are different to normal, e.g. public holiday availability. Succinctly 
          * describing all possible exceptions to normal site availability as detailed in the opening hours Times.
-         * </p>
          * 
          * @param availabilityExceptions
          *     Description of availability exceptions
@@ -1049,12 +932,9 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Technical endpoints providing access to services operated for the location.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for the location
@@ -1070,12 +950,9 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Technical endpoints providing access to services operated for the location.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for the location
@@ -1088,6 +965,12 @@ public class Location extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link Location}
+         * 
+         * @return
+         *     An immutable object of type {@link Location}
+         */
         @Override
         public Location build() {
             return new Location(this);
@@ -1117,13 +1000,13 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * The absolute geographic location of the Location, expressed using the WGS84 datum (This is the same co-ordinate system 
      * used in KML).
-     * </p>
      */
     public static class Position extends BackboneElement {
+        @Required
         private final Decimal longitude;
+        @Required
         private final Decimal latitude;
         private final Decimal altitude;
 
@@ -1138,10 +1021,8 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Longitude. The value domain and the interpretation are the same as for the text of the longitude element in KML (see 
          * notes below).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -1151,10 +1032,8 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Latitude. The value domain and the interpretation are the same as for the text of the latitude element in KML (see 
          * notes below).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -1164,10 +1043,8 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Altitude. The value domain and the interpretation are the same as for the text of the altitude element in KML (see 
          * notes below).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -1256,10 +1133,8 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1273,15 +1148,12 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1295,15 +1167,12 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1317,21 +1186,17 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1345,21 +1210,17 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1373,10 +1234,10 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * Longitude. The value domain and the interpretation are the same as for the text of the longitude element in KML (see 
              * notes below).
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param longitude
              *     Longitude with WGS84 datum
@@ -1390,10 +1251,10 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * Latitude. The value domain and the interpretation are the same as for the text of the latitude element in KML (see 
              * notes below).
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param latitude
              *     Latitude with WGS84 datum
@@ -1407,10 +1268,8 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * Altitude. The value domain and the interpretation are the same as for the text of the altitude element in KML (see 
              * notes below).
-             * </p>
              * 
              * @param altitude
              *     Altitude with WGS84 datum
@@ -1423,6 +1282,18 @@ public class Location extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Position}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>longitude</li>
+             * <li>latitude</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Position}
+             */
             @Override
             public Position build() {
                 return new Position(this);
@@ -1439,9 +1310,7 @@ public class Location extends DomainResource {
     }
 
     /**
-     * <p>
      * What days/times during a week is this location usually open.
-     * </p>
      */
     public static class HoursOfOperation extends BackboneElement {
         private final List<DaysOfWeek> daysOfWeek;
@@ -1461,9 +1330,7 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates which days of the week are available between the start and end Times.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link DaysOfWeek}.
@@ -1473,9 +1340,7 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * The Location is open all day.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -1485,9 +1350,7 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Time that the Location opens.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Time}.
@@ -1497,9 +1360,7 @@ public class Location extends DomainResource {
         }
 
         /**
-         * <p>
          * Time that the Location closes.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Time}.
@@ -1593,10 +1454,8 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1610,15 +1469,12 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1632,15 +1488,12 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1654,21 +1507,17 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1682,21 +1531,17 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1710,12 +1555,9 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates which days of the week are available between the start and end Times.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param daysOfWeek
              *     mon | tue | wed | thu | fri | sat | sun
@@ -1731,12 +1573,9 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates which days of the week are available between the start and end Times.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param daysOfWeek
              *     mon | tue | wed | thu | fri | sat | sun
@@ -1750,9 +1589,7 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * The Location is open all day.
-             * </p>
              * 
              * @param allDay
              *     The Location is open all day
@@ -1766,9 +1603,7 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * Time that the Location opens.
-             * </p>
              * 
              * @param openingTime
              *     Time that the Location opens
@@ -1782,9 +1617,7 @@ public class Location extends DomainResource {
             }
 
             /**
-             * <p>
              * Time that the Location closes.
-             * </p>
              * 
              * @param closingTime
              *     Time that the Location closes
@@ -1797,6 +1630,12 @@ public class Location extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link HoursOfOperation}
+             * 
+             * @return
+             *     An immutable object of type {@link HoursOfOperation}
+             */
             @Override
             public HoursOfOperation build() {
                 return new HoursOfOperation(this);

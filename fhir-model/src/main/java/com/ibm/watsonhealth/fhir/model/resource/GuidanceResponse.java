@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -33,16 +35,17 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A guidance response is the formal response to a guidance request, including any output parameters returned by the 
  * evaluation, as well as the description of any proposed actions to be taken.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class GuidanceResponse extends DomainResource {
     private final Identifier requestIdentifier;
     private final List<Identifier> identifier;
+    @Required
+    @Choice({Uri.class, Canonical.class, CodeableConcept.class})
     private final Element module;
+    @Required
     private final GuidanceResponseStatus status;
     private final Reference subject;
     private final Reference encounter;
@@ -78,10 +81,8 @@ public class GuidanceResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The identifier of the request associated with this response. If an identifier was given as part of the request, it 
      * will be reproduced here to enable the requester to more easily identify the response in a multi-request scenario.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Identifier}.
@@ -91,9 +92,7 @@ public class GuidanceResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Allows a service to provide unique, business identifiers for the response.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -103,9 +102,7 @@ public class GuidanceResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * An identifier, CodeableConcept or canonical reference to the guidance that was requested.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -115,14 +112,12 @@ public class GuidanceResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of the response. If the evaluation is completed successfully, the status will indicate success. However, in 
      * order to complete the evaluation, the engine may require more information. In this case, the status will be data-
      * required, and the response will contain a description of the additional required information. If the evaluation 
      * completed successfully, but the engine determines that a potentially more accurate response could be provided if more 
      * data was available, the status will be data-requested, and the response will contain a description of the additional 
      * requested information.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link GuidanceResponseStatus}.
@@ -132,9 +127,7 @@ public class GuidanceResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The patient for which the request was processed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -144,9 +137,7 @@ public class GuidanceResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The encounter during which this response was created or to which the creation of this record is tightly associated.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -156,9 +147,7 @@ public class GuidanceResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates when the guidance response was processed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -168,9 +157,7 @@ public class GuidanceResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Provides a reference to the device that performed the guidance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -180,9 +167,7 @@ public class GuidanceResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes the reason for the guidance response in coded or textual form.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -192,11 +177,9 @@ public class GuidanceResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the reason the request was initiated. This is typically provided as a parameter to the evaluation and echoed 
      * by the service, although for some use cases, such as subscription- or event-based scenarios, it may provide an 
      * indication of the cause for the response.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -206,9 +189,7 @@ public class GuidanceResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Provides a mechanism to communicate additional information about the response.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -218,10 +199,8 @@ public class GuidanceResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Messages resulting from the evaluation of the artifact or artifacts. As part of evaluating the request, the engine may 
      * produce informational or warning messages. These messages will be provided by this element.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -231,11 +210,9 @@ public class GuidanceResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The output parameters of the evaluation, if any. Many modules will result in the return of specific resources such as 
      * procedure or communication requests that are returned as part of the operation result. However, modules may define 
      * specific outputs that would be returned as the result of the evaluation, and these would be returned in this element.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -245,9 +222,7 @@ public class GuidanceResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The actions, if any, produced by the evaluation of the artifact.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -257,11 +232,9 @@ public class GuidanceResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * If the evaluation could not be completed due to lack of information, or additional information would potentially 
      * result in a more accurate response, this element will a description of the data required in order to proceed with the 
      * evaluation. A subsequent request to the service should include this data.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link DataRequirement}.
@@ -405,9 +378,7 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -421,10 +392,8 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -438,11 +407,9 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -456,9 +423,7 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -472,12 +437,10 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -491,13 +454,10 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -511,13 +471,10 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -531,15 +488,12 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -553,15 +507,12 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -575,21 +526,17 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -603,21 +550,17 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -631,10 +574,8 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The identifier of the request associated with this response. If an identifier was given as part of the request, it 
          * will be reproduced here to enable the requester to more easily identify the response in a multi-request scenario.
-         * </p>
          * 
          * @param requestIdentifier
          *     The identifier of the request associated with this response, if any
@@ -648,12 +589,9 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Allows a service to provide unique, business identifiers for the response.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Business identifier
@@ -669,12 +607,9 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Allows a service to provide unique, business identifiers for the response.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Business identifier
@@ -688,9 +623,16 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * An identifier, CodeableConcept or canonical reference to the guidance that was requested.
-         * </p>
+         * 
+         * <p>This element is required.
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Uri}</li>
+         * <li>{@link Canonical}</li>
+         * <li>{@link CodeableConcept}</li>
+         * </ul>
          * 
          * @param module
          *     What guidance was requested
@@ -704,14 +646,14 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of the response. If the evaluation is completed successfully, the status will indicate success. However, in 
          * order to complete the evaluation, the engine may require more information. In this case, the status will be data-
          * required, and the response will contain a description of the additional required information. If the evaluation 
          * completed successfully, but the engine determines that a potentially more accurate response could be provided if more 
          * data was available, the status will be data-requested, and the response will contain a description of the additional 
          * requested information.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     success | data-requested | data-required | in-progress | failure | entered-in-error
@@ -725,9 +667,7 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The patient for which the request was processed.
-         * </p>
          * 
          * @param subject
          *     Patient the request was performed for
@@ -741,9 +681,7 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The encounter during which this response was created or to which the creation of this record is tightly associated.
-         * </p>
          * 
          * @param encounter
          *     Encounter during which the response was returned
@@ -757,9 +695,7 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates when the guidance response was processed.
-         * </p>
          * 
          * @param occurrenceDateTime
          *     When the guidance response was processed
@@ -773,9 +709,7 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Provides a reference to the device that performed the guidance.
-         * </p>
          * 
          * @param performer
          *     Device returning the guidance
@@ -789,12 +723,9 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the reason for the guidance response in coded or textual form.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonCode
          *     Why guidance is needed
@@ -810,12 +741,9 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the reason for the guidance response in coded or textual form.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonCode
          *     Why guidance is needed
@@ -829,14 +757,11 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the reason the request was initiated. This is typically provided as a parameter to the evaluation and echoed 
          * by the service, although for some use cases, such as subscription- or event-based scenarios, it may provide an 
          * indication of the cause for the response.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonReference
          *     Why guidance is needed
@@ -852,14 +777,11 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the reason the request was initiated. This is typically provided as a parameter to the evaluation and echoed 
          * by the service, although for some use cases, such as subscription- or event-based scenarios, it may provide an 
          * indication of the cause for the response.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonReference
          *     Why guidance is needed
@@ -873,12 +795,9 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Provides a mechanism to communicate additional information about the response.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     Additional notes about the response
@@ -894,12 +813,9 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Provides a mechanism to communicate additional information about the response.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     Additional notes about the response
@@ -913,13 +829,10 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Messages resulting from the evaluation of the artifact or artifacts. As part of evaluating the request, the engine may 
          * produce informational or warning messages. These messages will be provided by this element.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param evaluationMessage
          *     Messages resulting from the evaluation of the artifact or artifacts
@@ -935,13 +848,10 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Messages resulting from the evaluation of the artifact or artifacts. As part of evaluating the request, the engine may 
          * produce informational or warning messages. These messages will be provided by this element.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param evaluationMessage
          *     Messages resulting from the evaluation of the artifact or artifacts
@@ -955,11 +865,9 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The output parameters of the evaluation, if any. Many modules will result in the return of specific resources such as 
          * procedure or communication requests that are returned as part of the operation result. However, modules may define 
          * specific outputs that would be returned as the result of the evaluation, and these would be returned in this element.
-         * </p>
          * 
          * @param outputParameters
          *     The output parameters of the evaluation, if any
@@ -973,9 +881,7 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The actions, if any, produced by the evaluation of the artifact.
-         * </p>
          * 
          * @param result
          *     Proposed actions, if any
@@ -989,14 +895,11 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * If the evaluation could not be completed due to lack of information, or additional information would potentially 
          * result in a more accurate response, this element will a description of the data required in order to proceed with the 
          * evaluation. A subsequent request to the service should include this data.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param dataRequirement
          *     Additional required data
@@ -1012,14 +915,11 @@ public class GuidanceResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * If the evaluation could not be completed due to lack of information, or additional information would potentially 
          * result in a more accurate response, this element will a description of the data required in order to proceed with the 
          * evaluation. A subsequent request to the service should include this data.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param dataRequirement
          *     Additional required data
@@ -1032,6 +932,18 @@ public class GuidanceResponse extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link GuidanceResponse}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>module</li>
+         * <li>status</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link GuidanceResponse}
+         */
         @Override
         public GuidanceResponse build() {
             return new GuidanceResponse(this);

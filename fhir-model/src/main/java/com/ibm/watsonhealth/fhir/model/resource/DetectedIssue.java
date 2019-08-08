@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
@@ -34,18 +36,18 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Indicates an actual or potential clinical issue with or between one or more active or proposed clinical actions for a 
  * patient; e.g. Drug-drug interaction, Ineffective treatment frequency, Procedure-condition conflict, etc.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class DetectedIssue extends DomainResource {
     private final List<Identifier> identifier;
+    @Required
     private final DetectedIssueStatus status;
     private final CodeableConcept code;
     private final DetectedIssueSeverity severity;
     private final Reference patient;
+    @Choice({DateTime.class, Period.class})
     private final Element identified;
     private final Reference author;
     private final List<Reference> implicated;
@@ -73,9 +75,7 @@ public class DetectedIssue extends DomainResource {
     }
 
     /**
-     * <p>
      * Business identifier associated with the detected issue record.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -85,9 +85,7 @@ public class DetectedIssue extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the status of the detected issue.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DetectedIssueStatus}.
@@ -97,9 +95,7 @@ public class DetectedIssue extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the general type of issue identified.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -109,9 +105,7 @@ public class DetectedIssue extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the degree of importance associated with the identified issue based on the potential impact on the patient.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DetectedIssueSeverity}.
@@ -121,9 +115,7 @@ public class DetectedIssue extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the patient whose record the detected issue is associated with.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -133,9 +125,7 @@ public class DetectedIssue extends DomainResource {
     }
 
     /**
-     * <p>
      * The date or period when the detected issue was initially identified.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -145,10 +135,8 @@ public class DetectedIssue extends DomainResource {
     }
 
     /**
-     * <p>
      * Individual or device responsible for the issue being raised. For example, a decision support application or a 
      * pharmacist conducting a medication review.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -158,9 +146,7 @@ public class DetectedIssue extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the resource representing the current activity or proposed activity that is potentially problematic.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -170,10 +156,8 @@ public class DetectedIssue extends DomainResource {
     }
 
     /**
-     * <p>
      * Supporting evidence or manifestations that provide the basis for identifying the detected issue such as a 
      * GuidanceResponse or MeasureReport.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Evidence}.
@@ -183,9 +167,7 @@ public class DetectedIssue extends DomainResource {
     }
 
     /**
-     * <p>
      * A textual explanation of the detected issue.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -195,9 +177,7 @@ public class DetectedIssue extends DomainResource {
     }
 
     /**
-     * <p>
      * The literature, knowledge-base or similar reference that describes the propensity for the detected issue identified.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -207,11 +187,9 @@ public class DetectedIssue extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates an action that has been taken or is committed to reduce or eliminate the likelihood of the risk identified 
      * by the detected issue from manifesting. Can also reflect an observation of known mitigating factors that may 
      * reduce/eliminate the need for any action.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Mitigation}.
@@ -343,9 +321,7 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -359,10 +335,8 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -376,11 +350,9 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -394,9 +366,7 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -410,12 +380,10 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -429,13 +397,10 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -449,13 +414,10 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -469,15 +431,12 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -491,15 +450,12 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -513,21 +469,17 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -541,21 +493,17 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -569,12 +517,9 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifier associated with the detected issue record.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Unique id for the detected issue
@@ -590,12 +535,9 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifier associated with the detected issue record.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Unique id for the detected issue
@@ -609,9 +551,9 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the status of the detected issue.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     registered | preliminary | final | amended +
@@ -625,9 +567,7 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the general type of issue identified.
-         * </p>
          * 
          * @param code
          *     Issue Category, e.g. drug-drug, duplicate therapy, etc.
@@ -641,9 +581,7 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the degree of importance associated with the identified issue based on the potential impact on the patient.
-         * </p>
          * 
          * @param severity
          *     high | moderate | low
@@ -657,9 +595,7 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the patient whose record the detected issue is associated with.
-         * </p>
          * 
          * @param patient
          *     Associated patient
@@ -673,9 +609,13 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * The date or period when the detected issue was initially identified.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link DateTime}</li>
+         * <li>{@link Period}</li>
+         * </ul>
          * 
          * @param identified
          *     When identified
@@ -689,10 +629,8 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Individual or device responsible for the issue being raised. For example, a decision support application or a 
          * pharmacist conducting a medication review.
-         * </p>
          * 
          * @param author
          *     The provider or device that identified the issue
@@ -706,12 +644,9 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the resource representing the current activity or proposed activity that is potentially problematic.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param implicated
          *     Problem resource
@@ -727,12 +662,9 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the resource representing the current activity or proposed activity that is potentially problematic.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param implicated
          *     Problem resource
@@ -746,13 +678,10 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Supporting evidence or manifestations that provide the basis for identifying the detected issue such as a 
          * GuidanceResponse or MeasureReport.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param evidence
          *     Supporting evidence
@@ -768,13 +697,10 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Supporting evidence or manifestations that provide the basis for identifying the detected issue such as a 
          * GuidanceResponse or MeasureReport.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param evidence
          *     Supporting evidence
@@ -788,9 +714,7 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * A textual explanation of the detected issue.
-         * </p>
          * 
          * @param detail
          *     Description and context
@@ -804,9 +728,7 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * The literature, knowledge-base or similar reference that describes the propensity for the detected issue identified.
-         * </p>
          * 
          * @param reference
          *     Authority for issue
@@ -820,14 +742,11 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates an action that has been taken or is committed to reduce or eliminate the likelihood of the risk identified 
          * by the detected issue from manifesting. Can also reflect an observation of known mitigating factors that may 
          * reduce/eliminate the need for any action.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param mitigation
          *     Step taken to address
@@ -843,14 +762,11 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates an action that has been taken or is committed to reduce or eliminate the likelihood of the risk identified 
          * by the detected issue from manifesting. Can also reflect an observation of known mitigating factors that may 
          * reduce/eliminate the need for any action.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param mitigation
          *     Step taken to address
@@ -863,6 +779,17 @@ public class DetectedIssue extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link DetectedIssue}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link DetectedIssue}
+         */
         @Override
         public DetectedIssue build() {
             return new DetectedIssue(this);
@@ -887,10 +814,8 @@ public class DetectedIssue extends DomainResource {
     }
 
     /**
-     * <p>
      * Supporting evidence or manifestations that provide the basis for identifying the detected issue such as a 
      * GuidanceResponse or MeasureReport.
-     * </p>
      */
     public static class Evidence extends BackboneElement {
         private final List<CodeableConcept> code;
@@ -906,9 +831,7 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * A manifestation that led to the recording of this detected issue.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -918,9 +841,7 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Links to resources that constitute evidence for the detected issue such as a GuidanceResponse or MeasureReport.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -1004,10 +925,8 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1021,15 +940,12 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1043,15 +959,12 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1065,21 +978,17 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1093,21 +1002,17 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1121,12 +1026,9 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * A manifestation that led to the recording of this detected issue.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param code
              *     Manifestation
@@ -1142,12 +1044,9 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * A manifestation that led to the recording of this detected issue.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param code
              *     Manifestation
@@ -1161,12 +1060,9 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * Links to resources that constitute evidence for the detected issue such as a GuidanceResponse or MeasureReport.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param detail
              *     Supporting information
@@ -1182,12 +1078,9 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * Links to resources that constitute evidence for the detected issue such as a GuidanceResponse or MeasureReport.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param detail
              *     Supporting information
@@ -1200,6 +1093,12 @@ public class DetectedIssue extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Evidence}
+             * 
+             * @return
+             *     An immutable object of type {@link Evidence}
+             */
             @Override
             public Evidence build() {
                 return new Evidence(this);
@@ -1215,13 +1114,12 @@ public class DetectedIssue extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates an action that has been taken or is committed to reduce or eliminate the likelihood of the risk identified 
      * by the detected issue from manifesting. Can also reflect an observation of known mitigating factors that may 
      * reduce/eliminate the need for any action.
-     * </p>
      */
     public static class Mitigation extends BackboneElement {
+        @Required
         private final CodeableConcept action;
         private final DateTime date;
         private final Reference author;
@@ -1237,10 +1135,8 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the action that was taken or the observation that was made that reduces/eliminates the risk associated with 
          * the identified issue.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1250,9 +1146,7 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates when the mitigating action was documented.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DateTime}.
@@ -1262,9 +1156,7 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the practitioner who determined the mitigation and takes responsibility for the mitigation step occurring.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1353,10 +1245,8 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1370,15 +1260,12 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1392,15 +1279,12 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1414,21 +1298,17 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1442,21 +1322,17 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1470,10 +1346,10 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * Describes the action that was taken or the observation that was made that reduces/eliminates the risk associated with 
              * the identified issue.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param action
              *     What mitigation?
@@ -1487,9 +1363,7 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates when the mitigating action was documented.
-             * </p>
              * 
              * @param date
              *     Date committed
@@ -1503,9 +1377,7 @@ public class DetectedIssue extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the practitioner who determined the mitigation and takes responsibility for the mitigation step occurring.
-             * </p>
              * 
              * @param author
              *     Who is committing?
@@ -1518,6 +1390,17 @@ public class DetectedIssue extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Mitigation}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>action</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Mitigation}
+             */
             @Override
             public Mitigation build() {
                 return new Mitigation(this);

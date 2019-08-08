@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -34,18 +35,18 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Representation of the content produced in a DICOM imaging study. A study comprises a set of series, each of which 
  * includes a set of Service-Object Pair Instances (SOP Instances - images or other data) acquired or produced in a 
  * common context. A series is of only one modality (e.g. X-ray, CT, MR, ultrasound), but a study may have multiple 
  * series of different modalities.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ImagingStudy extends DomainResource {
     private final List<Identifier> identifier;
+    @Required
     private final ImagingStudyStatus status;
     private final List<Coding> modality;
+    @Required
     private final Reference subject;
     private final Reference encounter;
     private final DateTime started;
@@ -91,9 +92,7 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifiers for the ImagingStudy such as DICOM Study Instance UID, and Accession Number.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -103,9 +102,7 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * The current state of the ImagingStudy.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ImagingStudyStatus}.
@@ -115,10 +112,8 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * A list of all the series.modality values that are actual acquisition modalities, i.e. those in the DICOM Context Group 
      * 29 (value set OID 1.2.840.10008.6.1.19).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -128,9 +123,7 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * The subject, typically a patient, of the imaging study.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -140,9 +133,7 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * The healthcare event (e.g. a patient and healthcare provider interaction) during which this ImagingStudy is made.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -152,9 +143,7 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * Date and time the study started.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -164,9 +153,7 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * A list of the diagnostic requests that resulted in this imaging study being performed.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -176,9 +163,7 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * The requesting/referring physician.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -188,9 +173,7 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * Who read the study and interpreted the images or other content.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -200,11 +183,9 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * The network service providing access (e.g., query, view, or retrieval) for the study. See implementation notes for 
      * information about using DICOM endpoints. A study-level endpoint applies to each series in the study, unless overridden 
      * by a series-level endpoint with the same Endpoint.connectionType.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -214,11 +195,9 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * Number of Series in the Study. This value given may be larger than the number of series elements this Resource 
      * contains due to resource availability, security, or other factors. This element should be present if any series 
      * elements are present.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link UnsignedInt}.
@@ -228,11 +207,9 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * Number of SOP Instances in Study. This value given may be larger than the number of instance elements this resource 
      * contains due to resource availability, security, or other factors. This element should be present if any instance 
      * elements are present.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link UnsignedInt}.
@@ -242,9 +219,7 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * The procedure which this ImagingStudy was part of.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -254,9 +229,7 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * The code for the performed procedure type.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -266,9 +239,7 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * The principal physical location where the ImagingStudy was performed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -278,9 +249,7 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * Description of clinical condition indicating why the ImagingStudy was requested.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -290,9 +259,7 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates another resource whose existence justifies this Study.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -302,11 +269,9 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * Per the recommended DICOM mapping, this element is derived from the Study Description attribute (0008,1030). 
      * Observations or findings about the imaging study should be recorded in another resource, e.g. Observation, and not in 
      * this element.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -316,10 +281,8 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * The Imaging Manager description of the study. Institution-generated description or classification of the Study 
      * (component) performed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -329,9 +292,7 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * Each study has one or more series of images or other content.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Series}.
@@ -495,9 +456,7 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -511,10 +470,8 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -528,11 +485,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -546,9 +501,7 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -562,12 +515,10 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -581,13 +532,10 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -601,13 +549,10 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -621,15 +566,12 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -643,15 +585,12 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -665,21 +604,17 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -693,21 +628,17 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -721,12 +652,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifiers for the ImagingStudy such as DICOM Study Instance UID, and Accession Number.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Identifiers for the whole study
@@ -742,12 +670,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifiers for the ImagingStudy such as DICOM Study Instance UID, and Accession Number.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Identifiers for the whole study
@@ -761,9 +686,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The current state of the ImagingStudy.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     registered | available | cancelled | entered-in-error | unknown
@@ -777,13 +702,10 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of all the series.modality values that are actual acquisition modalities, i.e. those in the DICOM Context Group 
          * 29 (value set OID 1.2.840.10008.6.1.19).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modality
          *     All series modality if actual acquisition modalities
@@ -799,13 +721,10 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of all the series.modality values that are actual acquisition modalities, i.e. those in the DICOM Context Group 
          * 29 (value set OID 1.2.840.10008.6.1.19).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modality
          *     All series modality if actual acquisition modalities
@@ -819,9 +738,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The subject, typically a patient, of the imaging study.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param subject
          *     Who or what is the subject of the study
@@ -835,9 +754,7 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The healthcare event (e.g. a patient and healthcare provider interaction) during which this ImagingStudy is made.
-         * </p>
          * 
          * @param encounter
          *     Encounter with which this imaging study is associated
@@ -851,9 +768,7 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Date and time the study started.
-         * </p>
          * 
          * @param started
          *     When the study was started
@@ -867,12 +782,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of the diagnostic requests that resulted in this imaging study being performed.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param basedOn
          *     Request fulfilled
@@ -888,12 +800,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of the diagnostic requests that resulted in this imaging study being performed.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param basedOn
          *     Request fulfilled
@@ -907,9 +816,7 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The requesting/referring physician.
-         * </p>
          * 
          * @param referrer
          *     Referring physician
@@ -923,12 +830,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Who read the study and interpreted the images or other content.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param interpreter
          *     Who interpreted images
@@ -944,12 +848,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Who read the study and interpreted the images or other content.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param interpreter
          *     Who interpreted images
@@ -963,14 +864,11 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The network service providing access (e.g., query, view, or retrieval) for the study. See implementation notes for 
          * information about using DICOM endpoints. A study-level endpoint applies to each series in the study, unless overridden 
          * by a series-level endpoint with the same Endpoint.connectionType.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param endpoint
          *     Study access endpoint
@@ -986,14 +884,11 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The network service providing access (e.g., query, view, or retrieval) for the study. See implementation notes for 
          * information about using DICOM endpoints. A study-level endpoint applies to each series in the study, unless overridden 
          * by a series-level endpoint with the same Endpoint.connectionType.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param endpoint
          *     Study access endpoint
@@ -1007,11 +902,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Number of Series in the Study. This value given may be larger than the number of series elements this Resource 
          * contains due to resource availability, security, or other factors. This element should be present if any series 
          * elements are present.
-         * </p>
          * 
          * @param numberOfSeries
          *     Number of Study Related Series
@@ -1025,11 +918,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Number of SOP Instances in Study. This value given may be larger than the number of instance elements this resource 
          * contains due to resource availability, security, or other factors. This element should be present if any instance 
          * elements are present.
-         * </p>
          * 
          * @param numberOfInstances
          *     Number of Study Related Instances
@@ -1043,9 +934,7 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The procedure which this ImagingStudy was part of.
-         * </p>
          * 
          * @param procedureReference
          *     The performed Procedure reference
@@ -1059,12 +948,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The code for the performed procedure type.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param procedureCode
          *     The performed procedure code
@@ -1080,12 +966,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The code for the performed procedure type.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param procedureCode
          *     The performed procedure code
@@ -1099,9 +982,7 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The principal physical location where the ImagingStudy was performed.
-         * </p>
          * 
          * @param location
          *     Where ImagingStudy occurred
@@ -1115,12 +996,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Description of clinical condition indicating why the ImagingStudy was requested.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonCode
          *     Why the study was requested
@@ -1136,12 +1014,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Description of clinical condition indicating why the ImagingStudy was requested.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonCode
          *     Why the study was requested
@@ -1155,12 +1030,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates another resource whose existence justifies this Study.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonReference
          *     Why was study performed
@@ -1176,12 +1048,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates another resource whose existence justifies this Study.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonReference
          *     Why was study performed
@@ -1195,14 +1064,11 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Per the recommended DICOM mapping, this element is derived from the Study Description attribute (0008,1030). 
          * Observations or findings about the imaging study should be recorded in another resource, e.g. Observation, and not in 
          * this element.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     User-defined comments
@@ -1218,14 +1084,11 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Per the recommended DICOM mapping, this element is derived from the Study Description attribute (0008,1030). 
          * Observations or findings about the imaging study should be recorded in another resource, e.g. Observation, and not in 
          * this element.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     User-defined comments
@@ -1239,10 +1102,8 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The Imaging Manager description of the study. Institution-generated description or classification of the Study 
          * (component) performed.
-         * </p>
          * 
          * @param description
          *     Institution-generated description
@@ -1256,12 +1117,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Each study has one or more series of images or other content.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param series
          *     Each study has one or more series of instances
@@ -1277,12 +1135,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Each study has one or more series of images or other content.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param series
          *     Each study has one or more series of instances
@@ -1295,6 +1150,18 @@ public class ImagingStudy extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link ImagingStudy}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>subject</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link ImagingStudy}
+         */
         @Override
         public ImagingStudy build() {
             return new ImagingStudy(this);
@@ -1327,13 +1194,13 @@ public class ImagingStudy extends DomainResource {
     }
 
     /**
-     * <p>
      * Each study has one or more series of images or other content.
-     * </p>
      */
     public static class Series extends BackboneElement {
+        @Required
         private final Id uid;
         private final UnsignedInt number;
+        @Required
         private final Coding modality;
         private final String description;
         private final UnsignedInt numberOfInstances;
@@ -1365,9 +1232,7 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The DICOM Series Instance UID for the series.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Id}.
@@ -1377,9 +1242,7 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The numeric identifier of this series in the study.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link UnsignedInt}.
@@ -1389,9 +1252,7 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The modality of this series sequence.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Coding}.
@@ -1401,9 +1262,7 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * A description of the series.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1413,11 +1272,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Number of SOP Instances in the Study. The value given may be larger than the number of instance elements this resource 
          * contains due to resource availability, security, or other factors. This element should be present if any instance 
          * elements are present.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link UnsignedInt}.
@@ -1427,11 +1284,9 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The network service providing access (e.g., query, view, or retrieval) for this series. See implementation notes for 
          * information about using DICOM endpoints. A series-level endpoint, if present, has precedence over a study-level 
          * endpoint with the same Endpoint.connectionType.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -1441,12 +1296,10 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The anatomic structures examined. See DICOM Part 16 Annex L (http://dicom.nema.
          * org/medical/dicom/current/output/chtml/part16/chapter_L.html) for DICOM to SNOMED-CT mappings. The bodySite may 
          * indicate the laterality of body part imaged; if so, it shall be consistent with any content of ImagingStudy.series.
          * laterality.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Coding}.
@@ -1456,10 +1309,8 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The laterality of the (possibly paired) anatomic structures examined. E.g., the left knee, both lungs, or unpaired 
          * abdomen. If present, shall be consistent with any laterality information indicated in ImagingStudy.series.bodySite.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Coding}.
@@ -1469,9 +1320,7 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The specimen imaged, e.g., for whole slide imaging of a biopsy.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -1481,9 +1330,7 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * The date and time the series was started.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DateTime}.
@@ -1493,9 +1340,7 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates who or what performed the series and how they were involved.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Performer}.
@@ -1505,9 +1350,7 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * A single SOP instance within the series, e.g. an image, or presentation state.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Instance}.
@@ -1641,10 +1484,8 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1658,15 +1499,12 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1680,15 +1518,12 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1702,21 +1537,17 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1730,21 +1561,17 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1758,9 +1585,9 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * The DICOM Series Instance UID for the series.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param uid
              *     DICOM Series Instance UID for the series
@@ -1774,9 +1601,7 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * The numeric identifier of this series in the study.
-             * </p>
              * 
              * @param number
              *     Numeric identifier of this series
@@ -1790,9 +1615,9 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * The modality of this series sequence.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param modality
              *     The modality of the instances in the series
@@ -1806,9 +1631,7 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * A description of the series.
-             * </p>
              * 
              * @param description
              *     A short human readable summary of the series
@@ -1822,11 +1645,9 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * Number of SOP Instances in the Study. The value given may be larger than the number of instance elements this resource 
              * contains due to resource availability, security, or other factors. This element should be present if any instance 
              * elements are present.
-             * </p>
              * 
              * @param numberOfInstances
              *     Number of Series Related Instances
@@ -1840,14 +1661,11 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * The network service providing access (e.g., query, view, or retrieval) for this series. See implementation notes for 
              * information about using DICOM endpoints. A series-level endpoint, if present, has precedence over a study-level 
              * endpoint with the same Endpoint.connectionType.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param endpoint
              *     Series access endpoint
@@ -1863,14 +1681,11 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * The network service providing access (e.g., query, view, or retrieval) for this series. See implementation notes for 
              * information about using DICOM endpoints. A series-level endpoint, if present, has precedence over a study-level 
              * endpoint with the same Endpoint.connectionType.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param endpoint
              *     Series access endpoint
@@ -1884,12 +1699,10 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * The anatomic structures examined. See DICOM Part 16 Annex L (http://dicom.nema.
              * org/medical/dicom/current/output/chtml/part16/chapter_L.html) for DICOM to SNOMED-CT mappings. The bodySite may 
              * indicate the laterality of body part imaged; if so, it shall be consistent with any content of ImagingStudy.series.
              * laterality.
-             * </p>
              * 
              * @param bodySite
              *     Body part examined
@@ -1903,10 +1716,8 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * The laterality of the (possibly paired) anatomic structures examined. E.g., the left knee, both lungs, or unpaired 
              * abdomen. If present, shall be consistent with any laterality information indicated in ImagingStudy.series.bodySite.
-             * </p>
              * 
              * @param laterality
              *     Body part laterality
@@ -1920,12 +1731,9 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * The specimen imaged, e.g., for whole slide imaging of a biopsy.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param specimen
              *     Specimen imaged
@@ -1941,12 +1749,9 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * The specimen imaged, e.g., for whole slide imaging of a biopsy.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param specimen
              *     Specimen imaged
@@ -1960,9 +1765,7 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * The date and time the series was started.
-             * </p>
              * 
              * @param started
              *     When the series started
@@ -1976,12 +1779,9 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates who or what performed the series and how they were involved.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param performer
              *     Who performed the series
@@ -1997,12 +1797,9 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates who or what performed the series and how they were involved.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param performer
              *     Who performed the series
@@ -2016,12 +1813,9 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * A single SOP instance within the series, e.g. an image, or presentation state.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param instance
              *     A single SOP instance from the series
@@ -2037,12 +1831,9 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * A single SOP instance within the series, e.g. an image, or presentation state.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param instance
              *     A single SOP instance from the series
@@ -2055,6 +1846,18 @@ public class ImagingStudy extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Series}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>uid</li>
+             * <li>modality</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Series}
+             */
             @Override
             public Series build() {
                 return new Series(this);
@@ -2079,12 +1882,11 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates who or what performed the series and how they were involved.
-         * </p>
          */
         public static class Performer extends BackboneElement {
             private final CodeableConcept function;
+            @Required
             private final Reference actor;
 
             private volatile int hashCode;
@@ -2097,9 +1899,7 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * Distinguishes the type of involvement of the performer in the series.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2109,9 +1909,7 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates who or what performed the series.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Reference}.
@@ -2195,10 +1993,8 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2212,15 +2008,12 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2234,15 +2027,12 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2256,21 +2046,17 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2284,21 +2070,17 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2312,9 +2094,7 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Distinguishes the type of involvement of the performer in the series.
-                 * </p>
                  * 
                  * @param function
                  *     Type of performance
@@ -2328,9 +2108,9 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Indicates who or what performed the series.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param actor
                  *     Who performed the series
@@ -2343,6 +2123,17 @@ public class ImagingStudy extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Performer}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>actor</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Performer}
+                 */
                 @Override
                 public Performer build() {
                     return new Performer(this);
@@ -2358,12 +2149,12 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * <p>
          * A single SOP instance within the series, e.g. an image, or presentation state.
-         * </p>
          */
         public static class Instance extends BackboneElement {
+            @Required
             private final Id uid;
+            @Required
             private final Coding sopClass;
             private final UnsignedInt number;
             private final String title;
@@ -2380,9 +2171,7 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * The DICOM SOP Instance UID for this image or other DICOM content.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Id}.
@@ -2392,9 +2181,7 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * DICOM instance type.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Coding}.
@@ -2404,9 +2191,7 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * The number of instance in the series.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link UnsignedInt}.
@@ -2416,9 +2201,7 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * <p>
              * The description of the instance.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2512,10 +2295,8 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2529,15 +2310,12 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2551,15 +2329,12 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2573,21 +2348,17 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2601,21 +2372,17 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2629,9 +2396,9 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The DICOM SOP Instance UID for this image or other DICOM content.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param uid
                  *     DICOM SOP Instance UID
@@ -2645,9 +2412,9 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * DICOM instance type.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param sopClass
                  *     DICOM class type
@@ -2661,9 +2428,7 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The number of instance in the series.
-                 * </p>
                  * 
                  * @param number
                  *     The number of this instance in the series
@@ -2677,9 +2442,7 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The description of the instance.
-                 * </p>
                  * 
                  * @param title
                  *     Description of instance
@@ -2692,6 +2455,18 @@ public class ImagingStudy extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Instance}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>uid</li>
+                 * <li>sopClass</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Instance}
+                 */
                 @Override
                 public Instance build() {
                     return new Instance(this);

@@ -265,7 +265,7 @@ public class CodeGenerator {
         CodeBuilder cb = new CodeBuilder();
         
         String packageName = "com.ibm.watsonhealth.fhir.model.visitor";
-        cb.javadoc(HEADER, true, true, false).newLine();
+        cb.lines(HEADER).newLine();
         cb._package(packageName).newLine();
         
         cb._import("java.math.BigDecimal");
@@ -463,6 +463,8 @@ public class CodeGenerator {
         cb.constructor(mods(visibility), "Builder")
             ._super()
         .end().newLine();
+        
+        List<String> requiredElementNames = new ArrayList<>();
                  
         for (JsonObject elementDefinition : elementDefinitions) {
             String basePath = elementDefinition.getJsonObject("base").getString("path");
@@ -470,6 +472,10 @@ public class CodeGenerator {
             
             String fieldName = getFieldName(elementDefinition, path);
             String fieldType = getFieldType(structureDefinition, elementDefinition);
+            
+            if (isRequired(elementDefinition)) {
+                requiredElementNames.add(getElementName(elementDefinition, path));
+            }
             
             if (isRepeating(elementDefinition)) {
                 generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "varargs", cb);
@@ -592,10 +598,25 @@ public class CodeGenerator {
             .end().newLine();
         }
         
-        cb.override();
         if (isAbstract(structureDefinition)) {
+            cb.override();
             cb.abstractMethod(mods("public", "abstract"), className, "build");
         } else {
+            cb.javadocStart();
+            cb.javadoc("Build the {@link " + className + "}");
+            cb.javadoc("");
+            if (!requiredElementNames.isEmpty()) {
+                cb.javadoc("<p>Required elements:", false);
+                cb.javadoc("<ul>", false);
+                for (String requiredElementName : requiredElementNames) {
+                    cb.javadoc("<li>" + requiredElementName + "</li>", false);
+                }
+                cb.javadoc("</ul>", false);
+                cb.javadoc("");
+            }
+            cb.javadocReturn("An immutable object of type {@link " + className + "}");
+            cb.javadocEnd();
+            cb.override();
             cb.method(mods("public"), className, "build")
                 ._return(_new(className, args("this")))
             .end();
@@ -641,17 +662,29 @@ public class CodeGenerator {
             // do nothing
             break;
         case "varargs":
-            cb.javadoc("<p>", false);
-            cb.javadoc("Adds new element(s) to existing list", false);
-            cb.javadoc("</p>", false);
+            cb.javadoc("");
+            cb.javadoc("<p>Adds new element(s) to the existing list", false);
             break;
         case "collection":
-            cb.javadoc("<p>", false);
-            cb.javadoc("Replaces existing list with a new one containing elements from the Collection", false);
-            cb.javadoc("</p>", false);
+            cb.javadoc("");
+            cb.javadoc("<p>Replaces the existing list with a new one containing elements from the Collection", false);
             break;
         }
         cb.javadoc("");
+        
+        if (isRequired(elementDefinition)) {
+            cb.javadoc("<p>This element is required.", false);
+            cb.javadoc("");
+        }
+        if (isChoiceElement(elementDefinition)) {
+            cb.javadoc("<p>This is a choice element with the following allowed types:", false);
+            cb.javadoc("<ul>", false);
+            for (String choiceTypeName : getChoiceTypeNames(elementDefinition)) {
+                cb.javadoc("<li>{@link " + choiceTypeName + "}</li>", false);
+            }
+            cb.javadoc("</ul>", false);
+            cb.javadoc("");
+        }
         
         String _short = elementDefinition.getString("short");
         cb.javadocParam(fieldName, _short);
@@ -768,6 +801,13 @@ public class CodeGenerator {
                 if (elementDefinition.getString("path").equals(basePath)) {
                     String fieldName = getFieldName(elementDefinition, path);
                     String fieldType = getFieldType(structureDefinition, elementDefinition);
+                    if (isRequired(elementDefinition)) {
+                        cb.annotation("Required");
+                    }
+                    if (isChoiceElement(elementDefinition)) {
+                        String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
+                        cb.annotation("Choice", "{" + types + "}");
+                    }
                     cb.field(mods(visibility, "final"), fieldType, fieldName);
                     if (isBackboneElement(elementDefinition)) {
                         nestedPaths.add(elementDefinition.getString("path"));
@@ -1146,7 +1186,7 @@ public class CodeGenerator {
             packageName = "com.ibm.watsonhealth.fhir.model.type";
             typeClassNames.add(className);
         }
-        cb.javadoc(HEADER, true, true, false).newLine();
+        cb.lines(HEADER).newLine();
         cb._package(packageName).newLine();
         
         generateImports(structureDefinition, cb);
@@ -1340,6 +1380,7 @@ public class CodeGenerator {
             
             if (isRequired(elementDefinition)) {
                 imports.add("com.ibm.watsonhealth.fhir.model.util.ValidationSupport");
+                imports.add("com.ibm.watsonhealth.fhir.model.annotation.Required");
             }
             
             if (isChoiceElement(elementDefinition)) {
@@ -1349,6 +1390,7 @@ public class CodeGenerator {
                         imports.add("com.ibm.watsonhealth.fhir.model.type." + dataTypeName);
                     }
                 }
+                imports.add("com.ibm.watsonhealth.fhir.model.annotation.Choice");
             }
             
             if (isBackboneElement(elementDefinition) || "Element.id".equals(basePath)) {
@@ -1587,7 +1629,7 @@ public class CodeGenerator {
         CodeBuilder cb = new CodeBuilder();
         
         String packageName = "com.ibm.watsonhealth.fhir.model.parser";
-        cb.javadoc(HEADER, true, true, false).newLine();
+        cb.lines(HEADER).newLine();
         cb._package(packageName).newLine();
         
         cb._importstatic("com.ibm.watsonhealth.fhir.model.util.XMLSupport", "FHIR_NS_URI");
@@ -1960,7 +2002,7 @@ public class CodeGenerator {
         CodeBuilder cb = new CodeBuilder();
         
         String packageName = "com.ibm.watsonhealth.fhir.model.parser";
-        cb.javadoc(HEADER, true, true, false).newLine();
+        cb.lines(HEADER).newLine();
         cb._package(packageName).newLine();
         cb._import("java.io.InputStream");
         cb._import("java.io.Reader");
@@ -2475,7 +2517,7 @@ public class CodeGenerator {
                 
                 CodeBuilder cb = new CodeBuilder();
                 String packageName = "com.ibm.watsonhealth.fhir.model.type";
-                cb.javadoc(HEADER, true, true, false).newLine();
+                cb.lines(HEADER).newLine();
                 cb._package(packageName).newLine();
                 
                 cb._import("java.util.Collection");
@@ -2656,7 +2698,7 @@ public class CodeGenerator {
         CodeBuilder cb = new CodeBuilder();
         
         String packageName = "com.ibm.watsonhealth.fhir.model.visitor";
-        cb.javadoc(HEADER, true, true, false).newLine();
+        cb.lines(HEADER).newLine();
         cb._package(packageName).newLine();
         
         cb._import("java.math.BigDecimal");

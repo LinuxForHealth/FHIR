@@ -15,9 +15,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Value of "true" or "false"
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Boolean extends Element {
@@ -35,9 +33,7 @@ public class Boolean extends Element {
     }
 
     /**
-     * <p>
      * The actual value
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -125,9 +121,7 @@ public class Boolean extends Element {
         }
 
         /**
-         * <p>
          * unique id for the element within a resource (for internal references)
-         * </p>
          * 
          * @param id
          *     xml:id (or equivalent in JSON)
@@ -141,15 +135,12 @@ public class Boolean extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -163,15 +154,12 @@ public class Boolean extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -185,9 +173,7 @@ public class Boolean extends Element {
         }
 
         /**
-         * <p>
          * The actual value
-         * </p>
          * 
          * @param value
          *     Primitive value for boolean
@@ -205,6 +191,12 @@ public class Boolean extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link Boolean}
+         * 
+         * @return
+         *     An immutable object of type {@link Boolean}
+         */
         @Override
         public Boolean build() {
             return new Boolean(this);

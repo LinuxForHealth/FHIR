@@ -14,6 +14,8 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Address;
 import com.ibm.watsonhealth.fhir.model.type.Attachment;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
@@ -44,22 +46,27 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * This resource provides the adjudication details from the processing of a Claim resource.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ClaimResponse extends DomainResource {
     private final List<Identifier> identifier;
+    @Required
     private final ClaimResponseStatus status;
+    @Required
     private final CodeableConcept type;
     private final CodeableConcept subType;
+    @Required
     private final Use use;
+    @Required
     private final Reference patient;
+    @Required
     private final DateTime created;
+    @Required
     private final Reference insurer;
     private final Reference requestor;
     private final Reference request;
+    @Required
     private final RemittanceOutcome outcome;
     private final String disposition;
     private final String preAuthRef;
@@ -112,9 +119,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * A unique identifier assigned to this claim response.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -124,9 +129,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of the resource instance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ClaimResponseStatus}.
@@ -136,10 +139,8 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * A finer grained suite of claim type codes which may convey additional information such as Inpatient vs Outpatient 
      * and/or a specialty service.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -149,10 +150,8 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * A finer grained suite of claim type codes which may convey additional information such as Inpatient vs Outpatient 
      * and/or a specialty service.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -162,11 +161,9 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * A code to indicate whether the nature of the request is: to request adjudication of products and services previously 
      * rendered; or requesting authorization and adjudication for provision in the future; or requesting the non-binding 
      * adjudication of the listed products and services which could be provided in the future.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Use}.
@@ -176,10 +173,8 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The party to whom the professional services and/or products have been supplied or are being considered and for whom 
      * actual for facast reimbursement is sought.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -189,9 +184,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The date this resource was created.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -201,9 +194,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The party responsible for authorization, adjudication and reimbursement.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -213,9 +204,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The provider which is responsible for the claim, predetermination or preauthorization.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -225,9 +214,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Original request resource reference.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -237,9 +224,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The outcome of the claim, predetermination, or preauthorization processing.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link RemittanceOutcome}.
@@ -249,9 +234,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * A human readable description of the status of the adjudication.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -261,9 +244,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Reference from the Insurer which is used in later communications which refers to this adjudication.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -273,9 +254,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The time frame during which this authorization is effective.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -285,9 +264,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Type of Party to be reimbursed: subscriber, provider, other.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -297,10 +274,8 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * A claim line. Either a simple (a product or service) or a 'group' of details which can also be a simple items or 
      * groups of sub-details.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Item}.
@@ -310,9 +285,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The first-tier service adjudications for payor added product or service lines.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link AddItem}.
@@ -322,9 +295,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The adjudication results which are presented at the header level rather than at the line-item or add-item levels.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
@@ -334,9 +305,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Categorized monetary totals for the adjudication.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Total}.
@@ -346,9 +315,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Payment details for the adjudication of the claim.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Payment}.
@@ -358,10 +325,8 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * A code, used only on a response to a preauthorization, to indicate whether the benefits payable have been reserved and 
      * for whom.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -371,9 +336,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * A code for the form to be used for printing the content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -383,9 +346,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The actual form, by reference or inclusion, for printing the content or an EOB.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Attachment}.
@@ -395,9 +356,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * A note that describes or explains adjudication results in a human readable form.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ProcessNote}.
@@ -407,9 +366,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Request for additional supporting or authorizing information.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -419,9 +376,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Financial instruments for reimbursement for the health care products and services specified on the claim.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Insurance}.
@@ -431,9 +386,7 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Errors encountered during the processing of the adjudication.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Error}.
@@ -625,9 +578,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -641,10 +592,8 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -658,11 +607,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -676,9 +623,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -692,12 +637,10 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -711,13 +654,10 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -731,13 +671,10 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -751,15 +688,12 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -773,15 +707,12 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -795,21 +726,17 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -823,21 +750,17 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -851,12 +774,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A unique identifier assigned to this claim response.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Business Identifier for a claim response
@@ -872,12 +792,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A unique identifier assigned to this claim response.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Business Identifier for a claim response
@@ -891,9 +808,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of the resource instance.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     active | cancelled | draft | entered-in-error
@@ -907,10 +824,10 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A finer grained suite of claim type codes which may convey additional information such as Inpatient vs Outpatient 
          * and/or a specialty service.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     More granular claim type
@@ -924,10 +841,8 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A finer grained suite of claim type codes which may convey additional information such as Inpatient vs Outpatient 
          * and/or a specialty service.
-         * </p>
          * 
          * @param subType
          *     More granular claim type
@@ -941,11 +856,11 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A code to indicate whether the nature of the request is: to request adjudication of products and services previously 
          * rendered; or requesting authorization and adjudication for provision in the future; or requesting the non-binding 
          * adjudication of the listed products and services which could be provided in the future.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param use
          *     claim | preauthorization | predetermination
@@ -959,10 +874,10 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The party to whom the professional services and/or products have been supplied or are being considered and for whom 
          * actual for facast reimbursement is sought.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param patient
          *     The recipient of the products and services
@@ -976,9 +891,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The date this resource was created.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param created
          *     Response creation date
@@ -992,9 +907,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The party responsible for authorization, adjudication and reimbursement.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param insurer
          *     Party responsible for reimbursement
@@ -1008,9 +923,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The provider which is responsible for the claim, predetermination or preauthorization.
-         * </p>
          * 
          * @param requestor
          *     Party responsible for the claim
@@ -1024,9 +937,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Original request resource reference.
-         * </p>
          * 
          * @param request
          *     Id of resource triggering adjudication
@@ -1040,9 +951,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The outcome of the claim, predetermination, or preauthorization processing.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param outcome
          *     queued | complete | error | partial
@@ -1056,9 +967,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A human readable description of the status of the adjudication.
-         * </p>
          * 
          * @param disposition
          *     Disposition Message
@@ -1072,9 +981,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference from the Insurer which is used in later communications which refers to this adjudication.
-         * </p>
          * 
          * @param preAuthRef
          *     Preauthorization reference
@@ -1088,9 +995,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The time frame during which this authorization is effective.
-         * </p>
          * 
          * @param preAuthPeriod
          *     Preauthorization reference effective period
@@ -1104,9 +1009,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Type of Party to be reimbursed: subscriber, provider, other.
-         * </p>
          * 
          * @param payeeType
          *     Party to be paid any benefits payable
@@ -1120,13 +1023,10 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A claim line. Either a simple (a product or service) or a 'group' of details which can also be a simple items or 
          * groups of sub-details.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param item
          *     Adjudication for claim line items
@@ -1142,13 +1042,10 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A claim line. Either a simple (a product or service) or a 'group' of details which can also be a simple items or 
          * groups of sub-details.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param item
          *     Adjudication for claim line items
@@ -1162,12 +1059,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The first-tier service adjudications for payor added product or service lines.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param addItem
          *     Insurer added line items
@@ -1183,12 +1077,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The first-tier service adjudications for payor added product or service lines.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param addItem
          *     Insurer added line items
@@ -1202,12 +1093,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The adjudication results which are presented at the header level rather than at the line-item or add-item levels.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param adjudication
          *     Header-level adjudication
@@ -1223,12 +1111,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The adjudication results which are presented at the header level rather than at the line-item or add-item levels.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param adjudication
          *     Header-level adjudication
@@ -1242,12 +1127,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Categorized monetary totals for the adjudication.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param total
          *     Adjudication totals
@@ -1263,12 +1145,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Categorized monetary totals for the adjudication.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param total
          *     Adjudication totals
@@ -1282,9 +1161,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Payment details for the adjudication of the claim.
-         * </p>
          * 
          * @param payment
          *     Payment Details
@@ -1298,10 +1175,8 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A code, used only on a response to a preauthorization, to indicate whether the benefits payable have been reserved and 
          * for whom.
-         * </p>
          * 
          * @param fundsReserve
          *     Funds reserved status
@@ -1315,9 +1190,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A code for the form to be used for printing the content.
-         * </p>
          * 
          * @param formCode
          *     Printed form identifier
@@ -1331,9 +1204,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The actual form, by reference or inclusion, for printing the content or an EOB.
-         * </p>
          * 
          * @param form
          *     Printed reference or actual form
@@ -1347,12 +1218,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A note that describes or explains adjudication results in a human readable form.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param processNote
          *     Note concerning adjudication
@@ -1368,12 +1236,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A note that describes or explains adjudication results in a human readable form.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param processNote
          *     Note concerning adjudication
@@ -1387,12 +1252,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Request for additional supporting or authorizing information.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param communicationRequest
          *     Request for additional information
@@ -1408,12 +1270,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Request for additional supporting or authorizing information.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param communicationRequest
          *     Request for additional information
@@ -1427,12 +1286,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Financial instruments for reimbursement for the health care products and services specified on the claim.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param insurance
          *     Patient insurance information
@@ -1448,12 +1304,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Financial instruments for reimbursement for the health care products and services specified on the claim.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param insurance
          *     Patient insurance information
@@ -1467,12 +1320,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Errors encountered during the processing of the adjudication.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param error
          *     Processing errors
@@ -1488,12 +1338,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Errors encountered during the processing of the adjudication.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param error
          *     Processing errors
@@ -1506,6 +1353,23 @@ public class ClaimResponse extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link ClaimResponse}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>type</li>
+         * <li>use</li>
+         * <li>patient</li>
+         * <li>created</li>
+         * <li>insurer</li>
+         * <li>outcome</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link ClaimResponse}
+         */
         @Override
         public ClaimResponse build() {
             return new ClaimResponse(this);
@@ -1545,14 +1409,14 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * A claim line. Either a simple (a product or service) or a 'group' of details which can also be a simple items or 
      * groups of sub-details.
-     * </p>
      */
     public static class Item extends BackboneElement {
+        @Required
         private final PositiveInt itemSequence;
         private final List<PositiveInt> noteNumber;
+        @Required
         private final List<Adjudication> adjudication;
         private final List<Detail> detail;
 
@@ -1568,9 +1432,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A number to uniquely reference the claim item entries.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}.
@@ -1580,9 +1442,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The numbers associated with notes below which apply to the adjudication of this item.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -1592,10 +1452,8 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * If this item is a group then the values here are a summary of the adjudication of the detail items. If this item is a 
          * simple product or service then this is the result of the adjudication of this item.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
@@ -1605,9 +1463,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A claim detail. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Detail}.
@@ -1701,10 +1557,8 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1718,15 +1572,12 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1740,15 +1591,12 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1762,21 +1610,17 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1790,21 +1634,17 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1818,9 +1658,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A number to uniquely reference the claim item entries.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param itemSequence
              *     Claim item instance identifier
@@ -1834,12 +1674,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param noteNumber
              *     Applicable note numbers
@@ -1855,12 +1692,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param noteNumber
              *     Applicable note numbers
@@ -1874,13 +1708,12 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * If this item is a group then the values here are a summary of the adjudication of the detail items. If this item is a 
              * simple product or service then this is the result of the adjudication of this item.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * <p>This element is required.
              * 
              * @param adjudication
              *     Adjudication details
@@ -1896,13 +1729,12 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * If this item is a group then the values here are a summary of the adjudication of the detail items. If this item is a 
              * simple product or service then this is the result of the adjudication of this item.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>This element is required.
              * 
              * @param adjudication
              *     Adjudication details
@@ -1916,12 +1748,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A claim detail. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param detail
              *     Adjudication for claim details
@@ -1937,12 +1766,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A claim detail. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param detail
              *     Adjudication for claim details
@@ -1955,6 +1781,18 @@ public class ClaimResponse extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Item}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>itemSequence</li>
+             * <li>adjudication</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Item}
+             */
             @Override
             public Item build() {
                 return new Item(this);
@@ -1971,12 +1809,11 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * If this item is a group then the values here are a summary of the adjudication of the detail items. If this item is a 
          * simple product or service then this is the result of the adjudication of this item.
-         * </p>
          */
         public static class Adjudication extends BackboneElement {
+            @Required
             private final CodeableConcept category;
             private final CodeableConcept reason;
             private final Money amount;
@@ -1994,11 +1831,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A code to indicate the information type of this adjudication record. Information types may include the value 
              * submitted, maximum values or percentages allowed or payable under the plan, amounts that: the patient is responsible 
              * for in aggregate or pertaining to this item; amounts paid by other coverages; and, the benefit payable for this item.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2008,9 +1843,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A code supporting the understanding of the adjudication result and explaining variance from expected amount.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2020,9 +1853,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Monetary amount associated with the category.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Money}.
@@ -2032,9 +1863,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A non-monetary value associated with the category. Mutually exclusive to the amount element above.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Decimal}.
@@ -2128,10 +1957,8 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2145,15 +1972,12 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2167,15 +1991,12 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2189,21 +2010,17 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2217,21 +2034,17 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2245,11 +2058,11 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A code to indicate the information type of this adjudication record. Information types may include the value 
                  * submitted, maximum values or percentages allowed or payable under the plan, amounts that: the patient is responsible 
                  * for in aggregate or pertaining to this item; amounts paid by other coverages; and, the benefit payable for this item.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param category
                  *     Type of adjudication information
@@ -2263,9 +2076,7 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A code supporting the understanding of the adjudication result and explaining variance from expected amount.
-                 * </p>
                  * 
                  * @param reason
                  *     Explanation of adjudication outcome
@@ -2279,9 +2090,7 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Monetary amount associated with the category.
-                 * </p>
                  * 
                  * @param amount
                  *     Monetary amount
@@ -2295,9 +2104,7 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A non-monetary value associated with the category. Mutually exclusive to the amount element above.
-                 * </p>
                  * 
                  * @param value
                  *     Non-monetary value
@@ -2310,6 +2117,17 @@ public class ClaimResponse extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Adjudication}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>category</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Adjudication}
+                 */
                 @Override
                 public Adjudication build() {
                     return new Adjudication(this);
@@ -2327,13 +2145,13 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A claim detail. Either a simple (a product or service) or a 'group' of sub-details which are simple items.
-         * </p>
          */
         public static class Detail extends BackboneElement {
+            @Required
             private final PositiveInt detailSequence;
             private final List<PositiveInt> noteNumber;
+            @Required
             private final List<ClaimResponse.Item.Adjudication> adjudication;
             private final List<SubDetail> subDetail;
 
@@ -2349,9 +2167,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A number to uniquely reference the claim detail entry.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link PositiveInt}.
@@ -2361,9 +2177,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -2373,9 +2187,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The adjudication results.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
@@ -2385,9 +2197,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A sub-detail adjudication of a simple product or service.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link SubDetail}.
@@ -2481,10 +2291,8 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2498,15 +2306,12 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2520,15 +2325,12 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2542,21 +2344,17 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2570,21 +2368,17 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2598,9 +2392,9 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A number to uniquely reference the claim detail entry.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param detailSequence
                  *     Claim detail instance identifier
@@ -2614,12 +2408,9 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param noteNumber
                  *     Applicable note numbers
@@ -2635,12 +2426,9 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param noteNumber
                  *     Applicable note numbers
@@ -2654,12 +2442,11 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The adjudication results.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param adjudication
                  *     Detail level adjudication details
@@ -2675,12 +2462,11 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The adjudication results.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param adjudication
                  *     Detail level adjudication details
@@ -2694,12 +2480,9 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A sub-detail adjudication of a simple product or service.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param subDetail
                  *     Adjudication for claim sub-details
@@ -2715,12 +2498,9 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A sub-detail adjudication of a simple product or service.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param subDetail
                  *     Adjudication for claim sub-details
@@ -2733,6 +2513,18 @@ public class ClaimResponse extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Detail}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>detailSequence</li>
+                 * <li>adjudication</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Detail}
+                 */
                 @Override
                 public Detail build() {
                     return new Detail(this);
@@ -2749,11 +2541,10 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A sub-detail adjudication of a simple product or service.
-             * </p>
              */
             public static class SubDetail extends BackboneElement {
+                @Required
                 private final PositiveInt subDetailSequence;
                 private final List<PositiveInt> noteNumber;
                 private final List<ClaimResponse.Item.Adjudication> adjudication;
@@ -2769,9 +2560,7 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A number to uniquely reference the claim sub-detail entry.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link PositiveInt}.
@@ -2781,9 +2570,7 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -2793,9 +2580,7 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The adjudication results.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
@@ -2884,10 +2669,8 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -2901,15 +2684,12 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2923,15 +2703,12 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2945,21 +2722,17 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -2973,21 +2746,17 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -3001,9 +2770,9 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A number to uniquely reference the claim sub-detail entry.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param subDetailSequence
                      *     Claim sub-detail instance identifier
@@ -3017,12 +2786,9 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param noteNumber
                      *     Applicable note numbers
@@ -3038,12 +2804,9 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param noteNumber
                      *     Applicable note numbers
@@ -3057,12 +2820,9 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The adjudication results.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param adjudication
                      *     Subdetail level adjudication details
@@ -3078,12 +2838,9 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The adjudication results.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param adjudication
                      *     Subdetail level adjudication details
@@ -3096,6 +2853,17 @@ public class ClaimResponse extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link SubDetail}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>subDetailSequence</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link SubDetail}
+                     */
                     @Override
                     public SubDetail build() {
                         return new SubDetail(this);
@@ -3114,19 +2882,20 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * The first-tier service adjudications for payor added product or service lines.
-     * </p>
      */
     public static class AddItem extends BackboneElement {
         private final List<PositiveInt> itemSequence;
         private final List<PositiveInt> detailSequence;
         private final List<PositiveInt> subdetailSequence;
         private final List<Reference> provider;
+        @Required
         private final CodeableConcept productOrService;
         private final List<CodeableConcept> modifier;
         private final List<CodeableConcept> programCode;
+        @Choice({Date.class, Period.class})
         private final Element serviced;
+        @Choice({CodeableConcept.class, Address.class, Reference.class})
         private final Element location;
         private final SimpleQuantity quantity;
         private final Money unitPrice;
@@ -3135,6 +2904,7 @@ public class ClaimResponse extends DomainResource {
         private final CodeableConcept bodySite;
         private final List<CodeableConcept> subSite;
         private final List<PositiveInt> noteNumber;
+        @Required
         private final List<ClaimResponse.Item.Adjudication> adjudication;
         private final List<Detail> detail;
 
@@ -3164,9 +2934,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Claim items which this service line is intended to replace.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -3176,9 +2944,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The sequence number of the details within the claim item which this line is intended to replace.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -3188,9 +2954,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The sequence number of the sub-details within the details within the claim item which this line is intended to replace.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -3200,9 +2964,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The providers who are authorized for the services rendered to the patient.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -3212,10 +2974,8 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
          * product, service, drug or other billing code for the item.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -3225,9 +2985,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Item typification or modifiers codes to convey additional context for the product or service.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -3237,9 +2995,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the program under which this may be recovered.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -3249,9 +3005,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The date or dates when the service or product was supplied, performed or completed.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -3261,9 +3015,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Where the product or service was provided.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -3273,9 +3025,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The number of repetitions of a service or product.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link SimpleQuantity}.
@@ -3285,10 +3035,8 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
          * for the details of the group.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Money}.
@@ -3298,10 +3046,8 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
          * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -3311,9 +3057,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The quantity times the unit price for an additional service or product or charge.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Money}.
@@ -3323,9 +3067,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Physical service site on the patient (limb, tooth, etc.).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -3335,9 +3077,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -3347,9 +3087,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The numbers associated with notes below which apply to the adjudication of this item.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -3359,9 +3097,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The adjudication results.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
@@ -3371,9 +3107,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The second-tier service adjudications for payor added services.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Detail}.
@@ -3537,10 +3271,8 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3554,15 +3286,12 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3576,15 +3305,12 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3598,21 +3324,17 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3626,21 +3348,17 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3654,12 +3372,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Claim items which this service line is intended to replace.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param itemSequence
              *     Item sequence number
@@ -3675,12 +3390,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Claim items which this service line is intended to replace.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param itemSequence
              *     Item sequence number
@@ -3694,12 +3406,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The sequence number of the details within the claim item which this line is intended to replace.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param detailSequence
              *     Detail sequence number
@@ -3715,12 +3424,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The sequence number of the details within the claim item which this line is intended to replace.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param detailSequence
              *     Detail sequence number
@@ -3734,12 +3440,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The sequence number of the sub-details within the details within the claim item which this line is intended to replace.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param subdetailSequence
              *     Subdetail sequence number
@@ -3755,12 +3458,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The sequence number of the sub-details within the details within the claim item which this line is intended to replace.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param subdetailSequence
              *     Subdetail sequence number
@@ -3774,12 +3474,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The providers who are authorized for the services rendered to the patient.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param provider
              *     Authorized providers
@@ -3795,12 +3492,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The providers who are authorized for the services rendered to the patient.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param provider
              *     Authorized providers
@@ -3814,10 +3508,10 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
              * product, service, drug or other billing code for the item.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param productOrService
              *     Billing, service, product, or drug code
@@ -3831,12 +3525,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifier
              *     Service/Product billing modifiers
@@ -3852,12 +3543,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifier
              *     Service/Product billing modifiers
@@ -3871,12 +3559,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the program under which this may be recovered.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param programCode
              *     Program the product or service is provided under
@@ -3892,12 +3577,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifies the program under which this may be recovered.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param programCode
              *     Program the product or service is provided under
@@ -3911,9 +3593,13 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The date or dates when the service or product was supplied, performed or completed.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Date}</li>
+             * <li>{@link Period}</li>
+             * </ul>
              * 
              * @param serviced
              *     Date or dates of service or product delivery
@@ -3927,9 +3613,14 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Where the product or service was provided.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link CodeableConcept}</li>
+             * <li>{@link Address}</li>
+             * <li>{@link Reference}</li>
+             * </ul>
              * 
              * @param location
              *     Place of service or where product was supplied
@@ -3943,9 +3634,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The number of repetitions of a service or product.
-             * </p>
              * 
              * @param quantity
              *     Count of products or services
@@ -3959,10 +3648,8 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
              * for the details of the group.
-             * </p>
              * 
              * @param unitPrice
              *     Fee, charge or cost per item
@@ -3976,10 +3663,8 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
              * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-             * </p>
              * 
              * @param factor
              *     Price scaling factor
@@ -3993,9 +3678,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The quantity times the unit price for an additional service or product or charge.
-             * </p>
              * 
              * @param net
              *     Total item cost
@@ -4009,9 +3692,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Physical service site on the patient (limb, tooth, etc.).
-             * </p>
              * 
              * @param bodySite
              *     Anatomical location
@@ -4025,12 +3706,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param subSite
              *     Anatomical sub-location
@@ -4046,12 +3724,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A region or surface of the bodySite, e.g. limb region or tooth surface(s).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param subSite
              *     Anatomical sub-location
@@ -4065,12 +3740,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param noteNumber
              *     Applicable note numbers
@@ -4086,12 +3758,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param noteNumber
              *     Applicable note numbers
@@ -4105,12 +3774,11 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The adjudication results.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * <p>This element is required.
              * 
              * @param adjudication
              *     Added items adjudication
@@ -4126,12 +3794,11 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The adjudication results.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>This element is required.
              * 
              * @param adjudication
              *     Added items adjudication
@@ -4145,12 +3812,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The second-tier service adjudications for payor added services.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param detail
              *     Insurer added line details
@@ -4166,12 +3830,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The second-tier service adjudications for payor added services.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param detail
              *     Insurer added line details
@@ -4184,6 +3845,18 @@ public class ClaimResponse extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link AddItem}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>productOrService</li>
+             * <li>adjudication</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link AddItem}
+             */
             @Override
             public AddItem build() {
                 return new AddItem(this);
@@ -4214,11 +3887,10 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The second-tier service adjudications for payor added services.
-         * </p>
          */
         public static class Detail extends BackboneElement {
+            @Required
             private final CodeableConcept productOrService;
             private final List<CodeableConcept> modifier;
             private final SimpleQuantity quantity;
@@ -4226,6 +3898,7 @@ public class ClaimResponse extends DomainResource {
             private final Decimal factor;
             private final Money net;
             private final List<PositiveInt> noteNumber;
+            @Required
             private final List<ClaimResponse.Item.Adjudication> adjudication;
             private final List<SubDetail> subDetail;
 
@@ -4246,10 +3919,8 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
              * product, service, drug or other billing code for the item.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -4259,9 +3930,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Item typification or modifiers codes to convey additional context for the product or service.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -4271,9 +3940,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The number of repetitions of a service or product.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link SimpleQuantity}.
@@ -4283,10 +3950,8 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
              * for the details of the group.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Money}.
@@ -4296,10 +3961,8 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
              * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Decimal}.
@@ -4309,9 +3972,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The quantity times the unit price for an additional service or product or charge.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Money}.
@@ -4321,9 +3982,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The numbers associated with notes below which apply to the adjudication of this item.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -4333,9 +3992,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The adjudication results.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
@@ -4345,9 +4002,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The third-tier service adjudications for payor added services.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link SubDetail}.
@@ -4466,10 +4121,8 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -4483,15 +4136,12 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4505,15 +4155,12 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4527,21 +4174,17 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4555,21 +4198,17 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4583,10 +4222,10 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
                  * product, service, drug or other billing code for the item.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param productOrService
                  *     Billing, service, product, or drug code
@@ -4600,12 +4239,9 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Item typification or modifiers codes to convey additional context for the product or service.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifier
                  *     Service/Product billing modifiers
@@ -4621,12 +4257,9 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Item typification or modifiers codes to convey additional context for the product or service.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifier
                  *     Service/Product billing modifiers
@@ -4640,9 +4273,7 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The number of repetitions of a service or product.
-                 * </p>
                  * 
                  * @param quantity
                  *     Count of products or services
@@ -4656,10 +4287,8 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
                  * for the details of the group.
-                 * </p>
                  * 
                  * @param unitPrice
                  *     Fee, charge or cost per item
@@ -4673,10 +4302,8 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
                  * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-                 * </p>
                  * 
                  * @param factor
                  *     Price scaling factor
@@ -4690,9 +4317,7 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The quantity times the unit price for an additional service or product or charge.
-                 * </p>
                  * 
                  * @param net
                  *     Total item cost
@@ -4706,12 +4331,9 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param noteNumber
                  *     Applicable note numbers
@@ -4727,12 +4349,9 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param noteNumber
                  *     Applicable note numbers
@@ -4746,12 +4365,11 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The adjudication results.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param adjudication
                  *     Added items detail adjudication
@@ -4767,12 +4385,11 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The adjudication results.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param adjudication
                  *     Added items detail adjudication
@@ -4786,12 +4403,9 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The third-tier service adjudications for payor added services.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param subDetail
                  *     Insurer added line items
@@ -4807,12 +4421,9 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The third-tier service adjudications for payor added services.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param subDetail
                  *     Insurer added line items
@@ -4825,6 +4436,18 @@ public class ClaimResponse extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Detail}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>productOrService</li>
+                 * <li>adjudication</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Detail}
+                 */
                 @Override
                 public Detail build() {
                     return new Detail(this);
@@ -4846,11 +4469,10 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The third-tier service adjudications for payor added services.
-             * </p>
              */
             public static class SubDetail extends BackboneElement {
+                @Required
                 private final CodeableConcept productOrService;
                 private final List<CodeableConcept> modifier;
                 private final SimpleQuantity quantity;
@@ -4858,6 +4480,7 @@ public class ClaimResponse extends DomainResource {
                 private final Decimal factor;
                 private final Money net;
                 private final List<PositiveInt> noteNumber;
+                @Required
                 private final List<ClaimResponse.Item.Adjudication> adjudication;
 
                 private volatile int hashCode;
@@ -4876,10 +4499,8 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
                  * product, service, drug or other billing code for the item.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link CodeableConcept}.
@@ -4889,9 +4510,7 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Item typification or modifiers codes to convey additional context for the product or service.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -4901,9 +4520,7 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The number of repetitions of a service or product.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link SimpleQuantity}.
@@ -4913,10 +4530,8 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
                  * for the details of the group.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Money}.
@@ -4926,10 +4541,8 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
                  * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Decimal}.
@@ -4939,9 +4552,7 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The quantity times the unit price for an additional service or product or charge.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Money}.
@@ -4951,9 +4562,7 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The numbers associated with notes below which apply to the adjudication of this item.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link PositiveInt}.
@@ -4963,9 +4572,7 @@ public class ClaimResponse extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The adjudication results.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link Adjudication}.
@@ -5079,10 +4686,8 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -5096,15 +4701,12 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -5118,15 +4720,12 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -5140,21 +4739,17 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -5168,21 +4763,17 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -5196,10 +4787,10 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * When the value is a group code then this item collects a set of related claim details, otherwise this contains the 
                      * product, service, drug or other billing code for the item.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param productOrService
                      *     Billing, service, product, or drug code
@@ -5213,12 +4804,9 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Item typification or modifiers codes to convey additional context for the product or service.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifier
                      *     Service/Product billing modifiers
@@ -5234,12 +4822,9 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Item typification or modifiers codes to convey additional context for the product or service.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifier
                      *     Service/Product billing modifiers
@@ -5253,9 +4838,7 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The number of repetitions of a service or product.
-                     * </p>
                      * 
                      * @param quantity
                      *     Count of products or services
@@ -5269,10 +4852,8 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * If the item is not a group then this is the fee for the product or service, otherwise this is the total of the fees 
                      * for the details of the group.
-                     * </p>
                      * 
                      * @param unitPrice
                      *     Fee, charge or cost per item
@@ -5286,10 +4867,8 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A real number that represents a multiplier used in determining the overall value of services delivered and/or goods 
                      * received. The concept of a Factor allows for a discount or surcharge multiplier to be applied to a monetary amount.
-                     * </p>
                      * 
                      * @param factor
                      *     Price scaling factor
@@ -5303,9 +4882,7 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The quantity times the unit price for an additional service or product or charge.
-                     * </p>
                      * 
                      * @param net
                      *     Total item cost
@@ -5319,12 +4896,9 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param noteNumber
                      *     Applicable note numbers
@@ -5340,12 +4914,9 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The numbers associated with notes below which apply to the adjudication of this item.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param noteNumber
                      *     Applicable note numbers
@@ -5359,12 +4930,11 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The adjudication results.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param adjudication
                      *     Added items detail adjudication
@@ -5380,12 +4950,11 @@ public class ClaimResponse extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The adjudication results.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param adjudication
                      *     Added items detail adjudication
@@ -5398,6 +4967,18 @@ public class ClaimResponse extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link SubDetail}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>productOrService</li>
+                     * <li>adjudication</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link SubDetail}
+                     */
                     @Override
                     public SubDetail build() {
                         return new SubDetail(this);
@@ -5421,12 +5002,12 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Categorized monetary totals for the adjudication.
-     * </p>
      */
     public static class Total extends BackboneElement {
+        @Required
         private final CodeableConcept category;
+        @Required
         private final Money amount;
 
         private volatile int hashCode;
@@ -5439,11 +5020,9 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A code to indicate the information type of this adjudication record. Information types may include: the value 
          * submitted, maximum values or percentages allowed or payable under the plan, amounts that the patient is responsible 
          * for in aggregate or pertaining to this item, amounts paid by other coverages, and the benefit payable for this item.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -5453,9 +5032,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Monetary total amount associated with the category.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Money}.
@@ -5539,10 +5116,8 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -5556,15 +5131,12 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -5578,15 +5150,12 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -5600,21 +5169,17 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -5628,21 +5193,17 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -5656,11 +5217,11 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A code to indicate the information type of this adjudication record. Information types may include: the value 
              * submitted, maximum values or percentages allowed or payable under the plan, amounts that the patient is responsible 
              * for in aggregate or pertaining to this item, amounts paid by other coverages, and the benefit payable for this item.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param category
              *     Type of adjudication information
@@ -5674,9 +5235,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Monetary total amount associated with the category.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param amount
              *     Financial total for the category
@@ -5689,6 +5250,18 @@ public class ClaimResponse extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Total}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>category</li>
+             * <li>amount</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Total}
+             */
             @Override
             public Total build() {
                 return new Total(this);
@@ -5704,15 +5277,15 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Payment details for the adjudication of the claim.
-     * </p>
      */
     public static class Payment extends BackboneElement {
+        @Required
         private final CodeableConcept type;
         private final Money adjustment;
         private final CodeableConcept adjustmentReason;
         private final Date date;
+        @Required
         private final Money amount;
         private final Identifier identifier;
 
@@ -5730,9 +5303,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether this represents partial or complete payment of the benefits payable.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -5742,10 +5313,8 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Total amount of all adjustments to this payment included in this transaction which are not related to this claim's 
          * adjudication.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Money}.
@@ -5755,9 +5324,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Reason for the payment adjustment.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -5767,9 +5334,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Estimated date the payment will be issued or the actual issue date of payment.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Date}.
@@ -5779,9 +5344,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Benefits payable less any payment adjustment.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Money}.
@@ -5791,9 +5354,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Issuer's unique identifier for the payment instrument.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Identifier}.
@@ -5897,10 +5458,8 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -5914,15 +5473,12 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -5936,15 +5492,12 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -5958,21 +5511,17 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -5986,21 +5535,17 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -6014,9 +5559,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Whether this represents partial or complete payment of the benefits payable.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     Partial or complete payment
@@ -6030,10 +5575,8 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Total amount of all adjustments to this payment included in this transaction which are not related to this claim's 
              * adjudication.
-             * </p>
              * 
              * @param adjustment
              *     Payment adjustment for non-claim issues
@@ -6047,9 +5590,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Reason for the payment adjustment.
-             * </p>
              * 
              * @param adjustmentReason
              *     Explanation for the adjustment
@@ -6063,9 +5604,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Estimated date the payment will be issued or the actual issue date of payment.
-             * </p>
              * 
              * @param date
              *     Expected date of payment
@@ -6079,9 +5618,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Benefits payable less any payment adjustment.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param amount
              *     Payable amount after adjustment
@@ -6095,9 +5634,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Issuer's unique identifier for the payment instrument.
-             * </p>
              * 
              * @param identifier
              *     Business identifier for the payment
@@ -6110,6 +5647,18 @@ public class ClaimResponse extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Payment}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>type</li>
+             * <li>amount</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Payment}
+             */
             @Override
             public Payment build() {
                 return new Payment(this);
@@ -6129,13 +5678,12 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * A note that describes or explains adjudication results in a human readable form.
-     * </p>
      */
     public static class ProcessNote extends BackboneElement {
         private final PositiveInt number;
         private final NoteType type;
+        @Required
         private final String text;
         private final CodeableConcept language;
 
@@ -6151,9 +5699,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A number to uniquely identify a note entry.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}.
@@ -6163,9 +5709,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The business purpose of the note text.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link NoteType}.
@@ -6175,9 +5719,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The explanation or description associated with the processing.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -6187,9 +5729,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A code to define the language used in the text of the note.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -6283,10 +5823,8 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -6300,15 +5838,12 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -6322,15 +5857,12 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -6344,21 +5876,17 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -6372,21 +5900,17 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -6400,9 +5924,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A number to uniquely identify a note entry.
-             * </p>
              * 
              * @param number
              *     Note instance identifier
@@ -6416,9 +5938,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The business purpose of the note text.
-             * </p>
              * 
              * @param type
              *     display | print | printoper
@@ -6432,9 +5952,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The explanation or description associated with the processing.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param text
              *     Note explanatory text
@@ -6448,9 +5968,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A code to define the language used in the text of the note.
-             * </p>
              * 
              * @param language
              *     Language of the text
@@ -6463,6 +5981,17 @@ public class ClaimResponse extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link ProcessNote}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>text</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link ProcessNote}
+             */
             @Override
             public ProcessNote build() {
                 return new ProcessNote(this);
@@ -6480,13 +6009,14 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Financial instruments for reimbursement for the health care products and services specified on the claim.
-     * </p>
      */
     public static class Insurance extends BackboneElement {
+        @Required
         private final PositiveInt sequence;
+        @Required
         private final Boolean focal;
+        @Required
         private final Reference coverage;
         private final String businessArrangement;
         private final Reference claimResponse;
@@ -6504,10 +6034,8 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A number to uniquely identify insurance entries and provide a sequence of coverages to convey coordination of benefit 
          * order.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}.
@@ -6517,9 +6045,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A flag to indicate that this Coverage is to be used for adjudication of this claim when set to true.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -6529,10 +6055,8 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to the insurance card level information contained in the Coverage resource. The coverage issuing insurer 
          * will use these details to locate the patient's actual coverage within the insurer's information system.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -6542,9 +6066,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * A business agreement number established between the provider and the insurer for special business processing purposes.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -6554,9 +6076,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The result of the adjudication of the line items for the Coverage specified in this insurance.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -6655,10 +6175,8 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -6672,15 +6190,12 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -6694,15 +6209,12 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -6716,21 +6228,17 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -6744,21 +6252,17 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -6772,10 +6276,10 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A number to uniquely identify insurance entries and provide a sequence of coverages to convey coordination of benefit 
              * order.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param sequence
              *     Insurance instance identifier
@@ -6789,9 +6293,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A flag to indicate that this Coverage is to be used for adjudication of this claim when set to true.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param focal
              *     Coverage to be used for adjudication
@@ -6805,10 +6309,10 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference to the insurance card level information contained in the Coverage resource. The coverage issuing insurer 
              * will use these details to locate the patient's actual coverage within the insurer's information system.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param coverage
              *     Insurance information
@@ -6822,9 +6326,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * A business agreement number established between the provider and the insurer for special business processing purposes.
-             * </p>
              * 
              * @param businessArrangement
              *     Additional provider contract number
@@ -6838,9 +6340,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The result of the adjudication of the line items for the Coverage specified in this insurance.
-             * </p>
              * 
              * @param claimResponse
              *     Adjudication results
@@ -6853,6 +6353,19 @@ public class ClaimResponse extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Insurance}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>sequence</li>
+             * <li>focal</li>
+             * <li>coverage</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Insurance}
+             */
             @Override
             public Insurance build() {
                 return new Insurance(this);
@@ -6871,14 +6384,13 @@ public class ClaimResponse extends DomainResource {
     }
 
     /**
-     * <p>
      * Errors encountered during the processing of the adjudication.
-     * </p>
      */
     public static class Error extends BackboneElement {
         private final PositiveInt itemSequence;
         private final PositiveInt detailSequence;
         private final PositiveInt subDetailSequence;
+        @Required
         private final CodeableConcept code;
 
         private volatile int hashCode;
@@ -6893,10 +6405,8 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The sequence number of the line item submitted which contains the error. This value is omitted when the error occurs 
          * outside of the item structure.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}.
@@ -6906,10 +6416,8 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The sequence number of the detail within the line item submitted which contains the error. This value is omitted when 
          * the error occurs outside of the item structure.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}.
@@ -6919,10 +6427,8 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * The sequence number of the sub-detail within the detail within the line item submitted which contains the error. This 
          * value is omitted when the error occurs outside of the item structure.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}.
@@ -6932,9 +6438,7 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * <p>
          * An error code, from a specified code system, which details why the claim could not be adjudicated.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -7028,10 +6532,8 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -7045,15 +6547,12 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -7067,15 +6566,12 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -7089,21 +6585,17 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -7117,21 +6609,17 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -7145,10 +6633,8 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The sequence number of the line item submitted which contains the error. This value is omitted when the error occurs 
              * outside of the item structure.
-             * </p>
              * 
              * @param itemSequence
              *     Item sequence number
@@ -7162,10 +6648,8 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The sequence number of the detail within the line item submitted which contains the error. This value is omitted when 
              * the error occurs outside of the item structure.
-             * </p>
              * 
              * @param detailSequence
              *     Detail sequence number
@@ -7179,10 +6663,8 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * The sequence number of the sub-detail within the detail within the line item submitted which contains the error. This 
              * value is omitted when the error occurs outside of the item structure.
-             * </p>
              * 
              * @param subDetailSequence
              *     Subdetail sequence number
@@ -7196,9 +6678,9 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * <p>
              * An error code, from a specified code system, which details why the claim could not be adjudicated.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param code
              *     Error code detailing processing issues
@@ -7211,6 +6693,17 @@ public class ClaimResponse extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Error}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>code</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Error}
+             */
             @Override
             public Error build() {
                 return new Error(this);

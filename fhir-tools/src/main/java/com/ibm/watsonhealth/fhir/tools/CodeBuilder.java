@@ -51,6 +51,13 @@ public class CodeBuilder {
         return append(other.toString());
     }
     
+    public CodeBuilder lines(List<String> lines) {
+        for (String line : lines) {
+            append(line).newLine();
+        }
+        return this;
+    }
+    
     private CodeBuilder join(String delimiter, List<String> elements) {
         return append(String.join(delimiter, elements));
     }
@@ -157,33 +164,26 @@ public class CodeBuilder {
         return javadoc(lines, true, true, true);
     }
     
-    public CodeBuilder javadoc(List<String> lines, boolean start, boolean end, boolean includeParagraphTags) {
+    public CodeBuilder javadoc(List<String> lines, boolean start, boolean end, boolean includeParagraphTag) {
+        boolean p = false;
         if (!lines.isEmpty()) {
             if (start) {
                 javadocStart();
-            }
-            if (includeParagraphTags) {
-                javadoc("<p>", false);
             }
             for (String line : lines) {
                 if (line.isEmpty()) {
                     if (lines.indexOf(line) != lines.size() - 1) {
                         // there are more lines
-                        if (includeParagraphTags) {
-                            javadoc("</p>", false);
-                            javadoc("<p>", false);
-                        } else {
-                            javadoc("");
+                        javadoc("");
+                        if (includeParagraphTag) {
+                            p = true;
                         }
                     }
                 } else {
-                    for (String l : wrap(escape(normalizeSpace(line)))) {
+                    for (String l : wrap((p ? "<p>" : "") + escape(normalizeSpace(line)))) {
                         javadoc(l, false);
                     }
                 }
-            }
-            if (includeParagraphTags) {
-                javadoc("</p>", false);
             }
             if (end) {
                 javadocEnd();

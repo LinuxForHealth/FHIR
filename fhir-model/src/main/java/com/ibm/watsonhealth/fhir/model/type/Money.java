@@ -15,9 +15,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * An amount of economic utility in some recognized currency.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Money extends Element {
@@ -34,9 +32,7 @@ public class Money extends Element {
     }
 
     /**
-     * <p>
      * Numerical value (with implicit precision).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Decimal}.
@@ -46,9 +42,7 @@ public class Money extends Element {
     }
 
     /**
-     * <p>
      * ISO 4217 Currency Code.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Code}.
@@ -129,10 +123,8 @@ public class Money extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -146,15 +138,12 @@ public class Money extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -168,15 +157,12 @@ public class Money extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -190,9 +176,7 @@ public class Money extends Element {
         }
 
         /**
-         * <p>
          * Numerical value (with implicit precision).
-         * </p>
          * 
          * @param value
          *     Numerical value (with implicit precision)
@@ -206,9 +190,7 @@ public class Money extends Element {
         }
 
         /**
-         * <p>
          * ISO 4217 Currency Code.
-         * </p>
          * 
          * @param currency
          *     ISO 4217 Currency Code
@@ -221,6 +203,12 @@ public class Money extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link Money}
+         * 
+         * @return
+         *     An immutable object of type {@link Money}
+         */
         @Override
         public Money build() {
             return new Money(this);

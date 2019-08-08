@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -45,10 +47,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * The CodeSystem resource is used to declare the existence of and describe a code system or code system supplement and 
  * its key properties, and optionally define a part or all of its content.
- * </p>
  */
 @Constraint(
     id = "csd-0",
@@ -71,6 +71,7 @@ public class CodeSystem extends DomainResource {
     private final String version;
     private final String name;
     private final String title;
+    @Required
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -86,6 +87,7 @@ public class CodeSystem extends DomainResource {
     private final CodeSystemHierarchyMeaning hierarchyMeaning;
     private final Boolean compositional;
     private final Boolean versionNeeded;
+    @Required
     private final CodeSystemContentMode content;
     private final Canonical supplements;
     private final UnsignedInt count;
@@ -126,13 +128,11 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * An absolute URI that is used to identify this code system when it is referenced in a specification, model, design or 
      * an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at 
      * which at which an authoritative instance of this code system is (or will be) published. This URL can be the target of 
      * a canonical reference. It SHALL remain the same when the code system is stored on different servers. This is used in 
      * [Coding](datatypes.html#Coding).system.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -142,10 +142,8 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * A formal identifier that is used to identify this code system when it is represented in other formats, or referenced 
      * in a specification, model, design or an instance.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -155,13 +153,11 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * The identifier that is used to identify this version of the code system when it is referenced in a specification, 
      * model, design or instance. This is an arbitrary value managed by the code system author and is not expected to be 
      * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
      * also no expectation that versions can be placed in a lexicographical sequence. This is used in [Coding](datatypes.
      * html#Coding).version.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -171,10 +167,8 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * A natural language name identifying the code system. This name should be usable as an identifier for the module by 
      * machine processing applications such as code generation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -184,9 +178,7 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * A short, descriptive, user-friendly title for the code system.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -196,9 +188,7 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and optionally time) when the code system resource was created or revised.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PublicationStatus}.
@@ -208,10 +198,8 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * A Boolean value to indicate that this code system is authored for testing purposes (or education/evaluation/marketing) 
      * and is not intended to be used for genuine usage.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -221,11 +209,9 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and optionally time) when the code system was published. The date must change when the business version 
      * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
      * the code system changes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -235,9 +221,7 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the organization or individual that published the code system.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -247,9 +231,7 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * Contact details to assist a user in finding and communicating with the publisher.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -259,9 +241,7 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * A free text natural language description of the code system from a consumer's perspective.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -271,11 +251,9 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
      * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
      * may be used to assist with indexing and searching for appropriate code system instances.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
@@ -285,9 +263,7 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * A legal or geographic region in which the code system is intended to be used.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -297,9 +273,7 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * Explanation of why this code system is needed and why it has been designed as it has.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -309,10 +283,8 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * A copyright statement relating to the code system and/or its contents. Copyright statements are generally legal 
      * restrictions on the use and publishing of the code system.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -322,9 +294,7 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * If code comparison is case sensitive when codes within this system are compared to each other.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -334,9 +304,7 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * Canonical reference to the value set that contains the entire code system.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Canonical}.
@@ -346,9 +314,7 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * The meaning of the hierarchy of concepts as represented in this resource.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeSystemHierarchyMeaning}.
@@ -358,9 +324,7 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * The code system defines a compositional (post-coordination) grammar.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -370,10 +334,8 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * This flag is used to signify that the code system does not commit to concept permanence across versions. If true, a 
      * version must be specified when referencing this code system.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -383,10 +345,8 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * The extent of the content of the code system (the concepts and codes it defines) are represented in this resource 
      * instance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeSystemContentMode}.
@@ -396,9 +356,7 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * The canonical URL of the code system that this code system supplement is adding designations and properties to.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Canonical}.
@@ -408,10 +366,8 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * The total number of concepts defined by the code system. Where the code system has a compositional grammar, the basis 
      * of this count is defined by the system steward.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link UnsignedInt}.
@@ -421,9 +377,7 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * A filter that can be used in a value set compose statement when selecting concepts using a filter.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Filter}.
@@ -433,9 +387,7 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * A property defines an additional slot through which additional information can be provided about a concept.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Property}.
@@ -445,10 +397,8 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * Concepts that are in the code system. The concept definitions are inherently hierarchical, but the definitions must be 
      * consulted to determine what the meanings of the hierarchical relationships are.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Concept}.
@@ -636,9 +586,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -652,10 +600,8 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -669,11 +615,9 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -687,9 +631,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -703,12 +645,10 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -722,13 +662,10 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -742,13 +679,10 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -762,15 +696,12 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -784,15 +715,12 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -806,21 +734,17 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -834,21 +758,17 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -862,13 +782,11 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that is used to identify this code system when it is referenced in a specification, model, design or 
          * an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at 
          * which at which an authoritative instance of this code system is (or will be) published. This URL can be the target of 
          * a canonical reference. It SHALL remain the same when the code system is stored on different servers. This is used in 
          * [Coding](datatypes.html#Coding).system.
-         * </p>
          * 
          * @param url
          *     Canonical identifier for this code system, represented as a URI (globally unique) (Coding.system)
@@ -882,13 +800,10 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A formal identifier that is used to identify this code system when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Additional identifier for the code system (business identifier)
@@ -904,13 +819,10 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A formal identifier that is used to identify this code system when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Additional identifier for the code system (business identifier)
@@ -924,13 +836,11 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The identifier that is used to identify this version of the code system when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the code system author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
          * also no expectation that versions can be placed in a lexicographical sequence. This is used in [Coding](datatypes.
          * html#Coding).version.
-         * </p>
          * 
          * @param version
          *     Business version of the code system (Coding.version)
@@ -944,10 +854,8 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A natural language name identifying the code system. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
-         * </p>
          * 
          * @param name
          *     Name for this code system (computer friendly)
@@ -961,9 +869,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A short, descriptive, user-friendly title for the code system.
-         * </p>
          * 
          * @param title
          *     Name for this code system (human friendly)
@@ -977,9 +883,9 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and optionally time) when the code system resource was created or revised.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | retired | unknown
@@ -993,10 +899,8 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A Boolean value to indicate that this code system is authored for testing purposes (or education/evaluation/marketing) 
          * and is not intended to be used for genuine usage.
-         * </p>
          * 
          * @param experimental
          *     For testing purposes, not real usage
@@ -1010,11 +914,9 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and optionally time) when the code system was published. The date must change when the business version 
          * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
          * the code system changes.
-         * </p>
          * 
          * @param date
          *     Date last changed
@@ -1028,9 +930,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the organization or individual that published the code system.
-         * </p>
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
@@ -1044,12 +944,9 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1065,12 +962,9 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1084,9 +978,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A free text natural language description of the code system from a consumer's perspective.
-         * </p>
          * 
          * @param description
          *     Natural language description of the code system
@@ -1100,14 +992,11 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate code system instances.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1123,14 +1012,11 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate code system instances.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1144,12 +1030,9 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the code system is intended to be used.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param jurisdiction
          *     Intended jurisdiction for code system (if applicable)
@@ -1165,12 +1048,9 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the code system is intended to be used.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param jurisdiction
          *     Intended jurisdiction for code system (if applicable)
@@ -1184,9 +1064,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Explanation of why this code system is needed and why it has been designed as it has.
-         * </p>
          * 
          * @param purpose
          *     Why this code system is defined
@@ -1200,10 +1078,8 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A copyright statement relating to the code system and/or its contents. Copyright statements are generally legal 
          * restrictions on the use and publishing of the code system.
-         * </p>
          * 
          * @param copyright
          *     Use and/or publishing restrictions
@@ -1217,9 +1093,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * If code comparison is case sensitive when codes within this system are compared to each other.
-         * </p>
          * 
          * @param caseSensitive
          *     If code comparison is case sensitive
@@ -1233,9 +1107,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Canonical reference to the value set that contains the entire code system.
-         * </p>
          * 
          * @param valueSet
          *     Canonical reference to the value set with entire code system
@@ -1249,9 +1121,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The meaning of the hierarchy of concepts as represented in this resource.
-         * </p>
          * 
          * @param hierarchyMeaning
          *     grouped-by | is-a | part-of | classified-with
@@ -1265,9 +1135,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The code system defines a compositional (post-coordination) grammar.
-         * </p>
          * 
          * @param compositional
          *     If code system defines a compositional grammar
@@ -1281,10 +1149,8 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * This flag is used to signify that the code system does not commit to concept permanence across versions. If true, a 
          * version must be specified when referencing this code system.
-         * </p>
          * 
          * @param versionNeeded
          *     If definitions are not stable
@@ -1298,10 +1164,10 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The extent of the content of the code system (the concepts and codes it defines) are represented in this resource 
          * instance.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param content
          *     not-present | example | fragment | complete | supplement
@@ -1315,9 +1181,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The canonical URL of the code system that this code system supplement is adding designations and properties to.
-         * </p>
          * 
          * @param supplements
          *     Canonical URL of Code System this adds designations and properties to
@@ -1331,10 +1195,8 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The total number of concepts defined by the code system. Where the code system has a compositional grammar, the basis 
          * of this count is defined by the system steward.
-         * </p>
          * 
          * @param count
          *     Total concepts in the code system
@@ -1348,12 +1210,9 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A filter that can be used in a value set compose statement when selecting concepts using a filter.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param filter
          *     Filter that can be used in a value set
@@ -1369,12 +1228,9 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A filter that can be used in a value set compose statement when selecting concepts using a filter.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param filter
          *     Filter that can be used in a value set
@@ -1388,12 +1244,9 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A property defines an additional slot through which additional information can be provided about a concept.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param property
          *     Additional information supplied about each concept
@@ -1409,12 +1262,9 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A property defines an additional slot through which additional information can be provided about a concept.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param property
          *     Additional information supplied about each concept
@@ -1428,13 +1278,10 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Concepts that are in the code system. The concept definitions are inherently hierarchical, but the definitions must be 
          * consulted to determine what the meanings of the hierarchical relationships are.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param concept
          *     Concepts in the code system
@@ -1450,13 +1297,10 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Concepts that are in the code system. The concept definitions are inherently hierarchical, but the definitions must be 
          * consulted to determine what the meanings of the hierarchical relationships are.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param concept
          *     Concepts in the code system
@@ -1469,6 +1313,18 @@ public class CodeSystem extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link CodeSystem}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>content</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link CodeSystem}
+         */
         @Override
         public CodeSystem build() {
             return new CodeSystem(this);
@@ -1507,14 +1363,15 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * A filter that can be used in a value set compose statement when selecting concepts using a filter.
-     * </p>
      */
     public static class Filter extends BackboneElement {
+        @Required
         private final Code code;
         private final String description;
+        @Required
         private final List<FilterOperator> operator;
+        @Required
         private final String value;
 
         private volatile int hashCode;
@@ -1529,9 +1386,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The code that identifies this filter when it is used as a filter in [ValueSet](valueset.html#).compose.include.filter.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Code}.
@@ -1541,9 +1396,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A description of how or why the filter is used.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1553,9 +1406,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of operators that can be used with the filter.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link FilterOperator}.
@@ -1565,9 +1416,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A description of what the value for the filter should be.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1661,10 +1510,8 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1678,15 +1525,12 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1700,15 +1544,12 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1722,21 +1563,17 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1750,21 +1587,17 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1778,9 +1611,9 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * The code that identifies this filter when it is used as a filter in [ValueSet](valueset.html#).compose.include.filter.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param code
              *     Code that identifies the filter
@@ -1794,9 +1627,7 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * A description of how or why the filter is used.
-             * </p>
              * 
              * @param description
              *     How or why the filter is used
@@ -1810,12 +1641,11 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * A list of operators that can be used with the filter.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * <p>This element is required.
              * 
              * @param operator
              *     Operators that can be used with filter
@@ -1831,12 +1661,11 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * A list of operators that can be used with the filter.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>This element is required.
              * 
              * @param operator
              *     Operators that can be used with filter
@@ -1850,9 +1679,9 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * A description of what the value for the filter should be.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param value
              *     What to use for the value
@@ -1865,6 +1694,19 @@ public class CodeSystem extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Filter}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>code</li>
+             * <li>operator</li>
+             * <li>value</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Filter}
+             */
             @Override
             public Filter build() {
                 return new Filter(this);
@@ -1882,14 +1724,14 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * A property defines an additional slot through which additional information can be provided about a concept.
-     * </p>
      */
     public static class Property extends BackboneElement {
+        @Required
         private final Code code;
         private final Uri uri;
         private final String description;
+        @Required
         private final PropertyType type;
 
         private volatile int hashCode;
@@ -1904,10 +1746,8 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A code that is used to identify the property. The code is used internally (in CodeSystem.concept.property.code) and 
          * also externally, such as in property filters.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Code}.
@@ -1917,10 +1757,8 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to the formal meaning of the property. One possible source of meaning is the [Concept Properties](codesystem-
          * concept-properties.html) code system.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Uri}.
@@ -1930,9 +1768,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A description of the property- why it is defined, and how its value might be used.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1942,10 +1778,8 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of the property value. Properties of type "code" contain a code defined by the code system (e.g. a reference 
          * to another defined concept).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PropertyType}.
@@ -2039,10 +1873,8 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2056,15 +1888,12 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2078,15 +1907,12 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2100,21 +1926,17 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2128,21 +1950,17 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2156,10 +1974,10 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * A code that is used to identify the property. The code is used internally (in CodeSystem.concept.property.code) and 
              * also externally, such as in property filters.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param code
              *     Identifies the property on the concepts, and when referred to in operations
@@ -2173,10 +1991,8 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference to the formal meaning of the property. One possible source of meaning is the [Concept Properties](codesystem-
              * concept-properties.html) code system.
-             * </p>
              * 
              * @param uri
              *     Formal identifier for the property
@@ -2190,9 +2006,7 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * A description of the property- why it is defined, and how its value might be used.
-             * </p>
              * 
              * @param description
              *     Why the property is defined, and/or what it conveys
@@ -2206,10 +2020,10 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of the property value. Properties of type "code" contain a code defined by the code system (e.g. a reference 
              * to another defined concept).
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     code | Coding | string | integer | boolean | dateTime | decimal
@@ -2222,6 +2036,18 @@ public class CodeSystem extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Property}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>code</li>
+             * <li>type</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Property}
+             */
             @Override
             public Property build() {
                 return new Property(this);
@@ -2239,12 +2065,11 @@ public class CodeSystem extends DomainResource {
     }
 
     /**
-     * <p>
      * Concepts that are in the code system. The concept definitions are inherently hierarchical, but the definitions must be 
      * consulted to determine what the meanings of the hierarchical relationships are.
-     * </p>
      */
     public static class Concept extends BackboneElement {
+        @Required
         private final Code code;
         private final String display;
         private final String definition;
@@ -2266,9 +2091,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A code - a text symbol - that uniquely identifies the concept within the code system.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Code}.
@@ -2278,9 +2101,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A human readable string that is the recommended default way to present this concept to a user.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2290,11 +2111,9 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * The formal definition of the concept. The code system resource does not make formal definitions required, because of 
          * the prevalence of legacy systems. However, they are highly recommended, as without them there is no formal meaning 
          * associated with the concept.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2304,10 +2123,8 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional representations for the concept - other languages, aliases, specialized purposes, used for particular 
          * purposes, etc.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Designation}.
@@ -2317,9 +2134,7 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A property value for this concept.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Property}.
@@ -2329,10 +2144,8 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Defines children of a concept to produce a hierarchy of concepts. The nature of the relationships is variable (is-
          * a/contains/categorizes) - see hierarchyMeaning.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Concept}.
@@ -2436,10 +2249,8 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2453,15 +2264,12 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2475,15 +2283,12 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2497,21 +2302,17 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2525,21 +2326,17 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2553,9 +2350,9 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * A code - a text symbol - that uniquely identifies the concept within the code system.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param code
              *     Code that identifies concept
@@ -2569,9 +2366,7 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * A human readable string that is the recommended default way to present this concept to a user.
-             * </p>
              * 
              * @param display
              *     Text to display to the user
@@ -2585,11 +2380,9 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * The formal definition of the concept. The code system resource does not make formal definitions required, because of 
              * the prevalence of legacy systems. However, they are highly recommended, as without them there is no formal meaning 
              * associated with the concept.
-             * </p>
              * 
              * @param definition
              *     Formal definition
@@ -2603,13 +2396,10 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * Additional representations for the concept - other languages, aliases, specialized purposes, used for particular 
              * purposes, etc.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param designation
              *     Additional representations for the concept
@@ -2625,13 +2415,10 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * Additional representations for the concept - other languages, aliases, specialized purposes, used for particular 
              * purposes, etc.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param designation
              *     Additional representations for the concept
@@ -2645,12 +2432,9 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * A property value for this concept.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param property
              *     Property value for the concept
@@ -2666,12 +2450,9 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * A property value for this concept.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param property
              *     Property value for the concept
@@ -2685,13 +2466,10 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines children of a concept to produce a hierarchy of concepts. The nature of the relationships is variable (is-
              * a/contains/categorizes) - see hierarchyMeaning.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param concept
              *     Child Concepts (is-a/contains/categorizes)
@@ -2707,13 +2485,10 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * Defines children of a concept to produce a hierarchy of concepts. The nature of the relationships is variable (is-
              * a/contains/categorizes) - see hierarchyMeaning.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param concept
              *     Child Concepts (is-a/contains/categorizes)
@@ -2726,6 +2501,17 @@ public class CodeSystem extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Concept}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>code</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Concept}
+             */
             @Override
             public Concept build() {
                 return new Concept(this);
@@ -2744,14 +2530,13 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional representations for the concept - other languages, aliases, specialized purposes, used for particular 
          * purposes, etc.
-         * </p>
          */
         public static class Designation extends BackboneElement {
             private final Code language;
             private final Coding use;
+            @Required
             private final String value;
 
             private volatile int hashCode;
@@ -2765,9 +2550,7 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * The language this designation is defined for.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Code}.
@@ -2777,9 +2560,7 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * A code that details how this designation would be used.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Coding}.
@@ -2789,9 +2570,7 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * The text value for this designation.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2880,10 +2659,8 @@ public class CodeSystem extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2897,15 +2674,12 @@ public class CodeSystem extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2919,15 +2693,12 @@ public class CodeSystem extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2941,21 +2712,17 @@ public class CodeSystem extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2969,21 +2736,17 @@ public class CodeSystem extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2997,9 +2760,7 @@ public class CodeSystem extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The language this designation is defined for.
-                 * </p>
                  * 
                  * @param language
                  *     Human language of the designation
@@ -3013,9 +2774,7 @@ public class CodeSystem extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A code that details how this designation would be used.
-                 * </p>
                  * 
                  * @param use
                  *     Details how this designation would be used
@@ -3029,9 +2788,9 @@ public class CodeSystem extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The text value for this designation.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param value
                  *     The text value for this designation
@@ -3044,6 +2803,17 @@ public class CodeSystem extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Designation}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>value</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Designation}
+                 */
                 @Override
                 public Designation build() {
                     return new Designation(this);
@@ -3060,12 +2830,13 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * <p>
          * A property value for this concept.
-         * </p>
          */
         public static class Property extends BackboneElement {
+            @Required
             private final Code code;
+            @Required
+            @Choice({Code.class, Coding.class, String.class, Integer.class, Boolean.class, DateTime.class, Decimal.class})
             private final Element value;
 
             private volatile int hashCode;
@@ -3078,9 +2849,7 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * A code that is a reference to CodeSystem.property.code.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Code}.
@@ -3090,9 +2859,7 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * <p>
              * The value of this property.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -3176,10 +2943,8 @@ public class CodeSystem extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -3193,15 +2958,12 @@ public class CodeSystem extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3215,15 +2977,12 @@ public class CodeSystem extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3237,21 +2996,17 @@ public class CodeSystem extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3265,21 +3020,17 @@ public class CodeSystem extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3293,9 +3044,9 @@ public class CodeSystem extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A code that is a reference to CodeSystem.property.code.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param code
                  *     Reference to CodeSystem.property.code
@@ -3309,9 +3060,20 @@ public class CodeSystem extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The value of this property.
-                 * </p>
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link Code}</li>
+                 * <li>{@link Coding}</li>
+                 * <li>{@link String}</li>
+                 * <li>{@link Integer}</li>
+                 * <li>{@link Boolean}</li>
+                 * <li>{@link DateTime}</li>
+                 * <li>{@link Decimal}</li>
+                 * </ul>
                  * 
                  * @param value
                  *     Value of the property for this concept
@@ -3324,6 +3086,18 @@ public class CodeSystem extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Property}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>code</li>
+                 * <li>value</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Property}
+                 */
                 @Override
                 public Property build() {
                     return new Property(this);

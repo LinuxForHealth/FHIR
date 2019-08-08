@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -38,9 +39,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Example of workflow instance.
- * </p>
  */
 @Constraint(
     id = "esc-0",
@@ -55,6 +54,7 @@ public class ExampleScenario extends DomainResource {
     private final List<Identifier> identifier;
     private final String version;
     private final String name;
+    @Required
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -93,12 +93,10 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * An absolute URI that is used to identify this example scenario when it is referenced in a specification, model, design 
      * or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address 
      * at which at which an authoritative instance of this example scenario is (or will be) published. This URL can be the 
      * target of a canonical reference. It SHALL remain the same when the example scenario is stored on different servers.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -108,10 +106,8 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * A formal identifier that is used to identify this example scenario when it is represented in other formats, or 
      * referenced in a specification, model, design or an instance.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -121,12 +117,10 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * The identifier that is used to identify this version of the example scenario when it is referenced in a specification, 
      * model, design or instance. This is an arbitrary value managed by the example scenario author and is not expected to be 
      * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
      * also no expectation that versions can be placed in a lexicographical sequence.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -136,10 +130,8 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * A natural language name identifying the example scenario. This name should be usable as an identifier for the module 
      * by machine processing applications such as code generation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -149,9 +141,7 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of this example scenario. Enables tracking the life-cycle of the content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PublicationStatus}.
@@ -161,10 +151,8 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * A Boolean value to indicate that this example scenario is authored for testing purposes (or 
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -174,11 +162,9 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and optionally time) when the example scenario was published. The date must change when the business version 
      * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
      * the example scenario changes. (e.g. the 'content logical definition').
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -188,9 +174,7 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the organization or individual that published the example scenario.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -200,9 +184,7 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * Contact details to assist a user in finding and communicating with the publisher.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -212,11 +194,9 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
      * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
      * may be used to assist with indexing and searching for appropriate example scenario instances.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
@@ -226,9 +206,7 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * A legal or geographic region in which the example scenario is intended to be used.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -238,10 +216,8 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * A copyright statement relating to the example scenario and/or its contents. Copyright statements are generally legal 
      * restrictions on the use and publishing of the example scenario.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -251,10 +227,8 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * What the example scenario resource is created for. This should not be used to show the business purpose of the 
      * scenario itself, but the purpose of documenting a scenario.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -264,9 +238,7 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * Actor participating in the resource.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Actor}.
@@ -276,9 +248,7 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * Each resource and each version that is present in the workflow.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Instance}.
@@ -288,9 +258,7 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * Each major process - a group of operations.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Process}.
@@ -300,9 +268,7 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * Another nested workflow.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -454,9 +420,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -470,10 +434,8 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -487,11 +449,9 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -505,9 +465,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -521,12 +479,10 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -540,13 +496,10 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -560,13 +513,10 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -580,15 +530,12 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -602,15 +549,12 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -624,21 +568,17 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -652,21 +592,17 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -680,12 +616,10 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that is used to identify this example scenario when it is referenced in a specification, model, design 
          * or an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address 
          * at which at which an authoritative instance of this example scenario is (or will be) published. This URL can be the 
          * target of a canonical reference. It SHALL remain the same when the example scenario is stored on different servers.
-         * </p>
          * 
          * @param url
          *     Canonical identifier for this example scenario, represented as a URI (globally unique)
@@ -699,13 +633,10 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * A formal identifier that is used to identify this example scenario when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Additional identifier for the example scenario
@@ -721,13 +652,10 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * A formal identifier that is used to identify this example scenario when it is represented in other formats, or 
          * referenced in a specification, model, design or an instance.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Additional identifier for the example scenario
@@ -741,12 +669,10 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * The identifier that is used to identify this version of the example scenario when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the example scenario author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
          * also no expectation that versions can be placed in a lexicographical sequence.
-         * </p>
          * 
          * @param version
          *     Business version of the example scenario
@@ -760,10 +686,8 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * A natural language name identifying the example scenario. This name should be usable as an identifier for the module 
          * by machine processing applications such as code generation.
-         * </p>
          * 
          * @param name
          *     Name for this example scenario (computer friendly)
@@ -777,9 +701,9 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of this example scenario. Enables tracking the life-cycle of the content.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | retired | unknown
@@ -793,10 +717,8 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * A Boolean value to indicate that this example scenario is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
-         * </p>
          * 
          * @param experimental
          *     For testing purposes, not real usage
@@ -810,11 +732,9 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and optionally time) when the example scenario was published. The date must change when the business version 
          * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
          * the example scenario changes. (e.g. the 'content logical definition').
-         * </p>
          * 
          * @param date
          *     Date last changed
@@ -828,9 +748,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the organization or individual that published the example scenario.
-         * </p>
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
@@ -844,12 +762,9 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Contact details for the publisher
@@ -865,12 +780,9 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Contact details for the publisher
@@ -884,14 +796,11 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate example scenario instances.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -907,14 +816,11 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate example scenario instances.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -928,12 +834,9 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the example scenario is intended to be used.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param jurisdiction
          *     Intended jurisdiction for example scenario (if applicable)
@@ -949,12 +852,9 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the example scenario is intended to be used.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param jurisdiction
          *     Intended jurisdiction for example scenario (if applicable)
@@ -968,10 +868,8 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * A copyright statement relating to the example scenario and/or its contents. Copyright statements are generally legal 
          * restrictions on the use and publishing of the example scenario.
-         * </p>
          * 
          * @param copyright
          *     Use and/or publishing restrictions
@@ -985,10 +883,8 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * What the example scenario resource is created for. This should not be used to show the business purpose of the 
          * scenario itself, but the purpose of documenting a scenario.
-         * </p>
          * 
          * @param purpose
          *     The purpose of the example, e.g. to illustrate a scenario
@@ -1002,12 +898,9 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Actor participating in the resource.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param actor
          *     Actor participating in the resource
@@ -1023,12 +916,9 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Actor participating in the resource.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param actor
          *     Actor participating in the resource
@@ -1042,12 +932,9 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Each resource and each version that is present in the workflow.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param instance
          *     Each resource and each version that is present in the workflow
@@ -1063,12 +950,9 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Each resource and each version that is present in the workflow.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param instance
          *     Each resource and each version that is present in the workflow
@@ -1082,12 +966,9 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Each major process - a group of operations.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param process
          *     Each major process - a group of operations
@@ -1103,12 +984,9 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Each major process - a group of operations.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param process
          *     Each major process - a group of operations
@@ -1122,12 +1000,9 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Another nested workflow.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param workflow
          *     Another nested workflow
@@ -1143,12 +1018,9 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Another nested workflow.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param workflow
          *     Another nested workflow
@@ -1161,6 +1033,17 @@ public class ExampleScenario extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link ExampleScenario}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link ExampleScenario}
+         */
         @Override
         public ExampleScenario build() {
             return new ExampleScenario(this);
@@ -1190,12 +1073,12 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * Actor participating in the resource.
-     * </p>
      */
     public static class Actor extends BackboneElement {
+        @Required
         private final String actorId;
+        @Required
         private final ExampleScenarioActorType type;
         private final String name;
         private final Markdown description;
@@ -1212,9 +1095,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * ID or acronym of actor.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1224,9 +1105,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of actor - person or system.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ExampleScenarioActorType}.
@@ -1236,9 +1115,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the actor as shown in the page.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1248,9 +1125,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * The description of the actor.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Markdown}.
@@ -1344,10 +1219,8 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1361,15 +1234,12 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1383,15 +1253,12 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1405,21 +1272,17 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1433,21 +1296,17 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1461,9 +1320,9 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * ID or acronym of actor.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param actorId
              *     ID or acronym of the actor
@@ -1477,9 +1336,9 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of actor - person or system.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     person | entity
@@ -1493,9 +1352,7 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * The name of the actor as shown in the page.
-             * </p>
              * 
              * @param name
              *     The name of the actor as shown in the page
@@ -1509,9 +1366,7 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * The description of the actor.
-             * </p>
              * 
              * @param description
              *     The description of the actor
@@ -1524,6 +1379,18 @@ public class ExampleScenario extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Actor}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>actorId</li>
+             * <li>type</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Actor}
+             */
             @Override
             public Actor build() {
                 return new Actor(this);
@@ -1541,12 +1408,12 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * Each resource and each version that is present in the workflow.
-     * </p>
      */
     public static class Instance extends BackboneElement {
+        @Required
         private final String resourceId;
+        @Required
         private final FHIRResourceType resourceType;
         private final String name;
         private final Markdown description;
@@ -1567,9 +1434,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * The id of the resource for referencing.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1579,9 +1444,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of the resource.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link FHIRResourceType}.
@@ -1591,9 +1454,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * A short name for the resource instance.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1603,9 +1464,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Human-friendly description of the resource instance.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Markdown}.
@@ -1615,9 +1474,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * A specific version of the resource.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Version}.
@@ -1627,9 +1484,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Resources contained in the instance (e.g. the observations contained in a bundle).
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link ContainedInstance}.
@@ -1733,10 +1588,8 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1750,15 +1603,12 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1772,15 +1622,12 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1794,21 +1641,17 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1822,21 +1665,17 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1850,9 +1689,9 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * The id of the resource for referencing.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param resourceId
              *     The id of the resource for referencing
@@ -1866,9 +1705,9 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of the resource.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param resourceType
              *     The type of the resource
@@ -1882,9 +1721,7 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * A short name for the resource instance.
-             * </p>
              * 
              * @param name
              *     A short name for the resource instance
@@ -1898,9 +1735,7 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * Human-friendly description of the resource instance.
-             * </p>
              * 
              * @param description
              *     Human-friendly description of the resource instance
@@ -1914,12 +1749,9 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * A specific version of the resource.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param version
              *     A specific version of the resource
@@ -1935,12 +1767,9 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * A specific version of the resource.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param version
              *     A specific version of the resource
@@ -1954,12 +1783,9 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * Resources contained in the instance (e.g. the observations contained in a bundle).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param containedInstance
              *     Resources contained in the instance
@@ -1975,12 +1801,9 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * Resources contained in the instance (e.g. the observations contained in a bundle).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param containedInstance
              *     Resources contained in the instance
@@ -1993,6 +1816,18 @@ public class ExampleScenario extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Instance}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>resourceId</li>
+             * <li>resourceType</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Instance}
+             */
             @Override
             public Instance build() {
                 return new Instance(this);
@@ -2011,12 +1846,12 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * A specific version of the resource.
-         * </p>
          */
         public static class Version extends BackboneElement {
+            @Required
             private final String versionId;
+            @Required
             private final Markdown description;
 
             private volatile int hashCode;
@@ -2029,9 +1864,7 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * The identifier of a specific version of a resource.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2041,9 +1874,7 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * The description of the resource version.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Markdown}.
@@ -2127,10 +1958,8 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2144,15 +1973,12 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2166,15 +1992,12 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2188,21 +2011,17 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2216,21 +2035,17 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2244,9 +2059,9 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The identifier of a specific version of a resource.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param versionId
                  *     The identifier of a specific version of a resource
@@ -2260,9 +2075,9 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The description of the resource version.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param description
                  *     The description of the resource version
@@ -2275,6 +2090,18 @@ public class ExampleScenario extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Version}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>versionId</li>
+                 * <li>description</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Version}
+                 */
                 @Override
                 public Version build() {
                     return new Version(this);
@@ -2290,11 +2117,10 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Resources contained in the instance (e.g. the observations contained in a bundle).
-         * </p>
          */
         public static class ContainedInstance extends BackboneElement {
+            @Required
             private final String resourceId;
             private final String versionId;
 
@@ -2308,9 +2134,7 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * Each resource contained in the instance.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2320,9 +2144,7 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * A specific version of a resource contained in the instance.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2406,10 +2228,8 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2423,15 +2243,12 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2445,15 +2262,12 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2467,21 +2281,17 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2495,21 +2305,17 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2523,9 +2329,9 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Each resource contained in the instance.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param resourceId
                  *     Each resource contained in the instance
@@ -2539,9 +2345,7 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A specific version of a resource contained in the instance.
-                 * </p>
                  * 
                  * @param versionId
                  *     A specific version of a resource contained in the instance
@@ -2554,6 +2358,17 @@ public class ExampleScenario extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link ContainedInstance}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>resourceId</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link ContainedInstance}
+                 */
                 @Override
                 public ContainedInstance build() {
                     return new ContainedInstance(this);
@@ -2570,11 +2385,10 @@ public class ExampleScenario extends DomainResource {
     }
 
     /**
-     * <p>
      * Each major process - a group of operations.
-     * </p>
      */
     public static class Process extends BackboneElement {
+        @Required
         private final String title;
         private final Markdown description;
         private final Markdown preConditions;
@@ -2594,9 +2408,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * The diagram title of the group of operations.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2606,9 +2418,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * A longer description of the group of operations.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Markdown}.
@@ -2618,9 +2428,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Description of initial status before the process starts.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Markdown}.
@@ -2630,9 +2438,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Description of final status after the process ends.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Markdown}.
@@ -2642,9 +2448,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Each step of the process.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Step}.
@@ -2743,10 +2547,8 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2760,15 +2562,12 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2782,15 +2581,12 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2804,21 +2600,17 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2832,21 +2624,17 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2860,9 +2648,9 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * The diagram title of the group of operations.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param title
              *     The diagram title of the group of operations
@@ -2876,9 +2664,7 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * A longer description of the group of operations.
-             * </p>
              * 
              * @param description
              *     A longer description of the group of operations
@@ -2892,9 +2678,7 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * Description of initial status before the process starts.
-             * </p>
              * 
              * @param preConditions
              *     Description of initial status before the process starts
@@ -2908,9 +2692,7 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * Description of final status after the process ends.
-             * </p>
              * 
              * @param postConditions
              *     Description of final status after the process ends
@@ -2924,12 +2706,9 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * Each step of the process.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param step
              *     Each step of the process
@@ -2945,12 +2724,9 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * Each step of the process.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param step
              *     Each step of the process
@@ -2963,6 +2739,17 @@ public class ExampleScenario extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Process}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>title</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Process}
+             */
             @Override
             public Process build() {
                 return new Process(this);
@@ -2980,9 +2767,7 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
-         * <p>
          * Each step of the process.
-         * </p>
          */
         public static class Step extends BackboneElement {
             private final List<ExampleScenario.Process> process;
@@ -3002,9 +2787,7 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * Nested process.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Process}.
@@ -3014,9 +2797,7 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * If there is a pause in the flow.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Boolean}.
@@ -3026,9 +2807,7 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * Each interaction or action.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Operation}.
@@ -3038,10 +2817,8 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates an alternative step that can be taken instead of the operations on the base step in exceptional/atypical 
              * circumstances.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Alternative}.
@@ -3135,10 +2912,8 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -3152,15 +2927,12 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3174,15 +2946,12 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3196,21 +2965,17 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3224,21 +2989,17 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3252,12 +3013,9 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Nested process.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param process
                  *     Nested process
@@ -3273,12 +3031,9 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Nested process.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param process
                  *     Nested process
@@ -3292,9 +3047,7 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * If there is a pause in the flow.
-                 * </p>
                  * 
                  * @param pause
                  *     If there is a pause in the flow
@@ -3308,9 +3061,7 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Each interaction or action.
-                 * </p>
                  * 
                  * @param operation
                  *     Each interaction or action
@@ -3324,13 +3075,10 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Indicates an alternative step that can be taken instead of the operations on the base step in exceptional/atypical 
                  * circumstances.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param alternative
                  *     Alternate non-typical step action
@@ -3346,13 +3094,10 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Indicates an alternative step that can be taken instead of the operations on the base step in exceptional/atypical 
                  * circumstances.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param alternative
                  *     Alternate non-typical step action
@@ -3365,6 +3110,12 @@ public class ExampleScenario extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Step}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Step}
+                 */
                 @Override
                 public Step build() {
                     return new Step(this);
@@ -3381,11 +3132,10 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * Each interaction or action.
-             * </p>
              */
             public static class Operation extends BackboneElement {
+                @Required
                 private final String number;
                 private final String type;
                 private final String name;
@@ -3415,9 +3165,7 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The sequential number of the interaction, e.g. 1.2.5.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -3427,9 +3175,7 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The type of operation - CRUD.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -3439,9 +3185,7 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The human-friendly name of the interaction.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -3451,9 +3195,7 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Who starts the transaction.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -3463,9 +3205,7 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Who receives the transaction.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -3475,9 +3215,7 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A comment to be inserted in the diagram.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Markdown}.
@@ -3487,9 +3225,7 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Whether the initiator is deactivated right after the transaction.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Boolean}.
@@ -3499,9 +3235,7 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Whether the receiver is deactivated right after the transaction.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Boolean}.
@@ -3511,9 +3245,7 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Each resource instance used by the initiator.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link ContainedInstance}.
@@ -3523,9 +3255,7 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Each resource instance used by the responder.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link ContainedInstance}.
@@ -3649,10 +3379,8 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -3666,15 +3394,12 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -3688,15 +3413,12 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -3710,21 +3432,17 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -3738,21 +3456,17 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -3766,9 +3480,9 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The sequential number of the interaction, e.g. 1.2.5.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param number
                      *     The sequential number of the interaction
@@ -3782,9 +3496,7 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The type of operation - CRUD.
-                     * </p>
                      * 
                      * @param type
                      *     The type of operation - CRUD
@@ -3798,9 +3510,7 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The human-friendly name of the interaction.
-                     * </p>
                      * 
                      * @param name
                      *     The human-friendly name of the interaction
@@ -3814,9 +3524,7 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Who starts the transaction.
-                     * </p>
                      * 
                      * @param initiator
                      *     Who starts the transaction
@@ -3830,9 +3538,7 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Who receives the transaction.
-                     * </p>
                      * 
                      * @param receiver
                      *     Who receives the transaction
@@ -3846,9 +3552,7 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A comment to be inserted in the diagram.
-                     * </p>
                      * 
                      * @param description
                      *     A comment to be inserted in the diagram
@@ -3862,9 +3566,7 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Whether the initiator is deactivated right after the transaction.
-                     * </p>
                      * 
                      * @param initiatorActive
                      *     Whether the initiator is deactivated right after the transaction
@@ -3878,9 +3580,7 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Whether the receiver is deactivated right after the transaction.
-                     * </p>
                      * 
                      * @param receiverActive
                      *     Whether the receiver is deactivated right after the transaction
@@ -3894,9 +3594,7 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Each resource instance used by the initiator.
-                     * </p>
                      * 
                      * @param request
                      *     Each resource instance used by the initiator
@@ -3910,9 +3608,7 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Each resource instance used by the responder.
-                     * </p>
                      * 
                      * @param response
                      *     Each resource instance used by the responder
@@ -3925,6 +3621,17 @@ public class ExampleScenario extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link Operation}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>number</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link Operation}
+                     */
                     @Override
                     public Operation build() {
                         return new Operation(this);
@@ -3948,12 +3655,11 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates an alternative step that can be taken instead of the operations on the base step in exceptional/atypical 
              * circumstances.
-             * </p>
              */
             public static class Alternative extends BackboneElement {
+                @Required
                 private final String title;
                 private final Markdown description;
                 private final List<ExampleScenario.Process.Step> step;
@@ -3969,10 +3675,8 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The label to display for the alternative that gives a sense of the circumstance in which the alternative should be 
                  * invoked.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -3982,9 +3686,7 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A human-readable description of the alternative explaining when the alternative should occur rather than the base step.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Markdown}.
@@ -3994,9 +3696,7 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * What happens in each alternative option.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link Step}.
@@ -4085,10 +3785,8 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -4102,15 +3800,12 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -4124,15 +3819,12 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -4146,21 +3838,17 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -4174,21 +3862,17 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -4202,10 +3886,10 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The label to display for the alternative that gives a sense of the circumstance in which the alternative should be 
                      * invoked.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param title
                      *     Label for alternative
@@ -4219,9 +3903,7 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * A human-readable description of the alternative explaining when the alternative should occur rather than the base step.
-                     * </p>
                      * 
                      * @param description
                      *     A human-readable description of each option
@@ -4235,12 +3917,9 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * What happens in each alternative option.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param step
                      *     What happens in each alternative option
@@ -4256,12 +3935,9 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * What happens in each alternative option.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param step
                      *     What happens in each alternative option
@@ -4274,6 +3950,17 @@ public class ExampleScenario extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link Alternative}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>title</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link Alternative}
+                     */
                     @Override
                     public Alternative build() {
                         return new Alternative(this);

@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -37,9 +39,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.
- * </p>
  */
 @Constraint(
     id = "ras-1",
@@ -60,11 +60,14 @@ public class RiskAssessment extends DomainResource {
     private final List<Identifier> identifier;
     private final Reference basedOn;
     private final Reference parent;
+    @Required
     private final RiskAssessmentStatus status;
     private final CodeableConcept method;
     private final CodeableConcept code;
+    @Required
     private final Reference subject;
     private final Reference encounter;
+    @Choice({DateTime.class, Period.class})
     private final Element occurrence;
     private final Reference condition;
     private final Reference performer;
@@ -99,9 +102,7 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * Business identifier assigned to the risk assessment.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -111,9 +112,7 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * A reference to the request that is fulfilled by this risk assessment.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -123,9 +122,7 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * A reference to a resource that this risk assessment is part of, such as a Procedure.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -135,9 +132,7 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of the RiskAssessment, using the same statuses as an Observation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link RiskAssessmentStatus}.
@@ -147,9 +142,7 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * The algorithm, process or mechanism used to evaluate the risk.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -159,9 +152,7 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * The type of the risk assessment performed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -171,9 +162,7 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * The patient or group the risk assessment applies to.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -183,9 +172,7 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * The encounter where the assessment was performed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -195,9 +182,7 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and possibly time) the risk assessment was performed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -207,9 +192,7 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * For assessments or prognosis specific to a particular condition, indicates the condition being assessed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -219,9 +202,7 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * The provider or software application that performed the assessment.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -231,9 +212,7 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * The reason the risk assessment was performed.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -243,9 +222,7 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * Resources supporting the reason the risk assessment was performed.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -255,10 +232,8 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the source data considered as part of the assessment (for example, FamilyHistory, Observations, Procedures, 
      * Conditions, etc.).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -268,9 +243,7 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes the expected outcome for the subject.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Prediction}.
@@ -280,9 +253,7 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * A description of the steps that might be taken to reduce the identified risk(s).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -292,9 +263,7 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * Additional comments about the risk assessment.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -446,9 +415,7 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -462,10 +429,8 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -479,11 +444,9 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -497,9 +460,7 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -513,12 +474,10 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -532,13 +491,10 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -552,13 +508,10 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -572,15 +525,12 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -594,15 +544,12 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -616,21 +563,17 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -644,21 +587,17 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -672,12 +611,9 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifier assigned to the risk assessment.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Unique identifier for the assessment
@@ -693,12 +629,9 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifier assigned to the risk assessment.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Unique identifier for the assessment
@@ -712,9 +645,7 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to the request that is fulfilled by this risk assessment.
-         * </p>
          * 
          * @param basedOn
          *     Request fulfilled by this assessment
@@ -728,9 +659,7 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a resource that this risk assessment is part of, such as a Procedure.
-         * </p>
          * 
          * @param parent
          *     Part of this occurrence
@@ -744,9 +673,9 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of the RiskAssessment, using the same statuses as an Observation.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     registered | preliminary | final | amended +
@@ -760,9 +689,7 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * The algorithm, process or mechanism used to evaluate the risk.
-         * </p>
          * 
          * @param method
          *     Evaluation mechanism
@@ -776,9 +703,7 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of the risk assessment performed.
-         * </p>
          * 
          * @param code
          *     Type of assessment
@@ -792,9 +717,9 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * The patient or group the risk assessment applies to.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param subject
          *     Who/what does assessment apply to?
@@ -808,9 +733,7 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * The encounter where the assessment was performed.
-         * </p>
          * 
          * @param encounter
          *     Where was assessment performed?
@@ -824,9 +747,13 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and possibly time) the risk assessment was performed.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link DateTime}</li>
+         * <li>{@link Period}</li>
+         * </ul>
          * 
          * @param occurrence
          *     When was assessment made?
@@ -840,9 +767,7 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * For assessments or prognosis specific to a particular condition, indicates the condition being assessed.
-         * </p>
          * 
          * @param condition
          *     Condition assessed
@@ -856,9 +781,7 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * The provider or software application that performed the assessment.
-         * </p>
          * 
          * @param performer
          *     Who did assessment?
@@ -872,12 +795,9 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * The reason the risk assessment was performed.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonCode
          *     Why the assessment was necessary?
@@ -893,12 +813,9 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * The reason the risk assessment was performed.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonCode
          *     Why the assessment was necessary?
@@ -912,12 +829,9 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * Resources supporting the reason the risk assessment was performed.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonReference
          *     Why the assessment was necessary?
@@ -933,12 +847,9 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * Resources supporting the reason the risk assessment was performed.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonReference
          *     Why the assessment was necessary?
@@ -952,13 +863,10 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the source data considered as part of the assessment (for example, FamilyHistory, Observations, Procedures, 
          * Conditions, etc.).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param basis
          *     Information used in assessment
@@ -974,13 +882,10 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the source data considered as part of the assessment (for example, FamilyHistory, Observations, Procedures, 
          * Conditions, etc.).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param basis
          *     Information used in assessment
@@ -994,12 +899,9 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the expected outcome for the subject.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param prediction
          *     Outcome predicted
@@ -1015,12 +917,9 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the expected outcome for the subject.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param prediction
          *     Outcome predicted
@@ -1034,9 +933,7 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * A description of the steps that might be taken to reduce the identified risk(s).
-         * </p>
          * 
          * @param mitigation
          *     How to reduce risk
@@ -1050,12 +947,9 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional comments about the risk assessment.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     Comments on the risk assessment
@@ -1071,12 +965,9 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional comments about the risk assessment.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     Comments on the risk assessment
@@ -1089,6 +980,18 @@ public class RiskAssessment extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link RiskAssessment}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>subject</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link RiskAssessment}
+         */
         @Override
         public RiskAssessment build() {
             return new RiskAssessment(this);
@@ -1118,15 +1021,15 @@ public class RiskAssessment extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes the expected outcome for the subject.
-     * </p>
      */
     public static class Prediction extends BackboneElement {
         private final CodeableConcept outcome;
+        @Choice({Decimal.class, Range.class})
         private final Element probability;
         private final CodeableConcept qualitativeRisk;
         private final Decimal relativeRisk;
+        @Choice({Period.class, Range.class})
         private final Element when;
         private final String rationale;
 
@@ -1144,9 +1047,7 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * One of the potential outcomes for the patient (e.g. remission, death, a particular condition).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1156,9 +1057,7 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates how likely the outcome is (in the specified timeframe).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -1168,10 +1067,8 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates how likely the outcome is (in the specified timeframe), expressed as a qualitative value (e.g. low, medium, 
          * or high).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1181,10 +1078,8 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the risk for this particular subject (with their specific characteristics) divided by the risk of the 
          * population in general. (Numbers greater than 1 = higher risk than the population, numbers less than 1 = lower risk.).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -1194,9 +1089,7 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the period of time or age range of the subject to which the specified probability applies.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -1206,9 +1099,7 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional information explaining the basis for the prediction.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1312,10 +1203,8 @@ public class RiskAssessment extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1329,15 +1218,12 @@ public class RiskAssessment extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1351,15 +1237,12 @@ public class RiskAssessment extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1373,21 +1256,17 @@ public class RiskAssessment extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1401,21 +1280,17 @@ public class RiskAssessment extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1429,9 +1304,7 @@ public class RiskAssessment extends DomainResource {
             }
 
             /**
-             * <p>
              * One of the potential outcomes for the patient (e.g. remission, death, a particular condition).
-             * </p>
              * 
              * @param outcome
              *     Possible outcome for the subject
@@ -1445,9 +1318,13 @@ public class RiskAssessment extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates how likely the outcome is (in the specified timeframe).
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Decimal}</li>
+             * <li>{@link Range}</li>
+             * </ul>
              * 
              * @param probability
              *     Likelihood of specified outcome
@@ -1461,10 +1338,8 @@ public class RiskAssessment extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates how likely the outcome is (in the specified timeframe), expressed as a qualitative value (e.g. low, medium, 
              * or high).
-             * </p>
              * 
              * @param qualitativeRisk
              *     Likelihood of specified outcome as a qualitative value
@@ -1478,10 +1353,8 @@ public class RiskAssessment extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates the risk for this particular subject (with their specific characteristics) divided by the risk of the 
              * population in general. (Numbers greater than 1 = higher risk than the population, numbers less than 1 = lower risk.).
-             * </p>
              * 
              * @param relativeRisk
              *     Relative likelihood
@@ -1495,9 +1368,13 @@ public class RiskAssessment extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates the period of time or age range of the subject to which the specified probability applies.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Period}</li>
+             * <li>{@link Range}</li>
+             * </ul>
              * 
              * @param when
              *     Timeframe or age range
@@ -1511,9 +1388,7 @@ public class RiskAssessment extends DomainResource {
             }
 
             /**
-             * <p>
              * Additional information explaining the basis for the prediction.
-             * </p>
              * 
              * @param rationale
              *     Explanation of prediction
@@ -1526,6 +1401,12 @@ public class RiskAssessment extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Prediction}
+             * 
+             * @return
+             *     An immutable object of type {@link Prediction}
+             */
             @Override
             public Prediction build() {
                 return new Prediction(this);

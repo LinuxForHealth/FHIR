@@ -18,10 +18,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Details for all kinds of technology mediated contact points for a person or organization, including telephone, email, 
  * etc.
- * </p>
  */
 @Constraint(
     id = "cpt-2",
@@ -51,9 +49,7 @@ public class ContactPoint extends Element {
     }
 
     /**
-     * <p>
      * Telecommunications form for contact point - what communications system is required to make use of the contact.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ContactPointSystem}.
@@ -63,10 +59,8 @@ public class ContactPoint extends Element {
     }
 
     /**
-     * <p>
      * The actual contact point details, in a form that is meaningful to the designated communication system (i.e. phone 
      * number or email address).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -76,9 +70,7 @@ public class ContactPoint extends Element {
     }
 
     /**
-     * <p>
      * Identifies the purpose for the contact point.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ContactPointUse}.
@@ -88,10 +80,8 @@ public class ContactPoint extends Element {
     }
 
     /**
-     * <p>
      * Specifies a preferred order in which to use a set of contacts. ContactPoints with lower rank values are more preferred 
      * than those with higher rank values.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PositiveInt}.
@@ -101,9 +91,7 @@ public class ContactPoint extends Element {
     }
 
     /**
-     * <p>
      * Time period when the contact point was/is in use.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -199,10 +187,8 @@ public class ContactPoint extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -216,15 +202,12 @@ public class ContactPoint extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -238,15 +221,12 @@ public class ContactPoint extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -260,9 +240,7 @@ public class ContactPoint extends Element {
         }
 
         /**
-         * <p>
          * Telecommunications form for contact point - what communications system is required to make use of the contact.
-         * </p>
          * 
          * @param system
          *     phone | fax | email | pager | url | sms | other
@@ -276,10 +254,8 @@ public class ContactPoint extends Element {
         }
 
         /**
-         * <p>
          * The actual contact point details, in a form that is meaningful to the designated communication system (i.e. phone 
          * number or email address).
-         * </p>
          * 
          * @param value
          *     The actual contact point details
@@ -293,9 +269,7 @@ public class ContactPoint extends Element {
         }
 
         /**
-         * <p>
          * Identifies the purpose for the contact point.
-         * </p>
          * 
          * @param use
          *     home | work | temp | old | mobile - purpose of this contact point
@@ -309,10 +283,8 @@ public class ContactPoint extends Element {
         }
 
         /**
-         * <p>
          * Specifies a preferred order in which to use a set of contacts. ContactPoints with lower rank values are more preferred 
          * than those with higher rank values.
-         * </p>
          * 
          * @param rank
          *     Specify preferred order of use (1 = highest)
@@ -326,9 +298,7 @@ public class ContactPoint extends Element {
         }
 
         /**
-         * <p>
          * Time period when the contact point was/is in use.
-         * </p>
          * 
          * @param period
          *     Time period when the contact point was/is in use
@@ -341,6 +311,12 @@ public class ContactPoint extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link ContactPoint}
+         * 
+         * @return
+         *     An immutable object of type {@link ContactPoint}
+         */
         @Override
         public ContactPoint build() {
             return new ContactPoint(this);

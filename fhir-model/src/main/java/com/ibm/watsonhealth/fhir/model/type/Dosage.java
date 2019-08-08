@@ -14,14 +14,13 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Indicates how the medication is/was taken or should be taken by the patient.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Dosage extends BackboneElement {
@@ -30,6 +29,7 @@ public class Dosage extends BackboneElement {
     private final List<CodeableConcept> additionalInstruction;
     private final String patientInstruction;
     private final Timing timing;
+    @Choice({Boolean.class, CodeableConcept.class})
     private final Element asNeeded;
     private final CodeableConcept site;
     private final CodeableConcept route;
@@ -60,9 +60,7 @@ public class Dosage extends BackboneElement {
     }
 
     /**
-     * <p>
      * Indicates the order in which the dosage instructions should be applied or interpreted.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Integer}.
@@ -72,9 +70,7 @@ public class Dosage extends BackboneElement {
     }
 
     /**
-     * <p>
      * Free text dosage instructions e.g. SIG.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -84,11 +80,9 @@ public class Dosage extends BackboneElement {
     }
 
     /**
-     * <p>
      * Supplemental instructions to the patient on how to take the medication (e.g. "with meals" or"take half to one hour 
      * before food") or warnings for the patient about the medication (e.g. "may cause drowsiness" or "avoid exposure of skin 
      * to direct sunlight or sunlamps").
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -98,9 +92,7 @@ public class Dosage extends BackboneElement {
     }
 
     /**
-     * <p>
      * Instructions in terms that are understood by the patient or consumer.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -110,9 +102,7 @@ public class Dosage extends BackboneElement {
     }
 
     /**
-     * <p>
      * When medication should be administered.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Timing}.
@@ -122,10 +112,8 @@ public class Dosage extends BackboneElement {
     }
 
     /**
-     * <p>
      * Indicates whether the Medication is only taken when needed within a specific dosing schedule (Boolean option), or it 
      * indicates the precondition for taking the Medication (CodeableConcept).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -135,9 +123,7 @@ public class Dosage extends BackboneElement {
     }
 
     /**
-     * <p>
      * Body site to administer to.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -147,9 +133,7 @@ public class Dosage extends BackboneElement {
     }
 
     /**
-     * <p>
      * How drug should enter body.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -159,9 +143,7 @@ public class Dosage extends BackboneElement {
     }
 
     /**
-     * <p>
      * Technique for administering medication.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -171,9 +153,7 @@ public class Dosage extends BackboneElement {
     }
 
     /**
-     * <p>
      * The amount of medication administered.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link DoseAndRate}.
@@ -183,9 +163,7 @@ public class Dosage extends BackboneElement {
     }
 
     /**
-     * <p>
      * Upper limit on medication per unit of time.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Ratio}.
@@ -195,9 +173,7 @@ public class Dosage extends BackboneElement {
     }
 
     /**
-     * <p>
      * Upper limit on medication per administration.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link SimpleQuantity}.
@@ -207,9 +183,7 @@ public class Dosage extends BackboneElement {
     }
 
     /**
-     * <p>
      * Upper limit on medication per lifetime of the patient.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link SimpleQuantity}.
@@ -348,10 +322,8 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -365,15 +337,12 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -387,15 +356,12 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -409,21 +375,17 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element and that 
          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
          * extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
@@ -437,21 +399,17 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element and that 
          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
          * extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
@@ -465,9 +423,7 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * Indicates the order in which the dosage instructions should be applied or interpreted.
-         * </p>
          * 
          * @param sequence
          *     The order of the dosage instructions
@@ -481,9 +437,7 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * Free text dosage instructions e.g. SIG.
-         * </p>
          * 
          * @param text
          *     Free text dosage instructions e.g. SIG
@@ -497,14 +451,11 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * Supplemental instructions to the patient on how to take the medication (e.g. "with meals" or"take half to one hour 
          * before food") or warnings for the patient about the medication (e.g. "may cause drowsiness" or "avoid exposure of skin 
          * to direct sunlight or sunlamps").
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param additionalInstruction
          *     Supplemental instruction or warnings to the patient - e.g. "with meals", "may cause drowsiness"
@@ -520,14 +471,11 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * Supplemental instructions to the patient on how to take the medication (e.g. "with meals" or"take half to one hour 
          * before food") or warnings for the patient about the medication (e.g. "may cause drowsiness" or "avoid exposure of skin 
          * to direct sunlight or sunlamps").
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param additionalInstruction
          *     Supplemental instruction or warnings to the patient - e.g. "with meals", "may cause drowsiness"
@@ -541,9 +489,7 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * Instructions in terms that are understood by the patient or consumer.
-         * </p>
          * 
          * @param patientInstruction
          *     Patient or consumer oriented instructions
@@ -557,9 +503,7 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * When medication should be administered.
-         * </p>
          * 
          * @param timing
          *     When medication should be administered
@@ -573,10 +517,14 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * Indicates whether the Medication is only taken when needed within a specific dosing schedule (Boolean option), or it 
          * indicates the precondition for taking the Medication (CodeableConcept).
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Boolean}</li>
+         * <li>{@link CodeableConcept}</li>
+         * </ul>
          * 
          * @param asNeeded
          *     Take "as needed" (for x)
@@ -590,9 +538,7 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * Body site to administer to.
-         * </p>
          * 
          * @param site
          *     Body site to administer to
@@ -606,9 +552,7 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * How drug should enter body.
-         * </p>
          * 
          * @param route
          *     How drug should enter body
@@ -622,9 +566,7 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * Technique for administering medication.
-         * </p>
          * 
          * @param method
          *     Technique for administering medication
@@ -638,12 +580,9 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * The amount of medication administered.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param doseAndRate
          *     Amount of medication administered
@@ -659,12 +598,9 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * The amount of medication administered.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param doseAndRate
          *     Amount of medication administered
@@ -678,9 +614,7 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * Upper limit on medication per unit of time.
-         * </p>
          * 
          * @param maxDosePerPeriod
          *     Upper limit on medication per unit of time
@@ -694,9 +628,7 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * Upper limit on medication per administration.
-         * </p>
          * 
          * @param maxDosePerAdministration
          *     Upper limit on medication per administration
@@ -710,9 +642,7 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * Upper limit on medication per lifetime of the patient.
-         * </p>
          * 
          * @param maxDosePerLifetime
          *     Upper limit on medication per lifetime of the patient
@@ -725,6 +655,12 @@ public class Dosage extends BackboneElement {
             return this;
         }
 
+        /**
+         * Build the {@link Dosage}
+         * 
+         * @return
+         *     An immutable object of type {@link Dosage}
+         */
         @Override
         public Dosage build() {
             return new Dosage(this);
@@ -750,13 +686,13 @@ public class Dosage extends BackboneElement {
     }
 
     /**
-     * <p>
      * The amount of medication administered.
-     * </p>
      */
     public static class DoseAndRate extends BackboneElement {
         private final CodeableConcept type;
+        @Choice({Range.class, SimpleQuantity.class})
         private final Element dose;
+        @Choice({Ratio.class, Range.class, SimpleQuantity.class})
         private final Element rate;
 
         private volatile int hashCode;
@@ -770,9 +706,7 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * The kind of dose or rate specified, for example, ordered or calculated.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -782,9 +716,7 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * Amount of medication per dose.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -794,9 +726,7 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * <p>
          * Amount of medication per unit of time.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -885,10 +815,8 @@ public class Dosage extends BackboneElement {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -902,15 +830,12 @@ public class Dosage extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -924,15 +849,12 @@ public class Dosage extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -946,7 +868,6 @@ public class Dosage extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -955,10 +876,8 @@ public class Dosage extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -972,7 +891,6 @@ public class Dosage extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -981,10 +899,8 @@ public class Dosage extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -998,9 +914,7 @@ public class Dosage extends BackboneElement {
             }
 
             /**
-             * <p>
              * The kind of dose or rate specified, for example, ordered or calculated.
-             * </p>
              * 
              * @param type
              *     The kind of dose or rate specified
@@ -1014,9 +928,13 @@ public class Dosage extends BackboneElement {
             }
 
             /**
-             * <p>
              * Amount of medication per dose.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Range}</li>
+             * <li>{@link SimpleQuantity}</li>
+             * </ul>
              * 
              * @param dose
              *     Amount of medication per dose
@@ -1030,9 +948,14 @@ public class Dosage extends BackboneElement {
             }
 
             /**
-             * <p>
              * Amount of medication per unit of time.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Ratio}</li>
+             * <li>{@link Range}</li>
+             * <li>{@link SimpleQuantity}</li>
+             * </ul>
              * 
              * @param rate
              *     Amount of medication per unit of time
@@ -1045,6 +968,12 @@ public class Dosage extends BackboneElement {
                 return this;
             }
 
+            /**
+             * Build the {@link DoseAndRate}
+             * 
+             * @return
+             *     An immutable object of type {@link DoseAndRate}
+             */
             @Override
             public DoseAndRate build() {
                 return new DoseAndRate(this);

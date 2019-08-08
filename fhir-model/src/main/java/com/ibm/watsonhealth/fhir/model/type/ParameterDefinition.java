@@ -11,24 +11,25 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.FHIRAllTypes;
 import com.ibm.watsonhealth.fhir.model.type.ParameterUse;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * The parameters to the module. This collection specifies both the input and output parameters. Input parameters are 
  * provided by the caller as part of the $evaluate operation. Output parameters are included in the GuidanceResponse.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ParameterDefinition extends Element {
     private final Code name;
+    @Required
     private final ParameterUse use;
     private final Integer min;
     private final String max;
     private final String documentation;
+    @Required
     private final FHIRAllTypes type;
     private final Canonical profile;
 
@@ -47,9 +48,7 @@ public class ParameterDefinition extends Element {
     }
 
     /**
-     * <p>
      * The name of the parameter used to allow access to the value of the parameter in evaluation contexts.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Code}.
@@ -59,9 +58,7 @@ public class ParameterDefinition extends Element {
     }
 
     /**
-     * <p>
      * Whether the parameter is input or output for the module.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ParameterUse}.
@@ -71,9 +68,7 @@ public class ParameterDefinition extends Element {
     }
 
     /**
-     * <p>
      * The minimum number of times this parameter SHALL appear in the request or response.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Integer}.
@@ -83,9 +78,7 @@ public class ParameterDefinition extends Element {
     }
 
     /**
-     * <p>
      * The maximum number of times this element is permitted to appear in the request or response.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -95,9 +88,7 @@ public class ParameterDefinition extends Element {
     }
 
     /**
-     * <p>
      * A brief discussion of what the parameter is for and how it is used by the module.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -107,9 +98,7 @@ public class ParameterDefinition extends Element {
     }
 
     /**
-     * <p>
      * The type of the parameter.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link FHIRAllTypes}.
@@ -119,9 +108,7 @@ public class ParameterDefinition extends Element {
     }
 
     /**
-     * <p>
      * If specified, this indicates a profile that the input data must conform to, or that the output data will conform to.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Canonical}.
@@ -227,10 +214,8 @@ public class ParameterDefinition extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -244,15 +229,12 @@ public class ParameterDefinition extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -266,15 +248,12 @@ public class ParameterDefinition extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -288,9 +267,7 @@ public class ParameterDefinition extends Element {
         }
 
         /**
-         * <p>
          * The name of the parameter used to allow access to the value of the parameter in evaluation contexts.
-         * </p>
          * 
          * @param name
          *     Name used to access the parameter value
@@ -304,9 +281,9 @@ public class ParameterDefinition extends Element {
         }
 
         /**
-         * <p>
          * Whether the parameter is input or output for the module.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param use
          *     in | out
@@ -320,9 +297,7 @@ public class ParameterDefinition extends Element {
         }
 
         /**
-         * <p>
          * The minimum number of times this parameter SHALL appear in the request or response.
-         * </p>
          * 
          * @param min
          *     Minimum cardinality
@@ -336,9 +311,7 @@ public class ParameterDefinition extends Element {
         }
 
         /**
-         * <p>
          * The maximum number of times this element is permitted to appear in the request or response.
-         * </p>
          * 
          * @param max
          *     Maximum cardinality (a number of *)
@@ -352,9 +325,7 @@ public class ParameterDefinition extends Element {
         }
 
         /**
-         * <p>
          * A brief discussion of what the parameter is for and how it is used by the module.
-         * </p>
          * 
          * @param documentation
          *     A brief description of the parameter
@@ -368,9 +339,9 @@ public class ParameterDefinition extends Element {
         }
 
         /**
-         * <p>
          * The type of the parameter.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param type
          *     What type of value
@@ -384,9 +355,7 @@ public class ParameterDefinition extends Element {
         }
 
         /**
-         * <p>
          * If specified, this indicates a profile that the input data must conform to, or that the output data will conform to.
-         * </p>
          * 
          * @param profile
          *     What profile the value is expected to be
@@ -399,6 +368,18 @@ public class ParameterDefinition extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link ParameterDefinition}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>use</li>
+         * <li>type</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link ParameterDefinition}
+         */
         @Override
         public ParameterDefinition build() {
             return new ParameterDefinition(this);

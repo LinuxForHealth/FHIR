@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
@@ -31,18 +32,18 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * An association between a patient and an organization / healthcare provider(s) during which time encounters may occur. 
  * The managing organization assumes a level of responsibility for the patient during this time.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class EpisodeOfCare extends DomainResource {
     private final List<Identifier> identifier;
+    @Required
     private final EpisodeOfCareStatus status;
     private final List<StatusHistory> statusHistory;
     private final List<CodeableConcept> type;
     private final List<Diagnosis> diagnosis;
+    @Required
     private final Reference patient;
     private final Reference managingOrganization;
     private final Period period;
@@ -70,10 +71,8 @@ public class EpisodeOfCare extends DomainResource {
     }
 
     /**
-     * <p>
      * The EpisodeOfCare may be known by different identifiers for different contexts of use, such as when an external agency 
      * is tracking the Episode for funding purposes.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -83,9 +82,7 @@ public class EpisodeOfCare extends DomainResource {
     }
 
     /**
-     * <p>
      * planned | waitlist | active | onhold | finished | cancelled.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link EpisodeOfCareStatus}.
@@ -95,10 +92,8 @@ public class EpisodeOfCare extends DomainResource {
     }
 
     /**
-     * <p>
      * The history of statuses that the EpisodeOfCare has been through (without requiring processing the history of the 
      * resource).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link StatusHistory}.
@@ -108,9 +103,7 @@ public class EpisodeOfCare extends DomainResource {
     }
 
     /**
-     * <p>
      * A classification of the type of episode of care; e.g. specialist referral, disease management, type of funded care.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -120,9 +113,7 @@ public class EpisodeOfCare extends DomainResource {
     }
 
     /**
-     * <p>
      * The list of diagnosis relevant to this episode of care.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Diagnosis}.
@@ -132,9 +123,7 @@ public class EpisodeOfCare extends DomainResource {
     }
 
     /**
-     * <p>
      * The patient who is the focus of this episode of care.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -144,9 +133,7 @@ public class EpisodeOfCare extends DomainResource {
     }
 
     /**
-     * <p>
      * The organization that has assumed the specific responsibilities for the specified duration.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -156,9 +143,7 @@ public class EpisodeOfCare extends DomainResource {
     }
 
     /**
-     * <p>
      * The interval during which the managing organization assumes the defined responsibility.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -168,9 +153,7 @@ public class EpisodeOfCare extends DomainResource {
     }
 
     /**
-     * <p>
      * Referral Request(s) that are fulfilled by this EpisodeOfCare, incoming referrals.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -180,9 +163,7 @@ public class EpisodeOfCare extends DomainResource {
     }
 
     /**
-     * <p>
      * The practitioner that is the care manager/care coordinator for this patient.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -192,9 +173,7 @@ public class EpisodeOfCare extends DomainResource {
     }
 
     /**
-     * <p>
      * The list of practitioners that may be facilitating this episode of care for specific purposes.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -204,9 +183,7 @@ public class EpisodeOfCare extends DomainResource {
     }
 
     /**
-     * <p>
      * The set of accounts that may be used for billing for this EpisodeOfCare.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -338,9 +315,7 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -354,10 +329,8 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -371,11 +344,9 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -389,9 +360,7 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -405,12 +374,10 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -424,13 +391,10 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -444,13 +408,10 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -464,15 +425,12 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -486,15 +444,12 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -508,21 +463,17 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -536,21 +487,17 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -564,13 +511,10 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The EpisodeOfCare may be known by different identifiers for different contexts of use, such as when an external agency 
          * is tracking the Episode for funding purposes.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Business Identifier(s) relevant for this EpisodeOfCare
@@ -586,13 +530,10 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The EpisodeOfCare may be known by different identifiers for different contexts of use, such as when an external agency 
          * is tracking the Episode for funding purposes.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Business Identifier(s) relevant for this EpisodeOfCare
@@ -606,9 +547,9 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * planned | waitlist | active | onhold | finished | cancelled.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     planned | waitlist | active | onhold | finished | cancelled | entered-in-error
@@ -622,13 +563,10 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The history of statuses that the EpisodeOfCare has been through (without requiring processing the history of the 
          * resource).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param statusHistory
          *     Past list of status codes (the current status may be included to cover the start date of the status)
@@ -644,13 +582,10 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The history of statuses that the EpisodeOfCare has been through (without requiring processing the history of the 
          * resource).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param statusHistory
          *     Past list of status codes (the current status may be included to cover the start date of the status)
@@ -664,12 +599,9 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * A classification of the type of episode of care; e.g. specialist referral, disease management, type of funded care.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param type
          *     Type/class - e.g. specialist referral, disease management
@@ -685,12 +617,9 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * A classification of the type of episode of care; e.g. specialist referral, disease management, type of funded care.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param type
          *     Type/class - e.g. specialist referral, disease management
@@ -704,12 +633,9 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The list of diagnosis relevant to this episode of care.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param diagnosis
          *     The list of diagnosis relevant to this episode of care
@@ -725,12 +651,9 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The list of diagnosis relevant to this episode of care.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param diagnosis
          *     The list of diagnosis relevant to this episode of care
@@ -744,9 +667,9 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The patient who is the focus of this episode of care.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param patient
          *     The patient who is the focus of this episode of care
@@ -760,9 +683,7 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The organization that has assumed the specific responsibilities for the specified duration.
-         * </p>
          * 
          * @param managingOrganization
          *     Organization that assumes care
@@ -776,9 +697,7 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The interval during which the managing organization assumes the defined responsibility.
-         * </p>
          * 
          * @param period
          *     Interval during responsibility is assumed
@@ -792,12 +711,9 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * Referral Request(s) that are fulfilled by this EpisodeOfCare, incoming referrals.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param referralRequest
          *     Originating Referral Request(s)
@@ -813,12 +729,9 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * Referral Request(s) that are fulfilled by this EpisodeOfCare, incoming referrals.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param referralRequest
          *     Originating Referral Request(s)
@@ -832,9 +745,7 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The practitioner that is the care manager/care coordinator for this patient.
-         * </p>
          * 
          * @param careManager
          *     Care manager/care coordinator for the patient
@@ -848,12 +759,9 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The list of practitioners that may be facilitating this episode of care for specific purposes.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param team
          *     Other practitioners facilitating this episode of care
@@ -869,12 +777,9 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The list of practitioners that may be facilitating this episode of care for specific purposes.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param team
          *     Other practitioners facilitating this episode of care
@@ -888,12 +793,9 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The set of accounts that may be used for billing for this EpisodeOfCare.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param account
          *     The set of accounts that may be used for billing for this EpisodeOfCare
@@ -909,12 +811,9 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The set of accounts that may be used for billing for this EpisodeOfCare.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param account
          *     The set of accounts that may be used for billing for this EpisodeOfCare
@@ -927,6 +826,18 @@ public class EpisodeOfCare extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link EpisodeOfCare}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>patient</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link EpisodeOfCare}
+         */
         @Override
         public EpisodeOfCare build() {
             return new EpisodeOfCare(this);
@@ -951,13 +862,13 @@ public class EpisodeOfCare extends DomainResource {
     }
 
     /**
-     * <p>
      * The history of statuses that the EpisodeOfCare has been through (without requiring processing the history of the 
      * resource).
-     * </p>
      */
     public static class StatusHistory extends BackboneElement {
+        @Required
         private final EpisodeOfCareStatus status;
+        @Required
         private final Period period;
 
         private volatile int hashCode;
@@ -970,9 +881,7 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * planned | waitlist | active | onhold | finished | cancelled.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link EpisodeOfCareStatus}.
@@ -982,9 +891,7 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * The period during this EpisodeOfCare that the specific status applied.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Period}.
@@ -1068,10 +975,8 @@ public class EpisodeOfCare extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1085,15 +990,12 @@ public class EpisodeOfCare extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1107,15 +1009,12 @@ public class EpisodeOfCare extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1129,21 +1028,17 @@ public class EpisodeOfCare extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1157,21 +1052,17 @@ public class EpisodeOfCare extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1185,9 +1076,9 @@ public class EpisodeOfCare extends DomainResource {
             }
 
             /**
-             * <p>
              * planned | waitlist | active | onhold | finished | cancelled.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param status
              *     planned | waitlist | active | onhold | finished | cancelled | entered-in-error
@@ -1201,9 +1092,9 @@ public class EpisodeOfCare extends DomainResource {
             }
 
             /**
-             * <p>
              * The period during this EpisodeOfCare that the specific status applied.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param period
              *     Duration the EpisodeOfCare was in the specified status
@@ -1216,6 +1107,18 @@ public class EpisodeOfCare extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link StatusHistory}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>status</li>
+             * <li>period</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link StatusHistory}
+             */
             @Override
             public StatusHistory build() {
                 return new StatusHistory(this);
@@ -1231,11 +1134,10 @@ public class EpisodeOfCare extends DomainResource {
     }
 
     /**
-     * <p>
      * The list of diagnosis relevant to this episode of care.
-     * </p>
      */
     public static class Diagnosis extends BackboneElement {
+        @Required
         private final Reference condition;
         private final CodeableConcept role;
         private final PositiveInt rank;
@@ -1251,9 +1153,7 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of conditions/problems/diagnoses that this episode of care is intended to be providing care for.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1263,9 +1163,7 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * Role that this diagnosis has within the episode of care (e.g. admission, billing, discharge …).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1275,9 +1173,7 @@ public class EpisodeOfCare extends DomainResource {
         }
 
         /**
-         * <p>
          * Ranking of the diagnosis (for each role type).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link PositiveInt}.
@@ -1366,10 +1262,8 @@ public class EpisodeOfCare extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1383,15 +1277,12 @@ public class EpisodeOfCare extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1405,15 +1296,12 @@ public class EpisodeOfCare extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1427,21 +1315,17 @@ public class EpisodeOfCare extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1455,21 +1339,17 @@ public class EpisodeOfCare extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1483,9 +1363,9 @@ public class EpisodeOfCare extends DomainResource {
             }
 
             /**
-             * <p>
              * A list of conditions/problems/diagnoses that this episode of care is intended to be providing care for.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param condition
              *     Conditions/problems/diagnoses this episode of care is for
@@ -1499,9 +1379,7 @@ public class EpisodeOfCare extends DomainResource {
             }
 
             /**
-             * <p>
              * Role that this diagnosis has within the episode of care (e.g. admission, billing, discharge …).
-             * </p>
              * 
              * @param role
              *     Role that this diagnosis has within the episode of care (e.g. admission, billing, discharge …)
@@ -1515,9 +1393,7 @@ public class EpisodeOfCare extends DomainResource {
             }
 
             /**
-             * <p>
              * Ranking of the diagnosis (for each role type).
-             * </p>
              * 
              * @param rank
              *     Ranking of the diagnosis (for each role type)
@@ -1530,6 +1406,17 @@ public class EpisodeOfCare extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Diagnosis}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>condition</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Diagnosis}
+             */
             @Override
             public Diagnosis build() {
                 return new Diagnosis(this);

@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -39,9 +40,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Raw data describing a biological sequence.
- * </p>
  */
 @Constraint(
     id = "msq-3",
@@ -68,6 +67,7 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 public class MolecularSequence extends DomainResource {
     private final List<Identifier> identifier;
     private final SequenceType type;
+    @Required
     private final Integer coordinateSystem;
     private final Reference patient;
     private final Reference specimen;
@@ -106,9 +106,7 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * A unique identifier for this particular sequence instance. This is a FHIR-defined id.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -118,9 +116,7 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * Amino Acid Sequence/ DNA Sequence / RNA Sequence.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link SequenceType}.
@@ -130,10 +126,8 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether the sequence is numbered starting at 0 (0-based numbering or coordinates, inclusive start, exclusive end) or 
      * starting at 1 (1-based numbering, inclusive start and inclusive end).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Integer}.
@@ -143,9 +137,7 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * The patient whose sequencing results are described by this resource.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -155,9 +147,7 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * Specimen used for sequencing.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -167,9 +157,7 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * The method for sequencing, for example, chip information.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -179,9 +167,7 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * The organization or lab that should be responsible for this result.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -191,9 +177,7 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * The number of copies of the sequence of interest. (RNASeq).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Quantity}.
@@ -203,9 +187,7 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * A sequence that is used as a reference to describe variants that are present in a sequence analyzed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ReferenceSeq}.
@@ -215,12 +197,10 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * The definition of variant here originates from Sequence ontology ([variant_of](http://www.sequenceontology.
      * org/browser/current_svn/term/variant_of)). This element can represent amino acid or nucleic sequence change(including 
      * insertion,deletion,SNP,etc.) It can represent some complex mutation or segment variation with the assist of CIGAR 
      * string.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Variant}.
@@ -230,10 +210,8 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * Sequence that was observed. It is the result marked by referenceSeq along with variant records on referenceSeq. This 
      * shall start from referenceSeq.windowStart and end by referenceSeq.windowEnd.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -243,10 +221,8 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * An experimental feature attribute that defines the quality of the feature in a quantitative way, such as a phred 
      * quality score ([SO:0001686](http://www.sequenceontology.org/browser/current_svn/term/SO:0001686)).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Quality}.
@@ -256,10 +232,8 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * Coverage (read depth or depth) is the average number of reads representing a given nucleotide in the reconstructed 
      * sequence.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Integer}.
@@ -269,10 +243,8 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * Configurations of the external repository. The repository shall store target's observedSeq or records related with 
      * target's observedSeq.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Repository}.
@@ -282,9 +254,7 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * Pointer to next atomic sequence which at most contains one variant.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -294,9 +264,7 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about chromosome structure variation.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link StructureVariant}.
@@ -444,9 +412,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -460,10 +426,8 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -477,11 +441,9 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -495,9 +457,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -511,12 +471,10 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -530,13 +488,10 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -550,13 +505,10 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -570,15 +522,12 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -592,15 +541,12 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -614,21 +560,17 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -642,21 +584,17 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -670,12 +608,9 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * A unique identifier for this particular sequence instance. This is a FHIR-defined id.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Unique ID for this particular sequence. This is a FHIR-defined id
@@ -691,12 +626,9 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * A unique identifier for this particular sequence instance. This is a FHIR-defined id.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Unique ID for this particular sequence. This is a FHIR-defined id
@@ -710,9 +642,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Amino Acid Sequence/ DNA Sequence / RNA Sequence.
-         * </p>
          * 
          * @param type
          *     aa | dna | rna
@@ -726,10 +656,10 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether the sequence is numbered starting at 0 (0-based numbering or coordinates, inclusive start, exclusive end) or 
          * starting at 1 (1-based numbering, inclusive start and inclusive end).
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param coordinateSystem
          *     Base number of coordinate system (0 for 0-based numbering or coordinates, inclusive start, exclusive end, 1 for 1-
@@ -744,9 +674,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * The patient whose sequencing results are described by this resource.
-         * </p>
          * 
          * @param patient
          *     Who and/or what this is about
@@ -760,9 +688,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Specimen used for sequencing.
-         * </p>
          * 
          * @param specimen
          *     Specimen used for sequencing
@@ -776,9 +702,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * The method for sequencing, for example, chip information.
-         * </p>
          * 
          * @param device
          *     The method for sequencing
@@ -792,9 +716,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * The organization or lab that should be responsible for this result.
-         * </p>
          * 
          * @param performer
          *     Who should be responsible for test result
@@ -808,9 +730,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * The number of copies of the sequence of interest. (RNASeq).
-         * </p>
          * 
          * @param quantity
          *     The number of copies of the sequence of interest. (RNASeq)
@@ -824,9 +744,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * A sequence that is used as a reference to describe variants that are present in a sequence analyzed.
-         * </p>
          * 
          * @param referenceSeq
          *     A sequence used as reference
@@ -840,15 +758,12 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * The definition of variant here originates from Sequence ontology ([variant_of](http://www.sequenceontology.
          * org/browser/current_svn/term/variant_of)). This element can represent amino acid or nucleic sequence change(including 
          * insertion,deletion,SNP,etc.) It can represent some complex mutation or segment variation with the assist of CIGAR 
          * string.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param variant
          *     Variant in sequence
@@ -864,15 +779,12 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * The definition of variant here originates from Sequence ontology ([variant_of](http://www.sequenceontology.
          * org/browser/current_svn/term/variant_of)). This element can represent amino acid or nucleic sequence change(including 
          * insertion,deletion,SNP,etc.) It can represent some complex mutation or segment variation with the assist of CIGAR 
          * string.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param variant
          *     Variant in sequence
@@ -886,10 +798,8 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Sequence that was observed. It is the result marked by referenceSeq along with variant records on referenceSeq. This 
          * shall start from referenceSeq.windowStart and end by referenceSeq.windowEnd.
-         * </p>
          * 
          * @param observedSeq
          *     Sequence that was observed
@@ -903,13 +813,10 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * An experimental feature attribute that defines the quality of the feature in a quantitative way, such as a phred 
          * quality score ([SO:0001686](http://www.sequenceontology.org/browser/current_svn/term/SO:0001686)).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param quality
          *     An set of value as quality of sequence
@@ -925,13 +832,10 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * An experimental feature attribute that defines the quality of the feature in a quantitative way, such as a phred 
          * quality score ([SO:0001686](http://www.sequenceontology.org/browser/current_svn/term/SO:0001686)).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param quality
          *     An set of value as quality of sequence
@@ -945,10 +849,8 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Coverage (read depth or depth) is the average number of reads representing a given nucleotide in the reconstructed 
          * sequence.
-         * </p>
          * 
          * @param readCoverage
          *     Average number of reads representing a given nucleotide in the reconstructed sequence
@@ -962,13 +864,10 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Configurations of the external repository. The repository shall store target's observedSeq or records related with 
          * target's observedSeq.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param repository
          *     External repository which contains detailed report related with observedSeq in this resource
@@ -984,13 +883,10 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Configurations of the external repository. The repository shall store target's observedSeq or records related with 
          * target's observedSeq.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param repository
          *     External repository which contains detailed report related with observedSeq in this resource
@@ -1004,12 +900,9 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Pointer to next atomic sequence which at most contains one variant.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param pointer
          *     Pointer to next atomic sequence
@@ -1025,12 +918,9 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Pointer to next atomic sequence which at most contains one variant.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param pointer
          *     Pointer to next atomic sequence
@@ -1044,12 +934,9 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about chromosome structure variation.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param structureVariant
          *     Structural variant
@@ -1065,12 +952,9 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about chromosome structure variation.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param structureVariant
          *     Structural variant
@@ -1083,6 +967,17 @@ public class MolecularSequence extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link MolecularSequence}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>coordinateSystem</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link MolecularSequence}
+         */
         @Override
         public MolecularSequence build() {
             return new MolecularSequence(this);
@@ -1111,9 +1006,7 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * A sequence that is used as a reference to describe variants that are present in a sequence analyzed.
-     * </p>
      */
     public static class ReferenceSeq extends BackboneElement {
         private final CodeableConcept chromosome;
@@ -1143,11 +1036,9 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Structural unit composed of a nucleic acid molecule which controls its own replication through the interaction of 
          * specific proteins at one or more origins of replication ([SO:0000340](http://www.sequenceontology.
          * org/browser/current_svn/term/SO:0000340)).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1157,10 +1048,8 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * The Genome Build used for reference, following GRCh build versions e.g. 'GRCh 37'. Version number must be included if 
          * a versioned release of a primary build was used.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1170,10 +1059,8 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * A relative reference to a DNA strand based on gene orientation. The strand that contains the open reading frame of the 
          * gene is the "sense" strand, and the opposite complementary strand is the "antisense" strand.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link OrientationType}.
@@ -1183,11 +1070,9 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference identifier of reference sequence submitted to NCBI. It must match the type in the MolecularSequence.type 
          * field. For example, the prefix, “NG_” identifies reference sequence for genes, “NM_” for messenger RNA transcripts, 
          * and “NP_” for amino acid sequences.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1197,9 +1082,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * A pointer to another MolecularSequence entity as reference sequence.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1209,9 +1092,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * A string like "ACGT".
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1221,10 +1102,8 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute reference to a strand. The Watson strand is the strand whose 5'-end is on the short arm of the chromosome, 
          * and the Crick strand as the one whose 5'-end is on the long arm.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link StrandType}.
@@ -1234,10 +1113,8 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Start position of the window on the reference sequence. If the coordinate system is either 0-based or 1-based, then 
          * start position is inclusive.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Integer}.
@@ -1247,11 +1124,9 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * End position of the window on the reference sequence. If the coordinate system is 0-based then end is exclusive and 
          * does not include the last position. If the coordinate system is 1-base, then end is inclusive and includes the last 
          * position.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Integer}.
@@ -1370,10 +1245,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1387,15 +1260,12 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1409,15 +1279,12 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1431,21 +1298,17 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1459,21 +1322,17 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1487,11 +1346,9 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Structural unit composed of a nucleic acid molecule which controls its own replication through the interaction of 
              * specific proteins at one or more origins of replication ([SO:0000340](http://www.sequenceontology.
              * org/browser/current_svn/term/SO:0000340)).
-             * </p>
              * 
              * @param chromosome
              *     Chromosome containing genetic finding
@@ -1505,10 +1362,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * The Genome Build used for reference, following GRCh build versions e.g. 'GRCh 37'. Version number must be included if 
              * a versioned release of a primary build was used.
-             * </p>
              * 
              * @param genomeBuild
              *     The Genome Build used for reference, following GRCh build versions e.g. 'GRCh 37'
@@ -1522,10 +1377,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * A relative reference to a DNA strand based on gene orientation. The strand that contains the open reading frame of the 
              * gene is the "sense" strand, and the opposite complementary strand is the "antisense" strand.
-             * </p>
              * 
              * @param orientation
              *     sense | antisense
@@ -1539,11 +1392,9 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference identifier of reference sequence submitted to NCBI. It must match the type in the MolecularSequence.type 
              * field. For example, the prefix, “NG_” identifies reference sequence for genes, “NM_” for messenger RNA transcripts, 
              * and “NP_” for amino acid sequences.
-             * </p>
              * 
              * @param referenceSeqId
              *     Reference identifier
@@ -1557,9 +1408,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * A pointer to another MolecularSequence entity as reference sequence.
-             * </p>
              * 
              * @param referenceSeqPointer
              *     A pointer to another MolecularSequence entity as reference sequence
@@ -1573,9 +1422,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * A string like "ACGT".
-             * </p>
              * 
              * @param referenceSeqString
              *     A string to represent reference sequence
@@ -1589,10 +1436,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * An absolute reference to a strand. The Watson strand is the strand whose 5'-end is on the short arm of the chromosome, 
              * and the Crick strand as the one whose 5'-end is on the long arm.
-             * </p>
              * 
              * @param strand
              *     watson | crick
@@ -1606,10 +1451,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Start position of the window on the reference sequence. If the coordinate system is either 0-based or 1-based, then 
              * start position is inclusive.
-             * </p>
              * 
              * @param windowStart
              *     Start position of the window on the reference sequence
@@ -1623,11 +1466,9 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * End position of the window on the reference sequence. If the coordinate system is 0-based then end is exclusive and 
              * does not include the last position. If the coordinate system is 1-base, then end is inclusive and includes the last 
              * position.
-             * </p>
              * 
              * @param windowEnd
              *     End position of the window on the reference sequence
@@ -1640,6 +1481,12 @@ public class MolecularSequence extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link ReferenceSeq}
+             * 
+             * @return
+             *     An immutable object of type {@link ReferenceSeq}
+             */
             @Override
             public ReferenceSeq build() {
                 return new ReferenceSeq(this);
@@ -1662,12 +1509,10 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * The definition of variant here originates from Sequence ontology ([variant_of](http://www.sequenceontology.
      * org/browser/current_svn/term/variant_of)). This element can represent amino acid or nucleic sequence change(including 
      * insertion,deletion,SNP,etc.) It can represent some complex mutation or segment variation with the assist of CIGAR 
      * string.
-     * </p>
      */
     public static class Variant extends BackboneElement {
         private final Integer start;
@@ -1691,10 +1536,8 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Start position of the variant on the reference sequence. If the coordinate system is either 0-based or 1-based, then 
          * start position is inclusive.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Integer}.
@@ -1704,11 +1547,9 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * End position of the variant on the reference sequence. If the coordinate system is 0-based then end is exclusive and 
          * does not include the last position. If the coordinate system is 1-base, then end is inclusive and includes the last 
          * position.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Integer}.
@@ -1718,12 +1559,10 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * An allele is one of a set of coexisting sequence variants of a gene ([SO:0001023](http://www.sequenceontology.
          * org/browser/current_svn/term/SO:0001023)). Nucleotide(s)/amino acids from start position of sequence to stop position 
          * of sequence on the positive (+) strand of the observed sequence. When the sequence type is DNA, it should be the 
          * sequence on the positive (+) strand. This will lay in the range between variant.start and variant.end.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1733,12 +1572,10 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * An allele is one of a set of coexisting sequence variants of a gene ([SO:0001023](http://www.sequenceontology.
          * org/browser/current_svn/term/SO:0001023)). Nucleotide(s)/amino acids from start position of sequence to stop position 
          * of sequence on the positive (+) strand of the reference sequence. When the sequence type is DNA, it should be the 
          * sequence on the positive (+) strand. This will lay in the range between variant.start and variant.end.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1748,12 +1585,10 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Extended CIGAR string for aligning the sequence with reference bases. See detailed documentation [here](http://support.
          * illumina.
          * com/help/SequencingAnalysisWorkflow/Content/Vault/Informatics/Sequencing_Analysis/CASAVA/swSEQ_mCA_ExtendedCIGARFormat.
          * htm).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1763,9 +1598,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * A pointer to an Observation containing variant information.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1869,10 +1702,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1886,15 +1717,12 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1908,15 +1736,12 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1930,21 +1755,17 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1958,21 +1779,17 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1986,10 +1803,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Start position of the variant on the reference sequence. If the coordinate system is either 0-based or 1-based, then 
              * start position is inclusive.
-             * </p>
              * 
              * @param start
              *     Start position of the variant on the reference sequence
@@ -2003,11 +1818,9 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * End position of the variant on the reference sequence. If the coordinate system is 0-based then end is exclusive and 
              * does not include the last position. If the coordinate system is 1-base, then end is inclusive and includes the last 
              * position.
-             * </p>
              * 
              * @param end
              *     End position of the variant on the reference sequence
@@ -2021,12 +1834,10 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * An allele is one of a set of coexisting sequence variants of a gene ([SO:0001023](http://www.sequenceontology.
              * org/browser/current_svn/term/SO:0001023)). Nucleotide(s)/amino acids from start position of sequence to stop position 
              * of sequence on the positive (+) strand of the observed sequence. When the sequence type is DNA, it should be the 
              * sequence on the positive (+) strand. This will lay in the range between variant.start and variant.end.
-             * </p>
              * 
              * @param observedAllele
              *     Allele that was observed
@@ -2040,12 +1851,10 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * An allele is one of a set of coexisting sequence variants of a gene ([SO:0001023](http://www.sequenceontology.
              * org/browser/current_svn/term/SO:0001023)). Nucleotide(s)/amino acids from start position of sequence to stop position 
              * of sequence on the positive (+) strand of the reference sequence. When the sequence type is DNA, it should be the 
              * sequence on the positive (+) strand. This will lay in the range between variant.start and variant.end.
-             * </p>
              * 
              * @param referenceAllele
              *     Allele in the reference sequence
@@ -2059,12 +1868,10 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Extended CIGAR string for aligning the sequence with reference bases. See detailed documentation [here](http://support.
              * illumina.
              * com/help/SequencingAnalysisWorkflow/Content/Vault/Informatics/Sequencing_Analysis/CASAVA/swSEQ_mCA_ExtendedCIGARFormat.
              * htm).
-             * </p>
              * 
              * @param cigar
              *     Extended CIGAR string for aligning the sequence with reference bases
@@ -2078,9 +1885,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * A pointer to an Observation containing variant information.
-             * </p>
              * 
              * @param variantPointer
              *     Pointer to observed variant information
@@ -2093,6 +1898,12 @@ public class MolecularSequence extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Variant}
+             * 
+             * @return
+             *     An immutable object of type {@link Variant}
+             */
             @Override
             public Variant build() {
                 return new Variant(this);
@@ -2112,12 +1923,11 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * An experimental feature attribute that defines the quality of the feature in a quantitative way, such as a phred 
      * quality score ([SO:0001686](http://www.sequenceontology.org/browser/current_svn/term/SO:0001686)).
-     * </p>
      */
     public static class Quality extends BackboneElement {
+        @Required
         private final QualityType type;
         private final CodeableConcept standardSequence;
         private final Integer start;
@@ -2157,9 +1967,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * INDEL / SNP / Undefined variant.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link QualityType}.
@@ -2169,9 +1977,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Gold standard sequence used for comparing against.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2181,10 +1987,8 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Start position of the sequence. If the coordinate system is either 0-based or 1-based, then start position is 
          * inclusive.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Integer}.
@@ -2194,10 +1998,8 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * End position of the sequence. If the coordinate system is 0-based then end is exclusive and does not include the last 
          * position. If the coordinate system is 1-base, then end is inclusive and includes the last position.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Integer}.
@@ -2207,10 +2009,8 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * The score of an experimentally derived feature such as a p-value ([SO:0001685](http://www.sequenceontology.
          * org/browser/current_svn/term/SO:0001685)).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Quantity}.
@@ -2220,9 +2020,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Which method is used to get sequence quality.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2232,11 +2030,9 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * True positives, from the perspective of the truth data, i.e. the number of sites in the Truth Call Set for which there 
          * are paths through the Query Call Set that are consistent with all of the alleles at this site, and for which there is 
          * an accurate genotype call for the event.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -2246,11 +2042,9 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * True positives, from the perspective of the query data, i.e. the number of sites in the Query Call Set for which there 
          * are paths through the Truth Call Set that are consistent with all of the alleles at this site, and for which there is 
          * an accurate genotype call for the event.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -2260,11 +2054,9 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * False negatives, i.e. the number of sites in the Truth Call Set for which there is no path through the Query Call Set 
          * that is consistent with all of the alleles at this site, or sites for which there is an inaccurate genotype call for 
          * the event. Sites with correct variant but incorrect genotype are counted here.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -2274,10 +2066,8 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * False positives, i.e. the number of sites in the Query Call Set for which there is no path through the Truth Call Set 
          * that is consistent with this site. Sites with correct variant but incorrect genotype are counted here.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -2287,10 +2077,8 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * The number of false positives where the non-REF alleles in the Truth and Query Call Sets match (i.e. cases where the 
          * truth is 1/1 and the query is 0/1 or similar).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -2300,9 +2088,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * QUERY.TP / (QUERY.TP + QUERY.FP).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -2312,9 +2098,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * TRUTH.TP / (TRUTH.TP + TRUTH.FN).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -2324,9 +2108,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Harmonic mean of Recall and Precision, computed as: 2 * precision * recall / (precision + recall).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Decimal}.
@@ -2336,9 +2118,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Receiver Operator Characteristic (ROC) Curve to give sensitivity/specificity tradeoff.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Roc}.
@@ -2487,10 +2267,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2504,15 +2282,12 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2526,15 +2301,12 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2548,21 +2320,17 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2576,21 +2344,17 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2604,9 +2368,9 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * INDEL / SNP / Undefined variant.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     indel | snp | unknown
@@ -2620,9 +2384,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Gold standard sequence used for comparing against.
-             * </p>
              * 
              * @param standardSequence
              *     Standard sequence for comparison
@@ -2636,10 +2398,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Start position of the sequence. If the coordinate system is either 0-based or 1-based, then start position is 
              * inclusive.
-             * </p>
              * 
              * @param start
              *     Start position of the sequence
@@ -2653,10 +2413,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * End position of the sequence. If the coordinate system is 0-based then end is exclusive and does not include the last 
              * position. If the coordinate system is 1-base, then end is inclusive and includes the last position.
-             * </p>
              * 
              * @param end
              *     End position of the sequence
@@ -2670,10 +2428,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * The score of an experimentally derived feature such as a p-value ([SO:0001685](http://www.sequenceontology.
              * org/browser/current_svn/term/SO:0001685)).
-             * </p>
              * 
              * @param score
              *     Quality score for the comparison
@@ -2687,9 +2443,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Which method is used to get sequence quality.
-             * </p>
              * 
              * @param method
              *     Method to get quality
@@ -2703,11 +2457,9 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * True positives, from the perspective of the truth data, i.e. the number of sites in the Truth Call Set for which there 
              * are paths through the Query Call Set that are consistent with all of the alleles at this site, and for which there is 
              * an accurate genotype call for the event.
-             * </p>
              * 
              * @param truthTP
              *     True positives from the perspective of the truth data
@@ -2721,11 +2473,9 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * True positives, from the perspective of the query data, i.e. the number of sites in the Query Call Set for which there 
              * are paths through the Truth Call Set that are consistent with all of the alleles at this site, and for which there is 
              * an accurate genotype call for the event.
-             * </p>
              * 
              * @param queryTP
              *     True positives from the perspective of the query data
@@ -2739,11 +2489,9 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * False negatives, i.e. the number of sites in the Truth Call Set for which there is no path through the Query Call Set 
              * that is consistent with all of the alleles at this site, or sites for which there is an inaccurate genotype call for 
              * the event. Sites with correct variant but incorrect genotype are counted here.
-             * </p>
              * 
              * @param truthFN
              *     False negatives
@@ -2757,10 +2505,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * False positives, i.e. the number of sites in the Query Call Set for which there is no path through the Truth Call Set 
              * that is consistent with this site. Sites with correct variant but incorrect genotype are counted here.
-             * </p>
              * 
              * @param queryFP
              *     False positives
@@ -2774,10 +2520,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * The number of false positives where the non-REF alleles in the Truth and Query Call Sets match (i.e. cases where the 
              * truth is 1/1 and the query is 0/1 or similar).
-             * </p>
              * 
              * @param gtFP
              *     False positives where the non-REF alleles in the Truth and Query Call Sets match
@@ -2791,9 +2535,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * QUERY.TP / (QUERY.TP + QUERY.FP).
-             * </p>
              * 
              * @param precision
              *     Precision of comparison
@@ -2807,9 +2549,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * TRUTH.TP / (TRUTH.TP + TRUTH.FN).
-             * </p>
              * 
              * @param recall
              *     Recall of comparison
@@ -2823,9 +2563,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Harmonic mean of Recall and Precision, computed as: 2 * precision * recall / (precision + recall).
-             * </p>
              * 
              * @param fScore
              *     F-score
@@ -2839,9 +2577,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Receiver Operator Characteristic (ROC) Curve to give sensitivity/specificity tradeoff.
-             * </p>
              * 
              * @param roc
              *     Receiver Operator Characteristic (ROC) Curve
@@ -2854,6 +2590,17 @@ public class MolecularSequence extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Quality}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>type</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Quality}
+             */
             @Override
             public Quality build() {
                 return new Quality(this);
@@ -2881,9 +2628,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Receiver Operator Characteristic (ROC) Curve to give sensitivity/specificity tradeoff.
-         * </p>
          */
         public static class Roc extends BackboneElement {
             private final List<Integer> score;
@@ -2909,9 +2654,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Invidual data point representing the GQ (genotype quality) score threshold.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Integer}.
@@ -2921,9 +2664,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * The number of true positives if the GQ score threshold was set to "score" field value.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Integer}.
@@ -2933,9 +2674,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * The number of false positives if the GQ score threshold was set to "score" field value.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Integer}.
@@ -2945,9 +2684,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * The number of false negatives if the GQ score threshold was set to "score" field value.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Integer}.
@@ -2957,9 +2694,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Calculated precision if the GQ score threshold was set to "score" field value.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Decimal}.
@@ -2969,9 +2704,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Calculated sensitivity if the GQ score threshold was set to "score" field value.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Decimal}.
@@ -2981,9 +2714,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Calculated fScore if the GQ score threshold was set to "score" field value.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Decimal}.
@@ -3092,10 +2823,8 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -3109,15 +2838,12 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3131,15 +2857,12 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3153,21 +2876,17 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3181,21 +2900,17 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3209,12 +2924,9 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Invidual data point representing the GQ (genotype quality) score threshold.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param score
                  *     Genotype quality score
@@ -3230,12 +2942,9 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Invidual data point representing the GQ (genotype quality) score threshold.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param score
                  *     Genotype quality score
@@ -3249,12 +2958,9 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The number of true positives if the GQ score threshold was set to "score" field value.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param numTP
                  *     Roc score true positive numbers
@@ -3270,12 +2976,9 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The number of true positives if the GQ score threshold was set to "score" field value.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param numTP
                  *     Roc score true positive numbers
@@ -3289,12 +2992,9 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The number of false positives if the GQ score threshold was set to "score" field value.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param numFP
                  *     Roc score false positive numbers
@@ -3310,12 +3010,9 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The number of false positives if the GQ score threshold was set to "score" field value.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param numFP
                  *     Roc score false positive numbers
@@ -3329,12 +3026,9 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The number of false negatives if the GQ score threshold was set to "score" field value.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param numFN
                  *     Roc score false negative numbers
@@ -3350,12 +3044,9 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The number of false negatives if the GQ score threshold was set to "score" field value.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param numFN
                  *     Roc score false negative numbers
@@ -3369,12 +3060,9 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Calculated precision if the GQ score threshold was set to "score" field value.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param precision
                  *     Precision of the GQ score
@@ -3390,12 +3078,9 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Calculated precision if the GQ score threshold was set to "score" field value.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param precision
                  *     Precision of the GQ score
@@ -3409,12 +3094,9 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Calculated sensitivity if the GQ score threshold was set to "score" field value.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param sensitivity
                  *     Sensitivity of the GQ score
@@ -3430,12 +3112,9 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Calculated sensitivity if the GQ score threshold was set to "score" field value.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param sensitivity
                  *     Sensitivity of the GQ score
@@ -3449,12 +3128,9 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Calculated fScore if the GQ score threshold was set to "score" field value.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param fMeasure
                  *     FScore of the GQ score
@@ -3470,12 +3146,9 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Calculated fScore if the GQ score threshold was set to "score" field value.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param fMeasure
                  *     FScore of the GQ score
@@ -3488,6 +3161,12 @@ public class MolecularSequence extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Roc}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Roc}
+                 */
                 @Override
                 public Roc build() {
                     return new Roc(this);
@@ -3509,12 +3188,11 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * Configurations of the external repository. The repository shall store target's observedSeq or records related with 
      * target's observedSeq.
-     * </p>
      */
     public static class Repository extends BackboneElement {
+        @Required
         private final RepositoryType type;
         private final Uri url;
         private final String name;
@@ -3536,9 +3214,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Click and see / RESTful API / Need login to see / RESTful API with authentication / Other ways to see resource.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link RepositoryType}.
@@ -3548,9 +3224,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * URI of an external repository which contains further details about the genetics data.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Uri}.
@@ -3560,9 +3234,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * URI of an external repository which contains further details about the genetics data.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3572,10 +3244,8 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Id of the variant in this external repository. The server will understand how to use this id to call for more info 
          * about datasets in external repository.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3585,10 +3255,8 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Id of the variantset in this external repository. The server will understand how to use this id to call for more info 
          * about variantsets in external repository.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3598,9 +3266,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Id of the read in this external repository.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3704,10 +3370,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3721,15 +3385,12 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3743,15 +3404,12 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3765,21 +3423,17 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3793,21 +3447,17 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3821,9 +3471,9 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Click and see / RESTful API / Need login to see / RESTful API with authentication / Other ways to see resource.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     directlink | openapi | login | oauth | other
@@ -3837,9 +3487,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * URI of an external repository which contains further details about the genetics data.
-             * </p>
              * 
              * @param url
              *     URI of the repository
@@ -3853,9 +3501,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * URI of an external repository which contains further details about the genetics data.
-             * </p>
              * 
              * @param name
              *     Repository's name
@@ -3869,10 +3515,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Id of the variant in this external repository. The server will understand how to use this id to call for more info 
              * about datasets in external repository.
-             * </p>
              * 
              * @param datasetId
              *     Id of the dataset that used to call for dataset in repository
@@ -3886,10 +3530,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Id of the variantset in this external repository. The server will understand how to use this id to call for more info 
              * about variantsets in external repository.
-             * </p>
              * 
              * @param variantsetId
              *     Id of the variantset that used to call for variantset in repository
@@ -3903,9 +3545,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Id of the read in this external repository.
-             * </p>
              * 
              * @param readsetId
              *     Id of the read
@@ -3918,6 +3558,17 @@ public class MolecularSequence extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Repository}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>type</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Repository}
+             */
             @Override
             public Repository build() {
                 return new Repository(this);
@@ -3937,9 +3588,7 @@ public class MolecularSequence extends DomainResource {
     }
 
     /**
-     * <p>
      * Information about chromosome structure variation.
-     * </p>
      */
     public static class StructureVariant extends BackboneElement {
         private final CodeableConcept variantType;
@@ -3961,9 +3610,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Information about chromosome structure variation DNA change type.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -3973,9 +3620,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Used to indicate if the outer and inner start-end values have the same meaning.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -3985,9 +3630,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Length of the variant chromosome.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Integer}.
@@ -3997,9 +3640,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Structural variant outer.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Outer}.
@@ -4009,9 +3650,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Structural variant inner.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Inner}.
@@ -4110,10 +3749,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -4127,15 +3764,12 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4149,15 +3783,12 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4171,21 +3802,17 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4199,21 +3826,17 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4227,9 +3850,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Information about chromosome structure variation DNA change type.
-             * </p>
              * 
              * @param variantType
              *     Structural variant change type
@@ -4243,9 +3864,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Used to indicate if the outer and inner start-end values have the same meaning.
-             * </p>
              * 
              * @param exact
              *     Does the structural variant have base pair resolution breakpoints?
@@ -4259,9 +3878,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Length of the variant chromosome.
-             * </p>
              * 
              * @param length
              *     Structural variant length
@@ -4275,9 +3892,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Structural variant outer.
-             * </p>
              * 
              * @param outer
              *     Structural variant outer
@@ -4291,9 +3906,7 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Structural variant inner.
-             * </p>
              * 
              * @param inner
              *     Structural variant inner
@@ -4306,6 +3919,12 @@ public class MolecularSequence extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link StructureVariant}
+             * 
+             * @return
+             *     An immutable object of type {@link StructureVariant}
+             */
             @Override
             public StructureVariant build() {
                 return new StructureVariant(this);
@@ -4323,9 +3942,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Structural variant outer.
-         * </p>
          */
         public static class Outer extends BackboneElement {
             private final Integer start;
@@ -4341,10 +3958,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Structural variant outer start. If the coordinate system is either 0-based or 1-based, then start position is 
              * inclusive.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Integer}.
@@ -4354,10 +3969,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Structural variant outer end. If the coordinate system is 0-based then end is exclusive and does not include the last 
              * position. If the coordinate system is 1-base, then end is inclusive and includes the last position.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Integer}.
@@ -4441,10 +4054,8 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -4458,15 +4069,12 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4480,15 +4088,12 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4502,21 +4107,17 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4530,21 +4131,17 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4558,10 +4155,8 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Structural variant outer start. If the coordinate system is either 0-based or 1-based, then start position is 
                  * inclusive.
-                 * </p>
                  * 
                  * @param start
                  *     Structural variant outer start
@@ -4575,10 +4170,8 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Structural variant outer end. If the coordinate system is 0-based then end is exclusive and does not include the last 
                  * position. If the coordinate system is 1-base, then end is inclusive and includes the last position.
-                 * </p>
                  * 
                  * @param end
                  *     Structural variant outer end
@@ -4591,6 +4184,12 @@ public class MolecularSequence extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Outer}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Outer}
+                 */
                 @Override
                 public Outer build() {
                     return new Outer(this);
@@ -4606,9 +4205,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * <p>
          * Structural variant inner.
-         * </p>
          */
         public static class Inner extends BackboneElement {
             private final Integer start;
@@ -4624,10 +4221,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Structural variant inner start. If the coordinate system is either 0-based or 1-based, then start position is 
              * inclusive.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Integer}.
@@ -4637,10 +4232,8 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * <p>
              * Structural variant inner end. If the coordinate system is 0-based then end is exclusive and does not include the last 
              * position. If the coordinate system is 1-base, then end is inclusive and includes the last position.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Integer}.
@@ -4724,10 +4317,8 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -4741,15 +4332,12 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4763,15 +4351,12 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4785,21 +4370,17 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4813,21 +4394,17 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4841,10 +4418,8 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Structural variant inner start. If the coordinate system is either 0-based or 1-based, then start position is 
                  * inclusive.
-                 * </p>
                  * 
                  * @param start
                  *     Structural variant inner start
@@ -4858,10 +4433,8 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Structural variant inner end. If the coordinate system is 0-based then end is exclusive and does not include the last 
                  * position. If the coordinate system is 1-base, then end is inclusive and includes the last position.
-                 * </p>
                  * 
                  * @param end
                  *     Structural variant inner end
@@ -4874,6 +4447,12 @@ public class MolecularSequence extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Inner}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Inner}
+                 */
                 @Override
                 public Inner build() {
                     return new Inner(this);

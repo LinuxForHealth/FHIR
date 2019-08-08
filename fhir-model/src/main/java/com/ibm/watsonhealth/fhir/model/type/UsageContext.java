@@ -11,19 +11,22 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Specifies clinical/business/etc. metadata that can be used to retrieve, index and/or categorize an artifact. This 
  * metadata can either be specific to the applicable population (e.g., age category, DRG) or the specific context of care 
  * (e.g., venue, care setting, provider of care).
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class UsageContext extends Element {
+    @Required
     private final Coding code;
+    @Required
+    @Choice({CodeableConcept.class, Quantity.class, Range.class, Reference.class})
     private final Element value;
 
     private volatile int hashCode;
@@ -36,9 +39,7 @@ public class UsageContext extends Element {
     }
 
     /**
-     * <p>
      * A code that identifies the type of context being specified by this usage context.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Coding}.
@@ -48,10 +49,8 @@ public class UsageContext extends Element {
     }
 
     /**
-     * <p>
      * A value that defines the context specified in this context of use. The interpretation of the value is defined by the 
      * code.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -132,10 +131,8 @@ public class UsageContext extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -149,15 +146,12 @@ public class UsageContext extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -171,15 +165,12 @@ public class UsageContext extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -193,9 +184,9 @@ public class UsageContext extends Element {
         }
 
         /**
-         * <p>
          * A code that identifies the type of context being specified by this usage context.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param code
          *     Type of context being specified
@@ -209,10 +200,18 @@ public class UsageContext extends Element {
         }
 
         /**
-         * <p>
          * A value that defines the context specified in this context of use. The interpretation of the value is defined by the 
          * code.
-         * </p>
+         * 
+         * <p>This element is required.
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link CodeableConcept}</li>
+         * <li>{@link Quantity}</li>
+         * <li>{@link Range}</li>
+         * <li>{@link Reference}</li>
+         * </ul>
          * 
          * @param value
          *     Value that defines the context
@@ -225,6 +224,18 @@ public class UsageContext extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link UsageContext}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>code</li>
+         * <li>value</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link UsageContext}
+         */
         @Override
         public UsageContext build() {
             return new UsageContext(this);

@@ -18,9 +18,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Specifies contact information for a person or organization.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class ContactDetail extends Element {
@@ -37,9 +35,7 @@ public class ContactDetail extends Element {
     }
 
     /**
-     * <p>
      * The name of an individual to contact.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -49,9 +45,7 @@ public class ContactDetail extends Element {
     }
 
     /**
-     * <p>
      * The contact details for the individual (if a name was provided) or the organization.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
@@ -132,10 +126,8 @@ public class ContactDetail extends Element {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -149,15 +141,12 @@ public class ContactDetail extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -171,15 +160,12 @@ public class ContactDetail extends Element {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -193,9 +179,7 @@ public class ContactDetail extends Element {
         }
 
         /**
-         * <p>
          * The name of an individual to contact.
-         * </p>
          * 
          * @param name
          *     Name of an individual to contact
@@ -209,12 +193,9 @@ public class ContactDetail extends Element {
         }
 
         /**
-         * <p>
          * The contact details for the individual (if a name was provided) or the organization.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param telecom
          *     Contact details for individual or organization
@@ -230,12 +211,9 @@ public class ContactDetail extends Element {
         }
 
         /**
-         * <p>
          * The contact details for the individual (if a name was provided) or the organization.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param telecom
          *     Contact details for individual or organization
@@ -248,6 +226,12 @@ public class ContactDetail extends Element {
             return this;
         }
 
+        /**
+         * Build the {@link ContactDetail}
+         * 
+         * @return
+         *     An immutable object of type {@link ContactDetail}
+         */
         @Override
         public ContactDetail build() {
             return new ContactDetail(this);

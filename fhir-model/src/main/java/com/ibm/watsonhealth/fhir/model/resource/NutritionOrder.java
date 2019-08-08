@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
@@ -39,9 +41,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident.
- * </p>
  */
 @Constraint(
     id = "nor-1",
@@ -56,10 +56,14 @@ public class NutritionOrder extends DomainResource {
     private final List<Canonical> instantiatesCanonical;
     private final List<Uri> instantiatesUri;
     private final List<Uri> instantiates;
+    @Required
     private final NutritionOrderStatus status;
+    @Required
     private final NutritionOrderIntent intent;
+    @Required
     private final Reference patient;
     private final Reference encounter;
+    @Required
     private final DateTime dateTime;
     private final Reference orderer;
     private final List<Reference> allergyIntolerance;
@@ -94,9 +98,7 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifiers assigned to this order by the order sender or by the order receiver.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -106,10 +108,8 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
      * part by this NutritionOrder.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -119,10 +119,8 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
      * whole or in part by this NutritionOrder.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Uri}.
@@ -132,10 +130,8 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * The URL pointing to a protocol, guideline, orderset or other definition that is adhered to in whole or in part by this 
      * NutritionOrder.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Uri}.
@@ -145,9 +141,7 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * The workflow status of the nutrition order/request.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link NutritionOrderStatus}.
@@ -157,10 +151,8 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the level of authority/intentionality associated with the NutrionOrder and where the request fits into the 
      * workflow chain.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link NutritionOrderIntent}.
@@ -170,10 +162,8 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * The person (patient) who needs the nutrition order for an oral diet, nutritional supplement and/or enteral or formula 
      * feeding.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -183,9 +173,7 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * An encounter that provides additional information about the healthcare context in which this request is made.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -195,9 +183,7 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * The date and time that this nutrition order was requested.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -207,9 +193,7 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * The practitioner that holds legal responsibility for ordering the diet, nutritional supplement, or formula feedings.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -219,9 +203,7 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * A link to a record of allergies or intolerances which should be included in the nutrition order.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -231,11 +213,9 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * This modifier is used to convey order-specific modifiers about the type of food that should be given. These can be 
      * derived from patient allergies, intolerances, or preferences such as Halal, Vegan or Kosher. This modifier applies to 
      * the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -245,14 +225,12 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * This modifier is used to convey Order-specific modifier about the type of oral food or oral fluids that should not be 
      * given. These can be derived from patient allergies, intolerances, or preferences such as No Red Meat, No Soy or No 
      * Wheat or Gluten-Free. While it should not be necessary to repeat allergy or intolerance information captured in the 
      * referenced AllergyIntolerance resource in the excludeFoodModifier, this element may be used to convey additional 
      * specificity related to foods that should be eliminated from the patient’s diet for any reason. This modifier applies 
      * to the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -262,9 +240,7 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * Diet given orally in contrast to enteral (tube) feeding.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link OralDiet}.
@@ -274,9 +250,7 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * Oral nutritional products given in order to add further nutritional value to the patient's diet.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Supplement}.
@@ -286,10 +260,8 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * Feeding provided through the gastrointestinal tract via a tube, catheter, or stoma that delivers nutrition distal to 
      * the oral cavity.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link EnteralFormula}.
@@ -299,9 +271,7 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * Comments made about the {{title}} by the requester, performer, subject or other participants.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -453,9 +423,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -469,10 +437,8 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -486,11 +452,9 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -504,9 +468,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -520,12 +482,10 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -539,13 +499,10 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -559,13 +516,10 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -579,15 +533,12 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -601,15 +552,12 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -623,21 +571,17 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -651,21 +595,17 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -679,12 +619,9 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifiers assigned to this order by the order sender or by the order receiver.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Identifiers assigned to this order
@@ -700,12 +637,9 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifiers assigned to this order by the order sender or by the order receiver.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Identifiers assigned to this order
@@ -719,13 +653,10 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
          * part by this NutritionOrder.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -741,13 +672,10 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
          * part by this NutritionOrder.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -761,13 +689,10 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this NutritionOrder.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -783,13 +708,10 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this NutritionOrder.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -803,13 +725,10 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to a protocol, guideline, orderset or other definition that is adhered to in whole or in part by this 
          * NutritionOrder.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param instantiates
          *     Instantiates protocol or definition
@@ -825,13 +744,10 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to a protocol, guideline, orderset or other definition that is adhered to in whole or in part by this 
          * NutritionOrder.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param instantiates
          *     Instantiates protocol or definition
@@ -845,9 +761,9 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The workflow status of the nutrition order/request.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     proposed | draft | planned | requested | active | on-hold | completed | cancelled | entered-in-error
@@ -861,10 +777,10 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the level of authority/intentionality associated with the NutrionOrder and where the request fits into the 
          * workflow chain.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param intent
          *     proposal | plan | order
@@ -878,10 +794,10 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The person (patient) who needs the nutrition order for an oral diet, nutritional supplement and/or enteral or formula 
          * feeding.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param patient
          *     The person who requires the diet, formula or nutritional supplement
@@ -895,9 +811,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * An encounter that provides additional information about the healthcare context in which this request is made.
-         * </p>
          * 
          * @param encounter
          *     The encounter associated with this nutrition order
@@ -911,9 +825,9 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The date and time that this nutrition order was requested.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param dateTime
          *     Date and time the nutrition order was requested
@@ -927,9 +841,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The practitioner that holds legal responsibility for ordering the diet, nutritional supplement, or formula feedings.
-         * </p>
          * 
          * @param orderer
          *     Who ordered the diet, formula or nutritional supplement
@@ -943,12 +855,9 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * A link to a record of allergies or intolerances which should be included in the nutrition order.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param allergyIntolerance
          *     List of the patient's food and nutrition-related allergies and intolerances
@@ -964,12 +873,9 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * A link to a record of allergies or intolerances which should be included in the nutrition order.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param allergyIntolerance
          *     List of the patient's food and nutrition-related allergies and intolerances
@@ -983,14 +889,11 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * This modifier is used to convey order-specific modifiers about the type of food that should be given. These can be 
          * derived from patient allergies, intolerances, or preferences such as Halal, Vegan or Kosher. This modifier applies to 
          * the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param foodPreferenceModifier
          *     Order-specific modifier about the type of food that should be given
@@ -1006,14 +909,11 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * This modifier is used to convey order-specific modifiers about the type of food that should be given. These can be 
          * derived from patient allergies, intolerances, or preferences such as Halal, Vegan or Kosher. This modifier applies to 
          * the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param foodPreferenceModifier
          *     Order-specific modifier about the type of food that should be given
@@ -1027,17 +927,14 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * This modifier is used to convey Order-specific modifier about the type of oral food or oral fluids that should not be 
          * given. These can be derived from patient allergies, intolerances, or preferences such as No Red Meat, No Soy or No 
          * Wheat or Gluten-Free. While it should not be necessary to repeat allergy or intolerance information captured in the 
          * referenced AllergyIntolerance resource in the excludeFoodModifier, this element may be used to convey additional 
          * specificity related to foods that should be eliminated from the patient’s diet for any reason. This modifier applies 
          * to the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param excludeFoodModifier
          *     Order-specific modifier about the type of food that should not be given
@@ -1053,17 +950,14 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * This modifier is used to convey Order-specific modifier about the type of oral food or oral fluids that should not be 
          * given. These can be derived from patient allergies, intolerances, or preferences such as No Red Meat, No Soy or No 
          * Wheat or Gluten-Free. While it should not be necessary to repeat allergy or intolerance information captured in the 
          * referenced AllergyIntolerance resource in the excludeFoodModifier, this element may be used to convey additional 
          * specificity related to foods that should be eliminated from the patient’s diet for any reason. This modifier applies 
          * to the entire nutrition order inclusive of the oral diet, nutritional supplements and enteral formula feedings.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param excludeFoodModifier
          *     Order-specific modifier about the type of food that should not be given
@@ -1077,9 +971,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Diet given orally in contrast to enteral (tube) feeding.
-         * </p>
          * 
          * @param oralDiet
          *     Oral diet components
@@ -1093,12 +985,9 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Oral nutritional products given in order to add further nutritional value to the patient's diet.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param supplement
          *     Supplement components
@@ -1114,12 +1003,9 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Oral nutritional products given in order to add further nutritional value to the patient's diet.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param supplement
          *     Supplement components
@@ -1133,10 +1019,8 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Feeding provided through the gastrointestinal tract via a tube, catheter, or stoma that delivers nutrition distal to 
          * the oral cavity.
-         * </p>
          * 
          * @param enteralFormula
          *     Enteral formula components
@@ -1150,12 +1034,9 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Comments made about the {{title}} by the requester, performer, subject or other participants.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     Comments
@@ -1171,12 +1052,9 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Comments made about the {{title}} by the requester, performer, subject or other participants.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     Comments
@@ -1189,6 +1067,20 @@ public class NutritionOrder extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link NutritionOrder}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>intent</li>
+         * <li>patient</li>
+         * <li>dateTime</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link NutritionOrder}
+         */
         @Override
         public NutritionOrder build() {
             return new NutritionOrder(this);
@@ -1218,9 +1110,7 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * Diet given orally in contrast to enteral (tube) feeding.
-     * </p>
      */
     public static class OralDiet extends BackboneElement {
         private final List<CodeableConcept> type;
@@ -1244,9 +1134,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The kind of diet or dietary restriction such as fiber restricted diet or diabetic diet.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1256,10 +1144,8 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The time period and frequency at which the diet should be given. The diet should be given for the combination of all 
          * schedules if more than one schedule is present.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Timing}.
@@ -1269,10 +1155,8 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Class that defines the quantity and type of nutrient modifications (for example carbohydrate, fiber or sodium) 
          * required for the oral diet.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Nutrient}.
@@ -1282,9 +1166,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Class that describes any texture modifications required for the patient to safely consume various types of solid foods.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Texture}.
@@ -1294,9 +1176,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The required consistency (e.g. honey-thick, nectar-thick, thin, thickened.) of liquids or fluids served to the patient.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1306,9 +1186,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Free text or additional instructions or information pertaining to the oral diet.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1412,10 +1290,8 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1429,15 +1305,12 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1451,15 +1324,12 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1473,21 +1343,17 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1501,21 +1367,17 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1529,12 +1391,9 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The kind of diet or dietary restriction such as fiber restricted diet or diabetic diet.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param type
              *     Type of oral diet or diet restrictions that describe what can be consumed orally
@@ -1550,12 +1409,9 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The kind of diet or dietary restriction such as fiber restricted diet or diabetic diet.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param type
              *     Type of oral diet or diet restrictions that describe what can be consumed orally
@@ -1569,13 +1425,10 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The time period and frequency at which the diet should be given. The diet should be given for the combination of all 
              * schedules if more than one schedule is present.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param schedule
              *     Scheduled frequency of diet
@@ -1591,13 +1444,10 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The time period and frequency at which the diet should be given. The diet should be given for the combination of all 
              * schedules if more than one schedule is present.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param schedule
              *     Scheduled frequency of diet
@@ -1611,13 +1461,10 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * Class that defines the quantity and type of nutrient modifications (for example carbohydrate, fiber or sodium) 
              * required for the oral diet.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param nutrient
              *     Required nutrient modifications
@@ -1633,13 +1480,10 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * Class that defines the quantity and type of nutrient modifications (for example carbohydrate, fiber or sodium) 
              * required for the oral diet.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param nutrient
              *     Required nutrient modifications
@@ -1653,12 +1497,9 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * Class that describes any texture modifications required for the patient to safely consume various types of solid foods.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param texture
              *     Required texture modifications
@@ -1674,12 +1515,9 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * Class that describes any texture modifications required for the patient to safely consume various types of solid foods.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param texture
              *     Required texture modifications
@@ -1693,12 +1531,9 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The required consistency (e.g. honey-thick, nectar-thick, thin, thickened.) of liquids or fluids served to the patient.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param fluidConsistencyType
              *     The required consistency of fluids and liquids provided to the patient
@@ -1714,12 +1549,9 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The required consistency (e.g. honey-thick, nectar-thick, thin, thickened.) of liquids or fluids served to the patient.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param fluidConsistencyType
              *     The required consistency of fluids and liquids provided to the patient
@@ -1733,9 +1565,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * Free text or additional instructions or information pertaining to the oral diet.
-             * </p>
              * 
              * @param instruction
              *     Instructions or additional information about the oral diet
@@ -1748,6 +1578,12 @@ public class NutritionOrder extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link OralDiet}
+             * 
+             * @return
+             *     An immutable object of type {@link OralDiet}
+             */
             @Override
             public OralDiet build() {
                 return new OralDiet(this);
@@ -1766,10 +1602,8 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Class that defines the quantity and type of nutrient modifications (for example carbohydrate, fiber or sodium) 
          * required for the oral diet.
-         * </p>
          */
         public static class Nutrient extends BackboneElement {
             private final CodeableConcept modifier;
@@ -1785,9 +1619,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The nutrient that is being modified such as carbohydrate or sodium.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -1797,9 +1629,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The quantity of the specified nutrient to include in diet.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link SimpleQuantity}.
@@ -1883,10 +1713,8 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -1900,15 +1728,12 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1922,15 +1747,12 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1944,21 +1766,17 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -1972,21 +1790,17 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2000,9 +1814,7 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The nutrient that is being modified such as carbohydrate or sodium.
-                 * </p>
                  * 
                  * @param modifier
                  *     Type of nutrient that is being modified
@@ -2016,9 +1828,7 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The quantity of the specified nutrient to include in diet.
-                 * </p>
                  * 
                  * @param amount
                  *     Quantity of the specified nutrient
@@ -2031,6 +1841,12 @@ public class NutritionOrder extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Nutrient}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Nutrient}
+                 */
                 @Override
                 public Nutrient build() {
                     return new Nutrient(this);
@@ -2046,9 +1862,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Class that describes any texture modifications required for the patient to safely consume various types of solid foods.
-         * </p>
          */
         public static class Texture extends BackboneElement {
             private final CodeableConcept modifier;
@@ -2064,9 +1878,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * Any texture modifications (for solid foods) that should be made, e.g. easy to chew, chopped, ground, and pureed.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2076,9 +1888,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The food type(s) (e.g. meats, all foods) that the texture modification applies to. This could be all foods types.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2162,10 +1972,8 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2179,15 +1987,12 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2201,15 +2006,12 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2223,21 +2025,17 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2251,21 +2049,17 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2279,9 +2073,7 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Any texture modifications (for solid foods) that should be made, e.g. easy to chew, chopped, ground, and pureed.
-                 * </p>
                  * 
                  * @param modifier
                  *     Code to indicate how to alter the texture of the foods, e.g. pureed
@@ -2295,9 +2087,7 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The food type(s) (e.g. meats, all foods) that the texture modification applies to. This could be all foods types.
-                 * </p>
                  * 
                  * @param foodType
                  *     Concepts that are used to identify an entity that is ingested for nutritional purposes
@@ -2310,6 +2100,12 @@ public class NutritionOrder extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Texture}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Texture}
+                 */
                 @Override
                 public Texture build() {
                     return new Texture(this);
@@ -2326,9 +2122,7 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * Oral nutritional products given in order to add further nutritional value to the patient's diet.
-     * </p>
      */
     public static class Supplement extends BackboneElement {
         private final CodeableConcept type;
@@ -2350,9 +2144,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The kind of nutritional supplement product required such as a high protein or pediatric clear liquid supplement.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2362,9 +2154,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The product or brand name of the nutritional supplement such as "Acme Protein Shake".
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2374,10 +2164,8 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The time period and frequency at which the supplement(s) should be given. The supplement should be given for the 
          * combination of all schedules if more than one schedule is present.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Timing}.
@@ -2387,9 +2175,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The amount of the nutritional supplement to be given.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link SimpleQuantity}.
@@ -2399,9 +2185,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Free text or additional instructions or information pertaining to the oral supplement.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2500,10 +2284,8 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2517,15 +2299,12 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2539,15 +2318,12 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2561,21 +2337,17 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2589,21 +2361,17 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2617,9 +2385,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The kind of nutritional supplement product required such as a high protein or pediatric clear liquid supplement.
-             * </p>
              * 
              * @param type
              *     Type of supplement product requested
@@ -2633,9 +2399,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The product or brand name of the nutritional supplement such as "Acme Protein Shake".
-             * </p>
              * 
              * @param productName
              *     Product or brand name of the nutritional supplement
@@ -2649,13 +2413,10 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The time period and frequency at which the supplement(s) should be given. The supplement should be given for the 
              * combination of all schedules if more than one schedule is present.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param schedule
              *     Scheduled frequency of supplement
@@ -2671,13 +2432,10 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The time period and frequency at which the supplement(s) should be given. The supplement should be given for the 
              * combination of all schedules if more than one schedule is present.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param schedule
              *     Scheduled frequency of supplement
@@ -2691,9 +2449,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The amount of the nutritional supplement to be given.
-             * </p>
              * 
              * @param quantity
              *     Amount of the nutritional supplement
@@ -2707,9 +2463,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * Free text or additional instructions or information pertaining to the oral supplement.
-             * </p>
              * 
              * @param instruction
              *     Instructions or additional information about the oral supplement
@@ -2722,6 +2476,12 @@ public class NutritionOrder extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Supplement}
+             * 
+             * @return
+             *     An immutable object of type {@link Supplement}
+             */
             @Override
             public Supplement build() {
                 return new Supplement(this);
@@ -2740,10 +2500,8 @@ public class NutritionOrder extends DomainResource {
     }
 
     /**
-     * <p>
      * Feeding provided through the gastrointestinal tract via a tube, catheter, or stoma that delivers nutrition distal to 
      * the oral cavity.
-     * </p>
      */
     public static class EnteralFormula extends BackboneElement {
         private final CodeableConcept baseFormulaType;
@@ -2773,9 +2531,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of enteral or infant formula such as an adult standard formula with fiber or a soy-based infant formula.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2785,9 +2541,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The product or brand name of the enteral or infant formula product such as "ACME Adult Standard Formula".
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2797,10 +2551,8 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the type of modular component such as protein, carbohydrate, fat or fiber to be provided in addition to or 
          * mixed with the base formula.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2810,9 +2562,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The product or brand name of the type of modular component to be added to the formula.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2822,11 +2572,9 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The amount of energy (calories) that the formula should provide per specified volume, typically per mL or fluid oz. 
          * For example, an infant may require a formula that provides 24 calories per fluid ounce or an adult may require an 
          * enteral formula that provides 1.5 calorie/mL.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link SimpleQuantity}.
@@ -2836,10 +2584,8 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The route or physiological path of administration into the patient's gastrointestinal tract for purposes of providing 
          * the formula feeding, e.g. nasogastric tube.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2849,11 +2595,9 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Formula administration instructions as structured data. This repeating structure allows for changing the 
          * administration rate or volume over time for both bolus and continuous feeding. An example of this would be an 
          * instruction to increase the rate of continuous feeding every 2 hours.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Administration}.
@@ -2863,10 +2607,8 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * The maximum total quantity of formula that may be administered to a subject over the period of time, e.g. 1440 mL over 
          * 24 hours.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link SimpleQuantity}.
@@ -2876,9 +2618,7 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Free text formula administration, feeding instructions or additional instructions or information.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2997,10 +2737,8 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3014,15 +2752,12 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3036,15 +2771,12 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3058,21 +2790,17 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3086,21 +2814,17 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3114,9 +2838,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of enteral or infant formula such as an adult standard formula with fiber or a soy-based infant formula.
-             * </p>
              * 
              * @param baseFormulaType
              *     Type of enteral or infant formula
@@ -3130,9 +2852,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The product or brand name of the enteral or infant formula product such as "ACME Adult Standard Formula".
-             * </p>
              * 
              * @param baseFormulaProductName
              *     Product or brand name of the enteral or infant formula
@@ -3146,10 +2866,8 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates the type of modular component such as protein, carbohydrate, fat or fiber to be provided in addition to or 
              * mixed with the base formula.
-             * </p>
              * 
              * @param additiveType
              *     Type of modular component to add to the feeding
@@ -3163,9 +2881,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The product or brand name of the type of modular component to be added to the formula.
-             * </p>
              * 
              * @param additiveProductName
              *     Product or brand name of the modular additive
@@ -3179,11 +2895,9 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The amount of energy (calories) that the formula should provide per specified volume, typically per mL or fluid oz. 
              * For example, an infant may require a formula that provides 24 calories per fluid ounce or an adult may require an 
              * enteral formula that provides 1.5 calorie/mL.
-             * </p>
              * 
              * @param caloricDensity
              *     Amount of energy per specified volume that is required
@@ -3197,10 +2911,8 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The route or physiological path of administration into the patient's gastrointestinal tract for purposes of providing 
              * the formula feeding, e.g. nasogastric tube.
-             * </p>
              * 
              * @param routeofAdministration
              *     How the formula should enter the patient's gastrointestinal tract
@@ -3214,14 +2926,11 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * Formula administration instructions as structured data. This repeating structure allows for changing the 
              * administration rate or volume over time for both bolus and continuous feeding. An example of this would be an 
              * instruction to increase the rate of continuous feeding every 2 hours.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param administration
              *     Formula feeding instruction as structured data
@@ -3237,14 +2946,11 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * Formula administration instructions as structured data. This repeating structure allows for changing the 
              * administration rate or volume over time for both bolus and continuous feeding. An example of this would be an 
              * instruction to increase the rate of continuous feeding every 2 hours.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param administration
              *     Formula feeding instruction as structured data
@@ -3258,10 +2964,8 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The maximum total quantity of formula that may be administered to a subject over the period of time, e.g. 1440 mL over 
              * 24 hours.
-             * </p>
              * 
              * @param maxVolumeToDeliver
              *     Upper limit on formula volume per unit of time
@@ -3275,9 +2979,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * Free text formula administration, feeding instructions or additional instructions or information.
-             * </p>
              * 
              * @param administrationInstruction
              *     Formula feeding instructions expressed as text
@@ -3290,6 +2992,12 @@ public class NutritionOrder extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link EnteralFormula}
+             * 
+             * @return
+             *     An immutable object of type {@link EnteralFormula}
+             */
             @Override
             public EnteralFormula build() {
                 return new EnteralFormula(this);
@@ -3311,15 +3019,14 @@ public class NutritionOrder extends DomainResource {
         }
 
         /**
-         * <p>
          * Formula administration instructions as structured data. This repeating structure allows for changing the 
          * administration rate or volume over time for both bolus and continuous feeding. An example of this would be an 
          * instruction to increase the rate of continuous feeding every 2 hours.
-         * </p>
          */
         public static class Administration extends BackboneElement {
             private final Timing schedule;
             private final SimpleQuantity quantity;
+            @Choice({SimpleQuantity.class, Ratio.class})
             private final Element rate;
 
             private volatile int hashCode;
@@ -3333,9 +3040,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The time period and frequency at which the enteral formula should be delivered to the patient.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Timing}.
@@ -3345,9 +3050,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The volume of formula to provide to the patient per the specified administration schedule.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link SimpleQuantity}.
@@ -3357,9 +3060,7 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * <p>
              * The rate of administration of formula via a feeding pump, e.g. 60 mL per hour, according to the specified schedule.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -3448,10 +3149,8 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -3465,15 +3164,12 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3487,15 +3183,12 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3509,21 +3202,17 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3537,21 +3226,17 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3565,9 +3250,7 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The time period and frequency at which the enteral formula should be delivered to the patient.
-                 * </p>
                  * 
                  * @param schedule
                  *     Scheduled frequency of enteral feeding
@@ -3581,9 +3264,7 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The volume of formula to provide to the patient per the specified administration schedule.
-                 * </p>
                  * 
                  * @param quantity
                  *     The volume of formula to provide
@@ -3597,9 +3278,13 @@ public class NutritionOrder extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The rate of administration of formula via a feeding pump, e.g. 60 mL per hour, according to the specified schedule.
-                 * </p>
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link SimpleQuantity}</li>
+                 * <li>{@link Ratio}</li>
+                 * </ul>
                  * 
                  * @param rate
                  *     Speed with which the formula is provided per period of time
@@ -3612,6 +3297,12 @@ public class NutritionOrder extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Administration}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Administration}
+                 */
                 @Override
                 public Administration build() {
                     return new Administration(this);

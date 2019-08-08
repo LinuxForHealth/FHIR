@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -37,11 +39,9 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Describes the event of a patient consuming or otherwise being administered a medication. This may be as simple as 
  * swallowing a tablet or it may be a long running infusion. Related resources tie this event to the authorizing 
  * prescription, and the specific encounter between patient and health care practitioner.
- * </p>
  */
 @Constraint(
     id = "mad-1",
@@ -55,13 +55,19 @@ public class MedicationAdministration extends DomainResource {
     private final List<Identifier> identifier;
     private final List<Uri> instantiates;
     private final List<Reference> partOf;
+    @Required
     private final MedicationAdministrationStatus status;
     private final List<CodeableConcept> statusReason;
     private final CodeableConcept category;
+    @Required
+    @Choice({CodeableConcept.class, Reference.class})
     private final Element medication;
+    @Required
     private final Reference subject;
     private final Reference context;
     private final List<Reference> supportingInformation;
+    @Required
+    @Choice({DateTime.class, Period.class})
     private final Element effective;
     private final List<Performer> performer;
     private final List<CodeableConcept> reasonCode;
@@ -98,12 +104,10 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifiers associated with this Medication Administration that are defined by business processes and/or used to refer 
      * to it when a direct URL reference to the resource itself is not appropriate. They are business identifiers assigned to 
      * this resource by the performer or other systems and remain constant as the resource is updated and propagates from 
      * server to server.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -113,9 +117,7 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * A protocol, guideline, orderset, or other definition that was adhered to in whole or in part by this event.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Uri}.
@@ -125,9 +127,7 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * A larger event of which this particular event is a component or step.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -137,11 +137,9 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * Will generally be set to show that the administration has been completed. For some long running administrations such 
      * as infusions, it is possible for an administration to be started but not completed or it may be paused while some 
      * other process is under way.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link MedicationAdministrationStatus}.
@@ -151,9 +149,7 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * A code indicating why the administration was not performed.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -163,9 +159,7 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates where the medication is expected to be consumed or administered.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -175,10 +169,8 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * Identifies the medication that was administered. This is either a link to a resource representing the details of the 
      * medication or a simple attribute carrying a code that identifies the medication from a known list of medications.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -188,9 +180,7 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * The person or animal or group receiving the medication.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -200,10 +190,8 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * The visit, admission, or other contact between patient and health care provider during which the medication 
      * administration was performed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -213,9 +201,7 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * Additional information (for example, patient height and weight) that supports the administration of the medication.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -225,11 +211,9 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * A specific date/time or interval of time during which the administration took place (or did not take place, when the 
      * 'notGiven' attribute is true). For many administrations, such as swallowing a tablet the use of dateTime is more 
      * appropriate.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -239,9 +223,7 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates who or what performed the medication administration and how they were involved.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Performer}.
@@ -251,9 +233,7 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * A code indicating why the medication was given.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -263,9 +243,7 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * Condition or observation that supports why the medication was administered.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -275,9 +253,7 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * The original request, instruction or authority to perform the administration.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -287,9 +263,7 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * The device used in administering the medication to the patient. For example, a particular infusion pump.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -299,9 +273,7 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * Extra information about the medication administration that is not conveyed by the other attributes.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -311,9 +283,7 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes the medication dosage information details e.g. dose, rate, site, route, etc.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Dosage}.
@@ -323,9 +293,7 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * A summary of the events of interest that have occurred, such as when the administration was verified.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -485,9 +453,7 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -501,10 +467,8 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -518,11 +482,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -536,9 +498,7 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -552,12 +512,10 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -571,13 +529,10 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -591,13 +546,10 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -611,15 +563,12 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -633,15 +582,12 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -655,21 +601,17 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -683,21 +625,17 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -711,15 +649,12 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifiers associated with this Medication Administration that are defined by business processes and/or used to refer 
          * to it when a direct URL reference to the resource itself is not appropriate. They are business identifiers assigned to 
          * this resource by the performer or other systems and remain constant as the resource is updated and propagates from 
          * server to server.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     External identifier
@@ -735,15 +670,12 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifiers associated with this Medication Administration that are defined by business processes and/or used to refer 
          * to it when a direct URL reference to the resource itself is not appropriate. They are business identifiers assigned to 
          * this resource by the performer or other systems and remain constant as the resource is updated and propagates from 
          * server to server.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     External identifier
@@ -757,12 +689,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * A protocol, guideline, orderset, or other definition that was adhered to in whole or in part by this event.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param instantiates
          *     Instantiates protocol or definition
@@ -778,12 +707,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * A protocol, guideline, orderset, or other definition that was adhered to in whole or in part by this event.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param instantiates
          *     Instantiates protocol or definition
@@ -797,12 +723,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * A larger event of which this particular event is a component or step.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param partOf
          *     Part of referenced event
@@ -818,12 +741,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * A larger event of which this particular event is a component or step.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param partOf
          *     Part of referenced event
@@ -837,11 +757,11 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Will generally be set to show that the administration has been completed. For some long running administrations such 
          * as infusions, it is possible for an administration to be started but not completed or it may be paused while some 
          * other process is under way.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     in-progress | not-done | on-hold | completed | entered-in-error | stopped | unknown
@@ -855,12 +775,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * A code indicating why the administration was not performed.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param statusReason
          *     Reason administration not performed
@@ -876,12 +793,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * A code indicating why the administration was not performed.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param statusReason
          *     Reason administration not performed
@@ -895,9 +809,7 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates where the medication is expected to be consumed or administered.
-         * </p>
          * 
          * @param category
          *     Type of medication usage
@@ -911,10 +823,16 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifies the medication that was administered. This is either a link to a resource representing the details of the 
          * medication or a simple attribute carrying a code that identifies the medication from a known list of medications.
-         * </p>
+         * 
+         * <p>This element is required.
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link CodeableConcept}</li>
+         * <li>{@link Reference}</li>
+         * </ul>
          * 
          * @param medication
          *     What was administered
@@ -928,9 +846,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * The person or animal or group receiving the medication.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param subject
          *     Who received medication
@@ -944,10 +862,8 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * The visit, admission, or other contact between patient and health care provider during which the medication 
          * administration was performed.
-         * </p>
          * 
          * @param context
          *     Encounter or Episode of Care administered as part of
@@ -961,12 +877,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional information (for example, patient height and weight) that supports the administration of the medication.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param supportingInformation
          *     Additional information to support administration
@@ -982,12 +895,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Additional information (for example, patient height and weight) that supports the administration of the medication.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param supportingInformation
          *     Additional information to support administration
@@ -1001,11 +911,17 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * A specific date/time or interval of time during which the administration took place (or did not take place, when the 
          * 'notGiven' attribute is true). For many administrations, such as swallowing a tablet the use of dateTime is more 
          * appropriate.
-         * </p>
+         * 
+         * <p>This element is required.
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link DateTime}</li>
+         * <li>{@link Period}</li>
+         * </ul>
          * 
          * @param effective
          *     Start and end time of administration
@@ -1019,12 +935,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates who or what performed the medication administration and how they were involved.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param performer
          *     Who performed the medication administration and what they did
@@ -1040,12 +953,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates who or what performed the medication administration and how they were involved.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param performer
          *     Who performed the medication administration and what they did
@@ -1059,12 +969,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * A code indicating why the medication was given.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonCode
          *     Reason administration performed
@@ -1080,12 +987,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * A code indicating why the medication was given.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonCode
          *     Reason administration performed
@@ -1099,12 +1003,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Condition or observation that supports why the medication was administered.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonReference
          *     Condition or observation that supports why the medication was administered
@@ -1120,12 +1021,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Condition or observation that supports why the medication was administered.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonReference
          *     Condition or observation that supports why the medication was administered
@@ -1139,9 +1037,7 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * The original request, instruction or authority to perform the administration.
-         * </p>
          * 
          * @param request
          *     Request administration performed against
@@ -1155,12 +1051,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * The device used in administering the medication to the patient. For example, a particular infusion pump.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param device
          *     Device used to administer
@@ -1176,12 +1069,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * The device used in administering the medication to the patient. For example, a particular infusion pump.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param device
          *     Device used to administer
@@ -1195,12 +1085,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Extra information about the medication administration that is not conveyed by the other attributes.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     Information about the administration
@@ -1216,12 +1103,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Extra information about the medication administration that is not conveyed by the other attributes.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     Information about the administration
@@ -1235,9 +1119,7 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the medication dosage information details e.g. dose, rate, site, route, etc.
-         * </p>
          * 
          * @param dosage
          *     Details of how medication was taken
@@ -1251,12 +1133,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * A summary of the events of interest that have occurred, such as when the administration was verified.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param eventHistory
          *     A list of events of interest in the lifecycle
@@ -1272,12 +1151,9 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * A summary of the events of interest that have occurred, such as when the administration was verified.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param eventHistory
          *     A list of events of interest in the lifecycle
@@ -1290,6 +1166,20 @@ public class MedicationAdministration extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link MedicationAdministration}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>medication</li>
+         * <li>subject</li>
+         * <li>effective</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link MedicationAdministration}
+         */
         @Override
         public MedicationAdministration build() {
             return new MedicationAdministration(this);
@@ -1321,12 +1211,11 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates who or what performed the medication administration and how they were involved.
-     * </p>
      */
     public static class Performer extends BackboneElement {
         private final CodeableConcept function;
+        @Required
         private final Reference actor;
 
         private volatile int hashCode;
@@ -1339,9 +1228,7 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Distinguishes the type of involvement of the performer in the medication administration.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1351,9 +1238,7 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates who or what performed the medication administration.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1437,10 +1322,8 @@ public class MedicationAdministration extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1454,15 +1337,12 @@ public class MedicationAdministration extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1476,15 +1356,12 @@ public class MedicationAdministration extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1498,21 +1375,17 @@ public class MedicationAdministration extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1526,21 +1399,17 @@ public class MedicationAdministration extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1554,9 +1423,7 @@ public class MedicationAdministration extends DomainResource {
             }
 
             /**
-             * <p>
              * Distinguishes the type of involvement of the performer in the medication administration.
-             * </p>
              * 
              * @param function
              *     Type of performance
@@ -1570,9 +1437,9 @@ public class MedicationAdministration extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates who or what performed the medication administration.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param actor
              *     Who performed the medication administration
@@ -1585,6 +1452,17 @@ public class MedicationAdministration extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Performer}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>actor</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Performer}
+             */
             @Override
             public Performer build() {
                 return new Performer(this);
@@ -1600,9 +1478,7 @@ public class MedicationAdministration extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes the medication dosage information details e.g. dose, rate, site, route, etc.
-     * </p>
      */
     public static class Dosage extends BackboneElement {
         private final String text;
@@ -1610,6 +1486,7 @@ public class MedicationAdministration extends DomainResource {
         private final CodeableConcept route;
         private final CodeableConcept method;
         private final SimpleQuantity dose;
+        @Choice({Ratio.class, SimpleQuantity.class})
         private final Element rate;
 
         private volatile int hashCode;
@@ -1626,13 +1503,11 @@ public class MedicationAdministration extends DomainResource {
         }
 
         /**
-         * <p>
          * Free text dosage can be used for cases where the dosage administered is too complex to code. When coded dosage is 
          * present, the free text dosage may still be present for display to humans.
 
 The dosage instructions should reflect the 
          * dosage of the medication that was administered.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1642,9 +1517,7 @@ The dosage instructions should reflect the
         }
 
         /**
-         * <p>
          * A coded specification of the anatomic site where the medication first entered the body. For example, "left arm".
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1654,10 +1527,8 @@ The dosage instructions should reflect the
         }
 
         /**
-         * <p>
          * A code specifying the route or physiological path of administration of a therapeutic agent into or onto the patient. 
          * For example, topical, intravenous, etc.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1667,11 +1538,9 @@ The dosage instructions should reflect the
         }
 
         /**
-         * <p>
          * A coded value indicating the method by which the medication is intended to be or was introduced into or on the body. 
          * This attribute will most often NOT be populated. It is most commonly used for injections. For example, Slow Push, Deep 
          * IV.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1681,10 +1550,8 @@ The dosage instructions should reflect the
         }
 
         /**
-         * <p>
          * The amount of the medication given at one administration event. Use this value when the administration is essentially 
          * an instantaneous event such as a swallowing a tablet or giving an injection.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link SimpleQuantity}.
@@ -1694,11 +1561,9 @@ The dosage instructions should reflect the
         }
 
         /**
-         * <p>
          * Identifies the speed with which the medication was or will be introduced into the patient. Typically, the rate for an 
          * infusion e.g. 100 ml per 1 hour or 100 ml/hr. May also be expressed as a rate per unit of time, e.g. 500 ml per 2 
          * hours. Other examples: 200 mcg/min or 200 mcg/1 minute; 1 liter/8 hours.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -1802,10 +1667,8 @@ The dosage instructions should reflect the
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1819,15 +1682,12 @@ The dosage instructions should reflect the
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1841,15 +1701,12 @@ The dosage instructions should reflect the
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1863,21 +1720,17 @@ The dosage instructions should reflect the
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1891,21 +1744,17 @@ The dosage instructions should reflect the
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1919,13 +1768,11 @@ The dosage instructions should reflect the
             }
 
             /**
-             * <p>
              * Free text dosage can be used for cases where the dosage administered is too complex to code. When coded dosage is 
              * present, the free text dosage may still be present for display to humans.
 
 The dosage instructions should reflect the 
              * dosage of the medication that was administered.
-             * </p>
              * 
              * @param text
              *     Free text dosage instructions e.g. SIG
@@ -1939,9 +1786,7 @@ The dosage instructions should reflect the
             }
 
             /**
-             * <p>
              * A coded specification of the anatomic site where the medication first entered the body. For example, "left arm".
-             * </p>
              * 
              * @param site
              *     Body site administered to
@@ -1955,10 +1800,8 @@ The dosage instructions should reflect the
             }
 
             /**
-             * <p>
              * A code specifying the route or physiological path of administration of a therapeutic agent into or onto the patient. 
              * For example, topical, intravenous, etc.
-             * </p>
              * 
              * @param route
              *     Path of substance into body
@@ -1972,11 +1815,9 @@ The dosage instructions should reflect the
             }
 
             /**
-             * <p>
              * A coded value indicating the method by which the medication is intended to be or was introduced into or on the body. 
              * This attribute will most often NOT be populated. It is most commonly used for injections. For example, Slow Push, Deep 
              * IV.
-             * </p>
              * 
              * @param method
              *     How drug was administered
@@ -1990,10 +1831,8 @@ The dosage instructions should reflect the
             }
 
             /**
-             * <p>
              * The amount of the medication given at one administration event. Use this value when the administration is essentially 
              * an instantaneous event such as a swallowing a tablet or giving an injection.
-             * </p>
              * 
              * @param dose
              *     Amount of medication per dose
@@ -2007,11 +1846,15 @@ The dosage instructions should reflect the
             }
 
             /**
-             * <p>
              * Identifies the speed with which the medication was or will be introduced into the patient. Typically, the rate for an 
              * infusion e.g. 100 ml per 1 hour or 100 ml/hr. May also be expressed as a rate per unit of time, e.g. 500 ml per 2 
              * hours. Other examples: 200 mcg/min or 200 mcg/1 minute; 1 liter/8 hours.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Ratio}</li>
+             * <li>{@link SimpleQuantity}</li>
+             * </ul>
              * 
              * @param rate
              *     Dose quantity per unit of time
@@ -2024,6 +1867,12 @@ The dosage instructions should reflect the
                 return this;
             }
 
+            /**
+             * Build the {@link Dosage}
+             * 
+             * @return
+             *     An immutable object of type {@link Dosage}
+             */
             @Override
             public Dosage build() {
                 return new Dosage(this);

@@ -14,9 +14,7 @@ import javax.annotation.Generated;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 
 /**
- * <p>
  * An integer with a value that is positive (e.g. &gt;0)
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class PositiveInt extends Integer {
@@ -96,9 +94,7 @@ public class PositiveInt extends Integer {
         }
 
         /**
-         * <p>
          * unique id for the element within a resource (for internal references)
-         * </p>
          * 
          * @param id
          *     xml:id (or equivalent in JSON)
@@ -112,15 +108,12 @@ public class PositiveInt extends Integer {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -134,15 +127,12 @@ public class PositiveInt extends Integer {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -156,9 +146,7 @@ public class PositiveInt extends Integer {
         }
 
         /**
-         * <p>
          * Primitive value for positiveInt
-         * </p>
          * 
          * @param value
          *     Primitive value for positiveInt
@@ -175,6 +163,12 @@ public class PositiveInt extends Integer {
             return (Builder) super.value(value);
         }
 
+        /**
+         * Build the {@link PositiveInt}
+         * 
+         * @return
+         *     An immutable object of type {@link PositiveInt}
+         */
         @Override
         public PositiveInt build() {
             return new PositiveInt(this);

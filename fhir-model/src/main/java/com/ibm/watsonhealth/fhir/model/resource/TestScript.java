@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.AssertionDirectionType;
 import com.ibm.watsonhealth.fhir.model.type.AssertionOperatorType;
 import com.ibm.watsonhealth.fhir.model.type.AssertionResponseTypes;
@@ -44,10 +45,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A structured set of tests against a FHIR server or client implementation to determine compliance against the FHIR 
  * specification.
- * </p>
  */
 @Constraint(
     id = "tst-0",
@@ -149,11 +148,14 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class TestScript extends DomainResource {
+    @Required
     private final Uri url;
     private final Identifier identifier;
     private final String version;
+    @Required
     private final String name;
     private final String title;
+    @Required
     private final PublicationStatus status;
     private final Boolean experimental;
     private final DateTime date;
@@ -205,12 +207,10 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * An absolute URI that is used to identify this test script when it is referenced in a specification, model, design or 
      * an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at 
      * which at which an authoritative instance of this test script is (or will be) published. This URL can be the target of 
      * a canonical reference. It SHALL remain the same when the test script is stored on different servers.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -220,10 +220,8 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * A formal identifier that is used to identify this test script when it is represented in other formats, or referenced 
      * in a specification, model, design or an instance.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Identifier}.
@@ -233,12 +231,10 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * The identifier that is used to identify this version of the test script when it is referenced in a specification, 
      * model, design or instance. This is an arbitrary value managed by the test script author and is not expected to be 
      * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
      * also no expectation that versions can be placed in a lexicographical sequence.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -248,10 +244,8 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * A natural language name identifying the test script. This name should be usable as an identifier for the module by 
      * machine processing applications such as code generation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -261,9 +255,7 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * A short, descriptive, user-friendly title for the test script.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -273,9 +265,7 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of this test script. Enables tracking the life-cycle of the content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PublicationStatus}.
@@ -285,10 +275,8 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * A Boolean value to indicate that this test script is authored for testing purposes (or education/evaluation/marketing) 
      * and is not intended to be used for genuine usage.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -298,11 +286,9 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and optionally time) when the test script was published. The date must change when the business version 
      * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
      * the test script changes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -312,9 +298,7 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the organization or individual that published the test script.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -324,9 +308,7 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * Contact details to assist a user in finding and communicating with the publisher.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -336,9 +318,7 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * A free text natural language description of the test script from a consumer's perspective.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -348,11 +328,9 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
      * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
      * may be used to assist with indexing and searching for appropriate test script instances.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
@@ -362,9 +340,7 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * A legal or geographic region in which the test script is intended to be used.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -374,9 +350,7 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * Explanation of why this test script is needed and why it has been designed as it has.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -386,10 +360,8 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * A copyright statement relating to the test script and/or its contents. Copyright statements are generally legal 
      * restrictions on the use and publishing of the test script.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -399,9 +371,7 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * An abstract server used in operations within this test script in the origin element.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Origin}.
@@ -411,9 +381,7 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * An abstract server used in operations within this test script in the destination element.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Destination}.
@@ -423,9 +391,7 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * The required capability must exist and are assumed to function correctly on the FHIR server being tested.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Metadata}.
@@ -435,9 +401,7 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * Fixture in the test script - by reference (uri). All fixtures are required for the test script to execute.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Fixture}.
@@ -447,9 +411,7 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * Reference to the profile to be used for validation.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -459,9 +421,7 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * Variable is set based either on element value in response body or on header field value in the response headers.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Variable}.
@@ -471,9 +431,7 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * A series of required setup operations before tests are executed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Setup}.
@@ -483,9 +441,7 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * A test in this script.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Test}.
@@ -495,9 +451,7 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * A series of operations required to clean up after all the tests are executed (successfully or otherwise).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Teardown}.
@@ -677,9 +631,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -693,10 +645,8 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -710,11 +660,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -728,9 +676,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -744,12 +690,10 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -763,13 +707,10 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -783,13 +724,10 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -803,15 +741,12 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -825,15 +760,12 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -847,21 +779,17 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -875,21 +803,17 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -903,12 +827,12 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that is used to identify this test script when it is referenced in a specification, model, design or 
          * an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at 
          * which at which an authoritative instance of this test script is (or will be) published. This URL can be the target of 
          * a canonical reference. It SHALL remain the same when the test script is stored on different servers.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param url
          *     Canonical identifier for this test script, represented as a URI (globally unique)
@@ -922,10 +846,8 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A formal identifier that is used to identify this test script when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
-         * </p>
          * 
          * @param identifier
          *     Additional identifier for the test script
@@ -939,12 +861,10 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * The identifier that is used to identify this version of the test script when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the test script author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
          * also no expectation that versions can be placed in a lexicographical sequence.
-         * </p>
          * 
          * @param version
          *     Business version of the test script
@@ -958,10 +878,10 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A natural language name identifying the test script. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param name
          *     Name for this test script (computer friendly)
@@ -975,9 +895,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A short, descriptive, user-friendly title for the test script.
-         * </p>
          * 
          * @param title
          *     Name for this test script (human friendly)
@@ -991,9 +909,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of this test script. Enables tracking the life-cycle of the content.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | retired | unknown
@@ -1007,10 +925,8 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A Boolean value to indicate that this test script is authored for testing purposes (or education/evaluation/marketing) 
          * and is not intended to be used for genuine usage.
-         * </p>
          * 
          * @param experimental
          *     For testing purposes, not real usage
@@ -1024,11 +940,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and optionally time) when the test script was published. The date must change when the business version 
          * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
          * the test script changes.
-         * </p>
          * 
          * @param date
          *     Date last changed
@@ -1042,9 +956,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the organization or individual that published the test script.
-         * </p>
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
@@ -1058,12 +970,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1079,12 +988,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1098,9 +1004,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A free text natural language description of the test script from a consumer's perspective.
-         * </p>
          * 
          * @param description
          *     Natural language description of the test script
@@ -1114,14 +1018,11 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate test script instances.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1137,14 +1038,11 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate test script instances.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1158,12 +1056,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the test script is intended to be used.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param jurisdiction
          *     Intended jurisdiction for test script (if applicable)
@@ -1179,12 +1074,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the test script is intended to be used.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param jurisdiction
          *     Intended jurisdiction for test script (if applicable)
@@ -1198,9 +1090,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Explanation of why this test script is needed and why it has been designed as it has.
-         * </p>
          * 
          * @param purpose
          *     Why this test script is defined
@@ -1214,10 +1104,8 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A copyright statement relating to the test script and/or its contents. Copyright statements are generally legal 
          * restrictions on the use and publishing of the test script.
-         * </p>
          * 
          * @param copyright
          *     Use and/or publishing restrictions
@@ -1231,12 +1119,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * An abstract server used in operations within this test script in the origin element.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param origin
          *     An abstract server representing a client or sender in a message exchange
@@ -1252,12 +1137,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * An abstract server used in operations within this test script in the origin element.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param origin
          *     An abstract server representing a client or sender in a message exchange
@@ -1271,12 +1153,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * An abstract server used in operations within this test script in the destination element.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param destination
          *     An abstract server representing a destination or receiver in a message exchange
@@ -1292,12 +1171,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * An abstract server used in operations within this test script in the destination element.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param destination
          *     An abstract server representing a destination or receiver in a message exchange
@@ -1311,9 +1187,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * The required capability must exist and are assumed to function correctly on the FHIR server being tested.
-         * </p>
          * 
          * @param metadata
          *     Required capability that is assumed to function correctly on the FHIR server being tested
@@ -1327,12 +1201,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Fixture in the test script - by reference (uri). All fixtures are required for the test script to execute.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param fixture
          *     Fixture in the test script - by reference (uri)
@@ -1348,12 +1219,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Fixture in the test script - by reference (uri). All fixtures are required for the test script to execute.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param fixture
          *     Fixture in the test script - by reference (uri)
@@ -1367,12 +1235,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to the profile to be used for validation.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param profile
          *     Reference of the validation profile
@@ -1388,12 +1253,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to the profile to be used for validation.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param profile
          *     Reference of the validation profile
@@ -1407,12 +1269,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Variable is set based either on element value in response body or on header field value in the response headers.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param variable
          *     Placeholder for evaluated elements
@@ -1428,12 +1287,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Variable is set based either on element value in response body or on header field value in the response headers.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param variable
          *     Placeholder for evaluated elements
@@ -1447,9 +1303,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A series of required setup operations before tests are executed.
-         * </p>
          * 
          * @param setup
          *     A series of required setup operations before tests are executed
@@ -1463,12 +1317,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A test in this script.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param test
          *     A test in this script
@@ -1484,12 +1335,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A test in this script.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param test
          *     A test in this script
@@ -1503,9 +1351,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A series of operations required to clean up after all the tests are executed (successfully or otherwise).
-         * </p>
          * 
          * @param teardown
          *     A series of required clean up steps
@@ -1518,6 +1364,19 @@ public class TestScript extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link TestScript}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>url</li>
+         * <li>name</li>
+         * <li>status</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link TestScript}
+         */
         @Override
         public TestScript build() {
             return new TestScript(this);
@@ -1554,12 +1413,12 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * An abstract server used in operations within this test script in the origin element.
-     * </p>
      */
     public static class Origin extends BackboneElement {
+        @Required
         private final Integer index;
+        @Required
         private final Coding profile;
 
         private volatile int hashCode;
@@ -1572,9 +1431,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Abstract name given to an origin server in this test script. The name is provided as a number starting at 1.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Integer}.
@@ -1584,9 +1441,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of origin profile the test system supports.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Coding}.
@@ -1670,10 +1525,8 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1687,15 +1540,12 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1709,15 +1559,12 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1731,21 +1578,17 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1759,21 +1602,17 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1787,9 +1626,9 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Abstract name given to an origin server in this test script. The name is provided as a number starting at 1.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param index
              *     The index of the abstract origin server starting at 1
@@ -1803,9 +1642,9 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of origin profile the test system supports.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param profile
              *     FHIR-Client | FHIR-SDC-FormFiller
@@ -1818,6 +1657,18 @@ public class TestScript extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Origin}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>index</li>
+             * <li>profile</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Origin}
+             */
             @Override
             public Origin build() {
                 return new Origin(this);
@@ -1833,12 +1684,12 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * An abstract server used in operations within this test script in the destination element.
-     * </p>
      */
     public static class Destination extends BackboneElement {
+        @Required
         private final Integer index;
+        @Required
         private final Coding profile;
 
         private volatile int hashCode;
@@ -1851,9 +1702,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Abstract name given to a destination server in this test script. The name is provided as a number starting at 1.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Integer}.
@@ -1863,9 +1712,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of destination profile the test system supports.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Coding}.
@@ -1949,10 +1796,8 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1966,15 +1811,12 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1988,15 +1830,12 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2010,21 +1849,17 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2038,21 +1873,17 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2066,9 +1897,9 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Abstract name given to a destination server in this test script. The name is provided as a number starting at 1.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param index
              *     The index of the abstract destination server starting at 1
@@ -2082,9 +1913,9 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of destination profile the test system supports.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param profile
              *     FHIR-Server | FHIR-SDC-FormManager | FHIR-SDC-FormReceiver | FHIR-SDC-FormProcessor
@@ -2097,6 +1928,18 @@ public class TestScript extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Destination}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>index</li>
+             * <li>profile</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Destination}
+             */
             @Override
             public Destination build() {
                 return new Destination(this);
@@ -2112,12 +1955,11 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * The required capability must exist and are assumed to function correctly on the FHIR server being tested.
-     * </p>
      */
     public static class Metadata extends BackboneElement {
         private final List<Link> link;
+        @Required
         private final List<Capability> capability;
 
         private volatile int hashCode;
@@ -2130,9 +1972,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A link to the FHIR specification that this test is covering.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Link}.
@@ -2142,9 +1982,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Capabilities that must exist and are assumed to function correctly on the FHIR server being tested.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Capability}.
@@ -2228,10 +2066,8 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2245,15 +2081,12 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2267,15 +2100,12 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2289,21 +2119,17 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2317,21 +2143,17 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2345,12 +2167,9 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * A link to the FHIR specification that this test is covering.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param link
              *     Links to the FHIR specification
@@ -2366,12 +2185,9 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * A link to the FHIR specification that this test is covering.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param link
              *     Links to the FHIR specification
@@ -2385,12 +2201,11 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Capabilities that must exist and are assumed to function correctly on the FHIR server being tested.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * <p>This element is required.
              * 
              * @param capability
              *     Capabilities that are assumed to function correctly on the FHIR server being tested
@@ -2406,12 +2221,11 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Capabilities that must exist and are assumed to function correctly on the FHIR server being tested.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>This element is required.
              * 
              * @param capability
              *     Capabilities that are assumed to function correctly on the FHIR server being tested
@@ -2424,6 +2238,17 @@ public class TestScript extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Metadata}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>capability</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Metadata}
+             */
             @Override
             public Metadata build() {
                 return new Metadata(this);
@@ -2438,11 +2263,10 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A link to the FHIR specification that this test is covering.
-         * </p>
          */
         public static class Link extends BackboneElement {
+            @Required
             private final Uri url;
             private final String description;
 
@@ -2456,9 +2280,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * URL to a particular requirement or feature within the FHIR specification.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Uri}.
@@ -2468,9 +2290,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Short description of the link.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2554,10 +2374,8 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2571,15 +2389,12 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2593,15 +2408,12 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2615,21 +2427,17 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2643,21 +2451,17 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2671,9 +2475,9 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * URL to a particular requirement or feature within the FHIR specification.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param url
                  *     URL to the specification
@@ -2687,9 +2491,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Short description of the link.
-                 * </p>
                  * 
                  * @param description
                  *     Short description
@@ -2702,6 +2504,17 @@ public class TestScript extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Link}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>url</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Link}
+                 */
                 @Override
                 public Link build() {
                     return new Link(this);
@@ -2717,17 +2530,18 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Capabilities that must exist and are assumed to function correctly on the FHIR server being tested.
-         * </p>
          */
         public static class Capability extends BackboneElement {
+            @Required
             private final Boolean required;
+            @Required
             private final Boolean validated;
             private final String description;
             private final List<Integer> origin;
             private final Integer destination;
             private final List<Uri> link;
+            @Required
             private final Canonical capabilities;
 
             private volatile int hashCode;
@@ -2745,10 +2559,8 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Whether or not the test execution will require the given capabilities of the server in order for this test script to 
              * execute.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Boolean}.
@@ -2758,10 +2570,8 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Whether or not the test execution will validate the given capabilities of the server in order for this test script to 
              * execute.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Boolean}.
@@ -2771,9 +2581,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Description of the capabilities that this test script is requiring the server to support.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2783,9 +2591,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Which origin server these requirements apply to.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Integer}.
@@ -2795,9 +2601,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Which server these requirements apply to.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Integer}.
@@ -2807,9 +2611,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Links to the FHIR specification that describes this interaction and the resources involved in more detail.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Uri}.
@@ -2819,10 +2621,8 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Minimum capabilities required of server for test script to execute successfully. If server does not meet at a minimum 
              * the referenced capability statement, then all tests in this script are skipped.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Canonical}.
@@ -2931,10 +2731,8 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2948,15 +2746,12 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2970,15 +2765,12 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2992,21 +2784,17 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3020,21 +2808,17 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3048,10 +2832,10 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Whether or not the test execution will require the given capabilities of the server in order for this test script to 
                  * execute.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param required
                  *     Are the capabilities required?
@@ -3065,10 +2849,10 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Whether or not the test execution will validate the given capabilities of the server in order for this test script to 
                  * execute.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param validated
                  *     Are the capabilities validated?
@@ -3082,9 +2866,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Description of the capabilities that this test script is requiring the server to support.
-                 * </p>
                  * 
                  * @param description
                  *     The expected capabilities of the server
@@ -3098,12 +2880,9 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Which origin server these requirements apply to.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param origin
                  *     Which origin server these requirements apply to
@@ -3119,12 +2898,9 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Which origin server these requirements apply to.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param origin
                  *     Which origin server these requirements apply to
@@ -3138,9 +2914,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Which server these requirements apply to.
-                 * </p>
                  * 
                  * @param destination
                  *     Which server these requirements apply to
@@ -3154,12 +2928,9 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Links to the FHIR specification that describes this interaction and the resources involved in more detail.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param link
                  *     Links to the FHIR specification
@@ -3175,12 +2946,9 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Links to the FHIR specification that describes this interaction and the resources involved in more detail.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param link
                  *     Links to the FHIR specification
@@ -3194,10 +2962,10 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Minimum capabilities required of server for test script to execute successfully. If server does not meet at a minimum 
                  * the referenced capability statement, then all tests in this script are skipped.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param capabilities
                  *     Required Capability Statement
@@ -3210,6 +2978,19 @@ public class TestScript extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Capability}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>required</li>
+                 * <li>validated</li>
+                 * <li>capabilities</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Capability}
+                 */
                 @Override
                 public Capability build() {
                     return new Capability(this);
@@ -3231,12 +3012,12 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * Fixture in the test script - by reference (uri). All fixtures are required for the test script to execute.
-     * </p>
      */
     public static class Fixture extends BackboneElement {
+        @Required
         private final Boolean autocreate;
+        @Required
         private final Boolean autodelete;
         private final Reference resource;
 
@@ -3251,11 +3032,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether or not to implicitly create the fixture during setup. If true, the fixture is automatically created on each 
          * server being tested during setup, therefore no create operation is required for this fixture in the TestScript.setup 
          * section.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -3265,11 +3044,9 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether or not to implicitly delete the fixture during teardown. If true, the fixture is automatically deleted on each 
          * server being tested during teardown, therefore no delete operation is required for this fixture in the TestScript.
          * teardown section.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -3279,9 +3056,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to the resource (containing the contents of the resource needed for operations).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -3370,10 +3145,8 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3387,15 +3160,12 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3409,15 +3179,12 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3431,21 +3198,17 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3459,21 +3222,17 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3487,11 +3246,11 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Whether or not to implicitly create the fixture during setup. If true, the fixture is automatically created on each 
              * server being tested during setup, therefore no create operation is required for this fixture in the TestScript.setup 
              * section.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param autocreate
              *     Whether or not to implicitly create the fixture during setup
@@ -3505,11 +3264,11 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Whether or not to implicitly delete the fixture during teardown. If true, the fixture is automatically deleted on each 
              * server being tested during teardown, therefore no delete operation is required for this fixture in the TestScript.
              * teardown section.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param autodelete
              *     Whether or not to implicitly delete the fixture during teardown
@@ -3523,9 +3282,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference to the resource (containing the contents of the resource needed for operations).
-             * </p>
              * 
              * @param resource
              *     Reference of the resource
@@ -3538,6 +3295,18 @@ public class TestScript extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Fixture}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>autocreate</li>
+             * <li>autodelete</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Fixture}
+             */
             @Override
             public Fixture build() {
                 return new Fixture(this);
@@ -3554,11 +3323,10 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * Variable is set based either on element value in response body or on header field value in the response headers.
-     * </p>
      */
     public static class Variable extends BackboneElement {
+        @Required
         private final String name;
         private final String defaultValue;
         private final String description;
@@ -3584,9 +3352,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Descriptive name for this variable.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3596,9 +3362,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A default, hard-coded, or user-defined value for this variable.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3608,9 +3372,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A free text natural language description of the variable and its purpose.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3620,10 +3382,8 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * The FHIRPath expression to evaluate against the fixture body. When variables are defined, only one of either 
          * expression, headerField or path must be specified.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3633,9 +3393,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Will be used to grab the HTTP header field value from the headers that sourceId is pointing to.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3645,9 +3403,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Displayable text string with hint help information to the user when entering a default value.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3657,10 +3413,8 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * XPath or JSONPath to evaluate against the fixture body. When variables are defined, only one of either expression, 
          * headerField or path must be specified.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -3670,9 +3424,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Fixture to evaluate the XPath/JSONPath expression or the headerField against within this variable.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Id}.
@@ -3786,10 +3538,8 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3803,15 +3553,12 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3825,15 +3572,12 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3847,21 +3591,17 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3875,21 +3615,17 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3903,9 +3639,9 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Descriptive name for this variable.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param name
              *     Descriptive name for this variable
@@ -3919,9 +3655,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * A default, hard-coded, or user-defined value for this variable.
-             * </p>
              * 
              * @param defaultValue
              *     Default, hard-coded, or user-defined value for this variable
@@ -3935,9 +3669,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * A free text natural language description of the variable and its purpose.
-             * </p>
              * 
              * @param description
              *     Natural language description of the variable
@@ -3951,10 +3683,8 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * The FHIRPath expression to evaluate against the fixture body. When variables are defined, only one of either 
              * expression, headerField or path must be specified.
-             * </p>
              * 
              * @param expression
              *     The FHIRPath expression against the fixture body
@@ -3968,9 +3698,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Will be used to grab the HTTP header field value from the headers that sourceId is pointing to.
-             * </p>
              * 
              * @param headerField
              *     HTTP header field name for source
@@ -3984,9 +3712,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Displayable text string with hint help information to the user when entering a default value.
-             * </p>
              * 
              * @param hint
              *     Hint help text for default value to enter
@@ -4000,10 +3726,8 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * XPath or JSONPath to evaluate against the fixture body. When variables are defined, only one of either expression, 
              * headerField or path must be specified.
-             * </p>
              * 
              * @param path
              *     XPath or JSONPath against the fixture body
@@ -4017,9 +3741,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Fixture to evaluate the XPath/JSONPath expression or the headerField against within this variable.
-             * </p>
              * 
              * @param sourceId
              *     Fixture Id of source expression or headerField within this variable
@@ -4032,6 +3754,17 @@ public class TestScript extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Variable}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>name</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Variable}
+             */
             @Override
             public Variable build() {
                 return new Variable(this);
@@ -4053,11 +3786,10 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * A series of required setup operations before tests are executed.
-     * </p>
      */
     public static class Setup extends BackboneElement {
+        @Required
         private final List<Action> action;
 
         private volatile int hashCode;
@@ -4069,9 +3801,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Action would contain either an operation or an assertion.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Action}.
@@ -4150,10 +3880,8 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -4167,15 +3895,12 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4189,15 +3914,12 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -4211,21 +3933,17 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4239,21 +3957,17 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -4267,12 +3981,11 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Action would contain either an operation or an assertion.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * <p>This element is required.
              * 
              * @param action
              *     A setup operation or assert to perform
@@ -4288,12 +4001,11 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Action would contain either an operation or an assertion.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>This element is required.
              * 
              * @param action
              *     A setup operation or assert to perform
@@ -4306,6 +4018,17 @@ public class TestScript extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Setup}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>action</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Setup}
+             */
             @Override
             public Setup build() {
                 return new Setup(this);
@@ -4319,9 +4042,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Action would contain either an operation or an assertion.
-         * </p>
          */
         public static class Action extends BackboneElement {
             private final Operation operation;
@@ -4337,9 +4058,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * The operation to perform.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Operation}.
@@ -4349,9 +4068,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Evaluates the results of previous operations to determine if the server under test behaves appropriately.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Assert}.
@@ -4435,10 +4152,8 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -4452,15 +4167,12 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4474,15 +4186,12 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -4496,21 +4205,17 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4524,21 +4229,17 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4552,9 +4253,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The operation to perform.
-                 * </p>
                  * 
                  * @param operation
                  *     The setup operation to perform
@@ -4568,9 +4267,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Evaluates the results of previous operations to determine if the server under test behaves appropriately.
-                 * </p>
                  * 
                  * @param _assert
                  *     The assertion to perform
@@ -4583,6 +4280,12 @@ public class TestScript extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Action}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Action}
+                 */
                 @Override
                 public Action build() {
                     return new Action(this);
@@ -4597,9 +4300,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * The operation to perform.
-             * </p>
              */
             public static class Operation extends BackboneElement {
                 private final Coding type;
@@ -4609,6 +4310,7 @@ public class TestScript extends DomainResource {
                 private final Code accept;
                 private final Code contentType;
                 private final Integer destination;
+                @Required
                 private final Boolean encodeRequestUrl;
                 private final TestScriptRequestMethodCode method;
                 private final Integer origin;
@@ -4645,9 +4347,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Server interaction or operation type.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Coding}.
@@ -4657,9 +4357,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The type of the resource. See http://build.fhir.org/resourcelist.html.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link FHIRDefinedType}.
@@ -4669,9 +4367,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The label would be used for tracking/logging purposes by test engines.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -4681,9 +4377,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The description would be used by test engines for tracking and reporting purposes.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -4693,9 +4387,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The mime-type to use for RESTful operation in the 'Accept' header.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Code}.
@@ -4705,9 +4397,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The mime-type to use for RESTful operation in the 'Content-Type' header.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Code}.
@@ -4717,10 +4407,8 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The server where the request message is destined for. Must be one of the server numbers listed in TestScript.
                  * destination section.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Integer}.
@@ -4730,10 +4418,8 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Whether or not to implicitly send the request url in encoded format. The default is true to match the standard RESTful 
                  * client behavior. Set to false when communicating with a server that does not support encoded url paths.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Boolean}.
@@ -4743,9 +4429,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The HTTP method the test engine MUST use for this operation regardless of any other operation details.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link TestScriptRequestMethodCode}.
@@ -4755,10 +4439,8 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The server where the request message originates from. Must be one of the server numbers listed in TestScript.origin 
                  * section.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Integer}.
@@ -4768,9 +4450,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Path plus parameters after [type]. Used to set parts of the request URL explicitly.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -4780,9 +4460,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Header elements would be used to set HTTP headers.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link RequestHeader}.
@@ -4792,9 +4470,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The fixture id (maybe new) to map to the request.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Id}.
@@ -4804,9 +4480,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The fixture id (maybe new) to map to the response.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Id}.
@@ -4816,9 +4490,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The id of the fixture used as the body of a PUT or POST request.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Id}.
@@ -4828,9 +4500,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Id of fixture used for extracting the [id], [type], and [vid] for GET requests.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Id}.
@@ -4840,9 +4510,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Complete request URL.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -5001,10 +4669,8 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -5018,15 +4684,12 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -5040,15 +4703,12 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -5062,21 +4722,17 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -5090,21 +4746,17 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -5118,9 +4770,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Server interaction or operation type.
-                     * </p>
                      * 
                      * @param type
                      *     The operation code type that will be executed
@@ -5134,9 +4784,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The type of the resource. See http://build.fhir.org/resourcelist.html.
-                     * </p>
                      * 
                      * @param resource
                      *     Resource type
@@ -5150,9 +4798,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The label would be used for tracking/logging purposes by test engines.
-                     * </p>
                      * 
                      * @param label
                      *     Tracking/logging operation label
@@ -5166,9 +4812,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The description would be used by test engines for tracking and reporting purposes.
-                     * </p>
                      * 
                      * @param description
                      *     Tracking/reporting operation description
@@ -5182,9 +4826,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The mime-type to use for RESTful operation in the 'Accept' header.
-                     * </p>
                      * 
                      * @param accept
                      *     Mime type to accept in the payload of the response, with charset etc.
@@ -5198,9 +4840,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The mime-type to use for RESTful operation in the 'Content-Type' header.
-                     * </p>
                      * 
                      * @param contentType
                      *     Mime type of the request payload contents, with charset etc.
@@ -5214,10 +4854,8 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The server where the request message is destined for. Must be one of the server numbers listed in TestScript.
                      * destination section.
-                     * </p>
                      * 
                      * @param destination
                      *     Server responding to the request
@@ -5231,10 +4869,10 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Whether or not to implicitly send the request url in encoded format. The default is true to match the standard RESTful 
                      * client behavior. Set to false when communicating with a server that does not support encoded url paths.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param encodeRequestUrl
                      *     Whether or not to send the request url in encoded format
@@ -5248,9 +4886,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The HTTP method the test engine MUST use for this operation regardless of any other operation details.
-                     * </p>
                      * 
                      * @param method
                      *     delete | get | options | patch | post | put | head
@@ -5264,10 +4900,8 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The server where the request message originates from. Must be one of the server numbers listed in TestScript.origin 
                      * section.
-                     * </p>
                      * 
                      * @param origin
                      *     Server initiating the request
@@ -5281,9 +4915,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Path plus parameters after [type]. Used to set parts of the request URL explicitly.
-                     * </p>
                      * 
                      * @param params
                      *     Explicitly defined path parameters
@@ -5297,12 +4929,9 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Header elements would be used to set HTTP headers.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param requestHeader
                      *     Each operation can have one or more header elements
@@ -5318,12 +4947,9 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Header elements would be used to set HTTP headers.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param requestHeader
                      *     Each operation can have one or more header elements
@@ -5337,9 +4963,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The fixture id (maybe new) to map to the request.
-                     * </p>
                      * 
                      * @param requestId
                      *     Fixture Id of mapped request
@@ -5353,9 +4977,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The fixture id (maybe new) to map to the response.
-                     * </p>
                      * 
                      * @param responseId
                      *     Fixture Id of mapped response
@@ -5369,9 +4991,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The id of the fixture used as the body of a PUT or POST request.
-                     * </p>
                      * 
                      * @param sourceId
                      *     Fixture Id of body for PUT and POST requests
@@ -5385,9 +5005,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Id of fixture used for extracting the [id], [type], and [vid] for GET requests.
-                     * </p>
                      * 
                      * @param targetId
                      *     Id of fixture used for extracting the [id], [type], and [vid] for GET requests
@@ -5401,9 +5019,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Complete request URL.
-                     * </p>
                      * 
                      * @param url
                      *     Request URL
@@ -5416,6 +5032,17 @@ public class TestScript extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link Operation}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>encodeRequestUrl</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link Operation}
+                     */
                     @Override
                     public Operation build() {
                         return new Operation(this);
@@ -5445,12 +5072,12 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Header elements would be used to set HTTP headers.
-                 * </p>
                  */
                 public static class RequestHeader extends BackboneElement {
+                    @Required
                     private final String field;
+                    @Required
                     private final String value;
 
                     private volatile int hashCode;
@@ -5463,9 +5090,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The HTTP header field e.g. "Accept".
-                     * </p>
                      * 
                      * @return
                      *     An immutable object of type {@link String}.
@@ -5475,9 +5100,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The value of the header e.g. "application/fhir+xml".
-                     * </p>
                      * 
                      * @return
                      *     An immutable object of type {@link String}.
@@ -5561,10 +5184,8 @@ public class TestScript extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                          * contain spaces.
-                         * </p>
                          * 
                          * @param id
                          *     Unique id for inter-element referencing
@@ -5578,15 +5199,12 @@ public class TestScript extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
-                         * </p>
-                         * <p>
-                         * Adds new element(s) to existing list
-                         * </p>
+                         * 
+                         * <p>Adds new element(s) to the existing list
                          * 
                          * @param extension
                          *     Additional content defined by implementations
@@ -5600,15 +5218,12 @@ public class TestScript extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
-                         * </p>
-                         * <p>
-                         * Replaces existing list with a new one containing elements from the Collection
-                         * </p>
+                         * 
+                         * <p>Replaces the existing list with a new one containing elements from the Collection
                          * 
                          * @param extension
                          *     Additional content defined by implementations
@@ -5622,21 +5237,17 @@ public class TestScript extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element and that 
                          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                          * extension. Applications processing a resource are required to check for modifier extensions.
-                         * </p>
-                         * <p>
-                         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                         * 
+                         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
-                         * </p>
-                         * <p>
-                         * Adds new element(s) to existing list
-                         * </p>
+                         * 
+                         * <p>Adds new element(s) to the existing list
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
@@ -5650,21 +5261,17 @@ public class TestScript extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element and that 
                          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                          * extension. Applications processing a resource are required to check for modifier extensions.
-                         * </p>
-                         * <p>
-                         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                         * 
+                         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
-                         * </p>
-                         * <p>
-                         * Replaces existing list with a new one containing elements from the Collection
-                         * </p>
+                         * 
+                         * <p>Replaces the existing list with a new one containing elements from the Collection
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
@@ -5678,9 +5285,9 @@ public class TestScript extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * The HTTP header field e.g. "Accept".
-                         * </p>
+                         * 
+                         * <p>This element is required.
                          * 
                          * @param field
                          *     HTTP header field name
@@ -5694,9 +5301,9 @@ public class TestScript extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * The value of the header e.g. "application/fhir+xml".
-                         * </p>
+                         * 
+                         * <p>This element is required.
                          * 
                          * @param value
                          *     HTTP headerfield value
@@ -5709,6 +5316,18 @@ public class TestScript extends DomainResource {
                             return this;
                         }
 
+                        /**
+                         * Build the {@link RequestHeader}
+                         * 
+                         * <p>Required elements:
+                         * <ul>
+                         * <li>field</li>
+                         * <li>value</li>
+                         * </ul>
+                         * 
+                         * @return
+                         *     An immutable object of type {@link RequestHeader}
+                         */
                         @Override
                         public RequestHeader build() {
                             return new RequestHeader(this);
@@ -5725,9 +5344,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Evaluates the results of previous operations to determine if the server under test behaves appropriately.
-             * </p>
              */
             public static class Assert extends BackboneElement {
                 private final String label;
@@ -5751,6 +5368,7 @@ public class TestScript extends DomainResource {
                 private final Id sourceId;
                 private final Id validateProfileId;
                 private final String value;
+                @Required
                 private final Boolean warningOnly;
 
                 private volatile int hashCode;
@@ -5783,9 +5401,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The label would be used for tracking/logging purposes by test engines.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -5795,9 +5411,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The description would be used by test engines for tracking and reporting purposes.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -5807,9 +5421,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The direction to use for the assertion.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link AssertionDirectionType}.
@@ -5819,10 +5431,8 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Id of the source fixture used as the contents to be evaluated by either the "source/expression" or "sourceId/path" 
                  * definition.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -5832,10 +5442,8 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The FHIRPath expression to evaluate against the source fixture. When compareToSourceId is defined, either 
                  * compareToSourceExpression or compareToSourcePath must be defined, but not both.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -5845,10 +5453,8 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * XPath or JSONPath expression to evaluate against the source fixture. When compareToSourceId is defined, either 
                  * compareToSourceExpression or compareToSourcePath must be defined, but not both.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -5858,9 +5464,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The mime-type contents to compare against the request or response message 'Content-Type' header.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Code}.
@@ -5870,9 +5474,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The FHIRPath expression to be evaluated against the request or response message contents - HTTP headers and payload.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -5882,9 +5484,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The HTTP header field name e.g. 'Location'.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -5894,9 +5494,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The ID of a fixture. Asserts that the response contains at a minimum the fixture specified by minimumId.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -5906,9 +5504,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Whether or not the test execution performs validation on the bundle navigation links.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Boolean}.
@@ -5918,9 +5514,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The operator type defines the conditional behavior of the assert. If not defined, the default is equals.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link AssertionOperatorType}.
@@ -5930,9 +5524,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The XPath or JSONPath expression to be evaluated against the fixture representing the response received from server.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -5942,9 +5534,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The request method or HTTP operation code to compare against that used by the client system under test.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link TestScriptRequestMethodCode}.
@@ -5954,9 +5544,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The value to use in a comparison against the request URL path string.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -5966,9 +5554,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The type of the resource. See http://build.fhir.org/resourcelist.html.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link FHIRDefinedType}.
@@ -5978,10 +5564,8 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * okay | created | noContent | notModified | bad | forbidden | notFound | methodNotAllowed | conflict | gone | 
                  * preconditionFailed | unprocessable.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link AssertionResponseTypes}.
@@ -5991,9 +5575,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The value of the HTTP response code to be tested.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -6003,9 +5585,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Fixture to evaluate the XPath/JSONPath expression or the headerField against.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Id}.
@@ -6015,9 +5595,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The ID of the Profile to validate against.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Id}.
@@ -6027,9 +5605,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The value to compare to.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link String}.
@@ -6039,9 +5615,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Whether or not the test execution will produce a warning only on error for this assert.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Boolean}.
@@ -6225,10 +5799,8 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -6242,15 +5814,12 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -6264,15 +5833,12 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -6286,21 +5852,17 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -6314,21 +5876,17 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -6342,9 +5900,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The label would be used for tracking/logging purposes by test engines.
-                     * </p>
                      * 
                      * @param label
                      *     Tracking/logging assertion label
@@ -6358,9 +5914,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The description would be used by test engines for tracking and reporting purposes.
-                     * </p>
                      * 
                      * @param description
                      *     Tracking/reporting assertion description
@@ -6374,9 +5928,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The direction to use for the assertion.
-                     * </p>
                      * 
                      * @param direction
                      *     response | request
@@ -6390,10 +5942,8 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Id of the source fixture used as the contents to be evaluated by either the "source/expression" or "sourceId/path" 
                      * definition.
-                     * </p>
                      * 
                      * @param compareToSourceId
                      *     Id of the source fixture to be evaluated
@@ -6407,10 +5957,8 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The FHIRPath expression to evaluate against the source fixture. When compareToSourceId is defined, either 
                      * compareToSourceExpression or compareToSourcePath must be defined, but not both.
-                     * </p>
                      * 
                      * @param compareToSourceExpression
                      *     The FHIRPath expression to evaluate against the source fixture
@@ -6424,10 +5972,8 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * XPath or JSONPath expression to evaluate against the source fixture. When compareToSourceId is defined, either 
                      * compareToSourceExpression or compareToSourcePath must be defined, but not both.
-                     * </p>
                      * 
                      * @param compareToSourcePath
                      *     XPath or JSONPath expression to evaluate against the source fixture
@@ -6441,9 +5987,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The mime-type contents to compare against the request or response message 'Content-Type' header.
-                     * </p>
                      * 
                      * @param contentType
                      *     Mime type to compare against the 'Content-Type' header
@@ -6457,9 +6001,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The FHIRPath expression to be evaluated against the request or response message contents - HTTP headers and payload.
-                     * </p>
                      * 
                      * @param expression
                      *     The FHIRPath expression to be evaluated
@@ -6473,9 +6015,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The HTTP header field name e.g. 'Location'.
-                     * </p>
                      * 
                      * @param headerField
                      *     HTTP header field name
@@ -6489,9 +6029,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The ID of a fixture. Asserts that the response contains at a minimum the fixture specified by minimumId.
-                     * </p>
                      * 
                      * @param minimumId
                      *     Fixture Id of minimum content resource
@@ -6505,9 +6043,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Whether or not the test execution performs validation on the bundle navigation links.
-                     * </p>
                      * 
                      * @param navigationLinks
                      *     Perform validation on navigation links?
@@ -6521,9 +6057,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The operator type defines the conditional behavior of the assert. If not defined, the default is equals.
-                     * </p>
                      * 
                      * @param operator
                      *     equals | notEquals | in | notIn | greaterThan | lessThan | empty | notEmpty | contains | notContains | eval
@@ -6537,9 +6071,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The XPath or JSONPath expression to be evaluated against the fixture representing the response received from server.
-                     * </p>
                      * 
                      * @param path
                      *     XPath or JSONPath expression
@@ -6553,9 +6085,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The request method or HTTP operation code to compare against that used by the client system under test.
-                     * </p>
                      * 
                      * @param requestMethod
                      *     delete | get | options | patch | post | put | head
@@ -6569,9 +6099,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The value to use in a comparison against the request URL path string.
-                     * </p>
                      * 
                      * @param requestURL
                      *     Request URL comparison value
@@ -6585,9 +6113,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The type of the resource. See http://build.fhir.org/resourcelist.html.
-                     * </p>
                      * 
                      * @param resource
                      *     Resource type
@@ -6601,10 +6127,8 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * okay | created | noContent | notModified | bad | forbidden | notFound | methodNotAllowed | conflict | gone | 
                      * preconditionFailed | unprocessable.
-                     * </p>
                      * 
                      * @param response
                      *     okay | created | noContent | notModified | bad | forbidden | notFound | methodNotAllowed | conflict | gone | 
@@ -6619,9 +6143,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The value of the HTTP response code to be tested.
-                     * </p>
                      * 
                      * @param responseCode
                      *     HTTP response code to test
@@ -6635,9 +6157,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Fixture to evaluate the XPath/JSONPath expression or the headerField against.
-                     * </p>
                      * 
                      * @param sourceId
                      *     Fixture Id of source expression or headerField
@@ -6651,9 +6171,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The ID of the Profile to validate against.
-                     * </p>
                      * 
                      * @param validateProfileId
                      *     Profile Id of validation profile reference
@@ -6667,9 +6185,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The value to compare to.
-                     * </p>
                      * 
                      * @param value
                      *     The value to compare to
@@ -6683,9 +6199,9 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Whether or not the test execution will produce a warning only on error for this assert.
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param warningOnly
                      *     Will this assert produce a warning only on error?
@@ -6698,6 +6214,17 @@ public class TestScript extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link Assert}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>warningOnly</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link Assert}
+                     */
                     @Override
                     public Assert build() {
                         return new Assert(this);
@@ -6735,13 +6262,12 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * A test in this script.
-     * </p>
      */
     public static class Test extends BackboneElement {
         private final String name;
         private final String description;
+        @Required
         private final List<Action> action;
 
         private volatile int hashCode;
@@ -6755,9 +6281,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of this test used for tracking/logging purposes by test engines.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -6767,9 +6291,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * A short description of the test used by test engines for tracking and reporting purposes.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -6779,9 +6301,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Action would contain either an operation or an assertion.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Action}.
@@ -6870,10 +6390,8 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -6887,15 +6405,12 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -6909,15 +6424,12 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -6931,21 +6443,17 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -6959,21 +6467,17 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -6987,9 +6491,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * The name of this test used for tracking/logging purposes by test engines.
-             * </p>
              * 
              * @param name
              *     Tracking/logging name of this test
@@ -7003,9 +6505,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * A short description of the test used by test engines for tracking and reporting purposes.
-             * </p>
              * 
              * @param description
              *     Tracking/reporting short description of the test
@@ -7019,12 +6519,11 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Action would contain either an operation or an assertion.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * <p>This element is required.
              * 
              * @param action
              *     A test operation or assert to perform
@@ -7040,12 +6539,11 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Action would contain either an operation or an assertion.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>This element is required.
              * 
              * @param action
              *     A test operation or assert to perform
@@ -7058,6 +6556,17 @@ public class TestScript extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Test}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>action</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Test}
+             */
             @Override
             public Test build() {
                 return new Test(this);
@@ -7073,9 +6582,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * Action would contain either an operation or an assertion.
-         * </p>
          */
         public static class Action extends BackboneElement {
             private final TestScript.Setup.Action.Operation operation;
@@ -7091,9 +6598,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * An operation would involve a REST request to a server.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Operation}.
@@ -7103,9 +6608,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Evaluates the results of previous operations to determine if the server under test behaves appropriately.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Assert}.
@@ -7189,10 +6692,8 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -7206,15 +6707,12 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -7228,15 +6726,12 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -7250,21 +6745,17 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -7278,21 +6769,17 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -7306,9 +6793,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * An operation would involve a REST request to a server.
-                 * </p>
                  * 
                  * @param operation
                  *     The setup operation to perform
@@ -7322,9 +6807,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Evaluates the results of previous operations to determine if the server under test behaves appropriately.
-                 * </p>
                  * 
                  * @param _assert
                  *     The setup assertion to perform
@@ -7337,6 +6820,12 @@ public class TestScript extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Action}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Action}
+                 */
                 @Override
                 public Action build() {
                     return new Action(this);
@@ -7353,11 +6842,10 @@ public class TestScript extends DomainResource {
     }
 
     /**
-     * <p>
      * A series of operations required to clean up after all the tests are executed (successfully or otherwise).
-     * </p>
      */
     public static class Teardown extends BackboneElement {
+        @Required
         private final List<Action> action;
 
         private volatile int hashCode;
@@ -7369,9 +6857,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * The teardown action will only contain an operation.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Action}.
@@ -7450,10 +6936,8 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -7467,15 +6951,12 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -7489,15 +6970,12 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -7511,21 +6989,17 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -7539,21 +7013,17 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -7567,12 +7037,11 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * The teardown action will only contain an operation.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * <p>This element is required.
              * 
              * @param action
              *     One or more teardown operations to perform
@@ -7588,12 +7057,11 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * The teardown action will only contain an operation.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>This element is required.
              * 
              * @param action
              *     One or more teardown operations to perform
@@ -7606,6 +7074,17 @@ public class TestScript extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Teardown}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>action</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Teardown}
+             */
             @Override
             public Teardown build() {
                 return new Teardown(this);
@@ -7619,11 +7098,10 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * <p>
          * The teardown action will only contain an operation.
-         * </p>
          */
         public static class Action extends BackboneElement {
+            @Required
             private final TestScript.Setup.Action.Operation operation;
 
             private volatile int hashCode;
@@ -7635,9 +7113,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * <p>
              * An operation would involve a REST request to a server.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Operation}.
@@ -7716,10 +7192,8 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -7733,15 +7207,12 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -7755,15 +7226,12 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -7777,21 +7245,17 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -7805,21 +7269,17 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -7833,9 +7293,9 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * An operation would involve a REST request to a server.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param operation
                  *     The teardown operation to perform
@@ -7848,6 +7308,17 @@ public class TestScript extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Action}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>operation</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Action}
+                 */
                 @Override
                 public Action build() {
                     return new Action(this);

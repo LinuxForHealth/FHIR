@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Attachment;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -38,10 +40,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A record of a healthcare consumer’s choices, which permits or denies identified recipient(s) or recipient role(s) to 
  * perform one or more actions within a given policy context, for specific purposes and periods of time.
- * </p>
  */
 @Constraint(
     id = "ppc-1",
@@ -81,13 +81,17 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Consent extends DomainResource {
     private final List<Identifier> identifier;
+    @Required
     private final ConsentState status;
+    @Required
     private final CodeableConcept scope;
+    @Required
     private final List<CodeableConcept> category;
     private final Reference patient;
     private final DateTime dateTime;
     private final List<Reference> performer;
     private final List<Reference> organization;
+    @Choice({Attachment.class, Reference.class})
     private final Element source;
     private final List<Policy> policy;
     private final CodeableConcept policyRule;
@@ -114,9 +118,7 @@ public class Consent extends DomainResource {
     }
 
     /**
-     * <p>
      * Unique identifier for this copy of the Consent Statement.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -126,9 +128,7 @@ public class Consent extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the current state of this consent.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ConsentState}.
@@ -138,9 +138,7 @@ public class Consent extends DomainResource {
     }
 
     /**
-     * <p>
      * A selector of the type of consent being presented: ADR, Privacy, Treatment, Research. This list is now extensible.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -150,10 +148,8 @@ public class Consent extends DomainResource {
     }
 
     /**
-     * <p>
      * A classification of the type of consents found in the statement. This element supports indexing and retrieval of 
      * consent statements.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -163,9 +159,7 @@ public class Consent extends DomainResource {
     }
 
     /**
-     * <p>
      * The patient/healthcare consumer to whom this consent applies.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -175,9 +169,7 @@ public class Consent extends DomainResource {
     }
 
     /**
-     * <p>
      * When this Consent was issued / created / indexed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -187,11 +179,9 @@ public class Consent extends DomainResource {
     }
 
     /**
-     * <p>
      * Either the Grantor, which is the entity responsible for granting the rights listed in a Consent Directive or the 
      * Grantee, which is the entity responsible for complying with the Consent Directive, including any obligations or 
      * limitations on authorizations and enforcement of prohibitions.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -201,9 +191,7 @@ public class Consent extends DomainResource {
     }
 
     /**
-     * <p>
      * The organization that manages the consent, and the framework within which it is executed.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -213,11 +201,9 @@ public class Consent extends DomainResource {
     }
 
     /**
-     * <p>
      * The source on which this consent statement is based. The source might be a scanned original paper form, or a reference 
      * to a consent that links back to such a source, a reference to a document repository (e.g. XDS) that stores the 
      * original consent document.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -227,10 +213,8 @@ public class Consent extends DomainResource {
     }
 
     /**
-     * <p>
      * The references to the policies that are included in this consent scope. Policies may be organizational, but are often 
      * defined jurisdictionally, or in law.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Policy}.
@@ -240,9 +224,7 @@ public class Consent extends DomainResource {
     }
 
     /**
-     * <p>
      * A reference to the specific base computable regulation or policy.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -252,10 +234,8 @@ public class Consent extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether a treatment instruction (e.g. artificial respiration yes or no) was verified with the patient, his/her family 
      * or another authorized person.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Verification}.
@@ -265,9 +245,7 @@ public class Consent extends DomainResource {
     }
 
     /**
-     * <p>
      * An exception to the base policy of this consent. An exception can be an addition or removal of access permissions.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Provision}.
@@ -403,9 +381,7 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -419,10 +395,8 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -436,11 +410,9 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -454,9 +426,7 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -470,12 +440,10 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -489,13 +457,10 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -509,13 +474,10 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -529,15 +491,12 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -551,15 +510,12 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -573,21 +529,17 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -601,21 +553,17 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -629,12 +577,9 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Unique identifier for this copy of the Consent Statement.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Identifier for this record (external references)
@@ -650,12 +595,9 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Unique identifier for this copy of the Consent Statement.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Identifier for this record (external references)
@@ -669,9 +611,9 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the current state of this consent.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | proposed | active | rejected | inactive | entered-in-error
@@ -685,9 +627,9 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * A selector of the type of consent being presented: ADR, Privacy, Treatment, Research. This list is now extensible.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param scope
          *     Which of the four areas this resource covers (extensible)
@@ -701,13 +643,12 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * A classification of the type of consents found in the statement. This element supports indexing and retrieval of 
          * consent statements.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is required.
          * 
          * @param category
          *     Classification of the consent statement - for indexing/retrieval
@@ -723,13 +664,12 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * A classification of the type of consents found in the statement. This element supports indexing and retrieval of 
          * consent statements.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is required.
          * 
          * @param category
          *     Classification of the consent statement - for indexing/retrieval
@@ -743,9 +683,7 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * The patient/healthcare consumer to whom this consent applies.
-         * </p>
          * 
          * @param patient
          *     Who the consent applies to
@@ -759,9 +697,7 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * When this Consent was issued / created / indexed.
-         * </p>
          * 
          * @param dateTime
          *     When this Consent was created or indexed
@@ -775,14 +711,11 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Either the Grantor, which is the entity responsible for granting the rights listed in a Consent Directive or the 
          * Grantee, which is the entity responsible for complying with the Consent Directive, including any obligations or 
          * limitations on authorizations and enforcement of prohibitions.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param performer
          *     Who is agreeing to the policy and rules
@@ -798,14 +731,11 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Either the Grantor, which is the entity responsible for granting the rights listed in a Consent Directive or the 
          * Grantee, which is the entity responsible for complying with the Consent Directive, including any obligations or 
          * limitations on authorizations and enforcement of prohibitions.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param performer
          *     Who is agreeing to the policy and rules
@@ -819,12 +749,9 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * The organization that manages the consent, and the framework within which it is executed.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param organization
          *     Custodian of the consent
@@ -840,12 +767,9 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * The organization that manages the consent, and the framework within which it is executed.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param organization
          *     Custodian of the consent
@@ -859,11 +783,15 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * The source on which this consent statement is based. The source might be a scanned original paper form, or a reference 
          * to a consent that links back to such a source, a reference to a document repository (e.g. XDS) that stores the 
          * original consent document.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Attachment}</li>
+         * <li>{@link Reference}</li>
+         * </ul>
          * 
          * @param source
          *     Source from which this consent is taken
@@ -877,13 +805,10 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * The references to the policies that are included in this consent scope. Policies may be organizational, but are often 
          * defined jurisdictionally, or in law.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param policy
          *     Policies covered by this consent
@@ -899,13 +824,10 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * The references to the policies that are included in this consent scope. Policies may be organizational, but are often 
          * defined jurisdictionally, or in law.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param policy
          *     Policies covered by this consent
@@ -919,9 +841,7 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to the specific base computable regulation or policy.
-         * </p>
          * 
          * @param policyRule
          *     Regulation that this consents to
@@ -935,13 +855,10 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether a treatment instruction (e.g. artificial respiration yes or no) was verified with the patient, his/her family 
          * or another authorized person.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param verification
          *     Consent Verified by patient or family
@@ -957,13 +874,10 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether a treatment instruction (e.g. artificial respiration yes or no) was verified with the patient, his/her family 
          * or another authorized person.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param verification
          *     Consent Verified by patient or family
@@ -977,9 +891,7 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * An exception to the base policy of this consent. An exception can be an addition or removal of access permissions.
-         * </p>
          * 
          * @param provision
          *     Constraints to the base Consent.policyRule
@@ -992,6 +904,19 @@ public class Consent extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link Consent}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>scope</li>
+         * <li>category</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Consent}
+         */
         @Override
         public Consent build() {
             return new Consent(this);
@@ -1017,10 +942,8 @@ public class Consent extends DomainResource {
     }
 
     /**
-     * <p>
      * The references to the policies that are included in this consent scope. Policies may be organizational, but are often 
      * defined jurisdictionally, or in law.
-     * </p>
      */
     public static class Policy extends BackboneElement {
         private final Uri authority;
@@ -1036,10 +959,8 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Entity or Organization having regulatory jurisdiction or accountability for enforcing policies pertaining to Consent 
          * Directives.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Uri}.
@@ -1049,10 +970,8 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * The references to the policies that are included in this consent scope. Policies may be organizational, but are often 
          * defined jurisdictionally, or in law.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Uri}.
@@ -1136,10 +1055,8 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1153,15 +1070,12 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1175,15 +1089,12 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1197,21 +1108,17 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1225,21 +1132,17 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1253,10 +1156,8 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * Entity or Organization having regulatory jurisdiction or accountability for enforcing policies pertaining to Consent 
              * Directives.
-             * </p>
              * 
              * @param authority
              *     Enforcement source for policy
@@ -1270,10 +1171,8 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * The references to the policies that are included in this consent scope. Policies may be organizational, but are often 
              * defined jurisdictionally, or in law.
-             * </p>
              * 
              * @param uri
              *     Specific policy covered by this consent
@@ -1286,6 +1185,12 @@ public class Consent extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Policy}
+             * 
+             * @return
+             *     An immutable object of type {@link Policy}
+             */
             @Override
             public Policy build() {
                 return new Policy(this);
@@ -1301,12 +1206,11 @@ public class Consent extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether a treatment instruction (e.g. artificial respiration yes or no) was verified with the patient, his/her family 
      * or another authorized person.
-     * </p>
      */
     public static class Verification extends BackboneElement {
+        @Required
         private final Boolean verified;
         private final Reference verifiedWith;
         private final DateTime verificationDate;
@@ -1322,9 +1226,7 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Has the instruction been verified.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -1334,9 +1236,7 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Who verified the instruction (Patient, Relative or other Authorized Person).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1346,9 +1246,7 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Date verification was collected.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DateTime}.
@@ -1437,10 +1335,8 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1454,15 +1350,12 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1476,15 +1369,12 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1498,21 +1388,17 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1526,21 +1412,17 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1554,9 +1436,9 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * Has the instruction been verified.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param verified
              *     Has been verified
@@ -1570,9 +1452,7 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * Who verified the instruction (Patient, Relative or other Authorized Person).
-             * </p>
              * 
              * @param verifiedWith
              *     Person who verified
@@ -1586,9 +1466,7 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * Date verification was collected.
-             * </p>
              * 
              * @param verificationDate
              *     When consent verified
@@ -1601,6 +1479,17 @@ public class Consent extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Verification}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>verified</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Verification}
+             */
             @Override
             public Verification build() {
                 return new Verification(this);
@@ -1617,9 +1506,7 @@ public class Consent extends DomainResource {
     }
 
     /**
-     * <p>
      * An exception to the base policy of this consent. An exception can be an addition or removal of access permissions.
-     * </p>
      */
     public static class Provision extends BackboneElement {
         private final ConsentProvisionType type;
@@ -1653,10 +1540,8 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Action to take - permit or deny - when the rule conditions are met. Not permitted in root rule, required in all nested 
          * rules.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link ConsentProvisionType}.
@@ -1666,9 +1551,7 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * The timeframe in this rule is valid.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Period}.
@@ -1678,10 +1561,8 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Who or what is controlled by this rule. Use group to identify a set of actors by some property they share (e.g. 
          * 'admitting officers').
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Actor}.
@@ -1691,9 +1572,7 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Actions controlled by this Rule.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1703,10 +1582,8 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * A security label, comprised of 0..* security label fields (Privacy tags), which define which resources are controlled 
          * by this exception.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -1716,9 +1593,7 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * The context of the activities a user is taking - why the user is accessing the data - that are controlled by this rule.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -1728,10 +1603,8 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * The class of information covered by this rule. The type can be a FHIR resource type, a profile on a type, or a CDA 
          * document, or some other type that indicates what sort of information the consent relates to.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -1741,9 +1614,7 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * If this code is found in an instance, then the rule applies.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -1753,9 +1624,7 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Clinical or Operational Relevant period of time that bounds the data controlled by this rule.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Period}.
@@ -1765,9 +1634,7 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * The resources controlled by this rule if specific resources are referenced.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Data}.
@@ -1777,9 +1644,7 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Rules which provide exceptions to the base rule or subrules.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Provision}.
@@ -1908,10 +1773,8 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1925,15 +1788,12 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1947,15 +1807,12 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1969,21 +1826,17 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1997,21 +1850,17 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2025,10 +1874,8 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * Action to take - permit or deny - when the rule conditions are met. Not permitted in root rule, required in all nested 
              * rules.
-             * </p>
              * 
              * @param type
              *     deny | permit
@@ -2042,9 +1889,7 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * The timeframe in this rule is valid.
-             * </p>
              * 
              * @param period
              *     Timeframe for this rule
@@ -2058,13 +1903,10 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * Who or what is controlled by this rule. Use group to identify a set of actors by some property they share (e.g. 
              * 'admitting officers').
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param actor
              *     Who|what controlled by this rule (or group, by role)
@@ -2080,13 +1922,10 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * Who or what is controlled by this rule. Use group to identify a set of actors by some property they share (e.g. 
              * 'admitting officers').
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param actor
              *     Who|what controlled by this rule (or group, by role)
@@ -2100,12 +1939,9 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * Actions controlled by this Rule.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param action
              *     Actions controlled by this rule
@@ -2121,12 +1957,9 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * Actions controlled by this Rule.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param action
              *     Actions controlled by this rule
@@ -2140,13 +1973,10 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * A security label, comprised of 0..* security label fields (Privacy tags), which define which resources are controlled 
              * by this exception.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param securityLabel
              *     Security Labels that define affected resources
@@ -2162,13 +1992,10 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * A security label, comprised of 0..* security label fields (Privacy tags), which define which resources are controlled 
              * by this exception.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param securityLabel
              *     Security Labels that define affected resources
@@ -2182,12 +2009,9 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * The context of the activities a user is taking - why the user is accessing the data - that are controlled by this rule.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param purpose
              *     Context of activities covered by this rule
@@ -2203,12 +2027,9 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * The context of the activities a user is taking - why the user is accessing the data - that are controlled by this rule.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param purpose
              *     Context of activities covered by this rule
@@ -2222,13 +2043,10 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * The class of information covered by this rule. The type can be a FHIR resource type, a profile on a type, or a CDA 
              * document, or some other type that indicates what sort of information the consent relates to.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param clazz
              *     e.g. Resource Type, Profile, CDA, etc.
@@ -2244,13 +2062,10 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * The class of information covered by this rule. The type can be a FHIR resource type, a profile on a type, or a CDA 
              * document, or some other type that indicates what sort of information the consent relates to.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param clazz
              *     e.g. Resource Type, Profile, CDA, etc.
@@ -2264,12 +2079,9 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * If this code is found in an instance, then the rule applies.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param code
              *     e.g. LOINC or SNOMED CT code, etc. in the content
@@ -2285,12 +2097,9 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * If this code is found in an instance, then the rule applies.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param code
              *     e.g. LOINC or SNOMED CT code, etc. in the content
@@ -2304,9 +2113,7 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * Clinical or Operational Relevant period of time that bounds the data controlled by this rule.
-             * </p>
              * 
              * @param dataPeriod
              *     Timeframe for data controlled by this rule
@@ -2320,12 +2127,9 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * The resources controlled by this rule if specific resources are referenced.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param data
              *     Data controlled by this rule
@@ -2341,12 +2145,9 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * The resources controlled by this rule if specific resources are referenced.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param data
              *     Data controlled by this rule
@@ -2360,12 +2161,9 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * Rules which provide exceptions to the base rule or subrules.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param provision
              *     Nested Exception Rules
@@ -2381,12 +2179,9 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * Rules which provide exceptions to the base rule or subrules.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param provision
              *     Nested Exception Rules
@@ -2399,6 +2194,12 @@ public class Consent extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Provision}
+             * 
+             * @return
+             *     An immutable object of type {@link Provision}
+             */
             @Override
             public Provision build() {
                 return new Provision(this);
@@ -2422,13 +2223,13 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * Who or what is controlled by this rule. Use group to identify a set of actors by some property they share (e.g. 
          * 'admitting officers').
-         * </p>
          */
         public static class Actor extends BackboneElement {
+            @Required
             private final CodeableConcept role;
+            @Required
             private final Reference reference;
 
             private volatile int hashCode;
@@ -2441,9 +2242,7 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * How the individual is involved in the resources content that is described in the exception.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2453,10 +2252,8 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * The resource that identifies the actor. To identify actors by type, use group to identify a set of actors by some 
              * property they share (e.g. 'admitting officers').
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Reference}.
@@ -2540,10 +2337,8 @@ public class Consent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2557,15 +2352,12 @@ public class Consent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2579,15 +2371,12 @@ public class Consent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2601,21 +2390,17 @@ public class Consent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2629,21 +2414,17 @@ public class Consent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2657,9 +2438,9 @@ public class Consent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * How the individual is involved in the resources content that is described in the exception.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param role
                  *     How the actor is involved
@@ -2673,10 +2454,10 @@ public class Consent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The resource that identifies the actor. To identify actors by type, use group to identify a set of actors by some 
                  * property they share (e.g. 'admitting officers').
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param reference
                  *     Resource for the actor (or group, by role)
@@ -2689,6 +2470,18 @@ public class Consent extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Actor}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>role</li>
+                 * <li>reference</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Actor}
+                 */
                 @Override
                 public Actor build() {
                     return new Actor(this);
@@ -2704,12 +2497,12 @@ public class Consent extends DomainResource {
         }
 
         /**
-         * <p>
          * The resources controlled by this rule if specific resources are referenced.
-         * </p>
          */
         public static class Data extends BackboneElement {
+            @Required
             private final ConsentDataMeaning meaning;
+            @Required
             private final Reference reference;
 
             private volatile int hashCode;
@@ -2722,9 +2515,7 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * How the resource reference is interpreted when testing consent restrictions.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link ConsentDataMeaning}.
@@ -2734,9 +2525,7 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * <p>
              * A reference to a specific resource that defines which resources are covered by this consent.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Reference}.
@@ -2820,10 +2609,8 @@ public class Consent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2837,15 +2624,12 @@ public class Consent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2859,15 +2643,12 @@ public class Consent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2881,21 +2662,17 @@ public class Consent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2909,21 +2686,17 @@ public class Consent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2937,9 +2710,9 @@ public class Consent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * How the resource reference is interpreted when testing consent restrictions.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param meaning
                  *     instance | related | dependents | authoredby
@@ -2953,9 +2726,9 @@ public class Consent extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A reference to a specific resource that defines which resources are covered by this consent.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param reference
                  *     The actual data reference
@@ -2968,6 +2741,18 @@ public class Consent extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Data}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>meaning</li>
+                 * <li>reference</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Data}
+                 */
                 @Override
                 public Data build() {
                     return new Data(this);

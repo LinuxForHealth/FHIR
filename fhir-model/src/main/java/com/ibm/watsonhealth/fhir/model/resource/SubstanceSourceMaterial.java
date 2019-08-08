@@ -28,7 +28,6 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Source material shall capture information on the taxonomic and anatomical origins as well as the fraction of a 
  * material that can result in or can be modified to form a substance. This set of data elements shall be used to define 
  * polymer substances isolated from biological matrices. Taxonomic and anatomical origins shall be described using a 
@@ -38,7 +37,6 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  * fraction information will be captured at the Substance information level and additional information for herbal 
  * extracts will be captured at the Specified Substance Group 1 information level. See for further explanation the 
  * Substance Class: Structurally Diverse and the herbal annex.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class SubstanceSourceMaterial extends DomainResource {
@@ -76,9 +74,7 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     /**
-     * <p>
      * General high level classification of the source material specific to the origin of the material.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -88,10 +84,8 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     /**
-     * <p>
      * The type of the source material shall be specified based on a controlled vocabulary. For vaccines, this subclause 
      * refers to the class of infectious agent.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -101,9 +95,7 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     /**
-     * <p>
      * The state of the source material when extracted.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -113,9 +105,7 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     /**
-     * <p>
      * The unique identifier associated with the source material parent organism shall be specified.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Identifier}.
@@ -125,9 +115,7 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     /**
-     * <p>
      * The organism accepted Scientific name shall be provided based on the organism taxonomy.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -137,10 +125,8 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     /**
-     * <p>
      * The parent of the herbal drug Ginkgo biloba, Leaf is the substance ID of the substance (fresh) of Ginkgo biloba L. or 
      * Ginkgo biloba L. (Whole plant).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -150,9 +136,7 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     /**
-     * <p>
      * The parent substance of the Herbal Drug, or Herbal preparation.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -162,11 +146,9 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     /**
-     * <p>
      * The country where the plant material is harvested or the countries where the plasma is sourced from as laid down in 
      * accordance with the Plasma Master File. For “Plasma-derived substances” the attribute country of origin provides 
      * information about the countries used for the manufacturing of the Cryopoor plama or Crioprecipitate.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -176,9 +158,7 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     /**
-     * <p>
      * The place/region where the plant is harvested or the places/regions where the animal source material has its habitat.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -188,10 +168,8 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     /**
-     * <p>
      * Stage of life for animals, plants, insects and microorganisms. This information shall be provided only when the 
      * substance is significantly different in these stages (e.g. foetal bovine serum).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -201,14 +179,12 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     /**
-     * <p>
      * Many complex materials are fractions of parts of plants, animals, or minerals. Fraction elements are often necessary 
      * to define both Substances and Specified Group 1 Substances. For substances derived from Plants, fraction information 
      * will be captured at the Substance information level ( . Oils, Juices and Exudates). Additional information for 
      * Extracts, such as extraction solvent composition, will be captured at the Specified Substance Group 1 information 
      * level. For plasma-derived products fraction information will be captured at the Substance and the Specified Substance 
      * Group 1 levels.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link FractionDescription}.
@@ -218,11 +194,9 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     /**
-     * <p>
      * This subclause describes the organism which the substance is derived from. For vaccines, the parent organism shall be 
      * specified based on these subclause elements. As an example, full taxonomy will be described for the Substance Name: ., 
      * Leaf.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Organism}.
@@ -232,9 +206,7 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     /**
-     * <p>
      * To do.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link PartDescription}.
@@ -370,9 +342,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -386,10 +356,8 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -403,11 +371,9 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -421,9 +387,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -437,12 +401,10 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -456,13 +418,10 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -476,13 +435,10 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -496,15 +452,12 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -518,15 +471,12 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -540,21 +490,17 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -568,21 +514,17 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -596,9 +538,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * General high level classification of the source material specific to the origin of the material.
-         * </p>
          * 
          * @param sourceMaterialClass
          *     General high level classification of the source material specific to the origin of the material
@@ -612,10 +552,8 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of the source material shall be specified based on a controlled vocabulary. For vaccines, this subclause 
          * refers to the class of infectious agent.
-         * </p>
          * 
          * @param sourceMaterialType
          *     The type of the source material shall be specified based on a controlled vocabulary. For vaccines, this subclause 
@@ -630,9 +568,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The state of the source material when extracted.
-         * </p>
          * 
          * @param sourceMaterialState
          *     The state of the source material when extracted
@@ -646,9 +582,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The unique identifier associated with the source material parent organism shall be specified.
-         * </p>
          * 
          * @param organismId
          *     The unique identifier associated with the source material parent organism shall be specified
@@ -662,9 +596,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The organism accepted Scientific name shall be provided based on the organism taxonomy.
-         * </p>
          * 
          * @param organismName
          *     The organism accepted Scientific name shall be provided based on the organism taxonomy
@@ -678,13 +610,10 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The parent of the herbal drug Ginkgo biloba, Leaf is the substance ID of the substance (fresh) of Ginkgo biloba L. or 
          * Ginkgo biloba L. (Whole plant).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param parentSubstanceId
          *     The parent of the herbal drug Ginkgo biloba, Leaf is the substance ID of the substance (fresh) of Ginkgo biloba L. or 
@@ -701,13 +630,10 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The parent of the herbal drug Ginkgo biloba, Leaf is the substance ID of the substance (fresh) of Ginkgo biloba L. or 
          * Ginkgo biloba L. (Whole plant).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param parentSubstanceId
          *     The parent of the herbal drug Ginkgo biloba, Leaf is the substance ID of the substance (fresh) of Ginkgo biloba L. or 
@@ -722,12 +648,9 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The parent substance of the Herbal Drug, or Herbal preparation.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param parentSubstanceName
          *     The parent substance of the Herbal Drug, or Herbal preparation
@@ -743,12 +666,9 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The parent substance of the Herbal Drug, or Herbal preparation.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param parentSubstanceName
          *     The parent substance of the Herbal Drug, or Herbal preparation
@@ -762,14 +682,11 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The country where the plant material is harvested or the countries where the plasma is sourced from as laid down in 
          * accordance with the Plasma Master File. For “Plasma-derived substances” the attribute country of origin provides 
          * information about the countries used for the manufacturing of the Cryopoor plama or Crioprecipitate.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param countryOfOrigin
          *     The country where the plant material is harvested or the countries where the plasma is sourced from as laid down in 
@@ -787,14 +704,11 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The country where the plant material is harvested or the countries where the plasma is sourced from as laid down in 
          * accordance with the Plasma Master File. For “Plasma-derived substances” the attribute country of origin provides 
          * information about the countries used for the manufacturing of the Cryopoor plama or Crioprecipitate.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param countryOfOrigin
          *     The country where the plant material is harvested or the countries where the plasma is sourced from as laid down in 
@@ -810,12 +724,9 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The place/region where the plant is harvested or the places/regions where the animal source material has its habitat.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param geographicalLocation
          *     The place/region where the plant is harvested or the places/regions where the animal source material has its habitat
@@ -831,12 +742,9 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The place/region where the plant is harvested or the places/regions where the animal source material has its habitat.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param geographicalLocation
          *     The place/region where the plant is harvested or the places/regions where the animal source material has its habitat
@@ -850,10 +758,8 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * Stage of life for animals, plants, insects and microorganisms. This information shall be provided only when the 
          * substance is significantly different in these stages (e.g. foetal bovine serum).
-         * </p>
          * 
          * @param developmentStage
          *     Stage of life for animals, plants, insects and microorganisms. This information shall be provided only when the 
@@ -868,17 +774,14 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * Many complex materials are fractions of parts of plants, animals, or minerals. Fraction elements are often necessary 
          * to define both Substances and Specified Group 1 Substances. For substances derived from Plants, fraction information 
          * will be captured at the Substance information level ( . Oils, Juices and Exudates). Additional information for 
          * Extracts, such as extraction solvent composition, will be captured at the Specified Substance Group 1 information 
          * level. For plasma-derived products fraction information will be captured at the Substance and the Specified Substance 
          * Group 1 levels.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param fractionDescription
          *     Many complex materials are fractions of parts of plants, animals, or minerals. Fraction elements are often necessary 
@@ -899,17 +802,14 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * Many complex materials are fractions of parts of plants, animals, or minerals. Fraction elements are often necessary 
          * to define both Substances and Specified Group 1 Substances. For substances derived from Plants, fraction information 
          * will be captured at the Substance information level ( . Oils, Juices and Exudates). Additional information for 
          * Extracts, such as extraction solvent composition, will be captured at the Specified Substance Group 1 information 
          * level. For plasma-derived products fraction information will be captured at the Substance and the Specified Substance 
          * Group 1 levels.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param fractionDescription
          *     Many complex materials are fractions of parts of plants, animals, or minerals. Fraction elements are often necessary 
@@ -928,11 +828,9 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * This subclause describes the organism which the substance is derived from. For vaccines, the parent organism shall be 
          * specified based on these subclause elements. As an example, full taxonomy will be described for the Substance Name: ., 
          * Leaf.
-         * </p>
          * 
          * @param organism
          *     This subclause describes the organism which the substance is derived from. For vaccines, the parent organism shall be 
@@ -948,12 +846,9 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * To do.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param partDescription
          *     To do
@@ -969,12 +864,9 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * To do.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param partDescription
          *     To do
@@ -987,6 +879,12 @@ public class SubstanceSourceMaterial extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link SubstanceSourceMaterial}
+         * 
+         * @return
+         *     An immutable object of type {@link SubstanceSourceMaterial}
+         */
         @Override
         public SubstanceSourceMaterial build() {
             return new SubstanceSourceMaterial(this);
@@ -1012,14 +910,12 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     /**
-     * <p>
      * Many complex materials are fractions of parts of plants, animals, or minerals. Fraction elements are often necessary 
      * to define both Substances and Specified Group 1 Substances. For substances derived from Plants, fraction information 
      * will be captured at the Substance information level ( . Oils, Juices and Exudates). Additional information for 
      * Extracts, such as extraction solvent composition, will be captured at the Specified Substance Group 1 information 
      * level. For plasma-derived products fraction information will be captured at the Substance and the Specified Substance 
      * Group 1 levels.
-     * </p>
      */
     public static class FractionDescription extends BackboneElement {
         private final String fraction;
@@ -1035,9 +931,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * This element is capturing information about the fraction of a plant part, or human plasma for fractionation.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1047,10 +941,8 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The specific type of the material constituting the component. For Herbal preparations the particulars of the extracts 
          * (liquid/dry) is described in Specified Substance Group 1.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1134,10 +1026,8 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1151,15 +1041,12 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1173,15 +1060,12 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1195,21 +1079,17 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1223,21 +1103,17 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1251,9 +1127,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * This element is capturing information about the fraction of a plant part, or human plasma for fractionation.
-             * </p>
              * 
              * @param fraction
              *     This element is capturing information about the fraction of a plant part, or human plasma for fractionation
@@ -1267,10 +1141,8 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The specific type of the material constituting the component. For Herbal preparations the particulars of the extracts 
              * (liquid/dry) is described in Specified Substance Group 1.
-             * </p>
              * 
              * @param materialType
              *     The specific type of the material constituting the component. For Herbal preparations the particulars of the extracts 
@@ -1284,6 +1156,12 @@ public class SubstanceSourceMaterial extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link FractionDescription}
+             * 
+             * @return
+             *     An immutable object of type {@link FractionDescription}
+             */
             @Override
             public FractionDescription build() {
                 return new FractionDescription(this);
@@ -1299,11 +1177,9 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     /**
-     * <p>
      * This subclause describes the organism which the substance is derived from. For vaccines, the parent organism shall be 
      * specified based on these subclause elements. As an example, full taxonomy will be described for the Substance Name: ., 
      * Leaf.
-     * </p>
      */
     public static class Organism extends BackboneElement {
         private final CodeableConcept family;
@@ -1331,9 +1207,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The family of an organism shall be specified.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1343,10 +1217,8 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The genus of an organism shall be specified; refers to the Latin epithet of the genus element of the plant/animal 
          * scientific name; it is present in names for genera, species and infraspecies.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1356,10 +1228,8 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The species of an organism shall be specified; refers to the Latin epithet of the species of the plant/animal; it is 
          * present in names for species and infraspecies.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1369,9 +1239,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The Intraspecific type of an organism shall be specified.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1381,10 +1249,8 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The intraspecific description of an organism shall be specified based on a controlled vocabulary. For Influenza 
          * Vaccine, the intraspecific description shall contain the syntax of the antigen in line with the WHO convention.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1394,9 +1260,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * 4.9.13.6.1 Author type (Conditional).
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Author}.
@@ -1406,9 +1270,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * 4.9.13.8.1 Hybrid species maternal organism ID (Optional).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Hybrid}.
@@ -1418,9 +1280,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * 4.9.13.7.1 Kingdom (Conditional).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link OrganismGeneral}.
@@ -1534,10 +1394,8 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1551,15 +1409,12 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1573,15 +1428,12 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1595,21 +1447,17 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1623,21 +1471,17 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1651,9 +1495,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The family of an organism shall be specified.
-             * </p>
              * 
              * @param family
              *     The family of an organism shall be specified
@@ -1667,10 +1509,8 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The genus of an organism shall be specified; refers to the Latin epithet of the genus element of the plant/animal 
              * scientific name; it is present in names for genera, species and infraspecies.
-             * </p>
              * 
              * @param genus
              *     The genus of an organism shall be specified; refers to the Latin epithet of the genus element of the plant/animal 
@@ -1685,10 +1525,8 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The species of an organism shall be specified; refers to the Latin epithet of the species of the plant/animal; it is 
              * present in names for species and infraspecies.
-             * </p>
              * 
              * @param species
              *     The species of an organism shall be specified; refers to the Latin epithet of the species of the plant/animal; it is 
@@ -1703,9 +1541,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The Intraspecific type of an organism shall be specified.
-             * </p>
              * 
              * @param intraspecificType
              *     The Intraspecific type of an organism shall be specified
@@ -1719,10 +1555,8 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The intraspecific description of an organism shall be specified based on a controlled vocabulary. For Influenza 
              * Vaccine, the intraspecific description shall contain the syntax of the antigen in line with the WHO convention.
-             * </p>
              * 
              * @param intraspecificDescription
              *     The intraspecific description of an organism shall be specified based on a controlled vocabulary. For Influenza 
@@ -1737,12 +1571,9 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * 4.9.13.6.1 Author type (Conditional).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param author
              *     4.9.13.6.1 Author type (Conditional)
@@ -1758,12 +1589,9 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * 4.9.13.6.1 Author type (Conditional).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param author
              *     4.9.13.6.1 Author type (Conditional)
@@ -1777,9 +1605,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * 4.9.13.8.1 Hybrid species maternal organism ID (Optional).
-             * </p>
              * 
              * @param hybrid
              *     4.9.13.8.1 Hybrid species maternal organism ID (Optional)
@@ -1793,9 +1619,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * 4.9.13.7.1 Kingdom (Conditional).
-             * </p>
              * 
              * @param organismGeneral
              *     4.9.13.7.1 Kingdom (Conditional)
@@ -1808,6 +1632,12 @@ public class SubstanceSourceMaterial extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Organism}
+             * 
+             * @return
+             *     An immutable object of type {@link Organism}
+             */
             @Override
             public Organism build() {
                 return new Organism(this);
@@ -1828,9 +1658,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * 4.9.13.6.1 Author type (Conditional).
-         * </p>
          */
         public static class Author extends BackboneElement {
             private final CodeableConcept authorType;
@@ -1846,11 +1674,9 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of author of an organism species shall be specified. The parenthetical author of an organism species refers 
              * to the first author who published the plant/animal name (of any rank). The primary author of an organism species 
              * refers to the first author(s), who validly published the plant/animal name.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -1860,11 +1686,9 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The author of an organism species shall be specified. The author year of an organism shall also be specified when 
              * applicable; refers to the year in which the first author(s) published the infraspecific plant/animal name (of any 
              * rank).
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -1948,10 +1772,8 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -1965,15 +1787,12 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1987,15 +1806,12 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2009,21 +1825,17 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2037,21 +1849,17 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2065,11 +1873,9 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The type of author of an organism species shall be specified. The parenthetical author of an organism species refers 
                  * to the first author who published the plant/animal name (of any rank). The primary author of an organism species 
                  * refers to the first author(s), who validly published the plant/animal name.
-                 * </p>
                  * 
                  * @param authorType
                  *     The type of author of an organism species shall be specified. The parenthetical author of an organism species refers 
@@ -2085,11 +1891,9 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The author of an organism species shall be specified. The author year of an organism shall also be specified when 
                  * applicable; refers to the year in which the first author(s) published the infraspecific plant/animal name (of any 
                  * rank).
-                 * </p>
                  * 
                  * @param authorDescription
                  *     The author of an organism species shall be specified. The author year of an organism shall also be specified when 
@@ -2103,6 +1907,12 @@ public class SubstanceSourceMaterial extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Author}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Author}
+                 */
                 @Override
                 public Author build() {
                     return new Author(this);
@@ -2118,9 +1928,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * 4.9.13.8.1 Hybrid species maternal organism ID (Optional).
-         * </p>
          */
         public static class Hybrid extends BackboneElement {
             private final String maternalOrganismId;
@@ -2142,11 +1950,9 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The identifier of the maternal species constituting the hybrid organism shall be specified based on a controlled 
              * vocabulary. For plants, the parents aren’t always known, and it is unlikely that it will be known which is maternal 
              * and which is paternal.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2156,10 +1962,8 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The name of the maternal species constituting the hybrid organism shall be specified. For plants, the parents aren’t 
              * always known, and it is unlikely that it will be known which is maternal and which is paternal.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2169,10 +1973,8 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The identifier of the paternal species constituting the hybrid organism shall be specified based on a controlled 
              * vocabulary.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2182,9 +1984,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The name of the paternal species constituting the hybrid organism shall be specified.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2194,9 +1994,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The hybrid type of an organism shall be specified.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2295,10 +2093,8 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2312,15 +2108,12 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2334,15 +2127,12 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2356,21 +2146,17 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2384,21 +2170,17 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2412,11 +2194,9 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The identifier of the maternal species constituting the hybrid organism shall be specified based on a controlled 
                  * vocabulary. For plants, the parents aren’t always known, and it is unlikely that it will be known which is maternal 
                  * and which is paternal.
-                 * </p>
                  * 
                  * @param maternalOrganismId
                  *     The identifier of the maternal species constituting the hybrid organism shall be specified based on a controlled 
@@ -2432,10 +2212,8 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The name of the maternal species constituting the hybrid organism shall be specified. For plants, the parents aren’t 
                  * always known, and it is unlikely that it will be known which is maternal and which is paternal.
-                 * </p>
                  * 
                  * @param maternalOrganismName
                  *     The name of the maternal species constituting the hybrid organism shall be specified. For plants, the parents aren’t 
@@ -2450,10 +2228,8 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The identifier of the paternal species constituting the hybrid organism shall be specified based on a controlled 
                  * vocabulary.
-                 * </p>
                  * 
                  * @param paternalOrganismId
                  *     The identifier of the paternal species constituting the hybrid organism shall be specified based on a controlled 
@@ -2468,9 +2244,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The name of the paternal species constituting the hybrid organism shall be specified.
-                 * </p>
                  * 
                  * @param paternalOrganismName
                  *     The name of the paternal species constituting the hybrid organism shall be specified
@@ -2484,9 +2258,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The hybrid type of an organism shall be specified.
-                 * </p>
                  * 
                  * @param hybridType
                  *     The hybrid type of an organism shall be specified
@@ -2499,6 +2271,12 @@ public class SubstanceSourceMaterial extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Hybrid}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Hybrid}
+                 */
                 @Override
                 public Hybrid build() {
                     return new Hybrid(this);
@@ -2517,9 +2295,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * 4.9.13.7.1 Kingdom (Conditional).
-         * </p>
          */
         public static class OrganismGeneral extends BackboneElement {
             private final CodeableConcept kingdom;
@@ -2539,9 +2315,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The kingdom of an organism shall be specified.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2551,9 +2325,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The phylum of an organism shall be specified.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2563,9 +2335,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The class of an organism shall be specified.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2575,9 +2345,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The order of an organism shall be specified,.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -2671,10 +2439,8 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2688,15 +2454,12 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2710,15 +2473,12 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2732,21 +2492,17 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2760,21 +2516,17 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2788,9 +2540,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The kingdom of an organism shall be specified.
-                 * </p>
                  * 
                  * @param kingdom
                  *     The kingdom of an organism shall be specified
@@ -2804,9 +2554,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The phylum of an organism shall be specified.
-                 * </p>
                  * 
                  * @param phylum
                  *     The phylum of an organism shall be specified
@@ -2820,9 +2568,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The class of an organism shall be specified.
-                 * </p>
                  * 
                  * @param clazz
                  *     The class of an organism shall be specified
@@ -2836,9 +2582,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The order of an organism shall be specified,.
-                 * </p>
                  * 
                  * @param order
                  *     The order of an organism shall be specified,
@@ -2851,6 +2595,12 @@ public class SubstanceSourceMaterial extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link OrganismGeneral}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link OrganismGeneral}
+                 */
                 @Override
                 public OrganismGeneral build() {
                     return new OrganismGeneral(this);
@@ -2869,9 +2619,7 @@ public class SubstanceSourceMaterial extends DomainResource {
     }
 
     /**
-     * <p>
      * To do.
-     * </p>
      */
     public static class PartDescription extends BackboneElement {
         private final CodeableConcept part;
@@ -2887,9 +2635,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * Entity of anatomical origin of source material within an organism.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2899,10 +2645,8 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * <p>
          * The detailed anatomic location when the part can be extracted from different anatomical locations of the organism. 
          * Multiple alternative locations may apply.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2986,10 +2730,8 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -3003,15 +2745,12 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3025,15 +2764,12 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -3047,21 +2783,17 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3075,21 +2807,17 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -3103,9 +2831,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * Entity of anatomical origin of source material within an organism.
-             * </p>
              * 
              * @param part
              *     Entity of anatomical origin of source material within an organism
@@ -3119,10 +2845,8 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * <p>
              * The detailed anatomic location when the part can be extracted from different anatomical locations of the organism. 
              * Multiple alternative locations may apply.
-             * </p>
              * 
              * @param partLocation
              *     The detailed anatomic location when the part can be extracted from different anatomical locations of the organism. 
@@ -3136,6 +2860,12 @@ public class SubstanceSourceMaterial extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link PartDescription}
+             * 
+             * @return
+             *     An immutable object of type {@link PartDescription}
+             */
             @Override
             public PartDescription build() {
                 return new PartDescription(this);

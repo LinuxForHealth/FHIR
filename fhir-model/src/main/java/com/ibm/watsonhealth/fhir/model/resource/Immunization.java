@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -38,10 +40,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Describes the event of a patient being administered a vaccine or a record of an immunization as reported by a patient, 
  * a clinician or another party.
- * </p>
  */
 @Constraint(
     id = "imm-1",
@@ -53,11 +53,16 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Immunization extends DomainResource {
     private final List<Identifier> identifier;
+    @Required
     private final ImmunizationStatus status;
     private final CodeableConcept statusReason;
+    @Required
     private final CodeableConcept vaccineCode;
+    @Required
     private final Reference patient;
     private final Reference encounter;
+    @Required
+    @Choice({DateTime.class, String.class})
     private final Element occurrence;
     private final DateTime recorded;
     private final Boolean primarySource;
@@ -116,9 +121,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * A unique identifier assigned to this immunization record.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -128,9 +131,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the current status of the immunization event.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ImmunizationStatus}.
@@ -140,9 +141,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the reason the immunization event was not performed.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -152,9 +151,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Vaccine that was administered or was to be administered.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -164,9 +161,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * The patient who either received or did not receive the immunization.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -176,10 +171,8 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * The visit or admission or other contact between patient and health care provider the immunization was performed as 
      * part of.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -189,9 +182,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Date vaccine administered or was to be administered.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -201,10 +192,8 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * The date the occurrence of the immunization was first captured in the record - potentially significantly after the 
      * occurrence of the event.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -214,10 +203,8 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * An indication that the content of the record is based on information from the person who administered the vaccine. 
      * This reflects the context under which the data was originally recorded.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -227,10 +214,8 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * The source of the data when the report of the immunization event is not based on information from the person who 
      * administered the vaccine.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -240,9 +225,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * The service delivery location where the vaccine administration occurred.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -252,9 +235,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Name of vaccine manufacturer.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -264,9 +245,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Lot number of the vaccine product.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -276,9 +255,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Date vaccine batch expires.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Date}.
@@ -288,9 +265,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Body site where vaccine was administered.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -300,9 +275,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * The path by which the vaccine product is taken into the body.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -312,9 +285,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * The quantity of vaccine product that was administered.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link SimpleQuantity}.
@@ -324,9 +295,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates who performed the immunization event.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Performer}.
@@ -336,9 +305,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Extra information about the immunization that is not conveyed by the other attributes.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -348,9 +315,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Reasons why the vaccine was administered.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -360,9 +325,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Condition, Observation or DiagnosticReport that supports why the immunization was administered.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -372,9 +335,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Indication if a dose is considered to be subpotent. By default, a dose should be considered to be potent.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -384,9 +345,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Reason why a dose is considered to be subpotent.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -396,9 +355,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Educational material presented to the patient (or guardian) at the time of vaccine administration.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Education}.
@@ -408,9 +365,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates a patient's eligibility for a funding program.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -420,11 +375,9 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates the source of the vaccine actually administered. This may be different than the patient eligibility (e.g. 
      * the patient may be eligible for a publically purchased vaccine but due to inventory issues, vaccine purchased with 
      * private funds was actually administered).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -434,9 +387,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Categorical data indicating that an adverse event is associated in time to an immunization.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reaction}.
@@ -446,9 +397,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * The protocol (set of recommendations) being followed by the provider who administered the dose.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ProtocolApplied}.
@@ -644,9 +593,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -660,10 +607,8 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -677,11 +622,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -695,9 +638,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -711,12 +652,10 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -730,13 +669,10 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -750,13 +686,10 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -770,15 +703,12 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -792,15 +722,12 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -814,21 +741,17 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -842,21 +765,17 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -870,12 +789,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * A unique identifier assigned to this immunization record.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Business identifier
@@ -891,12 +807,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * A unique identifier assigned to this immunization record.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Business identifier
@@ -910,9 +823,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the current status of the immunization event.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     completed | entered-in-error | not-done
@@ -926,9 +839,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the reason the immunization event was not performed.
-         * </p>
          * 
          * @param statusReason
          *     Reason not done
@@ -942,9 +853,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Vaccine that was administered or was to be administered.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param vaccineCode
          *     Vaccine product administered
@@ -958,9 +869,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * The patient who either received or did not receive the immunization.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param patient
          *     Who was immunized
@@ -974,10 +885,8 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * The visit or admission or other contact between patient and health care provider the immunization was performed as 
          * part of.
-         * </p>
          * 
          * @param encounter
          *     Encounter immunization was part of
@@ -991,9 +900,15 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Date vaccine administered or was to be administered.
-         * </p>
+         * 
+         * <p>This element is required.
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link DateTime}</li>
+         * <li>{@link String}</li>
+         * </ul>
          * 
          * @param occurrence
          *     Vaccine administration date
@@ -1007,10 +922,8 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * The date the occurrence of the immunization was first captured in the record - potentially significantly after the 
          * occurrence of the event.
-         * </p>
          * 
          * @param recorded
          *     When the immunization was first captured in the subject's record
@@ -1024,10 +937,8 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * An indication that the content of the record is based on information from the person who administered the vaccine. 
          * This reflects the context under which the data was originally recorded.
-         * </p>
          * 
          * @param primarySource
          *     Indicates context the data was recorded in
@@ -1041,10 +952,8 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * The source of the data when the report of the immunization event is not based on information from the person who 
          * administered the vaccine.
-         * </p>
          * 
          * @param reportOrigin
          *     Indicates the source of a secondarily reported record
@@ -1058,9 +967,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * The service delivery location where the vaccine administration occurred.
-         * </p>
          * 
          * @param location
          *     Where immunization occurred
@@ -1074,9 +981,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Name of vaccine manufacturer.
-         * </p>
          * 
          * @param manufacturer
          *     Vaccine manufacturer
@@ -1090,9 +995,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Lot number of the vaccine product.
-         * </p>
          * 
          * @param lotNumber
          *     Vaccine lot number
@@ -1106,9 +1009,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Date vaccine batch expires.
-         * </p>
          * 
          * @param expirationDate
          *     Vaccine expiration date
@@ -1122,9 +1023,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Body site where vaccine was administered.
-         * </p>
          * 
          * @param site
          *     Body site vaccine was administered
@@ -1138,9 +1037,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * The path by which the vaccine product is taken into the body.
-         * </p>
          * 
          * @param route
          *     How vaccine entered body
@@ -1154,9 +1051,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * The quantity of vaccine product that was administered.
-         * </p>
          * 
          * @param doseQuantity
          *     Amount of vaccine administered
@@ -1170,12 +1065,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates who performed the immunization event.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param performer
          *     Who performed event
@@ -1191,12 +1083,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates who performed the immunization event.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param performer
          *     Who performed event
@@ -1210,12 +1099,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Extra information about the immunization that is not conveyed by the other attributes.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     Additional immunization notes
@@ -1231,12 +1117,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Extra information about the immunization that is not conveyed by the other attributes.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     Additional immunization notes
@@ -1250,12 +1133,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Reasons why the vaccine was administered.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonCode
          *     Why immunization occurred
@@ -1271,12 +1151,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Reasons why the vaccine was administered.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonCode
          *     Why immunization occurred
@@ -1290,12 +1167,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Condition, Observation or DiagnosticReport that supports why the immunization was administered.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonReference
          *     Why immunization occurred
@@ -1311,12 +1185,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Condition, Observation or DiagnosticReport that supports why the immunization was administered.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonReference
          *     Why immunization occurred
@@ -1330,9 +1201,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Indication if a dose is considered to be subpotent. By default, a dose should be considered to be potent.
-         * </p>
          * 
          * @param isSubpotent
          *     Dose potency
@@ -1346,12 +1215,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Reason why a dose is considered to be subpotent.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param subpotentReason
          *     Reason for being subpotent
@@ -1367,12 +1233,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Reason why a dose is considered to be subpotent.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param subpotentReason
          *     Reason for being subpotent
@@ -1386,12 +1249,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Educational material presented to the patient (or guardian) at the time of vaccine administration.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param education
          *     Educational material presented to patient
@@ -1407,12 +1267,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Educational material presented to the patient (or guardian) at the time of vaccine administration.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param education
          *     Educational material presented to patient
@@ -1426,12 +1283,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates a patient's eligibility for a funding program.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param programEligibility
          *     Patient eligibility for a vaccination program
@@ -1447,12 +1301,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates a patient's eligibility for a funding program.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param programEligibility
          *     Patient eligibility for a vaccination program
@@ -1466,11 +1317,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the source of the vaccine actually administered. This may be different than the patient eligibility (e.g. 
          * the patient may be eligible for a publically purchased vaccine but due to inventory issues, vaccine purchased with 
          * private funds was actually administered).
-         * </p>
          * 
          * @param fundingSource
          *     Funding source for the vaccine
@@ -1484,12 +1333,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Categorical data indicating that an adverse event is associated in time to an immunization.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reaction
          *     Details of a reaction that follows immunization
@@ -1505,12 +1351,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Categorical data indicating that an adverse event is associated in time to an immunization.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reaction
          *     Details of a reaction that follows immunization
@@ -1524,12 +1367,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * The protocol (set of recommendations) being followed by the provider who administered the dose.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param protocolApplied
          *     Protocol followed by the provider
@@ -1545,12 +1385,9 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * The protocol (set of recommendations) being followed by the provider who administered the dose.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param protocolApplied
          *     Protocol followed by the provider
@@ -1563,6 +1400,20 @@ public class Immunization extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link Immunization}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>vaccineCode</li>
+         * <li>patient</li>
+         * <li>occurrence</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Immunization}
+         */
         @Override
         public Immunization build() {
             return new Immunization(this);
@@ -1603,12 +1454,11 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates who performed the immunization event.
-     * </p>
      */
     public static class Performer extends BackboneElement {
         private final CodeableConcept function;
+        @Required
         private final Reference actor;
 
         private volatile int hashCode;
@@ -1621,9 +1471,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes the type of performance (e.g. ordering provider, administering provider, etc.).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1633,9 +1481,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * The practitioner or organization who performed the action.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -1719,10 +1565,8 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1736,15 +1580,12 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1758,15 +1599,12 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1780,21 +1618,17 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1808,21 +1642,17 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1836,9 +1666,7 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * Describes the type of performance (e.g. ordering provider, administering provider, etc.).
-             * </p>
              * 
              * @param function
              *     What type of performance was done
@@ -1852,9 +1680,9 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * The practitioner or organization who performed the action.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param actor
              *     Individual or organization who was performing
@@ -1867,6 +1695,17 @@ public class Immunization extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Performer}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>actor</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Performer}
+             */
             @Override
             public Performer build() {
                 return new Performer(this);
@@ -1882,9 +1721,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Educational material presented to the patient (or guardian) at the time of vaccine administration.
-     * </p>
      */
     public static class Education extends BackboneElement {
         private final String documentType;
@@ -1904,9 +1741,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Identifier of the material presented to the patient.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1916,9 +1751,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference pointer to the educational material given to the patient if the information was on line.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Uri}.
@@ -1928,9 +1761,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Date the educational material was published.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DateTime}.
@@ -1940,9 +1771,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Date the educational material was given to the patient.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DateTime}.
@@ -2036,10 +1865,8 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2053,15 +1880,12 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2075,15 +1899,12 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2097,21 +1918,17 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2125,21 +1942,17 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2153,9 +1966,7 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * Identifier of the material presented to the patient.
-             * </p>
              * 
              * @param documentType
              *     Educational material document identifier
@@ -2169,9 +1980,7 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference pointer to the educational material given to the patient if the information was on line.
-             * </p>
              * 
              * @param reference
              *     Educational material reference pointer
@@ -2185,9 +1994,7 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * Date the educational material was published.
-             * </p>
              * 
              * @param publicationDate
              *     Educational material publication date
@@ -2201,9 +2008,7 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * Date the educational material was given to the patient.
-             * </p>
              * 
              * @param presentationDate
              *     Educational material presentation date
@@ -2216,6 +2021,12 @@ public class Immunization extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Education}
+             * 
+             * @return
+             *     An immutable object of type {@link Education}
+             */
             @Override
             public Education build() {
                 return new Education(this);
@@ -2233,9 +2044,7 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * Categorical data indicating that an adverse event is associated in time to an immunization.
-     * </p>
      */
     public static class Reaction extends BackboneElement {
         private final DateTime date;
@@ -2253,9 +2062,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Date of reaction to the immunization.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link DateTime}.
@@ -2265,9 +2072,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Details of the reaction.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -2277,9 +2082,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Self-reported indicator.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -2368,10 +2171,8 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2385,15 +2186,12 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2407,15 +2205,12 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2429,21 +2224,17 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2457,21 +2248,17 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2485,9 +2272,7 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * Date of reaction to the immunization.
-             * </p>
              * 
              * @param date
              *     When reaction started
@@ -2501,9 +2286,7 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * Details of the reaction.
-             * </p>
              * 
              * @param detail
              *     Additional information on reaction
@@ -2517,9 +2300,7 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * Self-reported indicator.
-             * </p>
              * 
              * @param reported
              *     Indicates self-reported reaction
@@ -2532,6 +2313,12 @@ public class Immunization extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Reaction}
+             * 
+             * @return
+             *     An immutable object of type {@link Reaction}
+             */
             @Override
             public Reaction build() {
                 return new Reaction(this);
@@ -2548,15 +2335,16 @@ public class Immunization extends DomainResource {
     }
 
     /**
-     * <p>
      * The protocol (set of recommendations) being followed by the provider who administered the dose.
-     * </p>
      */
     public static class ProtocolApplied extends BackboneElement {
         private final String series;
         private final Reference authority;
         private final List<CodeableConcept> targetDisease;
+        @Required
+        @Choice({PositiveInt.class, String.class})
         private final Element doseNumber;
+        @Choice({PositiveInt.class, String.class})
         private final Element seriesDoses;
 
         private volatile int hashCode;
@@ -2572,9 +2360,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * One possible path to achieve presumed immunity against a disease - within the context of an authority.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -2584,9 +2370,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates the authority who published the protocol (e.g. ACIP) that is being followed.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Reference}.
@@ -2596,9 +2380,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * The vaccine preventable disease the dose is being administered against.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -2608,9 +2390,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * Nominal position in a series.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -2620,9 +2400,7 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * <p>
          * The recommended number of doses to achieve immunity.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -2721,10 +2499,8 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2738,15 +2514,12 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2760,15 +2533,12 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2782,21 +2552,17 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2810,21 +2576,17 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2838,9 +2600,7 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * One possible path to achieve presumed immunity against a disease - within the context of an authority.
-             * </p>
              * 
              * @param series
              *     Name of vaccine series
@@ -2854,9 +2614,7 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates the authority who published the protocol (e.g. ACIP) that is being followed.
-             * </p>
              * 
              * @param authority
              *     Who is responsible for publishing the recommendations
@@ -2870,12 +2628,9 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * The vaccine preventable disease the dose is being administered against.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param targetDisease
              *     Vaccine preventatable disease being targetted
@@ -2891,12 +2646,9 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * The vaccine preventable disease the dose is being administered against.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param targetDisease
              *     Vaccine preventatable disease being targetted
@@ -2910,9 +2662,15 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * Nominal position in a series.
-             * </p>
+             * 
+             * <p>This element is required.
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link PositiveInt}</li>
+             * <li>{@link String}</li>
+             * </ul>
              * 
              * @param doseNumber
              *     Dose number within series
@@ -2926,9 +2684,13 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * <p>
              * The recommended number of doses to achieve immunity.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link PositiveInt}</li>
+             * <li>{@link String}</li>
+             * </ul>
              * 
              * @param seriesDoses
              *     Recommended number of doses for immunity
@@ -2941,6 +2703,17 @@ public class Immunization extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link ProtocolApplied}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>doseNumber</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link ProtocolApplied}
+             */
             @Override
             public ProtocolApplied build() {
                 return new ProtocolApplied(this);

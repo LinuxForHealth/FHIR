@@ -11,20 +11,20 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Chemical substances are a single substance type whose primary defining element is the molecular structure. Chemical 
  * substances shall be defined on the basis of their complete covalent molecular structure; the presence of a salt 
  * (counter-ion) and/or solvates (water, alcohols) is also captured. Purity, grade, physical form or particle size are 
  * not taken into account in the definition of a chemical substance or in the assignment of a Substance ID.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class SubstanceAmount extends BackboneElement {
+    @Choice({Quantity.class, Range.class, String.class})
     private final Element amount;
     private final CodeableConcept amountType;
     private final String amountText;
@@ -42,10 +42,8 @@ public class SubstanceAmount extends BackboneElement {
     }
 
     /**
-     * <p>
      * Used to capture quantitative values for a variety of elements. If only limits are given, the arithmetic mean would be 
      * the average. If only a single definite value for a given element is given, it would be captured in this field.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -55,13 +53,11 @@ public class SubstanceAmount extends BackboneElement {
     }
 
     /**
-     * <p>
      * Most elements that require a quantitative value will also have a field called amount type. Amount type should always 
      * be specified because the actual value of the amount is often dependent on it. EXAMPLE: In capturing the actual 
      * relative amounts of substances or molecular fragments it is essential to indicate whether the amount refers to a mole 
      * ratio or weight ratio. For any given element an effort should be made to use same the amount type for all related 
      * definitional elements.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -71,9 +67,7 @@ public class SubstanceAmount extends BackboneElement {
     }
 
     /**
-     * <p>
      * A textual comment on a numeric value.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -83,9 +77,7 @@ public class SubstanceAmount extends BackboneElement {
     }
 
     /**
-     * <p>
      * Reference range of possible or expected values.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link ReferenceRange}.
@@ -179,10 +171,8 @@ public class SubstanceAmount extends BackboneElement {
         }
 
         /**
-         * <p>
          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
          * contain spaces.
-         * </p>
          * 
          * @param id
          *     Unique id for inter-element referencing
@@ -196,15 +186,12 @@ public class SubstanceAmount extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -218,15 +205,12 @@ public class SubstanceAmount extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -240,21 +224,17 @@ public class SubstanceAmount extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element and that 
          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
          * extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
@@ -268,21 +248,17 @@ public class SubstanceAmount extends BackboneElement {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the element and that 
          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
          * extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored even if unrecognized
@@ -296,10 +272,15 @@ public class SubstanceAmount extends BackboneElement {
         }
 
         /**
-         * <p>
          * Used to capture quantitative values for a variety of elements. If only limits are given, the arithmetic mean would be 
          * the average. If only a single definite value for a given element is given, it would be captured in this field.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Quantity}</li>
+         * <li>{@link Range}</li>
+         * <li>{@link String}</li>
+         * </ul>
          * 
          * @param amount
          *     Used to capture quantitative values for a variety of elements. If only limits are given, the arithmetic mean would be 
@@ -314,13 +295,11 @@ public class SubstanceAmount extends BackboneElement {
         }
 
         /**
-         * <p>
          * Most elements that require a quantitative value will also have a field called amount type. Amount type should always 
          * be specified because the actual value of the amount is often dependent on it. EXAMPLE: In capturing the actual 
          * relative amounts of substances or molecular fragments it is essential to indicate whether the amount refers to a mole 
          * ratio or weight ratio. For any given element an effort should be made to use same the amount type for all related 
          * definitional elements.
-         * </p>
          * 
          * @param amountType
          *     Most elements that require a quantitative value will also have a field called amount type. Amount type should always 
@@ -338,9 +317,7 @@ public class SubstanceAmount extends BackboneElement {
         }
 
         /**
-         * <p>
          * A textual comment on a numeric value.
-         * </p>
          * 
          * @param amountText
          *     A textual comment on a numeric value
@@ -354,9 +331,7 @@ public class SubstanceAmount extends BackboneElement {
         }
 
         /**
-         * <p>
          * Reference range of possible or expected values.
-         * </p>
          * 
          * @param referenceRange
          *     Reference range of possible or expected values
@@ -369,6 +344,12 @@ public class SubstanceAmount extends BackboneElement {
             return this;
         }
 
+        /**
+         * Build the {@link SubstanceAmount}
+         * 
+         * @return
+         *     An immutable object of type {@link SubstanceAmount}
+         */
         @Override
         public SubstanceAmount build() {
             return new SubstanceAmount(this);
@@ -385,9 +366,7 @@ public class SubstanceAmount extends BackboneElement {
     }
 
     /**
-     * <p>
      * Reference range of possible or expected values.
-     * </p>
      */
     public static class ReferenceRange extends BackboneElement {
         private final Quantity lowLimit;
@@ -403,9 +382,7 @@ public class SubstanceAmount extends BackboneElement {
         }
 
         /**
-         * <p>
          * Lower limit possible or expected.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Quantity}.
@@ -415,9 +392,7 @@ public class SubstanceAmount extends BackboneElement {
         }
 
         /**
-         * <p>
          * Upper limit possible or expected.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Quantity}.
@@ -501,10 +476,8 @@ public class SubstanceAmount extends BackboneElement {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -518,15 +491,12 @@ public class SubstanceAmount extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -540,15 +510,12 @@ public class SubstanceAmount extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -562,7 +529,6 @@ public class SubstanceAmount extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -571,10 +537,8 @@ public class SubstanceAmount extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -588,7 +552,6 @@ public class SubstanceAmount extends BackboneElement {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
@@ -597,10 +560,8 @@ public class SubstanceAmount extends BackboneElement {
              * extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions 
              * SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of 
              * modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -614,9 +575,7 @@ public class SubstanceAmount extends BackboneElement {
             }
 
             /**
-             * <p>
              * Lower limit possible or expected.
-             * </p>
              * 
              * @param lowLimit
              *     Lower limit possible or expected
@@ -630,9 +589,7 @@ public class SubstanceAmount extends BackboneElement {
             }
 
             /**
-             * <p>
              * Upper limit possible or expected.
-             * </p>
              * 
              * @param highLimit
              *     Upper limit possible or expected
@@ -645,6 +602,12 @@ public class SubstanceAmount extends BackboneElement {
                 return this;
             }
 
+            /**
+             * Build the {@link ReferenceRange}
+             * 
+             * @return
+             *     An immutable object of type {@link ReferenceRange}
+             */
             @Override
             public ReferenceRange build() {
                 return new ReferenceRange(this);

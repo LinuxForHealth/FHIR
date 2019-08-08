@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Attachment;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
@@ -50,10 +52,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide 
  * detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.
- * </p>
  */
 @Constraint(
     id = "que-0",
@@ -161,6 +161,7 @@ public class Questionnaire extends DomainResource {
     private final String name;
     private final String title;
     private final List<Canonical> derivedFrom;
+    @Required
     private final PublicationStatus status;
     private final Boolean experimental;
     private final List<ResourceType> subjectType;
@@ -207,12 +208,10 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * An absolute URI that is used to identify this questionnaire when it is referenced in a specification, model, design or 
      * an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at 
      * which at which an authoritative instance of this questionnaire is (or will be) published. This URL can be the target 
      * of a canonical reference. It SHALL remain the same when the questionnaire is stored on different servers.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Uri}.
@@ -222,10 +221,8 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * A formal identifier that is used to identify this questionnaire when it is represented in other formats, or referenced 
      * in a specification, model, design or an instance.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -235,12 +232,10 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * The identifier that is used to identify this version of the questionnaire when it is referenced in a specification, 
      * model, design or instance. This is an arbitrary value managed by the questionnaire author and is not expected to be 
      * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
      * also no expectation that versions can be placed in a lexicographical sequence.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -250,10 +245,8 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * A natural language name identifying the questionnaire. This name should be usable as an identifier for the module by 
      * machine processing applications such as code generation.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -263,9 +256,7 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * A short, descriptive, user-friendly title for the questionnaire.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -275,9 +266,7 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * The URL of a Questionnaire that this Questionnaire is based on.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -287,9 +276,7 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * The status of this questionnaire. Enables tracking the life-cycle of the content.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PublicationStatus}.
@@ -299,10 +286,8 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * A Boolean value to indicate that this questionnaire is authored for testing purposes (or 
      * education/evaluation/marketing) and is not intended to be used for genuine usage.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -312,9 +297,7 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * The types of subjects that can be the subject of responses created for the questionnaire.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ResourceType}.
@@ -324,11 +307,9 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and optionally time) when the questionnaire was published. The date must change when the business version 
      * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
      * the questionnaire changes.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -338,9 +319,7 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * The name of the organization or individual that published the questionnaire.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -350,9 +329,7 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * Contact details to assist a user in finding and communicating with the publisher.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactDetail}.
@@ -362,9 +339,7 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * A free text natural language description of the questionnaire from a consumer's perspective.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -374,11 +349,9 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
      * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
      * may be used to assist with indexing and searching for appropriate questionnaire instances.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link UsageContext}.
@@ -388,9 +361,7 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * A legal or geographic region in which the questionnaire is intended to be used.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -400,9 +371,7 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * Explanation of why this questionnaire is needed and why it has been designed as it has.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -412,10 +381,8 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * A copyright statement relating to the questionnaire and/or its contents. Copyright statements are generally legal 
      * restrictions on the use and publishing of the questionnaire.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Markdown}.
@@ -425,10 +392,8 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * The date on which the resource content was approved by the publisher. Approval happens once when the content is 
      * officially approved for usage.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Date}.
@@ -438,10 +403,8 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * The date on which the resource content was last reviewed. Review happens periodically after approval but does not 
      * change the original approval date.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Date}.
@@ -451,9 +414,7 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * The period during which the questionnaire content was or is planned to be in active use.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -463,9 +424,7 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * An identifier for this question or group of questions in a particular terminology such as LOINC.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -475,9 +434,7 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * A particular question, question grouping or display text that is part of the questionnaire.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Item}.
@@ -649,9 +606,7 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -665,10 +620,8 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -682,11 +635,9 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -700,9 +651,7 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -716,12 +665,10 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -735,13 +682,10 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -755,13 +699,10 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -775,15 +716,12 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -797,15 +735,12 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -819,21 +754,17 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -847,21 +778,17 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -875,12 +802,10 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * An absolute URI that is used to identify this questionnaire when it is referenced in a specification, model, design or 
          * an instance; also called its canonical identifier. This SHOULD be globally unique and SHOULD be a literal address at 
          * which at which an authoritative instance of this questionnaire is (or will be) published. This URL can be the target 
          * of a canonical reference. It SHALL remain the same when the questionnaire is stored on different servers.
-         * </p>
          * 
          * @param url
          *     Canonical identifier for this questionnaire, represented as a URI (globally unique)
@@ -894,13 +819,10 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A formal identifier that is used to identify this questionnaire when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Additional identifier for the questionnaire
@@ -916,13 +838,10 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A formal identifier that is used to identify this questionnaire when it is represented in other formats, or referenced 
          * in a specification, model, design or an instance.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Additional identifier for the questionnaire
@@ -936,12 +855,10 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The identifier that is used to identify this version of the questionnaire when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the questionnaire author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
          * also no expectation that versions can be placed in a lexicographical sequence.
-         * </p>
          * 
          * @param version
          *     Business version of the questionnaire
@@ -955,10 +872,8 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A natural language name identifying the questionnaire. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
-         * </p>
          * 
          * @param name
          *     Name for this questionnaire (computer friendly)
@@ -972,9 +887,7 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A short, descriptive, user-friendly title for the questionnaire.
-         * </p>
          * 
          * @param title
          *     Name for this questionnaire (human friendly)
@@ -988,12 +901,9 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL of a Questionnaire that this Questionnaire is based on.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param derivedFrom
          *     Instantiates protocol or definition
@@ -1009,12 +919,9 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL of a Questionnaire that this Questionnaire is based on.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param derivedFrom
          *     Instantiates protocol or definition
@@ -1028,9 +935,9 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The status of this questionnaire. Enables tracking the life-cycle of the content.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     draft | active | retired | unknown
@@ -1044,10 +951,8 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A Boolean value to indicate that this questionnaire is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
-         * </p>
          * 
          * @param experimental
          *     For testing purposes, not real usage
@@ -1061,12 +966,9 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The types of subjects that can be the subject of responses created for the questionnaire.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param subjectType
          *     Resource that can be subject of QuestionnaireResponse
@@ -1082,12 +984,9 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The types of subjects that can be the subject of responses created for the questionnaire.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param subjectType
          *     Resource that can be subject of QuestionnaireResponse
@@ -1101,11 +1000,9 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and optionally time) when the questionnaire was published. The date must change when the business version 
          * changes and it must change if the status code changes. In addition, it should change when the substantive content of 
          * the questionnaire changes.
-         * </p>
          * 
          * @param date
          *     Date last changed
@@ -1119,9 +1016,7 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of the organization or individual that published the questionnaire.
-         * </p>
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
@@ -1135,12 +1030,9 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1156,12 +1048,9 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details to assist a user in finding and communicating with the publisher.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1175,9 +1064,7 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A free text natural language description of the questionnaire from a consumer's perspective.
-         * </p>
          * 
          * @param description
          *     Natural language description of the questionnaire
@@ -1191,14 +1078,11 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate questionnaire instances.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1214,14 +1098,11 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The content was developed with a focus and intent of supporting the contexts that are listed. These contexts may be 
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate questionnaire instances.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1235,12 +1116,9 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the questionnaire is intended to be used.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param jurisdiction
          *     Intended jurisdiction for questionnaire (if applicable)
@@ -1256,12 +1134,9 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A legal or geographic region in which the questionnaire is intended to be used.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param jurisdiction
          *     Intended jurisdiction for questionnaire (if applicable)
@@ -1275,9 +1150,7 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * Explanation of why this questionnaire is needed and why it has been designed as it has.
-         * </p>
          * 
          * @param purpose
          *     Why this questionnaire is defined
@@ -1291,10 +1164,8 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A copyright statement relating to the questionnaire and/or its contents. Copyright statements are generally legal 
          * restrictions on the use and publishing of the questionnaire.
-         * </p>
          * 
          * @param copyright
          *     Use and/or publishing restrictions
@@ -1308,10 +1179,8 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The date on which the resource content was approved by the publisher. Approval happens once when the content is 
          * officially approved for usage.
-         * </p>
          * 
          * @param approvalDate
          *     When the questionnaire was approved by publisher
@@ -1325,10 +1194,8 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The date on which the resource content was last reviewed. Review happens periodically after approval but does not 
          * change the original approval date.
-         * </p>
          * 
          * @param lastReviewDate
          *     When the questionnaire was last reviewed
@@ -1342,9 +1209,7 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The period during which the questionnaire content was or is planned to be in active use.
-         * </p>
          * 
          * @param effectivePeriod
          *     When the questionnaire is expected to be used
@@ -1358,12 +1223,9 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * An identifier for this question or group of questions in a particular terminology such as LOINC.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param code
          *     Concept that represents the overall questionnaire
@@ -1379,12 +1241,9 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * An identifier for this question or group of questions in a particular terminology such as LOINC.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param code
          *     Concept that represents the overall questionnaire
@@ -1398,12 +1257,9 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A particular question, question grouping or display text that is part of the questionnaire.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param item
          *     Questions and sections within the Questionnaire
@@ -1419,12 +1275,9 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A particular question, question grouping or display text that is part of the questionnaire.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param item
          *     Questions and sections within the Questionnaire
@@ -1437,6 +1290,17 @@ public class Questionnaire extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link Questionnaire}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Questionnaire}
+         */
         @Override
         public Questionnaire build() {
             return new Questionnaire(this);
@@ -1471,16 +1335,16 @@ public class Questionnaire extends DomainResource {
     }
 
     /**
-     * <p>
      * A particular question, question grouping or display text that is part of the questionnaire.
-     * </p>
      */
     public static class Item extends BackboneElement {
+        @Required
         private final String linkId;
         private final Uri definition;
         private final List<Coding> code;
         private final String prefix;
         private final String text;
+        @Required
         private final QuestionnaireItemType type;
         private final List<EnableWhen> enableWhen;
         private final EnableWhenBehavior enableBehavior;
@@ -1517,10 +1381,8 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * An identifier that is unique within the Questionnaire allowing linkage to the equivalent item in a 
          * QuestionnaireResponse resource.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1530,22 +1392,19 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * This element is a URI that refers to an [ElementDefinition](elementdefinition.html) that provides information about 
          * this item, including information that might otherwise be included in the instance of the Questionnaire resource. A 
          * detailed description of the construction of the URI is shown in Comments, below. If this element is present then the 
          * following element values MAY be derived from the Element Definition if the corresponding elements of this 
          * Questionnaire resource instance have no value:
-         * </p>
-         * <p>
-         * * code (ElementDefinition.code) 
-         * * type (ElementDefinition.type) 
-         * * required (ElementDefinition.min) 
-         * * repeats (ElementDefinition.max) 
-         * * maxLength (ElementDefinition.maxLength) 
-         * * answerValueSet (ElementDefinition.binding)
-         * * options (ElementDefinition.binding).
-         * </p>
+         * 
+         * <p>* code (ElementDefinition.code) 
+         * <p>* type (ElementDefinition.type) 
+         * <p>* required (ElementDefinition.min) 
+         * <p>* repeats (ElementDefinition.max) 
+         * <p>* maxLength (ElementDefinition.maxLength) 
+         * <p>* answerValueSet (ElementDefinition.binding)
+         * <p>* options (ElementDefinition.binding).
          * 
          * @return
          *     An immutable object of type {@link Uri}.
@@ -1555,10 +1414,8 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A terminology code that corresponds to this group or question (e.g. a code from LOINC, which defines many questions 
          * and answers).
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Coding}.
@@ -1568,10 +1425,8 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A short label for a particular group, question or set of display text within the questionnaire used for reference by 
          * the individual completing the questionnaire.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1581,9 +1436,7 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The name of a section, the text of a question or text content for a display item.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1593,10 +1446,8 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of questionnaire item this is - whether text for display, a grouping of other items or a particular type of 
          * data to be captured (string, integer, coded choice, etc.).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link QuestionnaireItemType}.
@@ -1606,10 +1457,8 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A constraint indicating that this item should only be enabled (displayed/allow answers to be captured) when the 
          * specified condition is true.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link EnableWhen}.
@@ -1619,9 +1468,7 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * Controls how multiple enableWhen values are interpreted - whether all or any must be true.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link EnableWhenBehavior}.
@@ -1631,10 +1478,8 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * An indication, if true, that the item must be present in a "completed" QuestionnaireResponse. If false, the item may 
          * be skipped when answering the questionnaire.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -1644,10 +1489,8 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * An indication, if true, that the item may occur multiple times in the response, collecting multiple answers for 
          * questions or multiple sets of answers for groups.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -1657,9 +1500,7 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * An indication, when true, that the value cannot be changed by a human respondent to the Questionnaire.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -1669,9 +1510,7 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * The maximum number of characters that are permitted in the answer to be considered a "valid" QuestionnaireResponse.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Integer}.
@@ -1681,10 +1520,8 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a value set containing a list of codes representing permitted answers for a "choice" or "open-choice" 
          * question.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Canonical}.
@@ -1694,9 +1531,7 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * One of the permitted answers for a "choice" or "open-choice" question.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link AnswerOption}.
@@ -1706,10 +1541,8 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * One or more values that should be pre-populated in the answer when initially rendering the questionnaire for user 
          * input.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Initial}.
@@ -1719,9 +1552,7 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * Text, questions and other groups to be nested beneath a question or group.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Item}.
@@ -1875,10 +1706,8 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1892,15 +1721,12 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1914,15 +1740,12 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1936,21 +1759,17 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1964,21 +1783,17 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1992,10 +1807,10 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * An identifier that is unique within the Questionnaire allowing linkage to the equivalent item in a 
              * QuestionnaireResponse resource.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param linkId
              *     Unique id for item in questionnaire
@@ -2009,22 +1824,19 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * This element is a URI that refers to an [ElementDefinition](elementdefinition.html) that provides information about 
              * this item, including information that might otherwise be included in the instance of the Questionnaire resource. A 
              * detailed description of the construction of the URI is shown in Comments, below. If this element is present then the 
              * following element values MAY be derived from the Element Definition if the corresponding elements of this 
              * Questionnaire resource instance have no value:
-             * </p>
-             * <p>
-             * * code (ElementDefinition.code) 
-             * * type (ElementDefinition.type) 
-             * * required (ElementDefinition.min) 
-             * * repeats (ElementDefinition.max) 
-             * * maxLength (ElementDefinition.maxLength) 
-             * * answerValueSet (ElementDefinition.binding)
-             * * options (ElementDefinition.binding).
-             * </p>
+             * 
+             * <p>* code (ElementDefinition.code) 
+             * <p>* type (ElementDefinition.type) 
+             * <p>* required (ElementDefinition.min) 
+             * <p>* repeats (ElementDefinition.max) 
+             * <p>* maxLength (ElementDefinition.maxLength) 
+             * <p>* answerValueSet (ElementDefinition.binding)
+             * <p>* options (ElementDefinition.binding).
              * 
              * @param definition
              *     ElementDefinition - details for the item
@@ -2038,13 +1850,10 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * A terminology code that corresponds to this group or question (e.g. a code from LOINC, which defines many questions 
              * and answers).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param code
              *     Corresponding concept for this item in a terminology
@@ -2060,13 +1869,10 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * A terminology code that corresponds to this group or question (e.g. a code from LOINC, which defines many questions 
              * and answers).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param code
              *     Corresponding concept for this item in a terminology
@@ -2080,10 +1886,8 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * A short label for a particular group, question or set of display text within the questionnaire used for reference by 
              * the individual completing the questionnaire.
-             * </p>
              * 
              * @param prefix
              *     E.g. "1(a)", "2.5.3"
@@ -2097,9 +1901,7 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * The name of a section, the text of a question or text content for a display item.
-             * </p>
              * 
              * @param text
              *     Primary text for the item
@@ -2113,10 +1915,10 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * The type of questionnaire item this is - whether text for display, a grouping of other items or a particular type of 
              * data to be captured (string, integer, coded choice, etc.).
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     group | display | boolean | decimal | integer | date | dateTime +
@@ -2130,13 +1932,10 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * A constraint indicating that this item should only be enabled (displayed/allow answers to be captured) when the 
              * specified condition is true.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param enableWhen
              *     Only allow data when
@@ -2152,13 +1951,10 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * A constraint indicating that this item should only be enabled (displayed/allow answers to be captured) when the 
              * specified condition is true.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param enableWhen
              *     Only allow data when
@@ -2172,9 +1968,7 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * Controls how multiple enableWhen values are interpreted - whether all or any must be true.
-             * </p>
              * 
              * @param enableBehavior
              *     all | any
@@ -2188,10 +1982,8 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * An indication, if true, that the item must be present in a "completed" QuestionnaireResponse. If false, the item may 
              * be skipped when answering the questionnaire.
-             * </p>
              * 
              * @param required
              *     Whether the item must be included in data results
@@ -2205,10 +1997,8 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * An indication, if true, that the item may occur multiple times in the response, collecting multiple answers for 
              * questions or multiple sets of answers for groups.
-             * </p>
              * 
              * @param repeats
              *     Whether the item may repeat
@@ -2222,9 +2012,7 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * An indication, when true, that the value cannot be changed by a human respondent to the Questionnaire.
-             * </p>
              * 
              * @param readOnly
              *     Don't allow human editing
@@ -2238,9 +2026,7 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * The maximum number of characters that are permitted in the answer to be considered a "valid" QuestionnaireResponse.
-             * </p>
              * 
              * @param maxLength
              *     No more than this many characters
@@ -2254,10 +2040,8 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * A reference to a value set containing a list of codes representing permitted answers for a "choice" or "open-choice" 
              * question.
-             * </p>
              * 
              * @param answerValueSet
              *     Valueset containing permitted answers
@@ -2271,12 +2055,9 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * One of the permitted answers for a "choice" or "open-choice" question.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param answerOption
              *     Permitted answer
@@ -2292,12 +2073,9 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * One of the permitted answers for a "choice" or "open-choice" question.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param answerOption
              *     Permitted answer
@@ -2311,13 +2089,10 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * One or more values that should be pre-populated in the answer when initially rendering the questionnaire for user 
              * input.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param initial
              *     Initial value(s) when item is first rendered
@@ -2333,13 +2108,10 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * One or more values that should be pre-populated in the answer when initially rendering the questionnaire for user 
              * input.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param initial
              *     Initial value(s) when item is first rendered
@@ -2353,12 +2125,9 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * Text, questions and other groups to be nested beneath a question or group.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param item
              *     Nested questionnaire items
@@ -2374,12 +2143,9 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * Text, questions and other groups to be nested beneath a question or group.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param item
              *     Nested questionnaire items
@@ -2392,6 +2158,18 @@ public class Questionnaire extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Item}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>linkId</li>
+             * <li>type</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Item}
+             */
             @Override
             public Item build() {
                 return new Item(this);
@@ -2420,14 +2198,16 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * A constraint indicating that this item should only be enabled (displayed/allow answers to be captured) when the 
          * specified condition is true.
-         * </p>
          */
         public static class EnableWhen extends BackboneElement {
+            @Required
             private final String question;
+            @Required
             private final QuestionnaireItemOperator operator;
+            @Required
+            @Choice({Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Coding.class, Quantity.class, Reference.class})
             private final Element answer;
 
             private volatile int hashCode;
@@ -2441,9 +2221,7 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * The linkId for the question whose answer (or lack of answer) governs whether this item is enabled.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -2453,9 +2231,7 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * Specifies the criteria by which the question is enabled.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link QuestionnaireItemOperator}.
@@ -2465,9 +2241,7 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * A value that the referenced question is tested using the specified operator in order for the item to be enabled.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -2556,10 +2330,8 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2573,15 +2345,12 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2595,15 +2364,12 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2617,21 +2383,17 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2645,21 +2407,17 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2673,9 +2431,9 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The linkId for the question whose answer (or lack of answer) governs whether this item is enabled.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param question
                  *     Question that determines whether item is enabled
@@ -2689,9 +2447,9 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Specifies the criteria by which the question is enabled.
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param operator
                  *     exists | = | != | &gt; | &lt; | &gt;= | &lt;=
@@ -2705,9 +2463,23 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A value that the referenced question is tested using the specified operator in order for the item to be enabled.
-                 * </p>
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link Boolean}</li>
+                 * <li>{@link Decimal}</li>
+                 * <li>{@link Integer}</li>
+                 * <li>{@link Date}</li>
+                 * <li>{@link DateTime}</li>
+                 * <li>{@link Time}</li>
+                 * <li>{@link String}</li>
+                 * <li>{@link Coding}</li>
+                 * <li>{@link Quantity}</li>
+                 * <li>{@link Reference}</li>
+                 * </ul>
                  * 
                  * @param answer
                  *     Value for question comparison based on operator
@@ -2720,6 +2492,19 @@ public class Questionnaire extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link EnableWhen}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>question</li>
+                 * <li>operator</li>
+                 * <li>answer</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link EnableWhen}
+                 */
                 @Override
                 public EnableWhen build() {
                     return new EnableWhen(this);
@@ -2736,11 +2521,11 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * One of the permitted answers for a "choice" or "open-choice" question.
-         * </p>
          */
         public static class AnswerOption extends BackboneElement {
+            @Required
+            @Choice({Integer.class, Date.class, Time.class, String.class, Coding.class, Reference.class})
             private final Element value;
             private final Boolean initialSelected;
 
@@ -2754,9 +2539,7 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * A potential answer that's allowed as the answer to this question.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -2766,9 +2549,7 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates whether the answer value is selected when the list of possible answers is initially shown.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Boolean}.
@@ -2852,10 +2633,8 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -2869,15 +2648,12 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2891,15 +2667,12 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2913,21 +2686,17 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2941,21 +2710,17 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2969,9 +2734,19 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * A potential answer that's allowed as the answer to this question.
-                 * </p>
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link Integer}</li>
+                 * <li>{@link Date}</li>
+                 * <li>{@link Time}</li>
+                 * <li>{@link String}</li>
+                 * <li>{@link Coding}</li>
+                 * <li>{@link Reference}</li>
+                 * </ul>
                  * 
                  * @param value
                  *     Answer value
@@ -2985,9 +2760,7 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Indicates whether the answer value is selected when the list of possible answers is initially shown.
-                 * </p>
                  * 
                  * @param initialSelected
                  *     Whether option is selected by default
@@ -3000,6 +2773,17 @@ public class Questionnaire extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link AnswerOption}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>value</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link AnswerOption}
+                 */
                 @Override
                 public AnswerOption build() {
                     return new AnswerOption(this);
@@ -3015,12 +2799,12 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * <p>
          * One or more values that should be pre-populated in the answer when initially rendering the questionnaire for user 
          * input.
-         * </p>
          */
         public static class Initial extends BackboneElement {
+            @Required
+            @Choice({Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class})
             private final Element value;
 
             private volatile int hashCode;
@@ -3032,9 +2816,7 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * <p>
              * The actual value to for an initial answer.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Element}.
@@ -3113,10 +2895,8 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -3130,15 +2910,12 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3152,15 +2929,12 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3174,21 +2948,17 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3202,21 +2972,17 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3230,9 +2996,25 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The actual value to for an initial answer.
-                 * </p>
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * <p>This is a choice element with the following allowed types:
+                 * <ul>
+                 * <li>{@link Boolean}</li>
+                 * <li>{@link Decimal}</li>
+                 * <li>{@link Integer}</li>
+                 * <li>{@link Date}</li>
+                 * <li>{@link DateTime}</li>
+                 * <li>{@link Time}</li>
+                 * <li>{@link String}</li>
+                 * <li>{@link Uri}</li>
+                 * <li>{@link Attachment}</li>
+                 * <li>{@link Coding}</li>
+                 * <li>{@link Quantity}</li>
+                 * <li>{@link Reference}</li>
+                 * </ul>
                  * 
                  * @param value
                  *     Actual value for initializing the question
@@ -3245,6 +3027,17 @@ public class Questionnaire extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Initial}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>value</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Initial}
+                 */
                 @Override
                 public Initial build() {
                     return new Initial(this);

@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -34,10 +35,8 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A specific set of Roles/Locations/specialties/services that a practitioner may perform at an organization for a period 
  * of time.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class PractitionerRole extends DomainResource {
@@ -77,9 +76,7 @@ public class PractitionerRole extends DomainResource {
     }
 
     /**
-     * <p>
      * Business Identifiers that are specific to a role/location.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -89,9 +86,7 @@ public class PractitionerRole extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether this practitioner role record is in active use.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -101,9 +96,7 @@ public class PractitionerRole extends DomainResource {
     }
 
     /**
-     * <p>
      * The period during which the person is authorized to act as a practitioner in these role(s) for the organization.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -113,9 +106,7 @@ public class PractitionerRole extends DomainResource {
     }
 
     /**
-     * <p>
      * Practitioner that is able to provide the defined services for the organization.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -125,9 +116,7 @@ public class PractitionerRole extends DomainResource {
     }
 
     /**
-     * <p>
      * The organization where the Practitioner performs the roles associated.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -137,9 +126,7 @@ public class PractitionerRole extends DomainResource {
     }
 
     /**
-     * <p>
      * Roles which this practitioner is authorized to perform for the organization.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -149,9 +136,7 @@ public class PractitionerRole extends DomainResource {
     }
 
     /**
-     * <p>
      * Specific specialty of the practitioner.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -161,9 +146,7 @@ public class PractitionerRole extends DomainResource {
     }
 
     /**
-     * <p>
      * The location(s) at which this practitioner provides care.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -173,9 +156,7 @@ public class PractitionerRole extends DomainResource {
     }
 
     /**
-     * <p>
      * The list of healthcare services that this worker provides for this role's Organization/Location(s).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -185,9 +166,7 @@ public class PractitionerRole extends DomainResource {
     }
 
     /**
-     * <p>
      * Contact details that are specific to the role/location/service.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
@@ -197,9 +176,7 @@ public class PractitionerRole extends DomainResource {
     }
 
     /**
-     * <p>
      * A collection of times the practitioner is available or performing this role at the location and/or healthcareservice.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link AvailableTime}.
@@ -209,9 +186,7 @@ public class PractitionerRole extends DomainResource {
     }
 
     /**
-     * <p>
      * The practitioner is not available or performing this role during this period of time due to the provided reason.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link NotAvailable}.
@@ -221,10 +196,8 @@ public class PractitionerRole extends DomainResource {
     }
 
     /**
-     * <p>
      * A description of site availability exceptions, e.g. public holiday availability. Succinctly describing all possible 
      * exceptions to normal site availability as details in the available Times and not available Times.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -234,9 +207,7 @@ public class PractitionerRole extends DomainResource {
     }
 
     /**
-     * <p>
      * Technical endpoints providing access to services operated for the practitioner with this role.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -376,9 +347,7 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -392,10 +361,8 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -409,11 +376,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -427,9 +392,7 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -443,12 +406,10 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -462,13 +423,10 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -482,13 +440,10 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -502,15 +457,12 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -524,15 +476,12 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -546,21 +495,17 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -574,21 +519,17 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -602,12 +543,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * Business Identifiers that are specific to a role/location.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Business Identifiers that are specific to a role/location
@@ -623,12 +561,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * Business Identifiers that are specific to a role/location.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Business Identifiers that are specific to a role/location
@@ -642,9 +577,7 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether this practitioner role record is in active use.
-         * </p>
          * 
          * @param active
          *     Whether this practitioner role record is in active use
@@ -658,9 +591,7 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * The period during which the person is authorized to act as a practitioner in these role(s) for the organization.
-         * </p>
          * 
          * @param period
          *     The period during which the practitioner is authorized to perform in these role(s)
@@ -674,9 +605,7 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * Practitioner that is able to provide the defined services for the organization.
-         * </p>
          * 
          * @param practitioner
          *     Practitioner that is able to provide the defined services for the organization
@@ -690,9 +619,7 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * The organization where the Practitioner performs the roles associated.
-         * </p>
          * 
          * @param organization
          *     Organization where the roles are available
@@ -706,12 +633,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * Roles which this practitioner is authorized to perform for the organization.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param code
          *     Roles which this practitioner may perform
@@ -727,12 +651,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * Roles which this practitioner is authorized to perform for the organization.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param code
          *     Roles which this practitioner may perform
@@ -746,12 +667,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * Specific specialty of the practitioner.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param specialty
          *     Specific specialty of the practitioner
@@ -767,12 +685,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * Specific specialty of the practitioner.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param specialty
          *     Specific specialty of the practitioner
@@ -786,12 +701,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * The location(s) at which this practitioner provides care.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param location
          *     The location(s) at which this practitioner provides care
@@ -807,12 +719,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * The location(s) at which this practitioner provides care.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param location
          *     The location(s) at which this practitioner provides care
@@ -826,12 +735,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * The list of healthcare services that this worker provides for this role's Organization/Location(s).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param healthcareService
          *     The list of healthcare services that this worker provides for this role's Organization/Location(s)
@@ -847,12 +753,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * The list of healthcare services that this worker provides for this role's Organization/Location(s).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param healthcareService
          *     The list of healthcare services that this worker provides for this role's Organization/Location(s)
@@ -866,12 +769,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details that are specific to the role/location/service.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param telecom
          *     Contact details that are specific to the role/location/service
@@ -887,12 +787,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * Contact details that are specific to the role/location/service.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param telecom
          *     Contact details that are specific to the role/location/service
@@ -906,12 +803,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * A collection of times the practitioner is available or performing this role at the location and/or healthcareservice.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param availableTime
          *     Times the Service Site is available
@@ -927,12 +821,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * A collection of times the practitioner is available or performing this role at the location and/or healthcareservice.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param availableTime
          *     Times the Service Site is available
@@ -946,12 +837,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * The practitioner is not available or performing this role during this period of time due to the provided reason.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param notAvailable
          *     Not available during this time due to provided reason
@@ -967,12 +855,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * The practitioner is not available or performing this role during this period of time due to the provided reason.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param notAvailable
          *     Not available during this time due to provided reason
@@ -986,10 +871,8 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * A description of site availability exceptions, e.g. public holiday availability. Succinctly describing all possible 
          * exceptions to normal site availability as details in the available Times and not available Times.
-         * </p>
          * 
          * @param availabilityExceptions
          *     Description of availability exceptions
@@ -1003,12 +886,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * Technical endpoints providing access to services operated for the practitioner with this role.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for the practitioner with this role
@@ -1024,12 +904,9 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * Technical endpoints providing access to services operated for the practitioner with this role.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param endpoint
          *     Technical endpoints providing access to services operated for the practitioner with this role
@@ -1042,6 +919,12 @@ public class PractitionerRole extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link PractitionerRole}
+         * 
+         * @return
+         *     An immutable object of type {@link PractitionerRole}
+         */
         @Override
         public PractitionerRole build() {
             return new PractitionerRole(this);
@@ -1068,9 +951,7 @@ public class PractitionerRole extends DomainResource {
     }
 
     /**
-     * <p>
      * A collection of times the practitioner is available or performing this role at the location and/or healthcareservice.
-     * </p>
      */
     public static class AvailableTime extends BackboneElement {
         private final List<DaysOfWeek> daysOfWeek;
@@ -1090,9 +971,7 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates which days of the week are available between the start and end Times.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link DaysOfWeek}.
@@ -1102,9 +981,7 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * Is this always available? (hence times are irrelevant) e.g. 24 hour service.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -1114,9 +991,7 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * The opening time of day. Note: If the AllDay flag is set, then this time is ignored.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Time}.
@@ -1126,9 +1001,7 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * The closing time of day. Note: If the AllDay flag is set, then this time is ignored.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Time}.
@@ -1222,10 +1095,8 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1239,15 +1110,12 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1261,15 +1129,12 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1283,21 +1148,17 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1311,21 +1172,17 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1339,12 +1196,9 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates which days of the week are available between the start and end Times.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param daysOfWeek
              *     mon | tue | wed | thu | fri | sat | sun
@@ -1360,12 +1214,9 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates which days of the week are available between the start and end Times.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param daysOfWeek
              *     mon | tue | wed | thu | fri | sat | sun
@@ -1379,9 +1230,7 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * Is this always available? (hence times are irrelevant) e.g. 24 hour service.
-             * </p>
              * 
              * @param allDay
              *     Always available? e.g. 24 hour service
@@ -1395,9 +1244,7 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * The opening time of day. Note: If the AllDay flag is set, then this time is ignored.
-             * </p>
              * 
              * @param availableStartTime
              *     Opening time of day (ignored if allDay = true)
@@ -1411,9 +1258,7 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * The closing time of day. Note: If the AllDay flag is set, then this time is ignored.
-             * </p>
              * 
              * @param availableEndTime
              *     Closing time of day (ignored if allDay = true)
@@ -1426,6 +1271,12 @@ public class PractitionerRole extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link AvailableTime}
+             * 
+             * @return
+             *     An immutable object of type {@link AvailableTime}
+             */
             @Override
             public AvailableTime build() {
                 return new AvailableTime(this);
@@ -1443,11 +1294,10 @@ public class PractitionerRole extends DomainResource {
     }
 
     /**
-     * <p>
      * The practitioner is not available or performing this role during this period of time due to the provided reason.
-     * </p>
      */
     public static class NotAvailable extends BackboneElement {
+        @Required
         private final String description;
         private final Period during;
 
@@ -1461,9 +1311,7 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * The reason that can be presented to the user as to why this time is not available.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link String}.
@@ -1473,9 +1321,7 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * <p>
          * Service is not available (seasonally or for a public holiday) from this date.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Period}.
@@ -1559,10 +1405,8 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1576,15 +1420,12 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1598,15 +1439,12 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1620,21 +1458,17 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1648,21 +1482,17 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1676,9 +1506,9 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * The reason that can be presented to the user as to why this time is not available.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param description
              *     Reason presented to the user explaining why time not available
@@ -1692,9 +1522,7 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * <p>
              * Service is not available (seasonally or for a public holiday) from this date.
-             * </p>
              * 
              * @param during
              *     Service not available from this date
@@ -1707,6 +1535,17 @@ public class PractitionerRole extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link NotAvailable}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>description</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link NotAvailable}
+             */
             @Override
             public NotAvailable build() {
                 return new NotAvailable(this);

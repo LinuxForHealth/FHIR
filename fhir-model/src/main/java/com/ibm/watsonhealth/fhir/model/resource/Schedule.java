@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Boolean;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
@@ -30,9 +31,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * A container for slots of time that may be available for booking appointments.
- * </p>
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Schedule extends DomainResource {
@@ -41,6 +40,7 @@ public class Schedule extends DomainResource {
     private final List<CodeableConcept> serviceCategory;
     private final List<CodeableConcept> serviceType;
     private final List<CodeableConcept> specialty;
+    @Required
     private final List<Reference> actor;
     private final Period planningHorizon;
     private final String comment;
@@ -60,9 +60,7 @@ public class Schedule extends DomainResource {
     }
 
     /**
-     * <p>
      * External Ids for this item.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -72,9 +70,7 @@ public class Schedule extends DomainResource {
     }
 
     /**
-     * <p>
      * Whether this schedule record is in active use or should not be used (such as was entered in error).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -84,9 +80,7 @@ public class Schedule extends DomainResource {
     }
 
     /**
-     * <p>
      * A broad categorization of the service that is to be performed during this appointment.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -96,9 +90,7 @@ public class Schedule extends DomainResource {
     }
 
     /**
-     * <p>
      * The specific service that is to be performed during this appointment.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -108,9 +100,7 @@ public class Schedule extends DomainResource {
     }
 
     /**
-     * <p>
      * The specialty of a practitioner that would be required to perform the service requested in this appointment.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -120,9 +110,7 @@ public class Schedule extends DomainResource {
     }
 
     /**
-     * <p>
      * Slots that reference this schedule resource provide the availability details to these referenced resource(s).
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -132,11 +120,9 @@ public class Schedule extends DomainResource {
     }
 
     /**
-     * <p>
      * The period of time that the slots that reference this Schedule resource cover (even if none exist). These cover the 
      * amount of time that an organization's planning horizon; the interval for which they are currently accepting 
      * appointments. This does not define a "template" for planning outside these dates.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -146,10 +132,8 @@ public class Schedule extends DomainResource {
     }
 
     /**
-     * <p>
      * Comments on the availability to describe any extended information. Such as custom constraints on the slots that may be 
      * associated.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -265,9 +249,7 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -281,10 +263,8 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -298,11 +278,9 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -316,9 +294,7 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -332,12 +308,10 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -351,13 +325,10 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -371,13 +342,10 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -391,15 +359,12 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -413,15 +378,12 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -435,21 +397,17 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -463,21 +421,17 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -491,12 +445,9 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * External Ids for this item.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     External Ids for this item
@@ -512,12 +463,9 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * External Ids for this item.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     External Ids for this item
@@ -531,9 +479,7 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * Whether this schedule record is in active use or should not be used (such as was entered in error).
-         * </p>
          * 
          * @param active
          *     Whether this schedule is in active use
@@ -547,12 +493,9 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * A broad categorization of the service that is to be performed during this appointment.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param serviceCategory
          *     High-level category
@@ -568,12 +511,9 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * A broad categorization of the service that is to be performed during this appointment.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param serviceCategory
          *     High-level category
@@ -587,12 +527,9 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * The specific service that is to be performed during this appointment.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param serviceType
          *     Specific service
@@ -608,12 +545,9 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * The specific service that is to be performed during this appointment.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param serviceType
          *     Specific service
@@ -627,12 +561,9 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * The specialty of a practitioner that would be required to perform the service requested in this appointment.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param specialty
          *     Type of specialty needed
@@ -648,12 +579,9 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * The specialty of a practitioner that would be required to perform the service requested in this appointment.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param specialty
          *     Type of specialty needed
@@ -667,12 +595,11 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * Slots that reference this schedule resource provide the availability details to these referenced resource(s).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is required.
          * 
          * @param actor
          *     Resource(s) that availability information is being provided for
@@ -688,12 +615,11 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * Slots that reference this schedule resource provide the availability details to these referenced resource(s).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is required.
          * 
          * @param actor
          *     Resource(s) that availability information is being provided for
@@ -707,11 +633,9 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * The period of time that the slots that reference this Schedule resource cover (even if none exist). These cover the 
          * amount of time that an organization's planning horizon; the interval for which they are currently accepting 
          * appointments. This does not define a "template" for planning outside these dates.
-         * </p>
          * 
          * @param planningHorizon
          *     Period of time covered by schedule
@@ -725,10 +649,8 @@ public class Schedule extends DomainResource {
         }
 
         /**
-         * <p>
          * Comments on the availability to describe any extended information. Such as custom constraints on the slots that may be 
          * associated.
-         * </p>
          * 
          * @param comment
          *     Comments on availability
@@ -741,6 +663,17 @@ public class Schedule extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link Schedule}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>actor</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link Schedule}
+         */
         @Override
         public Schedule build() {
             return new Schedule(this);

@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Address;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
 import com.ibm.watsonhealth.fhir.model.type.Code;
@@ -38,9 +39,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Details of a Health Insurance product/plan provided by an organization.
- * </p>
  */
 @Constraint(
     id = "ipn-1",
@@ -87,10 +86,8 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Business identifiers assigned to this health insurance product which remain constant as the resource is updated and 
      * propagates from server to server.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -100,9 +97,7 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * The current state of the health insurance product.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link PublicationStatus}.
@@ -112,9 +107,7 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * The kind of health insurance product.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -124,9 +117,7 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Official name of the health insurance product as designated by the owner.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -136,9 +127,7 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * A list of alternate names that the product is known as, or was known as in the past.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link String}.
@@ -148,9 +137,7 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * The period of time that the health insurance product is available.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Period}.
@@ -160,10 +147,8 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * The entity that is providing the health insurance product and underwriting the risk. This is typically an insurance 
      * carriers, other third-party payers, or health plan sponsors comonly referred to as 'payers'.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -173,10 +158,8 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * An organization which administer other services such as underwriting, customer service and/or claims processing on 
      * behalf of the health insurance product owner.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -186,9 +169,7 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * The geographic region in which a health insurance product's benefits apply.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -198,9 +179,7 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * The contact for the health insurance product for a certain purpose.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Contact}.
@@ -210,9 +189,7 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * The technical endpoints providing access to services operated for the health insurance product.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -222,9 +199,7 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Reference to the network included in the health insurance product.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -234,9 +209,7 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Details about the coverage offered by the insurance product.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Coverage}.
@@ -246,9 +219,7 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Details about an insurance plan.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Plan}.
@@ -388,9 +359,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -404,10 +373,8 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -421,11 +388,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -439,9 +404,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -455,12 +418,10 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -474,13 +435,10 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -494,13 +452,10 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -514,15 +469,12 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -536,15 +488,12 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -558,21 +507,17 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -586,21 +531,17 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -614,13 +555,10 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifiers assigned to this health insurance product which remain constant as the resource is updated and 
          * propagates from server to server.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     Business Identifier for Product
@@ -636,13 +574,10 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifiers assigned to this health insurance product which remain constant as the resource is updated and 
          * propagates from server to server.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     Business Identifier for Product
@@ -656,9 +591,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The current state of the health insurance product.
-         * </p>
          * 
          * @param status
          *     draft | active | retired | unknown
@@ -672,12 +605,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The kind of health insurance product.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param type
          *     Kind of product
@@ -693,12 +623,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The kind of health insurance product.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param type
          *     Kind of product
@@ -712,9 +639,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Official name of the health insurance product as designated by the owner.
-         * </p>
          * 
          * @param name
          *     Official name
@@ -728,12 +653,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of alternate names that the product is known as, or was known as in the past.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param alias
          *     Alternate names
@@ -749,12 +671,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * A list of alternate names that the product is known as, or was known as in the past.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param alias
          *     Alternate names
@@ -768,9 +687,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The period of time that the health insurance product is available.
-         * </p>
          * 
          * @param period
          *     When the product is available
@@ -784,10 +701,8 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The entity that is providing the health insurance product and underwriting the risk. This is typically an insurance 
          * carriers, other third-party payers, or health plan sponsors comonly referred to as 'payers'.
-         * </p>
          * 
          * @param ownedBy
          *     Plan issuer
@@ -801,10 +716,8 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * An organization which administer other services such as underwriting, customer service and/or claims processing on 
          * behalf of the health insurance product owner.
-         * </p>
          * 
          * @param administeredBy
          *     Product administrator
@@ -818,12 +731,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The geographic region in which a health insurance product's benefits apply.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param coverageArea
          *     Where product applies
@@ -839,12 +749,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The geographic region in which a health insurance product's benefits apply.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param coverageArea
          *     Where product applies
@@ -858,12 +765,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The contact for the health insurance product for a certain purpose.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contact
          *     Contact for the product
@@ -879,12 +783,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The contact for the health insurance product for a certain purpose.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contact
          *     Contact for the product
@@ -898,12 +799,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The technical endpoints providing access to services operated for the health insurance product.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param endpoint
          *     Technical endpoint
@@ -919,12 +817,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The technical endpoints providing access to services operated for the health insurance product.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param endpoint
          *     Technical endpoint
@@ -938,12 +833,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to the network included in the health insurance product.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param network
          *     What networks are Included
@@ -959,12 +851,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to the network included in the health insurance product.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param network
          *     What networks are Included
@@ -978,12 +867,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Details about the coverage offered by the insurance product.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param coverage
          *     Coverage details
@@ -999,12 +885,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Details about the coverage offered by the insurance product.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param coverage
          *     Coverage details
@@ -1018,12 +901,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Details about an insurance plan.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param plan
          *     Plan details
@@ -1039,12 +919,9 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Details about an insurance plan.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param plan
          *     Plan details
@@ -1057,6 +934,12 @@ public class InsurancePlan extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link InsurancePlan}
+         * 
+         * @return
+         *     An immutable object of type {@link InsurancePlan}
+         */
         @Override
         public InsurancePlan build() {
             return new InsurancePlan(this);
@@ -1083,9 +966,7 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * The contact for the health insurance product for a certain purpose.
-     * </p>
      */
     public static class Contact extends BackboneElement {
         private final CodeableConcept purpose;
@@ -1105,9 +986,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates a purpose for which the contact can be reached.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1117,9 +996,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * A name associated with the contact.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link HumanName}.
@@ -1129,9 +1006,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * A contact detail (e.g. a telephone number or an email address) by which the party may be contacted.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link ContactPoint}.
@@ -1141,9 +1016,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Visiting or postal addresses for the contact.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Address}.
@@ -1237,10 +1110,8 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1254,15 +1125,12 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1276,15 +1144,12 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1298,21 +1163,17 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1326,21 +1187,17 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1354,9 +1211,7 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates a purpose for which the contact can be reached.
-             * </p>
              * 
              * @param purpose
              *     The type of contact
@@ -1370,9 +1225,7 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * A name associated with the contact.
-             * </p>
              * 
              * @param name
              *     A name associated with the contact
@@ -1386,12 +1239,9 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * A contact detail (e.g. a telephone number or an email address) by which the party may be contacted.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param telecom
              *     Contact details (telephone, email, etc.) for a contact
@@ -1407,12 +1257,9 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * A contact detail (e.g. a telephone number or an email address) by which the party may be contacted.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param telecom
              *     Contact details (telephone, email, etc.) for a contact
@@ -1426,9 +1273,7 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Visiting or postal addresses for the contact.
-             * </p>
              * 
              * @param address
              *     Visiting or postal addresses for the contact
@@ -1441,6 +1286,12 @@ public class InsurancePlan extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Contact}
+             * 
+             * @return
+             *     An immutable object of type {@link Contact}
+             */
             @Override
             public Contact build() {
                 return new Contact(this);
@@ -1458,13 +1309,13 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Details about the coverage offered by the insurance product.
-     * </p>
      */
     public static class Coverage extends BackboneElement {
+        @Required
         private final CodeableConcept type;
         private final List<Reference> network;
+        @Required
         private final List<Benefit> benefit;
 
         private volatile int hashCode;
@@ -1478,10 +1329,8 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Type of coverage (Medical; Dental; Mental Health; Substance Abuse; Vision; Drug; Short Term; Long Term Care; Hospice; 
          * Home Health).
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1491,9 +1340,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to the network that providing the type of coverage.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -1503,9 +1350,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Specific benefits under this type of coverage.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Benefit}.
@@ -1594,10 +1439,8 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1611,15 +1454,12 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1633,15 +1473,12 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1655,21 +1492,17 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1683,21 +1516,17 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1711,10 +1540,10 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Type of coverage (Medical; Dental; Mental Health; Substance Abuse; Vision; Drug; Short Term; Long Term Care; Hospice; 
              * Home Health).
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param type
              *     Type of coverage
@@ -1728,12 +1557,9 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference to the network that providing the type of coverage.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param network
              *     What networks provide coverage
@@ -1749,12 +1575,9 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference to the network that providing the type of coverage.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param network
              *     What networks provide coverage
@@ -1768,12 +1591,11 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Specific benefits under this type of coverage.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * <p>This element is required.
              * 
              * @param benefit
              *     List of benefits
@@ -1789,12 +1611,11 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Specific benefits under this type of coverage.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * 
+             * <p>This element is required.
              * 
              * @param benefit
              *     List of benefits
@@ -1807,6 +1628,18 @@ public class InsurancePlan extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Coverage}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>type</li>
+             * <li>benefit</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Coverage}
+             */
             @Override
             public Coverage build() {
                 return new Coverage(this);
@@ -1822,11 +1655,10 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Specific benefits under this type of coverage.
-         * </p>
          */
         public static class Benefit extends BackboneElement {
+            @Required
             private final CodeableConcept type;
             private final String requirement;
             private final List<Limit> limit;
@@ -1842,9 +1674,7 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Type of benefit (primary care; speciality care; inpatient; outpatient).
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -1854,9 +1684,7 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * The referral requirements to have access/coverage for this benefit.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -1866,9 +1694,7 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * The specific limits on the benefit.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Limit}.
@@ -1957,10 +1783,8 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -1974,15 +1798,12 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -1996,15 +1817,12 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -2018,21 +1836,17 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2046,21 +1860,17 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -2074,9 +1884,9 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Type of benefit (primary care; speciality care; inpatient; outpatient).
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param type
                  *     Type of benefit
@@ -2090,9 +1900,7 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The referral requirements to have access/coverage for this benefit.
-                 * </p>
                  * 
                  * @param requirement
                  *     Referral requirements
@@ -2106,12 +1914,9 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The specific limits on the benefit.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param limit
                  *     Benefit limits
@@ -2127,12 +1932,9 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The specific limits on the benefit.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param limit
                  *     Benefit limits
@@ -2145,6 +1947,17 @@ public class InsurancePlan extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link Benefit}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>type</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link Benefit}
+                 */
                 @Override
                 public Benefit build() {
                     return new Benefit(this);
@@ -2160,9 +1973,7 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * The specific limits on the benefit.
-             * </p>
              */
             public static class Limit extends BackboneElement {
                 private final Quantity value;
@@ -2178,10 +1989,8 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The maximum amount of a service item a plan will pay for a covered benefit. For examples. wellness visits, or 
                  * eyeglasses.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link Quantity}.
@@ -2191,9 +2000,7 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * The specific limit on the benefit.
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link CodeableConcept}.
@@ -2277,10 +2084,8 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -2294,15 +2099,12 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2316,15 +2118,12 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -2338,21 +2137,17 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -2366,21 +2161,17 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -2394,10 +2185,8 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The maximum amount of a service item a plan will pay for a covered benefit. For examples. wellness visits, or 
                      * eyeglasses.
-                     * </p>
                      * 
                      * @param value
                      *     Maximum value allowed
@@ -2411,9 +2200,7 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The specific limit on the benefit.
-                     * </p>
                      * 
                      * @param code
                      *     Benefit limit details
@@ -2426,6 +2213,12 @@ public class InsurancePlan extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link Limit}
+                     * 
+                     * @return
+                     *     An immutable object of type {@link Limit}
+                     */
                     @Override
                     public Limit build() {
                         return new Limit(this);
@@ -2443,9 +2236,7 @@ public class InsurancePlan extends DomainResource {
     }
 
     /**
-     * <p>
      * Details about an insurance plan.
-     * </p>
      */
     public static class Plan extends BackboneElement {
         private final List<Identifier> identifier;
@@ -2469,10 +2260,8 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifiers assigned to this health insurance plan which remain constant as the resource is updated and 
          * propagates from server to server.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -2482,9 +2271,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Type of plan. For example, "Platinum" or "High Deductable".
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -2494,9 +2281,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * The geographic region in which a health insurance plan's benefits apply.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -2506,9 +2291,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Reference to the network that providing the type of coverage.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -2518,9 +2301,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Overall costs associated with the plan.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link GeneralCost}.
@@ -2530,9 +2311,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Costs associated with the coverage provided by the product.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link SpecificCost}.
@@ -2636,10 +2415,8 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -2653,15 +2430,12 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2675,15 +2449,12 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2697,21 +2468,17 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2725,21 +2492,17 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2753,13 +2516,10 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Business identifiers assigned to this health insurance plan which remain constant as the resource is updated and 
              * propagates from server to server.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param identifier
              *     Business Identifier for Product
@@ -2775,13 +2535,10 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Business identifiers assigned to this health insurance plan which remain constant as the resource is updated and 
              * propagates from server to server.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param identifier
              *     Business Identifier for Product
@@ -2795,9 +2552,7 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Type of plan. For example, "Platinum" or "High Deductable".
-             * </p>
              * 
              * @param type
              *     Type of plan
@@ -2811,12 +2566,9 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * The geographic region in which a health insurance plan's benefits apply.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param coverageArea
              *     Where product applies
@@ -2832,12 +2584,9 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * The geographic region in which a health insurance plan's benefits apply.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param coverageArea
              *     Where product applies
@@ -2851,12 +2600,9 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference to the network that providing the type of coverage.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param network
              *     What networks provide coverage
@@ -2872,12 +2618,9 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Reference to the network that providing the type of coverage.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param network
              *     What networks provide coverage
@@ -2891,12 +2634,9 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Overall costs associated with the plan.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param generalCost
              *     Overall costs
@@ -2912,12 +2652,9 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Overall costs associated with the plan.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param generalCost
              *     Overall costs
@@ -2931,12 +2668,9 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Costs associated with the coverage provided by the product.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param specificCost
              *     Specific costs
@@ -2952,12 +2686,9 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Costs associated with the coverage provided by the product.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param specificCost
              *     Specific costs
@@ -2970,6 +2701,12 @@ public class InsurancePlan extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Plan}
+             * 
+             * @return
+             *     An immutable object of type {@link Plan}
+             */
             @Override
             public Plan build() {
                 return new Plan(this);
@@ -2988,9 +2725,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Overall costs associated with the plan.
-         * </p>
          */
         public static class GeneralCost extends BackboneElement {
             private final CodeableConcept type;
@@ -3010,9 +2745,7 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Type of cost.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -3022,9 +2755,7 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Number of participants enrolled in the plan.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link PositiveInt}.
@@ -3034,9 +2765,7 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Value of the cost.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link Money}.
@@ -3046,9 +2775,7 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * Additional information about the general costs associated with this plan.
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link String}.
@@ -3142,10 +2869,8 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -3159,15 +2884,12 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3181,15 +2903,12 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3203,21 +2922,17 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3231,21 +2946,17 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3259,9 +2970,7 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Type of cost.
-                 * </p>
                  * 
                  * @param type
                  *     Type of cost
@@ -3275,9 +2984,7 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Number of participants enrolled in the plan.
-                 * </p>
                  * 
                  * @param groupSize
                  *     Number of enrollees
@@ -3291,9 +2998,7 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Value of the cost.
-                 * </p>
                  * 
                  * @param cost
                  *     Cost value
@@ -3307,9 +3012,7 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Additional information about the general costs associated with this plan.
-                 * </p>
                  * 
                  * @param comment
                  *     Additional cost information
@@ -3322,6 +3025,12 @@ public class InsurancePlan extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link GeneralCost}
+                 * 
+                 * @return
+                 *     An immutable object of type {@link GeneralCost}
+                 */
                 @Override
                 public GeneralCost build() {
                     return new GeneralCost(this);
@@ -3339,11 +3048,10 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * <p>
          * Costs associated with the coverage provided by the product.
-         * </p>
          */
         public static class SpecificCost extends BackboneElement {
+            @Required
             private final CodeableConcept category;
             private final List<Benefit> benefit;
 
@@ -3357,9 +3065,7 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * General category of benefit (Medical; Dental; Vision; Drug; Mental Health; Substance Abuse; Hospice, Home Health).
-             * </p>
              * 
              * @return
              *     An immutable object of type {@link CodeableConcept}.
@@ -3369,9 +3075,7 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * List of the specific benefits under this category of benefit.
-             * </p>
              * 
              * @return
              *     An unmodifiable list containing immutable objects of type {@link Benefit}.
@@ -3455,10 +3159,8 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                  * contain spaces.
-                 * </p>
                  * 
                  * @param id
                  *     Unique id for inter-element referencing
@@ -3472,15 +3174,12 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3494,15 +3193,12 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                  * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3516,21 +3212,17 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3544,21 +3236,17 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * May be used to represent additional information that is not part of the basic definition of the element and that 
                  * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                  * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                  * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                  * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                  * extension. Applications processing a resource are required to check for modifier extensions.
-                 * </p>
-                 * <p>
-                 * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                 * 
+                 * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3572,9 +3260,9 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * General category of benefit (Medical; Dental; Vision; Drug; Mental Health; Substance Abuse; Hospice, Home Health).
-                 * </p>
+                 * 
+                 * <p>This element is required.
                  * 
                  * @param category
                  *     General category of benefit
@@ -3588,12 +3276,9 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * List of the specific benefits under this category of benefit.
-                 * </p>
-                 * <p>
-                 * Adds new element(s) to existing list
-                 * </p>
+                 * 
+                 * <p>Adds new element(s) to the existing list
                  * 
                  * @param benefit
                  *     Benefits list
@@ -3609,12 +3294,9 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * List of the specific benefits under this category of benefit.
-                 * </p>
-                 * <p>
-                 * Replaces existing list with a new one containing elements from the Collection
-                 * </p>
+                 * 
+                 * <p>Replaces the existing list with a new one containing elements from the Collection
                  * 
                  * @param benefit
                  *     Benefits list
@@ -3627,6 +3309,17 @@ public class InsurancePlan extends DomainResource {
                     return this;
                 }
 
+                /**
+                 * Build the {@link SpecificCost}
+                 * 
+                 * <p>Required elements:
+                 * <ul>
+                 * <li>category</li>
+                 * </ul>
+                 * 
+                 * @return
+                 *     An immutable object of type {@link SpecificCost}
+                 */
                 @Override
                 public SpecificCost build() {
                     return new SpecificCost(this);
@@ -3641,11 +3334,10 @@ public class InsurancePlan extends DomainResource {
             }
 
             /**
-             * <p>
              * List of the specific benefits under this category of benefit.
-             * </p>
              */
             public static class Benefit extends BackboneElement {
+                @Required
                 private final CodeableConcept type;
                 private final List<Cost> cost;
 
@@ -3659,10 +3351,8 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * Type of specific benefit (preventative; primary care office visit; speciality office visit; hospitalization; emergency 
                  * room; urgent care).
-                 * </p>
                  * 
                  * @return
                  *     An immutable object of type {@link CodeableConcept}.
@@ -3672,9 +3362,7 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * List of the costs associated with a specific benefit.
-                 * </p>
                  * 
                  * @return
                  *     An unmodifiable list containing immutable objects of type {@link Cost}.
@@ -3758,10 +3446,8 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                      * contain spaces.
-                     * </p>
                      * 
                      * @param id
                      *     Unique id for inter-element referencing
@@ -3775,15 +3461,12 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -3797,15 +3480,12 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                      * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -3819,21 +3499,17 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -3847,21 +3523,17 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * May be used to represent additional information that is not part of the basic definition of the element and that 
                      * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                      * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                      * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                      * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                      * extension. Applications processing a resource are required to check for modifier extensions.
-                     * </p>
-                     * <p>
-                     * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                     * 
+                     * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -3875,10 +3547,10 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Type of specific benefit (preventative; primary care office visit; speciality office visit; hospitalization; emergency 
                      * room; urgent care).
-                     * </p>
+                     * 
+                     * <p>This element is required.
                      * 
                      * @param type
                      *     Type of specific benefit
@@ -3892,12 +3564,9 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * List of the costs associated with a specific benefit.
-                     * </p>
-                     * <p>
-                     * Adds new element(s) to existing list
-                     * </p>
+                     * 
+                     * <p>Adds new element(s) to the existing list
                      * 
                      * @param cost
                      *     List of the costs
@@ -3913,12 +3582,9 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * List of the costs associated with a specific benefit.
-                     * </p>
-                     * <p>
-                     * Replaces existing list with a new one containing elements from the Collection
-                     * </p>
+                     * 
+                     * <p>Replaces the existing list with a new one containing elements from the Collection
                      * 
                      * @param cost
                      *     List of the costs
@@ -3931,6 +3597,17 @@ public class InsurancePlan extends DomainResource {
                         return this;
                     }
 
+                    /**
+                     * Build the {@link Benefit}
+                     * 
+                     * <p>Required elements:
+                     * <ul>
+                     * <li>type</li>
+                     * </ul>
+                     * 
+                     * @return
+                     *     An immutable object of type {@link Benefit}
+                     */
                     @Override
                     public Benefit build() {
                         return new Benefit(this);
@@ -3945,11 +3622,10 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * <p>
                  * List of the costs associated with a specific benefit.
-                 * </p>
                  */
                 public static class Cost extends BackboneElement {
+                    @Required
                     private final CodeableConcept type;
                     private final CodeableConcept applicability;
                     private final List<CodeableConcept> qualifiers;
@@ -3967,9 +3643,7 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Type of cost (copay; individual cap; family cap; coinsurance; deductible).
-                     * </p>
                      * 
                      * @return
                      *     An immutable object of type {@link CodeableConcept}.
@@ -3979,9 +3653,7 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Whether the cost applies to in-network or out-of-network providers (in-network; out-of-network; other).
-                     * </p>
                      * 
                      * @return
                      *     An immutable object of type {@link CodeableConcept}.
@@ -3991,9 +3663,7 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * Additional information about the cost, such as information about funding sources (e.g. HSA, HRA, FSA, RRA).
-                     * </p>
                      * 
                      * @return
                      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -4003,10 +3673,8 @@ public class InsurancePlan extends DomainResource {
                     }
 
                     /**
-                     * <p>
                      * The actual cost value. (some of the costs may be represented as percentages rather than currency, e.g. 10% 
                      * coinsurance).
-                     * </p>
                      * 
                      * @return
                      *     An immutable object of type {@link Quantity}.
@@ -4100,10 +3768,8 @@ public class InsurancePlan extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * Unique id for the element within a resource (for internal references). This may be any string value that does not 
                          * contain spaces.
-                         * </p>
                          * 
                          * @param id
                          *     Unique id for inter-element referencing
@@ -4117,15 +3783,12 @@ public class InsurancePlan extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
-                         * </p>
-                         * <p>
-                         * Adds new element(s) to existing list
-                         * </p>
+                         * 
+                         * <p>Adds new element(s) to the existing list
                          * 
                          * @param extension
                          *     Additional content defined by implementations
@@ -4139,15 +3802,12 @@ public class InsurancePlan extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element. To make the 
                          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
                          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                          * of the definition of the extension.
-                         * </p>
-                         * <p>
-                         * Replaces existing list with a new one containing elements from the Collection
-                         * </p>
+                         * 
+                         * <p>Replaces the existing list with a new one containing elements from the Collection
                          * 
                          * @param extension
                          *     Additional content defined by implementations
@@ -4161,21 +3821,17 @@ public class InsurancePlan extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element and that 
                          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                          * extension. Applications processing a resource are required to check for modifier extensions.
-                         * </p>
-                         * <p>
-                         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                         * 
+                         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
-                         * </p>
-                         * <p>
-                         * Adds new element(s) to existing list
-                         * </p>
+                         * 
+                         * <p>Adds new element(s) to the existing list
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
@@ -4189,21 +3845,17 @@ public class InsurancePlan extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * May be used to represent additional information that is not part of the basic definition of the element and that 
                          * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
                          * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
                          * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
                          * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
                          * extension. Applications processing a resource are required to check for modifier extensions.
-                         * </p>
-                         * <p>
-                         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+                         * 
+                         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                          * change the meaning of modifierExtension itself).
-                         * </p>
-                         * <p>
-                         * Replaces existing list with a new one containing elements from the Collection
-                         * </p>
+                         * 
+                         * <p>Replaces the existing list with a new one containing elements from the Collection
                          * 
                          * @param modifierExtension
                          *     Extensions that cannot be ignored even if unrecognized
@@ -4217,9 +3869,9 @@ public class InsurancePlan extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * Type of cost (copay; individual cap; family cap; coinsurance; deductible).
-                         * </p>
+                         * 
+                         * <p>This element is required.
                          * 
                          * @param type
                          *     Type of cost
@@ -4233,9 +3885,7 @@ public class InsurancePlan extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * Whether the cost applies to in-network or out-of-network providers (in-network; out-of-network; other).
-                         * </p>
                          * 
                          * @param applicability
                          *     in-network | out-of-network | other
@@ -4249,12 +3899,9 @@ public class InsurancePlan extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * Additional information about the cost, such as information about funding sources (e.g. HSA, HRA, FSA, RRA).
-                         * </p>
-                         * <p>
-                         * Adds new element(s) to existing list
-                         * </p>
+                         * 
+                         * <p>Adds new element(s) to the existing list
                          * 
                          * @param qualifiers
                          *     Additional information about the cost
@@ -4270,12 +3917,9 @@ public class InsurancePlan extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * Additional information about the cost, such as information about funding sources (e.g. HSA, HRA, FSA, RRA).
-                         * </p>
-                         * <p>
-                         * Replaces existing list with a new one containing elements from the Collection
-                         * </p>
+                         * 
+                         * <p>Replaces the existing list with a new one containing elements from the Collection
                          * 
                          * @param qualifiers
                          *     Additional information about the cost
@@ -4289,10 +3933,8 @@ public class InsurancePlan extends DomainResource {
                         }
 
                         /**
-                         * <p>
                          * The actual cost value. (some of the costs may be represented as percentages rather than currency, e.g. 10% 
                          * coinsurance).
-                         * </p>
                          * 
                          * @param value
                          *     The actual cost value
@@ -4305,6 +3947,17 @@ public class InsurancePlan extends DomainResource {
                             return this;
                         }
 
+                        /**
+                         * Build the {@link Cost}
+                         * 
+                         * <p>Required elements:
+                         * <ul>
+                         * <li>type</li>
+                         * </ul>
+                         * 
+                         * @return
+                         *     An immutable object of type {@link Cost}
+                         */
                         @Override
                         public Cost build() {
                             return new Cost(this);

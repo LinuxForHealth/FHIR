@@ -14,7 +14,9 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.watsonhealth.fhir.model.annotation.Choice;
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
+import com.ibm.watsonhealth.fhir.model.annotation.Required;
 import com.ibm.watsonhealth.fhir.model.type.Age;
 import com.ibm.watsonhealth.fhir.model.type.Annotation;
 import com.ibm.watsonhealth.fhir.model.type.BackboneElement;
@@ -40,9 +42,7 @@ import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * <p>
  * Significant health conditions for a person related to the patient relevant in the context of care for the patient.
- * </p>
  */
 @Constraint(
     id = "fhs-1",
@@ -63,16 +63,22 @@ public class FamilyMemberHistory extends DomainResource {
     private final List<Identifier> identifier;
     private final List<Canonical> instantiatesCanonical;
     private final List<Uri> instantiatesUri;
+    @Required
     private final FamilyHistoryStatus status;
     private final CodeableConcept dataAbsentReason;
+    @Required
     private final Reference patient;
     private final DateTime date;
     private final String name;
+    @Required
     private final CodeableConcept relationship;
     private final CodeableConcept sex;
+    @Choice({Period.class, Date.class, String.class})
     private final Element born;
+    @Choice({Age.class, Range.class, String.class})
     private final Element age;
     private final Boolean estimatedAge;
+    @Choice({Boolean.class, Age.class, Range.class, Date.class, String.class})
     private final Element deceased;
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
@@ -104,10 +110,8 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * Business identifiers assigned to this family member history by the performer or other systems which remain constant as 
      * the resource is updated and propagates from server to server.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Identifier}.
@@ -117,10 +121,8 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
      * part by this FamilyMemberHistory.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Canonical}.
@@ -130,10 +132,8 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
      * whole or in part by this FamilyMemberHistory.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Uri}.
@@ -143,9 +143,7 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * A code specifying the status of the record of the family history of a specific family member.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link FamilyHistoryStatus}.
@@ -155,9 +153,7 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes why the family member's history is not available.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -167,9 +163,7 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * The person who this history concerns.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Reference}.
@@ -179,9 +173,7 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * The date (and possibly time) when the family member history was recorded or last updated.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link DateTime}.
@@ -191,9 +183,7 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * This will either be a name or a description; e.g. "Aunt Susan", "my cousin with the red hair".
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link String}.
@@ -203,9 +193,7 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * The type of relationship this person has to the patient (father, mother, brother etc.).
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -215,9 +203,7 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * The birth sex of the family member.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link CodeableConcept}.
@@ -227,9 +213,7 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * The actual or approximate date of birth of the relative.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -239,9 +223,7 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * The age of the relative at the time the family member history is recorded.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -251,9 +233,7 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * If true, indicates that the age value specified is an estimated value.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Boolean}.
@@ -263,10 +243,8 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * Deceased flag or the actual or approximate age of the relative at the time of death for the family member history 
      * record.
-     * </p>
      * 
      * @return
      *     An immutable object of type {@link Element}.
@@ -276,9 +254,7 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * Describes why the family member history occurred in coded or textual form.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link CodeableConcept}.
@@ -288,10 +264,8 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * Indicates a Condition, Observation, AllergyIntolerance, or QuestionnaireResponse that justifies this family member 
      * history event.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Reference}.
@@ -301,10 +275,8 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * This property allows a non condition-specific note to the made about the related person. Ideally, the note would be in 
      * the condition property, but this is not always possible.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -314,11 +286,9 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * The significant Conditions (or condition) that the family member had. This is a repeating section to allow a system to 
      * represent more than one condition per resource, though there is nothing stopping multiple resources - one per 
      * condition.
-     * </p>
      * 
      * @return
      *     An unmodifiable list containing immutable objects of type {@link Condition}.
@@ -474,9 +444,7 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes.
-         * </p>
          * 
          * @param id
          *     Logical id of this artifact
@@ -490,10 +458,8 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content 
          * might not always be associated with version changes to the resource.
-         * </p>
          * 
          * @param meta
          *     Metadata about the resource
@@ -507,11 +473,9 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * A reference to a set of rules that were followed when the resource was constructed, and which must be understood when 
          * processing the content. Often, this is a reference to an implementation guide that defines the special rules along 
          * with other profiles etc.
-         * </p>
          * 
          * @param implicitRules
          *     A set of rules under which this content was created
@@ -525,9 +489,7 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * The base language in which the resource is written.
-         * </p>
          * 
          * @param language
          *     Language of the resource content
@@ -541,12 +503,10 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * A human-readable narrative that contains a summary of the resource and can be used to represent the content of the 
          * resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient 
          * detail to make it "clinically safe" for a human to just read the narrative. Resource definitions may define what 
          * content should be represented in the narrative to ensure clinical safety.
-         * </p>
          * 
          * @param text
          *     Text summary of the resource, for human interpretation
@@ -560,13 +520,10 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param contained
          *     Contained, inline Resources
@@ -580,13 +537,10 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param contained
          *     Contained, inline Resources
@@ -600,15 +554,12 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -622,15 +573,12 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -644,21 +592,17 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -672,21 +616,17 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * May be used to represent additional information that is not part of the basic definition of the resource and that 
          * modifies the understanding of the element that contains it and/or the understanding of the containing element's 
          * descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and 
          * manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
          * implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the 
          * definition of the extension. Applications processing a resource are required to check for modifier extensions.
-         * </p>
-         * <p>
-         * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+         * 
+         * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -700,13 +640,10 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifiers assigned to this family member history by the performer or other systems which remain constant as 
          * the resource is updated and propagates from server to server.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param identifier
          *     External Id(s) for this record
@@ -722,13 +659,10 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * Business identifiers assigned to this family member history by the performer or other systems which remain constant as 
          * the resource is updated and propagates from server to server.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param identifier
          *     External Id(s) for this record
@@ -742,13 +676,10 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
          * part by this FamilyMemberHistory.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -764,13 +695,10 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in 
          * part by this FamilyMemberHistory.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param instantiatesCanonical
          *     Instantiates FHIR protocol or definition
@@ -784,13 +712,10 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this FamilyMemberHistory.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -806,13 +731,10 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in 
          * whole or in part by this FamilyMemberHistory.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param instantiatesUri
          *     Instantiates external protocol or definition
@@ -826,9 +748,9 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * A code specifying the status of the record of the family history of a specific family member.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param status
          *     partial | completed | entered-in-error | health-unknown
@@ -842,9 +764,7 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes why the family member's history is not available.
-         * </p>
          * 
          * @param dataAbsentReason
          *     subject-unknown | withheld | unable-to-obtain | deferred
@@ -858,9 +778,9 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * The person who this history concerns.
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param patient
          *     Patient history is about
@@ -874,9 +794,7 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * The date (and possibly time) when the family member history was recorded or last updated.
-         * </p>
          * 
          * @param date
          *     When history was recorded or last updated
@@ -890,9 +808,7 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * This will either be a name or a description; e.g. "Aunt Susan", "my cousin with the red hair".
-         * </p>
          * 
          * @param name
          *     The family member described
@@ -906,9 +822,9 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * The type of relationship this person has to the patient (father, mother, brother etc.).
-         * </p>
+         * 
+         * <p>This element is required.
          * 
          * @param relationship
          *     Relationship to the subject
@@ -922,9 +838,7 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * The birth sex of the family member.
-         * </p>
          * 
          * @param sex
          *     male | female | other | unknown
@@ -938,9 +852,14 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * The actual or approximate date of birth of the relative.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Period}</li>
+         * <li>{@link Date}</li>
+         * <li>{@link String}</li>
+         * </ul>
          * 
          * @param born
          *     (approximate) date of birth
@@ -954,9 +873,14 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * The age of the relative at the time the family member history is recorded.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Age}</li>
+         * <li>{@link Range}</li>
+         * <li>{@link String}</li>
+         * </ul>
          * 
          * @param age
          *     (approximate) age
@@ -970,9 +894,7 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * If true, indicates that the age value specified is an estimated value.
-         * </p>
          * 
          * @param estimatedAge
          *     Age is estimated?
@@ -986,10 +908,17 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * Deceased flag or the actual or approximate age of the relative at the time of death for the family member history 
          * record.
-         * </p>
+         * 
+         * <p>This is a choice element with the following allowed types:
+         * <ul>
+         * <li>{@link Boolean}</li>
+         * <li>{@link Age}</li>
+         * <li>{@link Range}</li>
+         * <li>{@link Date}</li>
+         * <li>{@link String}</li>
+         * </ul>
          * 
          * @param deceased
          *     Dead? How old/when?
@@ -1003,12 +932,9 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes why the family member history occurred in coded or textual form.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonCode
          *     Why was family member history performed?
@@ -1024,12 +950,9 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * Describes why the family member history occurred in coded or textual form.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonCode
          *     Why was family member history performed?
@@ -1043,13 +966,10 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates a Condition, Observation, AllergyIntolerance, or QuestionnaireResponse that justifies this family member 
          * history event.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param reasonReference
          *     Why was family member history performed?
@@ -1065,13 +985,10 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates a Condition, Observation, AllergyIntolerance, or QuestionnaireResponse that justifies this family member 
          * history event.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param reasonReference
          *     Why was family member history performed?
@@ -1085,13 +1002,10 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * This property allows a non condition-specific note to the made about the related person. Ideally, the note would be in 
          * the condition property, but this is not always possible.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param note
          *     General note about related person
@@ -1107,13 +1021,10 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * This property allows a non condition-specific note to the made about the related person. Ideally, the note would be in 
          * the condition property, but this is not always possible.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param note
          *     General note about related person
@@ -1127,14 +1038,11 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * The significant Conditions (or condition) that the family member had. This is a repeating section to allow a system to 
          * represent more than one condition per resource, though there is nothing stopping multiple resources - one per 
          * condition.
-         * </p>
-         * <p>
-         * Adds new element(s) to existing list
-         * </p>
+         * 
+         * <p>Adds new element(s) to the existing list
          * 
          * @param condition
          *     Condition that the related person had
@@ -1150,14 +1058,11 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * The significant Conditions (or condition) that the family member had. This is a repeating section to allow a system to 
          * represent more than one condition per resource, though there is nothing stopping multiple resources - one per 
          * condition.
-         * </p>
-         * <p>
-         * Replaces existing list with a new one containing elements from the Collection
-         * </p>
+         * 
+         * <p>Replaces the existing list with a new one containing elements from the Collection
          * 
          * @param condition
          *     Condition that the related person had
@@ -1170,6 +1075,19 @@ public class FamilyMemberHistory extends DomainResource {
             return this;
         }
 
+        /**
+         * Build the {@link FamilyMemberHistory}
+         * 
+         * <p>Required elements:
+         * <ul>
+         * <li>status</li>
+         * <li>patient</li>
+         * <li>relationship</li>
+         * </ul>
+         * 
+         * @return
+         *     An immutable object of type {@link FamilyMemberHistory}
+         */
         @Override
         public FamilyMemberHistory build() {
             return new FamilyMemberHistory(this);
@@ -1200,16 +1118,16 @@ public class FamilyMemberHistory extends DomainResource {
     }
 
     /**
-     * <p>
      * The significant Conditions (or condition) that the family member had. This is a repeating section to allow a system to 
      * represent more than one condition per resource, though there is nothing stopping multiple resources - one per 
      * condition.
-     * </p>
      */
     public static class Condition extends BackboneElement {
+        @Required
         private final CodeableConcept code;
         private final CodeableConcept outcome;
         private final Boolean contributedToDeath;
+        @Choice({Age.class, Range.class, Period.class, String.class})
         private final Element onset;
         private final List<Annotation> note;
 
@@ -1226,10 +1144,8 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * The actual condition specified. Could be a coded condition (like MI or Diabetes) or a less specific string like 
          * 'cancer' depending on how much is known about the condition and the capabilities of the creating system.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1239,10 +1155,8 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * Indicates what happened following the condition. If the condition resulted in death, deceased date is captured on the 
          * relation.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link CodeableConcept}.
@@ -1252,10 +1166,8 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * This condition contributed to the cause of death of the related person. If contributedToDeath is not populated, then 
          * it is unknown.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Boolean}.
@@ -1265,10 +1177,8 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * Either the age of onset, range of approximate age or descriptive string can be recorded. For conditions with multiple 
          * occurrences, this describes the first known occurrence.
-         * </p>
          * 
          * @return
          *     An immutable object of type {@link Element}.
@@ -1278,9 +1188,7 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * <p>
          * An area where general notes can be placed about this specific condition.
-         * </p>
          * 
          * @return
          *     An unmodifiable list containing immutable objects of type {@link Annotation}.
@@ -1379,10 +1287,8 @@ public class FamilyMemberHistory extends DomainResource {
             }
 
             /**
-             * <p>
              * Unique id for the element within a resource (for internal references). This may be any string value that does not 
              * contain spaces.
-             * </p>
              * 
              * @param id
              *     Unique id for inter-element referencing
@@ -1396,15 +1302,12 @@ public class FamilyMemberHistory extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1418,15 +1321,12 @@ public class FamilyMemberHistory extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element. To make the 
              * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1440,21 +1340,17 @@ public class FamilyMemberHistory extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1468,21 +1364,17 @@ public class FamilyMemberHistory extends DomainResource {
             }
 
             /**
-             * <p>
              * May be used to represent additional information that is not part of the basic definition of the element and that 
              * modifies the understanding of the element in which it is contained and/or the understanding of the containing 
              * element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe 
              * and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any 
              * implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the 
              * extension. Applications processing a resource are required to check for modifier extensions.
-             * </p>
-             * <p>
-             * Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
+             * 
+             * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1496,10 +1388,10 @@ public class FamilyMemberHistory extends DomainResource {
             }
 
             /**
-             * <p>
              * The actual condition specified. Could be a coded condition (like MI or Diabetes) or a less specific string like 
              * 'cancer' depending on how much is known about the condition and the capabilities of the creating system.
-             * </p>
+             * 
+             * <p>This element is required.
              * 
              * @param code
              *     Condition suffered by relation
@@ -1513,10 +1405,8 @@ public class FamilyMemberHistory extends DomainResource {
             }
 
             /**
-             * <p>
              * Indicates what happened following the condition. If the condition resulted in death, deceased date is captured on the 
              * relation.
-             * </p>
              * 
              * @param outcome
              *     deceased | permanent disability | etc.
@@ -1530,10 +1420,8 @@ public class FamilyMemberHistory extends DomainResource {
             }
 
             /**
-             * <p>
              * This condition contributed to the cause of death of the related person. If contributedToDeath is not populated, then 
              * it is unknown.
-             * </p>
              * 
              * @param contributedToDeath
              *     Whether the condition contributed to the cause of death
@@ -1547,10 +1435,16 @@ public class FamilyMemberHistory extends DomainResource {
             }
 
             /**
-             * <p>
              * Either the age of onset, range of approximate age or descriptive string can be recorded. For conditions with multiple 
              * occurrences, this describes the first known occurrence.
-             * </p>
+             * 
+             * <p>This is a choice element with the following allowed types:
+             * <ul>
+             * <li>{@link Age}</li>
+             * <li>{@link Range}</li>
+             * <li>{@link Period}</li>
+             * <li>{@link String}</li>
+             * </ul>
              * 
              * @param onset
              *     When condition first manifested
@@ -1564,12 +1458,9 @@ public class FamilyMemberHistory extends DomainResource {
             }
 
             /**
-             * <p>
              * An area where general notes can be placed about this specific condition.
-             * </p>
-             * <p>
-             * Adds new element(s) to existing list
-             * </p>
+             * 
+             * <p>Adds new element(s) to the existing list
              * 
              * @param note
              *     Extra information about condition
@@ -1585,12 +1476,9 @@ public class FamilyMemberHistory extends DomainResource {
             }
 
             /**
-             * <p>
              * An area where general notes can be placed about this specific condition.
-             * </p>
-             * <p>
-             * Replaces existing list with a new one containing elements from the Collection
-             * </p>
+             * 
+             * <p>Replaces the existing list with a new one containing elements from the Collection
              * 
              * @param note
              *     Extra information about condition
@@ -1603,6 +1491,17 @@ public class FamilyMemberHistory extends DomainResource {
                 return this;
             }
 
+            /**
+             * Build the {@link Condition}
+             * 
+             * <p>Required elements:
+             * <ul>
+             * <li>code</li>
+             * </ul>
+             * 
+             * @return
+             *     An immutable object of type {@link Condition}
+             */
             @Override
             public Condition build() {
                 return new Condition(this);
