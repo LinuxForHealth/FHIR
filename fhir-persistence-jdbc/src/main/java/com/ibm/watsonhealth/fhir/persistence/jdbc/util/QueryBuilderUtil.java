@@ -6,6 +6,7 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
@@ -27,6 +28,22 @@ public class QueryBuilderUtil {
     private static final String REFERENCE_DATE_STRING = "2018-01-01T00:00:00";
     private static final LocalDateTime REFERENCE_DATE = LocalDateTime.parse(REFERENCE_DATE_STRING);
 
+    /**
+     * convert a fully qualified or partial {@link DateTime} to an Instant suitable for
+     * use as a query parameter (i.e. eventual conversion into java.sql.Timestamp)
+     * @param dateTime
+     * @return
+     */
+    public static java.time.Instant getInstant(DateTime dateTime) {
+        if (dateTime.isPartial()) {
+            return getInstantFromPartial(dateTime.getValue());
+        }
+        else {
+            // Direct conversion because the dateTime has all the fields (including timezone)
+            return Instant.from(dateTime.getValue());
+        }
+    }
+    
     /**
      * Compute the end time to use as a range filter based on the "partialness"
      * of the given dateTime field.

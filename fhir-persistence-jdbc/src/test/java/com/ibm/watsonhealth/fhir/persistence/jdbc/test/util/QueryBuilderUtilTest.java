@@ -34,6 +34,26 @@ public class QueryBuilderUtilTest {
     }
     
     @Test
+    public void testDateTimeFull2() {
+        Instant startRef = Instant.parse("2019-01-01T00:00:00Z");
+        DateTime dt = DateTime.builder().value("2019-01-01T00:00:00Z").build();
+
+        Instant inst = QueryBuilderUtil.getInstant(dt);
+        assertEquals(startRef, inst, "getInstant failed");
+    }
+
+    @Test
+    public void testDateTimePartial() {
+        Instant startRef = Instant.parse("2019-01-01T00:00:00Z");
+        DateTime dt = DateTime.builder().value("2019-01-01").build();
+
+        // getInstant should know what to do with a partial DateTime
+        Instant inst = QueryBuilderUtil.getInstant(dt);
+        assertEquals(startRef, inst, "getInstant failed");
+    }
+
+    
+    @Test
     public void testDateTimeDay() {
         Instant startRef = Instant.parse("2018-01-01T00:00:00Z");
         Instant endRef = Instant.parse("2018-01-02T00:00:00Z");

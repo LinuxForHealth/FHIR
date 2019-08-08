@@ -36,7 +36,8 @@ import com.ibm.watsonhealth.fhir.schema.derby.DerbyFhirDatabase;
  * FHIR R4 Examples.
  * @author rarnold
  * 
- * Usage
+ * Usage 
+ *   java com.ibm.watsonhealth.fhir.persistence.jdbc.test.spec.Main
  *   --parse
  *   --validate
  *   --expectation OK
@@ -46,6 +47,12 @@ import com.ibm.watsonhealth.fhir.schema.derby.DerbyFhirDatabase;
  *   --file-name file:/path/to/bad.json
  *   --expectation VALIDATION
  *   --file-name json/ibm/minimal/Patient-1.json
+ *   
+ *   java com.ibm.watsonhealth.fhir.persistence.jdbc.test.spec.Main
+ *   --parse
+ *   --validate
+ *   --index-file file:/path/to/my/index.txt
+ * 
  */
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
