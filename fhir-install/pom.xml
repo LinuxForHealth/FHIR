@@ -21,22 +21,12 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-derby-sproc</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>fhir-operation-validate</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-operation-document</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-iam</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -93,22 +83,6 @@
                             <attach>true</attach>
                             <descriptors>
                                 <descriptor>src/main/assembly/distribution.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>fhir-server-addons</id>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <phase>package</phase>
-                        <configuration>
-                            <finalName>fhir-server-addons</finalName>
-                            <outputDirectory>${publish.dir}</outputDirectory>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <attach>false</attach>
-                            <descriptors>
-                                <descriptor>src/main/assembly/addons.xml</descriptor>
                             </descriptors>
                         </configuration>
                     </execution>

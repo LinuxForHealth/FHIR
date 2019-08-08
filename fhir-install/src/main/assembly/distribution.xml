@@ -93,17 +93,6 @@
  -->
         <dependencySet>
             <useProjectArtifact>false</useProjectArtifact>
-            <useTransitiveDependencies>true</useTransitiveDependencies>
-            <useTransitiveFiltering>true</useTransitiveFiltering>
-            <outputDirectory>fhir/server/usr/servers/fhir-server/userlib</outputDirectory>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>${project.groupId}:fhir-derby-sproc:*</include>
-            </includes>
-        </dependencySet>
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
             <outputDirectory>fhir/server/usr/shared/resources/lib/derby</outputDirectory>
             <directoryMode>0755</directoryMode>
             <fileMode>0755</fileMode>
