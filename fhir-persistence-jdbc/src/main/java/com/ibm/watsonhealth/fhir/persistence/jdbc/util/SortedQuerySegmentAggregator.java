@@ -259,9 +259,18 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         for (SortParameter sortParm: this.sortParameters) {
             sortParameterNameId = ParameterNamesCache.getParameterNameId(sortParm.getName());
             if (sortParameterNameId == null) {
-                sortParameterNameId = this.parameterDao.readOrAddParameterNameId(sortParm.getName());
-                this.parameterDao.addParameterNamesCacheCandidate(sortParm.getName(), sortParameterNameId);
+                // Only read...don't try and create the parameter name if it doesn't exist
+                sortParameterNameId = this.parameterDao.readParameterNameId(sortParm.getName());
+                if (sortParameterNameId != null) {
+                    this.parameterDao.addParameterNamesCacheCandidate(sortParm.getName(), sortParameterNameId);
+                }
+                else {
+                    sortParameterNameId = -1; // so we don't break the query syntax
+                }
             }
+            
+            // Note...the PARAMETER_NAME_ID=xxx is provided as a literal because this helps
+            // the query optimizer significantly with index range scan cardinality estimation
             joinBuffer.append(" LEFT OUTER JOIN ").append(this.getSortParameterTableName(sortParm)).append(" ")
                       .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
                       .append(ON)

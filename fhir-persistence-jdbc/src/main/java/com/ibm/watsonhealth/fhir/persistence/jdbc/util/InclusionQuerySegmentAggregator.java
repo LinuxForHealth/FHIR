@@ -265,8 +265,13 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         
         parameterNameId = ParameterNamesCache.getParameterNameId(searchParameterName);
         if (parameterNameId == null) {
-            parameterNameId = this.parameterDao.readOrAddParameterNameId(searchParameterName);
-            this.parameterDao.addParameterNamesCacheCandidate(searchParameterName, parameterNameId);
+            parameterNameId = this.parameterDao.readParameterNameId(searchParameterName);
+            if (parameterNameId != null) {
+                this.parameterDao.addParameterNamesCacheCandidate(searchParameterName, parameterNameId);
+            }
+            else {
+                parameterNameId = -1; // need a value to keep query syntax valid
+            }
         }
         
         log.exiting(CLASSNAME, METHODNAME);
