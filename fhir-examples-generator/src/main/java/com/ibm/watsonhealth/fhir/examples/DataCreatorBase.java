@@ -22,14 +22,11 @@ import com.ibm.watsonhealth.fhir.model.builder.Builder;
 import com.ibm.watsonhealth.fhir.model.resource.ExampleScenario;
 import com.ibm.watsonhealth.fhir.model.resource.GraphDefinition;
 import com.ibm.watsonhealth.fhir.model.resource.PlanDefinition;
-import com.ibm.watsonhealth.fhir.model.resource.Questionnaire;
 import com.ibm.watsonhealth.fhir.model.resource.QuestionnaireResponse;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Code;
-import com.ibm.watsonhealth.fhir.model.type.Coding;
 import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.type.Extension;
-import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.visitor.AbstractVisitable;
 
@@ -91,15 +88,7 @@ public abstract class DataCreatorBase {
      */
     public Resource createResource(Class<? extends Resource> resourceClass, int choiceIndicator) throws Exception {
         Method builderMethod = getBuilderMethod(resourceClass);
-        Class<?>[] parameterClasses = builderMethod.getParameterTypes();
-        Object[] arguments = new Object[parameterClasses.length];
-
-        for (int i = 0; i < parameterClasses.length; i++) {
-            Class<?> parameterType = parameterClasses[i];
-            arguments[i] = createArgument(resourceClass, builderMethod, parameterType, i, choiceIndicator);
-        }
-
-        Resource.Builder builder = (Resource.Builder) builderMethod.invoke(null, arguments);
+        Resource.Builder builder = (Resource.Builder) builderMethod.invoke(null);
         return (Resource) addData(builder, choiceIndicator).build();
     }
 
@@ -112,22 +101,7 @@ public abstract class DataCreatorBase {
      */
     public Element createElement(Class<? extends Element> elementClass, int choiceIndicator) throws Exception {
         Method builderMethod = getBuilderMethod(elementClass);
-        Class<?>[] parameterClasses = builderMethod.getParameterTypes();
-        Object[] arguments = new Object[parameterClasses.length];
-
-        if (parameterClasses.length == 0) {
-            // Primitive elements and other elements with no required sub-elements
-            Builder<?> builder = (Builder<?>) builderMethod.invoke(null);
-            
-            return (Element) addData(builder, choiceIndicator).build();
-        }
-
-        for (int i = 0; i < parameterClasses.length; i++) {
-            Class<?> parameterType = parameterClasses[i];
-            arguments[i] = createArgument(elementClass, builderMethod, parameterType, i, choiceIndicator);
-        }
-
-        Element.Builder builder = (Element.Builder) builderMethod.invoke(null, arguments);
+        Builder<?> builder = (Builder<?>) builderMethod.invoke(null);
         return (Element) addData(builder, choiceIndicator).build();
     }
 
@@ -239,7 +213,8 @@ public abstract class DataCreatorBase {
     }
 
     protected Element.Builder setDataAbsentReason(Element.Builder builder) {
-        Extension e = Extension.builder("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
+        Extension e = Extension.builder()
+                .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
                 .value(Code.of("unknown"))
                 .build();
         return builder.extension(e);

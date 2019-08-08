@@ -72,14 +72,10 @@ public class ExamplesPlugin extends AbstractMojo {
                 getLog().info("Setting the base dir -> " + baseDir);
                 System.setProperty("BaseDir", baseDir.getAbsolutePath());
 
-                Map<String, JsonObject> structureDefinitionMap =
-                        ExamplesGenerator.buildResourceMap(definitionsDir + "/profiles-resources.json", "StructureDefinition");
-                structureDefinitionMap.putAll(ExamplesGenerator.buildResourceMap(definitionsDir + "/profiles-types.json", "StructureDefinition"));
-
                 getLog().info("[Started] generating the examples for fhir-model");
                 ExamplesGenerator generator;
                 try {
-                    generator = new ExamplesGenerator(structureDefinitionMap);
+                    generator = new ExamplesGenerator();
                     getLog().info("Writing examples to " + targetDir);
                     generator.generate(targetDir);
                 } catch (IOException e) {

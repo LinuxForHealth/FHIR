@@ -45,6 +45,7 @@ import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.type.Id;
 import com.ibm.watsonhealth.fhir.model.type.Identifier;
 import com.ibm.watsonhealth.fhir.model.type.Instant;
+import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.Oid;
 import com.ibm.watsonhealth.fhir.model.type.QuestionnaireItemOperator;
 import com.ibm.watsonhealth.fhir.model.type.QuestionnaireItemType;
@@ -93,6 +94,11 @@ public class CompleteMockDataCreator extends DataCreatorBase {
             Class<?> parameterType = parameterClasses[0];
             // Special case to avoid infinite recursion
             if (builder instanceof Identifier.Builder && Reference.class.isAssignableFrom(parameterType)) {
+                continue;
+            }
+            // Special case for Narrative
+            if (builder instanceof Narrative.Builder && method.getName().equals("div")) {
+                ((Narrative.Builder) builder).div("<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>");
                 continue;
             }
             

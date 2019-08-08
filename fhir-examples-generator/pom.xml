@@ -3,8 +3,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <artifactId>fhir-examples-generator</artifactId>
+
     <parent>
         <groupId>com.ibm.watsonhealth.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
@@ -113,6 +114,11 @@
             <groupId>uk.co.jemos.podam</groupId>
             <artifactId>podam</artifactId>
             <version>7.2.3.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
