@@ -678,9 +678,22 @@ public class FHIRResource implements FHIRResourceHelpers {
         } catch (FHIRHttpException e) {
             return exceptionResponse(e);
         } catch (FHIROperationException e) {
-            return exceptionResponse(e);
+            // response 200 OK if no failure issue found.
+            boolean isFailure = false;
+            for (Issue issue: e.getIssues())
+            {
+                if (FHIRUtil.isFailure(issue.getSeverity())) {
+                    isFailure = true;
+                    break;
+                }
+            }
+            if (isFailure) {
+                return exceptionResponse(e);
+            } else {
+                return exceptionResponse(e, Response.Status.OK);
+            }
         } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
+            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);    
         } finally {
             log.exiting(this.getClass().getName(), "invoke(String,String,Resource)");
         }
@@ -1868,7 +1881,7 @@ public class FHIRResource implements FHIRResourceHelpers {
      */
     @SuppressWarnings("unchecked")
     public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
-        Resource resource, MultivaluedMap<String, String> queryParameters, Map<String, String> requestProperties) throws Exception {
+        Resource resource, MultivaluedMap<String, String> queryParameters, Map<String, String> requestProperties) throws FHIRHttpException, FHIROperationException, Exception {
         log.entering(this.getClass().getName(), "doInvoke");
 
         Date startTime = new Date();
@@ -1944,7 +1957,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             log.exiting(this.getClass().getName(), "doInvoke");
-        }
+        } 
     }
 
     /**

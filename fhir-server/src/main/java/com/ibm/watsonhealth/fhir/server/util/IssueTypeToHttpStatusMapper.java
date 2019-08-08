@@ -11,9 +11,9 @@ import java.util.List;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.watsonhealth.fhir.model.type.IssueType;
 
 public class IssueTypeToHttpStatusMapper {
     /**
@@ -36,7 +36,7 @@ public class IssueTypeToHttpStatusMapper {
             for (Issue issue : issues) {
                 IssueType code = issue.getCode();
                 if (code != null && code.getValue() != null) {
-                    return issueTypeToResponseCode(IssueType.ValueSet.valueOf(code.getValue()));
+                    return issueTypeToResponseCode(IssueType.ValueSet.from(code.getValue()));
                 }
             }
         }
