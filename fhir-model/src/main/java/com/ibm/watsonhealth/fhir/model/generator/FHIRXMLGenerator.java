@@ -163,12 +163,12 @@ public class FHIRXMLGenerator implements FHIRGenerator {
             try {
                 Class<?> elementType = element.getClass();
                 if (element.getId() != null) {
-                    writer.writeAttribute(FHIR_NS_URI, "id", element.getId());
+                    writer.writeAttribute("id", element.getId());
                 }
                 if (element instanceof Extension) {
                     Extension extension = (Extension) element;
                     if (extension.getUrl() != null) {
-                        writer.writeAttribute(FHIR_NS_URI, "url", extension.getUrl());
+                        writer.writeAttribute("url", extension.getUrl());
                     }
                 } else if (isPrimitiveType(elementType)) {
                     writeValue(element);
@@ -236,7 +236,7 @@ public class FHIRXMLGenerator implements FHIRGenerator {
                 }
             }
             if (value != null) {
-                writer.writeAttribute(FHIR_NS_URI, "value", value);
+                writer.writeAttribute("value", value);
             }
         }
         

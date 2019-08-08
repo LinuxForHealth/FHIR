@@ -65,7 +65,7 @@ public class FHIROperationRegistry {
         if (!issues.isEmpty()) {
             for (Issue issue : issues) {
                 log.info("Issue: " + issue.getCode().getValue() + ":" 
-            + issue.getSeverity().getValue() + ":" + issue.getDiagnostics());
+            + issue.getSeverity().getValue() + ":" + issue.getDetails().getText().getValue());
                 if (issue.getSeverity().equals(IssueSeverity.ERROR) 
                         || issue.getSeverity().equals(IssueSeverity.FATAL)) {
                     return false;
