@@ -245,5 +245,24 @@ public class ParametersUtilTest extends BaseSearchTest {
 
         assertTrue(true);
     }
+    
+    @Test
+    public void testProcessContains() {
+        String expression = "ValueSet.expansion.contains.code";
+        String result = ParametersUtil.processContains(expression);
+        assertEquals(result, "ValueSet.expansion.`contains`.code");
+        
+        expression = "ValueSet.expansion.contains";
+        result = ParametersUtil.processContains(expression);
+        assertEquals(result, "ValueSet.expansion.`contains`");
+        
+        expression = "ValueSet.expansion.contains()";
+        result = ParametersUtil.processContains(expression);
+        assertEquals(result, "ValueSet.expansion.contains()");
+        
+        expression = "ValueSet.expansion.contains().code";
+        result = ParametersUtil.processContains(expression);
+        assertEquals(result, "ValueSet.expansion.contains().code");
+    }
 
 }

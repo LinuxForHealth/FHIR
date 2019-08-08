@@ -135,7 +135,15 @@ public class SearchConstants {
      *
      */
     public enum SortDirection {
-        ASCENDING("asc"), DESCENDING("desc");
+        
+        // Issue 438: 
+        
+        // dstu2 - https://www.hl7.org/fhir/dstu2/search.html#sort
+        
+        // r4 - https://www.hl7.org/fhir/r4/search.html#sort
+        
+        ASCENDING("asc"), 
+        DESCENDING("desc");
 
         private String value = null;
 

@@ -14,7 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -55,17 +55,7 @@ public final class ParametersUtil {
     public static final String FHIR_PATH_BUNDLE_ENTRY = "entry.resource";
 
     // RESOURCE ONLY to fast lookup.
-    private static final List<String> RESOURCE_ONLY = new ArrayList<String>() {
-
-        private static final long serialVersionUID = -7505420605090233309L;
-
-        {
-            add("Binary");
-            add("Bundle");
-            add("Parameters");
-            add(SearchConstants.DOMAIN_RESOURCE_RESOURCE);
-        }
-    };
+    private static final List<String> RESOURCE_ONLY = Arrays.asList("Binary", "Bundle", "Parameters", SearchConstants.DOMAIN_RESOURCE_RESOURCE);
 
     public static final String FHIR_DEFAULT_SEARCH_PARAMETERS_FILE = "search-parameters.json";
     public static final String FROM_STEAM = "from_stream";
@@ -89,9 +79,15 @@ public final class ParametersUtil {
 
     // Unsupported Operations in FHIR Path
     public static final String OPERATION_RESOLVE = "resolve()";
-    public static final List<String> UNSUPPORTED_OPERATIONS = Collections.emptyList();
+    public static final String OPERATION_CONTAINS = ".contains";
+    private static final List<String> UNSUPPORTED_OPERATIONS = Arrays.asList(OPERATION_CONTAINS);
 
     private static final String REPLACE_RESOLVE = "(\\.where\\([\\s]{0,}resolve\\(\\)[\\s]{0,}[is]{0,2}[\\s]{0,}[\\w]{0,}\\))";
+
+    private static final String CONTAINS_EXPR = "\\.contains\\.";
+    private static final String CONTAINS_EXPR_REPLACE = ".`contains`.";
+    private static final String CONTAINS_END_EXPR = ".contains";
+    private static final String CONTAINS_END_EXPR_REPLACE = ".`contains`";
 
     private static final Map<String, Map<String, SearchParameter>> builtInSearchParameters = loadBuiltIn();
 
@@ -202,7 +198,7 @@ public final class ParametersUtil {
         // The failure is logged out.
         try {
             // The code is agnostic to format.
-            Bundle bundle = FHIRParser.parser(format).parse(stream);  
+            Bundle bundle = FHIRParser.parser(format).parse(stream);
 
             FHIRPathTree tree = FHIRPathTree.tree(bundle);
             FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
@@ -258,7 +254,7 @@ public final class ParametersUtil {
     }
 
     /**
-     * checks and warns if name and code are not equivalent. 
+     * checks and warns if name and code are not equivalent.
      * 
      * @param code
      * @param name
@@ -271,10 +267,11 @@ public final class ParametersUtil {
         // Code is the code used in the URL or the parameter name in a parameters resource for this search parameter.
         // @see https://www.hl7.org/fhir/searchparameter-definitions.html#SearchParameter.code
 
-        if (code != null && name != null && code.compareTo(name) != 0) {
-            
-            // Note, this is conditionally output, while the code assist complains it is not. 
+        if (code != null && name != null && code.compareTo(name) != 0 && log.isLoggable(Level.WARNING)) {
+
+            // Note, this is conditionally output, while the code assist complains it is not.
             log.warning(String.format(NO_MATCH_ON_NAME_CODE, code, name));
+
         }
 
     }
@@ -311,7 +308,7 @@ public final class ParametersUtil {
                 if (expressions.contains(operation)) {
                     expressionChanged = true;
                     expressions = processResolve(expressions);
-
+                    expressions = processContains(expressions);
                 }
 
             }
@@ -342,6 +339,30 @@ public final class ParametersUtil {
         String result = expressions;
         if (UNSUPPORTED_OPERATIONS.contains(OPERATION_RESOLVE) && expressions.contains(OPERATION_RESOLVE)) {
             result = expressions.replaceAll(REPLACE_RESOLVE, SearchConstants.EMPTY_QUERY_STRING).trim();
+        }
+        return result;
+    }
+
+    /**
+     * processes the issues with `ValueSet.expansion.contains.code` when the value is unescaped.
+     * 
+     * @param expressions
+     */
+    public static String processContains(String expression) {
+        String result = expression;
+        if (UNSUPPORTED_OPERATIONS.contains(OPERATION_CONTAINS)) {
+
+            result = expression.replaceAll(CONTAINS_EXPR, CONTAINS_EXPR_REPLACE);
+            
+            if(result.endsWith(CONTAINS_END_EXPR)) {
+                result = result.replace(CONTAINS_END_EXPR,  CONTAINS_END_EXPR_REPLACE);
+            }
+            
+            // Logging out details
+            if (log.isLoggable(Level.FINER)) {
+                log.finer("Not good... Expression is invalid [" + expression + "] [" + result + "]");
+            }
+
         }
         return result;
     }
@@ -433,8 +454,8 @@ public final class ParametersUtil {
      * @param out
      */
     public static void printSearchParameter(SearchParameter parameter, PrintStream out) {
-        
-        // Issue 202: Changed to code 
+
+        // Issue 202: Changed to code
         String code = parameter.getCode().getValue();
         List<ResourceType> types = parameter.getBase();
 

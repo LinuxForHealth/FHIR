@@ -73,7 +73,7 @@ public class SearchUtil {
     // Logging Strings
     private static final String EXTRACT_PARAMETERS_LOGGING = "extractParameterValues: [%s] [%s]";
     private static final String NO_TENANT_SP_MAP_LOGGING = "No tenant-specific search parameters found for tenant '%s'; trying %s ";
-    private static final String UNSUPPORTED_EXCEPTION = "Search Parameter includes an unsupported operation or bad expression : %s %s %s";
+    private static final String UNSUPPORTED_EXCEPTION = "Search Parameter includes an unsupported operation or bad expression : [%s] [%s] [%s]";
 
     // Exception Strings
     private static final String INVALID_SORT_SEARCH_EXCEPTION = "Sort parameters cannot be processed with null queryString.";
@@ -495,6 +495,7 @@ public class SearchUtil {
                 } catch (java.lang.UnsupportedOperationException | FHIRPathException uoe) {
                     // Issue 202: switched to using code
                     log.warning(String.format(UNSUPPORTED_EXCEPTION, parameter.getCode().getValue(), expression.getValue(), uoe.getMessage()));
+                    uoe.printStackTrace();
                 }
             } else { 
                 if (log.isLoggable(Level.FINER)) {
