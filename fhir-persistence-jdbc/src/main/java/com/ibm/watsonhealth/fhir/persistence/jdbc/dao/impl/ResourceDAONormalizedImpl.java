@@ -860,7 +860,12 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
                 throw new FHIRPersistenceDataAccessException("SQLException encountered while inserting Resource.", e);
             }
         }
+        catch(Exception e) {
+            log.log(Level.SEVERE, "failure inserting resource", e);
+            throw new FHIRPersistenceDataAccessException("Failure inserting Resource.", e);
+        }
         catch(Throwable e) {
+            log.log(Level.SEVERE, "failure inserting resource", e);
             throw new FHIRPersistenceDataAccessException("Failure inserting Resource.", e);
         }
         finally {

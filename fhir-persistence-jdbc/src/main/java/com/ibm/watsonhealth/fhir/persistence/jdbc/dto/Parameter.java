@@ -37,6 +37,10 @@ public class Parameter {
     private String valueCode;
     private TimeType timeType;
     
+    // We need to provide a default value for the token-system as the schema
+    // column is not null (simplifying queries)
+    public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
+    
     public enum TimeType{
         YEAR,
         YEAR_MONTH,
@@ -180,8 +184,7 @@ public class Parameter {
     
     /**
      * We know our type, so we can call the correct method on the visitor
-     * TODO although this is JDBC territory, we should probably wrap this
-     * SQLException in something application-specific
+
      * @param visitor
      */
     public void visit(IParameterVisitor visitor) throws FHIRPersistenceException {
@@ -196,15 +199,23 @@ public class Parameter {
             visitor.dateValue(name, this.valueDate, this.valueDateStart, this.valueDateEnd);
             break;
         case TOKEN:
+            if (valueSystem == null || valueSystem.isEmpty()) {
+                valueSystem = DEFAULT_TOKEN_SYSTEM;
+            }
             visitor.tokenValue(name, this.valueSystem, this.valueString);
             break;
         case QUANTITY:
-            visitor.quantityValue(name, this.valueSystem, this.valueCode, this.valueNumber, this.valueNumberLow, this.valueNumberHigh);
+            if (valueSystem == null || valueSystem.isEmpty()) {
+                valueSystem = DEFAULT_TOKEN_SYSTEM;
+            }
+            visitor.quantityValue(name, this.valueCode, this.valueSystem, this.valueNumber, this.valueNumberLow, this.valueNumberHigh);
             break;
         case REFERENCE:
-            throw new IllegalArgumentException("reference not supported here: " + name);
+            visitor.stringValue(name, this.valueString);
+            break;
         case URI:
-            throw new IllegalArgumentException("uri not supported here: " + name);
+            visitor.stringValue(name, this.valueString);
+            break;
         }
     }
 

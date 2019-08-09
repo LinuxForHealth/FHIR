@@ -50,6 +50,14 @@ public class CodeSystemDAOImpl implements CodeSystemDAO {
         this.connection = c;
     }
     
+    /**
+     * Provide subclasses with access to the {@link Connection}
+     * @return
+     */
+    protected Connection getConnection() {
+        return this.connection;
+    }
+    
     @Override
     public Map<String, Integer> readAllCodeSystems() throws FHIRPersistenceDataAccessException {
         final String METHODNAME = "readAllCodeSystems";

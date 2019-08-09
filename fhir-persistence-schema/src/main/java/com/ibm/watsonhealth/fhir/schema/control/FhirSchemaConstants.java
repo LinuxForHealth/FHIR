@@ -14,6 +14,9 @@ public class FhirSchemaConstants {
 
     // Standard connection/thread pool size
     public static final int DEFAULT_POOL_SIZE = 80;
+    
+    // Size of string columns in the search tables. DSTU2 was 511
+    public static final int MAX_SEARCH_STRING_BYTES = 1024;
 
     // The first version of every object
     public static final int INITIAL_VERSION = 1;

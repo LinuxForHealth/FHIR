@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.database.utils.derby.DerbyTranslator;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterVisitorDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
@@ -40,6 +43,15 @@ public class DerbyResourceDAO {
     private static final DerbyTranslator translator = new DerbyTranslator();
     
     private final ParameterNormalizedDAO parameterDAO;
+
+    // DAO used to obtain sequence numbers from FHIR_SEQUENCE
+    private final FhirSequenceDAO fhirSequenceDAO;
+
+    // DAO used to manage parameter_names
+    private final ParameterNameDAO parameterNameDAO;
+
+    // DAO used to manage code_systems
+    private final CodeSystemDAO codeSystemDAO;
     
     private final Connection conn;
 
@@ -51,6 +63,9 @@ public class DerbyResourceDAO {
     public DerbyResourceDAO(Connection connection, ParameterNormalizedDAO parameterDAO) {
         this.conn = connection;
         this.parameterDAO = parameterDAO;
+        this.fhirSequenceDAO = new FhirSequenceDAOImpl(connection);
+        this.parameterNameDAO = new DerbyParameterNamesDAO(connection, fhirSequenceDAO);
+        this.codeSystemDAO = new DerbyCodeSystemDAO(connection, fhirSequenceDAO);
     }
 
     /**
@@ -317,7 +332,7 @@ public class DerbyResourceDAO {
             // handle inserts of parameters directly in the resource parameter tables.
             // Note we don't get any parameters for the resource soft-delete operation
             if (parameters != null) {
-                try (ParameterVisitorDAO pvd = new ParameterVisitorDAO(conn, tablePrefix, v_resource_id, parameterDAO)) {
+                try (ParameterVisitorDAO pvd = new ParameterVisitorDAO(conn, tablePrefix, v_resource_id, parameterDAO, parameterNameDAO, codeSystemDAO)) {
                     for (Parameter p: parameters) {
                         p.visit(pvd);
                     }
@@ -403,28 +418,6 @@ public class DerbyResourceDAO {
         return result;
     }
 
-    /**
-     * Get the next value from the fhir sequence
-     * @return
-     * @throws SQLException
-     */
-    protected long nextValueFromFhirSequence() throws SQLException {
-        long result;
-        final String SEQ = "VALUES NEXT VALUE FOR fhir_sequence";
-        
-        try (PreparedStatement stmt = conn.prepareStatement(SEQ)) {
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                result = rs.getInt(1);                    
-            }
-            else {
-                // not gonna happen
-                throw new IllegalStateException("no value returned from fhir_sequence!");
-            }
-        }
-
-        return result;
-    }
 
     /**
      * stored-procedure-less implementation for managing the resource_types table
@@ -438,7 +431,7 @@ public class DerbyResourceDAO {
         // Create the resource if we don't have it already (set by the continue handler)
         if (result == null) {
             try {
-                result = (int)nextValueFromFhirSequence();
+                result = (int)fhirSequenceDAO.nextValueFromFhirSequence();
              
                 String INS = "INSERT INTO resource_types (resource_type_id, resource_type) VALUES (?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(INS)) {
@@ -458,121 +451,4 @@ public class DerbyResourceDAO {
         
         return result;
     }
-
-    /**
-     * Read the id for the named type
-     * @param resourceTypeName
-     * @return the database id, or null if the named record is not found
-     * @throws SQLException
-     */
-    protected Integer getParameterId(String parameterName) throws SQLException {
-        Integer result;
-        
-        String sql1 = "SELECT parameter_id FROM parameter_names WHERE parameter_name = ?";
-        
-        try (PreparedStatement stmt = conn.prepareStatement(sql1)) {
-            stmt.setString(1, parameterName);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                result = rs.getInt(1);
-            } 
-            else {
-                result = null;
-            }
-        }        
-        
-        return result;
-    }
-
-    /**
-     * stored-procedure-less implementation for managing the parameter_names table
-     * @param resourceTypeName
-     */
-    public int getOrCreateParameter(String parameterName) throws SQLException {
-        // As the system is concurrent, we have to handle cases where another thread
-        // might create the entry after we selected and found nothing
-        Integer result = getParameterId(parameterName);
-         
-        // Create the resource if we don't have it already (set by the continue handler)
-        if (result == null) {
-            try {
-                result = (int)nextValueFromFhirSequence();
-             
-                String INS = "INSERT INTO parameter_names (parameter_name_id, parameter_name) VALUES (?, ?)";
-                try (PreparedStatement stmt = conn.prepareStatement(INS)) {
-                    // bind parameters
-                    stmt.setInt(1, result);
-                    stmt.setString(2, parameterName);
-                    stmt.executeUpdate();
-                }
-            } catch (SQLException e) {
-                if ("23505".equals(e.getSQLState())) {
-                    // another thread snuck in and created the record, so we need to fetch the correct id
-                    result = getParameterId(parameterName);
-                }
-            }
-
-        }
-        
-        return result;
-    }
-
-    /**
-     * Read the id for the named type
-     * @param resourceTypeName
-     * @return the database id, or null if the named record is not found
-     * @throws SQLException
-     */
-    protected Integer getCodeSystemId(String codeSystem) throws SQLException {
-        Integer result;
-        
-        String sql1 = "SELECT code_system_id FROM code_systems WHERE code_system_name = ?";
-        
-        try (PreparedStatement stmt = conn.prepareStatement(sql1)) {
-            stmt.setString(1, codeSystem);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                result = rs.getInt(1);
-            } 
-            else {
-                result = null;
-            }
-        }        
-        
-        return result;
-    }
-
-    /**
-     * stored-procedure-less implementation for managing the resource_types table
-     * @param resourceTypeName
-     */
-    public int getOrCreateCodeSystem(String codeSystem) throws SQLException {
-        // As the system is concurrent, we have to handle cases where another thread
-        // might create the entry after we selected and found nothing
-        Integer result = getCodeSystemId(codeSystem);
-         
-        // Create the resource if we don't have it already (set by the continue handler)
-        if (result == null) {
-            try {
-                result = (int)nextValueFromFhirSequence();
-             
-                String INS = "INSERT INTO code_systems (code_system_id, code_system_name) VALUES (?, ?)";
-                try (PreparedStatement stmt = conn.prepareStatement(INS)) {
-                    // bind parameters
-                    stmt.setInt(1, result);
-                    stmt.setString(2, codeSystem);
-                    stmt.executeUpdate();
-                }
-            } catch (SQLException e) {
-                if ("23505".equals(e.getSQLState())) {
-                    // another thread snuck in and created the record, so we need to fetch the correct id
-                    result = getCodeSystemId(codeSystem);
-                }
-            }
-
-        }
-        
-        return result;
-    }
-
 }

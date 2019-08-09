@@ -45,6 +45,14 @@ public class ParameterNameDAOImpl implements ParameterNameDAO {
     public ParameterNameDAOImpl(Connection connection) {
         this.connection = connection;
     }
+    
+    /**
+     * Provide the connection to subclasses
+     * @return
+     */
+    protected Connection getConnection() {
+        return this.connection;
+    }
 
     @Override
     public Map<String, Integer> readAllSearchParameterNames()

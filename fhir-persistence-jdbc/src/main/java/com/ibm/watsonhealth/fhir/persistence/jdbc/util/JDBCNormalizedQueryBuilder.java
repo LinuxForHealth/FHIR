@@ -757,9 +757,9 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
                 whereClauseSegment.append(JDBCOperator.OR.value()).append(LEFT_PAREN);
             }
 
-            // NOTE: The valueDate is cloned so subsequent calendar adjustments do not affect the original valueDate
-            // object.
-            date = Date.from(QueryBuilderUtil.getInstantFromPartial(value.getValueDate().getValue()));
+            // TODO: clean up handling of date parameters in the query predicates
+            java.time.Instant inst = QueryBuilderUtil.getInstant(value.getValueDate());
+            date = Date.from(inst);
             operator = getPrefixOperator(value);
             // If the dateTime value is fully specified, go ahead and build a where clause segment for it.
             if (!value.getValueDate().isPartial()) {
