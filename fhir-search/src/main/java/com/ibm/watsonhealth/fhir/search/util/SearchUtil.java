@@ -478,11 +478,12 @@ public class SearchUtil {
             }
 
             // Process the Expression
-            // Disable the processing of composite types
+            // Disable the processing of composite and "special" types
             // <code>"type" : "composite",</code>
+            // <code>"type" : "special",</code>
             // Alternatives, which are possible, on loading the map, filter out at that time.
             SearchParamType type = parameter.getType();
-            if (expression != null && !SearchParamType.COMPOSITE.equals(type)) {
+            if (expression != null && !SearchParamType.COMPOSITE.equals(type) && !SearchParamType.SPECIAL.equals(type)) {
 
                 try {
                     Collection<FHIRPathNode> tmpResults = evaluator.evaluate(expression.getValue(), tree.getRoot());
