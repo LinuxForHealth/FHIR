@@ -30,6 +30,7 @@ import com.ibm.watsonhealth.fhir.model.type.Period;
 import com.ibm.watsonhealth.fhir.model.type.PositiveInt;
 import com.ibm.watsonhealth.fhir.model.type.Range;
 import com.ibm.watsonhealth.fhir.model.type.UnsignedInt;
+import com.ibm.watsonhealth.fhir.search.SearchConstants.Type;
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
 import com.ibm.watsonhealth.fhir.search.valuetypes.IValueTypes;
@@ -68,7 +69,7 @@ public class ValueTypesR4Impl implements IValueTypes {
         // Date Search does not support Date and Partial DateTime in a Range Search.
 
         Set<Class<?>> valueTypes = getValueTypes(resourceType, queryParm.getName());
-        return valueTypes.contains(com.ibm.watsonhealth.fhir.model.type.Date.class) || valueTypes.contains(DateTime.class)
+        return Type.TOKEN.compareTo(queryParm.getType()) == 0 || valueTypes.contains(com.ibm.watsonhealth.fhir.model.type.Date.class) || valueTypes.contains(DateTime.class)
                 || valueTypes.contains(Instant.class);
     }
 

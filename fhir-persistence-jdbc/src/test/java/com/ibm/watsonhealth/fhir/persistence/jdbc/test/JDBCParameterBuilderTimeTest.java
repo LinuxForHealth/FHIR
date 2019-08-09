@@ -50,7 +50,7 @@ public class JDBCParameterBuilderTimeTest {
         List<Parameter> parameters = builder.process(builderSP.build(), value);
         assertNotNull(parameters);
         assertFalse(parameters.isEmpty());
-        assertEquals(parameters.size(),2);
+        assertEquals(parameters.size(),1);
          
     }
     
@@ -66,7 +66,7 @@ public class JDBCParameterBuilderTimeTest {
         List<Parameter> parameters = builder.process(builderSP.build(), value);
         assertNotNull(parameters);
         assertFalse(parameters.isEmpty());
-        assertEquals(parameters.size(),2);
+        assertEquals(parameters.size(),1);
          
     }
     
@@ -82,7 +82,7 @@ public class JDBCParameterBuilderTimeTest {
         List<Parameter> parameters = builder.process(builderSP.build(), value);
         assertNotNull(parameters);
         assertFalse(parameters.isEmpty());
-        assertEquals(parameters.size(),2);
+        assertEquals(parameters.size(),1);
          
     }
     
@@ -98,7 +98,7 @@ public class JDBCParameterBuilderTimeTest {
         List<Parameter> parameters = builder.process(builderSP.build(), value);
         assertNotNull(parameters);
         assertFalse(parameters.isEmpty());
-        assertEquals(parameters.size(),2);
+        assertEquals(parameters.size(),1);
          
     }
 

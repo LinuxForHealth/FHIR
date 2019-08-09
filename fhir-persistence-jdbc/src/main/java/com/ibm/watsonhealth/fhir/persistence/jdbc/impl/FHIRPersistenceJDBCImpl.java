@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -612,25 +613,25 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
         log.entering(CLASSNAME, METHODNAME);
         
         Map<SearchParameter, List<FHIRPathNode>> map;
-        String code, type, xpath;
+        String code, type, expression;
         List<Parameter> allParameters = new ArrayList<>();
         Processor<List<Parameter>> processor = new JDBCParameterBuilder();
         
         try {
             map = SearchUtil.extractParameterValues(fhirResource);
             
-            for (SearchParameter parameter : map.keySet()) {
-                code = parameter.getCode().getValue();
-                type = parameter.getType().getValue();
-                xpath = parameter.getXpath().getValue();
+            for (Entry<SearchParameter, List<FHIRPathNode>> entry : map.entrySet()) {
+                code = entry.getKey().getCode().getValue();
+                type = entry.getKey().getType().getValue();
+                expression = entry.getKey().getExpression().getValue();
                 
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Processing SearchParameter code: " + code + ", type: " + type + ", xpath: " + xpath);
+                    log.fine("Processing SearchParameter code: " + code + ", type: " + type + ", expression: " + expression);
                 }
                 
-                List<FHIRPathNode> values = map.get(parameter);
+                List<FHIRPathNode> values = entry.getValue();
                 for (FHIRPathNode value : values) {
-                    List<Parameter> parameters = processor.process(parameter, value);
+                    List<Parameter> parameters = processor.process(entry.getKey(), value);
                     for (Parameter p : parameters) {
                         p.setType(Type.fromValue(type));
                         p.setResourceId(resourceDTO.getId());

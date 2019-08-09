@@ -131,39 +131,39 @@ public class JDBCParameterBuilder extends AbstractProcessor<List<Parameter>> {
 
         if (value instanceof FHIRPathBooleanValue) {
             FHIRPathBooleanValue v = ((FHIRPathBooleanValue) value).asBooleanValue();
-            process(parameter, v._boolean());
+            parameters.addAll(process(parameter, v._boolean()));
 
         } else if (value instanceof FHIRPathDateTimeValue) {
             FHIRPathDateTimeValue v = ((FHIRPathDateTimeValue) value).asDateTimeValue();
-            process(parameter, v.dateTime());
+            parameters.addAll(process(parameter, v.dateTime()));
 
         } else if (value instanceof FHIRPathDecimalValue) {
             FHIRPathDecimalValue v = ((FHIRPathDecimalValue) value).asDecimalValue();
-            process(parameter, v.decimal());
+            parameters.addAll(process(parameter, v.decimal()));
 
         } else if (value instanceof FHIRPathIntegerValue) {
             FHIRPathIntegerValue v = ((FHIRPathIntegerValue) value).asIntegerValue();
-            process(parameter, v.integer());
+            parameters.addAll(process(parameter, v.integer()));
 
         } else if (value instanceof FHIRPathResourceNode) {
             FHIRPathResourceNode v = value.asResourceNode();
-            processChildren(parameter, v.children(), v.path());
+            parameters.addAll(processChildren(parameter, v.children(), v.path()));
 
         } else if (value instanceof FHIRPathStringValue) {
             FHIRPathStringValue v = ((FHIRPathStringValue) value).asStringValue();
-            process(parameter, v.string());
+            parameters.addAll(process(parameter, v.string()));
 
         } else if (value instanceof FHIRPathTimeValue) {
             FHIRPathTimeValue v = ((FHIRPathTimeValue) value).asTimeValue();
-            process(parameter, v.time());
+            parameters.addAll(process(parameter, v.time()));
 
         } else if (value instanceof FHIRPathElementNode) {
             if (value instanceof FHIRPathQuantityNode) {
                 FHIRPathQuantityNode quantity = ((FHIRPathQuantityNode) value).asQuantityNode();
-                process(parameter, quantity.quantity());
+                parameters.addAll(process(parameter, quantity.quantity()));
 
             } else {
-                processChildren(parameter, value.children(), value.path());
+                parameters.addAll(processChildren(parameter, value.children(), value.path()));
             }
         } else {
             // Unknown type
