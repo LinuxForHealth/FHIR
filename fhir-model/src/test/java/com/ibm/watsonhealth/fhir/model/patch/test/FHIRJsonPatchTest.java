@@ -13,9 +13,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.time.ZoneOffset;
 import java.util.Collections;
-import java.util.Map;
 import java.util.UUID;
-import java.util.WeakHashMap;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -36,9 +34,7 @@ import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Narrative;
 import com.ibm.watsonhealth.fhir.model.type.NarrativeStatus;
 
-public class FHIRJsonPatchTest {
-    private static final Map<String, Object> map = Collections.synchronizedMap(new WeakHashMap<>());
-    
+public class FHIRJsonPatchTest {    
     public static void main(java.lang.String[] args) throws Exception {
         java.lang.String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
         
