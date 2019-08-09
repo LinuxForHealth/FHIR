@@ -1239,8 +1239,6 @@ public class FHIRResource implements FHIRResourceHelpers {
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
     
         // Pass end time the same as start time to tell cadf log service that this is a pending request.
-        // At this time point, we don't have the updated resource, so use the input resource as the updated resource in
-        // the pending request.
         RestAuditLogger.logPatch(httpServletRequest, null, startTime, startTime, Response.Status.OK);
     
         Resource newResource = null;
@@ -1255,8 +1253,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             txn.begin();
     
             // First, create the persistence event.
-            FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, null));
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, null));
             
             // Put the FHIRJsonPatch instance into the persistence event.
             event.getProperties().put(FHIRPersistenceEvent.PROPNAME_JSON_PATCH, patch);
