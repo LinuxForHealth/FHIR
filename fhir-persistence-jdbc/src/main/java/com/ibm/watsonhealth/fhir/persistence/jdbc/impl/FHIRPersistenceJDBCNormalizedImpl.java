@@ -438,7 +438,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             resourceDTO.setLastUpdated(timestamp);
             resourceDTO.setResourceType(resource.getClass().getSimpleName());
                         
-            // Serialize and compress the Resource
+            // Serialize and compress the Resource.
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             GZIPOutputStream zipStream = new GZIPOutputStream(stream);
             FHIRGenerator.generator(Format.JSON, false).generate(resource, zipStream);
