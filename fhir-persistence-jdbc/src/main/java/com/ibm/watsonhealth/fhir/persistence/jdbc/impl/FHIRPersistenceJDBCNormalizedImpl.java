@@ -418,7 +418,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             resourceBuilder.id(Id.of(logicalId));
             
             Meta meta = resource.getMeta();
-            Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
+            Meta.Builder metaBuilder = (meta == null) ? Meta.builder() : meta.toBuilder();
 
             int newVersionNumber = existingVersion + 1;
             metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
