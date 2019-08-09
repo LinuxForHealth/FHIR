@@ -351,6 +351,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     @PATCH
+    @Consumes("application/json-patch+json")
     @Path("{type}/{id}")
     public Response patch(@PathParam("type") String type, @PathParam("id") String id, JsonArray array) {
         Response.Status status;
@@ -3296,6 +3297,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                     }
 
                     Rest.Resource.SearchParam conformanceSearchParam = conformanceSearchParamBuilder.build();
+
                     conformanceSearchParams.add(conformanceSearchParam);
                 }
             }
@@ -3303,12 +3305,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             // Build the ConformanceResource for this resource type.
             Rest.Resource cr =
                     Rest.Resource.builder().type(ResourceType.of(resourceType)).profile(com.ibm.watsonhealth.fhir.model.type.Canonical.of("http://hl7.org/fhir/profiles/"
-                            + resourceType)).interaction(interactions)
-                    .conditionalCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true))
-                    .conditionalUpdate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true))
-                    .updateCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(isUpdateCreateEnabled()))
-                    .conditionalDelete(ConditionalDeleteStatus.of(ConditionalDeleteStatus.ValueSet.SINGLE))
-                    .build();
+                            + resourceType)).interaction(interactions).conditionalCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true)).conditionalUpdate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true)).conditionalCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(isUpdateCreateEnabled())).conditionalDelete(ConditionalDeleteStatus.of(ConditionalDeleteStatus.ValueSet.SINGLE)).build();
 
             resources.add(cr);
         }

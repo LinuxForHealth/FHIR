@@ -24,6 +24,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.json.JsonObject;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
+import javax.ws.rs.RuntimeType;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -45,6 +46,7 @@ import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.type.BundleType;
 import com.ibm.watsonhealth.fhir.model.resource.Parameters;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
+import com.ibm.watsonhealth.fhir.provider.FHIRJsonPatchProvider;
 import com.ibm.watsonhealth.fhir.provider.FHIRJsonProvider;
 import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
 import com.ibm.watsonhealth.fhir.core.MediaType;
@@ -788,7 +790,10 @@ public class FHIRClientImpl implements FHIRClient {
      */
     protected synchronized Client getClient() throws Exception {
         if (client == null) {
-            ClientBuilder cb = ClientBuilder.newBuilder().register(new FHIRProvider()).register(new FHIRJsonProvider());
+            ClientBuilder cb = ClientBuilder.newBuilder()
+                    .register(new FHIRProvider())
+                    .register(new FHIRJsonProvider())
+                    .register(new FHIRJsonPatchProvider(RuntimeType.CLIENT));
 
             // Add support for basic auth if enabled.
             if (isBasicAuthEnabled()) {

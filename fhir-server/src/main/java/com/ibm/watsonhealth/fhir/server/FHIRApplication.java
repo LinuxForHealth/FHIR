@@ -10,10 +10,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.ws.rs.RuntimeType;
 import javax.ws.rs.core.Application;
 
 import com.ibm.watsonhealth.fhir.provider.FHIRJsonProvider;
-import com.ibm.watsonhealth.fhir.provider.FHIRJsonPatchReader;
+import com.ibm.watsonhealth.fhir.provider.FHIRJsonPatchProvider;
 import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
 import com.ibm.watsonhealth.fhir.server.resources.FHIRResource;
 
@@ -54,7 +55,7 @@ public class FHIRApplication extends Application {
                 singletons = new HashSet<Object>();
                 singletons.add(new FHIRProvider());
                 singletons.add(new FHIRJsonProvider());
-                singletons.add(new FHIRJsonPatchReader());
+                singletons.add(new FHIRJsonPatchProvider(RuntimeType.SERVER));
             }
             return singletons;
         } finally {
