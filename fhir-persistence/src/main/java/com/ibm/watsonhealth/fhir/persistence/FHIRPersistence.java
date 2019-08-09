@@ -67,6 +67,18 @@ public interface FHIRPersistence {
     Resource update(FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException;
     
     /**
+     * Patches an existing FHIR Resource using the patch passed in the context.
+     * @param context the FHIRPersistenceContext instance associated with the current request
+     * @param resourceType the type of FHIR Resource to be patched
+     * @param logicalId the logical id of the FHIR Resource to be patched
+     * @return a copy of resource with fields updated by the persistence layer
+     * @throws FHIRPersistenceException
+     */
+    default Resource patch(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException {
+        throw new FHIRPersistenceNotSupportedException("The 'patch' operation is not supported by this persistence implementation");
+    }
+    
+    /**
      * Deletes the specified FHIR Resource from the datastore.
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resourceType The type of FHIR Resource to be deleted.

@@ -12,21 +12,27 @@ import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_E
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_REPL_INTERCEPTOR_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
 import javax.naming.InitialContext;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.xml.bind.JAXBException;
@@ -38,12 +44,16 @@ import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
+import com.ibm.watsonhealth.fhir.model.patch.FHIRJsonPatch;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.Id;
 import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
+import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
+import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
@@ -51,6 +61,7 @@ import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
@@ -84,6 +95,8 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
     
     private static final String CLASSNAME = FHIRPersistenceJDBCNormalizedImpl.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
+    
+    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
     
     public static final String TRX_SYNCH_REG_JNDI_NAME = "java:comp/TransactionSynchronizationRegistry";
     
@@ -358,6 +371,115 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
         }
         
         return resource;
+    }
+    
+    /* (non-Javadoc)
+     * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#patch(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class, java.lang.String)
+     */
+    @Override
+    public Resource patch(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException {
+        final String METHODNAME = "patch";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource existingResourceDTO;
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        
+        Resource resource = null;
+        
+        try {
+            // Assume we have no existing resource.
+            int existingVersion;
+
+            log.fine("Fetching 'previous' resource for update.");
+            existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
+            if (existingResourceDTO != null) {
+                existingVersion = existingResourceDTO.getVersionId();
+            } else {
+                String msg = "Resource '" + resourceType.getSimpleName() + "/" + logicalId + " not found.";
+                throw new FHIRPersistenceResourceNotFoundException(msg);
+            }
+            
+            InputStream in = new GZIPInputStream(new ByteArrayInputStream(existingResourceDTO.getData()));
+            
+            // Parse the raw data bytes into a JsonObject.
+            JsonReader reader = JSON_READER_FACTORY.createReader(in);
+            JsonObject object = reader.readObject();
+            
+            in.close();
+            
+            // Get the patch object from the persistence context.
+            FHIRJsonPatch patch = (FHIRJsonPatch) context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_JSON_PATCH);
+            if (patch == null) {
+                throw new FHIRPersistenceException("Patch was not found");
+            }
+            
+            // Apply the patch and create an updated resource.
+            resource = patch.apply(object);
+            
+            // Validate the resource after patching.
+            List<Issue> issues = FHIRValidator.validator(resource).validate();
+            if (!issues.isEmpty() && issues.stream().anyMatch(i -> FHIRUtil.isFailure(i.getSeverity()))) {
+                throw new FHIRPersistenceException("Resource after patching was not valid").withIssue(issues);
+            }
+            
+            // Convert the resource to a builder so that we can update its Resource.meta elements.
+            Resource.Builder resultBuilder = resource.toBuilder();
+            
+            // Bump up the existing version # to get the new version.
+            int newVersionNumber = existingVersion + 1;
+            
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Updating FHIR Resource '" + resourceType.getSimpleName() + "/" + logicalId + "', version=" + existingVersion);
+            }
+            
+            Instant lastUpdated = Instant.now(ZoneOffset.UTC);
+            
+            // Set the resource id and meta fields.
+            resultBuilder.id(Id.of(logicalId));
+            Meta meta = resource.getMeta();
+            Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
+            metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
+            metaBuilder.lastUpdated(lastUpdated);
+            resultBuilder.meta(metaBuilder.build());
+            
+            resource = resultBuilder.build();
+            
+            // Create the new Resource DTO instance.
+            com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
+            resourceDTO.setLogicalId(logicalId);
+            resourceDTO.setVersionId(newVersionNumber);
+            Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
+            resourceDTO.setLastUpdated(timestamp);
+            resourceDTO.setResourceType(resource.getClass().getSimpleName());
+                        
+            // Serialize and compress the Resource
+            GZIPOutputStream zipStream = new GZIPOutputStream(stream);
+            FHIRGenerator.generator(Format.JSON, false).generate(resource, zipStream);
+            zipStream.finish();
+            resourceDTO.setData(stream.toByteArray());
+            zipStream.close();
+            
+            // Persist the Resource DTO.
+            this.getResourceDao().setPersistenceContext(context);
+            this.getResourceDao().insert(resourceDTO, this.extractSearchParameters(resource, resourceDTO), this.parameterDao);
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+                            + ", version=" + resourceDTO.getVersionId());
+            }
+            
+            return resource;
+        } catch(FHIRPersistenceFKVException e) {
+            log.log(Level.SEVERE, this.performCacheDiagnostics());
+            throw e;
+        } catch(FHIRPersistenceException e) {
+            throw e;
+        } catch(Throwable e) {
+            String msg = "Unexpected error while performing a patch operation.";
+            log.log(Level.SEVERE, msg, e);
+            throw new FHIRPersistenceException(msg, e);
+        } finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
     }
 
     /* (non-Javadoc)
@@ -775,7 +897,7 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
         Map<SearchParameter, List<FHIRPathNode>> map;
         String code;
         String type;
-        String expression;
+        String xpath;
         
         List<Parameter> allParameters = new ArrayList<>();
         Processor<List<Parameter>> processor = new JDBCParameterBuilder();
@@ -783,19 +905,20 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
         try {
             map = SearchUtil.extractParameterValues(fhirResource);
             
-            for (Entry<SearchParameter, List<FHIRPathNode>> entry : map.entrySet()) {
-                 
-                code = entry.getKey().getCode().getValue();
-                type = entry.getKey().getType().getValue();
-                expression = entry.getKey().getExpression().getValue();
+            for (SearchParameter parameter : map.keySet()) {
+                
+                // Issue 202: changed to code. 
+                code = parameter.getCode().getValue();
+                type = parameter.getType().getValue();
+                xpath = parameter.getXpath().getValue();
                 
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Processing SearchParameter code: " + code + ", type: " + type + ", expression: " + expression);
+                    log.fine("Processing SearchParameter code: " + code + ", type: " + type + ", xpath: " + xpath);
                 }
                 
-                List<FHIRPathNode> values = entry.getValue();
+                List<FHIRPathNode> values = map.get(parameter);
                 for (Object value : values) {
-                    List<Parameter> parameters = processor.process(entry.getKey(), value);
+                    List<Parameter> parameters = processor.process(parameter, value);
                     for (Parameter p : parameters) {
                         p.setType(Type.fromValue(type));
                         p.setResourceId(resourceDTO.getId());

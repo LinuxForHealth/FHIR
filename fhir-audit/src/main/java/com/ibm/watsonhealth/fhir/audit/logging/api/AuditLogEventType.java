@@ -16,6 +16,8 @@ public enum AuditLogEventType {
     FHIR_CREATE("fhir-create"), 
     
     FHIR_UPDATE("fhir-update"), 
+    
+    FHIR_PATCH("fhir-patch"), 
 
     FHIR_DELETE("fhir-delete"), 
     

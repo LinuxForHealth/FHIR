@@ -114,6 +114,11 @@ public class FHIRPersistenceEvent {
      * consumer component in order to store a replicated resource.
      */
     public static final String PROPNAME_REPLICATION_CONTEXT = "REPLICATION_CONTEXT";
+
+    /**
+     * This property holds the FHIRJsonPatch instance associated with the request.
+     */
+    public static final String PROPNAME_JSON_PATCH = "JSON_PATCH";
     
     private Resource fhirResource;
     private Resource prevFhirResource = null;

@@ -109,6 +109,18 @@ public class FHIRPersistenceInterceptorMgr {
             interceptor.afterUpdate(event);
         }
     }
+    
+    public void fireBeforePatchEvent(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        for (FHIRPersistenceInterceptor interceptor : interceptors) {
+            interceptor.beforePatch(event);
+        }
+    }
+
+    public void fireAfterPatchEvent(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        for (FHIRPersistenceInterceptor interceptor : interceptors) {
+            interceptor.afterPatch(event);
+        }
+    }
 
     public void fireBeforeDeleteEvent(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         for (FHIRPersistenceInterceptor interceptor : interceptors) {

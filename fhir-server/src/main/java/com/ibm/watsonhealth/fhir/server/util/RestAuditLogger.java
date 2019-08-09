@@ -35,17 +35,14 @@ import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.model.resource.Basic;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle.Entry;
-import com.ibm.watsonhealth.fhir.model.resource.DomainResource;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Code;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.type.Coding;
 import com.ibm.watsonhealth.fhir.model.type.HTTPVerb;
-import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Id;
-import com.ibm.watsonhealth.fhir.model.resource.Resource;
-import com.ibm.watsonhealth.fhir.model.resource.Resource.Builder;
+import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
  * This class provides convenience methods for FHIR Rest services that need to write FHIR audit log entries.
@@ -109,6 +106,32 @@ public class RestAuditLogger {
         
         entry.getContext().setAction("U");
         entry.setDescription("FHIR Update request");
+                
+        auditLogSvc.logEntry(entry);
+        log.exiting(CLASSNAME, METHODNAME);
+    }
+    
+    /**
+     * Builds an audit log entry for an 'patch' REST service invocation.
+     * @param request - The HttpServletRequest representation of the REST request.
+     * @param oldResource - The previous version of the Resource, before it was updated.
+     * @param newResource - The updated version of the Resource.
+     * @param startTime - The start time of the update request execution.
+     * @param endTime - The end time of the update request execution.
+     * @param responseStatus - The response status.
+     * @throws Exception 
+     */
+    public static void logPatch(HttpServletRequest request, Resource resource, Date startTime, Date endTime, 
+                                 Response.Status responseStatus) throws Exception {
+        final String METHODNAME = "logPatch";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
+        AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_PATCH);
+        populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
+        
+        entry.getContext().setAction("U");
+        entry.setDescription("FHIR Patch request");
                 
         auditLogSvc.logEntry(entry);
         log.exiting(CLASSNAME, METHODNAME);

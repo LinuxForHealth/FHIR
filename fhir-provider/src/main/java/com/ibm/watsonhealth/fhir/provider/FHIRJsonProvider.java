@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.provider;
 
+import java.io.FilterInputStream;
+import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -15,20 +17,21 @@ import java.util.logging.Logger;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.ws.rs.ConstrainedTo;
+import javax.json.JsonReaderFactory;
+import javax.json.JsonWriterFactory;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
-import javax.ws.rs.RuntimeType;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 
-@ConstrainedTo(RuntimeType.CLIENT)
 @Produces({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
 @Consumes({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
 public class FHIRJsonProvider implements MessageBodyReader<JsonObject>, MessageBodyWriter<JsonObject> {
+    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
+    private static final JsonWriterFactory JSON_WRITER_FACTORY = Json.createWriterFactory(null);
     private static final Logger log = Logger.getLogger(FHIRJsonProvider.class.getName());
 
     @Override
@@ -41,7 +44,12 @@ public class FHIRJsonProvider implements MessageBodyReader<JsonObject>, MessageB
         MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "readFrom");
         try {
-            return Json.createReader(entityStream).readObject();
+            return JSON_READER_FACTORY.createReader(new FilterInputStream(entityStream) {
+                @Override
+                public void close() {
+                    // do nothing
+                }
+            }).readObject();
         } catch (Exception e) {
             throw new WebApplicationException(e);
         } finally {
@@ -59,7 +67,12 @@ public class FHIRJsonProvider implements MessageBodyReader<JsonObject>, MessageB
         MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "writeTo");
         try {
-            Json.createWriter(entityStream).writeObject(t);
+            JSON_WRITER_FACTORY.createWriter(new FilterOutputStream(entityStream) {
+                @Override
+                public void close() {
+                    // do nothing
+                }
+            }).writeObject(t);
         } catch (Exception e) {
             throw new WebApplicationException(e);
         } finally {

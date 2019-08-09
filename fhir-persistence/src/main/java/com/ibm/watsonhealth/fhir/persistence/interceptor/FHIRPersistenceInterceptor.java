@@ -57,6 +57,28 @@ public interface FHIRPersistenceInterceptor {
      */
     default void afterUpdate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
     }
+    
+    /**
+     * This method is called during the processing of an 'patch' REST API invocation, immediately before the updated
+     * resource is stored by the persistence layer.
+     * 
+     * @param event
+     *            information about the 'patch' event
+     * @throws FHIRPersistenceInterceptorException
+     */
+    default void beforePatch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+    }
+
+    /**
+     * This method is called during the processing of an 'patch' REST API invocation, immediately after the updated
+     * resource has been stored by the persistence layer.
+     * 
+     * @param event
+     *            information about the 'patch' event
+     * @throws FHIRPersistenceInterceptorException
+     */
+    default void afterPatch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+    }
 
     /**
      * This method is called during the processing of a 'delete' REST API invocation, immediately before the 

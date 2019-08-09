@@ -154,7 +154,6 @@ public final class ValidationSupport {
 
     public static void requireValueOrChildren(Element element) {
         if (!element.hasValue() && !element.hasChildren()) {
-            System.out.println();
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }

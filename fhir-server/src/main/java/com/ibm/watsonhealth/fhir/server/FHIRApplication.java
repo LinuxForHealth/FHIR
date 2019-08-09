@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.Application;
 
 import com.ibm.watsonhealth.fhir.provider.FHIRJsonProvider;
+import com.ibm.watsonhealth.fhir.provider.FHIRJsonPatchReader;
 import com.ibm.watsonhealth.fhir.provider.FHIRProvider;
 import com.ibm.watsonhealth.fhir.server.resources.FHIRResource;
 
@@ -53,6 +54,7 @@ public class FHIRApplication extends Application {
                 singletons = new HashSet<Object>();
                 singletons.add(new FHIRProvider());
                 singletons.add(new FHIRJsonProvider());
+                singletons.add(new FHIRJsonPatchReader());
             }
             return singletons;
         } finally {
