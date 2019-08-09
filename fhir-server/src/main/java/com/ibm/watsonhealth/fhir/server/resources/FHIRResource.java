@@ -39,7 +39,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.json.JsonArray;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -70,7 +69,6 @@ import com.ibm.watsonhealth.fhir.core.context.FHIRPagingContext;
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
-import com.ibm.watsonhealth.fhir.model.patch.FHIRJsonPatch;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement;
 import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement.Rest;
@@ -129,7 +127,6 @@ import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
 import com.ibm.watsonhealth.fhir.search.parameters.ParameterValue;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
 import com.ibm.watsonhealth.fhir.server.FHIRBuildIdentifier;
-import com.ibm.watsonhealth.fhir.server.annotation.PATCH;
 import com.ibm.watsonhealth.fhir.server.exception.FHIRHttpException;
 import com.ibm.watsonhealth.fhir.server.exception.FHIRRestBundledRequestException;
 import com.ibm.watsonhealth.fhir.server.exception.FHIRVirtualResourceTypeException;
@@ -293,7 +290,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             log.exiting(this.getClass().getName(), "update(String,String,Resource)");
         }
     }
-    
+
     @PUT
     @Path("{type}")
     public Response conditionalUpdate(@PathParam("type") String type, Resource resource) {
@@ -350,38 +347,6 @@ public class FHIRResource implements FHIRResourceHelpers {
         }
     }
 
-    @PATCH
-    @Path("{type}/{id}")
-    public Response patch(@PathParam("type") String type, @PathParam("id") String id, JsonArray array) {
-        Response.Status status;
-        
-        log.entering(this.getClass().getName(), "patch(String,String,Resource)");
-        FHIRRestOperationResponse ior;
-        try {
-            checkInitComplete();
-            
-            FHIRJsonPatch patch = new FHIRJsonPatch(array);
-            ior = doPatch(type, id, patch);
-            
-            ResponseBuilder response = Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
-            status = ior.getStatus();
-            response.status(status);
-            response = addHeaders(response, ior.getResource());
-            
-            return response.build();
-        } catch (FHIRPersistenceResourceNotFoundException e) {
-            return exceptionResponse(e, Response.Status.METHOD_NOT_ALLOWED);
-        } catch (FHIRHttpException e) {
-            return exceptionResponse(e);
-        } catch (FHIROperationException e) {
-            return exceptionResponse(e);
-        } catch (Exception e) {
-            return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
-        } finally {
-            log.exiting(this.getClass().getName(), "patch(String,String,Resource)");
-        }
-    }
-    
     @DELETE
     @Path("{type}/{id}")
     public Response delete(@PathParam("type") String type, @PathParam("id") String id) throws Exception {
@@ -1220,101 +1185,6 @@ public class FHIRResource implements FHIRResourceHelpers {
                 }
             }
             log.exiting(this.getClass().getName(), "doUpdate");
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public FHIRRestOperationResponse doPatch(String type, String id, FHIRJsonPatch patch) throws Exception {
-        log.entering(this.getClass().getName(), "doPatch");
-    
-        FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
-        Date startTime = new Date();
-        Response.Status status = null;
-        String errMsg = "Caught exception while processing 'patch' request.";
-    
-        // Save the current request context.
-        FHIRRequestContext requestContext = FHIRRequestContext.get();
-    
-        FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
-    
-        // Pass end time the same as start time to tell cadf log service that this is a pending request.
-        RestAuditLogger.logPatch(httpServletRequest, null, startTime, startTime, Response.Status.OK);
-    
-        Resource newResource = null;
-        try {
-            // Make sure an id value was passed in.
-            if (id == null) {
-                String msg = "The 'id' parameter is required for a patch operation.";
-                throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.REQUIRED);
-            }
-    
-            // Start a new txn in the persistence layer if one is not already active.
-            txn.begin();
-    
-            // First, create the persistence event.
-            FHIRPersistenceEvent event = new FHIRPersistenceEvent(null, buildPersistenceEventProperties(type, id, null, null));
-            
-            // Put the FHIRJsonPatch instance into the persistence event.
-            event.getProperties().put(FHIRPersistenceEvent.PROPNAME_JSON_PATCH, patch);
-            
-            // Next, set the "previous resource" in the persistence event.
-            event.setPrevFhirResource(ior.getPrevResource());
-    
-            getInterceptorMgr().fireBeforePatchEvent(event);
-    
-            FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
-            newResource = getPersistenceImpl().patch(persistenceContext, (Class<? extends Resource>) FHIRUtil.getResourceType(type), id);
-            ior.setResource(newResource);
-    
-            // Build our location URI and add it to the interceptor event structure since it is now known.
-            ior.setLocationURI(FHIRUtil.buildLocationURI(type, newResource));
-            event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, ior.getLocationURI().toString());
-    
-            // Invoke the 'afterPatch' interceptor methods.
-            ior.setStatus(Response.Status.OK);
-            getInterceptorMgr().fireAfterPatchEvent(event);
-    
-            // Commit our transaction if we started one before.
-            txn.commit();
-            txn = null;
-            status = ior.getStatus();
-    
-            return ior;
-        } catch (FHIRPersistenceResourceNotFoundException e) {
-            log.log(Level.SEVERE, errMsg, e);
-            status = Response.Status.METHOD_NOT_ALLOWED;
-            throw e;
-        } catch (FHIRHttpException e) {
-            log.log(Level.SEVERE, errMsg, e);
-            status = e.getHttpStatus();
-            throw e;
-        } catch (FHIROperationException e) {
-            log.log(Level.SEVERE, errMsg, e);
-            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
-            throw e;
-        } catch (Throwable t) {
-            log.log(Level.SEVERE, errMsg, t);
-            status = Response.Status.INTERNAL_SERVER_ERROR;
-            throw t;
-        } finally {
-            // Restore the original request context.
-            FHIRRequestContext.set(requestContext);
-    
-            // If we still have a transaction at this point, we need to rollback due to an error.
-            if (txn != null) {
-                txn.rollback();
-            }
-    
-            // Now Audit log the final status of the request,
-            // if fails to log, then log the error in local log file and ignore.
-            try {
-                RestAuditLogger.logPatch(httpServletRequest, newResource, startTime, new Date(), status);
-            } catch (Exception e) {
-                log.log(Level.INFO, errMsg, e);
-            }
-            
-            log.exiting(this.getClass().getName(), "doPatch");
         }
     }
 
@@ -3298,7 +3168,6 @@ public class FHIRResource implements FHIRResourceHelpers {
                     }
 
                     Rest.Resource.SearchParam conformanceSearchParam = conformanceSearchParamBuilder.build();
-
                     conformanceSearchParams.add(conformanceSearchParam);
                 }
             }
@@ -3306,7 +3175,12 @@ public class FHIRResource implements FHIRResourceHelpers {
             // Build the ConformanceResource for this resource type.
             Rest.Resource cr =
                     Rest.Resource.builder().type(ResourceType.of(resourceType)).profile(com.ibm.watsonhealth.fhir.model.type.Canonical.of("http://hl7.org/fhir/profiles/"
-                            + resourceType)).interaction(interactions).conditionalCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true)).conditionalUpdate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true)).conditionalCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(isUpdateCreateEnabled())).conditionalDelete(ConditionalDeleteStatus.of(ConditionalDeleteStatus.ValueSet.SINGLE)).build();
+                            + resourceType)).interaction(interactions)
+                    .conditionalCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true))
+                    .conditionalUpdate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true))
+                    .updateCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(isUpdateCreateEnabled()))
+                    .conditionalDelete(ConditionalDeleteStatus.of(ConditionalDeleteStatus.ValueSet.SINGLE))
+                    .build();
 
             resources.add(cr);
         }
