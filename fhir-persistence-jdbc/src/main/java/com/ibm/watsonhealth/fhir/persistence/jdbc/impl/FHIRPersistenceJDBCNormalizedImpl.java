@@ -381,17 +381,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
         final String METHODNAME = "patch";
         log.entering(CLASSNAME, METHODNAME);
         
-        com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource existingResourceDTO;
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        
-        Resource resource = null;
-        
         try {
-            // Assume we have no existing resource.
+            // Fetch existing resource for patch.
             int existingVersion;
-
-            log.fine("Fetching 'previous' resource for update.");
-            existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
+            com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
             if (existingResourceDTO != null) {
                 existingVersion = existingResourceDTO.getVersionId();
             } else {
@@ -399,60 +392,54 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
                 throw new FHIRPersistenceResourceNotFoundException(msg);
             }
             
-            InputStream in = new GZIPInputStream(new ByteArrayInputStream(existingResourceDTO.getData()));
-            
             // Parse the raw data bytes into a JsonObject.
+            InputStream in = new GZIPInputStream(new ByteArrayInputStream(existingResourceDTO.getData()));
             JsonReader reader = JSON_READER_FACTORY.createReader(in);
             JsonObject object = reader.readObject();
-            
             in.close();
             
             // Get the patch object from the persistence context.
             FHIRJsonPatch patch = (FHIRJsonPatch) context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_JSON_PATCH);
             if (patch == null) {
-                throw new FHIRPersistenceException("Patch was not found");
+                throw new FHIRPersistenceException("Patch was not found.");
             }
             
             // Apply the patch and create an updated resource.
-            resource = patch.apply(object);
+            Resource resource = patch.apply(object);
             
             // Validate the resource after patching.
             List<Issue> issues = FHIRValidator.validator(resource).validate();
-            if (!issues.isEmpty() && issues.stream().anyMatch(i -> FHIRUtil.isFailure(i.getSeverity()))) {
-                throw new FHIRPersistenceException("Resource after patching was not valid").withIssue(issues);
+            if (issues.stream().anyMatch(issue -> FHIRUtil.isFailure(issue.getSeverity()))) {
+                throw new FHIRPersistenceException("Resource after patching was not valid.").withIssue(issues);
             }
             
-            // Convert the resource to a builder so that we can update its Resource.meta elements.
-            Resource.Builder resultBuilder = resource.toBuilder();
+            // Convert the resource to a builder and update its Resource.id and meta elements.
+            Resource.Builder resourceBuilder = resource.toBuilder();
+            resourceBuilder.id(Id.of(logicalId));
             
-            // Bump up the existing version # to get the new version.
-            int newVersionNumber = existingVersion + 1;
-            
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("Updating FHIR Resource '" + resourceType.getSimpleName() + "/" + logicalId + "', version=" + existingVersion);
-            }
-            
-            Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-            
-            // Set the resource id and meta fields.
-            resultBuilder.id(Id.of(logicalId));
             Meta meta = resource.getMeta();
             Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
+
+            int newVersionNumber = existingVersion + 1;
             metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
-            metaBuilder.lastUpdated(lastUpdated);
-            resultBuilder.meta(metaBuilder.build());
             
-            resource = resultBuilder.build();
+            Instant lastUpdated = Instant.now(ZoneOffset.UTC);
+            metaBuilder.lastUpdated(lastUpdated);
+            resourceBuilder.meta(metaBuilder.build());
+            
+            resource = resourceBuilder.build();
             
             // Create the new Resource DTO instance.
             com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
             resourceDTO.setLogicalId(logicalId);
             resourceDTO.setVersionId(newVersionNumber);
+            
             Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
             resourceDTO.setLastUpdated(timestamp);
             resourceDTO.setResourceType(resource.getClass().getSimpleName());
                         
             // Serialize and compress the Resource
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
             GZIPOutputStream zipStream = new GZIPOutputStream(stream);
             FHIRGenerator.generator(Format.JSON, false).generate(resource, zipStream);
             zipStream.finish();
@@ -463,10 +450,10 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
             this.getResourceDao().setPersistenceContext(context);
             this.getResourceDao().insert(resourceDTO, this.extractSearchParameters(resource, resourceDTO), this.parameterDao);
             if (log.isLoggable(Level.FINE)) {
-                log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
-                            + ", version=" + resourceDTO.getVersionId());
+                log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId() + ", version=" + resourceDTO.getVersionId());
             }
             
+            // Return the updated resource.
             return resource;
         } catch(FHIRPersistenceFKVException e) {
             log.log(Level.SEVERE, this.performCacheDiagnostics());
