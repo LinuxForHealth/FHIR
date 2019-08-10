@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 import com.ibm.watsonhealth.database.utils.derby.DerbyTranslator;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
@@ -44,8 +45,11 @@ public class DerbyResourceDAO {
     
     private final ParameterNormalizedDAO parameterDAO;
 
-    // DAO used to obtain sequence numbers from FHIR_SEQUENCE
+    // DAO used to obtain sequence values from FHIR_SEQUENCE
     private final FhirSequenceDAO fhirSequenceDAO;
+
+    // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
+    private final FhirRefSequenceDAO fhirRefSequenceDAO;
 
     // DAO used to manage parameter_names
     private final ParameterNameDAO parameterNameDAO;
@@ -64,8 +68,9 @@ public class DerbyResourceDAO {
         this.conn = connection;
         this.parameterDAO = parameterDAO;
         this.fhirSequenceDAO = new FhirSequenceDAOImpl(connection);
-        this.parameterNameDAO = new DerbyParameterNamesDAO(connection, fhirSequenceDAO);
-        this.codeSystemDAO = new DerbyCodeSystemDAO(connection, fhirSequenceDAO);
+        this.fhirRefSequenceDAO = new FhirRefSequenceDAOImpl(connection);
+        this.parameterNameDAO = new DerbyParameterNamesDAO(connection, fhirRefSequenceDAO);
+        this.codeSystemDAO = new DerbyCodeSystemDAO(connection, fhirRefSequenceDAO);
     }
 
     /**
@@ -431,7 +436,7 @@ public class DerbyResourceDAO {
         // Create the resource if we don't have it already (set by the continue handler)
         if (result == null) {
             try {
-                result = (int)fhirSequenceDAO.nextValueFromFhirSequence();
+                result = fhirRefSequenceDAO.nextValue();
              
                 String INS = "INSERT INTO resource_types (resource_type_id, resource_type) VALUES (?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(INS)) {

@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.CodeSystemDAOImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
@@ -22,16 +22,16 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataA
  *
  */
 public class DerbyCodeSystemDAO extends CodeSystemDAOImpl {
-    private final FhirSequenceDAO fhirSequenceDAO;
+    private final FhirRefSequenceDAO fhirRefSequenceDAO;
 
     /**
      * Public constructor
      * @param c
      * @param fsd
      */
-    public DerbyCodeSystemDAO(Connection c, FhirSequenceDAO fsd) {
+    public DerbyCodeSystemDAO(Connection c, FhirRefSequenceDAO fsd) {
         super(c);
-        this.fhirSequenceDAO = fsd;
+        this.fhirRefSequenceDAO = fsd;
     }
     
     @Override
@@ -43,7 +43,7 @@ public class DerbyCodeSystemDAO extends CodeSystemDAOImpl {
         // Create the resource if we don't have it already (set by the continue handler)
         if (result == null) {
             try {
-                result = (int)fhirSequenceDAO.nextValueFromFhirSequence();
+                result = fhirRefSequenceDAO.nextValue();
              
                 String INS = "INSERT INTO code_systems (code_system_id, code_system_name) VALUES (?, ?)";
                 try (PreparedStatement stmt = getConnection().prepareStatement(INS)) {

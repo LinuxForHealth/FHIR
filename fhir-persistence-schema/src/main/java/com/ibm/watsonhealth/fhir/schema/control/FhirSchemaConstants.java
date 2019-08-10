@@ -29,6 +29,7 @@ public class FhirSchemaConstants {
     public static final String FHIR_USER_GRANT_GROUP = "fhiruser";
 
     public static final String FHIR_SEQUENCE = "FHIR_SEQUENCE";
+    public static final String FHIR_REF_SEQUENCE = "FHIR_REF_SEQUENCE";
     public static final String TENANT_SEQUENCE = "TENANT_SEQUENCE";
 
     // Tenant constants

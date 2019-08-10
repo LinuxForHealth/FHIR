@@ -95,13 +95,13 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Observation");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters4/Observation", result);
-        assertEquals(2, result.size());
+        assertEquals(9, result.size());
         SearchParameter sp = result.get(0);
         assertNotNull(sp);
         assertEquals("code", sp.getCode().getValue());
         sp = result.get(1);
         assertNotNull(sp);
-        assertEquals("value-range", sp.getCode().getValue());
+        assertEquals("_id", sp.getCode().getValue());
 
         result = SearchUtil.getApplicableSearchParameters("WeatherDetail");
         assertNotNull(result);
@@ -117,7 +117,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Device");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters5/Device", result);
-        assertEquals(2, result.size());
+        assertEquals(9, result.size());
         List<String> names = getSearchParameterNames(result);
         assertTrue(names.contains("patient"));
         assertTrue(names.contains("organization"));
@@ -131,7 +131,7 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         List<SearchParameter> result = SearchUtil.getApplicableSearchParameters("Patient");
         assertNotNull(result);
         printSearchParameters("testGetApplicableSearchParameters6/Patient", result);
-        assertEquals(4, result.size());
+        assertEquals(11, result.size());
         List<String> names = getSearchParameterNames(result);
         assertTrue(names.contains("active"));
         assertTrue(names.contains("address"));

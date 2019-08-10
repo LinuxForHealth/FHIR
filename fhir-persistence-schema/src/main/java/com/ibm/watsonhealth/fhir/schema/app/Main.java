@@ -44,7 +44,10 @@ import com.ibm.watsonhealth.database.utils.db2.Db2PropertyAdapter;
 import com.ibm.watsonhealth.database.utils.db2.Db2SetTenantVariable;
 import com.ibm.watsonhealth.database.utils.db2.Db2Translator;
 import com.ibm.watsonhealth.database.utils.model.PhysicalDataModel;
+import com.ibm.watsonhealth.database.utils.model.Tenant;
 import com.ibm.watsonhealth.database.utils.pool.PoolConnectionProvider;
+import com.ibm.watsonhealth.database.utils.tenant.AddTenantKeyDAO;
+import com.ibm.watsonhealth.database.utils.tenant.GetTenantDAO;
 import com.ibm.watsonhealth.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.watsonhealth.database.utils.transaction.TransactionFactory;
 import com.ibm.watsonhealth.database.utils.version.CreateVersionHistory;
@@ -104,6 +107,9 @@ public class Main {
     private String tenantName;
     private boolean testTenant;
     private String tenantKey;
+    
+    // The tenant name for when we want to add a new tenant key
+    private String addKeyForTenant;
 
     // What status to leave with
     private int exitStatus = EXIT_OK;
@@ -160,6 +166,14 @@ public class Main {
 
                     // Force upper-case because user names are case-insensitive
                     this.grantTo = args[i].toUpperCase();
+                }
+                else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--add-tenant-key":
+                if (++i < args.length) {
+                    this.addKeyForTenant = args[i];
                 }
                 else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
@@ -540,7 +554,10 @@ public class Main {
             checkCompatibility();
         }
 
-        if (this.dropSchema) {
+        if (addKeyForTenant != null) {
+            addTenantKey();
+        }
+        else if (this.dropSchema) {
             // only proceed with the drop if the user has provided additional confirmation
             if (this.confirmDrop) {
                 dropSchema();
@@ -604,6 +621,47 @@ public class Main {
                 throw x;
             }
         }
+
+    }
+    
+    /**
+     * Add a new tenant key so that we can rotate the values (add a
+     * new key, update config files, then remove the old key). This
+     * avoids any service interruption.
+     */
+    protected void addTenantKey() {
+        
+        final String tenantKey = getRandomKey();
+
+        // The salt is used when we hash the tenantKey. We're just using SHA-256 for
+        // the hash here, not multiple rounds of a password hashing algorithm. It's
+        // sufficient in our case because we are using a 32-byte random value as the
+        // key, giving 256 bits of entropy.
+        final String tenantSalt = getRandomKey();
+        
+        Db2Adapter adapter = new Db2Adapter(connectionPool);
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                GetTenantDAO tid = new GetTenantDAO(adminSchemaName, addKeyForTenant);
+                Tenant tenant = adapter.runStatement(tid);
+                
+                if (tenant != null) {
+                    // Attach the new tenant key to the tenant:
+                    AddTenantKeyDAO adder = new AddTenantKeyDAO(adminSchemaName, tenant.getTenantId(), tenantKey, tenantSalt, FhirSchemaConstants.TENANT_SEQUENCE);
+                    adapter.runStatement(adder);
+                }
+                else {
+                    throw new IllegalArgumentException("Tenant does not exist: " + addKeyForTenant);
+                }
+            }
+            catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+        
+        logger.info("New tenant key: " + addKeyForTenant + " [key=" + tenantKey + "]");
 
     }
 

@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterNameDAOImpl;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
@@ -21,11 +21,11 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataA
  * @author rarnold
  */
 public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
-    private final FhirSequenceDAO fhirSequenceDAO;
+    private final FhirRefSequenceDAO fhirRefSequenceDAO;
     
-    public DerbyParameterNamesDAO(Connection c, FhirSequenceDAO fsd) {
+    public DerbyParameterNamesDAO(Connection c, FhirRefSequenceDAO fsd) {
         super(c);
-        this.fhirSequenceDAO = fsd;
+        this.fhirRefSequenceDAO = fsd;
     }
     
     @Override
@@ -37,7 +37,7 @@ public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
         // Create the resource if we don't have it already (set by the continue handler)
         if (result == null) {
             try {
-                result = (int)fhirSequenceDAO.nextValueFromFhirSequence();
+                result = fhirRefSequenceDAO.nextValue();
              
                 String INS = "INSERT INTO parameter_names (parameter_name_id, parameter_name) VALUES (?, ?)";
                 try (PreparedStatement stmt = getConnection().prepareStatement(INS)) {

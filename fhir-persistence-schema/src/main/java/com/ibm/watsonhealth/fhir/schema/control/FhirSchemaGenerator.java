@@ -92,7 +92,9 @@ public class FhirSchemaGenerator {
 
     // The common sequence used for allocated resource ids
     private Sequence fhirSequence;
-
+    
+    // The sequence used for the reference tables (parameter_names, code_systems etc)
+    private Sequence fhirRefSequence;
 
     // The set of dependencies common to all of our resource procedures
     private Set<IDatabaseObject> procedureDependencies = new HashSet<>();
@@ -373,6 +375,7 @@ CREATE SEQUENCE fhir_sequence
         // Build the complete physical model so that we know it's consistent
         buildAdminSchema(model);        
         addFhirSequence(model);
+        addFhirRefSequence(model);
         addParameterNames(model);
         addCodeSystems(model);
         addResourceTypes(model);
@@ -784,6 +787,15 @@ CREATE UNIQUE INDEX unq_code_system_cinm ON code_systems(code_system_name);
         sequencePrivileges.forEach(p -> p.addToObject(fhirSequence));
 
         pdm.addObject(fhirSequence);
+    }
+
+    protected void addFhirRefSequence(PhysicalDataModel pdm) {
+        this.fhirRefSequence = new Sequence(schemaName, FHIR_REF_SEQUENCE, FhirSchemaConstants.INITIAL_VERSION, 1000);
+        this.fhirRefSequence.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        procedureDependencies.add(fhirRefSequence);
+        sequencePrivileges.forEach(p -> p.addToObject(fhirRefSequence));
+
+        pdm.addObject(fhirRefSequence);
     }
 
     /**

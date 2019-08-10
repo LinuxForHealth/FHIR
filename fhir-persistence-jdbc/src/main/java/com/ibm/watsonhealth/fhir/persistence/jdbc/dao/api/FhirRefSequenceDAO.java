@@ -12,12 +12,12 @@ import java.sql.SQLException;
  * @author rarnold
  *
  */
-public interface FhirSequenceDAO {
+public interface FhirRefSequenceDAO {
 
     /**
-     * Get the next value from the FHIR_SEQUENCE
+     * Get the next value from the FHIR_REF_SEQUENCE
      * @return
      * @throws SQLException
      */
-    long nextValue() throws SQLException;
+    int nextValue() throws SQLException;
 }

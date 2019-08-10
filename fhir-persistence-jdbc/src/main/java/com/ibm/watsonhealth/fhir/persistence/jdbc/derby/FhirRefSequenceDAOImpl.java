@@ -11,37 +11,37 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
 
 /**
- * DAO to obtain the next value from FHIR_SEQUENCE
+ * DAO to obtain the next value from FHIR_REF_SEQUENCE
  * @author rarnold
  *
  */
-public class FhirSequenceDAOImpl implements FhirSequenceDAO {
+public class FhirRefSequenceDAOImpl implements FhirRefSequenceDAO {
     private final Connection conn;
 
     /**
      * Public constructor
      * @param c
      */
-    public FhirSequenceDAOImpl(Connection c) {
+    public FhirRefSequenceDAOImpl(Connection c) {
         this.conn = c;
     }
 
     @Override
-    public long nextValue() throws SQLException {
-        long result;
-        final String SEQ = "VALUES NEXT VALUE FOR fhir_sequence";
+    public int nextValue() throws SQLException {
+        int result;
+        final String SEQ = "VALUES NEXT VALUE FOR fhir_ref_sequence";
         
         try (PreparedStatement stmt = conn.prepareStatement(SEQ)) {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                result = rs.getLong(1);
+                result = rs.getInt(1);                    
             }
             else {
                 // not gonna happen
-                throw new IllegalStateException("no value returned from fhir_sequence!");
+                throw new IllegalStateException("no value returned from fhir_ref_sequence!");
             }
         }
 
