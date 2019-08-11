@@ -29,7 +29,7 @@ public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
     }
     
     @Override
-    public Integer readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDataAccessException  {
+    public int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDataAccessException  {
         // As the system is concurrent, we have to handle cases where another thread
         // might create the entry after we selected and found nothing
         Integer result = getParameterId(parameterName);
@@ -50,6 +50,11 @@ public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
                 if ("23505".equals(e.getSQLState())) {
                     // another thread snuck in and created the record, so we need to fetch the correct id
                     result = getParameterId(parameterName);
+                    
+                    if (result == null) {
+                        // would be extremely weird, but good to protect against anyway
+                        throw new IllegalStateException("No parameter id returned after duplicate found!");
+                    }
                 }
                 else {
                     throw new FHIRPersistenceDataAccessException("parameterName=" + parameterName, e);
@@ -58,6 +63,7 @@ public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
 
         }
         
+        // cannot be null, so safe to return as an int
         return result;
     }
 

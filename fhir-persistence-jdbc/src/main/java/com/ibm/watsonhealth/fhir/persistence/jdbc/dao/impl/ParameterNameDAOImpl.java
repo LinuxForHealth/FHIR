@@ -103,11 +103,11 @@ public class ParameterNameDAOImpl implements ParameterNameDAO {
      *  
      */
     @Override
-    public Integer readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDataAccessException  {
+    public int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDataAccessException  {
         final String METHODNAME = "readOrAddParameterNameId";
         log.entering(CLASSNAME, METHODNAME);
         
-        Integer parameterNameId = null;
+        int parameterNameId;
         String currentSchema;
         String stmtString;
         String errMsg = "Failure storing search parameter name id: name=" + parameterName;

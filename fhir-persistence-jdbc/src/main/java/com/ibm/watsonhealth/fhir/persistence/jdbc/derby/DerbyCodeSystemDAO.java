@@ -35,7 +35,7 @@ public class DerbyCodeSystemDAO extends CodeSystemDAOImpl {
     }
     
     @Override
-    public Integer readOrAddCodeSystem(String codeSystem) throws FHIRPersistenceDataAccessException   {
+    public int readOrAddCodeSystem(String codeSystem) throws FHIRPersistenceDataAccessException   {
         // As the system is concurrent, we have to handle cases where another thread
         // might create the entry after we selected and found nothing
         Integer result = getCodeSystemId(codeSystem);
@@ -57,6 +57,11 @@ public class DerbyCodeSystemDAO extends CodeSystemDAOImpl {
                 if ("23505".equals(e.getSQLState())) {
                     // another thread snuck in and created the record, so we need to fetch the correct id
                     result = getCodeSystemId(codeSystem);
+                    
+                    if (result == null) {
+                        // This would be truly weird, but we protect against it anyway
+                        throw new IllegalStateException("No code system returned after duplicate found!");
+                    }
                 }
                 else {
                     throw new FHIRPersistenceDataAccessException("codeSystem=" + codeSystem, e);
@@ -65,6 +70,7 @@ public class DerbyCodeSystemDAO extends CodeSystemDAOImpl {
 
         }
         
+        // There's no way result can be null here, so we're OK returning an int
         return result;
     }
 

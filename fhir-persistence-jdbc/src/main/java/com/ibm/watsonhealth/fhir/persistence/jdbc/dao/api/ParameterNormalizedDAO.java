@@ -50,7 +50,7 @@ public interface ParameterNormalizedDAO extends ParameterDAO {
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceDataAccessException
      */
-    Integer readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
+    int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
 
     /**
      * Read the id for the given parameter name, but do not create a new record if it doesn't exist.
@@ -69,7 +69,7 @@ public interface ParameterNormalizedDAO extends ParameterDAO {
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceDataAccessException
      */
-    Integer readOrAddCodeSystemId(String systemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
+    int readOrAddCodeSystemId(String systemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
 
     
     /**
@@ -88,7 +88,7 @@ public interface ParameterNormalizedDAO extends ParameterDAO {
      * @return Integer A parameter id.
      * @throws FHIRPersistenceException
      */
-    Integer acquireParameterNameId(String parameterName) throws FHIRPersistenceException;
+    int acquireParameterNameId(String parameterName) throws FHIRPersistenceException;
 
     /**
      * Acquire and return the id associated with the passed code-system name.
@@ -96,7 +96,7 @@ public interface ParameterNormalizedDAO extends ParameterDAO {
      * @return Integer A code-system id.
      * @throws FHIRPersistenceException
      */
-    public Integer acquireCodeSystemId(String codeSystemName) throws FHIRPersistenceException;
+    int acquireCodeSystemId(String codeSystemName) throws FHIRPersistenceException;
     
     /**
      * Adds a code system name / code system id pair to a candidate collection for population into the CodeSystemsCache.

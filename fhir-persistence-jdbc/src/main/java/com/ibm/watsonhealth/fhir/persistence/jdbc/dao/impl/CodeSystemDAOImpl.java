@@ -104,11 +104,11 @@ public class CodeSystemDAOImpl implements CodeSystemDAO {
      * @throws FHIRPersistenceException
      */
     @Override
-    public Integer readOrAddCodeSystem(String systemName) throws FHIRPersistenceDataAccessException   {
+    public int readOrAddCodeSystem(String systemName) throws FHIRPersistenceDataAccessException   {
         final String METHODNAME = "readOrAddCodeSystem";
         log.entering(CLASSNAME, METHODNAME);
         
-        Integer systemId = null;
+        int systemId;
         String currentSchema;
         String stmtString;
         String errMsg = "Failure storing code system id: name=" + systemName;

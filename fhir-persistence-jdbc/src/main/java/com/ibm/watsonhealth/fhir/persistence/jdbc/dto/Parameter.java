@@ -202,7 +202,7 @@ public class Parameter {
             if (valueSystem == null || valueSystem.isEmpty()) {
                 valueSystem = DEFAULT_TOKEN_SYSTEM;
             }
-            visitor.tokenValue(name, this.valueSystem, this.valueString);
+            visitor.tokenValue(name, this.valueSystem, this.valueCode);
             break;
         case QUANTITY:
             if (valueSystem == null || valueSystem.isEmpty()) {

@@ -17,7 +17,6 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.sql.Types;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,9 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
-import javax.xml.datatype.XMLGregorianCalendar;
 
-import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRReplicationContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
@@ -68,7 +65,6 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
                                                       "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
                                                       "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
     
-    private static final  String SQL_INSERT = "CALL %s.%s_add_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     
     private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     
@@ -398,9 +394,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
-        String parameterName;
-        int parameterId;
-        Map<String, Integer> parameterMap = new HashMap<>();
+        Map<String, Integer> result = new HashMap<>();
         String errMsg = "Failure retrieving all Resource type names.";
         long dbCallStartTime;
         double dbCallDuration;
@@ -410,14 +404,16 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             stmt = connection.prepareStatement(SQL_READ_ALL_RESOURCE_TYPE_NAMES);
             dbCallStartTime = System.nanoTime();
             resultSet = stmt.executeQuery();
-            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("DB read all resource type complete. executionTime=" + dbCallDuration + "ms");
-            }
+            
             while (resultSet.next()) {
-                parameterName = resultSet.getString("RESOURCE_TYPE");
-                parameterId = resultSet.getInt("RESOURCE_TYPE_ID");
-                parameterMap.put(parameterName, parameterId);
+                final int resourceTypeId = resultSet.getInt(1);
+                final String resourceType = resultSet.getString(2);
+                result.put(resourceType, resourceTypeId);
+            }
+            
+            if (log.isLoggable(Level.FINE)) {
+                dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+                log.fine("DB read all resource type complete. executionTime=" + dbCallDuration + "ms");
             }
         }
         catch (Throwable e) {
@@ -428,7 +424,7 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             log.exiting(CLASSNAME, METHODNAME);
         }
                 
-        return parameterMap;
+        return result;
     }
 
     
@@ -711,22 +707,26 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             stmt.setInt(18, resource.getVersionId());
             
             // Transform the passed search parameters into SQL parameter array structures.
-            if (parameterDao != null && parameters != null) {
-                stmt.setArray(19, parameterDao.transformStringParameters(connection, currentSchema, parameters));
-                stmt.setArray(20, parameterDao.transformNumberParameters(connection, currentSchema, parameters));
-                stmt.setArray(21, parameterDao.transformDateParameters(connection, currentSchema, parameters));
-                stmt.setArray(22, parameterDao.transformLatLongParameters(connection, currentSchema, parameters));
-                stmt.setArray(23, parameterDao.transformTokenParameters(connection, currentSchema, parameters));
-                stmt.setArray(24, parameterDao.transformQuantityParameters(connection, currentSchema, parameters));
-            }
-            else {
-                stmt.setArray(19, null);
-                stmt.setArray(20, null);
-                stmt.setArray(21, null);
-                stmt.setArray(22, null);
-                stmt.setArray(23, null);
-                stmt.setArray(24, null);
-            }
+//            if (parameterDao != null && parameters != null) {
+//                stmt.setArray(19, parameterDao.transformStringParameters(connection, currentSchema, parameters));
+//                stmt.setArray(20, parameterDao.transformNumberParameters(connection, currentSchema, parameters));
+//                stmt.setArray(21, parameterDao.transformDateParameters(connection, currentSchema, parameters));
+//                stmt.setArray(22, parameterDao.transformLatLongParameters(connection, currentSchema, parameters));
+//                stmt.setArray(23, parameterDao.transformTokenParameters(connection, currentSchema, parameters));
+//                stmt.setArray(24, parameterDao.transformQuantityParameters(connection, currentSchema, parameters));
+//            }
+//            else {
+            // For R4, we are switching to using batch-based inserts for the parameters
+            // primary because it seems that ARRAY types cannot be used in dynamic SQL
+            // statements (and we want to avoid the cost of creating on procedure per
+            // resource type...when there are so many of them)
+            stmt.setArray(19, null);
+            stmt.setArray(20, null);
+            stmt.setArray(21, null);
+            stmt.setArray(22, null);
+            stmt.setArray(23, null);
+            stmt.setArray(24, null);
+//            }
             stmt.setString(25, this.isRepInfoRequired() ? "Y": "N");
             stmt.registerOutParameter(26, Types.BIGINT);
             
@@ -735,6 +735,19 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
             
             resource.setId(stmt.getLong(26));
+            
+            // Parameter time - enable multitenncy on the DAO.
+            // TODO FHIR_ADMIN schema name needs to come from the configuration/context
+            if (parameters != null) {
+                try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true, resource.getId(), 100,
+                    new ParameterNameCacheAdapter(parameterDao), new CodeSystemCacheAdapter(parameterDao))) {
+                    for (Parameter p: parameters) {
+                        p.visit(pvd);
+                    }
+                }
+            }
+            
+            
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
             }
@@ -782,7 +795,6 @@ public class ResourceDAONormalizedImpl extends ResourceDAOBasicImpl implements R
         log.entering(CLASSNAME, METHODNAME);
         
         Connection connection = null;
-        String currentSchema;
         Integer resourceTypeId;
         Timestamp lastUpdated, replicationLastUpdated;
         boolean acquiredFromCache;

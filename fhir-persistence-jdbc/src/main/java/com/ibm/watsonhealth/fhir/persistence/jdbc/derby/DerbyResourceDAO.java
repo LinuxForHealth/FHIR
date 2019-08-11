@@ -20,6 +20,7 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
+import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.impl.ParameterVisitorDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 
@@ -337,7 +338,9 @@ public class DerbyResourceDAO {
             // handle inserts of parameters directly in the resource parameter tables.
             // Note we don't get any parameters for the resource soft-delete operation
             if (parameters != null) {
-                try (ParameterVisitorDAO pvd = new ParameterVisitorDAO(conn, tablePrefix, v_resource_id, parameterDAO, parameterNameDAO, codeSystemDAO)) {
+                // Derby doesn't support partitioned multi-tenancy, so we disable it on the DAO:
+                try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_resource_id, 100, 
+                    new ParameterNameCacheAdapter(parameterNameDAO), new CodeSystemCacheAdapter(codeSystemDAO))) {
                     for (Parameter p: parameters) {
                         p.visit(pvd);
                     }

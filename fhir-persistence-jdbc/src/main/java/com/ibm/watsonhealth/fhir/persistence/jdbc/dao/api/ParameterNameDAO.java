@@ -24,8 +24,7 @@ public interface ParameterNameDAO {
      * @throws FHIRPersistenceDataAccessException
      */
     Map<String,Integer> readAllSearchParameterNames() throws FHIRPersistenceDataAccessException;
-        
-    
+       
     /**
      * Reads the id associated with the name of the passed Parameter from the Parameter_Names table. If the id for the passed name is not present
      * in the database, an id is generated, persisted, and returned.
@@ -33,8 +32,8 @@ public interface ParameterNameDAO {
      * @return Integer - the id associated with the name of the passed Parameter.
      * @throws FHIRPersistenceDataAccessException
      */
-    Integer readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDataAccessException;
-
+    int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDataAccessException;
+    
     /**
      * Read the parameter_name_id for the given parameterName
      * @param parameterName

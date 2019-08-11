@@ -269,7 +269,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
      *  
      */
     @Override
-    public Integer readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
+    public int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
         final String METHODNAME = "readParameterNameId";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -296,7 +296,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
      * @throws FHIRPersistenceException
      */
     @Override
-    public Integer readOrAddCodeSystemId(String codeSystemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException   {
+    public int readOrAddCodeSystemId(String codeSystemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException   {
         final String METHODNAME = "storeCodeSystemId";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -381,7 +381,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
      * @throws FHIRPersistenceException
      */
     @Override
-    public Integer acquireParameterNameId(String parameterName) throws FHIRPersistenceException {
+    public int acquireParameterNameId(String parameterName) throws FHIRPersistenceException {
         final String METHODNAME = "acquireParameterNameId";
         log.entering(CLASSNAME, METHODNAME);
         
@@ -417,7 +417,7 @@ public class ParameterDAONormalizedImpl extends FHIRDbDAOBasicImpl<Parameter> im
      * @throws FHIRPersistenceException
      */
     @Override
-    public Integer acquireCodeSystemId(String codeSystemName) throws FHIRPersistenceException {
+    public int acquireCodeSystemId(String codeSystemName) throws FHIRPersistenceException {
         final String METHODNAME = "acquireCodeSystemId";
         log.entering(CLASSNAME, METHODNAME);
         

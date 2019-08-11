@@ -6,13 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api;
 
-import java.sql.Array;
-import java.sql.Connection;
-import java.util.List;
 import java.util.Map;
 
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Parameter;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
@@ -32,7 +28,6 @@ public interface CodeSystemDAO {
      */
     Map<String,Integer> readAllCodeSystems() throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
         
-    
     /**
      * Reads the id associated with the name of the passed Parameter from the code_systems table. 
      * If the id for the passed name is not present in the database, an id is generated, persisted, 
@@ -42,8 +37,8 @@ public interface CodeSystemDAO {
      * @throws FHIRPersistenceDBConnectException
      * @throws FHIRPersistenceDataAccessException
      */
-    Integer readOrAddCodeSystem(String codeSystem) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
-
+    int readOrAddCodeSystem(String codeSystem) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
+    
     /**
      * Read the code_system_id for the given code system name
      * @param parameterName
