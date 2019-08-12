@@ -34,6 +34,10 @@ public class FHIRJsonPatch implements FHIRPatch {
     FHIRJsonPatch(JsonPatch patch) {
         this.patch = Objects.requireNonNull(patch);
     }
+    
+    public JsonPatch getJsonPatch() {
+        return patch;
+    }
 
     @Override
     public <T extends Resource> T apply(T resource) throws FHIRPatchException {

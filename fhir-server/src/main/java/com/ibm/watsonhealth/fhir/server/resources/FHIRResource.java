@@ -40,6 +40,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.json.JsonArray;
+import javax.json.JsonPatch;
+import javax.json.JsonValue;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -70,6 +72,7 @@ import com.ibm.watsonhealth.fhir.core.context.FHIRPagingContext;
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
+import com.ibm.watsonhealth.fhir.model.patch.FHIRJsonPatch;
 import com.ibm.watsonhealth.fhir.model.patch.FHIRPatch;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.CapabilityStatement;
@@ -360,7 +363,9 @@ public class FHIRResource implements FHIRResourceHelpers {
         try {
             checkInitComplete();
             
-            ior = doUpdate(type, id, FHIRPatch.patch(array), null, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), null, null);
+            FHIRPatch patch = createPatch(array);
+            
+            ior = doUpdate(type, id, patch, null, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), null, null);
 
             ResponseBuilder response = Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
             status = ior.getStatus();
@@ -397,7 +402,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         try {
             checkInitComplete();
             
-            FHIRPatch patch = FHIRPatch.patch(array);
+            FHIRPatch patch = createPatch(array);
 
             String searchQueryString = httpServletRequest.getQueryString();
             if (searchQueryString == null || searchQueryString.isEmpty()) {
@@ -433,6 +438,25 @@ public class FHIRResource implements FHIRResourceHelpers {
             return exceptionResponse(e, status);
         } finally {
             log.exiting(this.getClass().getName(), "conditionalPatch(String,String,JsonArray)");
+        }
+    }
+        
+    private FHIRPatch createPatch(JsonArray array) throws FHIRHttpException {
+        try {
+            FHIRPatch patch = FHIRPatch.patch(array);
+            JsonPatch jsonPatch = patch.as(FHIRJsonPatch.class).getJsonPatch();
+            for (JsonValue value : jsonPatch.toJsonArray()) {
+                // validate path
+                String path = value.asJsonObject().getString("path");
+                if ("/id".equals(path) || 
+                    "/meta/versionId".equals(path) || 
+                    "/meta/lastUpdated".equals(path)) {
+                    throw new IllegalArgumentException("Path: '" + path + "' is not allowed in a patch operation.");
+                }
+            }
+            return patch;
+        } catch (Exception e) {
+            throw new FHIRHttpException("Invalid patch: " + e.getMessage(), Response.Status.BAD_REQUEST, e);
         }
     }
 

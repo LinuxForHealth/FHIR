@@ -15,6 +15,10 @@ import com.ibm.watsonhealth.fhir.model.resource.Resource;
 public interface FHIRPatch {
     <T extends Resource> T apply(T resource) throws FHIRPatchException;
     
+    default <T extends FHIRPatch> T as(Class<T> patchClass) {
+        return patchClass.cast(this);
+    }
+    
     static FHIRPatch patch(JsonArray array) {
         return new FHIRJsonPatch(array);
     }
