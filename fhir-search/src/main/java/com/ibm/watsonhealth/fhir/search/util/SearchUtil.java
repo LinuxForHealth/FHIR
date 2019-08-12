@@ -110,16 +110,13 @@ public class SearchUtil {
      * Initializes the various services related to Search and precaches.
      */
     public static void initServletContext() {
-        // Inherenetly the searchParameterCache is loaded.
+        // Inherently the searchParameterCache is loaded.
 
         // Loads the Compartments
         CompartmentUtil.init();
 
         // Loads the Parameters into a map
         ParametersUtil.init();
-
-        // Loads the ValueTypesUtil
-        ValueTypesFactory.init();
     }
 
     /**

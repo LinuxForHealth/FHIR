@@ -22,17 +22,13 @@ public class ValueTypesFactory {
         // No Operation
     }
     
-    public static void init() {
-        // Activates the Class
-        singleInstance.init();
-    }
-    
     /**
      * Returns the value types processor. 
      * 
      * @return
      */
     public static IValueTypes getValueTypesProcessor() {
+
         return singleInstance;
     }
 

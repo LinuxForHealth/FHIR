@@ -130,7 +130,6 @@ public class ValueTypesLoaderTest {
     @Test
     public void testInitWithValidName() throws FHIRSearchException {
         ValueTypesR4Impl impl = new ValueTypesR4Impl();
-        impl.init();
 
         Set<Class<?>> vals = impl.getValueTypes(Observation.class, "combo-code");
         assertNotNull(vals);
@@ -141,7 +140,6 @@ public class ValueTypesLoaderTest {
     @Test
     public void testInitWithInvalidName() throws FHIRSearchException {
         ValueTypesR4Impl impl = new ValueTypesR4Impl();
-        impl.init();
 
         Set<Class<?>> vals = impl.getValueTypes(Observation.class, "combo-code-no-way-this-exists");
         assertNotNull(vals);

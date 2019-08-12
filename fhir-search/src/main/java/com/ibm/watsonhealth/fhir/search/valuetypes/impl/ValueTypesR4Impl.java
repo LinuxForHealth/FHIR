@@ -23,6 +23,7 @@ import javax.json.JsonReaderFactory;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Count;
 import com.ibm.watsonhealth.fhir.model.type.DateTime;
 import com.ibm.watsonhealth.fhir.model.type.Instant;
@@ -58,7 +59,15 @@ public class ValueTypesR4Impl implements IValueTypes {
 
     public static final String CONVERT_EXCEPTION = "unable to convert to class while setting value types for %s";
 
-    // ---------------------------------------------------------------------------------------------------
+    public ValueTypesR4Impl() {
+        try (InputStream stream = ValueTypesR4Impl.class.getResourceAsStream(DEFAULT_FILE)) {
+            defaultValueTypeMap.putAll(load(stream));
+            log.info("Finished loading the default value types json");
+        } catch (IOException e) {
+            log.warning("Unable to load the default " + DEFAULT_FILE);
+        }
+    }
+    
     @Override
     public boolean isDateRangeSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
         return getValueTypes(resourceType, queryParm.getName()).contains(Period.class);
@@ -112,19 +121,6 @@ public class ValueTypesR4Impl implements IValueTypes {
         }
 
         return valueTypes;
-    }
-
-    /**
-     * load default settings
-     */
-    @Override
-    public void init() {
-        try (InputStream stream = ValueTypesR4Impl.class.getResourceAsStream(DEFAULT_FILE)) {
-            defaultValueTypeMap.putAll(load(stream));
-            log.info("Finished loading the default value types json");
-        } catch (IOException e) {
-            log.warning("Unable to load the default " + DEFAULT_FILE);
-        }
     }
 
     /**

@@ -744,6 +744,9 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
         if (log.isLoggable(Level.FINE)) {
             log.fine("isDateSearch=" + isDateSearch + "  isDateRangeSearch=" + isDateRangeSearch);
         }
+        if (!isDateSearch && !isDateRangeSearch) {
+            throw new IllegalArgumentException("Cannot process query parameter '" + queryParm.getName() + "' as a date.");
+        }
 
         // Build this piece of the segment:
         // (P1.PARAMETER_NAME_ID = x AND
@@ -768,7 +771,7 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
                 if (isDateSearch) {
                     whereClauseSegment.append(LEFT_PAREN);
                     whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE).append(operator.value()).append(BIND_VAR);
-                    bindVariables.add(FHIRUtilities.formatTimestamp(date));
+                    bindVariables.add(date);
                     whereClauseSegment.append(RIGHT_PAREN);
                 }
             } else {
@@ -789,11 +792,11 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
                         whereClauseSegment.append(tableAlias
                                 + DOT).append(DATE_VALUE).append(JDBCOperator.GTE.value()).append(BIND_VAR).append(JDBCOperator.AND.value()).append(tableAlias
                                         + DOT).append(DATE_VALUE).append(JDBCOperator.LT.value()).append(BIND_VAR);
-                        bindVariables.add(FHIRUtilities.formatTimestamp(start));
-                        bindVariables.add(FHIRUtilities.formatTimestamp(end));
+                        bindVariables.add(start);
+                        bindVariables.add(end);
                     } else {
                         whereClauseSegment.append(tableAlias + DOT).append(DATE_VALUE).append(operator.value()).append(BIND_VAR);
-                        bindVariables.add(FHIRUtilities.formatTimestamp(start));
+                        bindVariables.add(start);
                     }
                     whereClauseSegment.append(RIGHT_PAREN);
                 }
@@ -837,35 +840,35 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             // the range of the search value does not overlap with the range of the target value,
             // and the range above the search value contains the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            bindVariables.add(FHIRUtilities.formatTimestamp(start));
+            bindVariables.add(start);
             break;
         case SA:
             // the range of the search value does not overlap with the range of the target value,
             // and the range below the search value contains the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.GT.value()).append(BIND_VAR);
-            bindVariables.add(FHIRUtilities.formatTimestamp(end));
+            bindVariables.add(end);
             break;
         case GE:
             // the range above the search value intersects (i.e. overlaps) with the range of the target value,
             // or the range of the search value fully contains the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            bindVariables.add(FHIRUtilities.formatTimestamp(start));
+            bindVariables.add(start);
             break;
         case GT:
             // the range above the search value intersects (i.e. overlaps) with the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GT.value()).append(BIND_VAR);
-            bindVariables.add(FHIRUtilities.formatTimestamp(start));
+            bindVariables.add(start);
             break;
         case LE:
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             // or the range of the search value fully contains the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.LTE.value()).append(BIND_VAR);
-            bindVariables.add(FHIRUtilities.formatTimestamp(end));
+            bindVariables.add(end);
             break;
         case LT:
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            bindVariables.add(FHIRUtilities.formatTimestamp(end));
+            bindVariables.add(end);
             break;
         case AP:
             // the range of the search value overlaps with the range of the target value
@@ -875,8 +878,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.GTE.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.AND.value());
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            bindVariables.add(FHIRUtilities.formatTimestamp(start));
-            bindVariables.add(FHIRUtilities.formatTimestamp(end));
+            bindVariables.add(start);
+            bindVariables.add(end);
             whereClauseSegment.append(RIGHT_PAREN);
 
             whereClauseSegment.append(JDBCOperator.OR.value());
@@ -885,8 +888,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             whereClauseSegment.append(tableAlias + DOT).append(DATE_START).append(JDBCOperator.LTE.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.AND.value());
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            bindVariables.add(FHIRUtilities.formatTimestamp(start));
-            bindVariables.add(FHIRUtilities.formatTimestamp(start));
+            bindVariables.add(start);
+            bindVariables.add(start);
             whereClauseSegment.append(RIGHT_PAREN);
 
             whereClauseSegment.append(JDBCOperator.OR.value());
@@ -897,8 +900,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
                 .append(JDBCOperator.LT.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.AND.value());
             whereClauseSegment.append(tableAlias + DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            bindVariables.add(FHIRUtilities.formatTimestamp(end));
-            bindVariables.add(FHIRUtilities.formatTimestamp(end));
+            bindVariables.add(end);
+            bindVariables.add(end);
             whereClauseSegment.append(RIGHT_PAREN);
 
             break;
@@ -907,8 +910,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             whereClauseSegment.append(tableAlias).append(DOT).append(DATE_START).append(JDBCOperator.LT.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.OR.value());
             whereClauseSegment.append(tableAlias).append(DOT).append(DATE_END).append(JDBCOperator.GTE.value()).append(BIND_VAR);
-            bindVariables.add(FHIRUtilities.formatTimestamp(start));
-            bindVariables.add(FHIRUtilities.formatTimestamp(end));
+            bindVariables.add(start);
+            bindVariables.add(end);
             break;
         case EQ:
         default:
@@ -916,8 +919,8 @@ public class JDBCNormalizedQueryBuilder extends AbstractJDBCQueryBuilder<SqlQuer
             whereClauseSegment.append(tableAlias).append(DOT).append(DATE_START).append(JDBCOperator.GTE.value()).append(BIND_VAR);
             whereClauseSegment.append(JDBCOperator.AND.value());
             whereClauseSegment.append(tableAlias).append(DOT).append(DATE_END).append(JDBCOperator.LT.value()).append(BIND_VAR);
-            bindVariables.add(FHIRUtilities.formatTimestamp(start));
-            bindVariables.add(FHIRUtilities.formatTimestamp(end));
+            bindVariables.add(start);
+            bindVariables.add(end);
             break;
         }
     }

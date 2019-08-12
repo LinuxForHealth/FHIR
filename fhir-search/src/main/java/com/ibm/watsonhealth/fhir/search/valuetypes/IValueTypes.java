@@ -20,11 +20,6 @@ import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
 public interface IValueTypes {
 
     /**
-     * initializes / sets up the class. 
-     */
-    public void init();
-    
-    /**
      * checks the resource value types against the indicators of the search type DateRange search.
      * 
      * @param resourceType

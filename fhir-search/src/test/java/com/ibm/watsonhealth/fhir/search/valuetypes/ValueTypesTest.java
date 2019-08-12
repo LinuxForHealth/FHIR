@@ -12,7 +12,6 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.Set;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
@@ -47,11 +46,6 @@ import com.ibm.watsonhealth.fhir.search.test.BaseSearchTest;
  *
  */
 public class ValueTypesTest extends BaseSearchTest {
-
-    @BeforeClass
-    public static void runOnce() {
-        ValueTypesFactory.init();
-    }
 
     // --- Test Get Value Types with Simple Cases
 

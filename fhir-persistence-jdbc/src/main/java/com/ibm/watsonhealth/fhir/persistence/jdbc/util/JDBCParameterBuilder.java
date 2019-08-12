@@ -8,6 +8,8 @@ package com.ibm.watsonhealth.fhir.persistence.jdbc.util;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
