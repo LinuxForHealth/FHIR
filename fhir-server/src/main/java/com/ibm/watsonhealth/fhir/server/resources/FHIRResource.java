@@ -352,6 +352,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     @PATCH
+    @Consumes("application/json-patch+json")
     @Path("{type}/{id}")
     public Response patch(@PathParam("type") String type, @PathParam("id") String id, JsonArray array) {
         Response.Status status;
