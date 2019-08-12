@@ -51,7 +51,7 @@ public class FHIRJsonPatchTest {
     public void testAddOperation() throws FHIRGeneratorException, FHIRPatchException {
         Patient patient = buildPatient();
         
-        // create a copy of the patient and updated using the model API
+        // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
         List<HumanName> name = new ArrayList<>(patient.getName());
         patientBuilder.name(Collections.singletonList(

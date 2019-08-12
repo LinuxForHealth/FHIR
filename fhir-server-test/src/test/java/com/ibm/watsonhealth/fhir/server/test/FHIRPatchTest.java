@@ -49,7 +49,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
-        // create a copy of the patient and updated using the model API
+        // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
         List<HumanName> name = new ArrayList<>(patient.getName());
         patientBuilder.name(Collections.singletonList(
@@ -92,7 +92,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
-        // create a copy of the patient and updated using the model API
+        // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
         patientBuilder.active(null);
         
@@ -131,7 +131,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
-        // create a copy of the patient and updated using the model API
+        // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
         patientBuilder.active(Boolean.FALSE);
         
@@ -170,7 +170,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
-        // create a copy of the patient and updated using the model API
+        // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
         List<HumanName> name = new ArrayList<>(patient.getName());
         patientBuilder.name(Collections.singletonList(
@@ -213,7 +213,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
-        // create a copy of the patient and updated using the model API
+        // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
         List<HumanName> name = new ArrayList<>(patient.getName());
         patientBuilder.name(Collections.singletonList(
