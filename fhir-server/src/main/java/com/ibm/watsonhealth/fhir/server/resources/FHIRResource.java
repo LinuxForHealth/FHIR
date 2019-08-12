@@ -276,7 +276,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         try {
             checkInitComplete();
 
-            ior = doUpdate(type, id, null, resource, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), null, null);
+            ior = doUpdate(type, id, resource, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), null, null);
 
             ResponseBuilder response = Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
             status = ior.getStatus();
@@ -318,7 +318,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
             }
 
-            ior = doUpdate(type, null, null, resource, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), searchQueryString, null);
+            ior = doUpdate(type, null, resource, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), searchQueryString, null);
 
             ResponseBuilder response = Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
             status = ior.getStatus();
@@ -366,7 +366,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             
             FHIRPatch patch = createPatch(array);
             
-            ior = doUpdate(type, id, patch, null, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), null, null);
+            ior = doPatch(type, id, patch, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), null, null);
 
             ResponseBuilder response = Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
             status = ior.getStatus();
@@ -412,7 +412,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
             }
 
-            ior = doUpdate(type, null, patch, null, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), searchQueryString, null);
+            ior = doPatch(type, null, patch, httpHeaders.getHeaderString(HttpHeaders.IF_MATCH), searchQueryString, null);
 
             ResponseBuilder response = Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(), ior.getLocationURI().toString())));
             status = ior.getStatus();
@@ -1099,28 +1099,22 @@ public class FHIRResource implements FHIRResourceHelpers {
         }
         return issues;
     }
-
-    /**
-     * Performs an update operation (a new version of the Resource will be stored).
-     * 
-     * @param type
-     *            the type of the resource to be updated
-     * @param id
-     *            the id of the Resource being updated
-     * @param newResource
-     *            the new resource to be stored
-     * @param ifMatchValue
-     *            an optional "If-Match" header value to request a version-aware update
-     * @param searchQueryString
-     *            an optional search query string to request a conditional update
-     * @param requestProperties
-     *            additional request properties which supplement the HTTP headers associated with this request
-     * @return a FHIRRestOperationResponse that contains the results of the operation
-     * @throws Exception
-     */
-    public FHIRRestOperationResponse doUpdate(String type, String id, FHIRPatch patch, Resource newResource, String ifMatchValue, String searchQueryString,
+    
+    @Override
+    public FHIRRestOperationResponse doPatch(String type, String id, FHIRPatch patch, String ifMatchValue, String searchQueryString,
         Map<String, String> requestProperties) throws Exception {
-        log.entering(this.getClass().getName(), "doUpdate");
+        return doPatchOrUpdate(type, id, patch, null, ifMatchValue, searchQueryString, requestProperties);
+    }
+
+    @Override
+    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString,
+        Map<String, String> requestProperties) throws Exception {
+        return doPatchOrUpdate(type, id, null, newResource, ifMatchValue, searchQueryString, requestProperties);
+    }
+
+    private FHIRRestOperationResponse doPatchOrUpdate(String type, String id, FHIRPatch patch, Resource newResource, String ifMatchValue, String searchQueryString,
+        Map<String, String> requestProperties) throws Exception {
+        log.entering(this.getClass().getName(), "doPatchOrUpdate");
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         Date startTime = new Date();
@@ -1310,7 +1304,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                     log.log(Level.INFO, errMsg, e);
                 }
             }
-            log.exiting(this.getClass().getName(), "doUpdate");
+            log.exiting(this.getClass().getName(), "doPatchOrUpdate");
         }
     }
 
@@ -2795,7 +2789,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                         if (request.getIfMatch() != null) {
                             ifMatchBundleValue = request.getIfMatch().getValue();
                         }
-                        FHIRRestOperationResponse ior = doUpdate(type, id, null, resource, ifMatchBundleValue, query, requestProperties);
+                        FHIRRestOperationResponse ior = doUpdate(type, id, resource, ifMatchBundleValue, query, requestProperties);
 
                         // Process and replace bundler Entry
                         Bundle.Entry resultEntry =

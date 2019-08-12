@@ -34,15 +34,27 @@ public interface FHIRResourceHelpers {
      * Performs an update operation (a new version of the Resource will be stored).
      * @param type the type of the resource to be updated
      * @param id the id of the Resource being updated
-     * @param patch the (optional) patch to apply before the update
      * @param newResource the new resource to be stored
      * @param ifMatchValue an optional "If-Match" header value to request a version-aware update
      * @param searchQueryString an optional search query string to request a conditional update
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    public FHIRRestOperationResponse doUpdate(String type, String id, FHIRPatch patch, Resource newResource, String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception;
+    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception;
 
+    /**
+     * Performs a patch operation (a new version of the Resource will be stored).
+     * @param type the type of the resource to be updated
+     * @param id the id of the Resource being updated
+     * @param patch the patch to apply
+     * @param ifMatchValue an optional "If-Match" header value to request a version-aware update
+     * @param searchQueryString an optional search query string to request a conditional update
+     * @return a FHIRRestOperationResponse that contains the results of the operation
+     * @throws Exception
+     */
+    public FHIRRestOperationResponse doPatch(String type, String id, FHIRPatch patch, String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception;
+
+    
     /**
      * Performs a 'delete' operation on the specified resource.
      * @param type the resource type associated with the Resource to be deleted
