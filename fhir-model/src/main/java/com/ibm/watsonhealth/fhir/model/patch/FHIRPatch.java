@@ -19,10 +19,26 @@ public interface FHIRPatch {
         return patchClass.cast(this);
     }
     
+    /**
+     * Factory method that constructs a new FHIRPatch object 
+     * from a JsonArray object
+     * 
+     * @param array the JsonArray object
+     * @return
+     *     the newly constructed FHIRPatch object
+     */
     static FHIRPatch patch(JsonArray array) {
         return new FHIRJsonPatch(array);
     }
     
+    /**
+     * Factory method that constructs a new FHIRPatch object 
+     * from a JsonPatch object
+     * 
+     * @param patch the JsonPatch object
+     * @return
+     *     the newly constructed FHIRPatch object
+     */
     static FHIRPatch patch(JsonPatch patch) {
         return new FHIRJsonPatch(patch);
     }
