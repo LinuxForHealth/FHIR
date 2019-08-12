@@ -28,7 +28,7 @@ public class FHIRJsonPatch implements FHIRPatch {
     private final JsonPatch patch;
     
     FHIRJsonPatch(JsonArray array) {
-        patch = PROVIDER.createPatch(array);
+        this(PROVIDER.createPatch(array));
     }
     
     FHIRJsonPatch(JsonPatch patch) {
