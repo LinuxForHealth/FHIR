@@ -10,8 +10,6 @@ import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import java.io.FilterOutputStream;
 import java.io.OutputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +17,6 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.json.Json;
-import javax.json.JsonArray;
 import javax.json.JsonObject;
 
 import org.testng.Assert;
@@ -32,7 +29,7 @@ import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorExceptio
 import com.ibm.watsonhealth.fhir.model.parser.FHIRJsonParser;
 import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
 import com.ibm.watsonhealth.fhir.model.parser.exception.FHIRParserException;
-import com.ibm.watsonhealth.fhir.model.patch.FHIRJsonPatch;
+import com.ibm.watsonhealth.fhir.model.patch.FHIRPatch;
 import com.ibm.watsonhealth.fhir.model.patch.exception.FHIRPatchException;
 import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
@@ -64,11 +61,10 @@ public class FHIRJsonPatchTest {
         Patient updatedPatient = patientBuilder.build();
         
         // create a Patch and apply it to the original patient
-        JsonArray array = Json.createPatchBuilder()
-                .add("/name/0/given/1", "Jack")
-                .build().toJsonArray();
-        FHIRJsonPatch patch = new FHIRJsonPatch(array);
-        patient = patch.apply(toJsonObject(patient));
+        FHIRPatch patch = FHIRPatch.patch(Json.createPatchBuilder()
+            .add("/name/0/given/1", "Jack")
+            .build());
+        patient = patch.apply(patient);
         
         Assert.assertEquals(patient, updatedPatient);
     }
@@ -83,11 +79,10 @@ public class FHIRJsonPatchTest {
         Patient updatedPatient = patientBuilder.build();
         
         // create a Patch and apply it to the original patient
-        JsonArray array = Json.createPatchBuilder()
-                .remove("/active")
-                .build().toJsonArray();
-        FHIRJsonPatch patch = new FHIRJsonPatch(array);
-        patient = patch.apply(toJsonObject(patient));
+        FHIRPatch patch = FHIRPatch.patch(Json.createPatchBuilder()
+            .remove("/active")
+            .build());
+        patient = patch.apply(patient);
         
         Assert.assertEquals(patient, updatedPatient);
     }
@@ -102,11 +97,10 @@ public class FHIRJsonPatchTest {
         Patient updatedPatient = patientBuilder.build();
         
         // create a Patch and apply it to the original patient
-        JsonArray array = Json.createPatchBuilder()
-                .replace("/active", false)
-                .build().toJsonArray();
-        FHIRJsonPatch patch = new FHIRJsonPatch(array);
-        patient = patch.apply(toJsonObject(patient));
+        FHIRPatch patch = FHIRPatch.patch(Json.createPatchBuilder()
+            .replace("/active", false)
+            .build());
+        patient = patch.apply(patient);
         
         Assert.assertEquals(patient, updatedPatient);
     }
@@ -125,11 +119,10 @@ public class FHIRJsonPatchTest {
         Patient updatedPatient = patientBuilder.build();
         
         // create a Patch and apply it to the original patient
-        JsonArray array = Json.createPatchBuilder()
-                .copy("/name/0/family", "/name/0/given/0")
-                .build().toJsonArray();
-        FHIRJsonPatch patch = new FHIRJsonPatch(array);
-        patient = patch.apply(toJsonObject(patient));
+        FHIRPatch patch = FHIRPatch.patch(Json.createPatchBuilder()
+            .copy("/name/0/family", "/name/0/given/0")
+            .build());
+        patient = patch.apply(patient);
         
         Assert.assertEquals(patient, updatedPatient);
     }
@@ -140,20 +133,19 @@ public class FHIRJsonPatchTest {
         
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
-        patientBuilder.meta(patient.getMeta().toBuilder().versionId(null).build());
         List<HumanName> name = new ArrayList<>(patient.getName());
         patientBuilder.name(Collections.singletonList(
             name.get(0).toBuilder()
-                .family(string(patient.getMeta().getVersionId().getValue()))
+                .family(patient.getName().get(0).getGiven().get(0))
+                .given(Collections.emptyList())
                 .build()));
         Patient updatedPatient = patientBuilder.build();
         
         // create a Patch and apply it to the original patient
-        JsonArray array = Json.createPatchBuilder()
-                .move("/name/0/family", "/meta/versionId")
-                .build().toJsonArray();
-        FHIRJsonPatch patch = new FHIRJsonPatch(array);
-        patient = patch.apply(toJsonObject(patient));
+        FHIRPatch patch = FHIRPatch.patch(Json.createPatchBuilder()
+            .move("/name/0/family", "/name/0/given/0")
+            .build());
+        patient = patch.apply(patient);
         
         Assert.assertEquals(patient, updatedPatient);
     }
@@ -164,12 +156,6 @@ public class FHIRJsonPatchTest {
     
     public <T extends Resource> T toResource(JsonObject jsonObject) throws FHIRParserException {
         return FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parse(jsonObject);
-    }
-    
-    public JsonObject toJsonObject(Resource resource) throws FHIRGeneratorException {
-        StringWriter writer = new StringWriter();
-        FHIRGenerator.generator(Format.JSON).generate(resource, writer);
-        return Json.createReader(new StringReader(writer.toString())).readObject();
     }
     
     public OutputStream nonClosingOutputStream(OutputStream out) {

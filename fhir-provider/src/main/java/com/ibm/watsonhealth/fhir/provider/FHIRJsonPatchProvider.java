@@ -32,9 +32,10 @@ import javax.ws.rs.ext.MessageBodyWriter;
 @Consumes({ "application/json-patch+json" })
 @Produces({ "application/json-patch+json" })
 public class FHIRJsonPatchProvider implements MessageBodyReader<JsonArray>, MessageBodyWriter<JsonArray> {
+    private static final Logger log = Logger.getLogger(FHIRJsonPatchProvider.class.getName());
+
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
     private static final JsonWriterFactory JSON_WRITER_FACTORY = Json.createWriterFactory(null);
-    private static final Logger log = Logger.getLogger(FHIRJsonPatchProvider.class.getName());
     
     private final RuntimeType runtimeType;
     

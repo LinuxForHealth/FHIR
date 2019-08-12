@@ -12,10 +12,8 @@ import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_JDBC_E
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_REPL_INTERCEPTOR_ENABLED;
 import static com.ibm.watsonhealth.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -27,13 +25,8 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
 import javax.naming.InitialContext;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.xml.bind.JAXBException;
@@ -45,16 +38,12 @@ import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
 import com.ibm.watsonhealth.fhir.exception.FHIRException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
-import com.ibm.watsonhealth.fhir.model.patch.FHIRJsonPatch;
 import com.ibm.watsonhealth.fhir.model.path.FHIRPathNode;
-import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
 import com.ibm.watsonhealth.fhir.model.type.Id;
 import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
-import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistence;
 import com.ibm.watsonhealth.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
@@ -62,7 +51,6 @@ import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
-import com.ibm.watsonhealth.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ParameterNormalizedDAO;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.dao.api.ResourceNormalizedDAO;
@@ -93,14 +81,10 @@ import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
  *
  */
 public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistenceTransaction {
-    
     private static final String CLASSNAME = FHIRPersistenceJDBCNormalizedImpl.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
-    
-    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
-    
+        
     public static final String TRX_SYNCH_REG_JNDI_NAME = "java:comp/TransactionSynchronizationRegistry";
-    
     
     private ResourceNormalizedDAO resourceDao;
     private ParameterNormalizedDAO parameterDao;
@@ -374,102 +358,6 @@ public class FHIRPersistenceJDBCNormalizedImpl extends FHIRPersistenceJDBCImpl i
         return resource;
     }
     
-    /* (non-Javadoc)
-     * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#patch(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class, java.lang.String)
-     */
-    @Override
-    public Resource patch(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException {
-        final String METHODNAME = "patch";
-        log.entering(CLASSNAME, METHODNAME);
-        
-        try {
-            // Fetch existing resource for patch.
-            int existingVersion;
-            com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource existingResourceDTO = this.getResourceDao().read(logicalId, resourceType.getSimpleName());
-            if (existingResourceDTO != null) {
-                existingVersion = existingResourceDTO.getVersionId();
-            } else {
-                String msg = "Resource '" + resourceType.getSimpleName() + "/" + logicalId + " not found.";
-                throw new FHIRPersistenceResourceNotFoundException(msg);
-            }
-            
-            // Parse the raw data bytes into a JsonObject.
-            InputStream in = new GZIPInputStream(new ByteArrayInputStream(existingResourceDTO.getData()));
-            JsonReader reader = JSON_READER_FACTORY.createReader(in);
-            JsonObject object = reader.readObject();
-            in.close();
-            
-            // Get the patch object from the persistence context.
-            FHIRJsonPatch patch = (FHIRJsonPatch) context.getPersistenceEvent().getProperty(FHIRPersistenceEvent.PROPNAME_JSON_PATCH);
-            if (patch == null) {
-                throw new FHIRPersistenceException("Patch was not found.");
-            }
-            
-            // Apply the patch and create an updated resource.
-            Resource resource = patch.apply(object);
-            
-            // Validate the resource after patching.
-            List<Issue> issues = FHIRValidator.validator(resource).validate();
-            if (issues.stream().anyMatch(issue -> FHIRUtil.isFailure(issue.getSeverity()))) {
-                throw new FHIRPersistenceException("Resource after patching was not valid.").withIssue(issues);
-            }
-            
-            // Convert the resource to a builder and update its Resource.id and meta elements.
-            Resource.Builder resourceBuilder = resource.toBuilder();
-            resourceBuilder.id(Id.of(logicalId));
-            
-            Meta meta = resource.getMeta();
-            Meta.Builder metaBuilder = (meta == null) ? Meta.builder() : meta.toBuilder();
-
-            int newVersionNumber = existingVersion + 1;
-            metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
-            
-            Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-            metaBuilder.lastUpdated(lastUpdated);
-            resourceBuilder.meta(metaBuilder.build());
-            
-            resource = resourceBuilder.build();
-            
-            // Create the new Resource DTO instance.
-            com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource();
-            resourceDTO.setLogicalId(logicalId);
-            resourceDTO.setVersionId(newVersionNumber);
-            
-            Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
-            resourceDTO.setLastUpdated(timestamp);
-            resourceDTO.setResourceType(resource.getClass().getSimpleName());
-                        
-            // Serialize and compress the Resource.
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            GZIPOutputStream zipStream = new GZIPOutputStream(stream);
-            FHIRGenerator.generator(Format.JSON, false).generate(resource, zipStream);
-            zipStream.finish();
-            resourceDTO.setData(stream.toByteArray());
-            zipStream.close();
-            
-            // Persist the Resource DTO.
-            this.getResourceDao().setPersistenceContext(context);
-            this.getResourceDao().insert(resourceDTO, this.extractSearchParameters(resource, resourceDTO), this.parameterDao);
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId() + ", version=" + resourceDTO.getVersionId());
-            }
-            
-            // Return the updated resource.
-            return resource;
-        } catch(FHIRPersistenceFKVException e) {
-            log.log(Level.SEVERE, this.performCacheDiagnostics());
-            throw e;
-        } catch(FHIRPersistenceException e) {
-            throw e;
-        } catch(Throwable e) {
-            String msg = "Unexpected error while performing a patch operation.";
-            log.log(Level.SEVERE, msg, e);
-            throw new FHIRPersistenceException(msg, e);
-        } finally {
-            log.exiting(CLASSNAME, METHODNAME);
-        }
-    }
-
     /* (non-Javadoc)
      * @see com.ibm.watsonhealth.fhir.persistence.FHIRPersistence#search(com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContext, java.lang.Class)
      */

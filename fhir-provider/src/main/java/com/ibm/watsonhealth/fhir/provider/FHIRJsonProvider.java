@@ -30,9 +30,10 @@ import javax.ws.rs.ext.MessageBodyWriter;
 @Produces({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
 @Consumes({ com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
 public class FHIRJsonProvider implements MessageBodyReader<JsonObject>, MessageBodyWriter<JsonObject> {
+    private static final Logger log = Logger.getLogger(FHIRJsonProvider.class.getName());
+    
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
     private static final JsonWriterFactory JSON_WRITER_FACTORY = Json.createWriterFactory(null);
-    private static final Logger log = Logger.getLogger(FHIRJsonProvider.class.getName());
 
     @Override
     public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {

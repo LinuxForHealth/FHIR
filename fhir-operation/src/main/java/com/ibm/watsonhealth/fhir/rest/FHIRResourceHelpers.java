@@ -10,7 +10,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.ibm.watsonhealth.fhir.model.patch.FHIRJsonPatch;
+import com.ibm.watsonhealth.fhir.model.patch.FHIRPatch;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
@@ -34,25 +34,14 @@ public interface FHIRResourceHelpers {
      * Performs an update operation (a new version of the Resource will be stored).
      * @param type the type of the resource to be updated
      * @param id the id of the Resource being updated
+     * @param patch the (optional) patch to apply before the update
      * @param newResource the new resource to be stored
      * @param ifMatchValue an optional "If-Match" header value to request a version-aware update
      * @param searchQueryString an optional search query string to request a conditional update
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception;
-    
-    /**
-     * Performs an update operation (a new version of the Resource will be stored).
-     * @param type the type of the resource to be updated
-     * @param id the id of the Resource being updated
-     * @param patch the patch used to updated the resource
-     * @return a FHIRRestOperationResponse that contains the results of the operation
-     * @throws Exception
-     */
-    default public FHIRRestOperationResponse doPatch(String type, String id, FHIRJsonPatch patch) throws Exception {
-        throw new UnsupportedOperationException("The 'patch' operation is not supported.");
-    }
+    public FHIRRestOperationResponse doUpdate(String type, String id, FHIRPatch patch, Resource newResource, String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception;
 
     /**
      * Performs a 'delete' operation on the specified resource.

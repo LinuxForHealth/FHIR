@@ -836,6 +836,8 @@ public class FHIRClientImpl implements FHIRClient {
             
             // Set the http client's receive timeout setting
             cb.property("http.receive.timeout", getHttpTimeout()); // defaults to 60s
+            
+            cb.property("use.async.http.conduit", true);
 
             // Add request/response logging if enabled.
             if (isLoggingEnabled()) {

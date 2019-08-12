@@ -24,6 +24,7 @@ public final class XMLSupport {
     public static final String FHIR_NS_URI = "http://hl7.org/fhir";
     public static final String XHTML_NS_URI = "http://www.w3.org/1999/xhtml";
     
+    private static final String P_MAX_ATTRIBUTE_SIZE = "com.ctc.wstx.maxAttributeSize";
     private static final XMLInputFactory XML_INPUT_FACTORY = createXMLInputFactory();
     private static final XMLOutputFactory XML_OUTPUT_FACTORY = XMLOutputFactory.newInstance();
     
@@ -126,10 +127,7 @@ public final class XMLSupport {
     }
 
     public static void requireNamespace(XMLStreamReader reader, String namespaceURI) throws XMLStreamException {
-        if (reader instanceof StreamReaderDelegate) {
-            StreamReaderDelegate delegate = (StreamReaderDelegate) reader;
-            delegate.require(XMLStreamReader.START_ELEMENT, namespaceURI, null);
-        }
+        reader.require(XMLStreamReader.START_ELEMENT, namespaceURI, null);
     }
 
     private static StreamWriterDelegate createStreamWriterDelegate(XMLStreamWriter writer) {
@@ -145,12 +143,12 @@ public final class XMLSupport {
             }
     
             @Override
-            public void writeStartDocument(java.lang.String version) throws XMLStreamException {
+            public void writeStartDocument(String version) throws XMLStreamException {
                 // do nothing
             }
             
             @Override
-            public void writeStartDocument(java.lang.String encoding, java.lang.String version) throws XMLStreamException {
+            public void writeStartDocument(String encoding, String version) throws XMLStreamException {
                 // do nothing
             }
         };
@@ -158,6 +156,11 @@ public final class XMLSupport {
 
     private static XMLInputFactory createXMLInputFactory() {
         XMLInputFactory factory = XMLInputFactory.newInstance();
+        factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+        factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
+        if (factory.isPropertySupported(P_MAX_ATTRIBUTE_SIZE)) {
+            factory.setProperty(P_MAX_ATTRIBUTE_SIZE, "10000000");
+        }
         return factory;
     }
 

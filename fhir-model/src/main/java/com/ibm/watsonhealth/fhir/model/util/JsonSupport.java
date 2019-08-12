@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.model.util;
 
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -18,14 +20,21 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
 import javax.json.JsonString;
 import javax.json.JsonValue;
+
+import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
+import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorException;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 
 public final class JsonSupport {
     private static final JsonObject JSON_SUPPORT = readJsonSupportObject();
     private static final Map<String, Set<String>> ELEMENT_NAME_MAP = buildElementNameMap();
     private static final Map<String, Set<String>> REQUIRED_ELEMENT_NAME_MAP = buildRequiredElementNameMap();
     private static final Map<String, Set<String>> CHOICE_ELEMENT_NAME_MAP = buildChoiceElementNameMap();
+    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
     
     private JsonSupport() { }
     
@@ -151,5 +160,12 @@ public final class JsonSupport {
 
     public static boolean isChoiceElement(Class<?> type, String name) {
         return getChoiceElementNames(getTypeName(type)).contains(name);
+    }
+    
+    // TODO: replace this method with a class that converts Resource to JsonObject directly
+    public static JsonObject toJsonObject(Resource resource) throws FHIRGeneratorException {
+        StringWriter writer = new StringWriter();
+        FHIRGenerator.generator(Format.JSON).generate(resource, writer);
+        return JSON_READER_FACTORY.createReader(new StringReader(writer.toString())).readObject();
     }
 }
