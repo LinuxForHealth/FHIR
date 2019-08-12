@@ -130,6 +130,7 @@ public class FHIRJsonPatchTest {
     @Test
     public void testMoveOperation() throws FHIRGeneratorException, FHIRPatchException {
         Patient patient = buildPatient();
+        print(patient);
         
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
@@ -146,6 +147,7 @@ public class FHIRJsonPatchTest {
             .move("/name/0/family", "/name/0/given/0")
             .build());
         patient = patch.apply(patient);
+        print(patient);
         
         Assert.assertEquals(patient, updatedPatient);
     }

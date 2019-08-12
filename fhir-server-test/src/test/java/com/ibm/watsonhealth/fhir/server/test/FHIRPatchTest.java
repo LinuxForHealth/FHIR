@@ -20,6 +20,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.core.MediaType;
@@ -74,7 +75,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         patientBuilder.meta(responsePatient.getMeta());
         Patient updatedPatient = patientBuilder.build();
 
-        assertResourceEquals(updatedPatient, responsePatient);
+        Assert.assertEquals(updatedPatient, responsePatient);
     }
     
     @Test(groups = { "fhir-patch" })
@@ -113,7 +114,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         patientBuilder.meta(responsePatient.getMeta());
         Patient updatedPatient = patientBuilder.build();
 
-        assertResourceEquals(updatedPatient, responsePatient);
+        Assert.assertEquals(updatedPatient, responsePatient);
     }
 
     @Test(groups = { "fhir-patch" })
@@ -152,7 +153,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         patientBuilder.meta(responsePatient.getMeta());
         Patient updatedPatient = patientBuilder.build();
 
-        assertResourceEquals(updatedPatient, responsePatient);
+        Assert.assertEquals(updatedPatient, responsePatient);
     }
 
     @Test(groups = { "fhir-patch" })
@@ -195,7 +196,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         patientBuilder.meta(responsePatient.getMeta());
         Patient updatedPatient = patientBuilder.build();
 
-        assertResourceEquals(updatedPatient, responsePatient);
+        Assert.assertEquals(updatedPatient, responsePatient);
     }
     
     @Test(groups = { "fhir-patch" })
@@ -239,7 +240,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         patientBuilder.meta(responsePatient.getMeta());
         Patient updatedPatient = patientBuilder.build();
 
-        assertResourceEquals(updatedPatient, responsePatient);
+        Assert.assertEquals(updatedPatient, responsePatient);
     }
     
     private Patient buildPatient() {
@@ -256,7 +257,6 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         
         HumanName name = HumanName.builder()
                 .given(string("John"))
-                .given(string("Rocket"))
                 .family(string("Doe"))
                 .build();
         
