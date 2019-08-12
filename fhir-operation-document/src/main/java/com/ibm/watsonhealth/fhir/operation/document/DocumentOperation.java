@@ -149,7 +149,7 @@ public class DocumentOperation extends AbstractOperation {
         
         return documentBuilder.timestamp(Instant.now(ZoneOffset.UTC))
                 .identifier(Identifier.builder()
-                        .system(Uri.of("urn:ietf:rfc:3986")).value(string("urn:uuid:" + UUID.randomUUID().toString()))
+                        .system(Uri.of("http://hl7.org/fhir/OperationDefinition/Composition-document")).value(string("urn:uuid:" + UUID.randomUUID().toString()))
                         .build())
                 .meta(Meta.builder().lastUpdated(Instant.now(ZoneOffset.UTC)).build())
                 .build();
