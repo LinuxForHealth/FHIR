@@ -359,7 +359,7 @@ public class FHIRResource implements FHIRResourceHelpers {
     public Response patch(@PathParam("type") String type, @PathParam("id") String id, JsonArray array) {
         Response.Status status;
         
-        log.entering(this.getClass().getName(), "patch(String,String,Resource)");
+        log.entering(this.getClass().getName(), "patch(String,String,JsonArray)");
         FHIRRestOperationResponse ior = null;
         try {
             checkInitComplete();
@@ -383,7 +383,7 @@ public class FHIRResource implements FHIRResourceHelpers {
         } catch (Exception e) {
             return exceptionResponse(e, Response.Status.INTERNAL_SERVER_ERROR);
         } finally {
-            log.exiting(this.getClass().getName(), "patch(String,String,JsonObject)");
+            log.exiting(this.getClass().getName(), "patch(String,String,JsonArray)");
         }
     }
     
