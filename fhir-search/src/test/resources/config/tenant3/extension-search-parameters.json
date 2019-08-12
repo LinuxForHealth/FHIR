@@ -42,42 +42,6 @@
 		}
 	},
 	{
-		"fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/WeatherDetail-measurement-value",
-		"resource": {
-			"resourceType": "SearchParameter",
-			"id": "Observation-measurement-value",
-			"url": "http://ibm.com/watsonhealth/fhir/SearchParameter/WeatherDetail-measurement-value",
-			"version": "4.0.0",
-			"name": "measurement-value",
-			"status": "draft",
-			"experimental": false,
-			"date": "2018-12-27T22:37:54+11:00",
-			"publisher": "IBM Watson Health FHIR Test",
-			"contact": [{
-				"telecom": [{
-					"system": "url",
-					"value": "http://ibm.com/watsonhealth/fhir"
-				}]
-			},
-			{
-				"telecom": [{
-					"system": "url",
-					"value": "http://ibm.com/watsonhealth/fhir"
-				}]
-			}],
-			"description": "the measurement value",
-			"code": "measurement-value",
-			"base": ["Immunization"],
-			"type": "number",
-			"xpathUsage": "normal",
-			"xpath": "f:Observation/f:measurements/f:value",
-			"expression" : "Observation.measurements.value",
-			"multipleOr": true,
-			"multipleAnd": true,
-			"modifier": []
-		}
-	},
-	{
 		"fullUrl": "http://hl7.org/fhir/SearchParameter/Observation-value-range",
 		"resource": {
 			"resourceType": "SearchParameter",

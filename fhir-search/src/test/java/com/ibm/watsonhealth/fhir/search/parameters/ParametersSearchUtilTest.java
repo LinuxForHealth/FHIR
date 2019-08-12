@@ -102,7 +102,7 @@ public class ParametersSearchUtilTest extends BaseSearchTest {
         result = SearchUtil.getSearchParameters("Immunization");
         assertNotNull(result);
         printSearchParameters("testGetSearchParameters3/Immunization", result);
-        assertEquals(24, result.size());
+        assertEquals(23, result.size());
     }
 
     @Test

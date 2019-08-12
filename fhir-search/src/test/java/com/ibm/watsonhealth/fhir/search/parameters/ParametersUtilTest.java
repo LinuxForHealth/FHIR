@@ -87,7 +87,7 @@ public class ParametersUtilTest extends BaseSearchTest {
         // validates checks
         assertNotNull(params);
         assertFalse(params.isEmpty());
-        assertEquals(params.size(), 3);
+        assertEquals(params.size(), 2);
 
     }
 

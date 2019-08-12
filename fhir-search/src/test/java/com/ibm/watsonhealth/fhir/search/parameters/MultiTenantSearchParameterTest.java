@@ -102,11 +102,6 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         sp = result.get(1);
         assertNotNull(sp);
         assertEquals("_id", sp.getCode().getValue());
-
-        result = SearchUtil.getApplicableSearchParameters("WeatherDetail");
-        assertNotNull(result);
-        printSearchParameters("testGetSearchParameters4/WeatherDetail", result);
-        assertEquals(7, result.size());
     }
 
     @Test
@@ -211,8 +206,6 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         FHIRRequestContext.set(new FHIRRequestContext("tenant1"));
         SearchParameter result = SearchUtil.getSearchParameter("Observation", "value-range-value");
         assertNull(result);
-        result = SearchUtil.getSearchParameter("Immunization", "measurement-value");
-        assertNotNull(result);
     }
 
     @Test
