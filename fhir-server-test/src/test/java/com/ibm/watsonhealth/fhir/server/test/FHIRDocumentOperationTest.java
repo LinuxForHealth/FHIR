@@ -181,7 +181,8 @@ public class FHIRDocumentOperationTest extends FHIRServerTestBase {
         assertResourceEquals(allergyIntolerance, responseAllergyIntolerance);
     }
 
-    @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreateObservation" })
+    @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreateObservation", 
+            "testCreateCondition", "testCreateAllergyIntolerance" })
     public void testCreateComposition() throws Exception {
         String practitionerId = savedCreatedPractitioner.getId().getValue();
         String patientId = savedCreatedPatient.getId().getValue();

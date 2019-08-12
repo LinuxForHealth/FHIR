@@ -6,11 +6,14 @@
 
 package com.ibm.watsonhealth.fhir.operation.document;
 
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 import java.io.InputStream;
 import java.net.URI;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
@@ -23,6 +26,7 @@ import com.ibm.watsonhealth.fhir.model.resource.Parameters;
 import com.ibm.watsonhealth.fhir.model.resource.Parameters.Parameter;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.BundleType;
+import com.ibm.watsonhealth.fhir.model.type.Identifier;
 import com.ibm.watsonhealth.fhir.model.type.Reference;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.operation.AbstractOperation;
@@ -30,6 +34,8 @@ import com.ibm.watsonhealth.fhir.operation.context.FHIROperationContext;
 import com.ibm.watsonhealth.fhir.operation.util.FHIROperationUtil;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 import com.ibm.watsonhealth.fhir.rest.FHIRRestOperationResponse;
+import com.ibm.watsonhealth.fhir.model.type.Instant;
+import com.ibm.watsonhealth.fhir.model.type.Meta;
 
 public class DocumentOperation extends AbstractOperation {
     @Override
@@ -70,11 +76,14 @@ public class DocumentOperation extends AbstractOperation {
                     if (persist) {
                         // FHIRResourceHelper resourceHelper = (FHIRResourceHelper) operationContext.getProperty(FHIROperationContext.PROPNAME_RESOURCE_HELPER;
                         FHIRRestOperationResponse response = resourceHelper.doCreate("Bundle", bundle, null, null);
+                        // Use the responded bundle to create response to client.
+                        bundle = (Bundle)response.getResource();
                         URI locationURI = response.getLocationURI();
                         operationContext.setProperty(FHIROperationContext.PROPNAME_LOCATION_URI, locationURI);
                     }
                 }
             }
+            
             
             return FHIROperationUtil.getOutputParameters(bundle);
         } catch (FHIROperationException e) {
@@ -137,7 +146,13 @@ public class DocumentOperation extends AbstractOperation {
         // Composition.section.entry
         addBundleEntries(operationContext, documentBuilder, composition.getSection(), resourceHelper, resources);
         
-        return documentBuilder.build();
+        
+        return documentBuilder.timestamp(Instant.now(ZoneOffset.UTC))
+                .identifier(Identifier.builder()
+                        .system(Uri.of("urn:ietf:rfc:3986")).value(string("urn:uuid:" + UUID.randomUUID().toString()))
+                        .build())
+                .meta(Meta.builder().lastUpdated(Instant.now(ZoneOffset.UTC)).build())
+                .build();
     }
 
     private void addBundleEntry(FHIROperationContext operationContext, Bundle.Builder documentBuilder, Reference reference, FHIRResourceHelpers resourceHelper, Map<String, Resource> resources) throws Exception {;

@@ -138,6 +138,7 @@ import com.ibm.watsonhealth.fhir.server.listener.FHIRServletContextListener;
 import com.ibm.watsonhealth.fhir.server.util.IssueTypeToHttpStatusMapper;
 import com.ibm.watsonhealth.fhir.server.util.ReferenceMappingVisitor;
 import com.ibm.watsonhealth.fhir.server.util.RestAuditLogger;
+import com.ibm.watsonhealth.fhir.model.type.Canonical;
 
 @Path("/")
 @Produces({ MediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, MediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
@@ -351,7 +352,6 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     @PATCH
-    @Consumes("application/json-patch+json")
     @Path("{type}/{id}")
     public Response patch(@PathParam("type") String type, @PathParam("id") String id, JsonArray array) {
         Response.Status status;
@@ -2181,6 +2181,21 @@ public class FHIRResource implements FHIRResourceHelpers {
         operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, securityContext);
         operationContext.setProperty(FHIROperationContext.PROPNAME_REQUEST_PROPERTIES, requestProperties);
     }
+    
+    /**
+     * @param issues
+     * @return
+     */
+    private boolean anyFailueInIssues(List<OperationOutcome.Issue> issues) {
+        boolean hasFailure = false;
+        for (OperationOutcome.Issue issue: issues) {
+            if (FHIRUtil.isFailure(issue.getSeverity())) {
+                hasFailure = true;
+            }
+        }
+        return hasFailure;
+    }
+
 
     /**
      * Performs validation of a request Bundle and returns a Bundle containing response entries corresponding to the
@@ -2300,14 +2315,13 @@ public class FHIRResource implements FHIRResourceHelpers {
                         List<OperationOutcome.Issue> issues = FHIRValidator.validator(resource).validate();
                         if (!issues.isEmpty()) {
                             OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
-                            response = Bundle.Entry.Response.builder().status(string(Integer.toString(SC_BAD_REQUEST))).build();
-
-                            responseEntry = Bundle.Entry.builder().response(response).resource(oo).build();
-                            for (Issue issue : issues) {
-                                if (issue.getSeverity().equals(IssueSeverity.ERROR) || issue.getSeverity().equals(IssueSeverity.FATAL)) {
-                                    numErrors++;
-                                }
+                            if (anyFailueInIssues(issues)) {
+                                response = Bundle.Entry.Response.builder().status(string(Integer.toString(SC_BAD_REQUEST))).build();
+                                numErrors++;
+                            }else {
+                                response = Bundle.Entry.Response.builder().status(string(Integer.toString(SC_OK))).build();
                             }
+                            responseEntry = Bundle.Entry.builder().response(response).resource(oo).build();
                             continue;
                         }
                     }
@@ -2504,7 +2518,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             // Next, for PUT (update) requests, extract any local identifiers and resolve them ahead of time.
             // We do this to prevent any local reference problems from occurring due to our re-ordering
             // of the PUT request entries.
-            if (httpMethod == HTTPVerb.PUT) {
+            if (httpMethod.equals(HTTPVerb.PUT)) {
                 log.finer("Pre-processing bundle request entries for PUT method...");
                 for (Integer index : entryIndices) {
                     Bundle.Entry requestEntry = requestBundle.getEntry().get(index);
@@ -2523,7 +2537,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
 
             // Next, for PUT and DELETE requests, we need to sort the indices by the request url path value.
-            if (httpMethod == HTTPVerb.PUT || httpMethod == HTTPVerb.DELETE) {
+            if (httpMethod.equals(HTTPVerb.PUT) || httpMethod.equals(HTTPVerb.DELETE)) {
                 sortBundleRequestEntries(requestBundle, entryIndices);
                 log.finer("Sorted bundle request indices to be processed: " + entryIndices.toString());
             }
@@ -2575,7 +2589,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
                     Map<String, String> requestProperties = extractRequestPropertiesFromExtensions(request.getExtension(), bundleRequestProperties);
 
-                    if (request.getMethod() == HTTPVerb.GET) {
+                    if (request.getMethod().equals(HTTPVerb.GET)) {
                         Resource resource = null;
                         int httpStatus = SC_OK;
 
@@ -2641,7 +2655,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                         setBundleResponseStatus(response, httpStatus, requestDescription.toString(), initialTime);
 
                         responseIndexAndEntries.put(entryIndex, responseEntryBuilder.resource(resource).response(responseBuilder.build()).build());
-                    } else if (request.getMethod() == HTTPVerb.POST) {
+                    } else if (request.getMethod().equals(HTTPVerb.POST)) {
                         // Process a POST (create or search, or custom operation).
                         if (pathTokens.length > 0 && pathTokens[pathTokens.length - 1].startsWith("$")) {
                             // This is a custom operation request
@@ -2722,6 +2736,9 @@ public class FHIRResource implements FHIRResourceHelpers {
                             // Perform the 'create' operation.
                             String ifNoneExist = request.getIfNoneExist() != null ? request.getIfNoneExist().getValue() : null;
                             FHIRRestOperationResponse ior = doCreate(pathTokens[0], resource, ifNoneExist, requestProperties);
+                            
+                            // Get the updated resource from FHIRRestOperationResponse which has the correct ID, meta etc.
+                            resource = ior.getResource();
 
                             // Process and replace bundler Entry
                             Bundle.Entry resultEntry =
@@ -2736,7 +2753,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                             String msg = "Request URL for bundled create requests should have a path with exactly one token (<resourceType>).";
                             throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_FOUND);
                         }
-                    } else if (request.getMethod() == HTTPVerb.PUT) {
+                    } else if (request.getMethod().equals(HTTPVerb.PUT)) {
                         String type = null;
                         String id = null;
 
@@ -2789,7 +2806,7 @@ public class FHIRResource implements FHIRResourceHelpers {
 
                         responseIndexAndEntries.put(entryIndex, resultEntry);
 
-                    } else if (request.getMethod() == HTTPVerb.DELETE) {
+                    } else if (request.getMethod().equals(HTTPVerb.DELETE)) {
                         String type = null;
                         String id = null;
 
@@ -2977,10 +2994,12 @@ public class FHIRResource implements FHIRResourceHelpers {
             Bundle.Entry.Request request = requestEntry.getRequest();
             Bundle.Entry.Response response = responseEntry.getResponse();
 
-            // If our response bundle doesn't already have a response status set (perhaps as a result of
-            // a validation error), and this request entry's http method is the one we're looking for,
-            // then record the index in our list.
-            if (response.getStatus() == null && request.getMethod().equals(httpMethod)) {
+            // If the response status is SC_OK which means the request passed the validation, 
+            // and this request entry's http method is the one we're looking for,
+            // then record the index in our list. 
+            // (please notice that status can not be null since R4, So we set the response status as SC_OK
+            // after the resource validation. )
+            if (response.getStatus().equals(string(Integer.toString(SC_OK))) && request.getMethod().equals(httpMethod)) {
                 indices.add(Integer.valueOf(i));
             }
         }
@@ -3297,15 +3316,19 @@ public class FHIRResource implements FHIRResourceHelpers {
                     }
 
                     Rest.Resource.SearchParam conformanceSearchParam = conformanceSearchParamBuilder.build();
-
                     conformanceSearchParams.add(conformanceSearchParam);
                 }
             }
 
             // Build the ConformanceResource for this resource type.
             Rest.Resource cr =
-                    Rest.Resource.builder().type(ResourceType.of(resourceType)).profile(com.ibm.watsonhealth.fhir.model.type.Canonical.of("http://hl7.org/fhir/profiles/"
-                            + resourceType)).interaction(interactions).conditionalCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true)).conditionalUpdate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true)).conditionalCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(isUpdateCreateEnabled())).conditionalDelete(ConditionalDeleteStatus.of(ConditionalDeleteStatus.ValueSet.SINGLE)).build();
+                    Rest.Resource.builder().type(ResourceType.of(resourceType)).profile(Canonical.of("http://hl7.org/fhir/profiles/"
+                            + resourceType)).interaction(interactions)
+                    .conditionalCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true))
+                    .conditionalUpdate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(true))
+                    .updateCreate(com.ibm.watsonhealth.fhir.model.type.Boolean.of(isUpdateCreateEnabled()))
+                    .conditionalDelete(ConditionalDeleteStatus.of(ConditionalDeleteStatus.ValueSet.SINGLE))
+                    .build();
 
             resources.add(cr);
         }

@@ -90,29 +90,6 @@ public abstract class AbstractOperation implements FHIROperation {
         return result;
     }
     
-    protected String getParameterValueTypeName(Parameters.Parameter parameter) throws FHIROperationException {
-        if (parameter.getResource() != null) {
-            try {
-                Resource resource = parameter.getResource();                
-                return resource.getClass().getSimpleName();
-            } catch (Exception e) {
-            }
-        }
-        for (Method method : Parameters.Parameter.class.getMethods()) {
-            String methodName = method.getName();
-            if (methodName.startsWith("getValue")) {
-                try {
-                    Object value = method.invoke(parameter);
-                    if (value != null) {
-                        return methodName.substring("getValue".length());
-                    }
-                } catch (Exception e) {
-                }
-            }
-        }
-        String msg = "No parameter value found for parameter: '" + parameter.getName().getValue() + "'";
-        throw buildExceptionWithIssue(msg, IssueType.ValueSet.INVALID);
-    }
     
     protected List<String> getResourceTypeNames() {
         List<String> resourceTypeNames = new ArrayList<String>();
@@ -190,16 +167,12 @@ public abstract class AbstractOperation implements FHIROperation {
             if (count > 0) {
                 List<Parameters.Parameter> inputParameters = getParameters(parameters, name);
                 for (Parameters.Parameter inputParameter : inputParameters) {
-                    String parameterValueTypeName = getParameterValueTypeName(inputParameter);
+                    String parameterValueTypeName = inputParameter.getValue().getClass().getName();
                     String parameterDefinitionTypeName = parameterDefinition.getType().getValue();
                     parameterDefinitionTypeName = parameterDefinitionTypeName.substring(0, 1).toUpperCase() + parameterDefinitionTypeName.substring(1);
                     try {
                         Class<?> parameterValueType, parameterDefinitionType;
-                        if (FHIRUtil.isStandardResourceType(parameterValueTypeName)) {
-                            parameterValueType = Class.forName("com.ibm.watsonhealth.fhir.model.resource." + parameterValueTypeName);
-                        } else {
-                            parameterValueType = Class.forName("com.ibm.watsonhealth.fhir.model.type." + parameterValueTypeName);
-                        }
+                        parameterValueType = Class.forName(parameterValueTypeName);
 
                         if (FHIRUtil.isStandardResourceType(parameterDefinitionTypeName)){
                             parameterDefinitionType = Class.forName("com.ibm.watsonhealth.fhir.model.resource." + parameterDefinitionTypeName);
