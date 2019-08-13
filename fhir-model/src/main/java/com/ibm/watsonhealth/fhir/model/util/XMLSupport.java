@@ -100,13 +100,20 @@ public final class XMLSupport {
     }
 
     public static String parseDiv(XMLStreamReader reader) throws XMLStreamException {
+        int depth = 0;
+        
         StringWriter sw = new StringWriter();
         XMLStreamWriter writer = createStreamWriterDelegate(sw);
+        
+        depth++;
         writeStartElement(reader, writer);
+        
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
             case XMLStreamReader.START_ELEMENT:
+                requireNamespace(reader, XHTML_NS_URI);
+                depth++;
                 writeStartElement(reader, writer);
                 break;
             case XMLStreamReader.SPACE:
@@ -115,7 +122,8 @@ public final class XMLSupport {
                 break;             
             case XMLStreamReader.END_ELEMENT:
                 writer.writeEndElement();
-                if ("div".equals(reader.getLocalName())) {
+                depth--;
+                if ("div".equals(reader.getLocalName()) && depth == 0) {
                     writer.flush();
                     writer.close();
                     return sw.toString();
@@ -123,6 +131,7 @@ public final class XMLSupport {
                 break;
             }
         }
+        
         throw new XMLStreamException("Unexpected end of stream");
     }
 
@@ -387,6 +396,12 @@ public final class XMLSupport {
         System.out.println(parseDiv(reader));
         
         div = "<h:div xmlns:h=\"http://www.w3.org/1999/xhtml\"><h:p><h:b>Generated Narrative</h:b></h:p></h:div>";
+        reader = XML_INPUT_FACTORY.createXMLStreamReader(new StringReader(div));
+        reader.next();
+        System.out.println(parseDiv(reader));
+        
+        div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div><p>Anything</p></div></div>";
+        div = div.replace("\n", "");
         reader = XML_INPUT_FACTORY.createXMLStreamReader(new StringReader(div));
         reader.next();
         System.out.println(parseDiv(reader));
