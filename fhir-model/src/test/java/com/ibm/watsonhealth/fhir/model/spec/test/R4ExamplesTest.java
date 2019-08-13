@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.model.spec.test;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.visitor.CopyingVisitor;
 
@@ -27,22 +28,21 @@ public class R4ExamplesTest {
     }
 
     @Test
-	public void serializationTest() throws Exception {
-		driver.setProcessor(new SerializationProcessor());
-		
-		if ("true".equalsIgnoreCase(System.getProperty(this.getClass().getName() + ".withValidation"))) {
-		    driver.setValidator(new ValidationProcessor());
-		}
-		
-		driver.processAllExamples();
-	}
+    public void serializationTest() throws Exception {
+        driver.setProcessor(new SerializationProcessor());
+
+        if ("true".equalsIgnoreCase(System.getProperty(this.getClass().getName() + ".withValidation"))) {
+            driver.setValidator(new ValidationProcessor());
+        }
+
+        driver.processAllExamples();
+    }
     
     @Test
     public void copyTest() throws Exception {
         driver.setProcessor(new CopyProcessor(new CopyingVisitor<Resource>()));
         driver.processAllExamples();
     }
-    
     
     /**
      * Main method only used for driving ad-hoc testing
@@ -54,6 +54,6 @@ public class R4ExamplesTest {
         self.driver.setProcessor(new SerializationProcessor());
         self.driver.setValidator(new ValidationProcessor());
         
-        self.driver.processExample("json/ibm/complete-absent/Parameters-28.json", Expectation.OK);
+        self.driver.processExample("json/ibm/complete-absent/Parameters-28.json", Format.JSON, Expectation.OK);
     }
 }

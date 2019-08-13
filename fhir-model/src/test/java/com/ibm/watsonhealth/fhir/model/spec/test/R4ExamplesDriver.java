@@ -33,13 +33,14 @@ public class R4ExamplesDriver {
     // Location of the resource directory holding the examples. Note - these resources
     // will come from fhir-r4-spec-examples project, in case you're looking for them. We
     // do this to avoid rebuilding a huge jar full of static files every time.
-    private static final String SPEC_DIR = "json";
+    private static final String JSON_PATH = "json";
+    private static final String XML_PATH = "xml";
 
     // All the examples which should pass validation
-    private static final String ALL_FILE_INDEX = SPEC_DIR + "/all.txt";
-    private static final String MINIMAL_FILE_INDEX = SPEC_DIR + "/minimal.txt";
-    private static final String SPEC_FILE_INDEX = SPEC_DIR + "/spec.txt";
-    private static final String IBM_FILE_INDEX = SPEC_DIR + "/ibm.txt";
+    private static final String ALL_FILE_INDEX = "/all.txt";
+    private static final String MINIMAL_FILE_INDEX = "/minimal.txt";
+    private static final String SPEC_FILE_INDEX = "/spec.txt";
+    private static final String IBM_FILE_INDEX = "/ibm.txt";
 
     // Call this processor for each of the examples, if given
     private IExampleProcessor processor;
@@ -79,9 +80,11 @@ public class R4ExamplesDriver {
      */
     public void processAllExamples() throws Exception {
         // Allow the build to override the default so we can really test everything
-        String ttValue = System.getProperty(this.getClass().getName() + ".testType", TestType.MINIMAL.name());
+        String ttValue = System.getProperty(this.getClass().getName() + ".testType", TestType.MINIMAL.toString());
+        String ttFormat = System.getProperty(this.getClass().getName() + ".format", Format.JSON.toString());
         TestType tt = TestType.valueOf(ttValue);
-        processExamples(tt);
+        Format format = Format.valueOf(ttFormat);
+        processExamples(tt, format);
     }
     
     /**
@@ -89,27 +92,39 @@ public class R4ExamplesDriver {
      * @param testType select between all or minimal file sets for the test
      * @throws Exception
      */
-    public void processExamples(TestType testType) throws Exception {
+    public void processExamples(TestType testType, Format format) throws Exception {
+        String dir;
+        switch (format) {
+        case JSON:
+            dir = JSON_PATH;
+            break;
+        case XML:
+            dir = XML_PATH;
+            break;
+        default:
+            throw new IllegalArgumentException("Format '" + testType + "' is not supported.");
+        }
+        
         String filename;
         switch (testType) {
         case ALL: 
-            filename = ALL_FILE_INDEX;
+            filename = dir + ALL_FILE_INDEX;
             break;
         case MINIMAL: 
-            filename = MINIMAL_FILE_INDEX;
+            filename = dir + MINIMAL_FILE_INDEX;
             break;
         case SPEC: 
-            filename = SPEC_FILE_INDEX;
+            filename = dir + SPEC_FILE_INDEX;
             break;
         case IBM: 
-            filename = IBM_FILE_INDEX;
+            filename = dir + IBM_FILE_INDEX;
             break;
         default:
             throw new IllegalArgumentException("shouldn't be necessary");
         }
 
         // filename will be a resource we read from the classpath
-        processIndex(filename);
+        processIndex(filename, format);
     }
 
 
@@ -119,7 +134,7 @@ public class R4ExamplesDriver {
      * @param filename
      * @throws Exception
      */
-    public void processIndex(String filename) throws Exception {
+    public void processIndex(String filename, Format format) throws Exception {
         // reset the state just in case we are called more than once
         this.firstException = null;
         this.testCount = 0;
@@ -138,13 +153,21 @@ public class R4ExamplesDriver {
                     if (tokens.length == 2) {
                         String expectation = tokens[0];
                         String example = tokens[1];
-                        if (example.toUpperCase().endsWith(".JSON")) {
+                        if (example.toUpperCase().endsWith(".JSON") && format == Format.JSON) {
                             testCount++;
                             Expectation exp = Expectation.valueOf(expectation);
 
                             // all exception handling is delegated to the method, because
                             // it needs to take into account the expectation
-                            processExample(SPEC_DIR + "/" + example, exp);
+                            processExample(JSON_PATH + "/" + example, format, exp);
+                        } else
+                        if (example.toUpperCase().endsWith(".XML") && format == Format.XML) {
+                            testCount++;
+                            Expectation exp = Expectation.valueOf(expectation);
+
+                            // all exception handling is delegated to the method, because
+                            // it needs to take into account the expectation
+                            processExample(XML_PATH + "/" + example, format, exp);
                         }
                     }
                 }
@@ -178,15 +201,15 @@ public class R4ExamplesDriver {
      * on the classpath.
      * @param jsonFile
      */
-    public void processExample(String jsonFile, Expectation expectation) throws Exception {
-        System.out.println("Processing: " + jsonFile);
+    public void processExample(String file, Format format, Expectation expectation) throws Exception {
+        System.out.println("Processing: " + file);
         Expectation actual;
 
         try {
-            Resource resource = readResource(jsonFile);
+            Resource resource = readResource(file, format);
             if (resource == null) {
                 // this is bad, because we'd expect a FHIRParserException
-                throw new AssertionError("readResource(" + jsonFile + ") returned null");
+                throw new AssertionError("readResource(" + file + ") returned null");
             }
 
             if (expectation == Expectation.PARSE) {
@@ -194,12 +217,12 @@ public class R4ExamplesDriver {
                 // test, so we don't try and process it any further
                 actual = Expectation.OK;
                 if (firstException == null) {
-                    firstException = new FHIRParserException("Parse succeeded but should've failed", jsonFile, null);
+                    firstException = new FHIRParserException("Parse succeeded but should've failed", file, null);
                 }
             }
             else {
                 // validate and process the example
-                actual = processExample(jsonFile, resource, expectation);
+                actual = processExample(file, resource, expectation);
             }
         }
         catch (FHIRParserException fpx) {
@@ -210,7 +233,7 @@ public class R4ExamplesDriver {
             }
             else {
                 // oops, hit an unexpected parse error
-                logger.severe("readResource(" + jsonFile + ") unexpected failure: " + fpx.getMessage()
+                logger.severe("readResource(" + file + ") unexpected failure: " + fpx.getMessage()
                 + ", " + fpx.getPath());
 
                 // continue processing the other files, but capture the first exception so we can fail the test
@@ -221,27 +244,27 @@ public class R4ExamplesDriver {
             }
         }
 
-        System.out.println(String.format("Processed: wanted:%11s got:%11s %s ", expectation.name(), actual.name(), jsonFile));
+        System.out.println(String.format("Processed: wanted:%11s got:%11s %s ", expectation.name(), actual.name(), file));
 
     }
 
     /**
      * Process the example resource
-     * @param jsonFile so we know the name of the file if there's a problem
+     * @param examplePath so we know the name of the file if there's a problem
      * @param resource the parsed object
      */
-    protected Expectation processExample(String jsonFile, Resource resource, Expectation expectation) throws Exception {
+    protected Expectation processExample(String examplePath, Resource resource, Expectation expectation) throws Exception {
         Expectation actual = Expectation.OK;
         if (validator != null) {
             try {
-                validator.process(jsonFile, resource);
+                validator.process(examplePath, resource);
 
                 if (expectation == Expectation.VALIDATION) {
                     // this is a problem, because we expected validation to fail
                     resource = null; // prevent processing
-                    logger.severe("validateResource(" + jsonFile + ") should've failed but didn't");
+                    logger.severe("validateResource(" + examplePath + ") should've failed but didn't");
                     if (firstException == null) {
-                        firstException = new FHIRParserException("Validation succeeded but should've failed", jsonFile, null);
+                        firstException = new FHIRParserException("Validation succeeded but should've failed", examplePath, null);
                     }
                 }
             }
@@ -256,7 +279,7 @@ public class R4ExamplesDriver {
                 }
                 else {
                     // oops, hit an unexpected validation error
-                    logger.severe("validateResource(" + jsonFile + ") unexpected failure: " + x.getMessage());
+                    logger.severe("validateResource(" + examplePath + ") unexpected failure: " + x.getMessage());
 
                     // continue processing the other files
                     if (firstException == null) {
@@ -269,13 +292,13 @@ public class R4ExamplesDriver {
         // process the resource (as long as validation was successful
         if (processor != null && resource != null) {
             try {
-                processor.process(jsonFile, resource);
+                processor.process(examplePath, resource);
 
                 if (expectation == Expectation.PROCESS) {
                     // this is a problem, because we expected validation to fail
-                    logger.severe("processResource(" + jsonFile + ") should've failed but didn't");
+                    logger.severe("processResource(" + examplePath + ") should've failed but didn't");
                     if (firstException == null) {
-                        firstException = new FHIRParserException("Process succeeded but should've failed", jsonFile, null);
+                        firstException = new FHIRParserException("Process succeeded but should've failed", examplePath, null);
                     }
                 }
                 else {
@@ -293,7 +316,7 @@ public class R4ExamplesDriver {
                 }
                 else {
                     // processing error, but didn't expect it
-                    logger.log(Level.SEVERE, "processResource(" + jsonFile + ") unexpected failure: ", x);
+                    logger.log(Level.SEVERE, "processResource(" + examplePath + ") unexpected failure: ", x);
 
                     // continue processing the other files
                     if (firstException == null) {
@@ -319,11 +342,11 @@ public class R4ExamplesDriver {
      * @throws FileNotFoundException
      * @throws JAXBException
      */
-    public Resource readResource(String fileName) throws Exception {
+    public Resource readResource(String fileName, Format format) throws Exception {
 
         // We don't really care about knowing the resource type. We can check this later
         try (InputStream is = getInputStream(fileName)) {
-            return FHIRParser.parser(Format.JSON).parse(is);
+            return FHIRParser.parser(format).parse(is);
         }
     }
     
