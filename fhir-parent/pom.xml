@@ -111,9 +111,9 @@
                 <version>${cxf.version}</version>
             </dependency>
             <dependency>
-	            <groupId>org.apache.cxf</groupId>
-	            <artifactId>cxf-rt-transports-http-hc</artifactId>
-	            <version>${cxf.version}</version>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-transports-http-hc</artifactId>
+                <version>${cxf.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.websocket</groupId>
