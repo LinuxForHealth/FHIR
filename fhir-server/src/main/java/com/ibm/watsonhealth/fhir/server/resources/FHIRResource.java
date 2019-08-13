@@ -128,6 +128,7 @@ import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.rest.FHIRResourceHelpers;
 import com.ibm.watsonhealth.fhir.rest.FHIRRestOperationResponse;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
+import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
 import com.ibm.watsonhealth.fhir.search.parameters.ParameterValue;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
@@ -3238,7 +3239,12 @@ public class FHIRResource implements FHIRResourceHelpers {
     }
 
     private Response exceptionResponse(FHIROperationException e) {
-        Status status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+        Status status;
+        if (e instanceof FHIRSearchException) {
+            status = Status.BAD_REQUEST;              
+        } else {            
+            status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+        }
         return exceptionResponse(e, status);
     }
 

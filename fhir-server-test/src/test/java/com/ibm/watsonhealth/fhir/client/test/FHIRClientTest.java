@@ -453,13 +453,13 @@ public class FHIRClientTest extends FHIRClientTestBase {
         Bundle requestBundle = Bundle.builder().type(BundleType.BATCH).build();
         
         // read
-        addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + createdPatient.getId().getValue(), null);
+        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + createdPatient.getId().getValue(), null);
         // vread
-        addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history/" + updatedPatient.getMeta().getVersionId().getValue(), null);
+        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history/" + updatedPatient.getMeta().getVersionId().getValue(), null);
         // history
-        addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history", null);
+        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history", null);
         // search
-        addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient?family=Doe&_count=3", null);
+        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient?family=Doe&_count=3", null);
         
         FHIRResponse response = client.batch(requestBundle);
         assertNotNull(response);
@@ -478,13 +478,13 @@ public class FHIRClientTest extends FHIRClientTestBase {
     public void testTransaction() throws Exception {
         Bundle requestBundle = Bundle.builder().type(BundleType.BATCH).build();
         // read
-        addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + createdPatient.getId().getValue(), null);
+        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + createdPatient.getId().getValue(), null);
         // vread
-        addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history/" + updatedPatient.getMeta().getVersionId().getValue(), null);
+        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history/" + updatedPatient.getMeta().getVersionId().getValue(), null);
         // history
-        addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history", null);
+        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId().getValue() + "/_history", null);
         // search
-        addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient?family=Doe&_count=3", null);
+        requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient?family=Doe&_count=3", null);
         
         FHIRResponse response = client.transaction(requestBundle);
         assertNotNull(response);
