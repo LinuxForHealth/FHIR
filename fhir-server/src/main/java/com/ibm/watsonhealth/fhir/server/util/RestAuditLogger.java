@@ -32,7 +32,6 @@ import com.ibm.watsonhealth.fhir.config.FHIRConfigHelper;
 import com.ibm.watsonhealth.fhir.config.FHIRConfiguration;
 import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
-import com.ibm.watsonhealth.fhir.model.patch.FHIRPatch;
 import com.ibm.watsonhealth.fhir.model.resource.Basic;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle.Entry;
@@ -96,17 +95,43 @@ public class RestAuditLogger {
      * @param responseStatus - The response status.
      * @throws Exception 
      */
-    public static void logUpdate(HttpServletRequest request, FHIRPatch patch, Resource oldResource, Resource updatedResource, Date startTime, Date endTime, 
+    public static void logUpdate(HttpServletRequest request, Resource oldResource, Resource updatedResource, Date startTime, Date endTime, 
                                  Response.Status responseStatus) throws Exception {
         final String METHODNAME = "logUpdate";
         log.entering(CLASSNAME, METHODNAME);
         
         AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
-        AuditLogEntry entry = initLogEntry((patch != null) ? AuditLogEventType.FHIR_PATCH : AuditLogEventType.FHIR_UPDATE);
+        AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_UPDATE);
         populateAuditLogEntry(entry, request, updatedResource, startTime, endTime, responseStatus);
         
         entry.getContext().setAction("U");
-        entry.setDescription((patch != null) ? "FHIR Patch request" : "FHIR Update request");
+        entry.setDescription("FHIR Update request");
+                
+        auditLogSvc.logEntry(entry);
+        log.exiting(CLASSNAME, METHODNAME);
+    }
+    
+    /**
+     * Builds an audit log entry for an 'patch' REST service invocation.
+     * @param request - The HttpServletRequest representation of the REST request.
+     * @param oldResource - The previous version of the Resource, before it was patched.
+     * @param newResource - The patched version of the Resource.
+     * @param startTime - The start time of the patch request execution.
+     * @param endTime - The end time of the patch request execution.
+     * @param responseStatus - The response status.
+     * @throws Exception 
+     */
+    public static void logPatch(HttpServletRequest request, Resource oldResource, Resource updatedResource, Date startTime, Date endTime, 
+                                 Response.Status responseStatus) throws Exception {
+        final String METHODNAME = "logPatch";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
+        AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_PATCH);
+        populateAuditLogEntry(entry, request, updatedResource, startTime, endTime, responseStatus);
+        
+        entry.getContext().setAction("P");
+        entry.setDescription("FHIR Patch request");
                 
         auditLogSvc.logEntry(entry);
         log.exiting(CLASSNAME, METHODNAME);

@@ -330,8 +330,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                 if (status == Response.Status.CREATED) {
                     RestAuditLogger.logCreate(httpServletRequest, (ior != null ? ior.getResource() : null), startTime, new Date(), status);
                 } else {
-                    RestAuditLogger.logUpdate(httpServletRequest, null, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource()
-                            : null), startTime, new Date(), status);
+                    RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
                 }
             }
 
@@ -421,8 +420,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             response = addHeaders(response, ior.getResource());
 
             if (createAuditLogRecord) {
-                RestAuditLogger.logUpdate(httpServletRequest, patch, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource()
-                        : null), startTime, new Date(), status);
+                RestAuditLogger.logPatch(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
             }
 
             return response.build();
@@ -1127,9 +1125,13 @@ public class FHIRResource implements FHIRResourceHelpers {
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
 
         // Pass end time the same as start time to tell cadf log service that this is a pending request.
-        // At this time point, we don't have the updated resource, so use the input resource as the updated resource in
-        // the pending request.
-        RestAuditLogger.logUpdate(httpServletRequest, patch, newResource, newResource, startTime, startTime, Response.Status.OK);
+        if (patch != null) {
+            RestAuditLogger.logPatch(httpServletRequest, null, null, startTime, startTime, Response.Status.OK);
+        } else {
+            // At this time point, we don't have the updated resource, so use the input resource as the updated resource in
+            // the pending request.
+            RestAuditLogger.logUpdate(httpServletRequest, newResource, newResource, startTime, startTime, Response.Status.OK);
+        }
 
         try {
             // Make sure the type specified in the URL string matches the resource type obtained from the new resource.
@@ -1224,8 +1226,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             txn.begin();
 
             // First, create the persistence event.
-            FHIRPersistenceEvent event =
-                    new FHIRPersistenceEvent(newResource, buildPersistenceEventProperties(type, newResource.getId().getValue(), null, requestProperties));
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(newResource, buildPersistenceEventProperties(type, newResource.getId().getValue(), null, requestProperties));
 
             // Next, set the "previous resource" in the persistence event.
             event.setPrevFhirResource(ior.getPrevResource());
@@ -1235,7 +1236,12 @@ public class FHIRResource implements FHIRResourceHelpers {
             if (updateCreate) {
                 getInterceptorMgr().fireBeforeCreateEvent(event);
             } else {
-                getInterceptorMgr().fireBeforeUpdateEvent(event);
+                if (patch != null) {
+                    event.getProperties().put(FHIRPersistenceEvent.PROPNAME_PATCH, patch);
+                    getInterceptorMgr().fireBeforePatchEvent(event);
+                } else {
+                    getInterceptorMgr().fireBeforeUpdateEvent(event);
+                }
             }
 
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
@@ -1252,7 +1258,11 @@ public class FHIRResource implements FHIRResourceHelpers {
                 getInterceptorMgr().fireAfterCreateEvent(event);
             } else {
                 ior.setStatus(Response.Status.OK);
-                getInterceptorMgr().fireAfterUpdateEvent(event);
+                if (patch != null) {
+                    getInterceptorMgr().fireAfterPatchEvent(event);
+                } else {
+                    getInterceptorMgr().fireAfterUpdateEvent(event);
+                }
             }
 
             // Commit our transaction if we started one before.
@@ -1298,8 +1308,11 @@ public class FHIRResource implements FHIRResourceHelpers {
                 // Now Audit log the final status of the request,
                 // if fails to log, then log the error in local log file and ignore.
                 try {
-                    RestAuditLogger.logUpdate(httpServletRequest, patch, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource()
-                            : null), startTime, new Date(), status);
+                    if (patch != null) {
+                        RestAuditLogger.logPatch(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+                    } else {
+                        RestAuditLogger.logUpdate(httpServletRequest, (ior != null ? ior.getPrevResource() : null), (ior != null ? ior.getResource() : null), startTime, new Date(), status);
+                    }
                 } catch (Exception e) {
                     log.log(Level.INFO, errMsg, e);
                 }

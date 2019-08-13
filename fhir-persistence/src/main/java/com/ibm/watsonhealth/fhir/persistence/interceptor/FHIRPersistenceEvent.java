@@ -116,9 +116,9 @@ public class FHIRPersistenceEvent {
     public static final String PROPNAME_REPLICATION_CONTEXT = "REPLICATION_CONTEXT";
 
     /**
-     * This property holds the FHIRJsonPatch instance associated with the request.
+     * This property holds the FHIRPatch instance associated with the request.
      */
-    public static final String PROPNAME_JSON_PATCH = "JSON_PATCH";
+    public static final String PROPNAME_PATCH = "PATCH";
     
     private Resource fhirResource;
     private Resource prevFhirResource = null;
