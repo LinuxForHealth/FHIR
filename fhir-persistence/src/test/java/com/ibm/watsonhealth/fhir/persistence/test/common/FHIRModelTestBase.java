@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.persistence.test.common;
 
 import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
 import static org.testng.AssertJUnit.fail;
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -23,6 +24,7 @@ import java.util.Properties;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.xml.bind.JAXBException;
 
@@ -77,6 +79,42 @@ public class FHIRModelTestBase {
             return resource;
         }
     }
+    
+    
+    /**
+     * @return
+     */
+    public static JsonObjectBuilder getEmptyBundleJsonObjectBuilder() {
+        JsonObjectBuilder bundleObject = Json.createBuilderFactory(null).createObjectBuilder();
+        bundleObject.add("resourceType", "Bundle")
+            .add("type", "batch");
+        return bundleObject;  
+    }
+    
+    
+    public static JsonObject getRequestJsonObject(String method, String url) {
+        JsonObjectBuilder requestObject = Json.createBuilderFactory(null).createObjectBuilder();
+        requestObject.add("method", method)
+            .add("url", url);
+        return requestObject.build();  
+    }    
+    
+    
+    /**
+     * @param fileName
+     * @return
+     * @throws IOException
+     * @throws Exception
+     */
+    public static JsonObject ReadJsonObjectFromFile(String fileName) throws IOException, Exception {
+        
+        try (Reader reader = new InputStreamReader(resolveFileLocation(fileName), Charset.forName("UTF-8"))) {
+            
+            JsonReader jsonReader = Json.createReader(reader);
+            return jsonReader.readObject();
+            
+        }
+    }
 
     /**
      * Loads an Observation resource from the specified file, then associates it with
@@ -86,7 +124,7 @@ public class FHIRModelTestBase {
     	// TODO review Reference id
         Observation observation = readResource(Observation.class, fileName)
         		.toBuilder()
-            .subject(Reference.builder().id("Patient/" + patientId).build())
+            .subject(Reference.builder().reference(string("Patient/" + patientId)).build())
             .build();
         return observation;
     } 

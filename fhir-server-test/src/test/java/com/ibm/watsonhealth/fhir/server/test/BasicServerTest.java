@@ -243,7 +243,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         Patient originalPatient = (Patient) resources.getEntry().get(1).getResource();
         // Make sure patient ids are equal, and versionIds are NOT equal.
         assertEquals(originalPatient.getId().getValue(), updatedPatient.getId().getValue());
-        assertTrue(updatedPatient.getMeta().getVersionId().getValue()
+        assertTrue(!updatedPatient.getMeta().getVersionId().getValue()
                 .contentEquals(originalPatient.getMeta().getVersionId().getValue()));
         // Patient create time should be earlier than Patient update time.
         assertEquals(DatatypeConstants.LESSER, originalPatient.getMeta().getLastUpdated().getValue()
@@ -272,11 +272,11 @@ public class BasicServerTest extends FHIRServerTestBase {
         Observation originalObservation = (Observation) resources.getEntry().get(1).getResource();
         // Make sure observation ids are equal, and versionIds are NOT equal.
         assertEquals(originalObservation.getId().getValue(), updatedObservation.getId().getValue());
-        assertTrue(updatedObservation.getMeta().getVersionId().getValue()
+        assertTrue(!updatedObservation.getMeta().getVersionId().getValue()
                 .contentEquals(originalObservation.getMeta().getVersionId().getValue()));
         // Observation create time should be earlier than Observation update time.
-        assertEquals(DatatypeConstants.LESSER, originalObservation.getMeta().getLastUpdated().getValue()
-                .compareTo(updatedObservation.getMeta().getLastUpdated().getValue()));
+        assertTrue(originalObservation.getMeta().getLastUpdated().getValue()
+                .compareTo(updatedObservation.getMeta().getLastUpdated().getValue()) < 0);
     }
 
     /**
