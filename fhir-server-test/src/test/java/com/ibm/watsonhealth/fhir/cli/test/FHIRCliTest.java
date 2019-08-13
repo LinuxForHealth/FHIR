@@ -33,7 +33,7 @@ import com.ibm.watsonhealth.fhir.server.test.FHIRServerTestBase;
 public class FHIRCliTest extends FHIRServerTestBase {
 
     // To see testcase output for debugging, set this to true.
-    private boolean debug = false;
+    private boolean debug = true;
 
     private FHIRCLI cli = null;
     private String consoleOutput = null;
@@ -210,7 +210,8 @@ public class FHIRCliTest extends FHIRServerTestBase {
     public void testConditionalCreatePatient() throws Exception {
         assertNotNull(patientId);
         runTest("testConditionalCreatePatient", "-p", propsFile(), "--operation", "conditional-create", "--resource", testData("Patient_MookieBetts.json"), "-qp", "_id=" + patientId);
-        verifyConsoleOutput("Status code: 201");
+        // According to https://www.hl7.org/fhir/http.html#create, condition create against an existing resource should return 200
+        verifyConsoleOutput("Status code: 200");
     }
     
     @Test(dependsOnMethods={"testCreatePatient"})

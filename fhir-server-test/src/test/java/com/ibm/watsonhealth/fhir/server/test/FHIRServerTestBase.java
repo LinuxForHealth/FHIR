@@ -305,18 +305,18 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         if (restList != null) {
             CapabilityStatement.Rest rest = restList.get(0);
             if (rest != null) {
-                assertEquals(RestfulCapabilityMode.SERVER, rest.getMode().getValue());
+                assertEquals(RestfulCapabilityMode.SERVER.getValue(), rest.getMode().getValue());
                 List<Rest.Resource> resources = rest.getResource();
                 if (resources != null) {
                     Rest.Resource resource = resources.get(0);
-                    if (resource != null) {
+                    if (resource != null && resource.getUpdateCreate() != null) {
                         updateCreateSupported = resource.getUpdateCreate().getValue();
                     }
                 }
             }
         }
 
-        return (updateCreateSupported != null ? updateCreateSupported.booleanValue() : false);
+        return updateCreateSupported.booleanValue();
     }
 
     /**
@@ -385,7 +385,7 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         if (restList != null) {
             CapabilityStatement.Rest rest = restList.get(0);
             if (rest != null) {
-                assertEquals(RestfulCapabilityMode.SERVER, rest.getMode().getValue());
+                assertEquals(RestfulCapabilityMode.SERVER.getValue(), rest.getMode().getValue());
                 if (rest.getInteraction() != null) {
                     transactionMode = rest.getInteraction().get(0).getCode();
                 }
@@ -453,8 +453,8 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
         assertNotNull(ooi.getSeverity());
         assertNotNull(ooi.getSeverity().getValue());
 
-        assertNotNull(ooi.getDiagnostics());
-        String msg = ooi.getDiagnostics().getValue();
+        assertNotNull(ooi.getDetails());
+        String msg = ooi.getDetails().getText().getValue();
         assertNotNull(msg);
         assertTrue(msg.contains(msgPart));
     }

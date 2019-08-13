@@ -40,7 +40,8 @@ public class ReferenceMappingVisitor<T extends Visitable> extends CopyingVisitor
     public boolean visit(String elementName, int elementIndex, Reference reference) {
         if (reference.getReference().hasValue()) {
             String value = reference.getReference().getValue();
-            if (value.startsWith("urn:uuid:")) {
+            // Use more generic urn: to handle all cases including the legacy integration tests
+            if (value.startsWith("urn:")) {
                 String externalRef = localRefMap.get(value);
                 if (externalRef == null) {
                     errorMsg += "Local reference '" + value + "' is undefined in the request bundle. ";

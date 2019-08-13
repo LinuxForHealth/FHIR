@@ -167,7 +167,8 @@ public abstract class AbstractOperation implements FHIROperation {
             if (count > 0) {
                 List<Parameters.Parameter> inputParameters = getParameters(parameters, name);
                 for (Parameters.Parameter inputParameter : inputParameters) {
-                    String parameterValueTypeName = inputParameter.getValue().getClass().getName();
+                    String parameterValueTypeName = inputParameter.getResource() != null? 
+                            inputParameter.getResource().getClass().getName() : inputParameter.getValue().getClass().getName();
                     String parameterDefinitionTypeName = parameterDefinition.getType().getValue();
                     parameterDefinitionTypeName = parameterDefinitionTypeName.substring(0, 1).toUpperCase() + parameterDefinitionTypeName.substring(1);
                     try {
