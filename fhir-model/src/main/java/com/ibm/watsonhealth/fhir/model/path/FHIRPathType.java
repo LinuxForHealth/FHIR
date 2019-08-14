@@ -311,7 +311,7 @@ public enum FHIRPathType {
     private final java.lang.String namespace;
     private final java.lang.String name;
     private final FHIRPathType superType;
-    private final Class<?> type;
+    private final Class<?> modelClass;
     
     private static final Map<java.lang.String, FHIRPathType> TYPE_NAME_MAP = new HashMap<>();
     static {
@@ -322,7 +322,7 @@ public enum FHIRPathType {
     private static final Map<Class<?>, FHIRPathType> TYPE_MAP = new HashMap<>();
     static {
         for (FHIRPathType type : FHIRPathType.values()) {
-            TYPE_MAP.put(type.type, type);
+            TYPE_MAP.put(type.modelClass, type);
         }
     }
     
@@ -334,7 +334,7 @@ public enum FHIRPathType {
         this.namespace = namespace;
         this.name = name;
         this.superType = superType;
-        this.type = modelClass;
+        this.modelClass = modelClass;
     }
     
     public java.lang.String namespace() {
@@ -349,8 +349,8 @@ public enum FHIRPathType {
         return superType;
     }
     
-    public Class<?> type() {
-        return type;
+    public Class<?> modelClass() {
+        return modelClass;
     }
     
     public boolean isAssignableFrom(FHIRPathType type) {
@@ -387,15 +387,15 @@ public enum FHIRPathType {
         return TYPE_NAME_MAP.get(namespace + "." + name);
     }
     
-    public static FHIRPathType from(Class<?> type) {
-        FHIRPathType t = TYPE_MAP.get(type);
-        if (t == null) {
-            if (BackboneElement.class.isAssignableFrom(type)) {
-                t = FHIR_BACKBONE_ELEMENT;
-            } else if (Code.class.isAssignableFrom(type)) {
-                t = FHIR_CODE;
+    public static FHIRPathType from(Class<?> modelClass) {
+        FHIRPathType type = TYPE_MAP.get(modelClass);
+        if (type == null) {
+            if (BackboneElement.class.isAssignableFrom(modelClass)) {
+                type = FHIR_BACKBONE_ELEMENT;
+            } else if (Code.class.isAssignableFrom(modelClass)) {
+                type = FHIR_CODE;
             }
         }
-        return t;
+        return type;
     }
 }
