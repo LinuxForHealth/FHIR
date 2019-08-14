@@ -106,7 +106,7 @@ public class FHIRModelTestBase {
      * @throws IOException
      * @throws Exception
      */
-    public static JsonObject ReadJsonObjectFromFile(String fileName) throws IOException, Exception {
+    public static JsonObject readJsonObjectFromFile(String fileName) throws IOException, Exception {
         
         try (Reader reader = new InputStreamReader(resolveFileLocation(fileName), Charset.forName("UTF-8"))) {
             

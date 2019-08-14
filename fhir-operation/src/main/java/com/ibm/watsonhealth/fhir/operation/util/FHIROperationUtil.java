@@ -79,14 +79,7 @@ public class FHIROperationUtil {
     
     public static Parameters getOutputParameters(Resource resource) throws Exception {
         Parameters.Builder parametersBuilder = Parameters.builder();        
-   
-//        ResourceContainer container = factory.createResourceContainer();
-//        FHIRUtil.setResourceContainerResource(container, resource);
-//        parameter.setResource(container);
-        /* TODO  because we don't want to support virtual resource which is the only one who really needs ResourceContainer  */ 
-        /* So, assume we always want the resource itself instead the wrapping ResourceContainer */    
         parametersBuilder.parameter(Parameter.builder().name(string("return")).resource(resource).build());
-
         return parametersBuilder.build();
     }
     

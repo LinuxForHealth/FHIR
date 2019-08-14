@@ -2695,10 +2695,15 @@ public class FHIRResource implements FHIRResourceHelpers {
                             }
 
                             Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
+                            // Add warning and hint issues to response outcome if any.
+                            if (result instanceof OperationOutcome) {
+                                if (((OperationOutcome)result).getIssue() != null) {
+                                    responseBuilder.outcome(result);
+                                }
+                            }
+
                             responseBuilder.status(string(Integer.toString(SC_OK)));
-
                             responseIndexAndEntries.put(entryIndex, responseEntryBuilder.resource(result).response(responseBuilder.build()).build());
-
                             setBundleResponseStatus(response, SC_OK, requestDescription.toString(), initialTime);
 
                         } else if (pathTokens.length == 2 && "_search".equals(pathTokens[1])) {
@@ -2883,7 +2888,12 @@ public class FHIRResource implements FHIRResourceHelpers {
                         throw new FHIRRestBundledRequestException(msg, Response.Status.GONE, responseBundle, e).withIssue(e.getIssues());
                     }
                 } catch (FHIROperationException e) {
-                    Status status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+                    Status status;
+                    if (e instanceof FHIRSearchException) {
+                        status = Status.BAD_REQUEST;              
+                    } else {            
+                        status = IssueTypeToHttpStatusMapper.issueListToStatus(e.getIssues());
+                    }
 
                     Bundle.Entry.Response.Builder responseBuilder = response.toBuilder();
                     responseBuilder.status(string(Integer.toString(status.getStatusCode())));
@@ -3218,9 +3228,8 @@ public class FHIRResource implements FHIRResourceHelpers {
                 Bundle.Entry entry = e.getResponseBundle().getEntry().get(i);
                 if (entry.getResponse() != null && entry.getResponse().getStatus() == null) {
 
-                    com.ibm.watsonhealth.fhir.model.type.String status =
-                            com.ibm.watsonhealth.fhir.model.type.String.builder().extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("error")).build()).build();
-                    entry = entry.toBuilder().response(entry.getResponse().toBuilder().status(status).build()).build();
+                    entry = entry.toBuilder().response(entry.getResponse().toBuilder()
+                            .status(string(Integer.toString(Status.BAD_REQUEST.getStatusCode()))).build()).build();
                 }
                 toAdd.add(entry);
             }

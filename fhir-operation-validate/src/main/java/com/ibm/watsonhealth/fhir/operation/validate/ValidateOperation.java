@@ -18,6 +18,7 @@ import java.util.stream.Stream;
 import com.ibm.watsonhealth.fhir.exception.FHIROperationException;
 import com.ibm.watsonhealth.fhir.model.format.Format;
 import com.ibm.watsonhealth.fhir.model.parser.FHIRParser;
+import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.OperationDefinition;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
@@ -51,6 +52,20 @@ public class ValidateOperation extends AbstractOperation {
             throw new Error(e);
         }
     }
+    
+    /**
+     * @param issues
+     * @return
+     */
+    private boolean anyFailueInIssues(List<OperationOutcome.Issue> issues) {
+        boolean hasFailure = false;
+        for (OperationOutcome.Issue issue: issues) {
+            if (FHIRUtil.isFailure(issue.getSeverity())) {
+                hasFailure = true;
+            }
+        }
+        return hasFailure;
+    }
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters,
@@ -62,10 +77,15 @@ public class ValidateOperation extends AbstractOperation {
             }
             Resource resource = parameter.getResource() ;
             List<Issue> issues = FHIRValidator.validator(resource).validate();
+                       
             if (!issues.isEmpty()) {
-                throw new FHIROperationException("Input resource failed validation.").withIssue(issues);
+                OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
+                if (anyFailueInIssues(issues)) {
+                    throw new FHIROperationException("Input resource failed validation.").withIssue(issues);
+                }
             }
-            return FHIROperationUtil.getOutputParameters(buildResourceValidOperationOutcome());
+            
+            return FHIROperationUtil.getOutputParameters(buildResourceValidOperationOutcome(issues));
         } catch (FHIROperationException e) {
             throw e;
         } catch (Exception e) {
@@ -73,18 +93,20 @@ public class ValidateOperation extends AbstractOperation {
         }
     }
    
-    private OperationOutcome buildResourceValidOperationOutcome() {
-        
-        List <Issue> issueList = new ArrayList<>();
-        Issue newIssue = Issue.builder().severity(IssueSeverity.INFORMATION).code(IssueType.INFORMATIONAL)
-                .details(CodeableConcept.builder().text(string("All OK")).build())
-                .build();
-        
-        issueList.add(newIssue);
+    private OperationOutcome buildResourceValidOperationOutcome(List<Issue> issues) {
+        if (issues == null || issues.size() == 0) {
+            List <Issue> issueList = new ArrayList<>();
+            Issue newIssue = Issue.builder().severity(IssueSeverity.INFORMATION).code(IssueType.INFORMATIONAL)
+                    .details(CodeableConcept.builder().text(string("All OK")).build())
+                    .build();
+            
+            issueList.add(newIssue);
+            issues = issueList;
+        } 
                 
-        OperationOutcome operationOutcome = OperationOutcome.builder().issue(issueList)
-                .id(Id.of("allok"))
-                .text(Narrative.builder().status(NarrativeStatus.ADDITIONAL).div("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>All OK</p></div>").build())
+        OperationOutcome operationOutcome = OperationOutcome.builder().issue(issues)
+                .id(Id.of("NoError"))
+                .text(Narrative.builder().status(NarrativeStatus.ADDITIONAL).div("<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>No ERROR</p></div>").build())
                 .build();
                 
         return operationOutcome;
