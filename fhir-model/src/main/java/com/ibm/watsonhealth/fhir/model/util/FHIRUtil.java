@@ -159,7 +159,7 @@ public class FHIRUtil {
         TriggerDefinition.class, 
         UsageContext.class, 
         Dosage.class));
-    private static final Map<String, String> PROFILED_TYPE_NAME_MAP = buildProfiledTypeNameMap();
+    private static final Map<String, String> CONCRETE_TYPE_NAME_MAP = buildConcreteTypeNameMap();
     
     private FHIRUtil() { }
     
@@ -167,11 +167,11 @@ public class FHIRUtil {
         // allows us to initialize this class during startup
     }
     
-    private static Map<String, String> buildProfiledTypeNameMap() {
-        Map<String, String> profiledTypeNameMap = new HashMap<>();
-        profiledTypeNameMap.put("SimpleQuantity", "Quantity");
-        profiledTypeNameMap.put("MoneyQuantity", "Quantity");
-        return profiledTypeNameMap;
+    private static Map<String, String> buildConcreteTypeNameMap() {
+        Map<String, String> concreteTypeNameMap = new HashMap<>();
+        concreteTypeNameMap.put("SimpleQuantity", "Quantity");
+        concreteTypeNameMap.put("MoneyQuantity", "Quantity");
+        return concreteTypeNameMap;
     }
     
     /**
@@ -186,13 +186,13 @@ public class FHIRUtil {
      */
     public static String getConcreteTypeName(String typeName) {
         if (isProfiledType(typeName)) {
-            return PROFILED_TYPE_NAME_MAP.get(typeName);
+            return CONCRETE_TYPE_NAME_MAP.get(typeName);
         }
         return typeName;
     }
     
     public static boolean isProfiledType(String typeName) {
-        return PROFILED_TYPE_NAME_MAP.containsKey(typeName);
+        return CONCRETE_TYPE_NAME_MAP.containsKey(typeName);
     }
 
     private static Pattern buildReferencePattern() {
