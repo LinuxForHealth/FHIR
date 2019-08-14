@@ -50,6 +50,10 @@ import com.ibm.watsonhealth.fhir.search.exception.SearchExceptionUtil;
  * ComponentDefintion, adds support for the the default definition, and refactors the code to create constants and limit
  * extraneous strings and duplicate definitions<br/>
  * 
+ * <p/>
+ * Load the class in the classloader to initialize static members. Call this before using the class in order to avoid a
+ * slight performance hit on first use.
+ * 
  * @author pbastide
  *
  */
@@ -110,7 +114,7 @@ public class CompartmentUtil {
             cachedCompartmentMap = new HashMap<>();
 
             try (InputStreamReader reader = new InputStreamReader(CompartmentUtil.class.getResourceAsStream(RESOURCE))) {
-                Bundle bundle = FHIRParser.parser(Format.JSON).parse(reader);  
+                Bundle bundle = FHIRParser.parser(Format.JSON).parse(reader);
 
                 FHIRPathTree tree = FHIRPathTree.tree(bundle);
                 FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator(tree);
@@ -216,7 +220,7 @@ public class CompartmentUtil {
         for (String compartmentDefintion : compartmentDefinitions) {
 
             try (InputStreamReader reader = new InputStreamReader(CompartmentUtil.class.getResourceAsStream(compartmentDefintion))) {
-                CompartmentDefinition compartmentDefinitionResource = FHIRParser.parser(Format.JSON).parse(reader);  
+                CompartmentDefinition compartmentDefinitionResource = FHIRParser.parser(Format.JSON).parse(reader);
 
                 build.entry(Bundle.Entry.builder().resource(compartmentDefinitionResource).build());
 

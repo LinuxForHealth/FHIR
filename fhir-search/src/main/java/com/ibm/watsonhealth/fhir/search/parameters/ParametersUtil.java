@@ -44,7 +44,11 @@ import com.ibm.watsonhealth.fhir.search.SearchConstants;
  * Refactored the PopulateSearchParameterMap code, and marked class as final so there are no 'children' and inheritance
  * which overwrites the behaviors of the buildInSearchParameters.
  * 
- * @author pbastide@us.ibm.com
+ * <p/>
+ * Loads the class in the classloader to initialize static members. Call this before using the class in order to avoid a
+ * slight performance hit on first use.
+ * 
+ * @author pbastide
  * @author markd
  */
 public final class ParametersUtil {
@@ -353,11 +357,11 @@ public final class ParametersUtil {
         if (UNSUPPORTED_OPERATIONS.contains(OPERATION_CONTAINS)) {
 
             result = expression.replaceAll(CONTAINS_EXPR, CONTAINS_EXPR_REPLACE);
-            
-            if(result.endsWith(CONTAINS_END_EXPR)) {
-                result = result.replace(CONTAINS_END_EXPR,  CONTAINS_END_EXPR_REPLACE);
+
+            if (result.endsWith(CONTAINS_END_EXPR)) {
+                result = result.replace(CONTAINS_END_EXPR, CONTAINS_END_EXPR_REPLACE);
             }
-            
+
             // Logging out details
             if (log.isLoggable(Level.FINER)) {
                 log.finer("Not good... Expression is invalid [" + expression + "] [" + result + "]");

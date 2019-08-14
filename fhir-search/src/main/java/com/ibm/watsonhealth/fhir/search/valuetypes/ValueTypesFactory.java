@@ -11,6 +11,9 @@ import com.ibm.watsonhealth.fhir.search.valuetypes.impl.ValueTypesR4Impl;
 /**
  * Value Types logic is split out to encapsulate custom logic related to search.
  * 
+ * <p/>
+ * Load the class in the classloader to initialize static members. Call this before using the class in order to avoid a
+ * slight performance hit on first use.
  *
  * @author pbastide
  *
