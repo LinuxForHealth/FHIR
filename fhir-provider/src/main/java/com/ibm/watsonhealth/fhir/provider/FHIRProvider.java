@@ -9,8 +9,6 @@ package com.ibm.watsonhealth.fhir.provider;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.buildOperationOutcome;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.buildOperationOutcomeIssue;
 
-import java.io.FilterInputStream;
-import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -66,12 +64,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         InputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "readFrom");
         try {
-            return FHIRParser.parser(getFormat(mediaType)).parse(new FilterInputStream(entityStream) {
-                @Override
-                public void close() {
-                    // do nothing
-                }
-            });
+            return FHIRParser.parser(getFormat(mediaType)).parse(entityStream);
         } catch (FHIRParserException e) {
             log.log(Level.WARNING, "an error occurred during resource deserialization", e);
             Response response = buildResponse(
@@ -93,12 +86,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         OutputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "writeTo");
         try {
-            FHIRGenerator.generator(getFormat(mediaType), isPretty(requestHeaders)).generate(t, new FilterOutputStream(entityStream) {
-                @Override
-                public void close() {
-                    // do nothing
-                }
-            });
+            FHIRGenerator.generator(getFormat(mediaType), isPretty(requestHeaders)).generate(t, entityStream);
         } catch (FHIRGeneratorException e) {
             log.log(Level.WARNING, "an error occurred during resource serialization", e);
             Response response = buildResponse(

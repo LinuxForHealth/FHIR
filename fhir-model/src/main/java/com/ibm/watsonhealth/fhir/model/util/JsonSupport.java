@@ -6,8 +6,16 @@
 
 package com.ibm.watsonhealth.fhir.model.util;
 
+import java.io.FilterInputStream;
+import java.io.FilterOutputStream;
+import java.io.FilterReader;
+import java.io.FilterWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -167,5 +175,41 @@ public final class JsonSupport {
         StringWriter writer = new StringWriter();
         FHIRGenerator.generator(Format.JSON).generate(resource, writer);
         return JSON_READER_FACTORY.createReader(new StringReader(writer.toString())).readObject();
+    }
+    
+    public static Reader nonClosingReader(Reader reader) {
+        return new FilterReader(reader) {
+            @Override
+            public void close() {
+                // do nothing
+            }
+        };
+    }
+    
+    public static InputStream nonClosingInputStream(InputStream in) {
+        return new FilterInputStream(in) {
+            @Override
+            public void close() {
+                // do nothing
+            }
+        };
+    }
+    
+    public static Writer nonClosingWriter(Writer writer) {
+        return new FilterWriter(writer) {
+            @Override
+            public void close() {
+                // do nothing
+            }
+        };
+    }
+    
+    public static OutputStream nonClosingOutputStream(OutputStream out) {
+        return new FilterOutputStream(out) {
+            @Override
+            public void close() {
+                // do nothing
+            }
+        };
     }
 }

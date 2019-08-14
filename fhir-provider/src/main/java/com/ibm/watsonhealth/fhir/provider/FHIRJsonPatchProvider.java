@@ -6,8 +6,9 @@
 
 package com.ibm.watsonhealth.fhir.provider;
 
-import java.io.FilterInputStream;
-import java.io.FilterOutputStream;
+import static com.ibm.watsonhealth.fhir.model.util.JsonSupport.nonClosingInputStream;
+import static com.ibm.watsonhealth.fhir.model.util.JsonSupport.nonClosingOutputStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -53,12 +54,7 @@ public class FHIRJsonPatchProvider implements MessageBodyReader<JsonArray>, Mess
         MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "readFrom");
         try {
-            return JSON_READER_FACTORY.createReader(new FilterInputStream(entityStream) {
-                @Override
-                public void close() {
-                    // do nothing
-                }
-            }).readArray();
+            return JSON_READER_FACTORY.createReader(nonClosingInputStream(entityStream)).readArray();
         } catch (Exception e) {
             throw new WebApplicationException(e);
         } finally {
@@ -76,12 +72,7 @@ public class FHIRJsonPatchProvider implements MessageBodyReader<JsonArray>, Mess
         MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "writeTo");
         try {
-            JSON_WRITER_FACTORY.createWriter(new FilterOutputStream(entityStream) {
-                @Override
-                public void close() {
-                    // do nothing
-                }
-            }).writeArray(t);
+            JSON_WRITER_FACTORY.createWriter(nonClosingOutputStream(entityStream)).writeArray(t);
         } catch (Exception e) {
             throw new WebApplicationException(e);
         } finally {

@@ -50,7 +50,7 @@ public class FHIRJsonParser implements FHIRParser {
     }
 
     public <T extends Resource> T parseAndFilter(InputStream in, Collection<java.lang.String> elementsToInclude) throws FHIRParserException {
-        try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
+        try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(JsonSupport.nonClosingInputStream(in), StandardCharsets.UTF_8)) {
             JsonObject jsonObject = jsonReader.readObject();
             return parseAndFilter(jsonObject, elementsToInclude);
         } catch (Exception e) {
@@ -64,7 +64,7 @@ public class FHIRJsonParser implements FHIRParser {
     }
 
     public <T extends Resource> T parseAndFilter(Reader reader, Collection<java.lang.String> elementsToInclude) throws FHIRParserException {
-        try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(reader)) {
+        try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(JsonSupport.nonClosingReader(reader))) {
             JsonObject jsonObject = jsonReader.readObject();
             return parseAndFilter(jsonObject, elementsToInclude);
         } catch (Exception e) {

@@ -7,6 +7,8 @@
 package com.ibm.watsonhealth.fhir.model.generator;
 
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.isPrimitiveType;
+import static com.ibm.watsonhealth.fhir.model.util.JsonSupport.nonClosingOutputStream;
+import static com.ibm.watsonhealth.fhir.model.util.JsonSupport.nonClosingWriter;
 
 import java.io.FilterOutputStream;
 import java.io.FilterWriter;
@@ -68,7 +70,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
     @Override
     public void generate(Resource resource, OutputStream out) throws FHIRGeneratorException {
         GeneratingVisitor visitor = null;
-        try (JsonGenerator generator = getGeneratorFactory().createGenerator(prettyPrinting ? wrap(out) : out, StandardCharsets.UTF_8)) {
+        try (JsonGenerator generator = getGeneratorFactory().createGenerator(prettyPrinting ? wrap(out) : nonClosingOutputStream(out), StandardCharsets.UTF_8)) {
             visitor = new JsonGeneratingVisitor(generator);
             resource.accept(visitor);
             generator.flush();
@@ -80,7 +82,7 @@ public class FHIRJsonGenerator implements FHIRGenerator {
     @Override
     public void generate(Resource resource, Writer writer) throws FHIRGeneratorException {
         GeneratingVisitor visitor = null;
-        try (JsonGenerator generator = getGeneratorFactory().createGenerator(prettyPrinting ? wrap(writer) : writer)) {
+        try (JsonGenerator generator = getGeneratorFactory().createGenerator(prettyPrinting ? wrap(writer) : nonClosingWriter(writer))) {
             visitor = new JsonGeneratingVisitor(generator);
             resource.accept(visitor);
             generator.flush();
@@ -114,6 +116,11 @@ public class FHIRJsonGenerator implements FHIRGenerator {
                 }
                 out.write(b);
             }
+            
+            @Override
+            public void close() {
+                // do nothing
+            }
         };
     }
     
@@ -132,6 +139,11 @@ public class FHIRJsonGenerator implements FHIRGenerator {
                     return;
                 }
                 out.write(cbuf, off, len);
+            }
+            
+            @Override
+            public void close() {
+                // do nothing
             }
         };
     }
