@@ -46,7 +46,7 @@ public class FHIRValidator {
     public List<Issue> validate() throws FHIRValidationException {
         try {
             ValidatingVisitor visitor = new ValidatingVisitor(tree);
-            tree.getRoot().visitable().accept(visitor);
+            tree.getRoot().asResourceNode().resource().accept(visitor);
             return visitor.getIssues();
         } catch (Exception e) {
             throw new FHIRValidationException("An error occurred during validation", e);
@@ -62,9 +62,6 @@ public class FHIRValidator {
     }
 
     public static class ValidatingVisitor extends PathAwareVisitorAdapter {
-        private static final String WARNING_LEVEL = "Warning";
-        private static final String BASE_LOCATION = "(base)";
-        
         private final FHIRPathTree tree;
         private final FHIRPathEvaluator evaluator;
         private final Environment environment;
@@ -79,7 +76,7 @@ public class FHIRValidator {
         
         @Override
         protected void doVisitStart(String elementName, int elementIndex, Element element) {
-            validate(element.getClass());            
+            validate(element.getClass());
         }
 
         @Override
@@ -107,7 +104,7 @@ public class FHIRValidator {
             return constraints;
         }
 
-        private FHIRPathResourceNode getResource(Class<?> type, FHIRPathNode node, String path) {
+        private FHIRPathResourceNode getResource(Class<?> type, FHIRPathNode node) {
             if (!Resource.class.isAssignableFrom(type)) {
                 // the constraint came from a data type
                 return (FHIRPathResourceNode) tree.getRoot();
@@ -118,15 +115,10 @@ public class FHIRValidator {
                 return (FHIRPathResourceNode) node;
             }
             
-            node = tree.getNode(path);
-            if (node instanceof FHIRPathResourceNode) {
-                // the node at the current path is a resource node
-                return (FHIRPathResourceNode) node;
-            }
-            
+            // move up in the tree to find the first ancestor that is a resource node
+            String path = node.path();
             int index = path.lastIndexOf(".");
             while (index != -1) {
-                // move up in the tree to find the first ancestor that is a resource node
                 path = path.substring(0, index);
                 node = tree.getNode(path);
                 if (node instanceof FHIRPathResourceNode) {
@@ -158,44 +150,33 @@ public class FHIRValidator {
                     System.out.println("    Constraint: " + constraint);
                 }
                 
-                String location = constraint.location();
-                
                 Collection<FHIRPathNode> initialContext = singleton(tree.getNode(path));
-                if (!BASE_LOCATION.equals(location)) {
-                    initialContext = evaluator.evaluate(constraint.location(), initialContext);
-                    if (initialContext.isEmpty()) {
-                        return;
-                    }
+                if (!Constraint.LOCATION_BASE.equals(constraint.location())) {
+                    initialContext = evaluator.evaluate(constraint.location(), initialContext);                  
                 }
-                                                
+                
+                IssueSeverity severity = Constraint.LEVEL_WARNING.equals(constraint.level()) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
+                
                 for (FHIRPathNode node : initialContext) {
-                    environment.setExternalConstant("resource", getResource(type, node, path));
+                    environment.setExternalConstant("resource", getResource(type, node));
+                    
                     Collection<FHIRPathNode> result = evaluator.evaluate(constraint.expression(), singleton(node));
                     
-                    if (!result.isEmpty() && isFalse(result)) {
+                    if (!result.isEmpty() && isFalse(result)) {                        
                         // constraint validation failed
-                        String level = constraint.level();
-                        IssueSeverity severity = WARNING_LEVEL.equals(level) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
-                        
-                        String expression;
-                        if (!BASE_LOCATION.equals(location)) {
-                            expression = path + "." + location.substring(location.indexOf(".") + 1);
-                        } else {
-                            expression = path;
-                        }
-                        
                         Issue issue = Issue.builder()
                                 .severity(severity)
                                 .code(IssueType.INVARIANT)
                                 .details(CodeableConcept.builder().text(string(constraint.id() + ": " + constraint.description())).build())
-                                .expression(string(expression))
+                                .expression(string(node.path()))
                                 .build();
+                        
                         issues.add(issue);
                     }
                     
                     if (DEBUG) {
-                        System.out.println("    Evaluation result: " + result);
-                    }
+                        System.out.println("    Path: " + node.path() + ", Evaluation result: " + result);
+                    }                    
                 }
             } catch (Exception e) {
                 throw new Error("An error occurred while validating constraint: " + constraint.id() + 
