@@ -62,7 +62,9 @@ import com.ibm.watsonhealth.fhir.search.valuetypes.ValueTypesFactory;
  * This class uses FHIRPath Expressions (and currently does not support XPath) and uses init to activate the
  * Parameters/Compartments/ValueTypes components.
  * 
- * @author pbastide@us.ibm.com
+ * @author pbastide 
+ * @author lmsurpre 
+ * @author rarnold
  *
  */
 public class SearchUtil {
@@ -105,9 +107,9 @@ public class SearchUtil {
         // No Operation
         // Hides the Initialization
     }
-
+    
     /**
-     * Initializes the various services related to Search and precaches.
+     * Initializes the various services related to Search and pre-caches.
      */
     public static void initServletContext() {
         // Inherently the searchParameterCache is loaded.
@@ -117,6 +119,9 @@ public class SearchUtil {
 
         // Loads the Parameters into a map
         ParametersUtil.init();
+
+        // Loads the ValueTypesFactory
+        ValueTypesFactory.init();
     }
 
     /**

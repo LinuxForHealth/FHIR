@@ -23,7 +23,6 @@ import javax.json.JsonReaderFactory;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 
-import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Count;
 import com.ibm.watsonhealth.fhir.model.type.DateTime;
 import com.ibm.watsonhealth.fhir.model.type.Instant;

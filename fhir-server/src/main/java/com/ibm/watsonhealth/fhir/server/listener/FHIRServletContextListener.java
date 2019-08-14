@@ -67,11 +67,15 @@ public class FHIRServletContextListener implements ServletContextListener {
             
             log.fine("Current working directory: " + Encode.forHtml(System.getProperty("user.dir")));
             
+            /* 
+             * The following inits are intended to load the FHIRUtil and SearchUtil into the classloader. 
+             * Subsequently, the code activates the static values (and maps).  
+             */
             log.fine("Initializing FHIRUtil...");
             FHIRUtil.init();
             
             log.fine("Initializing SearchUtil...");
-           // SearchUtil.init();
+            SearchUtil.initServletContext();
             
             log.fine("Initializing FHIROperationRegistry...");
             FHIROperationRegistry.getInstance();

@@ -32,4 +32,11 @@ public class ValueTypesFactory {
         return singleInstance;
     }
 
+    /**
+     * add the class to the classloader. 
+     */
+    public static void init() {
+        // Loads the class and activates the ValueTypes R4Impl
+    }
+
 }
