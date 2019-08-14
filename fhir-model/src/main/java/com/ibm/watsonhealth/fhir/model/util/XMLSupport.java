@@ -401,7 +401,6 @@ public final class XMLSupport {
         System.out.println(parseDiv(reader));
         
         div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div><p>Anything</p></div></div>";
-        div = div.replace("\n", "");
         reader = XML_INPUT_FACTORY.createXMLStreamReader(new StringReader(div));
         reader.next();
         System.out.println(parseDiv(reader));
