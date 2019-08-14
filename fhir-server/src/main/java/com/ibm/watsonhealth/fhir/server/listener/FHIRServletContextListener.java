@@ -75,7 +75,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             FHIRUtil.init();
             
             log.fine("Initializing SearchUtil...");
-            SearchUtil.initServletContext();
+            SearchUtil.init();
             
             log.fine("Initializing FHIROperationRegistry...");
             FHIROperationRegistry.getInstance();
