@@ -6,11 +6,13 @@
 
 package com.ibm.watsonhealth.fhir.model.spec.test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.model.validation.FHIRValidator;
@@ -29,12 +31,17 @@ public class ValidationProcessor implements IExampleProcessor {
     public void process(String jsonFile, Resource resource) throws Exception {
         List<OperationOutcome.Issue> issues = FHIRValidator.validator(resource).validate();
         if (!issues.isEmpty()) {
-            // FlatMap will prune nulls at each level
-            String info = issues.stream()
-                    .flatMap(issue -> Stream.of(issue.getDetails()))
-                    .flatMap(details -> Stream.of(details.getText()))
-                    .flatMap(text -> Stream.of(text.getValue()))
-                    .collect(Collectors.joining("\n\t"));
+            List<String> issueStrings = new ArrayList<String>();
+            for (Issue issue : issues) {
+                String details = "<missing details>";
+                if (issue.getDetails() != null && issue.getDetails().getText() != null) {
+                    details = issue.getDetails().getText().getValue();
+                }
+                String locations = issue.getExpression().stream()
+                    .flatMap(loc -> Stream.of(loc.getValue()))
+                    .collect(Collectors.joining(","));
+                issueStrings.add(details + " (" + locations + ")");
+            }
             
             // Only errors or worse should result in a failure.
             boolean includesFailure = false;
@@ -46,10 +53,10 @@ public class ValidationProcessor implements IExampleProcessor {
 
             if (includesFailure) {
                 // we want the test to fail
-                throw new Exception("Input resource failed validation: \n\t" + info);
+                throw new Exception("Input resource failed validation: \n\t" + String.join("\n\t", issueStrings));
             }
             else {
-                System.out.println("Validation issues [INFO]: \n\t" + info);
+                System.out.println("Validation issues [INFO]: \n\t" + String.join("\n\t", issueStrings));
             }
         }
     }

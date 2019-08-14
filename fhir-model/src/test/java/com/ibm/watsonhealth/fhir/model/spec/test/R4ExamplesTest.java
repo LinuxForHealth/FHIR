@@ -54,6 +54,6 @@ public class R4ExamplesTest {
         self.driver.setProcessor(new SerializationProcessor());
         self.driver.setValidator(new ValidationProcessor());
         
-        self.driver.processExample("json/ibm/complete-absent/Parameters-28.json", Format.JSON, Expectation.OK);
+        self.driver.processExample("xml/ibm/complete-mock/RiskAssessment-1.xml", Format.XML, Expectation.OK);
     }
 }

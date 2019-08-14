@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -149,8 +151,8 @@ public class R4ExamplesDriver {
 
         long start = System.nanoTime();
 
+        List<ExampleProcessorException> errors = new ArrayList<>();
         try {
-
             // Each line of this directory should be an example resource in json format
             try (BufferedReader br = new BufferedReader(new InputStreamReader(getInputStream(filename), StandardCharsets.UTF_8))) {
                 String line;
@@ -172,9 +174,11 @@ public class R4ExamplesDriver {
                             testCount++;
                             Expectation exp = Expectation.valueOf(expectation);
 
-                            // all exception handling is delegated to the method, because
-                            // it needs to take into account the expectation
-                            processExample(XML_PATH + "/" + example, format, exp);
+                            try {
+                                processExample(XML_PATH + "/" + example, format, exp);
+                            } catch (ExampleProcessorException e) {
+                                errors.add(e);
+                            }
                         }
                     }
                 }
@@ -195,12 +199,13 @@ public class R4ExamplesDriver {
                 logger.info("Overall success rate = " + successCount + "/" + testCount + " = " 
                         + (100*successCount / testCount) + "%. Took " + elapsed + " ms");
             }
-
+            for (ExampleProcessorException error : errors) {
+                logger.warning(error.toString());
+            }
         }
-        
     }
 
-    public void processExample(String file, Expectation expectation) throws Exception {
+    public void processExample(String file, Expectation expectation) throws ExampleProcessorException {
         processExample(file, Format.JSON, expectation);
     }
 
@@ -210,7 +215,7 @@ public class R4ExamplesDriver {
      * on the classpath.
      * @param jsonFile
      */
-    public void processExample(String file, Format format, Expectation expectation) throws Exception {
+    public void processExample(String file, Format format, Expectation expectation) throws ExampleProcessorException {
         System.out.println("Processing: " + file);
         Expectation actual;
 
@@ -225,14 +230,19 @@ public class R4ExamplesDriver {
                 // If we parsed the resource successfully but expected it to fail, it's a failed
                 // test, so we don't try and process it any further
                 actual = Expectation.OK;
+                ExampleProcessorException error = new ExampleProcessorException(file, expectation, actual);
                 if (firstException == null) {
-                    firstException = new FHIRParserException("Parse succeeded but should've failed", file, null);
+                    firstException = error;
                 }
+                throw error;
             }
             else {
                 // validate and process the example
                 actual = processExample(file, resource, expectation);
             }
+        }
+        catch (ExampleProcessorException e) {
+            throw e;
         }
         catch (FHIRParserException fpx) {
             actual = Expectation.PARSE;
@@ -247,10 +257,20 @@ public class R4ExamplesDriver {
 
                 // continue processing the other files, but capture the first exception so we can fail the test
                 // if needed
+                ExampleProcessorException error = new ExampleProcessorException(file, expectation, actual, fpx);
                 if (firstException == null) {
                     firstException = fpx;
                 }
+                throw error;
             }
+        } catch (Exception e) {
+            // continue processing the other files, but capture the first exception so we can fail the test
+            // if needed
+            ExampleProcessorException error = new ExampleProcessorException(file, expectation, Expectation.PARSE, e);
+            if (firstException == null) {
+                firstException = e;
+            }
+            throw error;
         }
 
         System.out.println(String.format("Processed: wanted:%11s got:%11s %s ", expectation.name(), actual.name(), file));
@@ -259,22 +279,24 @@ public class R4ExamplesDriver {
 
     /**
      * Process the example resource
-     * @param examplePath so we know the name of the file if there's a problem
+     * @param file so we know the name of the file if there's a problem
      * @param resource the parsed object
      */
-    protected Expectation processExample(String examplePath, Resource resource, Expectation expectation) throws Exception {
+    protected Expectation processExample(String file, Resource resource, Expectation expectation) throws ExampleProcessorException {
         Expectation actual = Expectation.OK;
         if (validator != null) {
             try {
-                validator.process(examplePath, resource);
+                validator.process(file, resource);
 
                 if (expectation == Expectation.VALIDATION) {
                     // this is a problem, because we expected validation to fail
                     resource = null; // prevent processing
-                    logger.severe("validateResource(" + examplePath + ") should've failed but didn't");
+                    logger.severe("validateResource(" + file + ") should've failed but didn't");
+                    ExampleProcessorException error = new ExampleProcessorException(file, expectation, actual);
                     if (firstException == null) {
-                        firstException = new FHIRParserException("Validation succeeded but should've failed", examplePath, null);
+                        firstException = error;
                     }
+                    throw error;
                 }
             }
             catch (Exception x) {
@@ -288,12 +310,14 @@ public class R4ExamplesDriver {
                 }
                 else {
                     // oops, hit an unexpected validation error
-                    logger.severe("validateResource(" + examplePath + ") unexpected failure: " + x.getMessage());
+                    logger.severe("validateResource(" + file + ") unexpected failure: " + x.getMessage());
 
                     // continue processing the other files
+                    ExampleProcessorException error = new ExampleProcessorException(file, expectation, actual, x);
                     if (firstException == null) {
                         firstException = x;
                     }
+                    throw error;
                 }
             }
         }
@@ -301,14 +325,16 @@ public class R4ExamplesDriver {
         // process the resource (as long as validation was successful
         if (processor != null && resource != null) {
             try {
-                processor.process(examplePath, resource);
+                processor.process(file, resource);
 
                 if (expectation == Expectation.PROCESS) {
                     // this is a problem, because we expected validation to fail
-                    logger.severe("processResource(" + examplePath + ") should've failed but didn't");
+                    logger.severe("processResource(" + file + ") should've failed but didn't");
+                    ExampleProcessorException error = new ExampleProcessorException(file, expectation, actual);
                     if (firstException == null) {
-                        firstException = new FHIRParserException("Process succeeded but should've failed", examplePath, null);
+                        firstException = error;
                     }
+                    throw error;
                 }
                 else {
                     // processed the resource successfully, and didn't expect an error
@@ -325,12 +351,14 @@ public class R4ExamplesDriver {
                 }
                 else {
                     // processing error, but didn't expect it
-                    logger.log(Level.SEVERE, "processResource(" + examplePath + ") unexpected failure: ", x);
+                    logger.log(Level.SEVERE, "processResource(" + file + ") unexpected failure: ", x);
 
                     // continue processing the other files
+                    ExampleProcessorException error = new ExampleProcessorException(file, expectation, actual, x);
                     if (firstException == null) {
                         firstException = x;
                     }
+                    throw error;
                 }
 
             }
