@@ -110,7 +110,7 @@ public class SearchUtil {
 
     /**
      * Initializes the various services related to Search and pre-caches.
-     * <p/>
+     * <br>
      * Loads the class in the classloader to initialize static members. Call this before using the class in order to
      * avoid a slight performance hit on first use.
      */

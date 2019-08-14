@@ -106,7 +106,7 @@ import com.ibm.watsonhealth.fhir.model.type.Uuid;
 /**
  * This class coordinates many operations related to processing FHIR resources. 
  * 
- * <p/>
+ * <br>
  * Loads the class in the classloader to initialize static members. Call this before using the class in order to avoid a
  * slight performance hit on first use.
  *

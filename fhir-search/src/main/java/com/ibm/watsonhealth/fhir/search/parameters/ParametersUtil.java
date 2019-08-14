@@ -44,7 +44,7 @@ import com.ibm.watsonhealth.fhir.search.SearchConstants;
  * Refactored the PopulateSearchParameterMap code, and marked class as final so there are no 'children' and inheritance
  * which overwrites the behaviors of the buildInSearchParameters.
  * 
- * <p/>
+ * <br>
  * Loads the class in the classloader to initialize static members. Call this before using the class in order to avoid a
  * slight performance hit on first use.
  * 
