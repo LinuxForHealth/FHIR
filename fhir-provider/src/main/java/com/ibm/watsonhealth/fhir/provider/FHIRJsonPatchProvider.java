@@ -29,8 +29,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 
-@Consumes({ "application/json-patch+json" })
-@Produces({ "application/json-patch+json" })
+@Consumes(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_PATCH)
+@Produces(com.ibm.watsonhealth.fhir.core.MediaType.APPLICATION_JSON_PATCH)
 public class FHIRJsonPatchProvider implements MessageBodyReader<JsonArray>, MessageBodyWriter<JsonArray> {
     private static final Logger log = Logger.getLogger(FHIRJsonPatchProvider.class.getName());
 
