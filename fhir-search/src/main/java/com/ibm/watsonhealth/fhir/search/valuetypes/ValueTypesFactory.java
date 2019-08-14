@@ -11,19 +11,20 @@ import com.ibm.watsonhealth.fhir.search.valuetypes.impl.ValueTypesR4Impl;
 /**
  * Value Types logic is split out to encapsulate custom logic related to search.
  * 
- * @author pbastide@us.ibm.com
+ *
+ * @author pbastide
  *
  */
 public class ValueTypesFactory {
 
     private static IValueTypes singleInstance = new ValueTypesR4Impl();
-    
+
     private ValueTypesFactory() {
         // No Operation
     }
-    
+
     /**
-     * Returns the value types processor. 
+     * Returns the value types processor.
      * 
      * @return
      */
@@ -33,7 +34,7 @@ public class ValueTypesFactory {
     }
 
     /**
-     * add the class to the classloader. 
+     * add the class to the classloader.
      */
     public static void init() {
         // Loads the class and activates the ValueTypes R4Impl
