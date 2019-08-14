@@ -87,6 +87,10 @@ public class R4ExamplesDriver {
         processExamples(tt, format);
     }
     
+    public void processExamples(TestType testType) throws Exception {
+        processExamples(testType, Format.JSON);
+    }
+    
     /**
      * Process each of the examples we find in the SPEC_EXAMPLES path
      * @param testType select between all or minimal file sets for the test
@@ -127,6 +131,9 @@ public class R4ExamplesDriver {
         processIndex(filename, format);
     }
 
+    public void processIndex(String filename) throws Exception {
+        processIndex(filename, Format.JSON);
+    }
 
     /**
      * Process the index file. Filename can be a resource on the classpath, or
@@ -192,8 +199,10 @@ public class R4ExamplesDriver {
         }
         
     }
-    
 
+    public void processExample(String file, Expectation expectation) throws Exception {
+        processExample(file, Format.JSON, expectation);
+    }
 
     /**
      * Process the example file. If jsonFile is prefixed with "file:" then the file
