@@ -51,7 +51,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
      * @param skip
      * @throws Exception
      */
-    private void runTest(String file, Class<? extends Resource> cls, boolean debug, ExtractorValidator validator, boolean skip) throws Exception {
+    public static void runTest(String file, Class<? extends Resource> cls, boolean debug, ExtractorValidator validator, boolean skip) throws Exception {
         // Are you debugging....
         // Set to true to enable, false to turn off
         PathAwareAbstractVisitor.DEBUG = debug;
@@ -71,7 +71,7 @@ public class ExtractParameterValuesTest extends BaseSearchTest {
         }
     }
 
-    private void runTest(String file, Class<? extends Resource> cls, boolean debug, ExtractorValidator validator) throws Exception {
+    public static void runTest(String file, Class<? extends Resource> cls, boolean debug, ExtractorValidator validator) throws Exception {
         runTest(file, Observation.class, false, validator, false);
     }
 

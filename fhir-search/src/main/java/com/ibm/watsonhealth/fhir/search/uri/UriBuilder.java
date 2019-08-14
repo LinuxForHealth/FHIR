@@ -8,6 +8,7 @@ package com.ibm.watsonhealth.fhir.search.uri;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.ibm.watsonhealth.fhir.search.SearchConstants;
@@ -68,7 +69,7 @@ public class UriBuilder {
     }
 
     /**
-     * outputs the searchSelfUri based 
+     * outputs the searchSelfUri based
      * 
      * @return
      * @throws URISyntaxException
@@ -83,9 +84,11 @@ public class UriBuilder {
         queryString.append(context.getPageSize());
         queryString.append(SearchConstants.AND_CHAR);
 
-        for (Parameter param : context.getSearchParameters()) {
-            queryString.append(serializeSearchParmToQueryString(param));
-        }
+        // _self Generated URI is incorrect, and therefore the block of code to append
+        // the URLs is converted from a for loop to a functional paradigm. The functional
+        // paradigm is consistent with JOINING multiple strings
+        Function<Parameter, String> serializeSearchParmToQueryString = p -> serializeSearchParmToQueryString(p);
+        queryString.append(context.getSearchParameters().stream().map(serializeSearchParmToQueryString).collect(Collectors.joining(SearchConstants.AND_CHAR_STR)));
 
         appendElementsParameter();
         appendInclusionParameters();

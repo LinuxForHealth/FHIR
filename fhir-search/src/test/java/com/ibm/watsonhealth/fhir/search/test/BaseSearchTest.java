@@ -33,7 +33,7 @@ import com.ibm.watsonhealth.fhir.model.type.ResourceType;
  */
 public abstract class BaseSearchTest {
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     /*
      * used in test to make the compiled code accessible.

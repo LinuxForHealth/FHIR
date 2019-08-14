@@ -9,7 +9,6 @@ package com.ibm.watsonhealth.fhir.search.test;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Arrays;
 import java.util.Collection;
@@ -37,8 +36,6 @@ import com.ibm.watsonhealth.fhir.model.resource.SearchParameter;
  *
  */
 public class ExtractorValidator {
-
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
     private Map<String, List<String>> expected = new HashMap<>();
     boolean strict = false;
@@ -170,7 +167,7 @@ public class ExtractorValidator {
                     FHIRPathDateTimeValue vv = v.asDateTimeValue();
                     TemporalAccessor acc = vv.dateTime();
 
-                    val = "" + DATE_TIME_FORMATTER.format(acc);
+                    val = "" + acc.toString(); //DATE_TIME_FORMATTER.format(acc);
                     System.out.println("Value DateTime: [" + val + "]");
                 }
             } else {

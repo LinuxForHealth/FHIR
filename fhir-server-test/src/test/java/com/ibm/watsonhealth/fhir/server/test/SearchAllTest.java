@@ -10,6 +10,10 @@ import static com.ibm.watsonhealth.fhir.model.type.Code.code;
 import static com.ibm.watsonhealth.fhir.model.type.Uri.uri;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
+
+import java.io.IOException;
+import java.io.StringWriter;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -20,14 +24,21 @@ import org.testng.annotations.Test;
 import com.ibm.watsonhealth.fhir.client.FHIRParameters;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.model.format.Format;
+import com.ibm.watsonhealth.fhir.model.generator.FHIRGenerator;
+import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.resource.Patient;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Canonical;
 import com.ibm.watsonhealth.fhir.model.type.Coding;
 import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
 
 public class SearchAllTest extends FHIRServerTestBase {
+
+    private static final boolean DEBUG = false;
+
     private String patientId;
     private Instant lastUpdated;
 
@@ -38,11 +49,15 @@ public class SearchAllTest extends FHIRServerTestBase {
         // Build a new Patient and then call the 'create' API.
         Patient patient = readResource(Patient.class, "Patient_JohnDoe.json");
 
-        Coding tag = Coding.builder().system(uri("http://ibm.com/watsonhealth/fhir/tag")).code(code("security"))
-                .build();
+        Coding security = Coding.builder().system(uri("http://ibm.com/watsonhealth/fhir/security")).code(code("security")).build();
+        Coding tag = Coding.builder().system(uri("http://ibm.com/watsonhealth/fhir/tag")).code(code("tag")).build();
 
-        patient = patient.toBuilder().meta(Meta.builder().tag(tag)
-                .profile(Canonical.of("http://ibm.com/watsonhealth/fhir/profile/Profile")).build()).build();
+        patient =
+                patient.toBuilder().meta(Meta.builder().security(security).tag(tag).profile(Canonical.of("http://ibm.com/watsonhealth/fhir/profile/Profile")).build()).build();
+
+        if (DEBUG) {
+            generateOutput(patient);
+        }
 
         Entity<Patient> entity = Entity.entity(patient, MediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
@@ -85,22 +100,36 @@ public class SearchAllTest extends FHIRServerTestBase {
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingTag() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
-        parameters.searchParam("_tag", "http://ibm.com/watsonhealth/fhir/tag|tag");
+        parameters.searchParam("_tag", "tag");
         FHIRResponse response = client.searchAll(parameters);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
+
+        /*
+         * "expression" : "Resource.meta.tag", <br/> "xpath" : "f:Resource/f:meta/f:tag",
+         */
+        FHIRGenerator.generator(Format.JSON, true).generate(bundle, System.out);
         assertTrue(bundle.getEntry().size() >= 1);
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingSecurity() throws Exception {
+        // <expression value="Resource.meta.security"/>
+        // <xpath value="f:Resource/f:meta/f:security"/>
+
         FHIRParameters parameters = new FHIRParameters();
+
+        // Original - "http://ibm.com/watsonhealth/fhir/security|security"
         parameters.searchParam("_security", "http://ibm.com/watsonhealth/fhir/security|security");
         FHIRResponse response = client.searchAll(parameters);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
+
         assertNotNull(bundle);
+
+        generateOutput(bundle);
+
         assertTrue(bundle.getEntry().size() >= 1);
     }
 
@@ -113,5 +142,25 @@ public class SearchAllTest extends FHIRServerTestBase {
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    /*
+     * generates the output into a resource.
+     */
+    private void generateOutput(Resource resource) {
+
+        try (StringWriter writer = new StringWriter();) {
+            FHIRGenerator.generator(Format.JSON, true).generate(resource, System.out);
+            System.out.println(writer.toString());
+        } catch (FHIRGeneratorException e) {
+
+            e.printStackTrace();
+            fail("unable to generate the fhir resource to JSON");
+
+        } catch (IOException e1) {
+            e1.printStackTrace();
+            fail("unable to generate the fhir resource to JSON (io problem) ");
+        }
+
     }
 }
