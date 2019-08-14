@@ -166,11 +166,12 @@ public class R4ExamplesDriver {
                             testCount++;
                             Expectation exp = Expectation.valueOf(expectation);
 
-                            // all exception handling is delegated to the method, because
-                            // it needs to take into account the expectation
-                            processExample(JSON_PATH + "/" + example, format, exp);
-                        } else
-                        if (example.toUpperCase().endsWith(".XML") && format == Format.XML) {
+                            try {
+                                processExample(JSON_PATH + "/" + example, format, exp);
+                            } catch (ExampleProcessorException e) {
+                                errors.add(e);
+                            }
+                        } else if (example.toUpperCase().endsWith(".XML") && format == Format.XML) {
                             testCount++;
                             Expectation exp = Expectation.valueOf(expectation);
 
