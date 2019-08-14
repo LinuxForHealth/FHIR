@@ -12,8 +12,6 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
-
 public abstract class FHIRPathAbstractNode implements FHIRPathNode {
     protected final String name;
     protected final String path;
@@ -67,11 +65,6 @@ public abstract class FHIRPathAbstractNode implements FHIRPathNode {
     @Override
     public Stream<FHIRPathNode> stream() {
         return Stream.concat(Stream.of(this), children().stream().flatMap(FHIRPathNode::stream));
-    }
-    
-    @Override
-    public Visitable visitable() {
-        throw new UnsupportedOperationException();
     }
     
     @Override

@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.Objects;
 
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
-import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
 
 public class FHIRPathResourceNode extends FHIRPathAbstractNode {
     private final Resource resource;
@@ -26,10 +25,6 @@ public class FHIRPathResourceNode extends FHIRPathAbstractNode {
     }
     
     public Resource resource() {
-        return resource;
-    }
-    
-    public Visitable visitable() {
         return resource;
     }
 
