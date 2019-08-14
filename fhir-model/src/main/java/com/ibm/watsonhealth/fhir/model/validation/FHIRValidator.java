@@ -152,14 +152,16 @@ public class FHIRValidator {
             }
         }
 
-        private void validate(Class<?> type, Constraint constraint, java.lang.String path) {
+        private void validate(Class<?> type, Constraint constraint, String path) {
             try {
                 if (DEBUG) {
                     System.out.println("    Constraint: " + constraint);
                 }
                 
+                String location = constraint.location();
+                
                 Collection<FHIRPathNode> initialContext = singleton(tree.getNode(path));
-                if (!BASE_LOCATION.equals(constraint.location())) {
+                if (!BASE_LOCATION.equals(location)) {
                     initialContext = evaluator.evaluate(constraint.location(), initialContext);
                     if (initialContext.isEmpty()) {
                         return;
@@ -167,19 +169,26 @@ public class FHIRValidator {
                 }
                                                 
                 for (FHIRPathNode node : initialContext) {
-                    java.lang.String expr = constraint.expression();
                     environment.setExternalConstant("resource", getResource(type, node, path));
-                    Collection<FHIRPathNode> result = evaluator.evaluate(expr, singleton(node));
+                    Collection<FHIRPathNode> result = evaluator.evaluate(constraint.expression(), singleton(node));
                     
                     if (!result.isEmpty() && isFalse(result)) {
                         // constraint validation failed
                         String level = constraint.level();
                         IssueSeverity severity = WARNING_LEVEL.equals(level) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
+                        
+                        String expression;
+                        if (!BASE_LOCATION.equals(location)) {
+                            expression = path + "." + location.substring(location.indexOf(".") + 1);
+                        } else {
+                            expression = path;
+                        }
+                        
                         Issue issue = Issue.builder()
                                 .severity(severity)
                                 .code(IssueType.INVARIANT)
                                 .details(CodeableConcept.builder().text(string(constraint.id() + ": " + constraint.description())).build())
-                                .expression(string(path))
+                                .expression(string(expression))
                                 .build();
                         issues.add(issue);
                     }
