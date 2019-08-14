@@ -16,6 +16,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Constraint {
+    static final String WARNING_LEVEL = "Warning";
+    static final String BASE_LOCATION = "(base)";
     String id();
     String level();
     String location();

@@ -62,9 +62,6 @@ public class FHIRValidator {
     }
 
     public static class ValidatingVisitor extends PathAwareVisitorAdapter {
-        private static final String WARNING_LEVEL = "Warning";
-        private static final String BASE_LOCATION = "(base)";
-        
         private final FHIRPathTree tree;
         private final FHIRPathEvaluator evaluator;
         private final Environment environment;
@@ -154,11 +151,11 @@ public class FHIRValidator {
                 }
                 
                 Collection<FHIRPathNode> initialContext = singleton(tree.getNode(path));
-                if (!BASE_LOCATION.equals(constraint.location())) {
+                if (!Constraint.BASE_LOCATION.equals(constraint.location())) {
                     initialContext = evaluator.evaluate(constraint.location(), initialContext);                  
                 }
                 
-                IssueSeverity severity = WARNING_LEVEL.equals(constraint.level()) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
+                IssueSeverity severity = Constraint.WARNING_LEVEL.equals(constraint.level()) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
                 
                 for (FHIRPathNode node : initialContext) {
                     environment.setExternalConstant("resource", getResource(type, node));
@@ -178,7 +175,7 @@ public class FHIRValidator {
                     }
                     
                     if (DEBUG) {
-                        System.out.println("    Path: " + path + ", Evaluation result: " + result);
+                        System.out.println("    Path: " + node.path() + ", Evaluation result: " + result);
                     }                    
                 }
             } catch (Exception e) {
