@@ -178,7 +178,7 @@ public class Base64Binary extends Element {
         }
 
         public Builder value(java.lang.String value) {
-            this.value = Base64.getDecoder().decode(value);
+            this.value = Base64.getDecoder().decode(value.replace(" ", ""));
             return this;
         }
 

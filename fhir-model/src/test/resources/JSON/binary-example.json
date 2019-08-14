@@ -1,0 +1,18 @@
+{
+  "resourceType": "Binary",
+  "id": "example",
+  "contentType": "application/pdf",
+  "securityContext": {
+    "reference": "DocumentReference/example"
+  },
+CODE_REMOVED
+  "meta": {
+    "tag": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "code": "HTEST",
+        "display": "test health data"
+      }
+    ]
+  }
+}

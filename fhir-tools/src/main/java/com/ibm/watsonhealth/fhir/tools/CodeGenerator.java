@@ -540,7 +540,7 @@ public class CodeGenerator {
         
         if (isBase64Binary(structureDefinition)) {
             cb.method(mods("public"), "Builder", "value", params("java.lang.String value"))
-                .assign("this.value", "Base64.getDecoder().decode(value)")
+                .assign("this.value", "Base64.getDecoder().decode(value.replace(\" \", \"\"))")
                 ._return("this")
             .end().newLine();
         }

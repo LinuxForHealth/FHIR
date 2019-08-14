@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><Binary xmlns="http://hl7.org/fhir">
+  <id value="example"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <contentType value="application/pdf"/>
+  <securityContext>
+    <reference value="DocumentReference/example"/>
+  </securityContext>
+CODE_REMOVED
+</Binary>
