@@ -2129,7 +2129,7 @@ public class FHIRResource implements FHIRResourceHelpers {
             }
             // First, validate the bundle and create the response bundle.
             Bundle responseBundle = validateBundle(inputBundle);
-
+           
             // Next, process each of the entries in the bundle.
             responseBundle = processBundleEntries(inputBundle, responseBundle, requestProperties);
 
@@ -2261,19 +2261,19 @@ public class FHIRResource implements FHIRResourceHelpers {
                     Bundle.Entry.Request request = requestEntry.getRequest();
                     // Verify that the request field is present.
                     if (request == null) {
-                        String msg = "BundleEntry is missing the 'request' field.";
+                        String msg = "Bundle.Entry is missing the 'request' field.";
                         throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.REQUIRED);
                     }
 
                     // Verify that a method was specified.
                     if (request.getMethod() == null || request.getMethod().getValue() == null) {
-                        String msg = "BundleEntry.request is missing the 'method' field";
+                        String msg = "Bundle.Entry.request is missing the 'method' field";
                         throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.REQUIRED);
                     }
 
                     // Verify that a URL was specified.
                     if (request.getUrl() == null || request.getUrl().getValue() == null) {
-                        String msg = "BundleEntry.request is missing the 'url' field";
+                        String msg = "Bundle.Entry.request is missing the 'url' field";
                         throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.REQUIRED);
                     }
 
@@ -2290,23 +2290,22 @@ public class FHIRResource implements FHIRResourceHelpers {
                     } else if (method.equals(HTTPVerb.POST)) {
                     } else if (method.equals(HTTPVerb.PUT)) {
                         if (resource == null) {
-                            String msg = "BundleEntry.resource is required for BundleEntry with PUT method.";
+                            String msg = "Bundle.Entry.resource is required for BundleEntry with PUT method.";
                             throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
                         }
                     } else if (method.equals(HTTPVerb.DELETE)) {
                         // If the "delete" operation isn't supported by the configured persistence layer,
                         // then we need to fail validation of this bundle entry.
                         if (!isDeleteSupported()) {
-                            String msg = "BundleEntry.request contains unsupported HTTP method: " + method.getValue();
+                            String msg = "Bundle.Entry.request contains unsupported HTTP method: " + method.getValue();
                             throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.NOT_SUPPORTED);
                         }
                         if (resource != null) {
-                            String msg = "BundleEntry.resource not allowed for BundleEntry with DELETE method.";
+                            String msg = "Bundle.Entry.resource not allowed for BundleEntry with DELETE method.";
                             throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.INVALID);
                         }
-                        break;
                     } else {
-                        String msg = "BundleEntry.request contains unsupported HTTP method: " + method.getValue();
+                        String msg = "Bundle.Entry.request contains unsupported HTTP method: " + method.getValue();
                         throw buildRestException(msg, Status.METHOD_NOT_ALLOWED, IssueType.ValueSet.INVALID);
                     }
 
@@ -2314,7 +2313,7 @@ public class FHIRResource implements FHIRResourceHelpers {
                     if (resource != null) {
                         if (method.equals(HTTPVerb.PUT)) {
                             if (resource.getId() == null || resource.getId().getValue() == null) {
-                                String msg = "BundleEntry.resource must contain an id field for a PUT operation.";
+                                String msg = "Bundle.Entry.resource must contain an id field for a PUT operation.";
                                 throw buildRestException(msg, Status.BAD_REQUEST, IssueType.ValueSet.REQUIRED);
                             }
                         }
@@ -2861,6 +2860,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
                     if (failFast) {
                         String msg = "Error while processing request bundle.";
+                        // Now, let's re-construct the responseBundle
+                        responseBundle = reconstructResponseBundle(responseBundle, responseIndexAndEntries);
                         throw new FHIRRestBundledRequestException(msg, Response.Status.BAD_REQUEST, responseBundle, e).withIssue(e.getIssues());
                     }
                 } catch (FHIRPersistenceResourceNotFoundException e) {
@@ -2873,6 +2874,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
                     if (failFast) {
                         String msg = "Error while processing request bundle.";
+                        // Now, let's re-construct the responseBundle
+                        responseBundle = reconstructResponseBundle(responseBundle, responseIndexAndEntries);
                         throw new FHIRRestBundledRequestException(msg, Response.Status.NOT_FOUND, responseBundle, e).withIssue(e.getIssues());
                     }
                 } catch (FHIRPersistenceResourceDeletedException e) {
@@ -2885,6 +2888,8 @@ public class FHIRResource implements FHIRResourceHelpers {
 
                     if (failFast) {
                         String msg = "Error while processing request bundle.";
+                        // Now, let's re-construct the responseBundle
+                        responseBundle = reconstructResponseBundle(responseBundle, responseIndexAndEntries);
                         throw new FHIRRestBundledRequestException(msg, Response.Status.GONE, responseBundle, e).withIssue(e.getIssues());
                     }
                 } catch (FHIROperationException e) {
@@ -2904,23 +2909,39 @@ public class FHIRResource implements FHIRResourceHelpers {
 
                     if (failFast) {
                         String msg = "Error while processing request bundle.";
+                        // Now, let's re-construct the responseBundle
+                        responseBundle = reconstructResponseBundle(responseBundle, responseIndexAndEntries);
                         throw new FHIRRestBundledRequestException(msg, status, responseBundle, e).withIssue(e.getIssues());
                     }
                 }
             }
             // Now, let's re-construct the responseBundle
-            for (int i = 0; i < responseBundle.getEntry().size(); i++) {
-                Bundle.Entry bundleEntry = responseIndexAndEntries.get(Integer.valueOf(i)) == null ? responseBundle.getEntry().get(i)
-                        : responseIndexAndEntries.get(Integer.valueOf(i));
-                responseEntries.add(bundleEntry);
-            }
-
-            responseBundle = responseBundle.toBuilder().entry(responseEntries).build();
+            responseBundle = reconstructResponseBundle(responseBundle, responseIndexAndEntries);
             return responseBundle;
 
         } finally {
             log.exiting(this.getClass().getName(), "processEntriesForMethod");
         }
+    }
+    
+    
+    
+    /**
+     * @param responseBundle
+     * @param responseIndexAndEntries
+     * @return
+     */
+    private Bundle reconstructResponseBundle(Bundle responseBundle, HashMap<Integer, Bundle.Entry> responseIndexAndEntries) {
+        // Re-construct the responseBundle
+        List<Bundle.Entry> responseEntries = new ArrayList<Bundle.Entry>();
+        for (int i = 0; i < responseBundle.getEntry().size(); i++) {
+            Bundle.Entry bundleEntry = responseIndexAndEntries.get(Integer.valueOf(i)) == null ? responseBundle.getEntry().get(i)
+                    : responseIndexAndEntries.get(Integer.valueOf(i));
+            responseEntries.add(bundleEntry);
+        }
+
+        responseBundle = responseBundle.toBuilder().entry(responseEntries).build();
+        return responseBundle;
     }
 
     /**

@@ -245,9 +245,9 @@ public class BasicServerTest extends FHIRServerTestBase {
         assertEquals(originalPatient.getId().getValue(), updatedPatient.getId().getValue());
         assertTrue(!updatedPatient.getMeta().getVersionId().getValue()
                 .contentEquals(originalPatient.getMeta().getVersionId().getValue()));
-        // Patient create time should be earlier than Patient update time.
-        assertEquals(DatatypeConstants.LESSER, originalPatient.getMeta().getLastUpdated().getValue()
-                .compareTo(updatedPatient.getMeta().getLastUpdated().getValue()));
+        // Patient create time should be earlier than Patient update time.       
+        assertTrue(originalPatient.getMeta().getLastUpdated().getValue()
+                .compareTo(updatedPatient.getMeta().getLastUpdated().getValue()) < 0);
 
     }
 
