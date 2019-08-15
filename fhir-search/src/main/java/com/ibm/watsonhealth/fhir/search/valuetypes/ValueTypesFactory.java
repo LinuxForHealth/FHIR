@@ -21,7 +21,7 @@ import com.ibm.watsonhealth.fhir.search.valuetypes.impl.ValueTypesR4Impl;
 public class ValueTypesFactory {
 
     private static IValueTypes singleInstance = new ValueTypesR4Impl();
-
+    
     private ValueTypesFactory() {
         // No Operation
     }
@@ -37,8 +37,7 @@ public class ValueTypesFactory {
     }
 
     /**
-     * Loads the class in the classloader to initialize static members. Call this before using the class in order to
-     * avoid a slight performance hit on first use.
+     * add the class to the classloader.
      */
     public static void init() {
         // Loads the class and activates the ValueTypes R4Impl

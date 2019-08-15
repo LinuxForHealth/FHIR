@@ -6,13 +6,17 @@
 
 package com.ibm.watsonhealth.fhir.search.valuetypes.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.json.Json;
@@ -23,6 +27,7 @@ import javax.json.JsonReaderFactory;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 
+import com.ibm.watsonhealth.fhir.config.FHIRRequestContext;
 import com.ibm.watsonhealth.fhir.model.type.Count;
 import com.ibm.watsonhealth.fhir.model.type.DateTime;
 import com.ibm.watsonhealth.fhir.model.type.Instant;
@@ -34,6 +39,7 @@ import com.ibm.watsonhealth.fhir.search.SearchConstants.Type;
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
 import com.ibm.watsonhealth.fhir.search.parameters.Parameter;
 import com.ibm.watsonhealth.fhir.search.valuetypes.IValueTypes;
+import com.ibm.watsonhealth.fhir.search.valuetypes.cache.TenantSpecificValueTypesCache;
 
 /**
  * ValueTypes R4 Impl
@@ -54,6 +60,8 @@ public class ValueTypesR4Impl implements IValueTypes {
 
     private static Map<String, Set<Class<?>>> defaultValueTypeMap = new HashMap<>();
 
+    private static TenantSpecificValueTypesCache cache = new TenantSpecificValueTypesCache();
+
     public static final String EXCEPTION = "Unable to determine search parameter values for query parameter '%s' and resource type '%s' ";
 
     public static final String CONVERT_EXCEPTION = "unable to convert to class while setting value types for %s";
@@ -63,10 +71,10 @@ public class ValueTypesR4Impl implements IValueTypes {
             defaultValueTypeMap.putAll(load(stream));
             log.info("Finished loading the default value types json");
         } catch (IOException e) {
-            log.warning("Unable to load the default " + DEFAULT_FILE);
+            log.warning("Unable to load the default [" + DEFAULT_FILE + "]");
         }
     }
-    
+
     @Override
     public boolean isDateRangeSearch(Class<?> resourceType, Parameter queryParm) throws FHIRSearchException {
         return getValueTypes(resourceType, queryParm.getName()).contains(Period.class);
@@ -77,8 +85,8 @@ public class ValueTypesR4Impl implements IValueTypes {
         // Date Search does not support Date and Partial DateTime in a Range Search.
 
         Set<Class<?>> valueTypes = getValueTypes(resourceType, queryParm.getName());
-        return Type.TOKEN.compareTo(queryParm.getType()) == 0 || valueTypes.contains(com.ibm.watsonhealth.fhir.model.type.Date.class) || valueTypes.contains(DateTime.class)
-                || valueTypes.contains(Instant.class);
+        return Type.TOKEN.compareTo(queryParm.getType()) == 0 || valueTypes.contains(com.ibm.watsonhealth.fhir.model.type.Date.class)
+                || valueTypes.contains(DateTime.class) || valueTypes.contains(Instant.class);
     }
 
     @Override
@@ -102,24 +110,54 @@ public class ValueTypesR4Impl implements IValueTypes {
     // Main Processing method:
 
     @Override
-    public Set<Class<?>> getValueTypes(Class<?> resourceType, String name) throws FHIRSearchException {
+    public Set<Class<?>> getValueTypes(Class<?> resourceType, String code) throws FHIRSearchException {
         // Removed extends Resource
 
         // The name used in the lookup is from SearchParameter->name
         Set<Class<?>> valueTypes = new HashSet<>();
-        if (resourceType != null && name != null) {
-            if (defaultValueTypeMap.containsKey(hash(resourceType, name))) {
-                valueTypes.addAll(defaultValueTypeMap.get(hash(resourceType, name)));
-            }
+        if (resourceType != null && code != null) {
 
-            // In the case where no responses are found, check and addAll from Resource
-            if (valueTypes.isEmpty() && defaultValueTypeMap.containsKey(hash(BASE_RESOURCE, name))) {
-                valueTypes.addAll(defaultValueTypeMap.get(hash(BASE_RESOURCE, name)));
+            addingValueTypesForTenantToListByResourceAndCode(valueTypes, resourceType, code);
+
+            // Only add if there is nothing.
+            if (valueTypes.isEmpty()) {
+                if (defaultValueTypeMap.containsKey(hash(resourceType, code))) {
+                    valueTypes.addAll(defaultValueTypeMap.get(hash(resourceType, code)));
+                }
+
+                // In the case where no responses are found, check and addAll from Resource
+                if (valueTypes.isEmpty() && defaultValueTypeMap.containsKey(hash(BASE_RESOURCE, code))) {
+                    valueTypes.addAll(defaultValueTypeMap.get(hash(BASE_RESOURCE, code)));
+                }
             }
 
         }
 
         return valueTypes;
+    }
+
+    /**
+     * This method is specific to this implementation.
+     * 
+     * @param valueTypesList
+     */
+    public void addingValueTypesForTenantToListByResourceAndCode(Set<Class<?>> valueTypesList, Class<?> resourceType, String code) {
+        // Check the Tenant Specific Cache
+        String tenantId = FHIRRequestContext.get().getTenantId();
+        if (tenantId != null) {
+            
+            try {
+            
+                Map<String, Set<Class<?>>> tenantValueTypes = cache.getCachedObjectForTenant(tenantId);
+                valueTypesList.addAll(tenantValueTypes.get(hash(resourceType, code)));
+
+            } catch (Exception e) {
+                if (log.isLoggable(Level.FINEST)) {
+                    // If there is an exception here, it's most likely in the file. 
+                    log.finest("Did not find the tenant value for [" + tenantId + "][" + resourceType.getSimpleName() + "][" + code + "]");
+                }
+            }
+        }
     }
 
     /**
@@ -154,6 +192,23 @@ public class ValueTypesR4Impl implements IValueTypes {
         }
 
         return tmp;
+    }
+
+    @Override
+    public Map<String, Set<Class<?>>> loadFromFile(File f) {
+        Map<String, Set<Class<?>>> results = new HashMap<>();
+        try (FileInputStream fis = new FileInputStream(f);) {
+            if (log.isLoggable(Level.FINEST)) {
+                log.finest("Loading the value types json [" + f + "]");
+            }
+
+            results = load(fis);
+
+        } catch (Exception e) {
+            log.warning("Unable to load the file [" + f + "]");
+            results = Collections.emptyMap();
+        }
+        return results;
     }
 
     /**
@@ -207,11 +262,11 @@ public class ValueTypesR4Impl implements IValueTypes {
      * hash for resource type classes.
      * 
      * @param resourceType
-     * @param name
+     * @param code
      * @return
      */
-    public static final String hash(Class<?> resourceType, String name) {
-        return hash(resourceType.getSimpleName(), name);
+    public static final String hash(Class<?> resourceType, String code) {
+        return hash(resourceType.getSimpleName(), code);
     }
 
     /**
@@ -219,11 +274,11 @@ public class ValueTypesR4Impl implements IValueTypes {
      * facilitate the fast lookup.
      * 
      * @param resourceType
-     * @param name
+     * @param code
      * @return
      */
-    public static final String hash(String resourceType, String name) {
-        return resourceType + "." + name;
+    public static final String hash(String resourceType, String code) {
+        return resourceType + "." + code;
     }
 
 }

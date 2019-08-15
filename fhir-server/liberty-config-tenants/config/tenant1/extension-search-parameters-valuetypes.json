@@ -1,0 +1,48 @@
+{
+	"value-types": "default-extensions",
+	"mappings": [
+		{
+			"resourceType": "Patient",
+			"name": "favorite-color",
+			"targetClasses": [
+				"String"
+			]
+		},
+		{
+			"resourceType": "Patient",
+			"name": "favorite-number",
+			"targetClasses": [
+				"Integer"
+			]
+		},
+		{
+			"resourceType": "Patient",
+			"name": "favorite-code",
+			"targetClasses": [
+				"CodeableConcept"
+			]
+		},
+		{
+			"resourceType": "Patient",
+			"name": "favorite-uri",
+			"targetClasses": [
+				"Uri"
+			]
+		},
+		{
+			"resourceType": "Patient",
+			"name": "favorite-quantity",
+			"targetClasses": [
+				"Quantity",
+				"SampledData"
+			]
+		},
+		{
+			"resourceType": "Patient",
+			"name": "favorite-date",
+			"targetClasses": [
+				"DateTime"
+			]
+		}
+	]
+}

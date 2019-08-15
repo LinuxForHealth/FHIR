@@ -1,0 +1,19 @@
+{
+	"value-types": "tenant1",
+	"mappings": [
+		{
+			"resourceType": "Basic",
+			"name": "measurement-type",
+			"targetClasses": [
+				"String"
+			]
+		},
+		{
+			"resourceType": "Observation",
+			"name": "value-range",
+			"targetClasses": [
+				"Integer"
+			]
+		}
+	]
+}

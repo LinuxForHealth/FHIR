@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.search.valuetypes;
 
+import java.io.File;
+import java.util.Map;
 import java.util.Set;
 
 import com.ibm.watsonhealth.fhir.search.exception.FHIRSearchException;
@@ -63,11 +65,19 @@ public interface IValueTypes {
      * gets the value types for the given class and name of the parameter.
      * 
      * @param resourceType
-     * @param name
+     * @param code
      *            of the Parameter
      * @return
      * @throws Exception
      */
-    public Set<Class<?>> getValueTypes(Class<?> resourceType, String name) throws FHIRSearchException;
+    public Set<Class<?>> getValueTypes(Class<?> resourceType, String code) throws FHIRSearchException;
 
+    /**
+     * loads a map from the file. 
+     * 
+     * @param f
+     * @return
+     */
+    public Map<String, Set<Class<?>>> loadFromFile(File f);
+    
 }
