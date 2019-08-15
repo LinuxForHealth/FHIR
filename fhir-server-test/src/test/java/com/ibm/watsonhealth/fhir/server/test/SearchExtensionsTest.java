@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import org.testng.annotations.Test;
 
 import com.ibm.watsonhealth.fhir.core.MediaType;
+import com.ibm.watsonhealth.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
 import com.ibm.watsonhealth.fhir.model.type.Coding;
 import com.ibm.watsonhealth.fhir.model.type.Date;
@@ -88,14 +89,17 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatientWithExtensions" })
-    public void testSearchPatientWithExtensionsNotFound() {
+    public void testSearchPatientWithExtensionsNotFound() throws FHIRGeneratorException {
         WebTarget target = getWebTarget();
 
-        Response response = target.path("Patient").queryParam("favorite-color", "red")
+        // "red" 
+        Response response = target.path("Patient").queryParam("favorite-color", "FUDGE_GUDGE")
                 .request(MediaType.APPLICATION_FHIR_JSON).header("X-FHIR-TENANT-ID", "tenant1").get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
-
+       
+        System.out.println("HERE HERE HERE");
+        SearchAllTest.generateOutput(bundle);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() == 0);
     }

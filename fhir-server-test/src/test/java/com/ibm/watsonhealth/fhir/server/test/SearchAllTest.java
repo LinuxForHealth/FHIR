@@ -147,7 +147,7 @@ public class SearchAllTest extends FHIRServerTestBase {
     /*
      * generates the output into a resource.
      */
-    private void generateOutput(Resource resource) {
+    public static void generateOutput(Resource resource) {
 
         try (StringWriter writer = new StringWriter();) {
             FHIRGenerator.generator(Format.JSON, true).generate(resource, System.out);
