@@ -175,7 +175,7 @@ public class FHIRValidator {
                     }
                     
                     if (DEBUG) {
-                        System.out.println("    Path: " + node.path() + ", Evaluation result: " + result);
+                        System.out.println("    Evaluation result: " + result + ", Path: " + node.path());
                     }                    
                 }
             } catch (Exception e) {

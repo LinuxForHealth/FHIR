@@ -23,11 +23,11 @@ import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 
 public class FHIRValidateOperationTest extends FHIRServerTestBase {    
     @Test(groups = { "validate-operation" })
-    public void testValidatePatient() {
+    public void testValidatePatient() {        
         JsonObject patient = buildPatient();
-        WebTarget target = getWebTarget();
         Entity<JsonObject> entity = Entity.entity(patient, MediaType.APPLICATION_JSON);
         
+        WebTarget target = getWebTarget();
         Response response = target.path("Resource/$validate").request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
@@ -40,9 +40,9 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
     @Test(groups = { "validate-operation" })
     public void testValidateInvalidPatient() {
         JsonObject patient = buildInvalidPatient();
-        WebTarget target = getWebTarget();
         Entity<JsonObject> entity = Entity.entity(patient, MediaType.APPLICATION_JSON);
-        
+
+        WebTarget target = getWebTarget();
         Response response = target.path("Resource/$validate").request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
@@ -59,28 +59,30 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
             .add("name", Json.createArrayBuilder()
                 .add(Json.createObjectBuilder()
                     .add("family", "Doe")
-                    .add("given", Json.createArrayBuilder().add("John"))))
+                    .add("given", Json.createArrayBuilder()
+                        .add("John"))))
             .add("birthDate", "1950-08-15")
             .add("telecom", Json.createArrayBuilder()
                 .add(Json.createObjectBuilder()
                     .add("use", "home")
                     .add("system", "phone")
                     .add("value", "555-1234")))
-        .build();
+            .build();
     }
 
     private JsonObject buildInvalidPatient() {
         return Json.createObjectBuilder().add("resourceType", "Patient")
-                .add("name", Json.createArrayBuilder()
-                    .add(Json.createObjectBuilder()
-                        .add("family", "Doe")
-                        .add("given", Json.createArrayBuilder().add("John"))))
-                .add("birthDate", "1950-08-15")
-                .add("telecom", Json.createArrayBuilder()
-                    .add(Json.createObjectBuilder()
-                        .add("use", "home")
-//                      .add("system", "phone")
-                        .add("value", "555-1234")))
+            .add("name", Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
+                    .add("family", "Doe")
+                    .add("given", Json.createArrayBuilder()
+                        .add("John"))))
+            .add("birthDate", "1950-08-15")
+            .add("telecom", Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
+                    .add("use", "home")
+//                  .add("system", "phone")
+                    .add("value", "555-1234")))
             .build();
     }
 }

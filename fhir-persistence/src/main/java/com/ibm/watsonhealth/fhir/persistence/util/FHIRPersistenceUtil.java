@@ -12,17 +12,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.datatype.XMLGregorianCalendar;
-
-import com.ibm.watsonhealth.fhir.core.FHIRUtilities;
-import com.ibm.watsonhealth.fhir.model.type.Code;
-import com.ibm.watsonhealth.fhir.model.type.Coding;
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.DateTime;
 import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.model.type.Meta;
-import com.ibm.watsonhealth.fhir.model.type.Uri;
-import com.ibm.watsonhealth.fhir.model.resource.Resource;
-import com.ibm.watsonhealth.fhir.model.util.FHIRUtil;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.watsonhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
@@ -30,11 +23,6 @@ import com.ibm.watsonhealth.fhir.persistence.exception.FHIRPersistenceException;
 public class FHIRPersistenceUtil {
     private static final Logger log = Logger.getLogger(FHIRPersistenceUtil.class.getName());
     private final static double EARTH_RADIUS_KILOMETERS = 6371.0; // earth radius in kilometers
-    private static final String FILTERED_TAG_SYSTEM = "http://hl7.org/fhir/v3/ObservationValue";
-    private static final String FILTERED_TAG_CODE = "SUBSETTED";
-    private static final String FILTERED_TAG_DISPLAY = "subsetted";
- //   private static final Coding FILTERED_TAG = FHIRUtil.coding(FILTERED_TAG_SYSTEM, FILTERED_TAG_CODE, FILTERED_TAG_DISPLAY);
-    private static final Coding FILTERED_TAG = Coding.builder().system(Uri.of(FILTERED_TAG_SYSTEM)).code(Code.of(FILTERED_TAG_CODE)).display(com.ibm.watsonhealth.fhir.model.type.String.of(FILTERED_TAG_DISPLAY)).build();
 
     // Parse history parameters into a FHIRHistoryContext
     public static FHIRHistoryContext parseHistoryParameters(Map<String, List<String>> queryParameters) throws FHIRPersistenceException {
@@ -162,26 +150,5 @@ public class FHIRPersistenceUtil {
             throw new IllegalStateException("Error while creating deletion marker for resource of type "
                     + deletedResource.getClass().getSimpleName());
         }
-    }
-    
-    /**
-     * Add a tag indicating that elements have been filtered out of the passed Resource.
-     * @param resource
-     */
-    public static Resource addFilteredTag(Resource resource) {
-
-        if (resource.getMeta() == null) {
-            // model objects are immutable, so we need to build a new one
-            resource = resource.toBuilder().meta(Meta.builder().build()).build();
-        }
-
-        if (!FHIRUtil.containsTag(resource, FILTERED_TAG)) {
-            Meta newMeta = resource.getMeta().toBuilder().tag(FILTERED_TAG).build();
-
-            // rebuild the resource with the new meta
-            resource = resource.toBuilder().meta(newMeta).build();
-        }
-
-        return resource;
     }
 }

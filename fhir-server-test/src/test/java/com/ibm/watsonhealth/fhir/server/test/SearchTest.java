@@ -396,12 +396,12 @@ public class SearchTest extends FHIRServerTestBase {
         Coding subsettedTag = Coding.builder().system(uri("http://hl7.org/fhir/v3/ObservationValue"))
                 .code(Code.of("SUBSETTED")).display(string("subsetted")).build();
 
-        assertTrue(FHIRUtil.containsTag(bundle, subsettedTag));
+        assertTrue(FHIRUtil.hasTag(bundle, subsettedTag));
 
         assertTrue(bundle.getEntry().size() >= 1);
         Observation retrievedObservation = (Observation) bundle.getEntry().get(0).getResource();
         assertNotNull(retrievedObservation);
-        assertTrue(FHIRUtil.containsTag(retrievedObservation, subsettedTag));
+        assertTrue(FHIRUtil.hasTag(retrievedObservation, subsettedTag));
 
         // Verify that only the requested elements were returned in the Observation.
         Method[] observationMethods = Observation.class.getMethods();
@@ -524,7 +524,7 @@ public class SearchTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         Coding subsettedTag = Coding.builder().system(uri("http://hl7.org/fhir/v3/ObservationValue"))
                 .code(Code.of("SUBSETTED")).display(string("subsetted")).build();
-        assertTrue(FHIRUtil.containsTag(bundle, subsettedTag));
+        assertTrue(FHIRUtil.hasTag(bundle, subsettedTag));
         assertTrue(bundle.getEntry().size() == 2);
 
         Observation observation = null;
@@ -539,7 +539,7 @@ public class SearchTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(observation);
-        assertTrue(FHIRUtil.containsTag(observation, subsettedTag));
+        assertTrue(FHIRUtil.hasTag(observation, subsettedTag));
         // Verify that only the requested elements (and "mandatory elements") are
         // present in the returned Observation.
         Method[] observationMethods = Observation.class.getDeclaredMethods();
@@ -562,7 +562,7 @@ public class SearchTest extends FHIRServerTestBase {
         }
 
         assertNotNull(patient);
-        assertFalse(FHIRUtil.containsTag(patient, subsettedTag));
+        assertFalse(FHIRUtil.hasTag(patient, subsettedTag));
         assertEquals(patientId, patient.getId().getValue());
         assertEquals("Patient/" + patientId, observation.getSubject().getReference().getValue());
     }

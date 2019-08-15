@@ -19,15 +19,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.UUID;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -76,8 +74,8 @@ import com.ibm.watsonhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataA
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCParameterBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.watsonhealth.fhir.persistence.jdbc.util.JDBCSortQueryBuilder;
-import com.ibm.watsonhealth.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.watsonhealth.fhir.persistence.util.Processor;
+import com.ibm.watsonhealth.fhir.search.SearchConstants;
 import com.ibm.watsonhealth.fhir.search.SearchConstants.Type;
 import com.ibm.watsonhealth.fhir.search.context.FHIRSearchContext;
 import com.ibm.watsonhealth.fhir.search.util.SearchUtil;
@@ -684,49 +682,31 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, FHIRPersistence
      * @throws JAXBException
      * @throws IOException 
      */
-    protected Resource convertResourceDTO(com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO, Class<? extends Resource> resourceType, 
-                                          List<String> elements)  throws FHIRException, JAXBException, IOException {
+    protected Resource convertResourceDTO(com.ibm.watsonhealth.fhir.persistence.jdbc.dto.Resource resourceDTO, 
+            Class<? extends Resource> resourceType, 
+            List<String> elements) throws FHIRException, JAXBException, IOException {
         final String METHODNAME = "convertResourceDTO";
         log.entering(CLASSNAME, METHODNAME);
-        
         Resource resource = null;
-                
         try {
             if (resourceDTO != null) {
                 InputStream in = new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData()));
-
                 if (elements != null) {
+                    // parse/filter the resource using elements
                     resource = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(in, elements);
+                    if (resourceType.equals(resource.getClass()) && !FHIRUtil.hasTag(resource, SearchConstants.SUBSETTED_TAG)) {
+                        // add a SUBSETTED tag to this resource to indicate that its elements have been filtered
+                        resource = FHIRUtil.addTag(resource, SearchConstants.SUBSETTED_TAG);
+                    }
                 } else {
                     resource = FHIRParser.parser(Format.JSON).parse(in);  
                 }
-                
                 in.close();
-                
-                Timestamp lastUpdated = resourceDTO.getLastUpdated();
-                Meta meta = resource.getMeta();
-                
-                Meta.Builder mb = meta == null ? Meta.builder() : meta.toBuilder();
-                mb.versionId(Id.of(Integer.toString(resourceDTO.getVersionId())))
-                    .lastUpdated(Instant.of(ZonedDateTime.ofInstant(lastUpdated.toInstant(), ZoneOffset.UTC)));
-
-                // Update the id/meta data in the resource
-                Resource.Builder rb = resource.toBuilder();
-                rb.id(Id.of(resourceDTO.getLogicalId()))
-                    .meta(mb.build());
-                
-                resource = rb.build();
-                
-                if (elements != null && resource.getClass().equals(resourceType)) {
-                    resource = FHIRPersistenceUtil.addFilteredTag(resource);
-                }
             }
         } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
-                
         return resource;
-        
     }
 
     /**

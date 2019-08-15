@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -79,6 +80,7 @@ import com.ibm.watsonhealth.fhir.model.type.Instant;
 import com.ibm.watsonhealth.fhir.model.type.IssueSeverity;
 import com.ibm.watsonhealth.fhir.model.type.IssueType;
 import com.ibm.watsonhealth.fhir.model.type.Markdown;
+import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.Money;
 import com.ibm.watsonhealth.fhir.model.type.MoneyQuantity;
 import com.ibm.watsonhealth.fhir.model.type.Oid;
@@ -103,93 +105,86 @@ import com.ibm.watsonhealth.fhir.model.type.Url;
 import com.ibm.watsonhealth.fhir.model.type.UsageContext;
 import com.ibm.watsonhealth.fhir.model.type.Uuid;
 
-/**
- * Utility methods for working with the FHIR object model. 
- */
 public class FHIRUtil {
     private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
     public static final Pattern REFERENCE_PATTERN = buildReferencePattern();
     private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
     private static final Set<Class<?>> CHOICE_ELEMENT_TYPES = new HashSet<>(Arrays.asList(
-        Base64Binary.class,
-        com.ibm.watsonhealth.fhir.model.type.Boolean.class,
-        Canonical.class,
-        Code.class,
-        Date.class,
-        DateTime.class,
-        Decimal.class,
-        Id.class,
-        Instant.class,
-        com.ibm.watsonhealth.fhir.model.type.Integer.class,
-        Markdown.class,
-        Oid.class,
-        PositiveInt.class,
-        com.ibm.watsonhealth.fhir.model.type.String.class,
-        Time.class,
-        UnsignedInt.class,
-        Uri.class,
-        Url.class,
-        Uuid.class,
-        Address.class,
-        Age.class,
-        Annotation.class,
-        Attachment.class,
-        CodeableConcept.class,
-        Coding.class,
-        ContactPoint.class,
-        Count.class,
-        Distance.class,
-        Duration.class,
-        HumanName.class,
-        Identifier.class,
-        Money.class,
+        Base64Binary.class, 
+        com.ibm.watsonhealth.fhir.model.type.Boolean.class, 
+        Canonical.class, 
+        Code.class, 
+        Date.class, 
+        DateTime.class, 
+        Decimal.class, 
+        Id.class, 
+        Instant.class, 
+        com.ibm.watsonhealth.fhir.model.type.Integer.class, 
+        Markdown.class, 
+        Oid.class, 
+        PositiveInt.class, 
+        com.ibm.watsonhealth.fhir.model.type.String.class, 
+        Time.class, 
+        UnsignedInt.class, 
+        Uri.class, 
+        Url.class, 
+        Uuid.class, 
+        Address.class, 
+        Age.class, 
+        Annotation.class, 
+        Attachment.class, 
+        CodeableConcept.class, 
+        Coding.class, 
+        ContactPoint.class, 
+        Count.class, 
+        Distance.class, 
+        Duration.class, 
+        HumanName.class, 
+        Identifier.class, 
+        Money.class, 
         MoneyQuantity.class, // profiled type
-        Period.class,
-        Quantity.class,
-        Range.class,
-        Ratio.class,
-        Reference.class,
-        SampledData.class,
+        Period.class, 
+        Quantity.class, 
+        Range.class, 
+        Ratio.class, 
+        Reference.class, 
+        SampledData.class, 
         SimpleQuantity.class, // profiled type
-        Signature.class,
-        Timing.class,
-        ContactDetail.class,
-        Contributor.class,
-        DataRequirement.class,
-        Expression.class,
-        ParameterDefinition.class,
-        RelatedArtifact.class,
-        TriggerDefinition.class,
-        UsageContext.class,
+        Signature.class, 
+        Timing.class, 
+        ContactDetail.class, 
+        Contributor.class, 
+        DataRequirement.class, 
+        Expression.class, 
+        ParameterDefinition.class, 
+        RelatedArtifact.class, 
+        TriggerDefinition.class, 
+        UsageContext.class, 
         Dosage.class));
-    
     private static final Map<String, String> CONCRETE_TYPE_NAME_MAP = buildConcreteTypeNameMap();
-
-    private FHIRUtil() {
-    }
-
-    /**
-     * Loads the class in the classloader in order to initialize static members.
-     * Call this before using the class in order to avoid a slight performance hit on first use.
-     */
+    
+    private FHIRUtil() { }
+    
     public static void init() {
         // allows us to initialize this class during startup
     }
-
+    
     private static Map<String, String> buildConcreteTypeNameMap() {
         Map<String, String> concreteTypeNameMap = new HashMap<>();
         concreteTypeNameMap.put("SimpleQuantity", "Quantity");
         concreteTypeNameMap.put("MoneyQuantity", "Quantity");
         return concreteTypeNameMap;
     }
-
+    
     /**
      * Get the name of the concrete type associated with a data type
      * 
      * @param typeName
-     *            the type name
-     * @return the name of the concrete type (if one exists) (e.g. Quantity for SimpleQuantity) otherwise, return input
-     *         parameter
+     *     the type name
+     * @return
+     *     the name of the concrete type (if one exists)
+     *     (e.g. Quantity for SimpleQuantity)
+     *     otherwise, return input parameter
      */
     public static String getConcreteTypeName(String typeName) {
         if (isProfiledType(typeName)) {
@@ -197,7 +192,7 @@ public class FHIRUtil {
         }
         return typeName;
     }
-
+    
     public static boolean isProfiledType(String typeName) {
         return CONCRETE_TYPE_NAME_MAP.containsKey(typeName);
     }
@@ -215,7 +210,7 @@ public class FHIRUtil {
     public static boolean isStandardResourceType(String name) {
         return RESOURCE_TYPE_MAP.containsKey(name);
     }
-
+    
     public static Class<?> getResourceType(String name) {
         return RESOURCE_TYPE_MAP.get(name);
     }
@@ -233,7 +228,7 @@ public class FHIRUtil {
         }
         return resourceTypeMap;
     }
-
+    
     public static String getTypeName(Class<?> type) {
         String typeName = type.getSimpleName();
         if (Code.class.isAssignableFrom(type)) {
@@ -243,7 +238,7 @@ public class FHIRUtil {
         }
         return typeName;
     }
-
+    
     public static boolean isPrimitiveType(Class<?> type) {
         return Base64Binary.class.equals(type) ||
             com.ibm.watsonhealth.fhir.model.type.Boolean.class.equals(type) ||
@@ -256,23 +251,21 @@ public class FHIRUtil {
             com.ibm.watsonhealth.fhir.model.type.Integer.class.isAssignableFrom(type) || 
             Decimal.class.equals(type);
     }
-
+    
     public static boolean isChoiceElementType(Class<?> type) {
         return CHOICE_ELEMENT_TYPES.contains(type);
     }
 
     /**
-     * Read JSON from InputStream {@code stream} and parse it into a FHIR resource. Non-mandatory elements which are not
-     * in {@code elementsToInclude} will be filtered out.
-     * 
+     * Read JSON from InputStream {@code stream} and parse it into a FHIR resource.
+     * Non-mandatory elements which are not in {@code elementsToInclude} will be filtered out.
      * @param stream
-     * @param elements
-     *            a list of element names to include in the returned resource; null to skip filtering
+     * @param elements a list of element names to include in the returned resource; null to skip filtering
      * @param lenient
      * @param validating
-     * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in
-     *         the JSON)
-     * @deprecated use {@link FHIRParser} directly
+     * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in the JSON)
+     * @deprecated
+     *     use {@link FHIRParser} directly
      */
     @Deprecated
     public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, InputStream in, List<String> elementsToInclude) throws FHIRParserException {
@@ -282,17 +275,19 @@ public class FHIRUtil {
     /**
      * Read a FHIR resource from {@code reader} in the requested {@code format}.
      * 
-     * @deprecated use {@link FHIRParser} directly
+     * @deprecated
+     *     use {@link FHIRParser} directly
      */
     @Deprecated
     public static <T extends Resource> T read(Class<T> resourceType, Format format, Reader reader) throws FHIRParserException {
         return FHIRParser.parser(format).parse(reader);
     }
-
+    
     /**
      * Read a FHIR resource from {@code in} in the requested {@code format}.
      * 
-     * @deprecated use {@link FHIRParser} directly
+     * @deprecated
+     *     use {@link FHIRParser} directly
      */
     @Deprecated
     public static <T extends Resource> T read(Class<T> resourceType, Format format, InputStream in) throws FHIRParserException {
@@ -300,15 +295,13 @@ public class FHIRUtil {
     }
 
     /**
-     * Read JSON from {@code reader} and parse it into a FHIR resource. Non-mandatory elements which are not in
-     * {@code elementsToInclude} will be filtered out.
-     * 
+     * Read JSON from {@code reader} and parse it into a FHIR resource.
+     * Non-mandatory elements which are not in {@code elementsToInclude} will be filtered out.
      * @param reader
-     * @param elements
-     *            a list of element names to include in the returned resource; null to skip filtering
-     * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in
-     *         the JSON)
-     * @deprecated use {@link FHIRParser} directly
+     * @param elements a list of element names to include in the returned resource; null to skip filtering
+     * @return a fhir-model resource containing mandatory elements and the elements requested (if they are present in the JSON)
+     * @deprecated
+     *     use {@link FHIRParser} directly
      */
     @Deprecated
     public static <T extends Resource> T readAndFilterJson(Class<T> resourceType, Reader reader, List<String> elementsToInclude) throws FHIRParserException {
@@ -316,7 +309,8 @@ public class FHIRUtil {
     }
 
     /**
-     * @deprecated use {@link FHIRParser} directly
+     * @deprecated
+     *     use {@link FHIRParser} directly
      */
     @Deprecated
     public static <T extends Resource> T toResource(Class<T> resourceType, JsonObject jsonObject) throws FHIRParserException {
@@ -324,10 +318,11 @@ public class FHIRUtil {
     }
 
     /**
-     * Write a resource in XML or JSON to a given output stream, without pretty-printing. This method will close the
-     * output stream after writing to it, so passing System.out / System.err is discouraged.
+     * Write a resource in XML or JSON to a given output stream, without pretty-printing.
+     * This method will close the output stream after writing to it, so passing System.out / System.err is discouraged.
      * 
-     * @deprecated use {@link FHIRGenerator} directly
+     * @deprecated
+     *     use {@link FHIRGenerator} directly
      */
     @Deprecated
     public static <T extends Resource> void write(T resource, Format format, OutputStream stream) throws FHIRGeneratorException {
@@ -335,10 +330,11 @@ public class FHIRUtil {
     }
 
     /**
-     * Write a resource in XML or JSON to a given output stream, with an option to pretty-print the output. This method
-     * will close the output stream after writing to it, so passing System.out / System.err is discouraged.
+     * Write a resource in XML or JSON to a given output stream, with an option to pretty-print the output.
+     * This method will close the output stream after writing to it, so passing System.out / System.err is discouraged.
      * 
-     * @deprecated use {@link FHIRGenerator} directly
+     * @deprecated
+     *     use {@link FHIRGenerator} directly
      */
     @Deprecated
     public static <T extends Resource> void write(T resource, Format format, OutputStream stream, boolean formatted) throws FHIRGeneratorException {
@@ -346,10 +342,11 @@ public class FHIRUtil {
     }
 
     /**
-     * Write a resource in XML or JSON using the passed writer, without pretty-printing. This method will close the
-     * writer after writing to it.
+     * Write a resource in XML or JSON using the passed writer, without pretty-printing.
+     * This method will close the writer after writing to it.
      * 
-     * @deprecated use {@link FHIRGenerator} directly
+     * @deprecated
+     *     use {@link FHIRGenerator} directly
      */
     @Deprecated
     public static <T extends Resource> void write(T resource, Format format, Writer writer) throws FHIRGeneratorException {
@@ -357,10 +354,11 @@ public class FHIRUtil {
     }
 
     /**
-     * Write a resource in XML or JSON using the passed writer, with an option to pretty-print the output. This method
-     * will close the writer after writing to it.
+     * Write a resource in XML or JSON using the passed writer, with an option to pretty-print the output.
+     * This method will close the writer after writing to it.
      * 
-     * @deprecated use {@link FHIRGenerator} directly
+     * @deprecated
+     *     use {@link FHIRGenerator} directly
      */
     @Deprecated
     public static <T extends Resource> void write(T resource, Format format, Writer writer, boolean prettyPrinting) throws FHIRGeneratorException {
@@ -396,12 +394,15 @@ public class FHIRUtil {
         return buildOperationOutcomeIssue(IssueSeverity.ValueSet.FATAL, code, msg, "<empty>");
     }
 
-    public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity.ValueSet severity, IssueType.ValueSet code, String details,
-        String expression) {
+    public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity.ValueSet severity, IssueType.ValueSet code, String details, String expression) {
         if (expression == null || expression.isEmpty()) {
             expression = "<no expression>";
         }
-        return OperationOutcome.Issue.builder().severity(IssueSeverity.of(severity)).code(IssueType.of(code)).details(CodeableConcept.builder().text(string(details)).build()).expression(Collections.singletonList(string(expression))).build();
+        return OperationOutcome.Issue.builder()
+                .severity(IssueSeverity.of(severity))
+                .code(IssueType.of(code))
+                .details(CodeableConcept.builder().text(string(details)).build())
+                .expression(Collections.singletonList(string(expression))).build();
     }
 
     /**
@@ -425,8 +426,7 @@ public class FHIRUtil {
     }
 
     /**
-     * Build an OperationOutcome with an id from exception e and a single issue of type 'exception' and severity
-     * 'fatal'.
+     * Build an OperationOutcome with an id from exception e and a single issue of type 'exception' and severity 'fatal'.
      */
     public static OperationOutcome buildOperationOutcome(FHIRException e, boolean includeCausedByClauses) {
         Id id = Id.builder().value(e.getUniqueId()).build();
@@ -434,8 +434,7 @@ public class FHIRUtil {
     }
 
     /**
-     * Build an OperationOutcome for the specified exception with a single issue of type 'exception' and severity
-     * 'fatal'.
+     * Build an OperationOutcome for the specified exception with a single issue of type 'exception' and severity 'fatal'.
      */
     public static OperationOutcome buildOperationOutcome(Exception exception, boolean includeCausedByClauses) {
         return buildOperationOutcome(exception, null, null, includeCausedByClauses);
@@ -444,8 +443,7 @@ public class FHIRUtil {
     /**
      * Build an OperationOutcome for the specified exception.
      */
-    public static OperationOutcome buildOperationOutcome(Exception exception, IssueType.ValueSet issueType, IssueSeverity.ValueSet severity,
-        boolean includeCausedByClauses) {
+    public static OperationOutcome buildOperationOutcome(Exception exception, IssueType.ValueSet issueType, IssueSeverity.ValueSet severity, boolean includeCausedByClauses) {
         // First, build a set of exception messages to be included in the OperationOutcome.
         // We'll include the exception message from each exception in the hierarchy,
         // following the "causedBy" exceptions.
@@ -467,11 +465,8 @@ public class FHIRUtil {
 
     /**
      * Build an OperationOutcome for the specified exception.
-     * 
-     * @param issueType
-     *            defaults to IssueTypeList.EXCEPTION
-     * @param severity
-     *            defaults to IssueSeverityList.FATAL
+     * @param issueType defaults to IssueTypeList.EXCEPTION
+     * @param severity defaults to IssueSeverityList.FATAL
      */
     public static OperationOutcome buildOperationOutcome(String message, IssueType.ValueSet issueType, IssueSeverity.ValueSet severity) {
         if (issueType == null) {
@@ -481,8 +476,11 @@ public class FHIRUtil {
             severity = IssueSeverity.ValueSet.FATAL;
         }
         // Build an OperationOutcomeIssue that contains the exception messages.
-        OperationOutcome.Issue ooi =
-                OperationOutcome.Issue.builder().severity(IssueSeverity.of(severity)).code(IssueType.of(issueType)).details(CodeableConcept.builder().text(string(message)).build()).build();
+        OperationOutcome.Issue ooi = OperationOutcome.Issue.builder()
+                .severity(IssueSeverity.of(severity))
+                .code(IssueType.of(issueType))
+                .details(CodeableConcept.builder().text(string(message)).build())
+                .build();
 
         // Next, build the OperationOutcome.
         OperationOutcome oo = OperationOutcome.builder().issue(Collections.singletonList(ooi)).build();
@@ -502,17 +500,14 @@ public class FHIRUtil {
         if (!resourceTypeName.equals(type)) {
             resourceTypeName = type;
         }
-        return URI.create(resourceTypeName + "/" + resource.getId().getValue() + "/_history/" + resource.getMeta().getVersionId().getValue());
+        return URI.create(resourceTypeName + "/" + resource.getId().getValue()
+            + "/_history/" + resource.getMeta().getVersionId().getValue());
     }
 
     /**
-     * Resolve reference {@code ref} to a bundle entry or a resource contained within {@code resource} and return the
-     * corresponding resource container. Resolving {@code ref} to a resource that exists outside of the bundle is not
-     * yet supported, but this support may be added in the future.
-     * 
-     * @throws Exception
-     *             if the resource could not be found, the reference has no value, or the value does not match the
-     *             expected format for a reference
+     * Resolve reference {@code ref} to a bundle entry or a resource contained within {@code resource} and return the corresponding resource container.
+     * Resolving {@code ref} to a resource that exists outside of the bundle is not yet supported, but this support may be added in the future.
+     * @throws Exception if the resource could not be found, the reference has no value, or the value does not match the expected format for a reference
      */
     public static Resource resolveReference(Reference ref, DomainResource resource, Bundle bundle, Bundle.Entry entry) throws Exception {
         switch (ReferenceType.of(ref)) {
@@ -536,11 +531,8 @@ public class FHIRUtil {
 
     /**
      * Resolve the reference {@code ref} to a bundle entry and return the corresponding resource container
-     * 
      * @see https://www.hl7.org/fhir/DSTU2/references.html#contained
-     * @throws Exception
-     *             if the resource could not be found, the reference has no value, or the value does not match the
-     *             expected format for a contained reference
+     * @throws Exception if the resource could not be found, the reference has no value, or the value does not match the expected format for a contained reference
      */
     public static Resource resolveContainedReference(DomainResource resource, Reference ref) throws Exception {
         if (ref == null || ref.getReference() == null || ref.getReference().getValue() == null) {
@@ -564,40 +556,31 @@ public class FHIRUtil {
 
     /**
      * Resolve the reference {@code ref} to an entry within {@code bundle} and return the corresponding resource
-     * 
      * @see https://www.hl7.org/fhir/dstu2/bundle.html#references
      * @param resourceType
      * @param bundle
-     * @param sourceEntry
-     *            allowed to be null if and only if the reference is absolute
+     * @param sourceEntry allowed to be null if and only if the reference is absolute
      * @param ref
-     * @throws Exception
-     *             if the resource could not be found, the reference has no value, or the value does not match the
-     *             expected format for a bundle reference
+     * @throws Exception 
+     *        if the resource could not be found, the reference has no value, or the value does not match the expected format for a bundle reference
      * @throws ClassCastException
-     *             if the referenced resource cannot be cast to type {@code resourceType}
+     *        if the referenced resource cannot be cast to type {@code resourceType}
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Resource> T resolveBundleReference(Class<T> resourceType, Bundle bundle, Bundle.Entry sourceEntry, Reference ref)
-        throws Exception {
+    public static <T extends Resource> T resolveBundleReference(Class<T> resourceType, Bundle bundle, Bundle.Entry sourceEntry, Reference ref) throws Exception {
         Bundle.Entry targetEntry = resolveBundleReference(bundle, sourceEntry, ref);
         return (T) targetEntry.getResource();
     }
 
     /**
      * Resolve the reference {@code ref} to an entry within {@code bundle}
-     * 
      * @see https://www.hl7.org/fhir/dstu2/bundle.html#references
      * @param bundle
-     * @param sourceEntry
-     *            allowed to be null if and only if the reference is absolute
+     * @param sourceEntry allowed to be null if and only if the reference is absolute
      * @param ref
-     * @throws FHIRException
-     *             if the resource could not be found or the reference has no value
-     * @throws URISyntaxException
-     *             if the {@code ref} value is not a valid URI
-     * @throws IllegalArgumentException
-     *             if {@code ref} contains a fragment reference
+     * @throws FHIRException if the resource could not be found or the reference has no value
+     * @throws URISyntaxException if the {@code ref} value is not a valid URI
+     * @throws IllegalArgumentException if {@code ref} contains a fragment reference
      */
     public static Bundle.Entry resolveBundleReference(Bundle bundle, Bundle.Entry sourceEntry, Reference ref) throws FHIRException, URISyntaxException {
         if (ref == null || ref.getReference() == null || ref.getReference().getValue() == null) {
@@ -608,8 +591,7 @@ public class FHIRUtil {
         URI referenceUri = new URI(referenceUriString);
         if (!referenceUri.isAbsolute()) {
             if (referenceUriString.startsWith("#")) {
-                throw new IllegalArgumentException("Cannot resolve fragment reference " + referenceUriString
-                        + " to a BundleEntry. See resolveReference instead.");
+                throw new IllegalArgumentException("Cannot resolve fragment reference " + referenceUriString + " to a BundleEntry. See resolveReference instead.");
             }
 
             // 1. If the reference is not an absolute reference, convert it
@@ -620,21 +602,18 @@ public class FHIRUtil {
                 if (!sourceEntryUri.isAbsolute()) {
                     throw new FHIRException("The Bundle entry that contains the reference must have an absolute fullUrl to resolve relative references");
                 }
-                // if the fullUrl of the resource that contains the reference is a RESTful one (see the RESTful URL
-                // regex), extract the [base], and append the reference to it
+                // if the fullUrl of the resource that contains the reference is a RESTful one (see the RESTful URL regex), extract the [base], and append the reference to it
                 Matcher restUrlMatcher = REFERENCE_PATTERN.matcher(sourceEntryUriString);
                 if (restUrlMatcher.matches() && restUrlMatcher.groupCount() > 0) {
                     String urlBase = restUrlMatcher.group(1);
                     referenceUriString = urlBase + referenceUriString;
                 }
             }
-            // otherwise, treat the fullUrl as a normal URL, and follow the normal method for Resolving Relative
-            // References to Absolute Form
+            // otherwise, treat the fullUrl as a normal URL, and follow the normal method for Resolving Relative References to Absolute Form
         }
 
-        // If the reference is version specific (either relative or absolute),
-        // then remove the version from the URL before matching fullUrl, and then match the version based on
-        // Resource.meta.versionId
+        //If the reference is version specific (either relative or absolute),
+        //then remove the version from the URL before matching fullUrl, and then match the version based on Resource.meta.versionId
         String version = referenceUri.getFragment();
         if (version != null) {
             referenceUriString = referenceUriString.substring(0, referenceUriString.length() - version.length());
@@ -642,7 +621,7 @@ public class FHIRUtil {
         // 2. Look for an entry with a fullUrl that contains the URL in the reference
         for (Bundle.Entry entry : bundle.getEntry()) {
             Uri fullUrl = entry.getFullUrl();
-            if (fullUrl != null) {
+            if (fullUrl != null){
                 String fullUrlValue = entry.getFullUrl().getValue();
                 if (fullUrlValue != null && fullUrlValue.equals(referenceUriString)) {
                     try {
@@ -655,8 +634,8 @@ public class FHIRUtil {
                         } else {
                             return entry;
                         }
-                    } catch (Exception e) {
-                        log.log(Level.SEVERE, "Unable to retrieve resource " + referenceUriString + " from the bundle", e);
+                    } catch(Exception e) {
+                        log.log(Level.SEVERE,"Unable to retrieve resource " + referenceUriString + " from the bundle", e);
                     }
                 }
             }
@@ -665,9 +644,10 @@ public class FHIRUtil {
         throw new FHIRException("Bundle does not contain the referenced resource and retrieval of resources outside the bundle is not supported.");
     }
 
+ 
     /**
-     * Returns the string value of the specified extension element within the specified resource.
-     * 
+     * Returns the string value of the specified extension element within
+     * the specified resource.
      * @param resource
      * @param extensionUrl
      * @return the value of the first such extension with a valueString or null if the resource has no such extensions
@@ -677,7 +657,8 @@ public class FHIRUtil {
             if (DomainResource.class.isAssignableFrom(resource.getClass())) {
                 DomainResource dr = (DomainResource) resource;
                 for (Extension ext : dr.getExtension()) {
-                    if (ext.getUrl() != null && ext.getValue() != null && ext.getUrl().equals(extensionUrl)) {
+                    if (ext.getUrl() != null && ext.getValue() != null
+                            && ext.getUrl().equals(extensionUrl)) {
                         return ext.getValue().as(com.ibm.watsonhealth.fhir.model.type.String.class).getValue();
                     }
                 }
@@ -685,40 +666,50 @@ public class FHIRUtil {
         }
         return null;
     }
-
-    /**
-     * Determines if the passed Resource contains the passed Meta tag.
-     * 
-     * @param resource
-     *            The Resource to be examined.
-     * @param searchTag
-     *            - The tag to be searched for.
-     * @return boolean - true if the Resource contains the passed tag; false otherwise.
-     */
-    public static boolean containsTag(Resource resource, Coding searchTag) {
-        boolean tagFound = false;
-
-        if (nonNull(resource) && nonNull(resource.getMeta()) && nonNull(resource.getMeta().getTag())) {
-            for (Coding tag : resource.getMeta().getTag()) {
-                if (nonNull(tag.getSystem()) && tag.getSystem().getValue().equals(searchTag.getSystem().getValue()) && nonNull(tag.getCode())
-                        && tag.getCode().getValue().equals(searchTag.getCode().getValue())) {
-                    tagFound = true;
-                    break;
-                }
+    
+    public static boolean hasTag(Resource resource, Coding tag) {
+        Objects.requireNonNull(resource);
+        Objects.requireNonNull(tag);
+        if (resource.getMeta() == null) {
+            return false;
+        }
+        for (Coding t : resource.getMeta().getTag()) {
+            // compare tags based on system/code
+            // version and display are ignored
+            if (tag.getSystem() != null && 
+                tag.getSystem().equals(t.getSystem()) && 
+                tag.getCode() != null && 
+                tag.getCode().equals(t.getCode())) {
+                return true;
             }
         }
-        return tagFound;
+        return false;
     }
-
+    
+    public static Resource addTag(Resource resource, Coding tag) {
+        Objects.requireNonNull(resource);
+        Objects.requireNonNull(tag);
+        if (hasTag(resource, tag)) {
+            return resource;
+        }
+        Meta meta = resource.getMeta();
+        Meta.Builder metaBuilder = (meta == null) ? Meta.builder() : meta.toBuilder();
+        // re-build resource with updated meta element
+        return resource.toBuilder()
+                .meta(metaBuilder
+                    .tag(tag)
+                    .build())
+                .build();
+    }
+    
+ 
     // add for FHIRResource.java
     private static final String BASIC_RESOURCE_TYPE_URL = "http://ibm.com/watsonhealth/fhir/basic-resource-type";
-
+    
     /**
-     * Returns the resource type (as a String) of the specified resource. For a virtual resource, this will be the
-     * actual virtual resource type (not Basic).
-     * 
-     * @param resource
-     *            the resource
+     * Returns the resource type (as a String) of the specified resource.   For a virtual resource,
+     * this will be the actual virtual resource type (not Basic).
+     * @param resource the resource
      * @return the name of the resource type associated with the resource
      */
     public static String getResourceTypeName(Resource resource) {
@@ -742,16 +733,15 @@ public class FHIRUtil {
 
         return resource.getClass().getSimpleName();
     }
-
+    
     public static List<String> getResourceTypeNames() {
         List<String> typeNameList = new ArrayList<String>();
         typeNameList.addAll(RESOURCE_TYPE_MAP.keySet());
         return typeNameList;
     }
-
+    
     /**
      * Determine if the given severity should be treated as a failure
-     * 
      * @param severity
      * @return
      */

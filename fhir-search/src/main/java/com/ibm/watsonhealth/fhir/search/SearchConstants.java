@@ -6,12 +6,17 @@
 
 package com.ibm.watsonhealth.fhir.search;
 
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ibm.watsonhealth.fhir.model.type.Code;
+import com.ibm.watsonhealth.fhir.model.type.Coding;
+import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.search.exception.SearchExceptionUtil;
 
 /**
@@ -25,6 +30,15 @@ public class SearchConstants {
     private SearchConstants() {
         // No Op
     }
+    
+    private static final String SUBSETTED_TAG_SYSTEM = "http://terminology.hl7.org/CodeSystem/v3-ObservationValue";
+    private static final String SUBSETTED_TAG_CODE = "SUBSETTED";
+    private static final String SUBSETTED_TAG_DISPLAY = "subsetted";
+    public static final Coding SUBSETTED_TAG = Coding.builder()
+            .system(Uri.of(SUBSETTED_TAG_SYSTEM))
+            .code(Code.of(SUBSETTED_TAG_CODE))
+            .display(string(SUBSETTED_TAG_DISPLAY))
+            .build();
 
     public static final String LOG_BOUNDARY = "---------------------------------------------------------";
     
@@ -101,8 +115,6 @@ public class SearchConstants {
     public static final char EQUALS_CHAR = '=';
     
     public static final String JOIN_STR = ",";
-    
-    public static final String AND_CHAR_STR = "&";    
     
     // Filter
     public static final String WILDCARD_FILTER = "*";
