@@ -476,8 +476,8 @@ public abstract class FHIRServerTestBase extends FHIRModelTestBase {
             assertNotNull(ooi.getSeverity().getValue());
             assertEquals(IssueSeverity.ERROR.getValue(), ooi.getSeverity().getValue());
 
-            assertNotNull(ooi.getDiagnostics());
-            String msg = ooi.getDiagnostics().getValue();
+            assertNotNull(ooi.getDetails());
+            String msg = ooi.getDetails().getText().getValue();
             assertNotNull(msg);
 
             if (msg.contains(msgPart)) {
