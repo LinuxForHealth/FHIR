@@ -104,28 +104,74 @@ import com.ibm.watsonhealth.fhir.model.type.UsageContext;
 import com.ibm.watsonhealth.fhir.model.type.Uuid;
 
 /**
- * This class coordinates many operations related to processing FHIR resources. 
- * 
- * <br>
- * Loads the class in the classloader to initialize static members. Call this before using the class in order to avoid a
- * slight performance hit on first use.
- *
+ * Utility methods for working with the FHIR object model. 
  */
 public class FHIRUtil {
     private static final Logger log = Logger.getLogger(FHIRUtil.class.getName());
     public static final Pattern REFERENCE_PATTERN = buildReferencePattern();
     private static final Map<String, Class<?>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
-    private static final Set<Class<?>> CHOICE_ELEMENT_TYPES =
-            new HashSet<>(Arrays.asList(Base64Binary.class, com.ibm.watsonhealth.fhir.model.type.Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, com.ibm.watsonhealth.fhir.model.type.Integer.class, Markdown.class, Oid.class, PositiveInt.class, com.ibm.watsonhealth.fhir.model.type.String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, MoneyQuantity.class, // profiled
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                // type
-                Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, SimpleQuantity.class, // profiled
-                                                                                                                                  // type
-                Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class));
+    private static final Set<Class<?>> CHOICE_ELEMENT_TYPES = new HashSet<>(Arrays.asList(
+        Base64Binary.class,
+        com.ibm.watsonhealth.fhir.model.type.Boolean.class,
+        Canonical.class,
+        Code.class,
+        Date.class,
+        DateTime.class,
+        Decimal.class,
+        Id.class,
+        Instant.class,
+        com.ibm.watsonhealth.fhir.model.type.Integer.class,
+        Markdown.class,
+        Oid.class,
+        PositiveInt.class,
+        com.ibm.watsonhealth.fhir.model.type.String.class,
+        Time.class,
+        UnsignedInt.class,
+        Uri.class,
+        Url.class,
+        Uuid.class,
+        Address.class,
+        Age.class,
+        Annotation.class,
+        Attachment.class,
+        CodeableConcept.class,
+        Coding.class,
+        ContactPoint.class,
+        Count.class,
+        Distance.class,
+        Duration.class,
+        HumanName.class,
+        Identifier.class,
+        Money.class,
+        MoneyQuantity.class, // profiled type
+        Period.class,
+        Quantity.class,
+        Range.class,
+        Ratio.class,
+        Reference.class,
+        SampledData.class,
+        SimpleQuantity.class, // profiled type
+        Signature.class,
+        Timing.class,
+        ContactDetail.class,
+        Contributor.class,
+        DataRequirement.class,
+        Expression.class,
+        ParameterDefinition.class,
+        RelatedArtifact.class,
+        TriggerDefinition.class,
+        UsageContext.class,
+        Dosage.class));
+    
     private static final Map<String, String> CONCRETE_TYPE_NAME_MAP = buildConcreteTypeNameMap();
 
     private FHIRUtil() {
     }
 
+    /**
+     * Loads the class in the classloader in order to initialize static members.
+     * Call this before using the class in order to avoid a slight performance hit on first use.
+     */
     public static void init() {
         // allows us to initialize this class during startup
     }
@@ -159,7 +205,9 @@ public class FHIRUtil {
     private static Pattern buildReferencePattern() {
         StringBuilder sb = new StringBuilder();
         sb.append("((http|https)://([A-Za-z0-9\\\\\\/\\.\\:\\%\\$\\-])*)?(");
-        sb.append(Arrays.asList(ResourceType.ValueSet.values()).stream().map(v -> v.value()).collect(Collectors.joining("|")));
+        sb.append(Arrays.asList(ResourceType.ValueSet.values()).stream()
+            .map(v -> v.value())
+            .collect(Collectors.joining("|")));
         sb.append(")\\/[A-Za-z0-9\\-\\.]{1,64}(\\/_history\\/[A-Za-z0-9\\-\\.]{1,64})?");
         return Pattern.compile(sb.toString());
     }
@@ -197,10 +245,16 @@ public class FHIRUtil {
     }
 
     public static boolean isPrimitiveType(Class<?> type) {
-        return Base64Binary.class.equals(type) || com.ibm.watsonhealth.fhir.model.type.Boolean.class.equals(type)
-                || com.ibm.watsonhealth.fhir.model.type.String.class.isAssignableFrom(type) || Uri.class.isAssignableFrom(type) || DateTime.class.equals(type)
-                || Date.class.equals(type) || Time.class.equals(type) || Instant.class.equals(type)
-                || com.ibm.watsonhealth.fhir.model.type.Integer.class.isAssignableFrom(type) || Decimal.class.equals(type);
+        return Base64Binary.class.equals(type) ||
+            com.ibm.watsonhealth.fhir.model.type.Boolean.class.equals(type) ||
+            com.ibm.watsonhealth.fhir.model.type.String.class.isAssignableFrom(type) || 
+            Uri.class.isAssignableFrom(type) ||
+            DateTime.class.equals(type) || 
+            Date.class.equals(type) ||
+            Time.class.equals(type) || 
+            Instant.class.equals(type) || 
+            com.ibm.watsonhealth.fhir.model.type.Integer.class.isAssignableFrom(type) || 
+            Decimal.class.equals(type);
     }
 
     public static boolean isChoiceElementType(Class<?> type) {

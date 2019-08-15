@@ -37,7 +37,8 @@ public class ValueTypesFactory {
     }
 
     /**
-     * add the class to the classloader.
+     * Loads the class in the classloader to initialize static members. Call this before using the class in order to
+     * avoid a slight performance hit on first use.
      */
     public static void init() {
         // Loads the class and activates the ValueTypes R4Impl
