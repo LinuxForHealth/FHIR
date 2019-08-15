@@ -62,7 +62,9 @@ import com.ibm.watsonhealth.fhir.search.valuetypes.ValueTypesFactory;
  * This class uses FHIRPath Expressions (and currently does not support XPath) and uses init to activate the
  * Parameters/Compartments/ValueTypes components.
  * 
- * @author pbastide@us.ibm.com
+ * @author pbastide
+ * @author lmsurpre
+ * @author rarnold
  *
  */
 public class SearchUtil {
@@ -107,9 +109,12 @@ public class SearchUtil {
     }
 
     /**
-     * Initializes the various services related to Search and precaches.
+     * Initializes the various services related to Search and pre-caches.
+     * <br>
+     * Loads the class in the classloader to initialize static members. Call this before using the class in order to
+     * avoid a slight performance hit on first use.
      */
-    public static void initServletContext() {
+    public static void init() {
         // Inherently the searchParameterCache is loaded.
 
         // Loads the Compartments
@@ -117,6 +122,9 @@ public class SearchUtil {
 
         // Loads the Parameters into a map
         ParametersUtil.init();
+
+        // Loads the ValueTypesFactory
+        ValueTypesFactory.init();
     }
 
     /**
@@ -303,7 +311,7 @@ public class SearchUtil {
             for (PropertyEntry ruleEntry : ruleEntries) {
                 String resourceType = ruleEntry.getName();
 
-                // Make sure the value is a List<String>. 
+                // Make sure the value is a List<String>.
                 if (ruleEntry.getValue() instanceof List<?>) {
                     for (Object listMember : (List<?>) ruleEntry.getValue()) {
                         if (!(listMember instanceof String)) {
@@ -434,7 +442,7 @@ public class SearchUtil {
 
     /**
      * skips the empty extracted search parameters
-     *  
+     * 
      * @param resource
      * @return
      * @throws Exception
@@ -446,12 +454,12 @@ public class SearchUtil {
 
     /**
      * extract parameter values.
-     *  
+     * 
      * @param resource
      * @param skipEmpty
      * @return
      * @throws Exception
-     */ 
+     */
     public static Map<SearchParameter, List<FHIRPathNode>> extractParameterValues(Resource resource, boolean skipEmpty) throws Exception {
 
         Map<SearchParameter, List<FHIRPathNode>> result = new LinkedHashMap<>();
@@ -491,10 +499,11 @@ public class SearchUtil {
                     }
 
                 } catch (java.lang.UnsupportedOperationException | FHIRPathException uoe) {
-                    // switched to using code instead of name
+                    // Issue 202: switched to using code
                     log.warning(String.format(UNSUPPORTED_EXCEPTION, parameter.getCode().getValue(), expression.getValue(), uoe.getMessage()));
+                    uoe.printStackTrace();
                 }
-            } else { 
+            } else {
                 if (log.isLoggable(Level.FINER)) {
                     log.fine(String.format(UNSUPPOTED_EXPR_NULL, parameter.getType(), parameter.getCode().getValue()));
                 }
