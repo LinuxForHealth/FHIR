@@ -173,7 +173,7 @@ public class DeleteTest extends FHIRServerTestBase {
         Bundle.Entry.Request request = entry.getRequest();
         assertNotNull(request);
         assertEquals(expectedURL, request.getUrl().getValue());
-        assertEquals(expectedMethod, request.getMethod().getValue());
+        assertEquals(expectedMethod.toString(), request.getMethod().getValue());
         Resource rc = entry.getResource();
         assertNotNull(rc);
         MedicationAdministration ma = (MedicationAdministration) rc;

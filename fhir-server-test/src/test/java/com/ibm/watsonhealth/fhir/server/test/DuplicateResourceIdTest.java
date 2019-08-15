@@ -148,7 +148,7 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
         // Do a search on the previously created Device. Ensure only 1 result is
         // returned and that it validates.
         searchParms = new FHIRParameters();
-        searchParms.addSinglevaluedParameter("udi", this.deviceUdi);
+        searchParms.addSinglevaluedParameter("udi-di", this.deviceUdi);
         response = client.search("Device", searchParms);
         assertResponse(response, Response.Status.OK.getStatusCode());
         responseBundle = response.getResource(Bundle.class);
