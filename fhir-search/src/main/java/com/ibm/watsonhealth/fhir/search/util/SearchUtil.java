@@ -499,8 +499,9 @@ public class SearchUtil {
                     }
 
                 } catch (java.lang.UnsupportedOperationException | FHIRPathException uoe) {
-                    // switched to using code instead of name
+                    // Issue 202: switched to using code
                     log.warning(String.format(UNSUPPORTED_EXCEPTION, parameter.getCode().getValue(), expression.getValue(), uoe.getMessage()));
+                    uoe.printStackTrace();
                 }
             } else {
                 if (log.isLoggable(Level.FINER)) {
