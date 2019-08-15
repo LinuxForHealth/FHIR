@@ -2550,7 +2550,6 @@ public class FHIRResource implements FHIRResourceHelpers {
 
             // Now visit each of the request entries using the list of indices obtained above.
             // Use hashmap to store both the index and the according updated response bundle entry.
-            List<Bundle.Entry> responseEntries = new ArrayList<Bundle.Entry>();
             HashMap<Integer, Bundle.Entry> responseIndexAndEntries = new HashMap<Integer, Bundle.Entry>();
             for (Integer entryIndex : entryIndices) {
                 Bundle.Entry requestEntry = requestBundle.getEntry().get(entryIndex);
