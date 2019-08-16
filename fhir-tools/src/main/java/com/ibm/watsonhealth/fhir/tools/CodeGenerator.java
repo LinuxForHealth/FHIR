@@ -1185,13 +1185,6 @@ public class CodeGenerator {
     }
 
     private void generateClass(JsonObject structureDefinition, String basePath) {
-        /*        
-        String name = structureDefinition.getString("name");
-        
-        if ("xhtml".equals(name)) {
-            return;
-        }
-        */
         CodeBuilder cb = new CodeBuilder();
         
         String className = titleCase(structureDefinition.getString("name"));
@@ -1595,10 +1588,9 @@ public class CodeGenerator {
     }
 
     private void generateHasChildrenMethod(JsonObject structureDefinition, String path, CodeBuilder cb, boolean nested) {
-        if (/* (isResource(structureDefinition) && !nested) || */
-                isStringSubtype(structureDefinition) || 
-                isUriSubtype(structureDefinition) || 
-                isQuantitySubtype(structureDefinition)) {
+        if (isStringSubtype(structureDefinition) || 
+            isUriSubtype(structureDefinition) || 
+            isQuantitySubtype(structureDefinition)) {
             return;
         }
 
@@ -1810,19 +1802,7 @@ public class CodeGenerator {
             ._end()
             ._return("joiner.toString()")
         .end().newLine();
-        /*
-        cb.method(mods("private"), "java.lang.String", "parseJavaString", params("java.lang.String elementName", "XMLStreamReader reader", "int elementIndex"), throwsExceptions("XMLStreamException"))
-            .invoke("stackPush", args("elementName", "elementIndex"))
-            .statement("java.lang.String javaString")
-            ._if("\"div\".equals(elementName)")
-                .assign("javaString", "parseDiv(reader)")
-            ._else()
-                .assign("javaString", "reader.getAttributeValue(null, elementName)")
-            ._end()
-            .invoke("stackPop", args())
-            ._return("javaString")
-        .end().newLine();
-        */
+        
         cb.method(mods("private"), "java.lang.String", "getResourceType", params("XMLStreamReader reader"), throwsExceptions("XMLStreamException"))
             .assign("java.lang.String resourceType", "reader.getLocalName()")
             ._try()
