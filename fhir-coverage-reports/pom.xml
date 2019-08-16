@@ -58,16 +58,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-replication-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-iam</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>fhir-notification</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -100,12 +90,6 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-operation-healthcheck</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-audit-trail</artifactId>
-            <version>${project.version}</version>
-            <type>war</type>
         </dependency>
     </dependencies>
 
