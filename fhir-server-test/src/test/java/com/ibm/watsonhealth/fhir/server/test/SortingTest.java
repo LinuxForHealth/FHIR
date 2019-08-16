@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.server.test;
 
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
@@ -290,7 +291,7 @@ public class SortingTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        Coding subsettedTag = Coding.builder().system(Uri.of("http://hl7.org/fhir/v3/ObservationValue"))
+        Coding subsettedTag = Coding.builder().system(Uri.of("http://terminology.hl7.org/CodeSystem/v3-ObservationValue"))
                 .code(Code.of("SUBSETTED"))
                 .display(string("subsetted"))
                 .build();
@@ -389,11 +390,11 @@ public class SortingTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() > 1);
-        List<java.time.Instant> list = new ArrayList<java.time.Instant>();
+        List<java.time.LocalDate> list = new ArrayList<java.time.LocalDate>();
         for(int i=0;i<bundle.getEntry().size();i++){
             if(((Patient)bundle.getEntry().get(i).getResource()).getBirthDate()!=null){
-                list.add(java.time.Instant.from(((Patient) bundle.getEntry()
-                        .get(i).getResource()).getBirthDate().getValue()));
+                list.add(java.time.LocalDate.parse(((Patient) bundle.getEntry()
+                        .get(i).getResource()).getBirthDate().getValue().toString()));               
             }
         }
         
@@ -480,7 +481,7 @@ public class SortingTest extends FHIRServerTestBase {
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation1", "testCreateObservation2", "testCreateObservation3", "testCreateObservation5" })
     public void testSortValueQuantityAscending() {
         WebTarget target = getWebTarget();
-        Response response = target.path("Observation").queryParam("status", "final").queryParam("code","http://loinc.org|55284-4")
+        Response response = target.path("Observation").queryParam("status", "final").queryParam("coding","http://loinc.org|55284-4")
                 .queryParam("_count", "50").queryParam("_sort:asc", "component-value-quantity").request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -490,7 +491,7 @@ public class SortingTest extends FHIRServerTestBase {
         
         for(int i=0;i<bundle.getEntry().size();i++) {
                 if(((Observation)bundle.getEntry().get(i).getResource()).getComponent().size()>1) {
-                    Observation.Component observationComponent = ((Observation)bundle.getEntry().get(i).getResource()).getComponent().get(1);
+                    Observation.Component observationComponent = ((Observation)bundle.getEntry().get(i).getResource()).getComponent().get(0);
                     list.add(((Quantity)observationComponent.getValue()).getValue().getValue());
                 }
         }
