@@ -705,6 +705,7 @@ public interface Visitor {
     boolean visit(java.lang.String elementName, int elementIndex, VisionPrescription visionPrescription);
     boolean visit(java.lang.String elementName, int elementIndex, VisionPrescription.LensSpecification visionPrescriptionLensSpecification);
     boolean visit(java.lang.String elementName, int elementIndex, VisionPrescription.LensSpecification.Prism visionPrescriptionLensSpecificationPrism);
+    boolean visit(java.lang.String elementName, int elementIndex, Xhtml xhtml);
     void visit(java.lang.String elementName, byte[] value);
     void visit(java.lang.String elementName, BigDecimal value);
     void visit(java.lang.String elementName, java.lang.Boolean value);

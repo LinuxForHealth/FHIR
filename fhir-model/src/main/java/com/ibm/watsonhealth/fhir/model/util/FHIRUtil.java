@@ -104,6 +104,7 @@ import com.ibm.watsonhealth.fhir.model.type.Uri;
 import com.ibm.watsonhealth.fhir.model.type.Url;
 import com.ibm.watsonhealth.fhir.model.type.UsageContext;
 import com.ibm.watsonhealth.fhir.model.type.Uuid;
+import com.ibm.watsonhealth.fhir.model.type.Xhtml;
 
 /**
  * Utility methods for working with the FHIR object model. 
@@ -256,7 +257,8 @@ public class FHIRUtil {
             Time.class.equals(type) || 
             Instant.class.equals(type) || 
             com.ibm.watsonhealth.fhir.model.type.Integer.class.isAssignableFrom(type) || 
-            Decimal.class.equals(type);
+            Decimal.class.equals(type) || 
+            Xhtml.class.equals(type);
     }
 
     public static boolean isChoiceElementType(Class<?> type) {

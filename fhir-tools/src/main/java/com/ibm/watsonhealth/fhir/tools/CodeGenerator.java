@@ -115,7 +115,7 @@ public class CodeGenerator {
         "UsageContext", 
         "Dosage");
     private static final List<String> PROFILED_TYPES = Arrays.asList("SimpleQuantity", "MoneyQuantity");
-    private static final List<String> MODEL_CHECKED_CONSTRAINTS = Arrays.asList("ele-1");
+    private static final List<String> MODEL_CHECKED_CONSTRAINTS = Arrays.asList("ele-1", "sqty-1");
     private static final List<String> HEADER = readHeader();
     
     public CodeGenerator(Map<String, JsonObject> structureDefinitionMap, Map<String, JsonObject> codeSystemMap, Map<String, JsonObject> valueSetMap) {
@@ -676,6 +676,10 @@ public class CodeGenerator {
             cb.javadoc("<p>This element is required.", false);
             cb.javadoc("");
         }
+        if (isProhibited(elementDefinition)) {
+            cb.javadoc("<p>This element is prohibited.", false);
+            cb.javadoc("");
+        }
         if (isChoiceElement(elementDefinition)) {
             cb.javadoc("<p>This is a choice element with the following allowed types:", false);
             cb.javadoc("<ul>", false);
@@ -828,7 +832,7 @@ public class CodeGenerator {
             if ((!"Resource".equals(className) && !"Element".equals(className)) || nested) {
                 cb._super(args("builder"));
             }
-            
+                        
             for (JsonObject elementDefinition : elementDefinitions) {
                 String basePath = elementDefinition.getJsonObject("base").getString("path");
                 if (elementDefinition.getString("path").equals(basePath)) {
@@ -894,10 +898,20 @@ public class CodeGenerator {
                 cb.invoke("ValidationSupport", "checkValueType", args("value", "ZonedDateTime.class", "LocalDate.class", "YearMonth.class", "Year.class"));
             }
             
+            for (JsonObject elementDefinition : getElementDefinitions(structureDefinition, path)) {
+                if (isProhibited(elementDefinition)) {
+                    String elementName = getElementName(elementDefinition, path);
+                    String fieldName = getFieldName(elementName);
+                    cb.invoke("ValidationSupport", "prohibited", args(fieldName, quote(elementName)));
+                }
+            }
+            
             if ((!isResource(structureDefinition) && 
                     !isAbstract(structureDefinition) && 
                     !isStringSubtype(structureDefinition) && 
-                    !isUriSubtype(structureDefinition)) || 
+                    !isUriSubtype(structureDefinition) && 
+                    !isQuantitySubtype(structureDefinition) && 
+                    !isXhtml(structureDefinition)) || 
                     nested) {
                 cb.invoke("ValidationSupport", "requireValueOrChildren", args("this"));
             }
@@ -1167,12 +1181,13 @@ public class CodeGenerator {
     }
 
     private void generateClass(JsonObject structureDefinition, String basePath) {
+        /*        
         String name = structureDefinition.getString("name");
         
         if ("xhtml".equals(name)) {
             return;
         }
-        
+        */
         CodeBuilder cb = new CodeBuilder();
         
         String className = titleCase(structureDefinition.getString("name"));
@@ -1326,6 +1341,15 @@ public class CodeGenerator {
                 ._return("Code.builder().value(value).build()")
             .end().newLine();
         }
+        
+        if (isXhtml(structureDefinition)) {
+            cb.method(mods("public", "static"), className, "of", params("java.lang.String value"))
+                ._return(className + ".builder().value(value).build()")
+            .end().newLine();
+            cb.method(mods("public", "static"), "Xhtml", "xhtml", params("java.lang.String value"))
+                ._return("Xhtml.builder().value(value).build()")
+            .end().newLine();
+        }
     }
     
     private void generateImports(JsonObject structureDefinition, CodeBuilder cb) {
@@ -1406,6 +1430,10 @@ public class CodeGenerator {
             if (isResource(structureDefinition) && (isDataType(definition)) || hasRequiredBinding(elementDefinition)) {
                 imports.add("com.ibm.watsonhealth.fhir.model.type." + fieldType);
             }
+            
+            if (isProhibited(elementDefinition)) {
+                imports.add("com.ibm.watsonhealth.fhir.model.util.ValidationSupport");
+            }
         }
         
         if (!containsCollection && repeating) {
@@ -1463,7 +1491,8 @@ public class CodeGenerator {
         if ((!isResource(structureDefinition) && 
                 !isAbstract(structureDefinition) && 
                 !isStringSubtype(structureDefinition) && 
-                !isUriSubtype(structureDefinition))) {
+                !isUriSubtype(structureDefinition)) && 
+                !isQuantitySubtype(structureDefinition)) {
             imports.add("com.ibm.watsonhealth.fhir.model.util.ValidationSupport");
         }
         
@@ -1777,7 +1806,7 @@ public class CodeGenerator {
             ._end()
             ._return("joiner.toString()")
         .end().newLine();
-        
+        /*
         cb.method(mods("private"), "java.lang.String", "parseJavaString", params("java.lang.String elementName", "XMLStreamReader reader", "int elementIndex"), throwsExceptions("XMLStreamException"))
             .invoke("stackPush", args("elementName", "elementIndex"))
             .statement("java.lang.String javaString")
@@ -1789,7 +1818,7 @@ public class CodeGenerator {
             .invoke("stackPop", args())
             ._return("javaString")
         .end().newLine();
-
+        */
         cb.method(mods("private"), "java.lang.String", "getResourceType", params("XMLStreamReader reader"), throwsExceptions("XMLStreamException"))
             .assign("java.lang.String resourceType", "reader.getLocalName()")
             ._try()
@@ -1866,12 +1895,20 @@ public class CodeGenerator {
             ._end();
         }
         
-        if (isPrimitiveType(structureDefinition)){
+        if (isPrimitiveType(structureDefinition)) {
             // primitive type
-            cb.assign("java.lang.String value", "reader.getAttributeValue(null, \"value\")")
-            ._if("value != null")
-                .invoke("builder", "value", args("value"))
-            ._end();
+            if (isXhtml(structureDefinition)) {
+                cb.invoke("builder", "value", args("parseDiv(reader)"));
+                cb.invoke("stackPop", args());
+                cb._return("builder.build()");
+                cb.end().newLine();
+                return;
+            } else {
+                cb.assign("java.lang.String value", "reader.getAttributeValue(null, \"value\")")
+                ._if("value != null")
+                    .invoke("builder", "value", args("value"))
+                ._end();
+            }
         }
         
         cb.assign("int position", "-1");
@@ -2458,7 +2495,8 @@ public class CodeGenerator {
                 "DateTime".equals(generatedClassName) || 
                 "Time".equals(generatedClassName) || 
                 "Instant".equals(generatedClassName) || 
-                "Base64Binary".equals(generatedClassName)) {
+                "Base64Binary".equals(generatedClassName) || 
+                "Xhtml".equals(generatedClassName)) {
             cb._if("jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING")
                 .assign("JsonString jsonString", "(JsonString) jsonValue")
                 .invoke("builder", "value", args("jsonString.getString()"))
@@ -3073,9 +3111,11 @@ public class CodeGenerator {
             }
         }
 
+        /*
         if ("Narrative.div".equals(path)) {
             return "java.lang.String";
         }
+        */
         
         if (path.endsWith("[x]")) {
             return "Element";
@@ -3376,7 +3416,15 @@ public class CodeGenerator {
     }
     
     private boolean isRepeating(JsonObject elementDefinition) {
-        return "*".equals(getMax(elementDefinition));
+        return "*".equals(getMax(elementDefinition)) || (isProhibited(elementDefinition) && "*".equals(getBaseMax(elementDefinition)));
+    }
+    
+    private Object getBaseMax(JsonObject elementDefinition) {
+        return elementDefinition.getJsonObject("base").getString("max");
+    }
+
+    private boolean isProhibited(JsonObject elementDefinition) {
+        return "0".equals(getMax(elementDefinition));
     }
     
     private boolean isRequired(JsonObject elementDefinition) {
@@ -3419,6 +3467,7 @@ public class CodeGenerator {
     private boolean isUri(JsonObject structureDefinition) {
         return "uri".equals(structureDefinition.getString("name"));
     }
+    
     private boolean isUriSubtype(JsonObject structureDefinition) {
         JsonObject baseDefinition = getBaseDefinition(structureDefinition);
         if (baseDefinition != null) {
@@ -3426,18 +3475,26 @@ public class CodeGenerator {
         }
         return false;
     }
+    
     private boolean isUriSubtype(String className) {
         return uriSubtypeClassNames.contains(className);
     }
+    
+    private boolean isXhtml(JsonObject structureDefinition) {
+        return "xhtml".equals(structureDefinition.getString("name"));
+    }
+    
     private String titleCase(String name) {
         return name.substring(0, 1).toUpperCase() + name.substring(1);
     }
+    
     private String visibility(JsonObject structureDefinition) {
         if (hasSubtypes(structureDefinition.getString("name"))) {
             return "protected";
         }
         return "private";
     }
+    
     public static Map<String, JsonObject> buildResourceMap(String path, String resourceType) {
         try (JsonReader reader = Json.createReader(new FileReader(new File(path)))) {
             List<JsonObject> resources = new ArrayList<>();

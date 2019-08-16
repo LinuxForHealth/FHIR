@@ -9,6 +9,7 @@ package com.ibm.watsonhealth.fhir.model.generator;
 import static com.ibm.watsonhealth.fhir.model.util.FHIRUtil.isPrimitiveType;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.FHIR_NS_URI;
 import static com.ibm.watsonhealth.fhir.model.util.XMLSupport.createStreamWriterDelegate;
+import static com.ibm.watsonhealth.fhir.model.type.Xhtml.xhtml;
 
 import java.io.OutputStream;
 import java.io.StringReader;
@@ -50,6 +51,7 @@ import com.ibm.watsonhealth.fhir.model.type.NarrativeStatus;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Time;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
+import com.ibm.watsonhealth.fhir.model.type.Xhtml;
 import com.ibm.watsonhealth.fhir.model.util.XMLSupport.StreamWriterDelegate;
 
 
@@ -240,21 +242,13 @@ public class FHIRXMLGenerator implements FHIRGenerator {
             }
         }
         
-        @Override
-        public void visit(java.lang.String elementName, java.lang.String value) {
-            if (!"div".equals(elementName)) {
-                return;
-            }
-            if (value != null) {
-                try {
-                    indent();
-                    Transformer transformer = THREAD_LOCAL_TRANSFORMER.get();
-                    transformer.reset();
-                    transformer.transform(new StreamSource(new StringReader(value)), new StAXResult(writer));
-                    newLine();
-                } catch (TransformerException e) {
-                    throw new RuntimeException(e);
-                }
+        private void writeXhtml(java.lang.String elementName, Xhtml xhtml) {
+            try {
+                Transformer transformer = THREAD_LOCAL_TRANSFORMER.get();
+                transformer.reset();
+                transformer.transform(new StreamSource(new StringReader(xhtml.getValue())), new StAXResult(writer));
+            } catch (TransformerException e) {
+                throw new RuntimeException(e);
             }
         }
         
@@ -303,6 +297,8 @@ public class FHIRXMLGenerator implements FHIRGenerator {
                 }
                 if (!isPrimitiveType(elementType) || !element.getExtension().isEmpty()) {
                     writer.writeStartElement(FHIR_NS_URI, elementName);
+                } else if (Xhtml.class.equals(elementType)) {
+                    writeXhtml(elementName, (Xhtml) element);
                 } else {
                     writer.writeEmptyElement(FHIR_NS_URI, elementName);
                 }
@@ -375,7 +371,7 @@ public class FHIRXMLGenerator implements FHIRGenerator {
                 .family(String.of("Doe"))
                 .build();
         
-        Narrative text = Narrative.builder().status(NarrativeStatus.GENERATED).div(div).build();
+        Narrative text = Narrative.builder().status(NarrativeStatus.GENERATED).div(xhtml(div)).build();
         
         Patient patient = Patient.builder()
                 .id(id)

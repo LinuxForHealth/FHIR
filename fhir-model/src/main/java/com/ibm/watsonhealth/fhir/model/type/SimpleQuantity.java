@@ -24,7 +24,8 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Quantity",
     description = "The comparator is not used on a SimpleQuantity",
-    expression = "comparator.empty()"
+    expression = "comparator.empty()",
+    modelChecked = true
 )
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class SimpleQuantity extends Quantity {
@@ -32,7 +33,7 @@ public class SimpleQuantity extends Quantity {
 
     private SimpleQuantity(Builder builder) {
         super(builder);
-        ValidationSupport.requireValueOrChildren(this);
+        ValidationSupport.prohibited(comparator, "comparator");
     }
 
     @Override
@@ -174,6 +175,8 @@ public class SimpleQuantity extends Quantity {
 
         /**
          * Not allowed to be used in this context
+         * 
+         * <p>This element is prohibited.
          * 
          * @param comparator
          *     &lt; | &lt;= | &gt;= | &gt; - how to understand the value

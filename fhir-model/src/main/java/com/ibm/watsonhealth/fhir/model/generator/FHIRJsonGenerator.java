@@ -49,6 +49,7 @@ import com.ibm.watsonhealth.fhir.model.type.Meta;
 import com.ibm.watsonhealth.fhir.model.type.String;
 import com.ibm.watsonhealth.fhir.model.type.Time;
 import com.ibm.watsonhealth.fhir.model.type.Uri;
+import com.ibm.watsonhealth.fhir.model.type.Xhtml;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitable;
 
 public class FHIRJsonGenerator implements FHIRGenerator {
@@ -321,6 +322,12 @@ public class FHIRJsonGenerator implements FHIRGenerator {
             } else {
                 writeNull(elementName, elementIndex, uri);
             }
+            return false;
+        }
+        
+        @Override
+        public boolean visit(java.lang.String elementName, int elementIndex, Xhtml xhtml) {
+            writeValue(elementName, elementIndex, xhtml.getValue());
             return false;
         }
         

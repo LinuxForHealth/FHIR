@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.model.test;
 
+import static com.ibm.watsonhealth.fhir.model.type.Xhtml.xhtml;
+
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -68,7 +70,7 @@ public class FHIRXMLParserGeneratorTest {
                 .family(String.of("Doe"))
                 .build();
         
-        Narrative text = Narrative.builder().status(NarrativeStatus.GENERATED).div(div).build();
+        Narrative text = Narrative.builder().status(NarrativeStatus.GENERATED).div(xhtml(div)).build();
         
         Patient patient = Patient.builder()
                 .id(id)

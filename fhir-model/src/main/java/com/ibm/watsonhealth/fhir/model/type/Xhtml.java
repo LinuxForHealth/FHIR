@@ -11,72 +11,52 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.annotation.Required;
-import com.ibm.watsonhealth.fhir.model.type.NarrativeStatus;
 import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
- * A human-readable summary of the resource conveying the essential clinical and business information for the resource.
+ * XHTML
  */
-@Constraint(
-    id = "txt-1",
-    level = "Rule",
-    location = "Narrative.`div`",
-    description = "The narrative SHALL contain only the basic html formatting elements and attributes described in chapters 7-11 (except section 4 of chapter 9) and 15 of the HTML 4.0 standard, <a> elements (either name or href), images and internally contained style attributes",
-    expression = "htmlChecks()"
-)
-@Constraint(
-    id = "txt-2",
-    level = "Rule",
-    location = "Narrative.`div`",
-    description = "The narrative SHALL have some non-whitespace content",
-    expression = "htmlChecks()"
-)
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
-public class Narrative extends Element {
+public class Xhtml extends Element {
     @Required
-    private final NarrativeStatus status;
-    @Required
-    private final Xhtml div;
+    private final java.lang.String value;
 
     private volatile int hashCode;
 
-    private Narrative(Builder builder) {
+    private Xhtml(Builder builder) {
         super(builder);
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        div = ValidationSupport.requireNonNull(builder.div, "div");
-        ValidationSupport.checkXHTMLContent(div);
-        ValidationSupport.requireValueOrChildren(this);
+        value = ValidationSupport.requireNonNull(builder.value, "value");
+        ValidationSupport.prohibited(extension, "extension");
     }
 
     /**
-     * The status of the narrative - whether it's entirely generated (from just the defined data or the extensions too), or 
-     * whether a human authored it and it may contain additional data.
+     * Actual xhtml
      * 
      * @return
-     *     An immutable object of type {@link NarrativeStatus}.
+     *     An immutable object of type {@link java.lang.String}.
      */
-    public NarrativeStatus getStatus() {
-        return status;
+    public java.lang.String getValue() {
+        return value;
     }
 
-    /**
-     * The actual narrative content, a stripped down version of XHTML.
-     * 
-     * @return
-     *     An immutable object of type {@link Xhtml}.
-     */
-    public Xhtml getDiv() {
-        return div;
+    @Override
+    public boolean hasValue() {
+        return (value != null);
     }
 
     @Override
     public boolean hasChildren() {
-        return super.hasChildren() || 
-            (status != null) || 
-            (div != null);
+        return super.hasChildren();
+    }
+
+    public static Xhtml of(java.lang.String value) {
+        return Xhtml.builder().value(value).build();
+    }
+
+    public static Xhtml xhtml(java.lang.String value) {
+        return Xhtml.builder().value(value).build();
     }
 
     @Override
@@ -87,8 +67,7 @@ public class Narrative extends Element {
                 // visit children
                 accept(id, "id", visitor);
                 accept(extension, "extension", visitor, Extension.class);
-                accept(status, "status", visitor);
-                accept(div, "div", visitor);
+                accept(value, "value", visitor);
             }
             visitor.visitEnd(elementName, elementIndex, this);
             visitor.postVisit(this);
@@ -106,11 +85,10 @@ public class Narrative extends Element {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Narrative other = (Narrative) obj;
+        Xhtml other = (Xhtml) obj;
         return Objects.equals(id, other.id) && 
             Objects.equals(extension, other.extension) && 
-            Objects.equals(status, other.status) && 
-            Objects.equals(div, other.div);
+            Objects.equals(value, other.value);
     }
 
     @Override
@@ -119,8 +97,7 @@ public class Narrative extends Element {
         if (result == 0) {
             result = Objects.hash(id, 
                 extension, 
-                status, 
-                div);
+                value);
             hashCode = result;
         }
         return result;
@@ -136,19 +113,17 @@ public class Narrative extends Element {
     }
 
     public static class Builder extends Element.Builder {
-        private NarrativeStatus status;
-        private Xhtml div;
+        private java.lang.String value;
 
         private Builder() {
             super();
         }
 
         /**
-         * Unique id for the element within a resource (for internal references). This may be any string value that does not 
-         * contain spaces.
+         * unique id for the element within a resource (for internal references)
          * 
          * @param id
-         *     Unique id for inter-element referencing
+         *     xml:id (or equivalent in JSON)
          * 
          * @return
          *     A reference to this Builder instance
@@ -159,12 +134,14 @@ public class Narrative extends Element {
         }
 
         /**
-         * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+         * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
          * <p>Adds new element(s) to the existing list
+         * 
+         * <p>This element is prohibited.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -178,12 +155,14 @@ public class Narrative extends Element {
         }
 
         /**
-         * May be used to represent additional information that is not part of the basic definition of the element. To make the 
+         * May be used to represent additional information that is not part of the basic definition of the resource. To make the 
          * use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of 
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
          * <p>Replaces the existing list with a new one containing elements from the Collection
+         * 
+         * <p>This element is prohibited.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -197,59 +176,40 @@ public class Narrative extends Element {
         }
 
         /**
-         * The status of the narrative - whether it's entirely generated (from just the defined data or the extensions too), or 
-         * whether a human authored it and it may contain additional data.
+         * Actual xhtml
          * 
          * <p>This element is required.
          * 
-         * @param status
-         *     generated | extensions | additional | empty
+         * @param value
+         *     Actual xhtml
          * 
          * @return
          *     A reference to this Builder instance
          */
-        public Builder status(NarrativeStatus status) {
-            this.status = status;
+        public Builder value(java.lang.String value) {
+            this.value = value;
             return this;
         }
 
         /**
-         * The actual narrative content, a stripped down version of XHTML.
-         * 
-         * <p>This element is required.
-         * 
-         * @param div
-         *     Limited xhtml content
-         * 
-         * @return
-         *     A reference to this Builder instance
-         */
-        public Builder div(Xhtml div) {
-            this.div = div;
-            return this;
-        }
-
-        /**
-         * Build the {@link Narrative}
+         * Build the {@link Xhtml}
          * 
          * <p>Required elements:
          * <ul>
-         * <li>status</li>
-         * <li>div</li>
+         * <li>value</li>
          * </ul>
          * 
          * @return
-         *     An immutable object of type {@link Narrative}
+         *     An immutable object of type {@link Xhtml}
          */
         @Override
-        public Narrative build() {
-            return new Narrative(this);
+        public Xhtml build() {
+            return new Xhtml(this);
         }
 
-        protected Builder from(Narrative narrative) {
-            super.from(narrative);
-            status = narrative.status;
-            div = narrative.div;
+        protected Builder from(Xhtml xhtml) {
+            super.from(xhtml);
+            value = xhtml.value;
             return this;
         }
     }

@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.server.test;
 
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
+import static com.ibm.watsonhealth.fhir.model.type.Xhtml.xhtml;
 
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -262,7 +263,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         
         Narrative text = Narrative.builder()
                 .status(NarrativeStatus.GENERATED)
-                .div(div)
+                .div(xhtml(div))
                 .build();
         
         return Patient.builder()

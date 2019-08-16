@@ -3438,6 +3438,11 @@ public abstract class AbstractVisitor implements Visitor {
     }
 
     @Override
+    public boolean visit(java.lang.String elementName, int elementIndex, Xhtml xhtml) {
+        return true;
+    }
+
+    @Override
     public void visit(java.lang.String elementName, byte[] value) {
     }
 

@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.patch.test;
 
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
+import static com.ibm.watsonhealth.fhir.model.type.Xhtml.xhtml;
 
 import java.io.FilterOutputStream;
 import java.io.OutputStream;
@@ -188,7 +189,7 @@ public class FHIRJsonPatchTest {
         
         Narrative text = Narrative.builder()
                 .status(NarrativeStatus.GENERATED)
-                .div(div)
+                .div(xhtml(div))
                 .build();
         
         return Patient.builder()

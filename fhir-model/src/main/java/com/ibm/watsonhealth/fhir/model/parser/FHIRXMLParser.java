@@ -33168,7 +33168,7 @@ public class FHIRXMLParser implements FHIRParser {
                     break;
                 case "div":
                     position = checkElementOrder("div", 2, position, false);
-                    builder.div(parseJavaString("div", reader, -1));
+                    builder.div(parseXhtml("div", reader, -1));
                     break;
                 default:
                     throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
@@ -51223,6 +51223,18 @@ public class FHIRXMLParser implements FHIRParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
+    private Xhtml parseXhtml(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Xhtml.Builder builder = Xhtml.builder();
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        builder.value(parseDiv(reader));
+        stackPop();
+        return builder.build();
+    }
+
     private void stackPush(java.lang.String elementName, int elementIndex) {
         if (elementIndex != -1) {
             stack.push(elementName + "[" + elementIndex + "]");
@@ -51244,18 +51256,6 @@ public class FHIRXMLParser implements FHIRParser {
             joiner.add(s);
         }
         return joiner.toString();
-    }
-
-    private java.lang.String parseJavaString(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        java.lang.String javaString;
-        if ("div".equals(elementName)) {
-            javaString = parseDiv(reader);
-        } else {
-            javaString = reader.getAttributeValue(null, elementName);
-        }
-        stackPop();
-        return javaString;
     }
 
     private java.lang.String getResourceType(XMLStreamReader reader) throws XMLStreamException {

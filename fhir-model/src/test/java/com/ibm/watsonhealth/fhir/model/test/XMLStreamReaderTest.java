@@ -7,6 +7,7 @@
 package com.ibm.watsonhealth.fhir.model.test;
 
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
+import static com.ibm.watsonhealth.fhir.model.type.Xhtml.xhtml;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -45,7 +46,7 @@ public class XMLStreamReaderTest {
                 .family(string("Doe"))
                 .build();
         
-        Narrative text = Narrative.builder().status(NarrativeStatus.GENERATED).div(div).build();
+        Narrative text = Narrative.builder().status(NarrativeStatus.GENERATED).div(xhtml(div)).build();
         
         Patient patient = Patient.builder()
                 .id(id)

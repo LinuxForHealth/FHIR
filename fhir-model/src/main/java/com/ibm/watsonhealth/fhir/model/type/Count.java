@@ -13,7 +13,6 @@ import javax.annotation.Generated;
 
 import com.ibm.watsonhealth.fhir.model.annotation.Constraint;
 import com.ibm.watsonhealth.fhir.model.type.QuantityComparator;
-import com.ibm.watsonhealth.fhir.model.util.ValidationSupport;
 import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 
 /**
@@ -33,7 +32,6 @@ public class Count extends Quantity {
 
     private Count(Builder builder) {
         super(builder);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     @Override

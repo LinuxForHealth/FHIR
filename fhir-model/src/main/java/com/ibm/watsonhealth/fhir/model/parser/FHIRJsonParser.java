@@ -16060,7 +16060,7 @@ public class FHIRJsonParser implements FHIRParser {
         Narrative.Builder builder = Narrative.builder();
         parseElement(builder, jsonObject);
         builder.status((NarrativeStatus) parseString(NarrativeStatus.builder(), "status", JsonSupport.getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
-        builder.div(parseJavaString("div", JsonSupport.getJsonValue(jsonObject, "div", JsonString.class), -1));
+        builder.div(parseXhtml("div", JsonSupport.getJsonValue(jsonObject, "div", JsonString.class), jsonObject.get("_div"), -1));
         stackPop();
         return builder.build();
     }
@@ -23982,6 +23982,25 @@ public class FHIRJsonParser implements FHIRParser {
         parseBackboneElement(builder, jsonObject);
         builder.amount(parseDecimal("amount", JsonSupport.getJsonValue(jsonObject, "amount", JsonNumber.class), jsonObject.get("_amount"), -1));
         builder.base((VisionBase) parseString(VisionBase.builder(), "base", JsonSupport.getJsonValue(jsonObject, "base", JsonString.class), jsonObject.get("_base"), -1));
+        stackPop();
+        return builder.build();
+    }
+
+    private Xhtml parseXhtml(java.lang.String elementName, JsonValue jsonValue, JsonValue _jsonValue, int elementIndex) {
+        if (jsonValue == null && _jsonValue == null) {
+            return null;
+        }
+        stackPush(elementName, elementIndex);
+        Xhtml.Builder builder = Xhtml.builder();
+        if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
+            JsonObject jsonObject = (JsonObject) _jsonValue;
+            checkForUnrecognizedElements("Element", jsonObject);
+            parseElement(builder, jsonObject);
+        }
+        if (jsonValue != null && jsonValue.getValueType() == JsonValue.ValueType.STRING) {
+            JsonString jsonString = (JsonString) jsonValue;
+            builder.value(jsonString.getString());
+        }
         stackPop();
         return builder.build();
     }
