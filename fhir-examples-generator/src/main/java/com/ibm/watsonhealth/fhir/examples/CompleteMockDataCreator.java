@@ -32,14 +32,18 @@ import com.ibm.watsonhealth.fhir.model.resource.Measure;
 import com.ibm.watsonhealth.fhir.model.resource.MessageDefinition;
 import com.ibm.watsonhealth.fhir.model.resource.Observation;
 import com.ibm.watsonhealth.fhir.model.resource.Questionnaire;
+import com.ibm.watsonhealth.fhir.model.resource.RiskAssessment;
 import com.ibm.watsonhealth.fhir.model.resource.Task;
 import com.ibm.watsonhealth.fhir.model.resource.ValueSet;
+import com.ibm.watsonhealth.fhir.model.type.AddressUse;
 import com.ibm.watsonhealth.fhir.model.type.Age;
 import com.ibm.watsonhealth.fhir.model.type.Base64Binary;
 import com.ibm.watsonhealth.fhir.model.type.Code;
+import com.ibm.watsonhealth.fhir.model.type.ContactPointUse;
 import com.ibm.watsonhealth.fhir.model.type.DataRequirement;
 import com.ibm.watsonhealth.fhir.model.type.Date;
 import com.ibm.watsonhealth.fhir.model.type.DateTime;
+import com.ibm.watsonhealth.fhir.model.type.Decimal;
 import com.ibm.watsonhealth.fhir.model.type.Duration;
 import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.type.Id;
@@ -178,6 +182,12 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                     else if (builder instanceof MessageDefinition.Focus.Builder && method.getName().equals("max")) {
                         argument = com.ibm.watsonhealth.fhir.model.type.String.of("*");
                     }
+                    // ras-2:  probability is decimal implies (probability as decimal) <= 100
+                    else if (builder instanceof RiskAssessment.Prediction.Builder && method.getName().equals("probability")) {
+                        argument = Decimal.of(Math.random() * 100);
+                    }
+                    // org-2:  An address of an organization can never be of use 'home'
+                    // org-3:  The telecom of an organization can never be of use 'home'
                     /////////////////
                     // Everything else
                     /////////////////
@@ -299,6 +309,16 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                 // que-7: If the operator is 'exists', the value must be a boolean
                 if (code instanceof QuestionnaireItemOperator.Builder) {
                     // 'exists' is the first constant and we use all kinds of values, so avoid that one
+                    enumConstant = enumConstants[ThreadLocalRandom.current().nextInt(1, enumConstants.length)];
+                }
+                // org-2:  An address of an organization can never be of use 'home'
+                if (code instanceof AddressUse.Builder) {
+                    // 'home' is the first constant and we use all kinds of values, so avoid that one
+                    enumConstant = enumConstants[ThreadLocalRandom.current().nextInt(1, enumConstants.length)];
+                }
+                // org-3:  The telecom of an organization can never be of use 'home'
+                if (code instanceof ContactPointUse.Builder) {
+                    // 'home' is the first constant and we use all kinds of values, so avoid that one
                     enumConstant = enumConstants[ThreadLocalRandom.current().nextInt(1, enumConstants.length)];
                 }
                 
