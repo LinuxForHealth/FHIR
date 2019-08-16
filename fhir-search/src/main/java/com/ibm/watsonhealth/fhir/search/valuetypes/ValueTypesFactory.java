@@ -21,7 +21,7 @@ import com.ibm.watsonhealth.fhir.search.valuetypes.impl.ValueTypesR4Impl;
 public class ValueTypesFactory {
 
     private static IValueTypes singleInstance = new ValueTypesR4Impl();
-
+    
     private ValueTypesFactory() {
         // No Operation
     }
