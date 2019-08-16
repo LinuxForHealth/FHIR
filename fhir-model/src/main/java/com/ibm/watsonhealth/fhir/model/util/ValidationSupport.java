@@ -21,7 +21,6 @@ import javax.xml.validation.Validator;
 
 import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Element;
-import com.ibm.watsonhealth.fhir.model.type.Xhtml;
 
 public final class ValidationSupport {    
     private static final int MIN_LENGTH = 1;
@@ -84,11 +83,11 @@ public final class ValidationSupport {
         return value;
     }
         
-    public static void checkXHTMLContent(Xhtml xhtml) {
+    public static void checkXHTMLContent(String value) {
         try {
             Validator validator = THREAD_LOCAL_VALIDATOR.get();
             validator.reset();
-            validator.validate(new StreamSource(new StringReader(xhtml.getValue())));
+            validator.validate(new StreamSource(new StringReader(value)));
         } catch (Exception e) {
             throw new IllegalStateException(String.format("Invalid XHTML content: %s", e.getMessage()), e);
         }
@@ -162,7 +161,7 @@ public final class ValidationSupport {
     
     public static void requireChildren(Resource resource) {
         if (!resource.hasChildren()) {
-            throw new IllegalStateException("All FHIR resources must have children");
+            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
         }
     }
     

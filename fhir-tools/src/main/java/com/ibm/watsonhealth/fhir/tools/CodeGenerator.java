@@ -886,10 +886,6 @@ public class CodeGenerator {
                 }
             }
             
-            if ("Narrative".equals(structureDefinition.getString("name"))) {
-                cb.invoke("ValidationSupport", "checkXHTMLContent", args("div"));
-            }
-            
             if (isDate(structureDefinition)) {
                 cb.invoke("ValidationSupport", "checkValueType", args("value", "LocalDate.class", "YearMonth.class", "Year.class"));
             }
@@ -918,6 +914,10 @@ public class CodeGenerator {
             
             if (isResource(structureDefinition) && !isAbstract(structureDefinition) && !nested) {
                 cb.invoke("ValidationSupport", "requireChildren", args("this"));
+            }
+            
+            if (isXhtml(structureDefinition)) {
+                cb.invoke("ValidationSupport", "checkXHTMLContent", args("value"));
             }
 
             cb.end().newLine();

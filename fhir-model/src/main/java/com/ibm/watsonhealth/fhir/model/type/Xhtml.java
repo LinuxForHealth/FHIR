@@ -29,6 +29,7 @@ public class Xhtml extends Element {
         super(builder);
         value = ValidationSupport.requireNonNull(builder.value, "value");
         ValidationSupport.prohibited(extension, "extension");
+        ValidationSupport.checkXHTMLContent(value);
     }
 
     /**
