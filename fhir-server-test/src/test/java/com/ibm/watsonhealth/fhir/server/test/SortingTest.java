@@ -7,7 +7,6 @@
 package com.ibm.watsonhealth.fhir.server.test;
 
 import static com.ibm.watsonhealth.fhir.model.type.String.string;
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
@@ -481,7 +480,8 @@ public class SortingTest extends FHIRServerTestBase {
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation1", "testCreateObservation2", "testCreateObservation3", "testCreateObservation5" })
     public void testSortValueQuantityAscending() {
         WebTarget target = getWebTarget();
-        Response response = target.path("Observation").queryParam("status", "final").queryParam("coding","http://loinc.org|55284-4")
+        // we do support coding instead of code for the pipe search.
+        Response response = target.path("Observation").queryParam("status", "final").queryParam("code","http://loinc.org|55284-4")
                 .queryParam("_count", "50").queryParam("_sort:asc", "component-value-quantity").request(MediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
@@ -491,7 +491,7 @@ public class SortingTest extends FHIRServerTestBase {
         
         for(int i=0;i<bundle.getEntry().size();i++) {
                 if(((Observation)bundle.getEntry().get(i).getResource()).getComponent().size()>1) {
-                    Observation.Component observationComponent = ((Observation)bundle.getEntry().get(i).getResource()).getComponent().get(0);
+                    Observation.Component observationComponent = ((Observation)bundle.getEntry().get(i).getResource()).getComponent().get(1);
                     list.add(((Quantity)observationComponent.getValue()).getValue().getValue());
                 }
         }
