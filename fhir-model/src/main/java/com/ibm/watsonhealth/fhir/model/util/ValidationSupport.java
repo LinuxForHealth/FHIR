@@ -161,7 +161,7 @@ public final class ValidationSupport {
     
     public static void requireChildren(Resource resource) {
         if (!resource.hasChildren()) {
-            throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+            throw new IllegalStateException("global-1: All FHIR elements must have a @value or children");
         }
     }
     
