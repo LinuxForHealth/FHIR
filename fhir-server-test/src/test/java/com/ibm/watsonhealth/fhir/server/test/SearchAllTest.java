@@ -121,7 +121,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         FHIRParameters parameters = new FHIRParameters();
 
         // Original - "http://ibm.com/watsonhealth/fhir/security|security"
-        parameters.searchParam("_security", "http://ibm.com/watsonhealth/fhir/security|security");
+        parameters.searchParam("_security", "security");
         FHIRResponse response = client.searchAll(parameters);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
