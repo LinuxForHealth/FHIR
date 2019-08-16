@@ -6,15 +6,14 @@
 
 package com.ibm.watsonhealth.fhir.server.test;
 
+import static com.ibm.watsonhealth.fhir.model.type.String.string;
+import static com.ibm.watsonhealth.fhir.model.type.Uri.uri;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
-import static com.ibm.watsonhealth.fhir.model.type.String.string;
-import static com.ibm.watsonhealth.fhir.model.type.Uri.uri;
 
-import java.math.BigInteger;
 import java.net.URI;
 import java.util.UUID;
 
@@ -31,18 +30,18 @@ import com.ibm.watsonhealth.fhir.client.FHIRParameters;
 import com.ibm.watsonhealth.fhir.client.FHIRResponse;
 import com.ibm.watsonhealth.fhir.core.MediaType;
 import com.ibm.watsonhealth.fhir.model.resource.Bundle;
+import com.ibm.watsonhealth.fhir.model.resource.Observation;
+import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
+import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.type.AdministrativeGender;
 import com.ibm.watsonhealth.fhir.model.type.BundleType;
 import com.ibm.watsonhealth.fhir.model.type.Code;
-import com.ibm.watsonhealth.fhir.model.resource.Observation;
-import com.ibm.watsonhealth.fhir.model.type.ObservationStatus;
-import com.ibm.watsonhealth.fhir.model.type.Reference;
-import com.ibm.watsonhealth.fhir.model.resource.OperationOutcome;
-import com.ibm.watsonhealth.fhir.model.resource.Patient;
 import com.ibm.watsonhealth.fhir.model.type.CodeableConcept;
 import com.ibm.watsonhealth.fhir.model.type.Coding;
 import com.ibm.watsonhealth.fhir.model.type.HumanName;
 import com.ibm.watsonhealth.fhir.model.type.Id;
+import com.ibm.watsonhealth.fhir.model.type.ObservationStatus;
+import com.ibm.watsonhealth.fhir.model.type.Reference;
 
 /**
  * This class tests the REST API's compliance with the FHIR spec in terms of status code and OperationOutcome responses,
