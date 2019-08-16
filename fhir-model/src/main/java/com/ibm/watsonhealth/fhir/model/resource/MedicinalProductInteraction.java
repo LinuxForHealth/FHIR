@@ -54,6 +54,7 @@ public class MedicinalProductInteraction extends DomainResource {
         effect = builder.effect;
         incidence = builder.incidence;
         management = builder.management;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -124,6 +125,18 @@ public class MedicinalProductInteraction extends DomainResource {
      */
     public CodeableConcept getManagement() {
         return management;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !subject.isEmpty() || 
+            (description != null) || 
+            !interactant.isEmpty() || 
+            (type != null) || 
+            (effect != null) || 
+            (incidence != null) || 
+            (management != null);
     }
 
     @Override
@@ -591,7 +604,7 @@ public class MedicinalProductInteraction extends DomainResource {
      */
     public static class Interactant extends BackboneElement {
         @Required
-        @Choice({Reference.class, CodeableConcept.class})
+        @Choice({ Reference.class, CodeableConcept.class })
         private final Element item;
 
         private volatile int hashCode;

@@ -67,6 +67,7 @@ public class Slot extends DomainResource {
         end = ValidationSupport.requireNonNull(builder.end, "end");
         overbooked = builder.overbooked;
         comment = builder.comment;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -179,6 +180,22 @@ public class Slot extends DomainResource {
      */
     public String getComment() {
         return comment;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !serviceCategory.isEmpty() || 
+            !serviceType.isEmpty() || 
+            !specialty.isEmpty() || 
+            (appointmentType != null) || 
+            (schedule != null) || 
+            (status != null) || 
+            (start != null) || 
+            (end != null) || 
+            (overbooked != null) || 
+            (comment != null);
     }
 
     @Override

@@ -59,7 +59,7 @@ public class CommunicationRequest extends DomainResource {
     private final List<Reference> about;
     private final Reference encounter;
     private final List<Payload> payload;
-    @Choice({DateTime.class, Period.class})
+    @Choice({ DateTime.class, Period.class })
     private final Element occurrence;
     private final DateTime authoredOn;
     private final Reference requester;
@@ -95,6 +95,7 @@ public class CommunicationRequest extends DomainResource {
         reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -322,6 +323,33 @@ public class CommunicationRequest extends DomainResource {
      */
     public List<Annotation> getNote() {
         return note;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !basedOn.isEmpty() || 
+            !replaces.isEmpty() || 
+            (groupIdentifier != null) || 
+            (status != null) || 
+            (statusReason != null) || 
+            !category.isEmpty() || 
+            (priority != null) || 
+            (doNotPerform != null) || 
+            !medium.isEmpty() || 
+            (subject != null) || 
+            !about.isEmpty() || 
+            (encounter != null) || 
+            !payload.isEmpty() || 
+            (occurrence != null) || 
+            (authoredOn != null) || 
+            (requester != null) || 
+            !recipient.isEmpty() || 
+            (sender != null) || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            !note.isEmpty();
     }
 
     @Override
@@ -1277,7 +1305,7 @@ public class CommunicationRequest extends DomainResource {
      */
     public static class Payload extends BackboneElement {
         @Required
-        @Choice({String.class, Attachment.class, Reference.class})
+        @Choice({ String.class, Attachment.class, Reference.class })
         private final Element content;
 
         private volatile int hashCode;

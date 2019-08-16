@@ -90,9 +90,9 @@ public class ConceptMap extends DomainResource {
     private final List<CodeableConcept> jurisdiction;
     private final Markdown purpose;
     private final Markdown copyright;
-    @Choice({Uri.class, Canonical.class})
+    @Choice({ Uri.class, Canonical.class })
     private final Element source;
-    @Choice({Uri.class, Canonical.class})
+    @Choice({ Uri.class, Canonical.class })
     private final Element target;
     private final List<Group> group;
 
@@ -118,6 +118,7 @@ public class ConceptMap extends DomainResource {
         source = ValidationSupport.choiceElement(builder.source, "source", Uri.class, Canonical.class);
         target = ValidationSupport.choiceElement(builder.target, "target", Uri.class, Canonical.class);
         group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -314,6 +315,29 @@ public class ConceptMap extends DomainResource {
      */
     public List<Group> getGroup() {
         return group;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            (identifier != null) || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (copyright != null) || 
+            (source != null) || 
+            (target != null) || 
+            !group.isEmpty();
     }
 
     @Override

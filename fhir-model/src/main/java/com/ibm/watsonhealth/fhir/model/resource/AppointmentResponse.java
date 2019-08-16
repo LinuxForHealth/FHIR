@@ -66,6 +66,7 @@ public class AppointmentResponse extends DomainResource {
         actor = builder.actor;
         participantStatus = ValidationSupport.requireNonNull(builder.participantStatus, "participantStatus");
         comment = builder.comment;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -150,6 +151,19 @@ public class AppointmentResponse extends DomainResource {
      */
     public String getComment() {
         return comment;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (appointment != null) || 
+            (start != null) || 
+            (end != null) || 
+            !participantType.isEmpty() || 
+            (actor != null) || 
+            (participantStatus != null) || 
+            (comment != null);
     }
 
     @Override

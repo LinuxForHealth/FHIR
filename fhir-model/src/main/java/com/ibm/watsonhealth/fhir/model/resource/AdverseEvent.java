@@ -85,6 +85,7 @@ public class AdverseEvent extends DomainResource {
         subjectMedicalHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subjectMedicalHistory, "subjectMedicalHistory"));
         referenceDocument = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referenceDocument, "referenceDocument"));
         study = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.study, "study"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -292,6 +293,31 @@ public class AdverseEvent extends DomainResource {
      */
     public List<Reference> getStudy() {
         return study;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (identifier != null) || 
+            (actuality != null) || 
+            !category.isEmpty() || 
+            (event != null) || 
+            (subject != null) || 
+            (encounter != null) || 
+            (date != null) || 
+            (detected != null) || 
+            (recordedDate != null) || 
+            !resultingCondition.isEmpty() || 
+            (location != null) || 
+            (seriousness != null) || 
+            (severity != null) || 
+            (outcome != null) || 
+            (recorder != null) || 
+            !contributor.isEmpty() || 
+            !suspectEntity.isEmpty() || 
+            !subjectMedicalHistory.isEmpty() || 
+            !referenceDocument.isEmpty() || 
+            !study.isEmpty();
     }
 
     @Override

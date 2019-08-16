@@ -48,12 +48,12 @@ public class SupplyRequest extends DomainResource {
     private final CodeableConcept category;
     private final RequestPriority priority;
     @Required
-    @Choice({CodeableConcept.class, Reference.class})
+    @Choice({ CodeableConcept.class, Reference.class })
     private final Element item;
     @Required
     private final Quantity quantity;
     private final List<Parameter> parameter;
-    @Choice({DateTime.class, Period.class, Timing.class})
+    @Choice({ DateTime.class, Period.class, Timing.class })
     private final Element occurrence;
     private final DateTime authoredOn;
     private final Reference requester;
@@ -82,6 +82,7 @@ public class SupplyRequest extends DomainResource {
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         deliverFrom = builder.deliverFrom;
         deliverTo = builder.deliverTo;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -235,6 +236,26 @@ public class SupplyRequest extends DomainResource {
      */
     public Reference getDeliverTo() {
         return deliverTo;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (category != null) || 
+            (priority != null) || 
+            (item != null) || 
+            (quantity != null) || 
+            !parameter.isEmpty() || 
+            (occurrence != null) || 
+            (authoredOn != null) || 
+            (requester != null) || 
+            !supplier.isEmpty() || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            (deliverFrom != null) || 
+            (deliverTo != null);
     }
 
     @Override
@@ -941,7 +962,7 @@ public class SupplyRequest extends DomainResource {
      */
     public static class Parameter extends BackboneElement {
         private final CodeableConcept code;
-        @Choice({CodeableConcept.class, Quantity.class, Range.class, Boolean.class})
+        @Choice({ CodeableConcept.class, Quantity.class, Range.class, Boolean.class })
         private final Element value;
 
         private volatile int hashCode;

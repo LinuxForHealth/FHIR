@@ -86,6 +86,7 @@ public class Organization extends DomainResource {
         partOf = builder.partOf;
         contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -186,6 +187,21 @@ public class Organization extends DomainResource {
      */
     public List<Reference> getEndpoint() {
         return endpoint;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (active != null) || 
+            !type.isEmpty() || 
+            (name != null) || 
+            !alias.isEmpty() || 
+            !telecom.isEmpty() || 
+            !address.isEmpty() || 
+            (partOf != null) || 
+            !contact.isEmpty() || 
+            !endpoint.isEmpty();
     }
 
     @Override

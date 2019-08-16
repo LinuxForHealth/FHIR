@@ -59,10 +59,10 @@ public class MedicationRequest extends DomainResource {
     private final List<CodeableConcept> category;
     private final MedicationRequestPriority priority;
     private final Boolean doNotPerform;
-    @Choice({Boolean.class, Reference.class})
+    @Choice({ Boolean.class, Reference.class })
     private final Element reported;
     @Required
-    @Choice({CodeableConcept.class, Reference.class})
+    @Choice({ CodeableConcept.class, Reference.class })
     private final Element medication;
     @Required
     private final Reference subject;
@@ -125,6 +125,7 @@ public class MedicationRequest extends DomainResource {
         priorPrescription = builder.priorPrescription;
         detectedIssue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detectedIssue, "detectedIssue"));
         eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -465,6 +466,43 @@ public class MedicationRequest extends DomainResource {
      */
     public List<Reference> getEventHistory() {
         return eventHistory;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (statusReason != null) || 
+            (intent != null) || 
+            !category.isEmpty() || 
+            (priority != null) || 
+            (doNotPerform != null) || 
+            (reported != null) || 
+            (medication != null) || 
+            (subject != null) || 
+            (encounter != null) || 
+            !supportingInformation.isEmpty() || 
+            (authoredOn != null) || 
+            (requester != null) || 
+            (performer != null) || 
+            (performerType != null) || 
+            (recorder != null) || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            !instantiatesCanonical.isEmpty() || 
+            !instantiatesUri.isEmpty() || 
+            !basedOn.isEmpty() || 
+            (groupIdentifier != null) || 
+            (courseOfTherapyType != null) || 
+            !insurance.isEmpty() || 
+            !note.isEmpty() || 
+            !dosageInstruction.isEmpty() || 
+            (dispenseRequest != null) || 
+            (substitution != null) || 
+            (priorPrescription != null) || 
+            !detectedIssue.isEmpty() || 
+            !eventHistory.isEmpty();
     }
 
     @Override
@@ -2378,7 +2416,7 @@ public class MedicationRequest extends DomainResource {
      */
     public static class Substitution extends BackboneElement {
         @Required
-        @Choice({Boolean.class, CodeableConcept.class})
+        @Choice({ Boolean.class, CodeableConcept.class })
         private final Element allowed;
         private final CodeableConcept reason;
 

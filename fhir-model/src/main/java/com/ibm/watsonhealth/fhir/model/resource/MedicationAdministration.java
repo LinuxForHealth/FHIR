@@ -60,14 +60,14 @@ public class MedicationAdministration extends DomainResource {
     private final List<CodeableConcept> statusReason;
     private final CodeableConcept category;
     @Required
-    @Choice({CodeableConcept.class, Reference.class})
+    @Choice({ CodeableConcept.class, Reference.class })
     private final Element medication;
     @Required
     private final Reference subject;
     private final Reference context;
     private final List<Reference> supportingInformation;
     @Required
-    @Choice({DateTime.class, Period.class})
+    @Choice({ DateTime.class, Period.class })
     private final Element effective;
     private final List<Performer> performer;
     private final List<CodeableConcept> reasonCode;
@@ -101,6 +101,7 @@ public class MedicationAdministration extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         dosage = builder.dosage;
         eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -300,6 +301,30 @@ public class MedicationAdministration extends DomainResource {
      */
     public List<Reference> getEventHistory() {
         return eventHistory;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !instantiates.isEmpty() || 
+            !partOf.isEmpty() || 
+            (status != null) || 
+            !statusReason.isEmpty() || 
+            (category != null) || 
+            (medication != null) || 
+            (subject != null) || 
+            (context != null) || 
+            !supportingInformation.isEmpty() || 
+            (effective != null) || 
+            !performer.isEmpty() || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            (request != null) || 
+            !device.isEmpty() || 
+            !note.isEmpty() || 
+            (dosage != null) || 
+            !eventHistory.isEmpty();
     }
 
     @Override
@@ -1486,7 +1511,7 @@ public class MedicationAdministration extends DomainResource {
         private final CodeableConcept route;
         private final CodeableConcept method;
         private final SimpleQuantity dose;
-        @Choice({Ratio.class, SimpleQuantity.class})
+        @Choice({ Ratio.class, SimpleQuantity.class })
         private final Element rate;
 
         private volatile int hashCode;

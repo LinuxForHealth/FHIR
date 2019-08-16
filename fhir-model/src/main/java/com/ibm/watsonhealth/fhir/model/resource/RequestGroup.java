@@ -108,6 +108,7 @@ public class RequestGroup extends DomainResource {
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -292,6 +293,29 @@ public class RequestGroup extends DomainResource {
      */
     public List<Action> getAction() {
         return action;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !instantiatesCanonical.isEmpty() || 
+            !instantiatesUri.isEmpty() || 
+            !basedOn.isEmpty() || 
+            !replaces.isEmpty() || 
+            (groupIdentifier != null) || 
+            (status != null) || 
+            (intent != null) || 
+            (priority != null) || 
+            (code != null) || 
+            (subject != null) || 
+            (encounter != null) || 
+            (authoredOn != null) || 
+            (author != null) || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            !note.isEmpty() || 
+            !action.isEmpty();
     }
 
     @Override
@@ -1132,7 +1156,7 @@ public class RequestGroup extends DomainResource {
         private final List<RelatedArtifact> documentation;
         private final List<Condition> condition;
         private final List<RelatedAction> relatedAction;
-        @Choice({DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class})
+        @Choice({ DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class })
         private final Element timing;
         private final List<Reference> participant;
         private final CodeableConcept type;
@@ -2335,7 +2359,7 @@ public class RequestGroup extends DomainResource {
             private final Id actionId;
             @Required
             private final ActionRelationshipType relationship;
-            @Choice({Duration.class, Range.class})
+            @Choice({ Duration.class, Range.class })
             private final Element offset;
 
             private volatile int hashCode;

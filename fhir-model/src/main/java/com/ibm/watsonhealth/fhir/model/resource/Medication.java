@@ -62,6 +62,7 @@ public class Medication extends DomainResource {
         amount = builder.amount;
         ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
         batch = builder.batch;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -147,6 +148,19 @@ public class Medication extends DomainResource {
      */
     public Batch getBatch() {
         return batch;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (code != null) || 
+            (status != null) || 
+            (manufacturer != null) || 
+            (form != null) || 
+            (amount != null) || 
+            !ingredient.isEmpty() || 
+            (batch != null);
     }
 
     @Override
@@ -638,7 +652,7 @@ public class Medication extends DomainResource {
      */
     public static class Ingredient extends BackboneElement {
         @Required
-        @Choice({CodeableConcept.class, Reference.class})
+        @Choice({ CodeableConcept.class, Reference.class })
         private final Element item;
         private final Boolean isActive;
         private final Ratio strength;

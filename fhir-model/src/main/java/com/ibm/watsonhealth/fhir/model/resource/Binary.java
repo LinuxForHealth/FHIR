@@ -38,6 +38,7 @@ public class Binary extends Resource {
         contentType = ValidationSupport.requireNonNull(builder.contentType, "contentType");
         securityContext = builder.securityContext;
         data = builder.data;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -73,6 +74,14 @@ public class Binary extends Resource {
      */
     public Base64Binary getData() {
         return data;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (contentType != null) || 
+            (securityContext != null) || 
+            (data != null);
     }
 
     @Override

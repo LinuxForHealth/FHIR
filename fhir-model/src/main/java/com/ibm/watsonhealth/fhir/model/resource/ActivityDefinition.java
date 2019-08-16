@@ -75,7 +75,7 @@ public class ActivityDefinition extends DomainResource {
     @Required
     private final PublicationStatus status;
     private final Boolean experimental;
-    @Choice({CodeableConcept.class, Reference.class})
+    @Choice({ CodeableConcept.class, Reference.class })
     private final Element subject;
     private final DateTime date;
     private final String publisher;
@@ -102,11 +102,11 @@ public class ActivityDefinition extends DomainResource {
     private final RequestIntent intent;
     private final RequestPriority priority;
     private final Boolean doNotPerform;
-    @Choice({Timing.class, DateTime.class, Age.class, Period.class, Range.class, Duration.class})
+    @Choice({ Timing.class, DateTime.class, Age.class, Period.class, Range.class, Duration.class })
     private final Element timing;
     private final Reference location;
     private final List<Participant> participant;
-    @Choice({Reference.class, CodeableConcept.class})
+    @Choice({ Reference.class, CodeableConcept.class })
     private final Element product;
     private final SimpleQuantity quantity;
     private final List<Dosage> dosage;
@@ -167,6 +167,7 @@ public class ActivityDefinition extends DomainResource {
         observationResultRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.observationResultRequirement, "observationResultRequirement"));
         transform = builder.transform;
         dynamicValue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dynamicValue, "dynamicValue"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -655,6 +656,57 @@ public class ActivityDefinition extends DomainResource {
      */
     public List<DynamicValue> getDynamicValue() {
         return dynamicValue;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (subtitle != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (subject != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (usage != null) || 
+            (copyright != null) || 
+            (approvalDate != null) || 
+            (lastReviewDate != null) || 
+            (effectivePeriod != null) || 
+            !topic.isEmpty() || 
+            !author.isEmpty() || 
+            !editor.isEmpty() || 
+            !reviewer.isEmpty() || 
+            !endorser.isEmpty() || 
+            !relatedArtifact.isEmpty() || 
+            !library.isEmpty() || 
+            (kind != null) || 
+            (profile != null) || 
+            (code != null) || 
+            (intent != null) || 
+            (priority != null) || 
+            (doNotPerform != null) || 
+            (timing != null) || 
+            (location != null) || 
+            !participant.isEmpty() || 
+            (product != null) || 
+            (quantity != null) || 
+            !dosage.isEmpty() || 
+            !bodySite.isEmpty() || 
+            !specimenRequirement.isEmpty() || 
+            !observationRequirement.isEmpty() || 
+            !observationResultRequirement.isEmpty() || 
+            (transform != null) || 
+            !dynamicValue.isEmpty();
     }
 
     @Override

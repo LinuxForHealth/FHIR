@@ -125,6 +125,7 @@ public class CodeSystem extends DomainResource {
         filter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.filter, "filter"));
         property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
         concept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.concept, "concept"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -405,6 +406,37 @@ public class CodeSystem extends DomainResource {
      */
     public List<Concept> getConcept() {
         return concept;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (copyright != null) || 
+            (caseSensitive != null) || 
+            (valueSet != null) || 
+            (hierarchyMeaning != null) || 
+            (compositional != null) || 
+            (versionNeeded != null) || 
+            (content != null) || 
+            (supplements != null) || 
+            (count != null) || 
+            !filter.isEmpty() || 
+            !property.isEmpty() || 
+            !concept.isEmpty();
     }
 
     @Override
@@ -2836,7 +2868,7 @@ public class CodeSystem extends DomainResource {
             @Required
             private final Code code;
             @Required
-            @Choice({Code.class, Coding.class, String.class, Integer.class, Boolean.class, DateTime.class, Decimal.class})
+            @Choice({ Code.class, Coding.class, String.class, Integer.class, Boolean.class, DateTime.class, Decimal.class })
             private final Element value;
 
             private volatile int hashCode;

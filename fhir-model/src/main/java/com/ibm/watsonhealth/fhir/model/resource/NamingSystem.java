@@ -100,6 +100,7 @@ public class NamingSystem extends DomainResource {
         jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
         usage = builder.usage;
         uniqueId = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.uniqueId, "uniqueId"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -238,6 +239,24 @@ public class NamingSystem extends DomainResource {
      */
     public List<UniqueId> getUniqueId() {
         return uniqueId;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (name != null) || 
+            (status != null) || 
+            (kind != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (responsible != null) || 
+            (type != null) || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (usage != null) || 
+            !uniqueId.isEmpty();
     }
 
     @Override

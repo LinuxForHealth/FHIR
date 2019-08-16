@@ -72,6 +72,7 @@ public class VerificationResult extends DomainResource {
         primarySource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.primarySource, "primarySource"));
         attestation = builder.attestation;
         validator = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.validator, "validator"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -214,6 +215,25 @@ public class VerificationResult extends DomainResource {
      */
     public List<Validator> getValidator() {
         return validator;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !target.isEmpty() || 
+            !targetLocation.isEmpty() || 
+            (need != null) || 
+            (status != null) || 
+            (statusDate != null) || 
+            (validationType != null) || 
+            !validationProcess.isEmpty() || 
+            (frequency != null) || 
+            (lastPerformed != null) || 
+            (nextScheduled != null) || 
+            (failureAction != null) || 
+            !primarySource.isEmpty() || 
+            (attestation != null) || 
+            !validator.isEmpty();
     }
 
     @Override

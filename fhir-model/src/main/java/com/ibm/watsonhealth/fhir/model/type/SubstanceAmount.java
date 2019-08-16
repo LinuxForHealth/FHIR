@@ -24,7 +24,7 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class SubstanceAmount extends BackboneElement {
-    @Choice({Quantity.class, Range.class, String.class})
+    @Choice({ Quantity.class, Range.class, String.class })
     private final Element amount;
     private final CodeableConcept amountType;
     private final String amountText;

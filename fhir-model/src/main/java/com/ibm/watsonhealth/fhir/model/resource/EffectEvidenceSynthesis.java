@@ -131,6 +131,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
         resultsByExposure = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resultsByExposure, "resultsByExposure"));
         effectEstimate = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.effectEstimate, "effectEstimate"));
         certainty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.certainty, "certainty"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -478,6 +479,44 @@ public class EffectEvidenceSynthesis extends DomainResource {
      */
     public List<Certainty> getCertainty() {
         return certainty;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (status != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !note.isEmpty() || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (copyright != null) || 
+            (approvalDate != null) || 
+            (lastReviewDate != null) || 
+            (effectivePeriod != null) || 
+            !topic.isEmpty() || 
+            !author.isEmpty() || 
+            !editor.isEmpty() || 
+            !reviewer.isEmpty() || 
+            !endorser.isEmpty() || 
+            !relatedArtifact.isEmpty() || 
+            (synthesisType != null) || 
+            (studyType != null) || 
+            (population != null) || 
+            (exposure != null) || 
+            (exposureAlternative != null) || 
+            (outcome != null) || 
+            (sampleSize != null) || 
+            !resultsByExposure.isEmpty() || 
+            !effectEstimate.isEmpty() || 
+            !certainty.isEmpty();
     }
 
     @Override

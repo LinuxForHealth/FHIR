@@ -61,12 +61,12 @@ public class MedicationStatement extends DomainResource {
     private final List<CodeableConcept> statusReason;
     private final CodeableConcept category;
     @Required
-    @Choice({CodeableConcept.class, Reference.class})
+    @Choice({ CodeableConcept.class, Reference.class })
     private final Element medication;
     @Required
     private final Reference subject;
     private final Reference context;
-    @Choice({DateTime.class, Period.class})
+    @Choice({ DateTime.class, Period.class })
     private final Element effective;
     private final DateTime dateAsserted;
     private final Reference informationSource;
@@ -97,6 +97,7 @@ public class MedicationStatement extends DomainResource {
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         dosage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dosage, "dosage"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -275,6 +276,28 @@ public class MedicationStatement extends DomainResource {
      */
     public List<Dosage> getDosage() {
         return dosage;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !basedOn.isEmpty() || 
+            !partOf.isEmpty() || 
+            (status != null) || 
+            !statusReason.isEmpty() || 
+            (category != null) || 
+            (medication != null) || 
+            (subject != null) || 
+            (context != null) || 
+            (effective != null) || 
+            (dateAsserted != null) || 
+            (informationSource != null) || 
+            !derivedFrom.isEmpty() || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            !note.isEmpty() || 
+            !dosage.isEmpty();
     }
 
     @Override

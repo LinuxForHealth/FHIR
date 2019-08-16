@@ -83,6 +83,7 @@ public class QuestionnaireResponse extends DomainResource {
         author = builder.author;
         source = builder.source;
         item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -197,6 +198,22 @@ public class QuestionnaireResponse extends DomainResource {
      */
     public List<Item> getItem() {
         return item;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (identifier != null) || 
+            !basedOn.isEmpty() || 
+            !partOf.isEmpty() || 
+            (questionnaire != null) || 
+            (status != null) || 
+            (subject != null) || 
+            (encounter != null) || 
+            (authored != null) || 
+            (author != null) || 
+            (source != null) || 
+            !item.isEmpty();
     }
 
     @Override
@@ -1174,7 +1191,7 @@ public class QuestionnaireResponse extends DomainResource {
          * The respondent's answer(s) to the question.
          */
         public static class Answer extends BackboneElement {
-            @Choice({Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class})
+            @Choice({ Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class })
             private final Element value;
             private final List<QuestionnaireResponse.Item> item;
 

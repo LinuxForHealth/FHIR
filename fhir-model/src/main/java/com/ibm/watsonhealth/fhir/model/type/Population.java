@@ -20,7 +20,7 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Population extends BackboneElement {
-    @Choice({Range.class, CodeableConcept.class})
+    @Choice({ Range.class, CodeableConcept.class })
     private final Element age;
     private final CodeableConcept gender;
     private final CodeableConcept race;

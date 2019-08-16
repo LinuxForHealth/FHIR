@@ -57,6 +57,7 @@ public class Schedule extends DomainResource {
         actor = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.actor, "actor"));
         planningHorizon = builder.planningHorizon;
         comment = builder.comment;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -140,6 +141,19 @@ public class Schedule extends DomainResource {
      */
     public String getComment() {
         return comment;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (active != null) || 
+            !serviceCategory.isEmpty() || 
+            !serviceType.isEmpty() || 
+            !specialty.isEmpty() || 
+            !actor.isEmpty() || 
+            (planningHorizon != null) || 
+            (comment != null);
     }
 
     @Override

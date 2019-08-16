@@ -51,7 +51,7 @@ public class TriggerDefinition extends Element {
     @Required
     private final TriggerType type;
     private final String name;
-    @Choice({Timing.class, Reference.class, Date.class, DateTime.class})
+    @Choice({ Timing.class, Reference.class, Date.class, DateTime.class })
     private final Element timing;
     private final List<DataRequirement> data;
     private final Expression condition;

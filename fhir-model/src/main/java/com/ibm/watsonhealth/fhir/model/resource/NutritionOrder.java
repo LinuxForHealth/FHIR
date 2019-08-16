@@ -95,6 +95,7 @@ public class NutritionOrder extends DomainResource {
         supplement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supplement, "supplement"));
         enteralFormula = builder.enteralFormula;
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -278,6 +279,28 @@ public class NutritionOrder extends DomainResource {
      */
     public List<Annotation> getNote() {
         return note;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !instantiatesCanonical.isEmpty() || 
+            !instantiatesUri.isEmpty() || 
+            !instantiates.isEmpty() || 
+            (status != null) || 
+            (intent != null) || 
+            (patient != null) || 
+            (encounter != null) || 
+            (dateTime != null) || 
+            (orderer != null) || 
+            !allergyIntolerance.isEmpty() || 
+            !foodPreferenceModifier.isEmpty() || 
+            !excludeFoodModifier.isEmpty() || 
+            (oralDiet != null) || 
+            !supplement.isEmpty() || 
+            (enteralFormula != null) || 
+            !note.isEmpty();
     }
 
     @Override
@@ -3026,7 +3049,7 @@ public class NutritionOrder extends DomainResource {
         public static class Administration extends BackboneElement {
             private final Timing schedule;
             private final SimpleQuantity quantity;
-            @Choice({SimpleQuantity.class, Ratio.class})
+            @Choice({ SimpleQuantity.class, Ratio.class })
             private final Element rate;
 
             private volatile int hashCode;

@@ -90,6 +90,7 @@ public class ExampleScenario extends DomainResource {
         instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
         process = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.process, "process"));
         workflow = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.workflow, "workflow"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -275,6 +276,28 @@ public class ExampleScenario extends DomainResource {
      */
     public List<Canonical> getWorkflow() {
         return workflow;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (copyright != null) || 
+            (purpose != null) || 
+            !actor.isEmpty() || 
+            !instance.isEmpty() || 
+            !process.isEmpty() || 
+            !workflow.isEmpty();
     }
 
     @Override

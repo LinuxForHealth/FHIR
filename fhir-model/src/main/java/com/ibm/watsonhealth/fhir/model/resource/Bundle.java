@@ -136,6 +136,7 @@ public class Bundle extends Resource {
         link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
         entry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entry, "entry"));
         signature = builder.signature;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -209,6 +210,18 @@ public class Bundle extends Resource {
      */
     public Signature getSignature() {
         return signature;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (identifier != null) || 
+            (type != null) || 
+            (timestamp != null) || 
+            (total != null) || 
+            !link.isEmpty() || 
+            !entry.isEmpty() || 
+            (signature != null);
     }
 
     @Override

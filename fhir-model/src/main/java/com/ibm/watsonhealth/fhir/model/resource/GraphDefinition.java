@@ -91,6 +91,7 @@ public class GraphDefinition extends DomainResource {
         start = ValidationSupport.requireNonNull(builder.start, "start");
         profile = builder.profile;
         link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -253,6 +254,26 @@ public class GraphDefinition extends DomainResource {
      */
     public List<Link> getLink() {
         return link;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            (version != null) || 
+            (name != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (start != null) || 
+            (profile != null) || 
+            !link.isEmpty();
     }
 
     @Override

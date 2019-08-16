@@ -29,7 +29,7 @@ public class Dosage extends BackboneElement {
     private final List<CodeableConcept> additionalInstruction;
     private final String patientInstruction;
     private final Timing timing;
-    @Choice({Boolean.class, CodeableConcept.class})
+    @Choice({ Boolean.class, CodeableConcept.class })
     private final Element asNeeded;
     private final CodeableConcept site;
     private final CodeableConcept route;
@@ -690,9 +690,9 @@ public class Dosage extends BackboneElement {
      */
     public static class DoseAndRate extends BackboneElement {
         private final CodeableConcept type;
-        @Choice({Range.class, SimpleQuantity.class})
+        @Choice({ Range.class, SimpleQuantity.class })
         private final Element dose;
-        @Choice({Ratio.class, Range.class, SimpleQuantity.class})
+        @Choice({ Ratio.class, Range.class, SimpleQuantity.class })
         private final Element rate;
 
         private volatile int hashCode;

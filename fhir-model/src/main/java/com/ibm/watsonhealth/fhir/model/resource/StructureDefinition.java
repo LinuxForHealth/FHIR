@@ -281,6 +281,7 @@ public class StructureDefinition extends DomainResource {
         derivation = builder.derivation;
         snapshot = builder.snapshot;
         differential = builder.differential;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -575,6 +576,38 @@ public class StructureDefinition extends DomainResource {
      */
     public Differential getDifferential() {
         return differential;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (copyright != null) || 
+            !keyword.isEmpty() || 
+            (fhirVersion != null) || 
+            !mapping.isEmpty() || 
+            (kind != null) || 
+            (_abstract != null) || 
+            !context.isEmpty() || 
+            !contextInvariant.isEmpty() || 
+            (type != null) || 
+            (baseDefinition != null) || 
+            (derivation != null) || 
+            (snapshot != null) || 
+            (differential != null);
     }
 
     @Override

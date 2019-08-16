@@ -55,11 +55,11 @@ public class MedicationDispense extends DomainResource {
     private final List<Reference> partOf;
     @Required
     private final MedicationDispenseStatus status;
-    @Choice({CodeableConcept.class, Reference.class})
+    @Choice({ CodeableConcept.class, Reference.class })
     private final Element statusReason;
     private final CodeableConcept category;
     @Required
-    @Choice({CodeableConcept.class, Reference.class})
+    @Choice({ CodeableConcept.class, Reference.class })
     private final Element medication;
     private final Reference subject;
     private final Reference context;
@@ -108,6 +108,7 @@ public class MedicationDispense extends DomainResource {
         substitution = builder.substitution;
         detectedIssue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detectedIssue, "detectedIssue"));
         eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -358,6 +359,35 @@ public class MedicationDispense extends DomainResource {
      */
     public List<Reference> getEventHistory() {
         return eventHistory;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !partOf.isEmpty() || 
+            (status != null) || 
+            (statusReason != null) || 
+            (category != null) || 
+            (medication != null) || 
+            (subject != null) || 
+            (context != null) || 
+            !supportingInformation.isEmpty() || 
+            !performer.isEmpty() || 
+            (location != null) || 
+            !authorizingPrescription.isEmpty() || 
+            (type != null) || 
+            (quantity != null) || 
+            (daysSupply != null) || 
+            (whenPrepared != null) || 
+            (whenHandedOver != null) || 
+            (destination != null) || 
+            !receiver.isEmpty() || 
+            !note.isEmpty() || 
+            !dosageInstruction.isEmpty() || 
+            (substitution != null) || 
+            !detectedIssue.isEmpty() || 
+            !eventHistory.isEmpty();
     }
 
     @Override

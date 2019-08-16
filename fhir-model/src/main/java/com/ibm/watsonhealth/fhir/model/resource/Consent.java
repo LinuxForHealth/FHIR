@@ -91,7 +91,7 @@ public class Consent extends DomainResource {
     private final DateTime dateTime;
     private final List<Reference> performer;
     private final List<Reference> organization;
-    @Choice({Attachment.class, Reference.class})
+    @Choice({ Attachment.class, Reference.class })
     private final Element source;
     private final List<Policy> policy;
     private final CodeableConcept policyRule;
@@ -115,6 +115,7 @@ public class Consent extends DomainResource {
         policyRule = builder.policyRule;
         verification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.verification, "verification"));
         provision = builder.provision;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -252,6 +253,24 @@ public class Consent extends DomainResource {
      */
     public Provision getProvision() {
         return provision;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (scope != null) || 
+            !category.isEmpty() || 
+            (patient != null) || 
+            (dateTime != null) || 
+            !performer.isEmpty() || 
+            !organization.isEmpty() || 
+            (source != null) || 
+            !policy.isEmpty() || 
+            (policyRule != null) || 
+            !verification.isEmpty() || 
+            (provision != null);
     }
 
     @Override

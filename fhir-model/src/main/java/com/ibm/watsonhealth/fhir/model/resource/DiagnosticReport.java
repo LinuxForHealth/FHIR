@@ -53,7 +53,7 @@ public class DiagnosticReport extends DomainResource {
     private final CodeableConcept code;
     private final Reference subject;
     private final Reference encounter;
-    @Choice({DateTime.class, Period.class})
+    @Choice({ DateTime.class, Period.class })
     private final Element effective;
     private final Instant issued;
     private final List<Reference> performer;
@@ -88,6 +88,7 @@ public class DiagnosticReport extends DomainResource {
         conclusion = builder.conclusion;
         conclusionCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.conclusionCode, "conclusionCode"));
         presentedForm = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.presentedForm, "presentedForm"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -277,6 +278,29 @@ public class DiagnosticReport extends DomainResource {
      */
     public List<Attachment> getPresentedForm() {
         return presentedForm;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !basedOn.isEmpty() || 
+            (status != null) || 
+            !category.isEmpty() || 
+            (code != null) || 
+            (subject != null) || 
+            (encounter != null) || 
+            (effective != null) || 
+            (issued != null) || 
+            !performer.isEmpty() || 
+            !resultsInterpreter.isEmpty() || 
+            !specimen.isEmpty() || 
+            !result.isEmpty() || 
+            !imagingStudy.isEmpty() || 
+            !media.isEmpty() || 
+            (conclusion != null) || 
+            !conclusionCode.isEmpty() || 
+            !presentedForm.isEmpty();
     }
 
     @Override

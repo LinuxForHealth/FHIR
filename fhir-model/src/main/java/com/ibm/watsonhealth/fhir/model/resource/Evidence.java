@@ -114,6 +114,7 @@ public class Evidence extends DomainResource {
         exposureBackground = ValidationSupport.requireNonNull(builder.exposureBackground, "exposureBackground");
         exposureVariant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.exposureVariant, "exposureVariant"));
         outcome = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcome, "outcome"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -414,6 +415,39 @@ public class Evidence extends DomainResource {
      */
     public List<Reference> getOutcome() {
         return outcome;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (shortTitle != null) || 
+            (subtitle != null) || 
+            (status != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !note.isEmpty() || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (copyright != null) || 
+            (approvalDate != null) || 
+            (lastReviewDate != null) || 
+            (effectivePeriod != null) || 
+            !topic.isEmpty() || 
+            !author.isEmpty() || 
+            !editor.isEmpty() || 
+            !reviewer.isEmpty() || 
+            !endorser.isEmpty() || 
+            !relatedArtifact.isEmpty() || 
+            (exposureBackground != null) || 
+            !exposureVariant.isEmpty() || 
+            !outcome.isEmpty();
     }
 
     @Override

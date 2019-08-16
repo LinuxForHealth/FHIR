@@ -71,7 +71,7 @@ public class AllergyIntolerance extends DomainResource {
     @Required
     private final Reference patient;
     private final Reference encounter;
-    @Choice({DateTime.class, Age.class, Period.class, Range.class, String.class})
+    @Choice({ DateTime.class, Age.class, Period.class, Range.class, String.class })
     private final Element onset;
     private final DateTime recordedDate;
     private final Reference recorder;
@@ -100,6 +100,7 @@ public class AllergyIntolerance extends DomainResource {
         lastOccurrence = builder.lastOccurrence;
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         reaction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reaction, "reaction"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -272,6 +273,27 @@ public class AllergyIntolerance extends DomainResource {
      */
     public List<Reaction> getReaction() {
         return reaction;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (clinicalStatus != null) || 
+            (verificationStatus != null) || 
+            (type != null) || 
+            !category.isEmpty() || 
+            (criticality != null) || 
+            (code != null) || 
+            (patient != null) || 
+            (encounter != null) || 
+            (onset != null) || 
+            (recordedDate != null) || 
+            (recorder != null) || 
+            (asserter != null) || 
+            (lastOccurrence != null) || 
+            !note.isEmpty() || 
+            !reaction.isEmpty();
     }
 
     @Override

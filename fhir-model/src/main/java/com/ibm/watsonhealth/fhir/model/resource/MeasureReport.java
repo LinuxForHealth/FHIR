@@ -87,6 +87,7 @@ public class MeasureReport extends DomainResource {
         improvementNotation = builder.improvementNotation;
         group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
         evaluatedResource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evaluatedResource, "evaluatedResource"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -202,6 +203,22 @@ public class MeasureReport extends DomainResource {
      */
     public List<Reference> getEvaluatedResource() {
         return evaluatedResource;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (type != null) || 
+            (measure != null) || 
+            (subject != null) || 
+            (date != null) || 
+            (reporter != null) || 
+            (period != null) || 
+            (improvementNotation != null) || 
+            !group.isEmpty() || 
+            !evaluatedResource.isEmpty();
     }
 
     @Override

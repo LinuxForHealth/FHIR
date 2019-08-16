@@ -191,6 +191,7 @@ public class CapabilityStatement extends DomainResource {
         rest = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rest, "rest"));
         messaging = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.messaging, "messaging"));
         document = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.document, "document"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -475,6 +476,37 @@ public class CapabilityStatement extends DomainResource {
      */
     public List<Document> getDocument() {
         return document;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (copyright != null) || 
+            (kind != null) || 
+            !instantiates.isEmpty() || 
+            !imports.isEmpty() || 
+            (software != null) || 
+            (implementation != null) || 
+            (fhirVersion != null) || 
+            !format.isEmpty() || 
+            !patchFormat.isEmpty() || 
+            !implementationGuide.isEmpty() || 
+            !rest.isEmpty() || 
+            !messaging.isEmpty() || 
+            !document.isEmpty();
     }
 
     @Override

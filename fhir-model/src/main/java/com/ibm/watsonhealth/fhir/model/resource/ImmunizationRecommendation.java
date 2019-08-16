@@ -65,6 +65,7 @@ public class ImmunizationRecommendation extends DomainResource {
         date = ValidationSupport.requireNonNull(builder.date, "date");
         authority = builder.authority;
         recommendation = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.recommendation, "recommendation"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -115,6 +116,16 @@ public class ImmunizationRecommendation extends DomainResource {
      */
     public List<Recommendation> getRecommendation() {
         return recommendation;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (patient != null) || 
+            (date != null) || 
+            (authority != null) || 
+            !recommendation.isEmpty();
     }
 
     @Override
@@ -567,9 +578,9 @@ public class ImmunizationRecommendation extends DomainResource {
         private final List<DateCriterion> dateCriterion;
         private final String description;
         private final String series;
-        @Choice({PositiveInt.class, String.class})
+        @Choice({ PositiveInt.class, String.class })
         private final Element doseNumber;
-        @Choice({PositiveInt.class, String.class})
+        @Choice({ PositiveInt.class, String.class })
         private final Element seriesDoses;
         private final List<Reference> supportingImmunization;
         private final List<Reference> supportingPatientInformation;

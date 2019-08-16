@@ -64,7 +64,7 @@ public class ResearchDefinition extends DomainResource {
     @Required
     private final PublicationStatus status;
     private final Boolean experimental;
-    @Choice({CodeableConcept.class, Reference.class})
+    @Choice({ CodeableConcept.class, Reference.class })
     private final Element subject;
     private final DateTime date;
     private final String publisher;
@@ -130,6 +130,7 @@ public class ResearchDefinition extends DomainResource {
         exposure = builder.exposure;
         exposureAlternative = builder.exposureAlternative;
         outcome = builder.outcome;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -493,6 +494,45 @@ public class ResearchDefinition extends DomainResource {
      */
     public Reference getOutcome() {
         return outcome;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (shortTitle != null) || 
+            (subtitle != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (subject != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !comment.isEmpty() || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (usage != null) || 
+            (copyright != null) || 
+            (approvalDate != null) || 
+            (lastReviewDate != null) || 
+            (effectivePeriod != null) || 
+            !topic.isEmpty() || 
+            !author.isEmpty() || 
+            !editor.isEmpty() || 
+            !reviewer.isEmpty() || 
+            !endorser.isEmpty() || 
+            !relatedArtifact.isEmpty() || 
+            !library.isEmpty() || 
+            (population != null) || 
+            (exposure != null) || 
+            (exposureAlternative != null) || 
+            (outcome != null);
     }
 
     @Override

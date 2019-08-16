@@ -58,6 +58,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         device = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.device, "device"));
         characteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.characteristics, "characteristics"));
         routeOfAdministration = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.routeOfAdministration, "routeOfAdministration"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -128,6 +129,18 @@ public class MedicinalProductPharmaceutical extends DomainResource {
      */
     public List<RouteOfAdministration> getRouteOfAdministration() {
         return routeOfAdministration;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (administrableDoseForm != null) || 
+            (unitOfPresentation != null) || 
+            !ingredient.isEmpty() || 
+            !device.isEmpty() || 
+            !characteristics.isEmpty() || 
+            !routeOfAdministration.isEmpty();
     }
 
     @Override

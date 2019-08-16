@@ -93,6 +93,7 @@ public class List extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         entry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entry, "entry"));
         emptyReason = builder.emptyReason;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -226,6 +227,24 @@ public class List extends DomainResource {
      */
     public CodeableConcept getEmptyReason() {
         return emptyReason;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (mode != null) || 
+            (title != null) || 
+            (code != null) || 
+            (subject != null) || 
+            (encounter != null) || 
+            (date != null) || 
+            (source != null) || 
+            (orderedBy != null) || 
+            !note.isEmpty() || 
+            !entry.isEmpty() || 
+            (emptyReason != null);
     }
 
     @Override

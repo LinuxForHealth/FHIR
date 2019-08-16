@@ -93,6 +93,7 @@ public class Encounter extends DomainResource {
         location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
         serviceProvider = builder.serviceProvider;
         partOf = builder.partOf;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -338,6 +339,34 @@ public class Encounter extends DomainResource {
      */
     public Reference getPartOf() {
         return partOf;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            !statusHistory.isEmpty() || 
+            (clazz != null) || 
+            !classHistory.isEmpty() || 
+            !type.isEmpty() || 
+            (serviceType != null) || 
+            (priority != null) || 
+            (subject != null) || 
+            !episodeOfCare.isEmpty() || 
+            !basedOn.isEmpty() || 
+            !participant.isEmpty() || 
+            !appointment.isEmpty() || 
+            (period != null) || 
+            (length != null) || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            !diagnosis.isEmpty() || 
+            !account.isEmpty() || 
+            (hospitalization != null) || 
+            !location.isEmpty() || 
+            (serviceProvider != null) || 
+            (partOf != null);
     }
 
     @Override

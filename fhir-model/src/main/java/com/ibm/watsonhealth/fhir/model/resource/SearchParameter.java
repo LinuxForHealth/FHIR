@@ -130,6 +130,7 @@ public class SearchParameter extends DomainResource {
         modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
         chain = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.chain, "chain"));
         component = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.component, "component"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -409,6 +410,37 @@ public class SearchParameter extends DomainResource {
      */
     public List<Component> getComponent() {
         return component;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            (version != null) || 
+            (name != null) || 
+            (derivedFrom != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (code != null) || 
+            !base.isEmpty() || 
+            (type != null) || 
+            (expression != null) || 
+            (xpath != null) || 
+            (xpathUsage != null) || 
+            !target.isEmpty() || 
+            (multipleOr != null) || 
+            (multipleAnd != null) || 
+            !comparator.isEmpty() || 
+            !modifier.isEmpty() || 
+            !chain.isEmpty() || 
+            !component.isEmpty();
     }
 
     @Override

@@ -87,6 +87,7 @@ public class TestReport extends DomainResource {
         setup = builder.setup;
         test = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.test, "test"));
         teardown = builder.teardown;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -209,6 +210,23 @@ public class TestReport extends DomainResource {
      */
     public Teardown getTeardown() {
         return teardown;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (identifier != null) || 
+            (name != null) || 
+            (status != null) || 
+            (testScript != null) || 
+            (result != null) || 
+            (score != null) || 
+            (tester != null) || 
+            (issued != null) || 
+            !participant.isEmpty() || 
+            (setup != null) || 
+            !test.isEmpty() || 
+            (teardown != null);
     }
 
     @Override

@@ -80,6 +80,7 @@ public class PaymentReconciliation extends DomainResource {
         detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
         formCode = builder.formCode;
         processNote = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processNote, "processNote"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -230,6 +231,26 @@ public class PaymentReconciliation extends DomainResource {
      */
     public List<ProcessNote> getProcessNote() {
         return processNote;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (period != null) || 
+            (created != null) || 
+            (paymentIssuer != null) || 
+            (request != null) || 
+            (requestor != null) || 
+            (outcome != null) || 
+            (disposition != null) || 
+            (paymentDate != null) || 
+            (paymentAmount != null) || 
+            (paymentIdentifier != null) || 
+            !detail.isEmpty() || 
+            (formCode != null) || 
+            !processNote.isEmpty();
     }
 
     @Override

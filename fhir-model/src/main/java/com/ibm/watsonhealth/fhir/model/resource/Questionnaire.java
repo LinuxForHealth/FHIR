@@ -205,6 +205,7 @@ public class Questionnaire extends DomainResource {
         effectivePeriod = builder.effectivePeriod;
         code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
         item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -441,6 +442,33 @@ public class Questionnaire extends DomainResource {
      */
     public List<Item> getItem() {
         return item;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            !derivedFrom.isEmpty() || 
+            (status != null) || 
+            (experimental != null) || 
+            !subjectType.isEmpty() || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (copyright != null) || 
+            (approvalDate != null) || 
+            (lastReviewDate != null) || 
+            (effectivePeriod != null) || 
+            !code.isEmpty() || 
+            !item.isEmpty();
     }
 
     @Override
@@ -2207,7 +2235,7 @@ public class Questionnaire extends DomainResource {
             @Required
             private final QuestionnaireItemOperator operator;
             @Required
-            @Choice({Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Coding.class, Quantity.class, Reference.class})
+            @Choice({ Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Coding.class, Quantity.class, Reference.class })
             private final Element answer;
 
             private volatile int hashCode;
@@ -2525,7 +2553,7 @@ public class Questionnaire extends DomainResource {
          */
         public static class AnswerOption extends BackboneElement {
             @Required
-            @Choice({Integer.class, Date.class, Time.class, String.class, Coding.class, Reference.class})
+            @Choice({ Integer.class, Date.class, Time.class, String.class, Coding.class, Reference.class })
             private final Element value;
             private final Boolean initialSelected;
 
@@ -2804,7 +2832,7 @@ public class Questionnaire extends DomainResource {
          */
         public static class Initial extends BackboneElement {
             @Required
-            @Choice({Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class})
+            @Choice({ Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class })
             private final Element value;
 
             private volatile int hashCode;

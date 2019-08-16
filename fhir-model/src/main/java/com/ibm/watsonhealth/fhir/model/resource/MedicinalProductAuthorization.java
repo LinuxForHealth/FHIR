@@ -74,6 +74,7 @@ public class MedicinalProductAuthorization extends DomainResource {
         holder = builder.holder;
         regulator = builder.regulator;
         procedure = builder.procedure;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -235,6 +236,27 @@ public class MedicinalProductAuthorization extends DomainResource {
      */
     public Procedure getProcedure() {
         return procedure;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (subject != null) || 
+            !country.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (status != null) || 
+            (statusDate != null) || 
+            (restoreDate != null) || 
+            (validityPeriod != null) || 
+            (dataExclusivityPeriod != null) || 
+            (dateOfFirstAuthorization != null) || 
+            (internationalBirthDate != null) || 
+            (legalBasis != null) || 
+            !jurisdictionalAuthorization.isEmpty() || 
+            (holder != null) || 
+            (regulator != null) || 
+            (procedure != null);
     }
 
     @Override
@@ -1312,7 +1334,7 @@ public class MedicinalProductAuthorization extends DomainResource {
         private final Identifier identifier;
         @Required
         private final CodeableConcept type;
-        @Choice({Period.class, DateTime.class})
+        @Choice({ Period.class, DateTime.class })
         private final Element date;
         private final List<MedicinalProductAuthorization.Procedure> application;
 

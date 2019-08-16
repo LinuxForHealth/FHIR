@@ -140,6 +140,7 @@ public class OperationDefinition extends DomainResource {
         outputProfile = builder.outputProfile;
         parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
         overload = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.overload, "overload"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -419,6 +420,37 @@ public class OperationDefinition extends DomainResource {
      */
     public List<Overload> getOverload() {
         return overload;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (status != null) || 
+            (kind != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (affectsState != null) || 
+            (code != null) || 
+            (comment != null) || 
+            (base != null) || 
+            !resource.isEmpty() || 
+            (system != null) || 
+            (type != null) || 
+            (instance != null) || 
+            (inputProfile != null) || 
+            (outputProfile != null) || 
+            !parameter.isEmpty() || 
+            !overload.isEmpty();
     }
 
     @Override

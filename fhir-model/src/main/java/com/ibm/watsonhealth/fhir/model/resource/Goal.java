@@ -64,7 +64,7 @@ public class Goal extends DomainResource {
     private final CodeableConcept description;
     @Required
     private final Reference subject;
-    @Choice({Date.class, CodeableConcept.class})
+    @Choice({ Date.class, CodeableConcept.class })
     private final Element start;
     private final List<Target> target;
     private final Date statusDate;
@@ -95,6 +95,7 @@ public class Goal extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         outcomeCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeCode, "outcomeCode"));
         outcomeReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeReference, "outcomeReference"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -257,6 +258,27 @@ public class Goal extends DomainResource {
      */
     public List<Reference> getOutcomeReference() {
         return outcomeReference;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (lifecycleStatus != null) || 
+            (achievementStatus != null) || 
+            !category.isEmpty() || 
+            (priority != null) || 
+            (description != null) || 
+            (subject != null) || 
+            (start != null) || 
+            !target.isEmpty() || 
+            (statusDate != null) || 
+            (statusReason != null) || 
+            (expressedBy != null) || 
+            !addresses.isEmpty() || 
+            !note.isEmpty() || 
+            !outcomeCode.isEmpty() || 
+            !outcomeReference.isEmpty();
     }
 
     @Override
@@ -1017,9 +1039,9 @@ public class Goal extends DomainResource {
      */
     public static class Target extends BackboneElement {
         private final CodeableConcept measure;
-        @Choice({Quantity.class, Range.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Ratio.class})
+        @Choice({ Quantity.class, Range.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Ratio.class })
         private final Element detail;
-        @Choice({Date.class, Duration.class})
+        @Choice({ Date.class, Duration.class })
         private final Element due;
 
         private volatile int hashCode;

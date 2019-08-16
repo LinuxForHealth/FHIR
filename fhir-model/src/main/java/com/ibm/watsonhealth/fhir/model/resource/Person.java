@@ -65,6 +65,7 @@ public class Person extends DomainResource {
         managingOrganization = builder.managingOrganization;
         active = builder.active;
         link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -165,6 +166,21 @@ public class Person extends DomainResource {
      */
     public List<Link> getLink() {
         return link;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !name.isEmpty() || 
+            !telecom.isEmpty() || 
+            (gender != null) || 
+            (birthDate != null) || 
+            !address.isEmpty() || 
+            (photo != null) || 
+            (managingOrganization != null) || 
+            (active != null) || 
+            !link.isEmpty();
     }
 
     @Override

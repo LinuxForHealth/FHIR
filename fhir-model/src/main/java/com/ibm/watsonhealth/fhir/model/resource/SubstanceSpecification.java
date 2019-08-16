@@ -84,6 +84,7 @@ public class SubstanceSpecification extends DomainResource {
         polymer = builder.polymer;
         protein = builder.protein;
         sourceMaterial = builder.sourceMaterial;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -274,6 +275,30 @@ public class SubstanceSpecification extends DomainResource {
      */
     public Reference getSourceMaterial() {
         return sourceMaterial;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (identifier != null) || 
+            (type != null) || 
+            (status != null) || 
+            (domain != null) || 
+            (description != null) || 
+            !source.isEmpty() || 
+            (comment != null) || 
+            !moiety.isEmpty() || 
+            !property.isEmpty() || 
+            (referenceInformation != null) || 
+            (structure != null) || 
+            !code.isEmpty() || 
+            !name.isEmpty() || 
+            !molecularWeight.isEmpty() || 
+            !relationship.isEmpty() || 
+            (nucleicAcid != null) || 
+            (polymer != null) || 
+            (protein != null) || 
+            (sourceMaterial != null);
     }
 
     @Override
@@ -1074,7 +1099,7 @@ public class SubstanceSpecification extends DomainResource {
         private final CodeableConcept stereochemistry;
         private final CodeableConcept opticalActivity;
         private final String molecularFormula;
-        @Choice({Quantity.class, String.class})
+        @Choice({ Quantity.class, String.class })
         private final Element amount;
 
         private volatile int hashCode;
@@ -1497,9 +1522,9 @@ public class SubstanceSpecification extends DomainResource {
         private final CodeableConcept category;
         private final CodeableConcept code;
         private final String parameters;
-        @Choice({Reference.class, CodeableConcept.class})
+        @Choice({ Reference.class, CodeableConcept.class })
         private final Element definingSubstance;
-        @Choice({Quantity.class, String.class})
+        @Choice({ Quantity.class, String.class })
         private final Element amount;
 
         private volatile int hashCode;
@@ -4683,11 +4708,11 @@ public class SubstanceSpecification extends DomainResource {
      * A link between this substance and another, with details of the relationship.
      */
     public static class Relationship extends BackboneElement {
-        @Choice({Reference.class, CodeableConcept.class})
+        @Choice({ Reference.class, CodeableConcept.class })
         private final Element substance;
         private final CodeableConcept relationship;
         private final Boolean isDefining;
-        @Choice({Quantity.class, Range.class, Ratio.class, String.class})
+        @Choice({ Quantity.class, Range.class, Ratio.class, String.class })
         private final Element amount;
         private final Ratio amountRatioLowLimit;
         private final CodeableConcept amountType;

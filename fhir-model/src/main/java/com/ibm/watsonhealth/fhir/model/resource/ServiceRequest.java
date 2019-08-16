@@ -70,14 +70,14 @@ public class ServiceRequest extends DomainResource {
     private final Boolean doNotPerform;
     private final CodeableConcept code;
     private final List<CodeableConcept> orderDetail;
-    @Choice({Quantity.class, Ratio.class, Range.class})
+    @Choice({ Quantity.class, Ratio.class, Range.class })
     private final Element quantity;
     @Required
     private final Reference subject;
     private final Reference encounter;
-    @Choice({DateTime.class, Period.class, Timing.class})
+    @Choice({ DateTime.class, Period.class, Timing.class })
     private final Element occurrence;
-    @Choice({Boolean.class, CodeableConcept.class})
+    @Choice({ Boolean.class, CodeableConcept.class })
     private final Element asNeeded;
     private final DateTime authoredOn;
     private final Reference requester;
@@ -132,6 +132,7 @@ public class ServiceRequest extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         patientInstruction = builder.patientInstruction;
         relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -480,6 +481,44 @@ public class ServiceRequest extends DomainResource {
      */
     public List<Reference> getRelevantHistory() {
         return relevantHistory;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !instantiatesCanonical.isEmpty() || 
+            !instantiatesUri.isEmpty() || 
+            !basedOn.isEmpty() || 
+            !replaces.isEmpty() || 
+            (requisition != null) || 
+            (status != null) || 
+            (intent != null) || 
+            !category.isEmpty() || 
+            (priority != null) || 
+            (doNotPerform != null) || 
+            (code != null) || 
+            !orderDetail.isEmpty() || 
+            (quantity != null) || 
+            (subject != null) || 
+            (encounter != null) || 
+            (occurrence != null) || 
+            (asNeeded != null) || 
+            (authoredOn != null) || 
+            (requester != null) || 
+            (performerType != null) || 
+            !performer.isEmpty() || 
+            !locationCode.isEmpty() || 
+            !locationReference.isEmpty() || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            !insurance.isEmpty() || 
+            !supportingInfo.isEmpty() || 
+            !specimen.isEmpty() || 
+            !bodySite.isEmpty() || 
+            !note.isEmpty() || 
+            (patientInstruction != null) || 
+            !relevantHistory.isEmpty();
     }
 
     @Override

@@ -131,6 +131,15 @@ public abstract class DomainResource extends Resource {
     }
 
     @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (text != null) || 
+            !contained.isEmpty() || 
+            !extension.isEmpty() || 
+            !modifierExtension.isEmpty();
+    }
+
+    @Override
     public abstract Builder toBuilder();
 
     public static abstract class Builder extends Resource.Builder {

@@ -59,6 +59,7 @@ public class MedicinalProductIndication extends DomainResource {
         otherTherapy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherTherapy, "otherTherapy"));
         undesirableEffect = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.undesirableEffect, "undesirableEffect"));
         population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -149,6 +150,20 @@ public class MedicinalProductIndication extends DomainResource {
      */
     public List<Population> getPopulation() {
         return population;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !subject.isEmpty() || 
+            (diseaseSymptomProcedure != null) || 
+            (diseaseStatus != null) || 
+            !comorbidity.isEmpty() || 
+            (intendedEffect != null) || 
+            (duration != null) || 
+            !otherTherapy.isEmpty() || 
+            !undesirableEffect.isEmpty() || 
+            !population.isEmpty();
     }
 
     @Override
@@ -716,7 +731,7 @@ public class MedicinalProductIndication extends DomainResource {
         @Required
         private final CodeableConcept therapyRelationshipType;
         @Required
-        @Choice({CodeableConcept.class, Reference.class})
+        @Choice({ CodeableConcept.class, Reference.class })
         private final Element medication;
 
         private volatile int hashCode;

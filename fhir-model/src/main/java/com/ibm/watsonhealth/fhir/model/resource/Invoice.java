@@ -83,6 +83,7 @@ public class Invoice extends DomainResource {
         totalGross = builder.totalGross;
         paymentTerms = builder.paymentTerms;
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -246,6 +247,27 @@ public class Invoice extends DomainResource {
      */
     public List<Annotation> getNote() {
         return note;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (cancelledReason != null) || 
+            (type != null) || 
+            (subject != null) || 
+            (recipient != null) || 
+            (date != null) || 
+            !participant.isEmpty() || 
+            (issuer != null) || 
+            (account != null) || 
+            !lineItem.isEmpty() || 
+            !totalPriceComponent.isEmpty() || 
+            (totalNet != null) || 
+            (totalGross != null) || 
+            (paymentTerms != null) || 
+            !note.isEmpty();
     }
 
     @Override
@@ -1228,7 +1250,7 @@ public class Invoice extends DomainResource {
     public static class LineItem extends BackboneElement {
         private final PositiveInt sequence;
         @Required
-        @Choice({Reference.class, CodeableConcept.class})
+        @Choice({ Reference.class, CodeableConcept.class })
         private final Element chargeItem;
         private final List<PriceComponent> priceComponent;
 

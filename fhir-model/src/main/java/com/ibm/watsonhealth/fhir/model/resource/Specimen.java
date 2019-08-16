@@ -71,6 +71,7 @@ public class Specimen extends DomainResource {
         container = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.container, "container"));
         condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -206,6 +207,24 @@ public class Specimen extends DomainResource {
      */
     public List<Annotation> getNote() {
         return note;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (accessionIdentifier != null) || 
+            (status != null) || 
+            (type != null) || 
+            (subject != null) || 
+            (receivedTime != null) || 
+            !parent.isEmpty() || 
+            !request.isEmpty() || 
+            (collection != null) || 
+            !processing.isEmpty() || 
+            !container.isEmpty() || 
+            !condition.isEmpty() || 
+            !note.isEmpty();
     }
 
     @Override
@@ -896,13 +915,13 @@ public class Specimen extends DomainResource {
      */
     public static class Collection extends BackboneElement {
         private final Reference collector;
-        @Choice({DateTime.class, Period.class})
+        @Choice({ DateTime.class, Period.class })
         private final Element collected;
         private final Duration duration;
         private final SimpleQuantity quantity;
         private final CodeableConcept method;
         private final CodeableConcept bodySite;
-        @Choice({CodeableConcept.class, Duration.class})
+        @Choice({ CodeableConcept.class, Duration.class })
         private final Element fastingStatus;
 
         private volatile int hashCode;
@@ -1335,7 +1354,7 @@ public class Specimen extends DomainResource {
         private final String description;
         private final CodeableConcept procedure;
         private final List<Reference> additive;
-        @Choice({DateTime.class, Period.class})
+        @Choice({ DateTime.class, Period.class })
         private final Element time;
 
         private volatile int hashCode;
@@ -1690,7 +1709,7 @@ public class Specimen extends DomainResource {
         private final CodeableConcept type;
         private final SimpleQuantity capacity;
         private final SimpleQuantity specimenQuantity;
-        @Choice({CodeableConcept.class, Reference.class})
+        @Choice({ CodeableConcept.class, Reference.class })
         private final Element additive;
 
         private volatile int hashCode;

@@ -67,6 +67,7 @@ public class DeviceMetric extends DomainResource {
         category = ValidationSupport.requireNonNull(builder.category, "category");
         measurementPeriod = builder.measurementPeriod;
         calibration = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.calibration, "calibration"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -179,6 +180,21 @@ public class DeviceMetric extends DomainResource {
      */
     public List<Calibration> getCalibration() {
         return calibration;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (type != null) || 
+            (unit != null) || 
+            (source != null) || 
+            (parent != null) || 
+            (operationalStatus != null) || 
+            (color != null) || 
+            (category != null) || 
+            (measurementPeriod != null) || 
+            !calibration.isEmpty();
     }
 
     @Override

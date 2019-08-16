@@ -77,6 +77,7 @@ public class CareTeam extends DomainResource {
         managingOrganization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.managingOrganization, "managingOrganization"));
         telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -209,6 +210,24 @@ public class CareTeam extends DomainResource {
      */
     public List<Annotation> getNote() {
         return note;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            !category.isEmpty() || 
+            (name != null) || 
+            (subject != null) || 
+            (encounter != null) || 
+            (period != null) || 
+            !participant.isEmpty() || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            !managingOrganization.isEmpty() || 
+            !telecom.isEmpty() || 
+            !note.isEmpty();
     }
 
     @Override

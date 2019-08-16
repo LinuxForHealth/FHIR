@@ -110,6 +110,7 @@ public class CarePlan extends DomainResource {
         goal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.goal, "goal"));
         activity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.activity, "activity"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -347,6 +348,34 @@ public class CarePlan extends DomainResource {
      */
     public List<Annotation> getNote() {
         return note;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !instantiatesCanonical.isEmpty() || 
+            !instantiatesUri.isEmpty() || 
+            !basedOn.isEmpty() || 
+            !replaces.isEmpty() || 
+            !partOf.isEmpty() || 
+            (status != null) || 
+            (intent != null) || 
+            !category.isEmpty() || 
+            (title != null) || 
+            (description != null) || 
+            (subject != null) || 
+            (encounter != null) || 
+            (period != null) || 
+            (created != null) || 
+            (author != null) || 
+            !contributor.isEmpty() || 
+            !careTeam.isEmpty() || 
+            !addresses.isEmpty() || 
+            !supportingInfo.isEmpty() || 
+            !goal.isEmpty() || 
+            !activity.isEmpty() || 
+            !note.isEmpty();
     }
 
     @Override
@@ -1821,11 +1850,11 @@ public class CarePlan extends DomainResource {
             private final CarePlanActivityStatus status;
             private final CodeableConcept statusReason;
             private final Boolean doNotPerform;
-            @Choice({Timing.class, Period.class, String.class})
+            @Choice({ Timing.class, Period.class, String.class })
             private final Element scheduled;
             private final Reference location;
             private final List<Reference> performer;
-            @Choice({CodeableConcept.class, Reference.class})
+            @Choice({ CodeableConcept.class, Reference.class })
             private final Element product;
             private final SimpleQuantity dailyAmount;
             private final SimpleQuantity quantity;

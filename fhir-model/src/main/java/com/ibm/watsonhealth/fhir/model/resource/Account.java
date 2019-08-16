@@ -67,6 +67,7 @@ public class Account extends DomainResource {
         description = builder.description;
         guarantor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.guarantor, "guarantor"));
         partOf = builder.partOf;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -180,6 +181,22 @@ public class Account extends DomainResource {
      */
     public Reference getPartOf() {
         return partOf;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (type != null) || 
+            (name != null) || 
+            !subject.isEmpty() || 
+            (servicePeriod != null) || 
+            !coverage.isEmpty() || 
+            (owner != null) || 
+            (description != null) || 
+            !guarantor.isEmpty() || 
+            (partOf != null);
     }
 
     @Override

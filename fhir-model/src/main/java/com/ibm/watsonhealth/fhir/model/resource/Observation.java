@@ -83,11 +83,11 @@ public class Observation extends DomainResource {
     private final Reference subject;
     private final List<Reference> focus;
     private final Reference encounter;
-    @Choice({DateTime.class, Period.class, Timing.class, Instant.class})
+    @Choice({ DateTime.class, Period.class, Timing.class, Instant.class })
     private final Element effective;
     private final Instant issued;
     private final List<Reference> performer;
-    @Choice({Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class})
+    @Choice({ Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class })
     private final Element value;
     private final CodeableConcept dataAbsentReason;
     private final List<CodeableConcept> interpretation;
@@ -129,6 +129,7 @@ public class Observation extends DomainResource {
         hasMember = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.hasMember, "hasMember"));
         derivedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFrom, "derivedFrom"));
         component = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.component, "component"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -387,6 +388,35 @@ public class Observation extends DomainResource {
      */
     public List<Component> getComponent() {
         return component;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !basedOn.isEmpty() || 
+            !partOf.isEmpty() || 
+            (status != null) || 
+            !category.isEmpty() || 
+            (code != null) || 
+            (subject != null) || 
+            !focus.isEmpty() || 
+            (encounter != null) || 
+            (effective != null) || 
+            (issued != null) || 
+            !performer.isEmpty() || 
+            (value != null) || 
+            (dataAbsentReason != null) || 
+            !interpretation.isEmpty() || 
+            !note.isEmpty() || 
+            (bodySite != null) || 
+            (method != null) || 
+            (specimen != null) || 
+            (device != null) || 
+            !referenceRange.isEmpty() || 
+            !hasMember.isEmpty() || 
+            !derivedFrom.isEmpty() || 
+            !component.isEmpty();
     }
 
     @Override
@@ -1876,7 +1906,7 @@ public class Observation extends DomainResource {
     public static class Component extends BackboneElement {
         @Required
         private final CodeableConcept code;
-        @Choice({Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class})
+        @Choice({ Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class })
         private final Element value;
         private final CodeableConcept dataAbsentReason;
         private final List<CodeableConcept> interpretation;

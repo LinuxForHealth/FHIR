@@ -71,6 +71,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         fractionDescription = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fractionDescription, "fractionDescription"));
         organism = builder.organism;
         partDescription = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partDescription, "partDescription"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -213,6 +214,24 @@ public class SubstanceSourceMaterial extends DomainResource {
      */
     public List<PartDescription> getPartDescription() {
         return partDescription;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (sourceMaterialClass != null) || 
+            (sourceMaterialType != null) || 
+            (sourceMaterialState != null) || 
+            (organismId != null) || 
+            (organismName != null) || 
+            !parentSubstanceId.isEmpty() || 
+            !parentSubstanceName.isEmpty() || 
+            !countryOfOrigin.isEmpty() || 
+            !geographicalLocation.isEmpty() || 
+            (developmentStage != null) || 
+            !fractionDescription.isEmpty() || 
+            (organism != null) || 
+            !partDescription.isEmpty();
     }
 
     @Override

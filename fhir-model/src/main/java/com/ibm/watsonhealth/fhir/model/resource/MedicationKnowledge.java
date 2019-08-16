@@ -92,6 +92,7 @@ public class MedicationKnowledge extends DomainResource {
         contraindication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contraindication, "contraindication"));
         regulatory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.regulatory, "regulatory"));
         kinetics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.kinetics, "kinetics"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -323,6 +324,33 @@ public class MedicationKnowledge extends DomainResource {
      */
     public List<Kinetics> getKinetics() {
         return kinetics;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (code != null) || 
+            (status != null) || 
+            (manufacturer != null) || 
+            (doseForm != null) || 
+            (amount != null) || 
+            !synonym.isEmpty() || 
+            !relatedMedicationKnowledge.isEmpty() || 
+            !associatedMedication.isEmpty() || 
+            !productType.isEmpty() || 
+            !monograph.isEmpty() || 
+            !ingredient.isEmpty() || 
+            (preparationInstruction != null) || 
+            !intendedRoute.isEmpty() || 
+            !cost.isEmpty() || 
+            !monitoringProgram.isEmpty() || 
+            !administrationGuidelines.isEmpty() || 
+            !medicineClassification.isEmpty() || 
+            (packaging != null) || 
+            !drugCharacteristic.isEmpty() || 
+            !contraindication.isEmpty() || 
+            !regulatory.isEmpty() || 
+            !kinetics.isEmpty();
     }
 
     @Override
@@ -1903,7 +1931,7 @@ public class MedicationKnowledge extends DomainResource {
      */
     public static class Ingredient extends BackboneElement {
         @Required
-        @Choice({CodeableConcept.class, Reference.class})
+        @Choice({ CodeableConcept.class, Reference.class })
         private final Element item;
         private final Boolean isActive;
         private final Ratio strength;
@@ -2775,7 +2803,7 @@ public class MedicationKnowledge extends DomainResource {
      */
     public static class AdministrationGuidelines extends BackboneElement {
         private final List<Dosage> dosage;
-        @Choice({CodeableConcept.class, Reference.class})
+        @Choice({ CodeableConcept.class, Reference.class })
         private final Element indication;
         private final List<PatientCharacteristics> patientCharacteristics;
 
@@ -3409,7 +3437,7 @@ public class MedicationKnowledge extends DomainResource {
          */
         public static class PatientCharacteristics extends BackboneElement {
             @Required
-            @Choice({CodeableConcept.class, SimpleQuantity.class})
+            @Choice({ CodeableConcept.class, SimpleQuantity.class })
             private final Element characteristic;
             private final List<String> value;
 
@@ -4252,7 +4280,7 @@ public class MedicationKnowledge extends DomainResource {
      */
     public static class DrugCharacteristic extends BackboneElement {
         private final CodeableConcept type;
-        @Choice({CodeableConcept.class, String.class, SimpleQuantity.class, Base64Binary.class})
+        @Choice({ CodeableConcept.class, String.class, SimpleQuantity.class, Base64Binary.class })
         private final Element value;
 
         private volatile int hashCode;

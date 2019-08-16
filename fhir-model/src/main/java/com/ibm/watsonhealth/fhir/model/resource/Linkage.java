@@ -53,6 +53,7 @@ public class Linkage extends DomainResource {
         active = builder.active;
         author = builder.author;
         item = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.item, "item"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -85,6 +86,14 @@ public class Linkage extends DomainResource {
      */
     public List<Item> getItem() {
         return item;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (active != null) || 
+            (author != null) || 
+            !item.isEmpty();
     }
 
     @Override

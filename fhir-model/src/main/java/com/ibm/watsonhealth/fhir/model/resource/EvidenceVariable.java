@@ -123,6 +123,7 @@ public class EvidenceVariable extends DomainResource {
         relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
         type = builder.type;
         characteristic = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.characteristic, "characteristic"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -415,6 +416,38 @@ public class EvidenceVariable extends DomainResource {
      */
     public List<Characteristic> getCharacteristic() {
         return characteristic;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (shortTitle != null) || 
+            (subtitle != null) || 
+            (status != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !note.isEmpty() || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (copyright != null) || 
+            (approvalDate != null) || 
+            (lastReviewDate != null) || 
+            (effectivePeriod != null) || 
+            !topic.isEmpty() || 
+            !author.isEmpty() || 
+            !editor.isEmpty() || 
+            !reviewer.isEmpty() || 
+            !endorser.isEmpty() || 
+            !relatedArtifact.isEmpty() || 
+            (type != null) || 
+            !characteristic.isEmpty();
     }
 
     @Override
@@ -1503,11 +1536,11 @@ public class EvidenceVariable extends DomainResource {
     public static class Characteristic extends BackboneElement {
         private final String description;
         @Required
-        @Choice({Reference.class, Canonical.class, CodeableConcept.class, Expression.class, DataRequirement.class, TriggerDefinition.class})
+        @Choice({ Reference.class, Canonical.class, CodeableConcept.class, Expression.class, DataRequirement.class, TriggerDefinition.class })
         private final Element definition;
         private final List<UsageContext> usageContext;
         private final Boolean exclude;
-        @Choice({DateTime.class, Period.class, Duration.class, Timing.class})
+        @Choice({ DateTime.class, Period.class, Duration.class, Timing.class })
         private final Element participantEffective;
         private final Duration timeFromStart;
         private final GroupMeasure groupMeasure;

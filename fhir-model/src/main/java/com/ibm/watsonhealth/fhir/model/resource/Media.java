@@ -54,7 +54,7 @@ public class Media extends DomainResource {
     private final CodeableConcept view;
     private final Reference subject;
     private final Reference encounter;
-    @Choice({DateTime.class, Period.class})
+    @Choice({ DateTime.class, Period.class })
     private final Element created;
     private final Instant issued;
     private final Reference operator;
@@ -96,6 +96,7 @@ public class Media extends DomainResource {
         duration = builder.duration;
         content = ValidationSupport.requireNonNull(builder.content, "content");
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -320,6 +321,33 @@ public class Media extends DomainResource {
      */
     public List<Annotation> getNote() {
         return note;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !basedOn.isEmpty() || 
+            !partOf.isEmpty() || 
+            (status != null) || 
+            (type != null) || 
+            (modality != null) || 
+            (view != null) || 
+            (subject != null) || 
+            (encounter != null) || 
+            (created != null) || 
+            (issued != null) || 
+            (operator != null) || 
+            !reasonCode.isEmpty() || 
+            (bodySite != null) || 
+            (deviceName != null) || 
+            (device != null) || 
+            (height != null) || 
+            (width != null) || 
+            (frames != null) || 
+            (duration != null) || 
+            (content != null) || 
+            !note.isEmpty();
     }
 
     @Override

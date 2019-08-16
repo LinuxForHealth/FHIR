@@ -62,7 +62,7 @@ public class Immunization extends DomainResource {
     private final Reference patient;
     private final Reference encounter;
     @Required
-    @Choice({DateTime.class, String.class})
+    @Choice({ DateTime.class, String.class })
     private final Element occurrence;
     private final DateTime recorded;
     private final Boolean primarySource;
@@ -118,6 +118,7 @@ public class Immunization extends DomainResource {
         fundingSource = builder.fundingSource;
         reaction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reaction, "reaction"));
         protocolApplied = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.protocolApplied, "protocolApplied"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -404,6 +405,39 @@ public class Immunization extends DomainResource {
      */
     public List<ProtocolApplied> getProtocolApplied() {
         return protocolApplied;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (statusReason != null) || 
+            (vaccineCode != null) || 
+            (patient != null) || 
+            (encounter != null) || 
+            (occurrence != null) || 
+            (recorded != null) || 
+            (primarySource != null) || 
+            (reportOrigin != null) || 
+            (location != null) || 
+            (manufacturer != null) || 
+            (lotNumber != null) || 
+            (expirationDate != null) || 
+            (site != null) || 
+            (route != null) || 
+            (doseQuantity != null) || 
+            !performer.isEmpty() || 
+            !note.isEmpty() || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            (isSubpotent != null) || 
+            !subpotentReason.isEmpty() || 
+            !education.isEmpty() || 
+            !programEligibility.isEmpty() || 
+            (fundingSource != null) || 
+            !reaction.isEmpty() || 
+            !protocolApplied.isEmpty();
     }
 
     @Override
@@ -2342,9 +2376,9 @@ public class Immunization extends DomainResource {
         private final Reference authority;
         private final List<CodeableConcept> targetDisease;
         @Required
-        @Choice({PositiveInt.class, String.class})
+        @Choice({ PositiveInt.class, String.class })
         private final Element doseNumber;
-        @Choice({PositiveInt.class, String.class})
+        @Choice({ PositiveInt.class, String.class })
         private final Element seriesDoses;
 
         private volatile int hashCode;

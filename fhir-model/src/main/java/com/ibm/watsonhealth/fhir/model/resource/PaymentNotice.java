@@ -71,6 +71,7 @@ public class PaymentNotice extends DomainResource {
         recipient = ValidationSupport.requireNonNull(builder.recipient, "recipient");
         amount = ValidationSupport.requireNonNull(builder.amount, "amount");
         paymentStatus = builder.paymentStatus;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -191,6 +192,23 @@ public class PaymentNotice extends DomainResource {
      */
     public CodeableConcept getPaymentStatus() {
         return paymentStatus;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (request != null) || 
+            (response != null) || 
+            (created != null) || 
+            (provider != null) || 
+            (payment != null) || 
+            (paymentDate != null) || 
+            (payee != null) || 
+            (recipient != null) || 
+            (amount != null) || 
+            (paymentStatus != null);
     }
 
     @Override

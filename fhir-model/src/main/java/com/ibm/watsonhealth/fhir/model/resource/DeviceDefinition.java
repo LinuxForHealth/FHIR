@@ -45,7 +45,7 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 public class DeviceDefinition extends DomainResource {
     private final List<Identifier> identifier;
     private final List<UdiDeviceIdentifier> udiDeviceIdentifier;
-    @Choice({String.class, Reference.class})
+    @Choice({ String.class, Reference.class })
     private final Element manufacturer;
     private final List<DeviceName> deviceName;
     private final String modelNumber;
@@ -93,6 +93,7 @@ public class DeviceDefinition extends DomainResource {
         quantity = builder.quantity;
         parentDevice = builder.parentDevice;
         material = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.material, "material"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -318,6 +319,33 @@ public class DeviceDefinition extends DomainResource {
      */
     public List<Material> getMaterial() {
         return material;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !udiDeviceIdentifier.isEmpty() || 
+            (manufacturer != null) || 
+            !deviceName.isEmpty() || 
+            (modelNumber != null) || 
+            (type != null) || 
+            !specialization.isEmpty() || 
+            !version.isEmpty() || 
+            !safety.isEmpty() || 
+            !shelfLifeStorage.isEmpty() || 
+            (physicalCharacteristics != null) || 
+            !languageCode.isEmpty() || 
+            !capability.isEmpty() || 
+            !property.isEmpty() || 
+            (owner != null) || 
+            !contact.isEmpty() || 
+            (url != null) || 
+            (onlineInformation != null) || 
+            !note.isEmpty() || 
+            (quantity != null) || 
+            (parentDevice != null) || 
+            !material.isEmpty();
     }
 
     @Override

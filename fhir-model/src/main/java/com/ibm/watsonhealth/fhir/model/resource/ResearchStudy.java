@@ -97,6 +97,7 @@ public class ResearchStudy extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         arm = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.arm, "arm"));
         objective = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.objective, "objective"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -346,6 +347,35 @@ public class ResearchStudy extends DomainResource {
      */
     public List<Objective> getObjective() {
         return objective;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (title != null) || 
+            !protocol.isEmpty() || 
+            !partOf.isEmpty() || 
+            (status != null) || 
+            (primaryPurposeType != null) || 
+            (phase != null) || 
+            !category.isEmpty() || 
+            !focus.isEmpty() || 
+            !condition.isEmpty() || 
+            !contact.isEmpty() || 
+            !relatedArtifact.isEmpty() || 
+            !keyword.isEmpty() || 
+            !location.isEmpty() || 
+            (description != null) || 
+            !enrollment.isEmpty() || 
+            (period != null) || 
+            (sponsor != null) || 
+            (principalInvestigator != null) || 
+            !site.isEmpty() || 
+            (reasonStopped != null) || 
+            !note.isEmpty() || 
+            !arm.isEmpty() || 
+            !objective.isEmpty();
     }
 
     @Override

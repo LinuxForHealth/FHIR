@@ -141,6 +141,7 @@ public class ValueSet extends DomainResource {
         copyright = builder.copyright;
         compose = builder.compose;
         expansion = builder.expansion;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -339,6 +340,29 @@ public class ValueSet extends DomainResource {
      */
     public Expansion getExpansion() {
         return expansion;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (immutable != null) || 
+            (purpose != null) || 
+            (copyright != null) || 
+            (compose != null) || 
+            (expansion != null);
     }
 
     @Override
@@ -3277,7 +3301,7 @@ public class ValueSet extends DomainResource {
         public static class Parameter extends BackboneElement {
             @Required
             private final String name;
-            @Choice({String.class, Boolean.class, Integer.class, Decimal.class, Uri.class, Code.class, DateTime.class})
+            @Choice({ String.class, Boolean.class, Integer.class, Decimal.class, Uri.class, Code.class, DateTime.class })
             private final Element value;
 
             private volatile int hashCode;

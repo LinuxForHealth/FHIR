@@ -55,9 +55,9 @@ public class ImmunizationEvaluation extends DomainResource {
     private final List<CodeableConcept> doseStatusReason;
     private final String description;
     private final String series;
-    @Choice({PositiveInt.class, String.class})
+    @Choice({ PositiveInt.class, String.class })
     private final Element doseNumber;
-    @Choice({PositiveInt.class, String.class})
+    @Choice({ PositiveInt.class, String.class })
     private final Element seriesDoses;
 
     private volatile int hashCode;
@@ -77,6 +77,7 @@ public class ImmunizationEvaluation extends DomainResource {
         series = builder.series;
         doseNumber = ValidationSupport.choiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
         seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -208,6 +209,24 @@ public class ImmunizationEvaluation extends DomainResource {
      */
     public Element getSeriesDoses() {
         return seriesDoses;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (patient != null) || 
+            (date != null) || 
+            (authority != null) || 
+            (targetDisease != null) || 
+            (immunizationEvent != null) || 
+            (doseStatus != null) || 
+            !doseStatusReason.isEmpty() || 
+            (description != null) || 
+            (series != null) || 
+            (doseNumber != null) || 
+            (seriesDoses != null);
     }
 
     @Override

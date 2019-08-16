@@ -85,6 +85,7 @@ public class MedicinalProduct extends DomainResource {
         crossReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.crossReference, "crossReference"));
         manufacturingBusinessOperation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturingBusinessOperation, "manufacturingBusinessOperation"));
         specialDesignation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialDesignation, "specialDesignation"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -285,6 +286,31 @@ public class MedicinalProduct extends DomainResource {
      */
     public List<SpecialDesignation> getSpecialDesignation() {
         return specialDesignation;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (type != null) || 
+            (domain != null) || 
+            (combinedPharmaceuticalDoseForm != null) || 
+            (legalStatusOfSupply != null) || 
+            (additionalMonitoringIndicator != null) || 
+            !specialMeasures.isEmpty() || 
+            (paediatricUseIndicator != null) || 
+            !productClassification.isEmpty() || 
+            !marketingStatus.isEmpty() || 
+            !pharmaceuticalProduct.isEmpty() || 
+            !packagedMedicinalProduct.isEmpty() || 
+            !attachedDocument.isEmpty() || 
+            !masterFile.isEmpty() || 
+            !contact.isEmpty() || 
+            !clinicalTrial.isEmpty() || 
+            !name.isEmpty() || 
+            !crossReference.isEmpty() || 
+            !manufacturingBusinessOperation.isEmpty() || 
+            !specialDesignation.isEmpty();
     }
 
     @Override
@@ -2570,7 +2596,7 @@ public class MedicinalProduct extends DomainResource {
         private final List<Identifier> identifier;
         private final CodeableConcept type;
         private final CodeableConcept intendedUse;
-        @Choice({CodeableConcept.class, Reference.class})
+        @Choice({ CodeableConcept.class, Reference.class })
         private final Element indication;
         private final CodeableConcept status;
         private final DateTime date;

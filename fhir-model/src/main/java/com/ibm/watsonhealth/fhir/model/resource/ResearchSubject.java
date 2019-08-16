@@ -58,6 +58,7 @@ public class ResearchSubject extends DomainResource {
         assignedArm = builder.assignedArm;
         actualArm = builder.actualArm;
         consent = builder.consent;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -138,6 +139,19 @@ public class ResearchSubject extends DomainResource {
      */
     public Reference getConsent() {
         return consent;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (period != null) || 
+            (study != null) || 
+            (individual != null) || 
+            (assignedArm != null) || 
+            (actualArm != null) || 
+            (consent != null);
     }
 
     @Override

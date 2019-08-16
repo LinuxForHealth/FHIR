@@ -122,6 +122,7 @@ public class ImplementationGuide extends DomainResource {
         global = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.global, "global"));
         definition = builder.definition;
         manifest = builder.manifest;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -341,6 +342,31 @@ public class ImplementationGuide extends DomainResource {
      */
     public Manifest getManifest() {
         return manifest;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (copyright != null) || 
+            (packageId != null) || 
+            (license != null) || 
+            !fhirVersion.isEmpty() || 
+            !dependsOn.isEmpty() || 
+            !global.isEmpty() || 
+            (definition != null) || 
+            (manifest != null);
     }
 
     @Override
@@ -2474,7 +2500,7 @@ public class ImplementationGuide extends DomainResource {
             private final List<FHIRVersion> fhirVersion;
             private final String name;
             private final String description;
-            @Choice({Boolean.class, Canonical.class})
+            @Choice({ Boolean.class, Canonical.class })
             private final Element example;
             private final Id groupingId;
 
@@ -2899,7 +2925,7 @@ public class ImplementationGuide extends DomainResource {
          */
         public static class Page extends BackboneElement {
             @Required
-            @Choice({Url.class, Reference.class})
+            @Choice({ Url.class, Reference.class })
             private final Element name;
             @Required
             private final String title;
@@ -4299,7 +4325,7 @@ public class ImplementationGuide extends DomainResource {
         public static class Resource extends BackboneElement {
             @Required
             private final Reference reference;
-            @Choice({Boolean.class, Canonical.class})
+            @Choice({ Boolean.class, Canonical.class })
             private final Element example;
             private final Url relativePath;
 

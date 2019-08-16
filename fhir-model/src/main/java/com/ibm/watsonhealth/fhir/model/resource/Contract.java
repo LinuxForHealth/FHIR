@@ -76,7 +76,7 @@ public class Contract extends DomainResource {
     private final List<String> alias;
     private final Reference author;
     private final CodeableConcept scope;
-    @Choice({CodeableConcept.class, Reference.class})
+    @Choice({ CodeableConcept.class, Reference.class })
     private final Element topic;
     private final CodeableConcept type;
     private final List<CodeableConcept> subType;
@@ -88,7 +88,7 @@ public class Contract extends DomainResource {
     private final List<Friendly> friendly;
     private final List<Legal> legal;
     private final List<Rule> rule;
-    @Choice({Attachment.class, Reference.class})
+    @Choice({ Attachment.class, Reference.class })
     private final Element legallyBinding;
 
     private volatile int hashCode;
@@ -128,6 +128,7 @@ public class Contract extends DomainResource {
         legal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.legal, "legal"));
         rule = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rule, "rule"));
         legallyBinding = ValidationSupport.choiceElement(builder.legallyBinding, "legallyBinding", Attachment.class, Reference.class);
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -482,6 +483,44 @@ public class Contract extends DomainResource {
      */
     public Element getLegallyBinding() {
         return legallyBinding;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (url != null) || 
+            (version != null) || 
+            (status != null) || 
+            (legalState != null) || 
+            (instantiatesCanonical != null) || 
+            (instantiatesUri != null) || 
+            (contentDerivative != null) || 
+            (issued != null) || 
+            (applies != null) || 
+            (expirationType != null) || 
+            !subject.isEmpty() || 
+            !authority.isEmpty() || 
+            !domain.isEmpty() || 
+            !site.isEmpty() || 
+            (name != null) || 
+            (title != null) || 
+            (subtitle != null) || 
+            !alias.isEmpty() || 
+            (author != null) || 
+            (scope != null) || 
+            (topic != null) || 
+            (type != null) || 
+            !subType.isEmpty() || 
+            (contentDefinition != null) || 
+            !term.isEmpty() || 
+            !supportingInfo.isEmpty() || 
+            !relevantHistory.isEmpty() || 
+            !signer.isEmpty() || 
+            !friendly.isEmpty() || 
+            !legal.isEmpty() || 
+            !rule.isEmpty() || 
+            (legallyBinding != null);
     }
 
     @Override
@@ -2143,7 +2182,7 @@ public class Contract extends DomainResource {
         private final Identifier identifier;
         private final DateTime issued;
         private final Period applies;
-        @Choice({CodeableConcept.class, Reference.class})
+        @Choice({ CodeableConcept.class, Reference.class })
         private final Element topic;
         private final CodeableConcept type;
         private final CodeableConcept subType;
@@ -4152,7 +4191,7 @@ public class Contract extends DomainResource {
              */
             public static class Answer extends BackboneElement {
                 @Required
-                @Choice({Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class})
+                @Choice({ Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class })
                 private final Element value;
 
                 private volatile int hashCode;
@@ -5619,7 +5658,7 @@ public class Contract extends DomainResource {
              * Contract Valued Item List.
              */
             public static class ValuedItem extends BackboneElement {
-                @Choice({CodeableConcept.class, Reference.class})
+                @Choice({ CodeableConcept.class, Reference.class })
                 private final Element entity;
                 private final Identifier identifier;
                 private final DateTime effectiveTime;
@@ -6337,7 +6376,7 @@ public class Contract extends DomainResource {
             private final CodeableConcept status;
             private final Reference context;
             private final List<String> contextLinkId;
-            @Choice({DateTime.class, Period.class, Timing.class})
+            @Choice({ DateTime.class, Period.class, Timing.class })
             private final Element occurrence;
             private final List<Reference> requester;
             private final List<String> requesterLinkId;
@@ -8119,7 +8158,7 @@ public class Contract extends DomainResource {
      */
     public static class Friendly extends BackboneElement {
         @Required
-        @Choice({Attachment.class, Reference.class})
+        @Choice({ Attachment.class, Reference.class })
         private final Element content;
 
         private volatile int hashCode;
@@ -8363,7 +8402,7 @@ public class Contract extends DomainResource {
      */
     public static class Legal extends BackboneElement {
         @Required
-        @Choice({Attachment.class, Reference.class})
+        @Choice({ Attachment.class, Reference.class })
         private final Element content;
 
         private volatile int hashCode;
@@ -8605,7 +8644,7 @@ public class Contract extends DomainResource {
      */
     public static class Rule extends BackboneElement {
         @Required
-        @Choice({Attachment.class, Reference.class})
+        @Choice({ Attachment.class, Reference.class })
         private final Element content;
 
         private volatile int hashCode;

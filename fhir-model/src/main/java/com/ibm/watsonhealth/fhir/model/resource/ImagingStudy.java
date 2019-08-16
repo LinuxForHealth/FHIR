@@ -89,6 +89,7 @@ public class ImagingStudy extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         description = builder.description;
         series = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.series, "series"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -299,6 +300,31 @@ public class ImagingStudy extends DomainResource {
      */
     public List<Series> getSeries() {
         return series;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            !modality.isEmpty() || 
+            (subject != null) || 
+            (encounter != null) || 
+            (started != null) || 
+            !basedOn.isEmpty() || 
+            (referrer != null) || 
+            !interpreter.isEmpty() || 
+            !endpoint.isEmpty() || 
+            (numberOfSeries != null) || 
+            (numberOfInstances != null) || 
+            (procedureReference != null) || 
+            !procedureCode.isEmpty() || 
+            (location != null) || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            !note.isEmpty() || 
+            (description != null) || 
+            !series.isEmpty();
     }
 
     @Override

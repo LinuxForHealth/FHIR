@@ -83,7 +83,7 @@ public class PlanDefinition extends DomainResource {
     @Required
     private final PublicationStatus status;
     private final Boolean experimental;
-    @Choice({CodeableConcept.class, Reference.class})
+    @Choice({ CodeableConcept.class, Reference.class })
     private final Element subject;
     private final DateTime date;
     private final String publisher;
@@ -142,6 +142,7 @@ public class PlanDefinition extends DomainResource {
         library = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.library, "library"));
         goal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.goal, "goal"));
         action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -474,6 +475,42 @@ public class PlanDefinition extends DomainResource {
      */
     public List<Action> getAction() {
         return action;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (subtitle != null) || 
+            (type != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (subject != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (usage != null) || 
+            (copyright != null) || 
+            (approvalDate != null) || 
+            (lastReviewDate != null) || 
+            (effectivePeriod != null) || 
+            !topic.isEmpty() || 
+            !author.isEmpty() || 
+            !editor.isEmpty() || 
+            !reviewer.isEmpty() || 
+            !endorser.isEmpty() || 
+            !relatedArtifact.isEmpty() || 
+            !library.isEmpty() || 
+            !goal.isEmpty() || 
+            !action.isEmpty();
     }
 
     @Override
@@ -2149,7 +2186,7 @@ public class PlanDefinition extends DomainResource {
          */
         public static class Target extends BackboneElement {
             private final CodeableConcept measure;
-            @Choice({Quantity.class, Range.class, CodeableConcept.class})
+            @Choice({ Quantity.class, Range.class, CodeableConcept.class })
             private final Element detail;
             private final Duration due;
 
@@ -2463,14 +2500,14 @@ public class PlanDefinition extends DomainResource {
         private final List<CodeableConcept> reason;
         private final List<RelatedArtifact> documentation;
         private final List<Id> goalId;
-        @Choice({CodeableConcept.class, Reference.class})
+        @Choice({ CodeableConcept.class, Reference.class })
         private final Element subject;
         private final List<TriggerDefinition> trigger;
         private final List<Condition> condition;
         private final List<DataRequirement> input;
         private final List<DataRequirement> output;
         private final List<RelatedAction> relatedAction;
-        @Choice({DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class})
+        @Choice({ DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class })
         private final Element timing;
         private final List<Participant> participant;
         private final CodeableConcept type;
@@ -2479,7 +2516,7 @@ public class PlanDefinition extends DomainResource {
         private final ActionRequiredBehavior requiredBehavior;
         private final ActionPrecheckBehavior precheckBehavior;
         private final ActionCardinalityBehavior cardinalityBehavior;
-        @Choice({Canonical.class, Uri.class})
+        @Choice({ Canonical.class, Uri.class })
         private final Element definition;
         private final Canonical transform;
         private final List<DynamicValue> dynamicValue;
@@ -4075,7 +4112,7 @@ public class PlanDefinition extends DomainResource {
             private final Id actionId;
             @Required
             private final ActionRelationshipType relationship;
-            @Choice({Duration.class, Range.class})
+            @Choice({ Duration.class, Range.class })
             private final Element offset;
 
             private volatile int hashCode;

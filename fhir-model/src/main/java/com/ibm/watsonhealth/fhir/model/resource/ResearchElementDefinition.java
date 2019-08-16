@@ -72,7 +72,7 @@ public class ResearchElementDefinition extends DomainResource {
     @Required
     private final PublicationStatus status;
     private final Boolean experimental;
-    @Choice({CodeableConcept.class, Reference.class})
+    @Choice({ CodeableConcept.class, Reference.class })
     private final Element subject;
     private final DateTime date;
     private final String publisher;
@@ -137,6 +137,7 @@ public class ResearchElementDefinition extends DomainResource {
         type = ValidationSupport.requireNonNull(builder.type, "type");
         variableType = builder.variableType;
         characteristic = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.characteristic, "characteristic"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -491,6 +492,44 @@ public class ResearchElementDefinition extends DomainResource {
      */
     public List<Characteristic> getCharacteristic() {
         return characteristic;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (shortTitle != null) || 
+            (subtitle != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (subject != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !comment.isEmpty() || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (usage != null) || 
+            (copyright != null) || 
+            (approvalDate != null) || 
+            (lastReviewDate != null) || 
+            (effectivePeriod != null) || 
+            !topic.isEmpty() || 
+            !author.isEmpty() || 
+            !editor.isEmpty() || 
+            !reviewer.isEmpty() || 
+            !endorser.isEmpty() || 
+            !relatedArtifact.isEmpty() || 
+            !library.isEmpty() || 
+            (type != null) || 
+            (variableType != null) || 
+            !characteristic.isEmpty();
     }
 
     @Override
@@ -1723,18 +1762,18 @@ public class ResearchElementDefinition extends DomainResource {
      */
     public static class Characteristic extends BackboneElement {
         @Required
-        @Choice({CodeableConcept.class, Canonical.class, Expression.class, DataRequirement.class})
+        @Choice({ CodeableConcept.class, Canonical.class, Expression.class, DataRequirement.class })
         private final Element definition;
         private final List<UsageContext> usageContext;
         private final Boolean exclude;
         private final CodeableConcept unitOfMeasure;
         private final String studyEffectiveDescription;
-        @Choice({DateTime.class, Period.class, Duration.class, Timing.class})
+        @Choice({ DateTime.class, Period.class, Duration.class, Timing.class })
         private final Element studyEffective;
         private final Duration studyEffectiveTimeFromStart;
         private final GroupMeasure studyEffectiveGroupMeasure;
         private final String participantEffectiveDescription;
-        @Choice({DateTime.class, Period.class, Duration.class, Timing.class})
+        @Choice({ DateTime.class, Period.class, Duration.class, Timing.class })
         private final Element participantEffective;
         private final Duration participantEffectiveTimeFromStart;
         private final GroupMeasure participantEffectiveGroupMeasure;

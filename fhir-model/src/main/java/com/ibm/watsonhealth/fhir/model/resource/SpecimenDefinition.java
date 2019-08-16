@@ -58,6 +58,7 @@ public class SpecimenDefinition extends DomainResource {
         timeAspect = builder.timeAspect;
         collection = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.collection, "collection"));
         typeTested = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.typeTested, "typeTested"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -118,6 +119,17 @@ public class SpecimenDefinition extends DomainResource {
      */
     public List<TypeTested> getTypeTested() {
         return typeTested;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (identifier != null) || 
+            (typeCollected != null) || 
+            !patientPreparation.isEmpty() || 
+            (timeAspect != null) || 
+            !collection.isEmpty() || 
+            !typeTested.isEmpty();
     }
 
     @Override
@@ -1093,7 +1105,7 @@ public class SpecimenDefinition extends DomainResource {
             private final CodeableConcept cap;
             private final String description;
             private final SimpleQuantity capacity;
-            @Choice({SimpleQuantity.class, String.class})
+            @Choice({ SimpleQuantity.class, String.class })
             private final Element minimumVolume;
             private final List<Additive> additive;
             private final String preparation;
@@ -1570,7 +1582,7 @@ public class SpecimenDefinition extends DomainResource {
              */
             public static class Additive extends BackboneElement {
                 @Required
-                @Choice({CodeableConcept.class, Reference.class})
+                @Choice({ CodeableConcept.class, Reference.class })
                 private final Element additive;
 
                 private volatile int hashCode;

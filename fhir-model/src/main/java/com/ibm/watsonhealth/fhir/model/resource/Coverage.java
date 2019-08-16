@@ -85,6 +85,7 @@ public class Coverage extends DomainResource {
         costToBeneficiary = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.costToBeneficiary, "costToBeneficiary"));
         subrogation = builder.subrogation;
         contract = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contract, "contract"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -264,6 +265,28 @@ public class Coverage extends DomainResource {
      */
     public List<Reference> getContract() {
         return contract;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (type != null) || 
+            (policyHolder != null) || 
+            (subscriber != null) || 
+            (subscriberId != null) || 
+            (beneficiary != null) || 
+            (dependent != null) || 
+            (relationship != null) || 
+            (period != null) || 
+            !payor.isEmpty() || 
+            !clazz.isEmpty() || 
+            (order != null) || 
+            (network != null) || 
+            !costToBeneficiary.isEmpty() || 
+            (subrogation != null) || 
+            !contract.isEmpty();
     }
 
     @Override
@@ -1314,7 +1337,7 @@ public class Coverage extends DomainResource {
     public static class CostToBeneficiary extends BackboneElement {
         private final CodeableConcept type;
         @Required
-        @Choice({SimpleQuantity.class, Money.class})
+        @Choice({ SimpleQuantity.class, Money.class })
         private final Element value;
         private final List<Exception> exception;
 

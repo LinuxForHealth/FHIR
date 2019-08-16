@@ -88,9 +88,9 @@ public class Condition extends DomainResource {
     @Required
     private final Reference subject;
     private final Reference encounter;
-    @Choice({DateTime.class, Age.class, Period.class, Range.class, String.class})
+    @Choice({ DateTime.class, Age.class, Period.class, Range.class, String.class })
     private final Element onset;
-    @Choice({DateTime.class, Age.class, Period.class, Range.class, String.class})
+    @Choice({ DateTime.class, Age.class, Period.class, Range.class, String.class })
     private final Element abatement;
     private final DateTime recordedDate;
     private final Reference recorder;
@@ -120,6 +120,7 @@ public class Condition extends DomainResource {
         stage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.stage, "stage"));
         evidence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evidence, "evidence"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -296,6 +297,28 @@ public class Condition extends DomainResource {
      */
     public List<Annotation> getNote() {
         return note;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (clinicalStatus != null) || 
+            (verificationStatus != null) || 
+            !category.isEmpty() || 
+            (severity != null) || 
+            (code != null) || 
+            !bodySite.isEmpty() || 
+            (subject != null) || 
+            (encounter != null) || 
+            (onset != null) || 
+            (abatement != null) || 
+            (recordedDate != null) || 
+            (recorder != null) || 
+            (asserter != null) || 
+            !stage.isEmpty() || 
+            !evidence.isEmpty() || 
+            !note.isEmpty();
     }
 
     @Override

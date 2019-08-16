@@ -43,7 +43,7 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class MessageHeader extends DomainResource {
     @Required
-    @Choice({Coding.class, Uri.class})
+    @Choice({ Coding.class, Uri.class })
     private final Element event;
     private final List<Destination> destination;
     private final Reference sender;
@@ -72,6 +72,7 @@ public class MessageHeader extends DomainResource {
         response = builder.response;
         focus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focus, "focus"));
         definition = builder.definition;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -188,6 +189,22 @@ public class MessageHeader extends DomainResource {
      */
     public Canonical getDefinition() {
         return definition;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (event != null) || 
+            !destination.isEmpty() || 
+            (sender != null) || 
+            (enterer != null) || 
+            (author != null) || 
+            (source != null) || 
+            (responsible != null) || 
+            (reason != null) || 
+            (response != null) || 
+            !focus.isEmpty() || 
+            (definition != null);
     }
 
     @Override

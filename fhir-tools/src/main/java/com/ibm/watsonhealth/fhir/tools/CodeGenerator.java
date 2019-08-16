@@ -810,7 +810,7 @@ public class CodeGenerator {
                     }
                     if (isChoiceElement(elementDefinition)) {
                         String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
-                        cb.annotation("Choice", "{" + types + "}");
+                        cb.annotation("Choice", "{ " + types + " }");
                     }
                     cb.field(mods(visibility, "final"), fieldType, fieldName);
                     if (isBackboneElement(elementDefinition)) {
@@ -914,6 +914,10 @@ public class CodeGenerator {
                     !isXhtml(structureDefinition)) || 
                     nested) {
                 cb.invoke("ValidationSupport", "requireValueOrChildren", args("this"));
+            }
+            
+            if (isResource(structureDefinition) && !isAbstract(structureDefinition) && !nested) {
+                cb.invoke("ValidationSupport", "requireChildren", args("this"));
             }
 
             cb.end().newLine();
@@ -1591,7 +1595,7 @@ public class CodeGenerator {
     }
 
     private void generateHasChildrenMethod(JsonObject structureDefinition, String path, CodeBuilder cb, boolean nested) {
-        if ((isResource(structureDefinition) && !nested) || 
+        if (/* (isResource(structureDefinition) && !nested) || */
                 isStringSubtype(structureDefinition) || 
                 isUriSubtype(structureDefinition) || 
                 isQuantitySubtype(structureDefinition)) {
@@ -1600,7 +1604,7 @@ public class CodeGenerator {
 
         String name = structureDefinition.getString("name");
         
-        if (!"Element".equals(name)) {
+        if (!"Element".equals(name) && !"Resource".equals(name)) {
             cb.override();
         }
         
@@ -1609,7 +1613,7 @@ public class CodeGenerator {
         int level = path.split("\\.").length + 2;
         StringJoiner joiner = new StringJoiner(" || " + System.lineSeparator() + indent(level));
         
-        if (!"Element".equals(name)) {
+        if (!"Element".equals(name) && !"Resource".equals(name)) {
             joiner.add("super.hasChildren()");
         }
         

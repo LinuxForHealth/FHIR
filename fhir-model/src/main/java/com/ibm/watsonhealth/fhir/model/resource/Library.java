@@ -68,7 +68,7 @@ public class Library extends DomainResource {
     private final Boolean experimental;
     @Required
     private final CodeableConcept type;
-    @Choice({CodeableConcept.class, Reference.class})
+    @Choice({ CodeableConcept.class, Reference.class })
     private final Element subject;
     private final DateTime date;
     private final String publisher;
@@ -127,6 +127,7 @@ public class Library extends DomainResource {
         parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
         dataRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dataRequirement, "dataRequirement"));
         content = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.content, "content"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -460,6 +461,42 @@ public class Library extends DomainResource {
      */
     public List<Attachment> getContent() {
         return content;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (subtitle != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (type != null) || 
+            (subject != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (usage != null) || 
+            (copyright != null) || 
+            (approvalDate != null) || 
+            (lastReviewDate != null) || 
+            (effectivePeriod != null) || 
+            !topic.isEmpty() || 
+            !author.isEmpty() || 
+            !editor.isEmpty() || 
+            !reviewer.isEmpty() || 
+            !endorser.isEmpty() || 
+            !relatedArtifact.isEmpty() || 
+            !parameter.isEmpty() || 
+            !dataRequirement.isEmpty() || 
+            !content.isEmpty();
     }
 
     @Override

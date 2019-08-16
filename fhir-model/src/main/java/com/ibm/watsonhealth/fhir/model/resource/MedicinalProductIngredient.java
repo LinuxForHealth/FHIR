@@ -54,6 +54,7 @@ public class MedicinalProductIngredient extends DomainResource {
         manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
         specifiedSubstance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specifiedSubstance, "specifiedSubstance"));
         substance = builder.substance;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -115,6 +116,17 @@ public class MedicinalProductIngredient extends DomainResource {
      */
     public Substance getSubstance() {
         return substance;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (identifier != null) || 
+            (role != null) || 
+            (allergenicIndicator != null) || 
+            !manufacturer.isEmpty() || 
+            !specifiedSubstance.isEmpty() || 
+            (substance != null);
     }
 
     @Override

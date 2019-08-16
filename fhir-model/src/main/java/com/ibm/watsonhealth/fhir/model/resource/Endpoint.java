@@ -70,6 +70,7 @@ public class Endpoint extends DomainResource {
         payloadMimeType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payloadMimeType, "payloadMimeType"));
         address = ValidationSupport.requireNonNull(builder.address, "address");
         header = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.header, "header"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -184,6 +185,22 @@ public class Endpoint extends DomainResource {
      */
     public List<String> getHeader() {
         return header;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (connectionType != null) || 
+            (name != null) || 
+            (managingOrganization != null) || 
+            !contact.isEmpty() || 
+            (period != null) || 
+            !payloadType.isEmpty() || 
+            !payloadMimeType.isEmpty() || 
+            (address != null) || 
+            !header.isEmpty();
     }
 
     @Override

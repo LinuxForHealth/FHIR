@@ -47,7 +47,7 @@ public class DetectedIssue extends DomainResource {
     private final CodeableConcept code;
     private final DetectedIssueSeverity severity;
     private final Reference patient;
-    @Choice({DateTime.class, Period.class})
+    @Choice({ DateTime.class, Period.class })
     private final Element identified;
     private final Reference author;
     private final List<Reference> implicated;
@@ -72,6 +72,7 @@ public class DetectedIssue extends DomainResource {
         detail = builder.detail;
         reference = builder.reference;
         mitigation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.mitigation, "mitigation"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -196,6 +197,23 @@ public class DetectedIssue extends DomainResource {
      */
     public List<Mitigation> getMitigation() {
         return mitigation;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (code != null) || 
+            (severity != null) || 
+            (patient != null) || 
+            (identified != null) || 
+            (author != null) || 
+            !implicated.isEmpty() || 
+            !evidence.isEmpty() || 
+            (detail != null) || 
+            (reference != null) || 
+            !mitigation.isEmpty();
     }
 
     @Override

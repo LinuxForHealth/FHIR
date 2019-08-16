@@ -52,6 +52,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         geneElement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.geneElement, "geneElement"));
         classification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.classification, "classification"));
         target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -102,6 +103,16 @@ public class SubstanceReferenceInformation extends DomainResource {
      */
     public List<Target> getTarget() {
         return target;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (comment != null) || 
+            !gene.isEmpty() || 
+            !geneElement.isEmpty() || 
+            !classification.isEmpty() || 
+            !target.isEmpty();
     }
 
     @Override
@@ -1560,7 +1571,7 @@ public class SubstanceReferenceInformation extends DomainResource {
         private final CodeableConcept interaction;
         private final CodeableConcept organism;
         private final CodeableConcept organismType;
-        @Choice({Quantity.class, Range.class, String.class})
+        @Choice({ Quantity.class, Range.class, String.class })
         private final Element amount;
         private final CodeableConcept amountType;
         private final List<Reference> source;

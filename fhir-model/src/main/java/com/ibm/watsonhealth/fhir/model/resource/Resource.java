@@ -83,6 +83,13 @@ public abstract class Resource extends AbstractVisitable {
         return resourceType.cast(this);
     }
 
+    public boolean hasChildren() {
+        return (id != null) || 
+            (meta != null) || 
+            (implicitRules != null) || 
+            (language != null);
+    }
+
     public abstract Builder toBuilder();
 
     public static abstract class Builder extends AbstractBuilder<Resource> {

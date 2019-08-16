@@ -55,6 +55,7 @@ public class MedicinalProductContraindication extends DomainResource {
         therapeuticIndication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.therapeuticIndication, "therapeuticIndication"));
         otherTherapy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherTherapy, "otherTherapy"));
         population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -125,6 +126,18 @@ public class MedicinalProductContraindication extends DomainResource {
      */
     public List<Population> getPopulation() {
         return population;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !subject.isEmpty() || 
+            (disease != null) || 
+            (diseaseStatus != null) || 
+            !comorbidity.isEmpty() || 
+            !therapeuticIndication.isEmpty() || 
+            !otherTherapy.isEmpty() || 
+            !population.isEmpty();
     }
 
     @Override
@@ -654,7 +667,7 @@ public class MedicinalProductContraindication extends DomainResource {
         @Required
         private final CodeableConcept therapyRelationshipType;
         @Required
-        @Choice({CodeableConcept.class, Reference.class})
+        @Choice({ CodeableConcept.class, Reference.class })
         private final Element medication;
 
         private volatile int hashCode;

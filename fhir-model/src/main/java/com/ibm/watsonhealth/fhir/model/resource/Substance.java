@@ -60,6 +60,7 @@ public class Substance extends DomainResource {
         description = builder.description;
         instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
         ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -130,6 +131,18 @@ public class Substance extends DomainResource {
      */
     public List<Ingredient> getIngredient() {
         return ingredient;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            !category.isEmpty() || 
+            (code != null) || 
+            (description != null) || 
+            !instance.isEmpty() || 
+            !ingredient.isEmpty();
     }
 
     @Override
@@ -936,7 +949,7 @@ public class Substance extends DomainResource {
     public static class Ingredient extends BackboneElement {
         private final Ratio quantity;
         @Required
-        @Choice({CodeableConcept.class, Reference.class})
+        @Choice({ CodeableConcept.class, Reference.class })
         private final Element substance;
 
         private volatile int hashCode;

@@ -47,7 +47,7 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
 public class Provenance extends DomainResource {
     @Required
     private final List<Reference> target;
-    @Choice({Period.class, DateTime.class})
+    @Choice({ Period.class, DateTime.class })
     private final Element occurred;
     @Required
     private final Instant recorded;
@@ -74,6 +74,7 @@ public class Provenance extends DomainResource {
         agent = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.agent, "agent"));
         entity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entity, "entity"));
         signature = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.signature, "signature"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -179,6 +180,21 @@ public class Provenance extends DomainResource {
      */
     public List<Signature> getSignature() {
         return signature;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !target.isEmpty() || 
+            (occurred != null) || 
+            (recorded != null) || 
+            !policy.isEmpty() || 
+            (location != null) || 
+            !reason.isEmpty() || 
+            (activity != null) || 
+            !agent.isEmpty() || 
+            !entity.isEmpty() || 
+            !signature.isEmpty();
     }
 
     @Override

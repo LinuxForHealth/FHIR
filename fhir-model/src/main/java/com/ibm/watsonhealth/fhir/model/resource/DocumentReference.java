@@ -82,6 +82,7 @@ public class DocumentReference extends DomainResource {
         securityLabel = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabel, "securityLabel"));
         content = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.content, "content"));
         context = builder.context;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -249,6 +250,27 @@ public class DocumentReference extends DomainResource {
      */
     public Context getContext() {
         return context;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (masterIdentifier != null) || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (docStatus != null) || 
+            (type != null) || 
+            !category.isEmpty() || 
+            (subject != null) || 
+            (date != null) || 
+            !author.isEmpty() || 
+            (authenticator != null) || 
+            (custodian != null) || 
+            !relatesTo.isEmpty() || 
+            (description != null) || 
+            !securityLabel.isEmpty() || 
+            !content.isEmpty() || 
+            (context != null);
     }
 
     @Override

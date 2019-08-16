@@ -60,7 +60,7 @@ public class CoverageEligibilityResponse extends DomainResource {
     private final List<EligibilityResponsePurpose> purpose;
     @Required
     private final Reference patient;
-    @Choice({Date.class, Period.class})
+    @Choice({ Date.class, Period.class })
     private final Element serviced;
     @Required
     private final DateTime created;
@@ -96,6 +96,7 @@ public class CoverageEligibilityResponse extends DomainResource {
         preAuthRef = builder.preAuthRef;
         form = builder.form;
         error = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.error, "error"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -249,6 +250,26 @@ public class CoverageEligibilityResponse extends DomainResource {
      */
     public List<Error> getError() {
         return error;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            !purpose.isEmpty() || 
+            (patient != null) || 
+            (serviced != null) || 
+            (created != null) || 
+            (requestor != null) || 
+            (request != null) || 
+            (outcome != null) || 
+            (disposition != null) || 
+            (insurer != null) || 
+            !insurance.isEmpty() || 
+            (preAuthRef != null) || 
+            (form != null) || 
+            !error.isEmpty();
     }
 
     @Override
@@ -2005,9 +2026,9 @@ public class CoverageEligibilityResponse extends DomainResource {
             public static class Benefit extends BackboneElement {
                 @Required
                 private final CodeableConcept type;
-                @Choice({UnsignedInt.class, String.class, Money.class})
+                @Choice({ UnsignedInt.class, String.class, Money.class })
                 private final Element allowed;
-                @Choice({UnsignedInt.class, String.class, Money.class})
+                @Choice({ UnsignedInt.class, String.class, Money.class })
                 private final Element used;
 
                 private volatile int hashCode;

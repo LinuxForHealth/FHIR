@@ -84,7 +84,7 @@ public class MessageDefinition extends DomainResource {
     private final Canonical base;
     private final List<Canonical> parent;
     @Required
-    @Choice({Coding.class, Uri.class})
+    @Choice({ Coding.class, Uri.class })
     private final Element event;
     private final MessageSignificanceCategory category;
     private final List<Focus> focus;
@@ -120,6 +120,7 @@ public class MessageDefinition extends DomainResource {
         responseRequired = builder.responseRequired;
         allowedResponse = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.allowedResponse, "allowedResponse"));
         graph = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.graph, "graph"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -375,6 +376,35 @@ public class MessageDefinition extends DomainResource {
      */
     public List<Canonical> getGraph() {
         return graph;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            !replaces.isEmpty() || 
+            (status != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (copyright != null) || 
+            (base != null) || 
+            !parent.isEmpty() || 
+            (event != null) || 
+            (category != null) || 
+            !focus.isEmpty() || 
+            (responseRequired != null) || 
+            !allowedResponse.isEmpty() || 
+            !graph.isEmpty();
     }
 
     @Override

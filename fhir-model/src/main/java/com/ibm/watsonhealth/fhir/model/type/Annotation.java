@@ -21,7 +21,7 @@ import com.ibm.watsonhealth.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.watsonhealth.fhir.tools.CodeGenerator")
 public class Annotation extends Element {
-    @Choice({Reference.class, String.class})
+    @Choice({ Reference.class, String.class })
     private final Element author;
     private final DateTime time;
     @Required

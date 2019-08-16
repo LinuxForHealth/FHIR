@@ -50,6 +50,7 @@ public class Basic extends DomainResource {
         subject = builder.subject;
         created = builder.created;
         author = builder.author;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -100,6 +101,16 @@ public class Basic extends DomainResource {
      */
     public Reference getAuthor() {
         return author;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (code != null) || 
+            (subject != null) || 
+            (created != null) || 
+            (author != null);
     }
 
     @Override

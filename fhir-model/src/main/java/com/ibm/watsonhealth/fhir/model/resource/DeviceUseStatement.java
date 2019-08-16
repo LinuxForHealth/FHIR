@@ -47,7 +47,7 @@ public class DeviceUseStatement extends DomainResource {
     @Required
     private final Reference subject;
     private final List<Reference> derivedFrom;
-    @Choice({Timing.class, Period.class, DateTime.class})
+    @Choice({ Timing.class, Period.class, DateTime.class })
     private final Element timing;
     private final DateTime recordedOn;
     private final Reference source;
@@ -75,6 +75,7 @@ public class DeviceUseStatement extends DomainResource {
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         bodySite = builder.bodySite;
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -208,6 +209,24 @@ public class DeviceUseStatement extends DomainResource {
      */
     public List<Annotation> getNote() {
         return note;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !basedOn.isEmpty() || 
+            (status != null) || 
+            (subject != null) || 
+            !derivedFrom.isEmpty() || 
+            (timing != null) || 
+            (recordedOn != null) || 
+            (source != null) || 
+            (device != null) || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            (bodySite != null) || 
+            !note.isEmpty();
     }
 
     @Override

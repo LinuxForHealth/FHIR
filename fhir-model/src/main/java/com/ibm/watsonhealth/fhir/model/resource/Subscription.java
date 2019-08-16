@@ -62,6 +62,7 @@ public class Subscription extends DomainResource {
         criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
         error = builder.error;
         channel = ValidationSupport.requireNonNull(builder.channel, "channel");
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -133,6 +134,18 @@ public class Subscription extends DomainResource {
      */
     public Channel getChannel() {
         return channel;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (status != null) || 
+            !contact.isEmpty() || 
+            (end != null) || 
+            (reason != null) || 
+            (criteria != null) || 
+            (error != null) || 
+            (channel != null);
     }
 
     @Override

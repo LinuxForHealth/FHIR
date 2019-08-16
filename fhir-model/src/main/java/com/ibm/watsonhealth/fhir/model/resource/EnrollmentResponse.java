@@ -55,6 +55,7 @@ public class EnrollmentResponse extends DomainResource {
         created = builder.created;
         organization = builder.organization;
         requestProvider = builder.requestProvider;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -135,6 +136,19 @@ public class EnrollmentResponse extends DomainResource {
      */
     public Reference getRequestProvider() {
         return requestProvider;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (request != null) || 
+            (outcome != null) || 
+            (disposition != null) || 
+            (created != null) || 
+            (organization != null) || 
+            (requestProvider != null);
     }
 
     @Override

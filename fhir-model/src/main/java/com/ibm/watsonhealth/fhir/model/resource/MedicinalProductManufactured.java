@@ -54,6 +54,7 @@ public class MedicinalProductManufactured extends DomainResource {
         ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
         physicalCharacteristics = builder.physicalCharacteristics;
         otherCharacteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherCharacteristics, "otherCharacteristics"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -124,6 +125,18 @@ public class MedicinalProductManufactured extends DomainResource {
      */
     public List<CodeableConcept> getOtherCharacteristics() {
         return otherCharacteristics;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (manufacturedDoseForm != null) || 
+            (unitOfPresentation != null) || 
+            (quantity != null) || 
+            !manufacturer.isEmpty() || 
+            !ingredient.isEmpty() || 
+            (physicalCharacteristics != null) || 
+            !otherCharacteristics.isEmpty();
     }
 
     @Override

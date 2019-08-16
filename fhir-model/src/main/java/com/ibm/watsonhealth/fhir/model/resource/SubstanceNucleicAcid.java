@@ -50,6 +50,7 @@ public class SubstanceNucleicAcid extends DomainResource {
         areaOfHybridisation = builder.areaOfHybridisation;
         oligoNucleotideType = builder.oligoNucleotideType;
         subunit = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subunit, "subunit"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -105,6 +106,16 @@ public class SubstanceNucleicAcid extends DomainResource {
      */
     public List<Subunit> getSubunit() {
         return subunit;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (sequenceType != null) || 
+            (numberOfSubunits != null) || 
+            (areaOfHybridisation != null) || 
+            (oligoNucleotideType != null) || 
+            !subunit.isEmpty();
     }
 
     @Override

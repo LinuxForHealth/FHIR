@@ -66,6 +66,7 @@ public class Practitioner extends DomainResource {
         photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
         qualification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.qualification, "qualification"));
         communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -171,6 +172,21 @@ Work addresses are not typically
      */
     public List<CodeableConcept> getCommunication() {
         return communication;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (active != null) || 
+            !name.isEmpty() || 
+            !telecom.isEmpty() || 
+            !address.isEmpty() || 
+            (gender != null) || 
+            (birthDate != null) || 
+            !photo.isEmpty() || 
+            !qualification.isEmpty() || 
+            !communication.isEmpty();
     }
 
     @Override

@@ -51,6 +51,7 @@ public class EnrollmentRequest extends DomainResource {
         provider = builder.provider;
         candidate = builder.candidate;
         coverage = builder.coverage;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -121,6 +122,18 @@ public class EnrollmentRequest extends DomainResource {
      */
     public Reference getCoverage() {
         return coverage;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (created != null) || 
+            (insurer != null) || 
+            (provider != null) || 
+            (candidate != null) || 
+            (coverage != null);
     }
 
     @Override

@@ -43,7 +43,7 @@ public class GuidanceResponse extends DomainResource {
     private final Identifier requestIdentifier;
     private final List<Identifier> identifier;
     @Required
-    @Choice({Uri.class, Canonical.class, CodeableConcept.class})
+    @Choice({ Uri.class, Canonical.class, CodeableConcept.class })
     private final Element module;
     @Required
     private final GuidanceResponseStatus status;
@@ -78,6 +78,7 @@ public class GuidanceResponse extends DomainResource {
         outputParameters = builder.outputParameters;
         result = builder.result;
         dataRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dataRequirement, "dataRequirement"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -241,6 +242,26 @@ public class GuidanceResponse extends DomainResource {
      */
     public List<DataRequirement> getDataRequirement() {
         return dataRequirement;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (requestIdentifier != null) || 
+            !identifier.isEmpty() || 
+            (module != null) || 
+            (status != null) || 
+            (subject != null) || 
+            (encounter != null) || 
+            (occurrenceDateTime != null) || 
+            (performer != null) || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            !note.isEmpty() || 
+            !evaluationMessage.isEmpty() || 
+            (outputParameters != null) || 
+            (result != null) || 
+            !dataRequirement.isEmpty();
     }
 
     @Override

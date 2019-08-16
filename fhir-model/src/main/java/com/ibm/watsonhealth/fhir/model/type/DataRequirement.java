@@ -46,7 +46,7 @@ public class DataRequirement extends Element {
     @Required
     private final FHIRAllTypes type;
     private final List<Canonical> profile;
-    @Choice({CodeableConcept.class, Reference.class})
+    @Choice({ CodeableConcept.class, Reference.class })
     private final Element subject;
     private final List<String> mustSupport;
     private final List<CodeFilter> codeFilter;
@@ -948,7 +948,7 @@ public class DataRequirement extends Element {
     public static class DateFilter extends BackboneElement {
         private final String path;
         private final String searchParam;
-        @Choice({DateTime.class, Period.class, Duration.class})
+        @Choice({ DateTime.class, Period.class, Duration.class })
         private final Element value;
 
         private volatile int hashCode;

@@ -58,6 +58,7 @@ public class Flag extends DomainResource {
         period = builder.period;
         encounter = builder.encounter;
         author = builder.author;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -141,6 +142,19 @@ public class Flag extends DomainResource {
      */
     public Reference getAuthor() {
         return author;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            !category.isEmpty() || 
+            (code != null) || 
+            (subject != null) || 
+            (period != null) || 
+            (encounter != null) || 
+            (author != null);
     }
 
     @Override

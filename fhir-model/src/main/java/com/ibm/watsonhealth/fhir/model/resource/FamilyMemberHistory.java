@@ -73,12 +73,12 @@ public class FamilyMemberHistory extends DomainResource {
     @Required
     private final CodeableConcept relationship;
     private final CodeableConcept sex;
-    @Choice({Period.class, Date.class, String.class})
+    @Choice({ Period.class, Date.class, String.class })
     private final Element born;
-    @Choice({Age.class, Range.class, String.class})
+    @Choice({ Age.class, Range.class, String.class })
     private final Element age;
     private final Boolean estimatedAge;
-    @Choice({Boolean.class, Age.class, Range.class, Date.class, String.class})
+    @Choice({ Boolean.class, Age.class, Range.class, Date.class, String.class })
     private final Element deceased;
     private final List<CodeableConcept> reasonCode;
     private final List<Reference> reasonReference;
@@ -107,6 +107,7 @@ public class FamilyMemberHistory extends DomainResource {
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -295,6 +296,29 @@ public class FamilyMemberHistory extends DomainResource {
      */
     public List<Condition> getCondition() {
         return condition;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !instantiatesCanonical.isEmpty() || 
+            !instantiatesUri.isEmpty() || 
+            (status != null) || 
+            (dataAbsentReason != null) || 
+            (patient != null) || 
+            (date != null) || 
+            (name != null) || 
+            (relationship != null) || 
+            (sex != null) || 
+            (born != null) || 
+            (age != null) || 
+            (estimatedAge != null) || 
+            (deceased != null) || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            !note.isEmpty() || 
+            !condition.isEmpty();
     }
 
     @Override
@@ -1127,7 +1151,7 @@ public class FamilyMemberHistory extends DomainResource {
         private final CodeableConcept code;
         private final CodeableConcept outcome;
         private final Boolean contributedToDeath;
-        @Choice({Age.class, Range.class, Period.class, String.class})
+        @Choice({ Age.class, Range.class, Period.class, String.class })
         private final Element onset;
         private final List<Annotation> note;
 

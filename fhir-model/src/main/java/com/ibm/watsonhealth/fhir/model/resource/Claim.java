@@ -117,6 +117,7 @@ public class Claim extends DomainResource {
         accident = builder.accident;
         item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
         total = builder.total;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -395,6 +396,38 @@ public class Claim extends DomainResource {
      */
     public Money getTotal() {
         return total;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (type != null) || 
+            (subType != null) || 
+            (use != null) || 
+            (patient != null) || 
+            (billablePeriod != null) || 
+            (created != null) || 
+            (enterer != null) || 
+            (insurer != null) || 
+            (provider != null) || 
+            (priority != null) || 
+            (fundsReserve != null) || 
+            !related.isEmpty() || 
+            (prescription != null) || 
+            (originalPrescription != null) || 
+            (payee != null) || 
+            (referral != null) || 
+            (facility != null) || 
+            !careTeam.isEmpty() || 
+            !supportingInfo.isEmpty() || 
+            !diagnosis.isEmpty() || 
+            !procedure.isEmpty() || 
+            !insurance.isEmpty() || 
+            (accident != null) || 
+            !item.isEmpty() || 
+            (total != null);
     }
 
     @Override
@@ -2334,9 +2367,9 @@ public class Claim extends DomainResource {
         @Required
         private final CodeableConcept category;
         private final CodeableConcept code;
-        @Choice({Date.class, Period.class})
+        @Choice({ Date.class, Period.class })
         private final Element timing;
-        @Choice({Boolean.class, String.class, Quantity.class, Attachment.class, Reference.class})
+        @Choice({ Boolean.class, String.class, Quantity.class, Attachment.class, Reference.class })
         private final Element value;
         private final CodeableConcept reason;
 
@@ -2752,7 +2785,7 @@ public class Claim extends DomainResource {
         @Required
         private final PositiveInt sequence;
         @Required
-        @Choice({CodeableConcept.class, Reference.class})
+        @Choice({ CodeableConcept.class, Reference.class })
         private final Element diagnosis;
         private final List<CodeableConcept> type;
         private final CodeableConcept onAdmission;
@@ -3150,7 +3183,7 @@ public class Claim extends DomainResource {
         private final List<CodeableConcept> type;
         private final DateTime date;
         @Required
-        @Choice({CodeableConcept.class, Reference.class})
+        @Choice({ CodeableConcept.class, Reference.class })
         private final Element procedure;
         private final List<Reference> udi;
 
@@ -4024,7 +4057,7 @@ public class Claim extends DomainResource {
         @Required
         private final Date date;
         private final CodeableConcept type;
-        @Choice({Address.class, Reference.class})
+        @Choice({ Address.class, Reference.class })
         private final Element location;
 
         private volatile int hashCode;
@@ -4342,9 +4375,9 @@ public class Claim extends DomainResource {
         private final CodeableConcept productOrService;
         private final List<CodeableConcept> modifier;
         private final List<CodeableConcept> programCode;
-        @Choice({Date.class, Period.class})
+        @Choice({ Date.class, Period.class })
         private final Element serviced;
-        @Choice({CodeableConcept.class, Address.class, Reference.class})
+        @Choice({ CodeableConcept.class, Address.class, Reference.class })
         private final Element location;
         private final SimpleQuantity quantity;
         private final Money unitPrice;

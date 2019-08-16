@@ -109,6 +109,7 @@ public class ChargeItemDefinition extends DomainResource {
         instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
         applicability = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.applicability, "applicability"));
         propertyGroup = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.propertyGroup, "propertyGroup"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -361,6 +362,34 @@ public class ChargeItemDefinition extends DomainResource {
      */
     public List<PropertyGroup> getPropertyGroup() {
         return propertyGroup;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (title != null) || 
+            !derivedFromUri.isEmpty() || 
+            !partOf.isEmpty() || 
+            !replaces.isEmpty() || 
+            (status != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (copyright != null) || 
+            (approvalDate != null) || 
+            (lastReviewDate != null) || 
+            (effectivePeriod != null) || 
+            (code != null) || 
+            !instance.isEmpty() || 
+            !applicability.isEmpty() || 
+            !propertyGroup.isEmpty();
     }
 
     @Override

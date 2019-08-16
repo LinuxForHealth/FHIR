@@ -83,6 +83,7 @@ public class Location extends DomainResource {
         hoursOfOperation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.hoursOfOperation, "hoursOfOperation"));
         availabilityExceptions = builder.availabilityExceptions;
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -259,6 +260,28 @@ public class Location extends DomainResource {
      */
     public List<Reference> getEndpoint() {
         return endpoint;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (operationalStatus != null) || 
+            (name != null) || 
+            !alias.isEmpty() || 
+            (description != null) || 
+            (mode != null) || 
+            !type.isEmpty() || 
+            !telecom.isEmpty() || 
+            (address != null) || 
+            (physicalType != null) || 
+            (position != null) || 
+            (managingOrganization != null) || 
+            (partOf != null) || 
+            !hoursOfOperation.isEmpty() || 
+            (availabilityExceptions != null) || 
+            !endpoint.isEmpty();
     }
 
     @Override

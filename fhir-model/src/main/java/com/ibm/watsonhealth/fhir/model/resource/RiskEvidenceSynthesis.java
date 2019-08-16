@@ -124,6 +124,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
         sampleSize = builder.sampleSize;
         riskEstimate = builder.riskEstimate;
         certainty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.certainty, "certainty"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -451,6 +452,42 @@ public class RiskEvidenceSynthesis extends DomainResource {
      */
     public List<Certainty> getCertainty() {
         return certainty;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (status != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !note.isEmpty() || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (copyright != null) || 
+            (approvalDate != null) || 
+            (lastReviewDate != null) || 
+            (effectivePeriod != null) || 
+            !topic.isEmpty() || 
+            !author.isEmpty() || 
+            !editor.isEmpty() || 
+            !reviewer.isEmpty() || 
+            !endorser.isEmpty() || 
+            !relatedArtifact.isEmpty() || 
+            (synthesisType != null) || 
+            (studyType != null) || 
+            (population != null) || 
+            (exposure != null) || 
+            (outcome != null) || 
+            (sampleSize != null) || 
+            (riskEstimate != null) || 
+            !certainty.isEmpty();
     }
 
     @Override

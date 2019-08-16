@@ -62,6 +62,7 @@ public class MedicinalProductPackaged extends DomainResource {
         manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
         batchIdentifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.batchIdentifier, "batchIdentifier"));
         packageItem = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.packageItem, "packageItem"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -152,6 +153,20 @@ public class MedicinalProductPackaged extends DomainResource {
      */
     public List<PackageItem> getPackageItem() {
         return packageItem;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !subject.isEmpty() || 
+            (description != null) || 
+            (legalStatusOfSupply != null) || 
+            !marketingStatus.isEmpty() || 
+            (marketingAuthorization != null) || 
+            !manufacturer.isEmpty() || 
+            !batchIdentifier.isEmpty() || 
+            !packageItem.isEmpty();
     }
 
     @Override

@@ -46,6 +46,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
         classification = builder.classification;
         frequencyOfOccurrence = builder.frequencyOfOccurrence;
         population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -96,6 +97,16 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
      */
     public List<Population> getPopulation() {
         return population;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !subject.isEmpty() || 
+            (symptomConditionEffect != null) || 
+            (classification != null) || 
+            (frequencyOfOccurrence != null) || 
+            !population.isEmpty();
     }
 
     @Override

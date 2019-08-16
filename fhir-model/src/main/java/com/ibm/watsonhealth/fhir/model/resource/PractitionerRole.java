@@ -73,6 +73,7 @@ public class PractitionerRole extends DomainResource {
         notAvailable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.notAvailable, "notAvailable"));
         availabilityExceptions = builder.availabilityExceptions;
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -214,6 +215,25 @@ public class PractitionerRole extends DomainResource {
      */
     public List<Reference> getEndpoint() {
         return endpoint;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (active != null) || 
+            (period != null) || 
+            (practitioner != null) || 
+            (organization != null) || 
+            !code.isEmpty() || 
+            !specialty.isEmpty() || 
+            !location.isEmpty() || 
+            !healthcareService.isEmpty() || 
+            !telecom.isEmpty() || 
+            !availableTime.isEmpty() || 
+            !notAvailable.isEmpty() || 
+            (availabilityExceptions != null) || 
+            !endpoint.isEmpty();
     }
 
     @Override

@@ -103,6 +103,7 @@ public class MolecularSequence extends DomainResource {
         repository = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.repository, "repository"));
         pointer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.pointer, "pointer"));
         structureVariant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.structureVariant, "structureVariant"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -271,6 +272,27 @@ public class MolecularSequence extends DomainResource {
      */
     public List<StructureVariant> getStructureVariant() {
         return structureVariant;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (type != null) || 
+            (coordinateSystem != null) || 
+            (patient != null) || 
+            (specimen != null) || 
+            (device != null) || 
+            (performer != null) || 
+            (quantity != null) || 
+            (referenceSeq != null) || 
+            !variant.isEmpty() || 
+            (observedSeq != null) || 
+            !quality.isEmpty() || 
+            (readCoverage != null) || 
+            !repository.isEmpty() || 
+            !pointer.isEmpty() || 
+            !structureVariant.isEmpty();
     }
 
     @Override

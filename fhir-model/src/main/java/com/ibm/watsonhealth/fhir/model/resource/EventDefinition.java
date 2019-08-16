@@ -62,7 +62,7 @@ public class EventDefinition extends DomainResource {
     @Required
     private final PublicationStatus status;
     private final Boolean experimental;
-    @Choice({CodeableConcept.class, Reference.class})
+    @Choice({ CodeableConcept.class, Reference.class })
     private final Element subject;
     private final DateTime date;
     private final String publisher;
@@ -117,6 +117,7 @@ public class EventDefinition extends DomainResource {
         endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
         relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
         trigger = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.trigger, "trigger"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -415,6 +416,39 @@ public class EventDefinition extends DomainResource {
      */
     public List<TriggerDefinition> getTrigger() {
         return trigger;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (subtitle != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (subject != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (usage != null) || 
+            (copyright != null) || 
+            (approvalDate != null) || 
+            (lastReviewDate != null) || 
+            (effectivePeriod != null) || 
+            !topic.isEmpty() || 
+            !author.isEmpty() || 
+            !editor.isEmpty() || 
+            !reviewer.isEmpty() || 
+            !endorser.isEmpty() || 
+            !relatedArtifact.isEmpty() || 
+            !trigger.isEmpty();
     }
 
     @Override

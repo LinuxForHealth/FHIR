@@ -95,6 +95,7 @@ public class Communication extends DomainResource {
         reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
         payload = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payload, "payload"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -334,6 +335,34 @@ public class Communication extends DomainResource {
      */
     public List<Annotation> getNote() {
         return note;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !instantiatesCanonical.isEmpty() || 
+            !instantiatesUri.isEmpty() || 
+            !basedOn.isEmpty() || 
+            !partOf.isEmpty() || 
+            !inResponseTo.isEmpty() || 
+            (status != null) || 
+            (statusReason != null) || 
+            !category.isEmpty() || 
+            (priority != null) || 
+            !medium.isEmpty() || 
+            (subject != null) || 
+            (topic != null) || 
+            !about.isEmpty() || 
+            (encounter != null) || 
+            (sent != null) || 
+            (received != null) || 
+            !recipient.isEmpty() || 
+            (sender != null) || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            !payload.isEmpty() || 
+            !note.isEmpty();
     }
 
     @Override
@@ -1367,7 +1396,7 @@ public class Communication extends DomainResource {
      */
     public static class Payload extends BackboneElement {
         @Required
-        @Choice({String.class, Attachment.class, Reference.class})
+        @Choice({ String.class, Attachment.class, Reference.class })
         private final Element content;
 
         private volatile int hashCode;

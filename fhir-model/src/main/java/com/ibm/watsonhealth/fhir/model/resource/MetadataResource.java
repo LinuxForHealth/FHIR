@@ -75,6 +75,7 @@ public class MetadataResource extends DomainResource {
         description = builder.description;
         useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
         jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -208,6 +209,23 @@ public class MetadataResource extends DomainResource {
      */
     public List<CodeableConcept> getJurisdiction() {
         return jurisdiction;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty();
     }
 
     @Override

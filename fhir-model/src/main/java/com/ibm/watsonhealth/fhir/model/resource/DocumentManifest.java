@@ -67,6 +67,7 @@ public class DocumentManifest extends DomainResource {
         description = builder.description;
         content = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.content, "content"));
         related = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.related, "related"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -193,6 +194,23 @@ public class DocumentManifest extends DomainResource {
      */
     public List<Related> getRelated() {
         return related;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (masterIdentifier != null) || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (type != null) || 
+            (subject != null) || 
+            (created != null) || 
+            !author.isEmpty() || 
+            !recipient.isEmpty() || 
+            (source != null) || 
+            (description != null) || 
+            !content.isEmpty() || 
+            !related.isEmpty();
     }
 
     @Override

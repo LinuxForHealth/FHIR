@@ -204,6 +204,7 @@ public class TestScript extends DomainResource {
         setup = builder.setup;
         test = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.test, "test"));
         teardown = builder.teardown;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -458,6 +459,35 @@ public class TestScript extends DomainResource {
      */
     public Teardown getTeardown() {
         return teardown;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            (identifier != null) || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (copyright != null) || 
+            !origin.isEmpty() || 
+            !destination.isEmpty() || 
+            (metadata != null) || 
+            !fixture.isEmpty() || 
+            !profile.isEmpty() || 
+            !variable.isEmpty() || 
+            (setup != null) || 
+            !test.isEmpty() || 
+            (teardown != null);
     }
 
     @Override

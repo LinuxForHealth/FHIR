@@ -46,7 +46,7 @@ public class SupplyDelivery extends DomainResource {
     private final Reference patient;
     private final CodeableConcept type;
     private final SuppliedItem suppliedItem;
-    @Choice({DateTime.class, Period.class, Timing.class})
+    @Choice({ DateTime.class, Period.class, Timing.class })
     private final Element occurrence;
     private final Reference supplier;
     private final Reference destination;
@@ -67,6 +67,7 @@ public class SupplyDelivery extends DomainResource {
         supplier = builder.supplier;
         destination = builder.destination;
         receiver = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.receiver, "receiver"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -178,6 +179,22 @@ public class SupplyDelivery extends DomainResource {
      */
     public List<Reference> getReceiver() {
         return receiver;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !basedOn.isEmpty() || 
+            !partOf.isEmpty() || 
+            (status != null) || 
+            (patient != null) || 
+            (type != null) || 
+            (suppliedItem != null) || 
+            (occurrence != null) || 
+            (supplier != null) || 
+            (destination != null) || 
+            !receiver.isEmpty();
     }
 
     @Override
@@ -769,7 +786,7 @@ public class SupplyDelivery extends DomainResource {
      */
     public static class SuppliedItem extends BackboneElement {
         private final SimpleQuantity quantity;
-        @Choice({CodeableConcept.class, Reference.class})
+        @Choice({ CodeableConcept.class, Reference.class })
         private final Element item;
 
         private volatile int hashCode;

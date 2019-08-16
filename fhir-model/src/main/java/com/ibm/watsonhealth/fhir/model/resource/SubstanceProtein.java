@@ -51,6 +51,7 @@ public class SubstanceProtein extends DomainResource {
         numberOfSubunits = builder.numberOfSubunits;
         disulfideLinkage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.disulfideLinkage, "disulfideLinkage"));
         subunit = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subunit, "subunit"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -100,6 +101,15 @@ public class SubstanceProtein extends DomainResource {
      */
     public List<Subunit> getSubunit() {
         return subunit;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (sequenceType != null) || 
+            (numberOfSubunits != null) || 
+            !disulfideLinkage.isEmpty() || 
+            !subunit.isEmpty();
     }
 
     @Override

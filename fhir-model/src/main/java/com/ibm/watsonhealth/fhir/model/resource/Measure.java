@@ -71,7 +71,7 @@ public class Measure extends DomainResource {
     @Required
     private final PublicationStatus status;
     private final Boolean experimental;
-    @Choice({CodeableConcept.class, Reference.class})
+    @Choice({ CodeableConcept.class, Reference.class })
     private final Element subject;
     private final DateTime date;
     private final String publisher;
@@ -151,6 +151,7 @@ public class Measure extends DomainResource {
         guidance = builder.guidance;
         group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
         supplementalData = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supplementalData, "supplementalData"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -591,6 +592,52 @@ public class Measure extends DomainResource {
      */
     public List<SupplementalData> getSupplementalData() {
         return supplementalData;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (subtitle != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (subject != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (usage != null) || 
+            (copyright != null) || 
+            (approvalDate != null) || 
+            (lastReviewDate != null) || 
+            (effectivePeriod != null) || 
+            !topic.isEmpty() || 
+            !author.isEmpty() || 
+            !editor.isEmpty() || 
+            !reviewer.isEmpty() || 
+            !endorser.isEmpty() || 
+            !relatedArtifact.isEmpty() || 
+            !library.isEmpty() || 
+            (disclaimer != null) || 
+            (scoring != null) || 
+            (compositeScoring != null) || 
+            !type.isEmpty() || 
+            (riskAdjustment != null) || 
+            (rateAggregation != null) || 
+            (rationale != null) || 
+            (clinicalRecommendationStatement != null) || 
+            (improvementNotation != null) || 
+            !definition.isEmpty() || 
+            (guidance != null) || 
+            !group.isEmpty() || 
+            !supplementalData.isEmpty();
     }
 
     @Override

@@ -116,6 +116,7 @@ public class ClaimResponse extends DomainResource {
         communicationRequest = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communicationRequest, "communicationRequest"));
         insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
         error = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.error, "error"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -393,6 +394,38 @@ public class ClaimResponse extends DomainResource {
      */
     public List<Error> getError() {
         return error;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (type != null) || 
+            (subType != null) || 
+            (use != null) || 
+            (patient != null) || 
+            (created != null) || 
+            (insurer != null) || 
+            (requestor != null) || 
+            (request != null) || 
+            (outcome != null) || 
+            (disposition != null) || 
+            (preAuthRef != null) || 
+            (preAuthPeriod != null) || 
+            (payeeType != null) || 
+            !item.isEmpty() || 
+            !addItem.isEmpty() || 
+            !adjudication.isEmpty() || 
+            !total.isEmpty() || 
+            (payment != null) || 
+            (fundsReserve != null) || 
+            (formCode != null) || 
+            (form != null) || 
+            !processNote.isEmpty() || 
+            !communicationRequest.isEmpty() || 
+            !insurance.isEmpty() || 
+            !error.isEmpty();
     }
 
     @Override
@@ -2893,9 +2926,9 @@ public class ClaimResponse extends DomainResource {
         private final CodeableConcept productOrService;
         private final List<CodeableConcept> modifier;
         private final List<CodeableConcept> programCode;
-        @Choice({Date.class, Period.class})
+        @Choice({ Date.class, Period.class })
         private final Element serviced;
-        @Choice({CodeableConcept.class, Address.class, Reference.class})
+        @Choice({ CodeableConcept.class, Address.class, Reference.class })
         private final Element location;
         private final SimpleQuantity quantity;
         private final Money unitPrice;

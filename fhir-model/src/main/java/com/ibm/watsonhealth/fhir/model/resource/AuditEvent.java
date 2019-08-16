@@ -83,6 +83,7 @@ public class AuditEvent extends DomainResource {
         agent = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.agent, "agent"));
         source = ValidationSupport.requireNonNull(builder.source, "source");
         entity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entity, "entity"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -194,6 +195,22 @@ public class AuditEvent extends DomainResource {
      */
     public List<Entity> getEntity() {
         return entity;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (type != null) || 
+            !subtype.isEmpty() || 
+            (action != null) || 
+            (period != null) || 
+            (recorded != null) || 
+            (outcome != null) || 
+            (outcomeDesc != null) || 
+            !purposeOfEvent.isEmpty() || 
+            !agent.isEmpty() || 
+            (source != null) || 
+            !entity.isEmpty();
     }
 
     @Override
@@ -2526,7 +2543,7 @@ public class AuditEvent extends DomainResource {
             @Required
             private final String type;
             @Required
-            @Choice({String.class, Base64Binary.class})
+            @Choice({ String.class, Base64Binary.class })
             private final Element value;
 
             private volatile int hashCode;

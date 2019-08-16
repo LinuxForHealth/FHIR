@@ -85,6 +85,7 @@ public class CompartmentDefinition extends DomainResource {
         code = ValidationSupport.requireNonNull(builder.code, "code");
         search = ValidationSupport.requireNonNull(builder.search, "search");
         resource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resource, "resource"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -238,6 +239,25 @@ public class CompartmentDefinition extends DomainResource {
      */
     public List<Resource> getResource() {
         return resource;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            (version != null) || 
+            (name != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            (purpose != null) || 
+            (code != null) || 
+            (search != null) || 
+            !resource.isEmpty();
     }
 
     @Override

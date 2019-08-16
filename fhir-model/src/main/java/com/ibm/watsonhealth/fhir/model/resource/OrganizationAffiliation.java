@@ -64,6 +64,7 @@ public class OrganizationAffiliation extends DomainResource {
         healthcareService = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.healthcareService, "healthcareService"));
         telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -186,6 +187,23 @@ public class OrganizationAffiliation extends DomainResource {
      */
     public List<Reference> getEndpoint() {
         return endpoint;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (active != null) || 
+            (period != null) || 
+            (organization != null) || 
+            (participatingOrganization != null) || 
+            !network.isEmpty() || 
+            !code.isEmpty() || 
+            !specialty.isEmpty() || 
+            !location.isEmpty() || 
+            !healthcareService.isEmpty() || 
+            !telecom.isEmpty() || 
+            !endpoint.isEmpty();
     }
 
     @Override

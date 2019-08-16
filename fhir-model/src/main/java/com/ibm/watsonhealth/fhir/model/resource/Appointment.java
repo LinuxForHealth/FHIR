@@ -123,6 +123,7 @@ public class Appointment extends DomainResource {
         basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
         participant = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.participant, "participant"));
         requestedPeriod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requestedPeriod, "requestedPeriod"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -361,6 +362,33 @@ public class Appointment extends DomainResource {
      */
     public List<Period> getRequestedPeriod() {
         return requestedPeriod;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (cancelationReason != null) || 
+            !serviceCategory.isEmpty() || 
+            !serviceType.isEmpty() || 
+            !specialty.isEmpty() || 
+            (appointmentType != null) || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            (priority != null) || 
+            (description != null) || 
+            !supportingInformation.isEmpty() || 
+            (start != null) || 
+            (end != null) || 
+            (minutesDuration != null) || 
+            !slot.isEmpty() || 
+            (created != null) || 
+            (comment != null) || 
+            (patientInstruction != null) || 
+            !basedOn.isEmpty() || 
+            !participant.isEmpty() || 
+            !requestedPeriod.isEmpty();
     }
 
     @Override

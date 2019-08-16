@@ -83,6 +83,7 @@ public class InsurancePlan extends DomainResource {
         network = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.network, "network"));
         coverage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.coverage, "coverage"));
         plan = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.plan, "plan"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -226,6 +227,25 @@ public class InsurancePlan extends DomainResource {
      */
     public List<Plan> getPlan() {
         return plan;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            !type.isEmpty() || 
+            (name != null) || 
+            !alias.isEmpty() || 
+            (period != null) || 
+            (ownedBy != null) || 
+            (administeredBy != null) || 
+            !coverageArea.isEmpty() || 
+            !contact.isEmpty() || 
+            !endpoint.isEmpty() || 
+            !network.isEmpty() || 
+            !coverage.isEmpty() || 
+            !plan.isEmpty();
     }
 
     @Override

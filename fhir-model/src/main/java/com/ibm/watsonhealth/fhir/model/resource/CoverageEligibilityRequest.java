@@ -55,7 +55,7 @@ public class CoverageEligibilityRequest extends DomainResource {
     private final List<EligibilityRequestPurpose> purpose;
     @Required
     private final Reference patient;
-    @Choice({Date.class, Period.class})
+    @Choice({ Date.class, Period.class })
     private final Element serviced;
     @Required
     private final DateTime created;
@@ -86,6 +86,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
         insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
         item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -230,6 +231,25 @@ public class CoverageEligibilityRequest extends DomainResource {
      */
     public List<Item> getItem() {
         return item;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (priority != null) || 
+            !purpose.isEmpty() || 
+            (patient != null) || 
+            (serviced != null) || 
+            (created != null) || 
+            (enterer != null) || 
+            (provider != null) || 
+            (insurer != null) || 
+            (facility != null) || 
+            !supportingInfo.isEmpty() || 
+            !insurance.isEmpty() || 
+            !item.isEmpty();
     }
 
     @Override
@@ -2126,7 +2146,7 @@ public class CoverageEligibilityRequest extends DomainResource {
          * Patient diagnosis for which care is sought.
          */
         public static class Diagnosis extends BackboneElement {
-            @Choice({CodeableConcept.class, Reference.class})
+            @Choice({ CodeableConcept.class, Reference.class })
             private final Element diagnosis;
 
             private volatile int hashCode;

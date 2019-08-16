@@ -79,6 +79,7 @@ public class Group extends DomainResource {
         managingEntity = builder.managingEntity;
         characteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.characteristic, "characteristic"));
         member = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.member, "member"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -180,6 +181,21 @@ public class Group extends DomainResource {
      */
     public List<Member> getMember() {
         return member;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (active != null) || 
+            (type != null) || 
+            (actual != null) || 
+            (code != null) || 
+            (name != null) || 
+            (quantity != null) || 
+            (managingEntity != null) || 
+            !characteristic.isEmpty() || 
+            !member.isEmpty();
     }
 
     @Override
@@ -737,7 +753,7 @@ public class Group extends DomainResource {
         @Required
         private final CodeableConcept code;
         @Required
-        @Choice({CodeableConcept.class, Boolean.class, Quantity.class, Range.class, Reference.class})
+        @Choice({ CodeableConcept.class, Boolean.class, Quantity.class, Range.class, Reference.class })
         private final Element value;
         @Required
         private final Boolean exclude;

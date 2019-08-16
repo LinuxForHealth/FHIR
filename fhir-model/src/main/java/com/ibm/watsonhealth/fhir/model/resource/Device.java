@@ -100,6 +100,7 @@ public class Device extends DomainResource {
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         safety = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.safety, "safety"));
         parent = builder.parent;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -366,6 +367,37 @@ public class Device extends DomainResource {
      */
     public Reference getParent() {
         return parent;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (definition != null) || 
+            !udiCarrier.isEmpty() || 
+            (status != null) || 
+            !statusReason.isEmpty() || 
+            (distinctIdentifier != null) || 
+            (manufacturer != null) || 
+            (manufactureDate != null) || 
+            (expirationDate != null) || 
+            (lotNumber != null) || 
+            (serialNumber != null) || 
+            !deviceName.isEmpty() || 
+            (modelNumber != null) || 
+            (partNumber != null) || 
+            (type != null) || 
+            !specialization.isEmpty() || 
+            !version.isEmpty() || 
+            !property.isEmpty() || 
+            (patient != null) || 
+            (owner != null) || 
+            !contact.isEmpty() || 
+            (location != null) || 
+            (url != null) || 
+            !note.isEmpty() || 
+            !safety.isEmpty() || 
+            (parent != null);
     }
 
     @Override

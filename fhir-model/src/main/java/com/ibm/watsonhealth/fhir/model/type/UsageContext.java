@@ -26,7 +26,7 @@ public class UsageContext extends Element {
     @Required
     private final Coding code;
     @Required
-    @Choice({CodeableConcept.class, Quantity.class, Range.class, Reference.class})
+    @Choice({ CodeableConcept.class, Quantity.class, Range.class, Reference.class })
     private final Element value;
 
     private volatile int hashCode;

@@ -19,6 +19,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import com.ibm.watsonhealth.fhir.model.resource.Resource;
 import com.ibm.watsonhealth.fhir.model.type.Element;
 import com.ibm.watsonhealth.fhir.model.type.Xhtml;
 
@@ -156,6 +157,12 @@ public final class ValidationSupport {
     public static void requireValueOrChildren(Element element) {
         if (!element.hasValue() && !element.hasChildren()) {
             throw new IllegalStateException("ele-1: All FHIR elements must have a @value or children");
+        }
+    }
+    
+    public static void requireChildren(Resource resource) {
+        if (!resource.hasChildren()) {
+            throw new IllegalStateException("global-1: All FHIR elements must have a @value or children");
         }
     }
     

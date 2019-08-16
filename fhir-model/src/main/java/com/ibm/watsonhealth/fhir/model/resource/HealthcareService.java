@@ -94,6 +94,7 @@ public class HealthcareService extends DomainResource {
         notAvailable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.notAvailable, "notAvailable"));
         availabilityExceptions = builder.availabilityExceptions;
         endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -342,6 +343,35 @@ public class HealthcareService extends DomainResource {
      */
     public List<Reference> getEndpoint() {
         return endpoint;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (active != null) || 
+            (providedBy != null) || 
+            !category.isEmpty() || 
+            !type.isEmpty() || 
+            !specialty.isEmpty() || 
+            !location.isEmpty() || 
+            (name != null) || 
+            (comment != null) || 
+            (extraDetails != null) || 
+            (photo != null) || 
+            !telecom.isEmpty() || 
+            !coverageArea.isEmpty() || 
+            !serviceProvisionCode.isEmpty() || 
+            !eligibility.isEmpty() || 
+            !program.isEmpty() || 
+            !characteristic.isEmpty() || 
+            !communication.isEmpty() || 
+            !referralMethod.isEmpty() || 
+            (appointmentRequired != null) || 
+            !availableTime.isEmpty() || 
+            !notAvailable.isEmpty() || 
+            (availabilityExceptions != null) || 
+            !endpoint.isEmpty();
     }
 
     @Override

@@ -59,7 +59,7 @@ public class ChargeItem extends DomainResource {
     @Required
     private final Reference subject;
     private final Reference context;
-    @Choice({DateTime.class, Period.class, Timing.class})
+    @Choice({ DateTime.class, Period.class, Timing.class })
     private final Element occurrence;
     private final List<Performer> performer;
     private final Reference performingOrganization;
@@ -74,7 +74,7 @@ public class ChargeItem extends DomainResource {
     private final DateTime enteredDate;
     private final List<CodeableConcept> reason;
     private final List<Reference> service;
-    @Choice({Reference.class, CodeableConcept.class})
+    @Choice({ Reference.class, CodeableConcept.class })
     private final Element product;
     private final List<Reference> account;
     private final List<Annotation> note;
@@ -110,6 +110,7 @@ public class ChargeItem extends DomainResource {
         account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -371,6 +372,37 @@ public class ChargeItem extends DomainResource {
      */
     public List<Reference> getSupportingInformation() {
         return supportingInformation;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !definitionUri.isEmpty() || 
+            !definitionCanonical.isEmpty() || 
+            (status != null) || 
+            !partOf.isEmpty() || 
+            (code != null) || 
+            (subject != null) || 
+            (context != null) || 
+            (occurrence != null) || 
+            !performer.isEmpty() || 
+            (performingOrganization != null) || 
+            (requestingOrganization != null) || 
+            (costCenter != null) || 
+            (quantity != null) || 
+            !bodysite.isEmpty() || 
+            (factorOverride != null) || 
+            (priceOverride != null) || 
+            (overrideReason != null) || 
+            (enterer != null) || 
+            (enteredDate != null) || 
+            !reason.isEmpty() || 
+            !service.isEmpty() || 
+            (product != null) || 
+            !account.isEmpty() || 
+            !note.isEmpty() || 
+            !supportingInformation.isEmpty();
     }
 
     @Override

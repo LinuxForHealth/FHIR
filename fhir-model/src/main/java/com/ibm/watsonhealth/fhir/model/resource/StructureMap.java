@@ -153,6 +153,7 @@ public class StructureMap extends DomainResource {
         structure = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.structure, "structure"));
         _import = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder._import, "import"));
         group = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.group, "group"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -348,6 +349,29 @@ public class StructureMap extends DomainResource {
      */
     public List<Group> getGroup() {
         return group;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            !identifier.isEmpty() || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (copyright != null) || 
+            !structure.isEmpty() || 
+            !_import.isEmpty() || 
+            !group.isEmpty();
     }
 
     @Override
@@ -2766,7 +2790,7 @@ public class StructureMap extends DomainResource {
                 private final Integer min;
                 private final String max;
                 private final String type;
-                @Choice({Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class})
+                @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class })
                 private final Element defaultValue;
                 private final String element;
                 private final StructureMapSourceListMode listMode;
@@ -3867,7 +3891,7 @@ public class StructureMap extends DomainResource {
                  */
                 public static class Parameter extends BackboneElement {
                     @Required
-                    @Choice({Id.class, String.class, Boolean.class, Integer.class, Decimal.class})
+                    @Choice({ Id.class, String.class, Boolean.class, Integer.class, Decimal.class })
                     private final Element value;
 
                     private volatile int hashCode;

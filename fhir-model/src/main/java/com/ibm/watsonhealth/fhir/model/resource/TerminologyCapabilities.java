@@ -142,6 +142,7 @@ public class TerminologyCapabilities extends DomainResource {
         validateCode = builder.validateCode;
         translation = builder.translation;
         closure = builder.closure;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -402,6 +403,35 @@ public class TerminologyCapabilities extends DomainResource {
      */
     public Closure getClosure() {
         return closure;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (url != null) || 
+            (version != null) || 
+            (name != null) || 
+            (title != null) || 
+            (status != null) || 
+            (experimental != null) || 
+            (date != null) || 
+            (publisher != null) || 
+            !contact.isEmpty() || 
+            (description != null) || 
+            !useContext.isEmpty() || 
+            !jurisdiction.isEmpty() || 
+            (purpose != null) || 
+            (copyright != null) || 
+            (kind != null) || 
+            (software != null) || 
+            (implementation != null) || 
+            (lockedDate != null) || 
+            !codeSystem.isEmpty() || 
+            (expansion != null) || 
+            (codeSearch != null) || 
+            (validateCode != null) || 
+            (translation != null) || 
+            (closure != null);
     }
 
     @Override

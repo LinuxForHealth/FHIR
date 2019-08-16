@@ -72,6 +72,7 @@ public class RelatedPerson extends DomainResource {
         photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
         period = builder.period;
         communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -194,6 +195,23 @@ public class RelatedPerson extends DomainResource {
      */
     public List<Communication> getCommunication() {
         return communication;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (active != null) || 
+            (patient != null) || 
+            !relationship.isEmpty() || 
+            !name.isEmpty() || 
+            !telecom.isEmpty() || 
+            (gender != null) || 
+            (birthDate != null) || 
+            !address.isEmpty() || 
+            !photo.isEmpty() || 
+            (period != null) || 
+            !communication.isEmpty();
     }
 
     @Override

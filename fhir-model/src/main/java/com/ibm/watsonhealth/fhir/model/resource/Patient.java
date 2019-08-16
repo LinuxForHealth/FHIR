@@ -61,11 +61,11 @@ public class Patient extends DomainResource {
     private final List<ContactPoint> telecom;
     private final AdministrativeGender gender;
     private final Date birthDate;
-    @Choice({Boolean.class, DateTime.class})
+    @Choice({ Boolean.class, DateTime.class })
     private final Element deceased;
     private final List<Address> address;
     private final CodeableConcept maritalStatus;
-    @Choice({Boolean.class, Integer.class})
+    @Choice({ Boolean.class, Integer.class })
     private final Element multipleBirth;
     private final List<Attachment> photo;
     private final List<Contact> contact;
@@ -94,6 +94,7 @@ public class Patient extends DomainResource {
         generalPractitioner = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.generalPractitioner, "generalPractitioner"));
         managingOrganization = builder.managingOrganization;
         link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -261,6 +262,27 @@ public class Patient extends DomainResource {
      */
     public List<Link> getLink() {
         return link;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (active != null) || 
+            !name.isEmpty() || 
+            !telecom.isEmpty() || 
+            (gender != null) || 
+            (birthDate != null) || 
+            (deceased != null) || 
+            !address.isEmpty() || 
+            (maritalStatus != null) || 
+            (multipleBirth != null) || 
+            !photo.isEmpty() || 
+            !contact.isEmpty() || 
+            !communication.isEmpty() || 
+            !generalPractitioner.isEmpty() || 
+            (managingOrganization != null) || 
+            !link.isEmpty();
     }
 
     @Override

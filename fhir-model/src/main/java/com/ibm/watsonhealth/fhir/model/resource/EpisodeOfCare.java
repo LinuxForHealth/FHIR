@@ -68,6 +68,7 @@ public class EpisodeOfCare extends DomainResource {
         careManager = builder.careManager;
         team = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.team, "team"));
         account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -190,6 +191,23 @@ public class EpisodeOfCare extends DomainResource {
      */
     public List<Reference> getAccount() {
         return account;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            !statusHistory.isEmpty() || 
+            !type.isEmpty() || 
+            !diagnosis.isEmpty() || 
+            (patient != null) || 
+            (managingOrganization != null) || 
+            (period != null) || 
+            !referralRequest.isEmpty() || 
+            (careManager != null) || 
+            !team.isEmpty() || 
+            !account.isEmpty();
     }
 
     @Override

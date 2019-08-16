@@ -52,6 +52,7 @@ public class SubstancePolymer extends DomainResource {
         modification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modification, "modification"));
         monomerSet = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.monomerSet, "monomerSet"));
         repeat = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.repeat, "repeat"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -112,6 +113,17 @@ public class SubstancePolymer extends DomainResource {
      */
     public List<Repeat> getRepeat() {
         return repeat;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (clazz != null) || 
+            (geometry != null) || 
+            !copolymerConnectivity.isEmpty() || 
+            !modification.isEmpty() || 
+            !monomerSet.isEmpty() || 
+            !repeat.isEmpty();
     }
 
     @Override

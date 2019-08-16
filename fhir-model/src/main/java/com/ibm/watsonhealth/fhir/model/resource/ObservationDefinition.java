@@ -74,6 +74,7 @@ public class ObservationDefinition extends DomainResource {
         normalCodedValueSet = builder.normalCodedValueSet;
         abnormalCodedValueSet = builder.abnormalCodedValueSet;
         criticalCodedValueSet = builder.criticalCodedValueSet;
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -205,6 +206,24 @@ public class ObservationDefinition extends DomainResource {
      */
     public Reference getCriticalCodedValueSet() {
         return criticalCodedValueSet;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !category.isEmpty() || 
+            (code != null) || 
+            !identifier.isEmpty() || 
+            !permittedDataType.isEmpty() || 
+            (multipleResultsAllowed != null) || 
+            (method != null) || 
+            (preferredReportName != null) || 
+            (quantitativeDetails != null) || 
+            !qualifiedInterval.isEmpty() || 
+            (validCodedValueSet != null) || 
+            (normalCodedValueSet != null) || 
+            (abnormalCodedValueSet != null) || 
+            (criticalCodedValueSet != null);
     }
 
     @Override

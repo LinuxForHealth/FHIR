@@ -69,6 +69,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
         processing = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processing, "processing"));
         manipulation = builder.manipulation;
         storage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.storage, "storage"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -183,6 +184,22 @@ public class BiologicallyDerivedProduct extends DomainResource {
      */
     public List<Storage> getStorage() {
         return storage;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (productCategory != null) || 
+            (productCode != null) || 
+            (status != null) || 
+            !request.isEmpty() || 
+            (quantity != null) || 
+            !parent.isEmpty() || 
+            (collection != null) || 
+            !processing.isEmpty() || 
+            (manipulation != null) || 
+            !storage.isEmpty();
     }
 
     @Override
@@ -794,7 +811,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
     public static class Collection extends BackboneElement {
         private final Reference collector;
         private final Reference source;
-        @Choice({DateTime.class, Period.class})
+        @Choice({ DateTime.class, Period.class })
         private final Element collected;
 
         private volatile int hashCode;
@@ -1096,7 +1113,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
         private final String description;
         private final CodeableConcept procedure;
         private final Reference additive;
-        @Choice({DateTime.class, Period.class})
+        @Choice({ DateTime.class, Period.class })
         private final Element time;
 
         private volatile int hashCode;
@@ -1425,7 +1442,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
      */
     public static class Manipulation extends BackboneElement {
         private final String description;
-        @Choice({DateTime.class, Period.class})
+        @Choice({ DateTime.class, Period.class })
         private final Element time;
 
         private volatile int hashCode;

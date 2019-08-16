@@ -71,6 +71,7 @@ public class CatalogEntry extends DomainResource {
         additionalCharacteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalCharacteristic, "additionalCharacteristic"));
         additionalClassification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalClassification, "additionalClassification"));
         relatedEntry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedEntry, "relatedEntry"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -203,6 +204,24 @@ public class CatalogEntry extends DomainResource {
      */
     public List<RelatedEntry> getRelatedEntry() {
         return relatedEntry;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (type != null) || 
+            (orderable != null) || 
+            (referencedItem != null) || 
+            !additionalIdentifier.isEmpty() || 
+            !classification.isEmpty() || 
+            (status != null) || 
+            (validityPeriod != null) || 
+            (validTo != null) || 
+            (lastUpdated != null) || 
+            !additionalCharacteristic.isEmpty() || 
+            !additionalClassification.isEmpty() || 
+            !relatedEntry.isEmpty();
     }
 
     @Override

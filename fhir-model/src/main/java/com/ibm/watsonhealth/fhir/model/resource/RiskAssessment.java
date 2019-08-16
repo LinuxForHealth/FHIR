@@ -67,7 +67,7 @@ public class RiskAssessment extends DomainResource {
     @Required
     private final Reference subject;
     private final Reference encounter;
-    @Choice({DateTime.class, Period.class})
+    @Choice({ DateTime.class, Period.class })
     private final Element occurrence;
     private final Reference condition;
     private final Reference performer;
@@ -99,6 +99,7 @@ public class RiskAssessment extends DomainResource {
         prediction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prediction, "prediction"));
         mitigation = builder.mitigation;
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -270,6 +271,28 @@ public class RiskAssessment extends DomainResource {
      */
     public List<Annotation> getNote() {
         return note;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (basedOn != null) || 
+            (parent != null) || 
+            (status != null) || 
+            (method != null) || 
+            (code != null) || 
+            (subject != null) || 
+            (encounter != null) || 
+            (occurrence != null) || 
+            (condition != null) || 
+            (performer != null) || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            !basis.isEmpty() || 
+            !prediction.isEmpty() || 
+            (mitigation != null) || 
+            !note.isEmpty();
     }
 
     @Override
@@ -1025,11 +1048,11 @@ public class RiskAssessment extends DomainResource {
      */
     public static class Prediction extends BackboneElement {
         private final CodeableConcept outcome;
-        @Choice({Decimal.class, Range.class})
+        @Choice({ Decimal.class, Range.class })
         private final Element probability;
         private final CodeableConcept qualitativeRisk;
         private final Decimal relativeRisk;
-        @Choice({Period.class, Range.class})
+        @Choice({ Period.class, Range.class })
         private final Element when;
         private final String rationale;
 

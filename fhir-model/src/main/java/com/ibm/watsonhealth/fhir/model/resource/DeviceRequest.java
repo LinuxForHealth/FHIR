@@ -58,13 +58,13 @@ public class DeviceRequest extends DomainResource {
     private final RequestIntent intent;
     private final RequestPriority priority;
     @Required
-    @Choice({Reference.class, CodeableConcept.class})
+    @Choice({ Reference.class, CodeableConcept.class })
     private final Element code;
     private final List<Parameter> parameter;
     @Required
     private final Reference subject;
     private final Reference encounter;
-    @Choice({DateTime.class, Period.class, Timing.class})
+    @Choice({ DateTime.class, Period.class, Timing.class })
     private final Element occurrence;
     private final DateTime authoredOn;
     private final Reference requester;
@@ -105,6 +105,7 @@ public class DeviceRequest extends DomainResource {
         supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
         relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -352,6 +353,35 @@ public class DeviceRequest extends DomainResource {
      */
     public List<Reference> getRelevantHistory() {
         return relevantHistory;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !instantiatesCanonical.isEmpty() || 
+            !instantiatesUri.isEmpty() || 
+            !basedOn.isEmpty() || 
+            !priorRequest.isEmpty() || 
+            (groupIdentifier != null) || 
+            (status != null) || 
+            (intent != null) || 
+            (priority != null) || 
+            (code != null) || 
+            !parameter.isEmpty() || 
+            (subject != null) || 
+            (encounter != null) || 
+            (occurrence != null) || 
+            (authoredOn != null) || 
+            (requester != null) || 
+            (performerType != null) || 
+            (performer != null) || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            !insurance.isEmpty() || 
+            !supportingInfo.isEmpty() || 
+            !note.isEmpty() || 
+            !relevantHistory.isEmpty();
     }
 
     @Override
@@ -1380,7 +1410,7 @@ public class DeviceRequest extends DomainResource {
      */
     public static class Parameter extends BackboneElement {
         private final CodeableConcept code;
-        @Choice({CodeableConcept.class, Quantity.class, Range.class, Boolean.class})
+        @Choice({ CodeableConcept.class, Quantity.class, Range.class, Boolean.class })
         private final Element value;
 
         private volatile int hashCode;

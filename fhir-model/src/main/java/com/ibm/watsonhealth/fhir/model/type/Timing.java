@@ -412,7 +412,7 @@ public class Timing extends BackboneElement {
      * A set of rules that describe when the event is scheduled.
      */
     public static class Repeat extends BackboneElement {
-        @Choice({Duration.class, Range.class, Period.class})
+        @Choice({ Duration.class, Range.class, Period.class })
         private final Element bounds;
         private final PositiveInt count;
         private final PositiveInt countMax;

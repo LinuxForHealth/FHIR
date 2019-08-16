@@ -53,7 +53,7 @@ public class ClinicalImpression extends DomainResource {
     @Required
     private final Reference subject;
     private final Reference encounter;
-    @Choice({DateTime.class, Period.class})
+    @Choice({ DateTime.class, Period.class })
     private final Element effective;
     private final DateTime date;
     private final Reference assessor;
@@ -92,6 +92,7 @@ public class ClinicalImpression extends DomainResource {
         prognosisReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prognosisReference, "prognosisReference"));
         supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
         note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -301,6 +302,31 @@ public class ClinicalImpression extends DomainResource {
      */
     public List<Annotation> getNote() {
         return note;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (statusReason != null) || 
+            (code != null) || 
+            (description != null) || 
+            (subject != null) || 
+            (encounter != null) || 
+            (effective != null) || 
+            (date != null) || 
+            (assessor != null) || 
+            (previous != null) || 
+            !problem.isEmpty() || 
+            !investigation.isEmpty() || 
+            !protocol.isEmpty() || 
+            (summary != null) || 
+            !finding.isEmpty() || 
+            !prognosisCodeableConcept.isEmpty() || 
+            !prognosisReference.isEmpty() || 
+            !supportingInfo.isEmpty() || 
+            !note.isEmpty();
     }
 
     @Override

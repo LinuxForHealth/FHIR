@@ -57,7 +57,7 @@ public class Procedure extends DomainResource {
     @Required
     private final Reference subject;
     private final Reference encounter;
-    @Choice({DateTime.class, Period.class, String.class, Age.class, Range.class})
+    @Choice({ DateTime.class, Period.class, String.class, Age.class, Range.class })
     private final Element performed;
     private final Reference recorder;
     private final Reference asserter;
@@ -108,6 +108,7 @@ public class Procedure extends DomainResource {
         focalDevice = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focalDevice, "focalDevice"));
         usedReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usedReference, "usedReference"));
         usedCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usedCode, "usedCode"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -400,6 +401,39 @@ public class Procedure extends DomainResource {
      */
     public List<CodeableConcept> getUsedCode() {
         return usedCode;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            !instantiatesCanonical.isEmpty() || 
+            !instantiatesUri.isEmpty() || 
+            !basedOn.isEmpty() || 
+            !partOf.isEmpty() || 
+            (status != null) || 
+            (statusReason != null) || 
+            (category != null) || 
+            (code != null) || 
+            (subject != null) || 
+            (encounter != null) || 
+            (performed != null) || 
+            (recorder != null) || 
+            (asserter != null) || 
+            !performer.isEmpty() || 
+            (location != null) || 
+            !reasonCode.isEmpty() || 
+            !reasonReference.isEmpty() || 
+            !bodySite.isEmpty() || 
+            (outcome != null) || 
+            !report.isEmpty() || 
+            !complication.isEmpty() || 
+            !complicationDetail.isEmpty() || 
+            !followUp.isEmpty() || 
+            !note.isEmpty() || 
+            !focalDevice.isEmpty() || 
+            !usedReference.isEmpty() || 
+            !usedCode.isEmpty();
     }
 
     @Override

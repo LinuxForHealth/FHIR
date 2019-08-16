@@ -58,6 +58,7 @@ public class BodyStructure extends DomainResource {
         description = builder.description;
         image = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.image, "image"));
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -140,6 +141,19 @@ public class BodyStructure extends DomainResource {
      */
     public Reference getPatient() {
         return patient;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (active != null) || 
+            (morphology != null) || 
+            (location != null) || 
+            !locationQualifier.isEmpty() || 
+            (description != null) || 
+            !image.isEmpty() || 
+            (patient != null);
     }
 
     @Override

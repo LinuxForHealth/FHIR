@@ -69,6 +69,7 @@ public class VisionPrescription extends DomainResource {
         dateWritten = ValidationSupport.requireNonNull(builder.dateWritten, "dateWritten");
         prescriber = ValidationSupport.requireNonNull(builder.prescriber, "prescriber");
         lensSpecification = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.lensSpecification, "lensSpecification"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -151,6 +152,19 @@ public class VisionPrescription extends DomainResource {
      */
     public List<LensSpecification> getLensSpecification() {
         return lensSpecification;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            !identifier.isEmpty() || 
+            (status != null) || 
+            (created != null) || 
+            (patient != null) || 
+            (encounter != null) || 
+            (dateWritten != null) || 
+            (prescriber != null) || 
+            !lensSpecification.isEmpty();
     }
 
     @Override

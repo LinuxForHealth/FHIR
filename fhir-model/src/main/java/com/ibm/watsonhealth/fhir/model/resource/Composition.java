@@ -103,6 +103,7 @@ public class Composition extends DomainResource {
         relatesTo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatesTo, "relatesTo"));
         event = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.event, "event"));
         section = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.section, "section"));
+        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -259,6 +260,26 @@ public class Composition extends DomainResource {
      */
     public List<Section> getSection() {
         return section;
+    }
+
+    @Override
+    public boolean hasChildren() {
+        return super.hasChildren() || 
+            (identifier != null) || 
+            (status != null) || 
+            (type != null) || 
+            !category.isEmpty() || 
+            (subject != null) || 
+            (encounter != null) || 
+            (date != null) || 
+            !author.isEmpty() || 
+            (title != null) || 
+            (confidentiality != null) || 
+            !attester.isEmpty() || 
+            (custodian != null) || 
+            !relatesTo.isEmpty() || 
+            !event.isEmpty() || 
+            !section.isEmpty();
     }
 
     @Override
@@ -1287,7 +1308,7 @@ public class Composition extends DomainResource {
         @Required
         private final DocumentRelationshipType code;
         @Required
-        @Choice({Identifier.class, Reference.class})
+        @Choice({ Identifier.class, Reference.class })
         private final Element target;
 
         private volatile int hashCode;
