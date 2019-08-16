@@ -168,13 +168,13 @@ public final class ValidationSupport {
     
     public static void prohibited(Element element, String elementName) {
         if (element != null) {
-            throw new IllegalArgumentException("Element: '" + elementName + "' is prohibited.");
+            throw new IllegalStateException("Element: '" + elementName + "' is prohibited.");
         }
     }
 
     public static <T extends Element> void prohibited(List<T> elements, String elementName) {
         if (!elements.isEmpty()) {
-            throw new IllegalArgumentException("Element: '" + elementName + "' is prohibited.");
+            throw new IllegalStateException("Element: '" + elementName + "' is prohibited.");
         }
     }
 }
