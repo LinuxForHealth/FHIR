@@ -6,6 +6,8 @@
 
 package com.ibm.watsonhealth.fhir.examples;
 
+import static com.ibm.watsonhealth.fhir.model.type.Xhtml.xhtml;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -102,7 +104,7 @@ public class CompleteMockDataCreator extends DataCreatorBase {
             }
             // Special case for Narrative
             if (builder instanceof Narrative.Builder && method.getName().equals("div")) {
-                ((Narrative.Builder) builder).div("<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>");
+                ((Narrative.Builder) builder).div(xhtml("<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"));
                 continue;
             }
             
