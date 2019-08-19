@@ -72,11 +72,6 @@
                 <type>pom</type>
                 <scope>provided</scope>
             </dependency>
-            <dependency>
-                <groupId>com.ibm.watsonhealth.fhir</groupId>
-                <artifactId>fhir-examples</artifactId>
-                <version>[4.0.0,4.1.0)</version>
-            </dependency>
             <!-- This should resolve from http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/maven/repository/ -->
             <dependency>
                 <groupId>com.ibm.websphere.appserver.runtime</groupId>
@@ -249,6 +244,11 @@
                 <artifactId>mockito-core</artifactId>
                 <scope>test</scope>
                 <version>1.10.19</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.collections</groupId>
+                <artifactId>google-collections</artifactId>
+                <version>1.0</version>
             </dependency>
             <dependency>
                 <groupId>javax.mail</groupId>
